@@ -1,0 +1,314 @@
+[
+    {
+        "id": "1",
+        "state_code": "23",
+        "district_code": "0",
+        "pin_code": "457885"
+    },
+    {
+        "id": "2",
+        "state_code": "23",
+        "district_code": "95",
+        "pin_code": "484224"
+    },
+    {
+        "id": "3",
+        "state_code": "23",
+        "district_code": "0",
+        "pin_code": "473331"
+    },
+    {
+        "id": "4",
+        "state_code": "23",
+        "district_code": "50",
+        "pin_code": "481001"
+    },
+    {
+        "id": "5",
+        "state_code": "23",
+        "district_code": "90",
+        "pin_code": "451551"
+    },
+    {
+        "id": "6",
+        "state_code": "23",
+        "district_code": "51",
+        "pin_code": "460001"
+    },
+    {
+        "id": "7",
+        "state_code": "23",
+        "district_code": "52",
+        "pin_code": "477001"
+    },
+    {
+        "id": "8",
+        "state_code": "23",
+        "district_code": "53",
+        "pin_code": "462003"
+    },
+    {
+        "id": "9",
+        "state_code": "23",
+        "district_code": "93",
+        "pin_code": "450221"
+    },
+    {
+        "id": "10",
+        "state_code": "23",
+        "district_code": "54",
+        "pin_code": "471001"
+    },
+    {
+        "id": "11",
+        "state_code": "23",
+        "district_code": "55",
+        "pin_code": "480001"
+    },
+    {
+        "id": "12",
+        "state_code": "23",
+        "district_code": "56",
+        "pin_code": "470661"
+    },
+    {
+        "id": "13",
+        "state_code": "23",
+        "district_code": "57",
+        "pin_code": "475661"
+    },
+    {
+        "id": "14",
+        "state_code": "23",
+        "district_code": "58",
+        "pin_code": "455001"
+    },
+    {
+        "id": "15",
+        "state_code": "23",
+        "district_code": "59",
+        "pin_code": "454001"
+    },
+    {
+        "id": "16",
+        "state_code": "23",
+        "district_code": "94",
+        "pin_code": "481880"
+    },
+    {
+        "id": "17",
+        "state_code": "23",
+        "district_code": "29",
+        "pin_code": "450001"
+    },
+    {
+        "id": "18",
+        "state_code": "23",
+        "district_code": "60",
+        "pin_code": "473001"
+    },
+    {
+        "id": "19",
+        "state_code": "23",
+        "district_code": "61",
+        "pin_code": "474001"
+    },
+    {
+        "id": "20",
+        "state_code": "23",
+        "district_code": "91",
+        "pin_code": "461331"
+    },
+    {
+        "id": "21",
+        "state_code": "23",
+        "district_code": "62",
+        "pin_code": "461001"
+    },
+    {
+        "id": "22",
+        "state_code": "23",
+        "district_code": "63",
+        "pin_code": "452007"
+    },
+    {
+        "id": "23",
+        "state_code": "23",
+        "district_code": "64",
+        "pin_code": "482001"
+    },
+    {
+        "id": "24",
+        "state_code": "23",
+        "district_code": "65",
+        "pin_code": "457661"
+    },
+    {
+        "id": "25",
+        "state_code": "23",
+        "district_code": "89",
+        "pin_code": "483501"
+    },
+    {
+        "id": "26",
+        "state_code": "23",
+        "district_code": "0",
+        "pin_code": "450551"
+    },
+    {
+        "id": "27",
+        "state_code": "23",
+        "district_code": "67",
+        "pin_code": "451332"
+    },
+    {
+        "id": "28",
+        "state_code": "23",
+        "district_code": "68",
+        "pin_code": "481661"
+    },
+    {
+        "id": "29",
+        "state_code": "23",
+        "district_code": "70",
+        "pin_code": "458001"
+    },
+    {
+        "id": "30",
+        "state_code": "23",
+        "district_code": "71",
+        "pin_code": "476001"
+    },
+    {
+        "id": "31",
+        "state_code": "23",
+        "district_code": "72",
+        "pin_code": "487001"
+    },
+    {
+        "id": "32",
+        "state_code": "23",
+        "district_code": "69",
+        "pin_code": "458441"
+    },
+    {
+        "id": "33",
+        "state_code": "23",
+        "district_code": "73",
+        "pin_code": "488001"
+    },
+    {
+        "id": "34",
+        "state_code": "23",
+        "district_code": "74",
+        "pin_code": "464551"
+    },
+    {
+        "id": "35",
+        "state_code": "23",
+        "district_code": "30",
+        "pin_code": "465661"
+    },
+    {
+        "id": "36",
+        "state_code": "23",
+        "district_code": "76",
+        "pin_code": "457001"
+    },
+    {
+        "id": "37",
+        "state_code": "23",
+        "district_code": "77",
+        "pin_code": "486001"
+    },
+    {
+        "id": "38",
+        "state_code": "23",
+        "district_code": "78",
+        "pin_code": "470001"
+    },
+    {
+        "id": "39",
+        "state_code": "23",
+        "district_code": "79",
+        "pin_code": "485001"
+    },
+    {
+        "id": "40",
+        "state_code": "23",
+        "district_code": "80",
+        "pin_code": "466001"
+    },
+    {
+        "id": "41",
+        "state_code": "23",
+        "district_code": "81",
+        "pin_code": "480661"
+    },
+    {
+        "id": "42",
+        "state_code": "23",
+        "district_code": "82",
+        "pin_code": "484001"
+    },
+    {
+        "id": "43",
+        "state_code": "23",
+        "district_code": "83",
+        "pin_code": "465001"
+    },
+    {
+        "id": "44",
+        "state_code": "23",
+        "district_code": "92",
+        "pin_code": "476337"
+    },
+    {
+        "id": "45",
+        "state_code": "23",
+        "district_code": "6",
+        "pin_code": "473551"
+    },
+    {
+        "id": "46",
+        "state_code": "23",
+        "district_code": "85",
+        "pin_code": "486661"
+    },
+    {
+        "id": "47",
+        "state_code": "23",
+        "district_code": "98",
+        "pin_code": "486885"
+    },
+    {
+        "id": "48",
+        "state_code": "23",
+        "district_code": "86",
+        "pin_code": "472001"
+    },
+    {
+        "id": "49",
+        "state_code": "23",
+        "district_code": "87",
+        "pin_code": "456001"
+    },
+    {
+        "id": "50",
+        "state_code": "23",
+        "district_code": "96",
+        "pin_code": "484661"
+    },
+    {
+        "id": "51",
+        "state_code": "23",
+        "district_code": "88",
+        "pin_code": "464001"
+    },
+    {
+        "id": "52",
+        "state_code": "23",
+        "district_code": "27",
+        "pin_code": "451001"
+    }
+]

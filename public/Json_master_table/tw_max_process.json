@@ -1,0 +1,102 @@
+[
+    {
+        "id": "1",
+        "year": "2014",
+        "processid": "68857",
+        "tw_max_ack": "3220",
+        "tw_disp_id": "5756",
+        "tw_disp_reg": "10880",
+        "tw_disp_adv_reg": "1",
+        "office_report": "1136"
+    },
+    {
+        "id": "2",
+        "year": "2015",
+        "processid": "212639",
+        "tw_max_ack": "22778",
+        "tw_disp_id": "44462",
+        "tw_disp_reg": "63915",
+        "tw_disp_adv_reg": "1",
+        "office_report": "851"
+    },
+    {
+        "id": "3",
+        "year": "2016",
+        "processid": "212128",
+        "tw_max_ack": "40519",
+        "tw_disp_id": "3719",
+        "tw_disp_reg": "70381",
+        "tw_disp_adv_reg": "0",
+        "office_report": "1111"
+    },
+    {
+        "id": "4",
+        "year": "2017",
+        "processid": "63896",
+        "tw_max_ack": "6",
+        "tw_disp_id": "2",
+        "tw_disp_reg": "6337",
+        "tw_disp_adv_reg": "0",
+        "office_report": "1161"
+    },
+    {
+        "id": "5",
+        "year": "2018",
+        "processid": "345032",
+        "tw_max_ack": "6764",
+        "tw_disp_id": "96",
+        "tw_disp_reg": "60160",
+        "tw_disp_adv_reg": "27",
+        "office_report": "1162"
+    },
+    {
+        "id": "38",
+        "year": "2019",
+        "processid": "344412",
+        "tw_max_ack": "19975",
+        "tw_disp_id": "0",
+        "tw_disp_reg": "84851",
+        "tw_disp_adv_reg": "0",
+        "office_report": "1155"
+    },
+    {
+        "id": "39",
+        "year": "2020",
+        "processid": "128188",
+        "tw_max_ack": "24863",
+        "tw_disp_id": "0",
+        "tw_disp_reg": "43108",
+        "tw_disp_adv_reg": "0",
+        "office_report": "1164"
+    },
+    {
+        "id": "40",
+        "year": "2021",
+        "processid": "150820",
+        "tw_max_ack": "17376",
+        "tw_disp_id": "0",
+        "tw_disp_reg": "50134",
+        "tw_disp_adv_reg": "0",
+        "office_report": "1150"
+    },
+    {
+        "id": "41",
+        "year": "2022",
+        "processid": "191860",
+        "tw_max_ack": "15054",
+        "tw_disp_id": "0",
+        "tw_disp_reg": "69793",
+        "tw_disp_adv_reg": "0",
+        "office_report": "1162"
+    },
+    {
+        "id": "42",
+        "year": "2023",
+        "processid": "203212",
+        "tw_max_ack": "19883",
+        "tw_disp_id": "0",
+        "tw_disp_reg": "77989",
+        "tw_disp_adv_reg": "0",
+        "office_report": "1168"
+    }
+]

@@ -1,0 +1,188 @@
+[
+    {
+        "id": "1",
+        "ref_main_report": "3",
+        "desc": "Judgewise Institution/Disposal",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "ref_main_report": "3",
+        "desc": "Category wise Pending Group Matters",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "ref_main_report": "3",
+        "desc": "Section wise Ready / Not Ready Miscellaneous / Regular Matter",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "ref_main_report": "3",
+        "desc": "Current Pendency",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "ref_main_report": "6",
+        "desc": "Report for Causelist ",
+        "display": "Y"
+    },
+    {
+        "id": "6",
+        "ref_main_report": "3",
+        "desc": "Matter type Misc./Regular/Complete/Incomplete/Ready/Not Ready Breakup",
+        "display": "Y"
+    },
+    {
+        "id": "7",
+        "ref_main_report": "3",
+        "desc": "Civil Criminal in Misc. Regular Breakup",
+        "display": "Y"
+    },
+    {
+        "id": "8",
+        "ref_main_report": "3",
+        "desc": "Subject Category wise main connnected",
+        "display": "Y"
+    },
+    {
+        "id": "9",
+        "ref_main_report": "3",
+        "desc": "Section wise Main Connected Matters",
+        "display": "Y"
+    },
+    {
+        "id": "10",
+        "ref_main_report": "3",
+        "desc": "High Court wise",
+        "display": "Y"
+    },
+    {
+        "id": "11",
+        "ref_main_report": "3",
+        "desc": "AOR wise",
+        "display": "Y"
+    },
+    {
+        "id": "12",
+        "ref_main_report": "3",
+        "desc": "Year wise",
+        "display": "Y"
+    },
+    {
+        "id": "13",
+        "ref_main_report": "3",
+        "desc": "Casetype",
+        "display": "Y"
+    },
+    {
+        "id": "14",
+        "ref_main_report": "3",
+        "desc": "AOR wise",
+        "display": "Y"
+    },
+    {
+        "id": "15",
+        "ref_main_report": "3",
+        "desc": "Category wise main connnected",
+        "display": "Y"
+    },
+    {
+        "id": "18",
+        "ref_main_report": "4",
+        "desc": "Datewise between two dates",
+        "display": "Y"
+    },
+    {
+        "id": "19",
+        "ref_main_report": "4",
+        "desc": "Category-wise between two dates",
+        "display": "Y"
+    },
+    {
+        "id": "20",
+        "ref_main_report": "4",
+        "desc": "Casetype-wise between two dates",
+        "display": "Y"
+    },
+    {
+        "id": "21",
+        "ref_main_report": "5",
+        "desc": "Category-wise report between two dates",
+        "display": "Y"
+    },
+    {
+        "id": "22",
+        "ref_main_report": "5",
+        "desc": "Casetype-wise report between two dates",
+        "display": "Y"
+    },
+    {
+        "id": "23",
+        "ref_main_report": "5",
+        "desc": "Year-wise report between two dates",
+        "display": "Y"
+    },
+    {
+        "id": "24",
+        "ref_main_report": "5",
+        "desc": "Date-wise  disposal report between two dates",
+        "display": "Y"
+    },
+    {
+        "id": "25",
+        "ref_main_report": "2",
+        "desc": "Year-wise report between two dates",
+        "display": "Y"
+    },
+    {
+        "id": "26",
+        "ref_main_report": "2",
+        "desc": "Recalled matters report between two dates",
+        "display": "Y"
+    },
+    {
+        "id": "27",
+        "ref_main_report": "2",
+        "desc": "Civil Criminal report between two dates",
+        "display": "Y"
+    },
+    {
+        "id": "28",
+        "ref_main_report": "8",
+        "desc": "Category-Regular (Ready+NotReady=Total)+Miscellaneous(Complete+Incomplete)",
+        "display": "Y"
+    },
+    {
+        "id": "29",
+        "ref_main_report": "8",
+        "desc": "Year-Casetype Breakup",
+        "display": "Y"
+    },
+    {
+        "id": "30",
+        "ref_main_report": "8",
+        "desc": "Section Vs Casetype Breakup",
+        "display": "Y"
+    },
+    {
+        "id": "31",
+        "ref_main_report": "8",
+        "desc": "Casetype Vs Category Breakup",
+        "display": "Y"
+    },
+    {
+        "id": "32",
+        "ref_main_report": "8",
+        "desc": "Year Vs Category Breakup",
+        "display": "Y"
+    },
+    {
+        "id": "33",
+        "ref_main_report": "8",
+        "desc": "Category Vs Section",
+        "display": "Y"
+    }
+]

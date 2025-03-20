@@ -1,0 +1,3906 @@
+[
+    {
+        "authcode": "1",
+        "authdesc": "SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "2",
+        "authdesc": "CHIEF SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "3",
+        "authdesc": "PRINCIPAL SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "4",
+        "authdesc": "JOINT SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "5",
+        "authdesc": "DEPUTY SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "6",
+        "authdesc": "ADDL. SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "7",
+        "authdesc": "ASST. SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "8",
+        "authdesc": "SECRETARY GENERAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "9",
+        "authdesc": "CHIEF ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "10",
+        "authdesc": "DEPUTY  CHIEF ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "11",
+        "authdesc": "ASSISTANT ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "12",
+        "authdesc": "DEPUTY ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "13",
+        "authdesc": "EXECUTIVE ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "14",
+        "authdesc": "DIVISIONAL  ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "15",
+        "authdesc": "ENGINEER IN CHIEF",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "16",
+        "authdesc": "ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "17",
+        "authdesc": "ADDL. CHIEF ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "18",
+        "authdesc": "COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "19",
+        "authdesc": "JOINT COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "20",
+        "authdesc": "ADDL. COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "21",
+        "authdesc": "ASST. DEPUTY COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "22",
+        "authdesc": "DEPUTY COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "23",
+        "authdesc": "COLLECTOR / DISTRICT MAGISTRATE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "24",
+        "authdesc": "ADDL. COLLECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "25",
+        "authdesc": "JOINT COLLECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "26",
+        "authdesc": "DEPUTY  COLLECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "27",
+        "authdesc": "ASST.COLLECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "29",
+        "authdesc": "SUB DIVISIONAL MAGISTRATE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "30",
+        "authdesc": "EXECUTIVE MAGISTRATE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "31",
+        "authdesc": "TEHSILDAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "32",
+        "authdesc": "BLOCK DEVELOPMENT OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "33",
+        "authdesc": "MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "34",
+        "authdesc": "BRANCH MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "35",
+        "authdesc": "GENERAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "36",
+        "authdesc": "ASSISTANNT MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "38",
+        "authdesc": "DEPUTY  MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "39",
+        "authdesc": "DIVISIONAL GENERAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "40",
+        "authdesc": "CHIEF GENERAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "41",
+        "authdesc": "CHIEF EXECUTIVE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "42",
+        "authdesc": "DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "43",
+        "authdesc": "JOINT DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "44",
+        "authdesc": "ADDL. DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "45",
+        "authdesc": "DEPUTY DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "46",
+        "authdesc": "DIRECTOR GENERAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "47",
+        "authdesc": "ADDL. DIRECTOR GENERAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "48",
+        "authdesc": "DEPUTY  DIRECTOR GENERAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "49",
+        "authdesc": "ASST. DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "50",
+        "authdesc": "CHAIRMAN",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "51",
+        "authdesc": "JOINT CHAIRMAN",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "52",
+        "authdesc": "EXECUTIVE CHAIRMAN",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "53",
+        "authdesc": "DEPUTY CHAIRMAN",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "54",
+        "authdesc": "ASSISTANNT CHAIRMAN",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "55",
+        "authdesc": "REGISTRAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "56",
+        "authdesc": "ADDL.REGISTRAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "57",
+        "authdesc": "DEPUTY REGISTRAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "58",
+        "authdesc": "ASST. REGISTRAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "59",
+        "authdesc": "JOINT REGISTRAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "60",
+        "authdesc": "COMMERCIAL TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "61",
+        "authdesc": "ASST. COMMERCIAL TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "62",
+        "authdesc": "DEPUTY  COMMERCIAL TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "63",
+        "authdesc": "JOINT COMMERCIAL TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "64",
+        "authdesc": "ADDL. COMMERCIAL TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "65",
+        "authdesc": "INCOME TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "66",
+        "authdesc": "JOINT INCOME TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "67",
+        "authdesc": "ADDL. INCOME TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "68",
+        "authdesc": "DEPUTY INCOME TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "69",
+        "authdesc": "ASST. INCOME TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "70",
+        "authdesc": "EXCISE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "71",
+        "authdesc": "DEPUTY EXCISE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "72",
+        "authdesc": "JOINT EXCISE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "73",
+        "authdesc": "ADDL. EXCISE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "74",
+        "authdesc": "ASST. EXCISE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "75",
+        "authdesc": "SALES TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "76",
+        "authdesc": "ASST. SALES TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "77",
+        "authdesc": "ADDL. SALES TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "78",
+        "authdesc": "JOINT SALES TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "79",
+        "authdesc": "DEPUTY SALES TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "80",
+        "authdesc": "PUBLIC RELATIONS OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "81",
+        "authdesc": "DISTRICT JUDGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "82",
+        "authdesc": "SESSIONS JUDGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "83",
+        "authdesc": "ADDL. DISTRICT JUDGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "84",
+        "authdesc": "ADDL. SESSIONS JUDGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "85",
+        "authdesc": "CHIEF JUDICIAL MAGISTRATE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "86",
+        "authdesc": "CIVIL JUDGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "87",
+        "authdesc": "JUDICIAL MAGISTRATE FIRST CLASS",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "88",
+        "authdesc": "DISTRICT OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "90",
+        "authdesc": "DIVISIONAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "91",
+        "authdesc": "WELFARE COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "92",
+        "authdesc": "ADDL. WELFARE COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "93",
+        "authdesc": "DEPUTY WELFARE COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "94",
+        "authdesc": "STATION OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "96",
+        "authdesc": "DEPUTY  INSPECTOR GENERAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "97",
+        "authdesc": "SUPERINTENDENT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "98",
+        "authdesc": "DEPUTY  SUPERINTENDENT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "99",
+        "authdesc": "ADDL. SUPERINTENDENT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "100",
+        "authdesc": "ASST. SUPERINTENDENT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "102",
+        "authdesc": "CIVIL SURGEON",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "104",
+        "authdesc": "BLOCK MEDICAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "105",
+        "authdesc": "DISTRICT MEDICAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "S"
+    },
+    {
+        "authcode": "106",
+        "authdesc": "DEAN",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "107",
+        "authdesc": "CHANCELLOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "109",
+        "authdesc": "PRESIDENT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "110",
+        "authdesc": "VICE-PRESIDENT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "111",
+        "authdesc": "CHIEF MINISTER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "112",
+        "authdesc": "MINISTER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "113",
+        "authdesc": "CABINET MINISTER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "114",
+        "authdesc": "MINISTER FOR STATE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "115",
+        "authdesc": "ADMINISTRATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "116",
+        "authdesc": "PRINCIPAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "B"
+    },
+    {
+        "authcode": "118",
+        "authdesc": "LICENSING AUTHORITY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "122",
+        "authdesc": "ACCOUNTANT GENERAL OF M.P.",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "129",
+        "authdesc": "CHIEF OF ARMY STAFF",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "130",
+        "authdesc": "SIGNAL OFFICER IN CHIEF",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "131",
+        "authdesc": "MUNICIPAL COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "132",
+        "authdesc": "COMMANDANT & OFFICER IN CHARGE RECORDS",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "136",
+        "authdesc": "FOREST RANGE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "142",
+        "authdesc": "NAGAR NIVESHAK",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "145",
+        "authdesc": "ARCHEOLOGIST",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "146",
+        "authdesc": "THE MEMBER ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "148",
+        "authdesc": "CHIEF EXECUTIVE ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "150",
+        "authdesc": "DISTT. CIVIL SUPPLY  OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "152",
+        "authdesc": "DIRECTOR/COMMISSION/NYASI SACHIV",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "154",
+        "authdesc": "ASSISTANT COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "159",
+        "authdesc": "SUPREINTENDENT ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "162",
+        "authdesc": "CHIEF EXECUTIVE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "165",
+        "authdesc": "SUB AREA MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "166",
+        "authdesc": "DY. PERSONAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "171",
+        "authdesc": "CHIEF MUNICIPAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "172",
+        "authdesc": "ADDITIONAL  SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "176",
+        "authdesc": "REVENUE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "181",
+        "authdesc": "COLLECTOR CUM DISTT. PROGRAMME COORDINATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "186",
+        "authdesc": "REGISTRAR GENERAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "188",
+        "authdesc": "DISTRICT EDUCATION OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "198",
+        "authdesc": "MANAGING DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "199",
+        "authdesc": "EXECUTIVE DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "206",
+        "authdesc": "CHIEF ARCHITECT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "207",
+        "authdesc": "D.G./I.G. JAIL & REFORMS SERVICES",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "209",
+        "authdesc": "PROJECT OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "215",
+        "authdesc": "INCHARGE POLICE STATION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "216",
+        "authdesc": "DISTRICT PROGRAMME OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "217",
+        "authdesc": "SAMPADA ADHIKARI, STATE OF M.P.",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "218",
+        "authdesc": "LAND ACQUISITION OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "221",
+        "authdesc": "OFFICER IN CHARGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "224",
+        "authdesc": "STATION HOUSE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "229",
+        "authdesc": "DENTAL COUNCIL OF INDIA",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "230",
+        "authdesc": "DIRECTOR GENERAL OF POLICE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "234",
+        "authdesc": "DIRECTOR EMPLOYMETN & TRAINING",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "236",
+        "authdesc": "DISTT. EM[PLOYMETN OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "241",
+        "authdesc": "DEPUTY INSPECTOR GENERAL OF POLICE (TRAFFIC & RAIL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "245",
+        "authdesc": "FORST CONSERVATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "248",
+        "authdesc": "DISTRICT MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "251",
+        "authdesc": "REGIONAL MANAGER, FOOD CORPORATION OF INDIA",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "252",
+        "authdesc": "BOARD OF SECONDARY EDUCATION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "253",
+        "authdesc": "NAZUL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "257",
+        "authdesc": "ASSISTANT MINING OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "260",
+        "authdesc": "CONSERVATOR OF FOREST",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "261",
+        "authdesc": "DIVISIONAL FOREST OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "262",
+        "authdesc": "THE RANGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "263",
+        "authdesc": "DEPOT MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "265",
+        "authdesc": "THE PRINCIPAL ACCOUNTANT GENERAL  (COMMERCE & CIVI",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "266",
+        "authdesc": "DEPUTY ACCOUNTANT GENERAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "269",
+        "authdesc": "FINANCIAL ADVISOR & CHIEF ACCOUNTS OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "270",
+        "authdesc": "CHIEF MANAING DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "271",
+        "authdesc": "COMMISSIONER/M.D.STATE AGRICULTURE MARKETINGBOARD,",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "272",
+        "authdesc": "DIRECTOR INCHARGE OF LOCAL FUNDS AUDIT DEPTT.",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "273",
+        "authdesc": "DY. CHIEF PERSONAL MANGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "274",
+        "authdesc": "CHIEF CONSERVATOR OF FOREST",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "280",
+        "authdesc": "SENIOR DIVISIONAL RETAIL SALES MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "281",
+        "authdesc": "SALES OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "288",
+        "authdesc": "POJECT OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "293",
+        "authdesc": "DESK OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "294",
+        "authdesc": "TERRITORY MANAGER BHARAT PETROLEUM CORP. LTD.",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "295",
+        "authdesc": "SENIOR REVENUE INSPECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "296",
+        "authdesc": "SR.REVENUE INSPECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "302",
+        "authdesc": "COMMANDAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "303",
+        "authdesc": "THE  STATION COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "310",
+        "authdesc": "PROJECT ADMINISTRATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "311",
+        "authdesc": "ADDITIONAL REGISTRAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "312",
+        "authdesc": "ENQUIRY OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "314",
+        "authdesc": "NAIB TAHSILDAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "317",
+        "authdesc": "BLOCK RESOURCES COORDINATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "321",
+        "authdesc": "ADDITIONAL TAHSILDAR & COMMERAL TAX OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "323",
+        "authdesc": "STATE TRANSPORT AUTHORITY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "326",
+        "authdesc": "DIVISIONAL ACCOUNT OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "328",
+        "authdesc": "INSPECTOR GENERAL OF POLICE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "330",
+        "authdesc": "UPPER COLLECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "331",
+        "authdesc": "DIVISIONAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "333",
+        "authdesc": "CHIEF CONSERVATOR [ADM.-II]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "336",
+        "authdesc": "TOWN INSPECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "337",
+        "authdesc": "REGIONAL COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "339",
+        "authdesc": "ASSISTANT LABOUR COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "340",
+        "authdesc": "DIVISIONAL DEPUTY COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "343",
+        "authdesc": "D.F.O.",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "345",
+        "authdesc": "WARDEN",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "348",
+        "authdesc": "DISCIPLINARY AUTHORITY COM DY.MANAGING WORKDER [C",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "349",
+        "authdesc": "ASSTT. DIRECTOR WORKER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "354",
+        "authdesc": "POLICE STATON INCHARGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "355",
+        "authdesc": "DIRECTORATE GENERAL OF E.M.E.",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "356",
+        "authdesc": "COMMANDANT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "358",
+        "authdesc": "PROPRIETOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "361",
+        "authdesc": "THE SR. ACCOUNTS OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "369",
+        "authdesc": "THANA INCHARGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "372",
+        "authdesc": "REVENUE INSPECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "373",
+        "authdesc": "DISTRICT TREASURY OFFICER (PENSION)",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "375",
+        "authdesc": "THE DISTRICT PARIYOJNA SAMANVAYAK",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "379",
+        "authdesc": "DISTRICT EXCISE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "381",
+        "authdesc": "ASSTT. SUPPLY OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "385",
+        "authdesc": "EXCISE COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "386",
+        "authdesc": "W.C.L.",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "387",
+        "authdesc": "ASSTT. GENERAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "388",
+        "authdesc": "THE FOREST REGIONAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "389",
+        "authdesc": "AUTHORIZED OFFICER & SUB FOREST REGIONAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "390",
+        "authdesc": "ORGNISER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "391",
+        "authdesc": "BOARD OF DIRECTORS",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "392",
+        "authdesc": "AREA MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "395",
+        "authdesc": "CO-ORDINATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "397",
+        "authdesc": "STAFF OFFICER [E & M]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "399",
+        "authdesc": "ASSTT. CONSERVATOR OF FOREST",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "400",
+        "authdesc": "BOARD OF REVENUE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "403",
+        "authdesc": "PRESCRIBED AUTHORITY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "406",
+        "authdesc": "REGIONAL DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "407",
+        "authdesc": "ASSISTANT SUPPLY OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "409",
+        "authdesc": "DIRECTOR OF PUBLIC INSTRUCTION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "415",
+        "authdesc": "MEMBER JUDGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "420",
+        "authdesc": "GENERAL SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "421",
+        "authdesc": "CHIEF PERSONNEL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "422",
+        "authdesc": "TREASURER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "427",
+        "authdesc": "DISTRICT REGISTRAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "429",
+        "authdesc": "DISTT. MALERIA OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "432",
+        "authdesc": "PERSONAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "434",
+        "authdesc": "ASSTT. COMMERCIAL TAX COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "437",
+        "authdesc": "JOINT DIRECTOR PUBLIC EDU CTION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "439",
+        "authdesc": "COMMISSIONER INFORMATION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "441",
+        "authdesc": "INFORMATION COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "442",
+        "authdesc": "DIRECTOR : INCOME TAX",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "443",
+        "authdesc": "THE EMPLOYEES PROVIDENT FUND COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "447",
+        "authdesc": "INCHARGE REGISTRAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "449",
+        "authdesc": "ASST. GENERAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "450",
+        "authdesc": "ASSTT. PROVIDENT FUND",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "452",
+        "authdesc": "JUNIOR ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "454",
+        "authdesc": "DISTT. FOOD AND CIVIL SUPPLY OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "455",
+        "authdesc": "CHAIRMAN CUM MANAGING DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "456",
+        "authdesc": "PRINCIPAL CHIEF CONSERVATOR OF FOREST",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "461",
+        "authdesc": "MEMBER SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "462",
+        "authdesc": "THE ADDITIONAL DY. INSPECTOR GENEAL OF POLICE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "464",
+        "authdesc": "RETURING OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "465",
+        "authdesc": "THE ADMINISTRATIVE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "467",
+        "authdesc": "ELECTION OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "471",
+        "authdesc": "REGIONAL TRANSPORT INSPECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "483",
+        "authdesc": "AUTHORISED OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "485",
+        "authdesc": "COMPETENT AUTHORITY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "486",
+        "authdesc": "COMPETENT AUTHORITY M.P.HOUSING BOARD",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "487",
+        "authdesc": "ZILA AYURVED ADHIKARI",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "488",
+        "authdesc": "AREA PERSONAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "489",
+        "authdesc": "UPPER COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "491",
+        "authdesc": "UP SARPANCH",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "492",
+        "authdesc": "CHIEF GENERAL MANAGER [PRODUCTION]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "500",
+        "authdesc": "NAZUL TAHSILDAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "501",
+        "authdesc": "CHIEF MEDICAL AND HEALTH OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "502",
+        "authdesc": "PARIYOJNA ADHIKARI",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "506",
+        "authdesc": "DISTT. PLANNING OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "508",
+        "authdesc": "STATION INCHARGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "510",
+        "authdesc": "PRINCIPAL SECRETARY : DEPTT. OF HIGHER EDUCATION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "513",
+        "authdesc": "DIRECTORATE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "515",
+        "authdesc": "AUTHORITY TRIBUNAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "520",
+        "authdesc": "TRANSPORT COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "521",
+        "authdesc": "DIRECTOR GECHNICAL EDUCATION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "522",
+        "authdesc": "JOINT DIRECTOR TREASURY & ACCOUNTANT PENSION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "524",
+        "authdesc": "ACCOUNTANT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "526",
+        "authdesc": "HEAD OF THE DEPARTMENT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "527",
+        "authdesc": "CHIEF ADMINISTRATIVE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "528",
+        "authdesc": "DISTRICT PROJECT OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "529",
+        "authdesc": "PRESIDING OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "531",
+        "authdesc": "JOINT DIRECTOR EDUCATION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "532",
+        "authdesc": "DY. DIRECTOR OF EDUCATION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "534",
+        "authdesc": "REGISTRAR PUBLIC TRUST/ SUBDIVISIONAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "535",
+        "authdesc": "COLLECTOR & MISSION SANCHALALK",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "536",
+        "authdesc": "DISTRICT PROJECT COORDINATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "541",
+        "authdesc": "ASSTT. DIRECTOR GENERAL (P-V)",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "542",
+        "authdesc": "PRINCIPAL CONTROLLER OF DEFENCE ACCOUNTS",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "543",
+        "authdesc": "THE TELEPHONE DISTRICT MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "548",
+        "authdesc": "DIRECTORATE OF PUBLIC INSTRUCTIONS",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "549",
+        "authdesc": "DIRECTOR PENSION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "550",
+        "authdesc": "BLOCK EDUCATION OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "551",
+        "authdesc": "DIVISIONAL JOINT DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "554",
+        "authdesc": "MINES MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "559",
+        "authdesc": "MINING OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "562",
+        "authdesc": "APPELLATE DEPUTY  COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "563",
+        "authdesc": "DIVISIONAL RAILWAY MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "564",
+        "authdesc": "ADDITIONAL DIVISIONAL RAILWAY MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "565",
+        "authdesc": "SENIOR DIVISIONAL RAILWAY MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "567",
+        "authdesc": "CHIEF COMMERCIAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "568",
+        "authdesc": "WESTERN REGIONAL COMMITTEE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "572",
+        "authdesc": "CHIEF MANAGER [ADMINISTRATION]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "574",
+        "authdesc": "SUB REGISTAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "575",
+        "authdesc": "COLLECTOR OF STAMP & DISTRICT REGISTER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "577",
+        "authdesc": "DIRECTOR OF INDIAN MEDICAN SYSTEM & HOMEOPATHIC",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "586",
+        "authdesc": "ADDITIONAL CHIEF SECRETTARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "588",
+        "authdesc": "DIST. WOMEN & CHILD DEVELOPMENT OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "590",
+        "authdesc": "DISTRICT FOOD CONTROLLER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "593",
+        "authdesc": "PARTNER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "595",
+        "authdesc": "ESTATE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "600",
+        "authdesc": "UPPER CHIEF SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "601",
+        "authdesc": "VICE CHAIRMAN",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "602",
+        "authdesc": "ACCOUNTNAT GENERAL [AUDIT & ACCOUNT]-I",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "603",
+        "authdesc": "REGIONAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "610",
+        "authdesc": "ZONAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "617",
+        "authdesc": "DISTRICT & SESSIONS JUDGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "618",
+        "authdesc": "HEADMASTER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "619",
+        "authdesc": "ADDITIONAL DIRECTOR GENERAL OF POLICE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "620",
+        "authdesc": "THE DISTRICT FOOD OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "624",
+        "authdesc": "DEPUTY RANGE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "627",
+        "authdesc": "M.P. AKHIL BHARTIYA AWAR SACHIV",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "628",
+        "authdesc": "PUBLIC INFORMATION OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "629",
+        "authdesc": "ASSTT. PUBLIC INFORMATION OFFICER/SARPANCH",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "632",
+        "authdesc": "LABOUR COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "633",
+        "authdesc": "REGIONAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "642",
+        "authdesc": "ADDITIONAL REGIONAL TRANSPORT OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "651",
+        "authdesc": "REGIONAL MANAGER/STATE MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "663",
+        "authdesc": "CONTORLLER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "666",
+        "authdesc": "ASSTT. REGISTRAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "668",
+        "authdesc": "REGIONAL LABOUR COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "672",
+        "authdesc": "SUPERINTENDENT OF JAIL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "675",
+        "authdesc": "REGIONAL DY. DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "676",
+        "authdesc": "SUPERINTENDENT CUM DISTRICT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "677",
+        "authdesc": "DISTT. AYURVED OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "683",
+        "authdesc": "THE EX FINANCIAL ADVISOR & CHIEF ACCOUNTS OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "691",
+        "authdesc": "REGIONAL TRANSPORT AUTHORITY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "694",
+        "authdesc": "ASSTT. GENERAL MANAGER & DISCIPLINARY AUTHORITY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "700",
+        "authdesc": "ADDITIONAL SUPERINTENDING ENGINEER [CIVIL]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "703",
+        "authdesc": "ASSISTANT COMMISSIONER OF INCOME TAX",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "705",
+        "authdesc": "COMMISSIONER CUM MANAGING DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "709",
+        "authdesc": "DIRECTOR OF INDIAN MEDICINE & HOMEOPATTY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "712",
+        "authdesc": "PRADHANACHARYA",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "717",
+        "authdesc": "THE MANAGER/COMMANDANT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "721",
+        "authdesc": "SUPERINTENDANT OF POLICE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "726",
+        "authdesc": "MAYAR MUNICIPAL CORPORATION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "727",
+        "authdesc": "SR. SCIENTIST",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "734",
+        "authdesc": "DIRECTOR TECHNICAL [OPERATION]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "735",
+        "authdesc": "DIRECTOR [FINANCE]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "737",
+        "authdesc": "INCHARGE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "748",
+        "authdesc": "CHIEF ENGINEER [VIDYUT SURAKSHA]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "752",
+        "authdesc": "DIRECTOR GENERAL OF PERSONNEL/CSCC",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "753",
+        "authdesc": "COMMANDERS WORKS ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "759",
+        "authdesc": "SUB DIVISIONAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "761",
+        "authdesc": "COMMISSIONER ARCHEOLOGY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "762",
+        "authdesc": "UNDER SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "764",
+        "authdesc": "JOINT DIRECTOR TREASURY & ACCOUNTANT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "765",
+        "authdesc": "REGIONAL TRANSPORT OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "766",
+        "authdesc": "DY. SUPERINTENDET OF POLICE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "770",
+        "authdesc": "DISTRICT COORDINATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "771",
+        "authdesc": "REGIONAL DIVISIONAL COORDINATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "772",
+        "authdesc": "LEGAL ADVISOR -- OF THE LOKAYUKT OFFICE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "774",
+        "authdesc": "ASSTT. SUB INSPECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "775",
+        "authdesc": "INSPECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "779",
+        "authdesc": "ADDITIONAL DIRECTOR GENERAL OF POLICE (RAIL)",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "780",
+        "authdesc": "INSPECTOR GENERAL (RAIL)",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "781",
+        "authdesc": "DEPUTY INSPECTOR GENERAL (SELECTION)",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "782",
+        "authdesc": "SUPERINTENDENT OF POLICE (RAIL)",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "789",
+        "authdesc": "CHIEF EXAMINATION CONTROLLER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "804",
+        "authdesc": "OFFICIAL LIQUIDATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "810",
+        "authdesc": "MEDICAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "816",
+        "authdesc": "THE DRAWING AND DISBURSING AUTHORITY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "819",
+        "authdesc": "DIRECTOR MEDICAL EDUCATION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "826",
+        "authdesc": "CHIEF MANAGER [AUTHORIZED OFFICIAL]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "829",
+        "authdesc": "ADDITIONAL HOUSING COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "830",
+        "authdesc": "INSPECTOR GENERAL OF REGISTRATION & SUPERINTENDENT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "833",
+        "authdesc": "CHIEF VIGILANCE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "834",
+        "authdesc": "DISTRICT PROJECT COORDINATOR/DISTT. EDUCATION OFF.",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "844",
+        "authdesc": "NAIB TAHSILDAR & EXECUTIVE MAGISTRATE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "846",
+        "authdesc": "THE SENIOR DIVISIONAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "848",
+        "authdesc": "COMMISSIONER OF LANDS RECORD",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "849",
+        "authdesc": "DEPUTY GENERAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "851",
+        "authdesc": "PLATOON COMMANDER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "857",
+        "authdesc": "MAHA PRAVANDHAK",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "858",
+        "authdesc": "COMMISSIONER / REGISTRAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "861",
+        "authdesc": "SR. CIRCLE MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "865",
+        "authdesc": "DIRECTOR MEDICAL SERVICES",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "867",
+        "authdesc": "SENIOR REGIONAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "868",
+        "authdesc": "DEFENCE WORKER HOUSING CO-OPERATIVE SOCIETY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "869",
+        "authdesc": "COMMISSIONER OF INCOME TAX",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "872",
+        "authdesc": "DISTRICT SUPPLY OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "876",
+        "authdesc": "SENIOR DIVISIONAL PERSONNEL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "877",
+        "authdesc": "SENIOR DIVISIONAL ELECTRIC ENGINEER [GENERAL]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "883",
+        "authdesc": "TAXATION AUTHOREITY/REGIONAL TRANSPORT OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "884",
+        "authdesc": "APPELLATE AUTHORITY/TRANSPORT COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "885",
+        "authdesc": "MAYOR IN COUNCIL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "886",
+        "authdesc": "DEVELOPMENT COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "892",
+        "authdesc": "COMMISSIONER OF COMMERCIAL TAX",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "893",
+        "authdesc": "COMMERCIAL TAX OFFICER CUM ADDITIONAL TEHSILDAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "894",
+        "authdesc": "COLLECTOR CUM DEPUTY COMMISSIONER OF COMMERCIAL TA",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "895",
+        "authdesc": "TAX RECOVERY OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "897",
+        "authdesc": "GENERAL OFFICER COMMANDING IN CHIEF",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "900",
+        "authdesc": "STATION COMMANDER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "901",
+        "authdesc": "COMMANDANT 1 SIGNAL TRAINING CENTRE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "902",
+        "authdesc": "COMMANDING OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "903",
+        "authdesc": "ZONAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "904",
+        "authdesc": "CMD",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "905",
+        "authdesc": "THE CENTRE COMMANDING OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "909",
+        "authdesc": "SUPERINTEDENT OF TAX",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "911",
+        "authdesc": "SUPERINTENDENT OF TAX ,MUNICIPAL CORPORATION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "915",
+        "authdesc": "SECRETARY,KRISHI UPAJ MANDI",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "916",
+        "authdesc": "INCHARGE PROFESSOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "917",
+        "authdesc": "SUB DIVISION MEDICAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "923",
+        "authdesc": "DISTRICT TREASURY OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "924",
+        "authdesc": "SR.DIVISIONAL RETAIL SALES MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "927",
+        "authdesc": "AUCTION AND SALES OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "934",
+        "authdesc": "HOUSING COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "937",
+        "authdesc": "LEGAL ADVISOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "939",
+        "authdesc": "MILITARY SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "944",
+        "authdesc": "DEAN/CHIEF EXECUTIVE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "947",
+        "authdesc": "SARPANCH",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "951",
+        "authdesc": "EDUCATION OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "953",
+        "authdesc": "STATE PROJECT DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "954",
+        "authdesc": "DISTRICT COLLECTOR CUM DISTRICT MISSION CORDINATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "955",
+        "authdesc": "EXECUTIVE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "957",
+        "authdesc": "DEFENCE STATE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "966",
+        "authdesc": "STATE ELECTION OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "968",
+        "authdesc": "CENTRAL BOARD OF DIRECT TAXES",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "970",
+        "authdesc": "ASSTT. LABOUR & PERSONNEL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "971",
+        "authdesc": "FOREST CIRCLE OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "972",
+        "authdesc": "DEPUTY FOREST CIRCLE OFFICER-CUM-AUTHORIZED OFFICE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "975",
+        "authdesc": "DISTT. ORGANIZER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "978",
+        "authdesc": "DEPUTY RANGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "983",
+        "authdesc": "DEPUTY INSEPCTOR GENERAL OF POLICE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "984",
+        "authdesc": "CHAIRMAN M.P.STATE COOPERATIVE TRIBUNAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "992",
+        "authdesc": "EXAMINATION CONTROLLER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "995",
+        "authdesc": "CHIEF MANGER /DISCIPLINARY AUTHORITY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "997",
+        "authdesc": "ADDITIONAL SUPERINTENDING ENGINEER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "998",
+        "authdesc": "VICE CHANCELLOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1001",
+        "authdesc": "SOCIETY MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1003",
+        "authdesc": "DIRECTOR GENERAL CUM COMMANDANT GENERAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1004",
+        "authdesc": "S.H.O.",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1006",
+        "authdesc": "EXILED OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1016",
+        "authdesc": "ASSISTANT DIVISIONAL ENGINER [EAST]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1027",
+        "authdesc": "DISTRICT COLLECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1028",
+        "authdesc": "CHIEF LABOUR COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1029",
+        "authdesc": "CHAIRMAN & MEMBER JUDGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1033",
+        "authdesc": "ADDL. TAHSILDAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1046",
+        "authdesc": "CHIEF CONTROLLER DEFENCE ACCOUNTS [PENSION]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1056",
+        "authdesc": "DISCIPLINARY AUTHORITY & THE CHAIRMAN",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1058",
+        "authdesc": "ASSISTANT LABOUR & PERSONNEL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1063",
+        "authdesc": "ASST. LABOUR & PERSONNEL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1071",
+        "authdesc": "ASSISTANT COMMISSIONER OF COMMERCIAL TAX",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1074",
+        "authdesc": "JOINT DIRECTOR LEGAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1075",
+        "authdesc": "DIVISIONAL DY. DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1079",
+        "authdesc": "BUILDING OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1086",
+        "authdesc": "PROGRAME OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1089",
+        "authdesc": "CHAIRMAN [ JANPAD PANCHAYAT]",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1090",
+        "authdesc": "BHAWAN ADHAKARI",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1095",
+        "authdesc": "CHIEF REGIONAL MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1098",
+        "authdesc": "DISTRICT STATISTICS & PLANNING OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1099",
+        "authdesc": "DISTRCIT MINING OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1103",
+        "authdesc": "ADDITIONAL CHIEF ENGINEER [SANCH.SANDH.] VRUTT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1105",
+        "authdesc": "DIRECTOR OF GEOLOGY AND MINING",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1107",
+        "authdesc": "STATE CORDINATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1108",
+        "authdesc": "RETURNING OFFICER CUM SUB DIVISIONAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1110",
+        "authdesc": "MINING MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1113",
+        "authdesc": "FOREST DIVISION OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1116",
+        "authdesc": "SR. BRANCH MANAGER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1118",
+        "authdesc": "ACCOUNTS OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1120",
+        "authdesc": "REGISTRAR CUM COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1123",
+        "authdesc": "RETURING OFFICER CUM DEPUTY REGISTRAR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1133",
+        "authdesc": "STATION MANAGER, I.O.C.",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1134",
+        "authdesc": "COMMISSIONER OF SCHOOL EDUCTION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1135",
+        "authdesc": "STATE PRESIDENT",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1142",
+        "authdesc": "PRESCRIBED OFFICER/ SUB DIVISIONAL OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1145",
+        "authdesc": "CHAIRMAN & DIRECTOR GENERAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1147",
+        "authdesc": "C.E.O.",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1153",
+        "authdesc": "DIVISIONAL EDUCATION OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1158",
+        "authdesc": "COMMANDANT GENERAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1159",
+        "authdesc": "ADDITIONAL CIVIL JUDGE",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1160",
+        "authdesc": "COMMISSIONER CUM ASSISTANT DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1162",
+        "authdesc": "DIVISIONAL OFFICER/ASSISTANT SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1163",
+        "authdesc": "REGISTRAR/ASSISTANT SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1169",
+        "authdesc": "FORWARDING OFFICER/PRINCIPAL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1174",
+        "authdesc": "DEPUYT EXCISE COMMISSIONER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1175",
+        "authdesc": "DISTRICT CIVIL SUPPLY OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1183",
+        "authdesc": "INCHARGE, DRAWING / DISBURSEMENT OFFICER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1186",
+        "authdesc": "DIRECTORATE OF TECHNICAL EDUCATION",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1188",
+        "authdesc": "SUPERINTENDENT CENTRAL JAIL",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1193",
+        "authdesc": "JAILOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1209",
+        "authdesc": "DIVISIONA OFFICER/ASSTT. SECRETARY",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1217",
+        "authdesc": "DEFENCE MINISTER",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1224",
+        "authdesc": "THE CHAIRMAN CUM MANAGING DIRECTOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1225",
+        "authdesc": "THE CMD",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "1227",
+        "authdesc": "DISTRICT PANCHAYAT COORDINATOR",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "Y",
+        "authtype": "O"
+    },
+    {
+        "authcode": "99999",
+        "authdesc": "ADD NEW",
+        "usercode": "1",
+        "ent_dt": "2017-02-18 12:33:20+05:30",
+        "display": "N",
+        "authtype": "O"
+    }
+]

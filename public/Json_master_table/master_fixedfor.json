@@ -1,0 +1,121 @@
+[
+    {
+        "id": "1",
+        "fixed_for_desc": "Admission",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "1"
+    },
+    {
+        "id": "2",
+        "fixed_for_desc": "Order on aforementioned Default",
+        "display": "Y",
+        "displayat": "OBJ",
+        "oldcode": "2"
+    },
+    {
+        "id": "3",
+        "fixed_for_desc": "Admission & Orders on IA No.",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "3"
+    },
+    {
+        "id": "4",
+        "fixed_for_desc": "Removal of Defaults",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "4"
+    },
+    {
+        "id": "5",
+        "fixed_for_desc": "Suspension of Sentence",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "5"
+    },
+    {
+        "id": "6",
+        "fixed_for_desc": "Grant of Bail",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "6"
+    },
+    {
+        "id": "7",
+        "fixed_for_desc": "Admission and I.R.",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "7"
+    },
+    {
+        "id": "8",
+        "fixed_for_desc": "Condonation of Delay",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "8"
+    },
+    {
+        "id": "9",
+        "fixed_for_desc": "Question of Maintainability of Petition/Appeal",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "9"
+    },
+    {
+        "id": "10",
+        "fixed_for_desc": "Question of Territorial Jurisdiction of the Petition/Appeal",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "A"
+    },
+    {
+        "id": "11",
+        "fixed_for_desc": "Admission with Office Report",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "B"
+    },
+    {
+        "id": "12",
+        "fixed_for_desc": "Admission and I.R. with Office Report",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "C"
+    },
+    {
+        "id": "13",
+        "fixed_for_desc": "Orders On IA",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "D"
+    },
+    {
+        "id": "14",
+        "fixed_for_desc": "Converted/Transfered Cases",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "E"
+    },
+    {
+        "id": "15",
+        "fixed_for_desc": "Jail Petition",
+        "display": "Y",
+        "displayat": "SCR",
+        "oldcode": "F"
+    },
+    {
+        "id": "16",
+        "fixed_for_desc": "Non-Compliance of Reg(J-I)",
+        "display": "Y",
+        "displayat": "OBJ",
+        "oldcode": "E"
+    },
+    {
+        "id": "17",
+        "fixed_for_desc": "Orders On Contested Default",
+        "display": "Y",
+        "displayat": "OBJ",
+        "oldcode": "J"
+    }
+]

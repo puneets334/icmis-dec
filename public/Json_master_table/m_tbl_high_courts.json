@@ -1,0 +1,219 @@
+{
+"m_tbl_high_courts": [
+	{
+		"id" : 12,
+		"hc_name" : "Karnataka",
+		"hc_code" : "KRHC01",
+		"state_code" : 29,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 3,
+		"hc_name" : "Calcutta",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 4,
+		"hc_name" : "Chhattisgarh",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 6,
+		"hc_name" : "Gauhati",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 7,
+		"hc_name" : "Gujarat",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 8,
+		"hc_name" : "Telangana & Andhra Pradesh",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 10,
+		"hc_name" : "Jharkhand",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 11,
+		"hc_name" : "Jammu & Kashmir",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 13,
+		"hc_name" : "Kerala",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 14,
+		"hc_name" : "Madras",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 15,
+		"hc_name" : "Meghalaya",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 17,
+		"hc_name" : "Madhya Pradesh",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 18,
+		"hc_name" : "Orissa",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 19,
+		"hc_name" : "Patna",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 23,
+		"hc_name" : "Supreme Court of India",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 25,
+		"hc_name" : "Uttarakhand",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 21,
+		"hc_name" : "Rajasthan",
+		"hc_code" : "RJHC02",
+		"state_code" : 21,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 27,
+		"hc_name" : "Lucknow Bench",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 16,
+		"hc_name" : "Manipur",
+		"hc_code" : "MNHC01",
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 24,
+		"hc_name" : "Tripura",
+		"hc_code" : "TRHC01",
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 2,
+		"hc_name" : "Bombay",
+		"hc_code" : "MHAU01",
+		"state_code" : 27,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 26,
+		"hc_name" : "Allahabad Bench",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 1,
+		"hc_name" : "Allahabad",
+		"hc_code" : null,
+		"state_code" : null,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 20,
+		"hc_name" : "Punjab & Haryana",
+		"hc_code" : "PHHC01",
+		"state_code" : 3,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 9,
+		"hc_name" : "Himachal Pradesh",
+		"hc_code" : "HPHC01",
+		"state_code" : 2,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 22,
+		"hc_name" : "Sikkim",
+		"hc_code" : "SKHC01",
+		"state_code" : 11,
+		"is_active" : true,
+		"parent_hc_id" : null
+	},
+	{
+		"id" : 5,
+		"hc_name" : "Delhi",
+		"hc_code" : "DLCT01",
+		"state_code" : 7,
+		"is_active" : true,
+		"parent_hc_id" : null
+	}
+]}

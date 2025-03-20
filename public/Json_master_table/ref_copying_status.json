@@ -1,0 +1,122 @@
+[
+    {
+        "id": "1",
+        "status_code": "P",
+        "status_description": "Pending",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "2",
+        "status_code": "F",
+        "status_description": "Defective",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "3",
+        "status_code": "R",
+        "status_description": "Ready",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "4",
+        "status_code": "D",
+        "status_description": "Dispatched/Delivered/Action Completed",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "5",
+        "status_code": "C",
+        "status_description": "Cancel/Delete",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "6",
+        "status_code": "A",
+        "status_description": "Requisition sent to Section",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "7",
+        "status_code": "B",
+        "status_description": "File Received in Section",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "8",
+        "status_code": "E",
+        "status_description": "File Pending for Flagging",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "9",
+        "status_code": "J",
+        "status_description": "File Pending for Photostat",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "10",
+        "status_code": "G",
+        "status_description": "Document Pending for Stitching",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "11",
+        "status_code": "H",
+        "status_description": "Document Pending for Filing",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "12",
+        "status_code": "I",
+        "status_description": "Document Pending for Certification",
+        "updated_by": "1",
+        "updated_on": null,
+        "is_deleted": "f"
+    },
+    {
+        "id": "13",
+        "status_code": "W",
+        "status_description": "Withdrawn",
+        "updated_by": "213",
+        "updated_on": "2017-09-21 15:55:40+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "14",
+        "status_code": "K",
+        "status_description": "Pending for Set Making",
+        "updated_by": "213",
+        "updated_on": "2017-09-21 15:59:56+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "15",
+        "status_code": "L",
+        "status_description": "Documents to be Checked",
+        "updated_by": "213",
+        "updated_on": "2017-09-21 16:00:22+05:30",
+        "is_deleted": "f"
+    }
+]

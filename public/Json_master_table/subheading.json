@@ -1,0 +1,1752 @@
+[
+    {
+        "stagecode": "101",
+        "stagename": "CASES RELATED TO UNITED INDIA INSURANCE CO. LTD.",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "102",
+        "stagename": "CASES RELATED TO NEW INDIA ASSURANCE CO. LTD.",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "103",
+        "stagename": "CASES RELATED TO ORIENTAL INSURANCE CO. LTD.",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "104",
+        "stagename": "CASES RELATED TO NATIONAL INSURANCE CO. LTD.",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "105",
+        "stagename": "CASES RELATED TO M.P.S.R.T.C.",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "106",
+        "stagename": "CASES RELATED TO STATE OF M.P.",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "107",
+        "stagename": "CASES RELATED TO I.C.I.C.I. LOMBARD",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "108",
+        "stagename": "CASES RELATED TO IFFCO TOKYO CO. LTD.",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "109",
+        "stagename": "CASES RELATED TO BAJAJ ALLIANZ CO. LTD.",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "110",
+        "stagename": "CASES RELATED TO ORIENTAL INSURANCE CO. DN. JABALPUR",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "111",
+        "stagename": "CASES RELATED TO ORIENTAL INSURANCE CO. DN. BHOPAL",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "112",
+        "stagename": "CASES RELATED TO ORIENTAL INSURANCE CO. DN. SATNA",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "113",
+        "stagename": "CASES RELATED TO ORIENTAL INSURANCE CO. DN. SAGAR",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "114",
+        "stagename": "CASES RELATED TO ORIENTAL INSURANCE CO. DN. KHANDWA",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "115",
+        "stagename": "CASES RELATED TO RELIANCE GENERAL INSURANCE CO. LTD.",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "116",
+        "stagename": "CASES RELATED TO BHARTI AXA INSURANCE",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "117",
+        "stagename": "CASES RELATED TO ROYAL SUNDARAM INSURANCE",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "118",
+        "stagename": "CASES RELATED TO TATA AIG INSURANCE",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "119",
+        "stagename": "CASES REALATED TO CHOLA MS INSURANCE",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "120",
+        "stagename": "WRIT PETITIONS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "121",
+        "stagename": "CIVIL CASES",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "122",
+        "stagename": "CRIMINAL CASES",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "123",
+        "stagename": "LAND ACQUISTION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "124",
+        "stagename": "RETIREMENT BENIFIT CUM PENSION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "125",
+        "stagename": "ELECTRICITY ACT (CRIMINAL APPEAL)",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "126",
+        "stagename": "NEGOTIABLE INSTRUMENT ACT,1881",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "127",
+        "stagename": "WRIT PETITIONS(INCREMENT)",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "128",
+        "stagename": "MCC RESTORATION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "129",
+        "stagename": "MCC EXTENSION OF TIME",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "130",
+        "stagename": "MA SIMPLE INJURY",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "131",
+        "stagename": "CRIMINAL REVISION SENTENCE UPTO 1 YRS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "132",
+        "stagename": "MA DEATH CLAIMS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "133",
+        "stagename": "39 RULE MA CASES",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "134",
+        "stagename": "CRIMINAL APPEAL SENTENCE UPTO 1YRS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "135",
+        "stagename": "PANCHAYAT ",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "136",
+        "stagename": "CO-OPERATIVE SOCIETY ELECTION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "137",
+        "stagename": "TRANSFER MATTERS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "138",
+        "stagename": "DEPUTATION MATTERS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "139",
+        "stagename": "REGULARISATION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "140",
+        "stagename": "REGISTRATION OF OFFENCE AND INVESTIGATION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "141",
+        "stagename": "WITHDRAWAL OF PETITION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "142",
+        "stagename": "MCRC UNDER SECTION 482",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "143",
+        "stagename": "INFRACTUOUS CASES",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "144",
+        "stagename": "INCREMENT-BED AND BTI",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "145",
+        "stagename": "INCREMENT ADHOC",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "146",
+        "stagename": "INCREMENT-FAMILY PLANNING",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "147",
+        "stagename": "INCREMENT-LECTURER,READER,PROFESSOR AND QUALIFIED PHD",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "148",
+        "stagename": "INCREMENT MATTERS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "149",
+        "stagename": "CRIMINAL APPEAL SENTENCE UPTO 2 YRS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "150",
+        "stagename": "COMPASSIONATE APPOINTMENT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "151",
+        "stagename": "PUBLIC INTEREST LITIGATION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "152",
+        "stagename": "WRIT APPEALS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "153",
+        "stagename": "WRIT PETITIONS - EDUCATION MATTERS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "154",
+        "stagename": "BHOPAL GAS VICTIMS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "155",
+        "stagename": "ULTRA VIRES",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "156",
+        "stagename": "TAX",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "157",
+        "stagename": "CONTEMPT PETITIONS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "158",
+        "stagename": "ELECTION MATTERS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "159",
+        "stagename": "ARMS ACT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "160",
+        "stagename": "FOREST",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "161",
+        "stagename": "BANKING",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "162",
+        "stagename": "ELECTRICITY",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "163",
+        "stagename": "PUBLIC SAFETY",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "164",
+        "stagename": "SALARY MATTERS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "165",
+        "stagename": "ALLOWANCE",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "166",
+        "stagename": "LEAVE",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "167",
+        "stagename": "PROMOTION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "168",
+        "stagename": "VOLUNTRY RETIREMENT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "169",
+        "stagename": "DISMISSAL/REMOVAL/TERMINATION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "170",
+        "stagename": "APPOINTMENT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "171",
+        "stagename": "RESIDUARY MATTERS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "172",
+        "stagename": "DATE OF BIRTH",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "173",
+        "stagename": "CASES RELATED TO FUTURE GENERALI INDIA INSURANCE LTD.",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "174",
+        "stagename": "CASES RELATED TO SHRIRAM GENERAL INSURANCE",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "175",
+        "stagename": "CASES RELATED TO HDFC INSURANCE",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "176",
+        "stagename": "SELECTION MATTERS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "177",
+        "stagename": "CHARGE",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "178",
+        "stagename": "REINSTATEMENT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "179",
+        "stagename": "SUPERANNUATION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "180",
+        "stagename": "RETIREMENT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "181",
+        "stagename": "COMPULSORY RETIREMENT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "182",
+        "stagename": "PUNISHMENT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "183",
+        "stagename": "CPC MATTERS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "184",
+        "stagename": "ABOLITION OF POST",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "185",
+        "stagename": "ABSORPTION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "186",
+        "stagename": "CONFIDENTIAL REPORT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "187",
+        "stagename": "DISCIPLINARY PROCEEDINGS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "188",
+        "stagename": "RECRUITMENT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "189",
+        "stagename": "REDUCTION IN RANK",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "190",
+        "stagename": "RESERVATION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "191",
+        "stagename": "RESIGNATION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "192",
+        "stagename": "SENIORITY",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "193",
+        "stagename": "REVERSION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "194",
+        "stagename": "SUSPENSION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "195",
+        "stagename": "ALLOCATION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "196",
+        "stagename": "RECOVERY",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "197",
+        "stagename": "CANCELLATION OF CASTE CERTIFICATE",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "198",
+        "stagename": "JOINING",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "199",
+        "stagename": "POSTING",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "200",
+        "stagename": "MEDICAL REIMBURSEMENT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "250",
+        "stagename": "CEILING",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "251",
+        "stagename": "INDUSTRIAL DISPUTES ACT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "252",
+        "stagename": "COMPENSATION",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "253",
+        "stagename": "PETROLEUM",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "254",
+        "stagename": "REPATRIATIONS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "255",
+        "stagename": "TOWN and PLANNING",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "256",
+        "stagename": "Indian Railways Act",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "257",
+        "stagename": "MOTOR VEHICLE ACT",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "258",
+        "stagename": "LABOUR INDUSTRY",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "259",
+        "stagename": "Code of Criminal Procedure",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "260",
+        "stagename": "PROVIDENT FUND",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "261",
+        "stagename": "FAMILY MATTERS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "265",
+        "stagename": "CASES RELATED TO UNIVERSAL SHEMPU GENERAL INSU. CO.LTD.",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "266",
+        "stagename": "DIRECTION TO POLICE AUTHORITY",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "267",
+        "stagename": "MA U/O 43 RULE 1",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "268",
+        "stagename": "U/S 125 CRPC",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "269",
+        "stagename": "Land Revenue, Tenancy and Nazul",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "270",
+        "stagename": "M.P. Land Revenue Code",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "271",
+        "stagename": "Manrega",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "272",
+        "stagename": "Water",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "273",
+        "stagename": "Telephone",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "274",
+        "stagename": "Public Utility Services",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "275",
+        "stagename": "Criminal compoundable cases",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "276",
+        "stagename": "Traffic",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "277",
+        "stagename": "Petty matters",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "278",
+        "stagename": "Municipality matters",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "279",
+        "stagename": "Labour Disputes",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "280",
+        "stagename": "Matrimonial",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "281",
+        "stagename": "Debt Recovery Tribunal",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "282",
+        "stagename": "Revenue Cases",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "283",
+        "stagename": "Pay",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "284",
+        "stagename": "Retiral Benefits",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "285",
+        "stagename": "Cantonment Board matters",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "286",
+        "stagename": "Disaster Compensation",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "287",
+        "stagename": "Covered matters",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "288",
+        "stagename": "First Appeals",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "289",
+        "stagename": "Second Appeals",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "290",
+        "stagename": "MA",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "291",
+        "stagename": "Service Matters",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "801",
+        "stagename": "[COMMON ORDERS]",
+        "listtype": "M",
+        "priority": "20",
+        "display": "N",
+        "board_type": "C",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "802",
+        "stagename": "[SETTLEMENT]",
+        "listtype": "M",
+        "priority": "17",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5001",
+        "shortname": "SETTLEMENT"
+    },
+    {
+        "stagecode": "803",
+        "stagename": "[PERSONAL APPEARANCE CASES]",
+        "listtype": "M",
+        "priority": "16",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5002",
+        "shortname": "PERSONAL APPEARANCE CASES"
+    },
+    {
+        "stagecode": "804",
+        "stagename": "[BAIL MATTERS]",
+        "listtype": "M",
+        "priority": "2",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5003",
+        "shortname": "BAIL APPLICATIONS"
+    },
+    {
+        "stagecode": "805",
+        "stagename": "[BAIL APPLICATIONS U/S 439 Cr.P.C.]",
+        "listtype": "M",
+        "priority": "5",
+        "display": "N",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "806",
+        "stagename": "[SUSPENSION OF SENTENCE U/S 389 Cr.P.C. AND OTHERS]",
+        "listtype": "M",
+        "priority": "7",
+        "display": "N",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "807",
+        "stagename": "[DIRECTION MATTERS]",
+        "listtype": "M",
+        "priority": "18",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5004",
+        "shortname": "DIRECTION MATTERS"
+    },
+    {
+        "stagecode": "808",
+        "stagename": "[ORDERS (INCOMPLETE MATTERS / IAs / CRLMPs)]",
+        "listtype": "M",
+        "priority": "4",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5005",
+        "shortname": "ORDERS (INCOMPLETE MATTERS / IAs / CRLMPs)"
+    },
+    {
+        "stagecode": "810",
+        "stagename": "[TOP OF THE LIST (FOR ADMISSION)]",
+        "listtype": "M",
+        "priority": "3",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5006",
+        "shortname": "TOP OF THE LIST (FOR ADMISSION)"
+    },
+    {
+        "stagecode": "811",
+        "stagename": "[FRESH (FOR ADMISSION) - CRIMINAL CASES]",
+        "listtype": "M",
+        "priority": "6",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5007",
+        "shortname": "FRESH (FOR ADMISSION)  CRIMINAL"
+    },
+    {
+        "stagecode": "812",
+        "stagename": "[FRESH (FOR ADMISSION) - CIVIL CASES]",
+        "listtype": "M",
+        "priority": "5",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5008",
+        "shortname": "FRESH (FOR ADMISSION) - CIVIL"
+    },
+    {
+        "stagecode": "813",
+        "stagename": "[AFTER NOTICE (FOR ADMISSION) - CIVIL CASES]",
+        "listtype": "M",
+        "priority": "11",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5009",
+        "shortname": "AFTER NOTICE (FOR ADMISSION)  CIVIL"
+    },
+    {
+        "stagecode": "814",
+        "stagename": "[AFTER NOTICE (FOR ADMISSION) - CRIMINAL CASES]",
+        "listtype": "M",
+        "priority": "10",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5010",
+        "shortname": "AFTER NOTICE (FOR ADMISSION)  CRIMINAL"
+    },
+    {
+        "stagecode": "815",
+        "stagename": "[DISPOSAL/FINAL DISPOSAL AT ADMISSION STAGE - CRIMINAL CASES]",
+        "listtype": "M",
+        "priority": "20",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5011",
+        "shortname": "DISPOSAL/FINAL DISPOSAL AT ADMISSION STAGE  CRIMINAL"
+    },
+    {
+        "stagecode": "816",
+        "stagename": "[DISPOSAL/FINAL DISPOSAL AT ADMISSION STAGE - CIVIL CASES]",
+        "listtype": "M",
+        "priority": "19",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5012",
+        "shortname": "DISPOSAL/FINAL DISPOSAL AT ADMISSION STAGE  CIVIL"
+    },
+    {
+        "stagecode": "817",
+        "stagename": "EARLY HEARING APPLICATION IN ADMITTED MATTERS",
+        "listtype": "M",
+        "priority": "14",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5013",
+        "shortname": "EARLY HEARING APPLICATION IN ADMITTED MATTERS"
+    },
+    {
+        "stagecode": "818",
+        "stagename": "FOR JUDGEMENT",
+        "listtype": "M",
+        "priority": "56",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5014",
+        "shortname": "FOR JUDGEMENT"
+    },
+    {
+        "stagecode": "819",
+        "stagename": "FOR ORDER",
+        "listtype": "M",
+        "priority": "57",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5015",
+        "shortname": "FOR ORDER"
+    },
+    {
+        "stagecode": "820",
+        "stagename": "[COMMON CONDITIONAL ORDERS]",
+        "listtype": "M",
+        "priority": "21",
+        "display": "N",
+        "board_type": "C",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "821",
+        "stagename": "[SUSPENSION OF SENTENCE U/S 397 Cr.P.C. AND OTHERS]",
+        "listtype": "M",
+        "priority": "6",
+        "display": "N",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "822",
+        "stagename": "U/s 53 Juvenile Justice Act, 2000 /Sec. 102 Juvenile Justice Act, 2015",
+        "listtype": "M",
+        "priority": "8",
+        "display": "N",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "823",
+        "stagename": "U/s 14A SC/ST Act, 1989 as amended by Amendment Act,2015",
+        "listtype": "M",
+        "priority": "9",
+        "display": "N",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "824",
+        "stagename": "PART HEARD MATTERS",
+        "listtype": "M",
+        "priority": "15",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5016",
+        "shortname": "PART HEARD MATTERS"
+    },
+    {
+        "stagecode": "825",
+        "stagename": "FOR ORDERS",
+        "listtype": "M",
+        "priority": "58",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5017",
+        "shortname": "FOR ORDERS"
+    },
+    {
+        "stagecode": "826",
+        "stagename": "NINE JUDGES BENCH MATTERS",
+        "listtype": "M",
+        "priority": "13",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5018",
+        "shortname": "NINE JUDGES BENCH MATTERS"
+    },
+    {
+        "stagecode": "827",
+        "stagename": "FOR HEARING",
+        "listtype": "M",
+        "priority": "12",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5019",
+        "shortname": "FOR HEARING"
+    },
+    {
+        "stagecode": "828",
+        "stagename": "[END OF THE BOARD]",
+        "listtype": "M",
+        "priority": "99",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "5020",
+        "shortname": "END OF THE BOARD"
+    },
+    {
+        "stagecode": "829",
+        "stagename": "[TRANSFER PETITIONS]",
+        "listtype": "M",
+        "priority": "1",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "0",
+        "shortname": null
+    },
+    {
+        "stagecode": "830",
+        "stagename": "[FRESHLY / ADJOURNED MATTERS]",
+        "listtype": "M",
+        "priority": "7",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": "0",
+        "shortname": null
+    },
+    {
+        "stagecode": "848",
+        "stagename": "PEREMPTORY ORDER CASES",
+        "listtype": "M",
+        "priority": "27",
+        "display": "Y",
+        "board_type": "R",
+        "national_code": "5021",
+        "shortname": "PEREMPTORY ORDER CASES"
+    },
+    {
+        "stagecode": "849",
+        "stagename": "[SERVICE/COMPLIANCE]-BEFORE REGISTRAR(J) ",
+        "listtype": "M",
+        "priority": "26",
+        "display": "Y",
+        "board_type": "R",
+        "national_code": "5022",
+        "shortname": "SERVICE/COMPLIANCE"
+    },
+    {
+        "stagecode": "850",
+        "stagename": "[DEFAULT / OTHER MATTERS]",
+        "listtype": "M",
+        "priority": "25",
+        "display": "Y",
+        "board_type": "R",
+        "national_code": "5023",
+        "shortname": "DEFAULT / OTHER MATTERS"
+    },
+    {
+        "stagecode": "853",
+        "stagename": "ADMISSION MATTERS MORE THAN FIVE YEARS OLD",
+        "listtype": "M",
+        "priority": "12",
+        "display": "N",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "854",
+        "stagename": "COMMON ORDER (RE-ISSUE OF NON-BAILABLE WARRANT)",
+        "listtype": "M",
+        "priority": "58",
+        "display": "N",
+        "board_type": "C",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "999",
+        "stagename": "OTHER MATTERS",
+        "listtype": "L",
+        "priority": null,
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    },
+    {
+        "stagecode": "2091",
+        "stagename": "[FOR MEDIATION]",
+        "listtype": "S",
+        "priority": "1",
+        "display": "Y",
+        "board_type": "J",
+        "national_code": null,
+        "shortname": null
+    }
+]

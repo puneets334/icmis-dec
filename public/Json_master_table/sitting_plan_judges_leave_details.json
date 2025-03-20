@@ -1,0 +1,299 @@
+[
+    {
+        "id": "588",
+        "next_dt": "2020-05-30",
+        "jcode": "207",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "589",
+        "next_dt": "2020-05-30",
+        "jcode": "208",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "590",
+        "next_dt": "2020-05-30",
+        "jcode": "210",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "591",
+        "next_dt": "2020-05-30",
+        "jcode": "216",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "592",
+        "next_dt": "2020-05-30",
+        "jcode": "218",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "593",
+        "next_dt": "2020-05-30",
+        "jcode": "219",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "594",
+        "next_dt": "2020-05-30",
+        "jcode": "220",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "595",
+        "next_dt": "2020-05-30",
+        "jcode": "221",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "596",
+        "next_dt": "2020-05-30",
+        "jcode": "254",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "597",
+        "next_dt": "2020-05-30",
+        "jcode": "255",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "598",
+        "next_dt": "2020-05-30",
+        "jcode": "256",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "599",
+        "next_dt": "2020-05-30",
+        "jcode": "257",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "600",
+        "next_dt": "2020-05-30",
+        "jcode": "258",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "601",
+        "next_dt": "2020-05-30",
+        "jcode": "260",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "602",
+        "next_dt": "2020-05-30",
+        "jcode": "261",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "603",
+        "next_dt": "2020-05-30",
+        "jcode": "262",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "604",
+        "next_dt": "2020-05-30",
+        "jcode": "263",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "605",
+        "next_dt": "2020-05-30",
+        "jcode": "264",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "606",
+        "next_dt": "2020-05-30",
+        "jcode": "265",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "607",
+        "next_dt": "2020-05-30",
+        "jcode": "266",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "608",
+        "next_dt": "2020-05-30",
+        "jcode": "267",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "609",
+        "next_dt": "2020-05-30",
+        "jcode": "268",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "610",
+        "next_dt": "2020-05-30",
+        "jcode": "269",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "611",
+        "next_dt": "2020-05-30",
+        "jcode": "270",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "612",
+        "next_dt": "2020-05-30",
+        "jcode": "271",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "613",
+        "next_dt": "2020-05-30",
+        "jcode": "272",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "614",
+        "next_dt": "2020-05-30",
+        "jcode": "273",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "615",
+        "next_dt": "2020-05-30",
+        "jcode": "274",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "616",
+        "next_dt": "2020-05-30",
+        "jcode": "275",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "617",
+        "next_dt": "2020-05-30",
+        "jcode": "276",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "618",
+        "next_dt": "2020-05-30",
+        "jcode": "277",
+        "is_on_leave": "0",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "619",
+        "next_dt": "2020-05-30",
+        "jcode": "198",
+        "is_on_leave": "1",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    },
+    {
+        "id": "620",
+        "next_dt": "2020-05-30",
+        "jcode": "214",
+        "is_on_leave": "1",
+        "usercode": null,
+        "updated_on": "2020-05-30 12:36:10+05:30",
+        "display": "Y"
+    }
+]

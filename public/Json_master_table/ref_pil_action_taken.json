@@ -1,0 +1,272 @@
+[
+    {
+        "id": "5822",
+        "action_code": " ",
+        "pil_sub_action_code": "A1",
+        "sub_action_description": "NO ACTION TAKEN SINCE CONTENTS OF COMPLAINT ARE NOT COVERED UNDER PIL GUIDELINES",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5823",
+        "action_code": " ",
+        "pil_sub_action_code": "A2",
+        "sub_action_description": "NO ACTION TAKEN BEING NOT ADDRESSED TO SUPREME COURT OF INDIA",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5824",
+        "action_code": " ",
+        "pil_sub_action_code": "A3",
+        "sub_action_description": "NO ACTION TAKEN BEING UNSIGNED",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5825",
+        "action_code": " ",
+        "pil_sub_action_code": "A4",
+        "sub_action_description": "NO ACTION TAKEN BEING ANONYMOUS",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5826",
+        "action_code": " ",
+        "pil_sub_action_code": "A5",
+        "sub_action_description": "NO ACTION TAKEN SINCE ADDRESS IS INCOMPLETE OR DOUBTFUL",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5827",
+        "action_code": " ",
+        "pil_sub_action_code": "A6",
+        "sub_action_description": "NO ACTION TAKEN SINCE EMAIL IS NOT DIGITALLY SIGNED",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5828",
+        "action_code": " ",
+        "pil_sub_action_code": "A7",
+        "sub_action_description": "NO ACTION TAKEN BEING INCOMPREHENSIBLE",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5829",
+        "action_code": " ",
+        "pil_sub_action_code": "B1",
+        "sub_action_description": "SUGGESTED TO APPROACH CONCERNED COURT/AUTHORITY IN ACCORDANCE WITH LAW",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5830",
+        "action_code": " ",
+        "pil_sub_action_code": "B2",
+        "sub_action_description": "SUGGESTED TO APPROACH CONCERNED STATE LEGAL SERVICES AUTHORITY FOR LEGAL AID",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5831",
+        "action_code": " ",
+        "pil_sub_action_code": "B3",
+        "sub_action_description": "SUGGESTED TO APPROACH SUPREME COURT LEGAL SERVICES COMMITTEE FOR LEGAL AID",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5832",
+        "action_code": " ",
+        "pil_sub_action_code": "B4",
+        "sub_action_description": "LETTER PETITION STANDS FORWARDED TO SUPREME COURT LEGAL SERVICES COMMITTEE FOR NECESSARY ACTION",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5833",
+        "action_code": " ",
+        "pil_sub_action_code": "B5",
+        "sub_action_description": "SUGGESTED TO FILE REQUISITE TRANSFER PETITION IN ACCORDANCE WITH LAW",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5834",
+        "action_code": " ",
+        "pil_sub_action_code": "B6",
+        "sub_action_description": "EARLIER LETTER PETITION WITH ANNEXURES HAS BEEN RETURNED AS REQUESTED",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5835",
+        "action_code": " ",
+        "pil_sub_action_code": "C1",
+        "sub_action_description": "ORIGINAL LETTER PETITION HAS BEEN RETURNED IN VIEW OF ARTICLE 235 OF THE CONSTITUTION OF INDIA",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5836",
+        "action_code": " ",
+        "pil_sub_action_code": "C2",
+        "sub_action_description": "LETTER PETITION (RECEIVED VIA E-MAIL) REQUIRES NO ACTION IN VIEW OF ARTICLE 235 OF THE CONSTITUTION OF INDIA",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5837",
+        "action_code": " ",
+        "pil_sub_action_code": "C3",
+        "sub_action_description": "ORIGINAL LETTER PETITION HAS BEEN RETURNED AS THE MATTER IS SUB-JUDICE  BEFORE CONCERNED COURT",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5838",
+        "action_code": " ",
+        "pil_sub_action_code": "D1",
+        "sub_action_description": "COMPLAINT/LETTER HAS BEEN FORWARDED TO ...  FOR TAKING NECESSARY ACTION.",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5839",
+        "action_code": " ",
+        "pil_sub_action_code": "D2",
+        "sub_action_description": "COMPLAINT/LETTER HAS BEEN FORWARDED TO  ...  FOR TAKING NECESSARY ACTION AND SUBMIT REPORT TO THIS COURT",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5840",
+        "action_code": " ",
+        "pil_sub_action_code": "D3",
+        "sub_action_description": "REMINDER HAS BEEN ISSUED TO ... ",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5841",
+        "action_code": " ",
+        "pil_sub_action_code": "E1",
+        "sub_action_description": "LETTER PETITION HAS BEEN FORWARDED TO ...  OF SUPREME COURT.",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5842",
+        "action_code": " ",
+        "pil_sub_action_code": "E2",
+        "sub_action_description": "COMPLAINT AGAINST ADVOCATE(S) HAS BEEN TRANSFERRED TO ...  FOR ACTION DEEMED FIT",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5843",
+        "action_code": " ",
+        "pil_sub_action_code": "E3",
+        "sub_action_description": "LETTER PETITION CONVERTED AND REGISTERED AS WRIT PETITION  ...",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5844",
+        "action_code": " ",
+        "pil_sub_action_code": "B9",
+        "sub_action_description": "FURNISH IN WRITING  COMPLETE FACTS OF THE MATTER",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5845",
+        "action_code": " ",
+        "pil_sub_action_code": "B10",
+        "sub_action_description": "VISIT WWW.SCI.NIC.IN FOR NECESSARY INFORMATION",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-07-28 18:29:24+05:30"
+    },
+    {
+        "id": "5846",
+        "action_code": " ",
+        "pil_sub_action_code": "A8",
+        "sub_action_description": "REPITITIVE IN NATURE.NO ACTION REQUIRED",
+        "is_deleted": "f",
+        "adm_updated_by": "2",
+        "updated_on": "2016-01-01 00:00:00+05:30"
+    },
+    {
+        "id": "5847",
+        "action_code": "W",
+        "pil_sub_action_code": "B7",
+        "sub_action_description": "SUGGESTED TO TAKE LEGAL RECOURSE IN ACCORDANCE WITH LAW",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-09-16 15:35:02+05:30"
+    },
+    {
+        "id": "5848",
+        "action_code": "W",
+        "pil_sub_action_code": "B8",
+        "sub_action_description": "FATE OF EARLIER  LETTER-PETITION HAS BEEN CONVEYED TO THE PETITIONER",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-09-16 15:36:56+05:30"
+    },
+    {
+        "id": "5849",
+        "action_code": " ",
+        "pil_sub_action_code": "A9",
+        "sub_action_description": "BEING VERNACULAR[not IN COURT lANGUAGE]",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2017-01-20 13:07:32+05:30"
+    },
+    {
+        "id": "5850",
+        "action_code": " ",
+        "pil_sub_action_code": "A10",
+        "sub_action_description": "NO ACTION TAKEN AND AMOUNT HAS BEEN RETURNED BY MONEY ORDER",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2017-02-17 12:46:06+05:30"
+    },
+    {
+        "id": "5851",
+        "action_code": null,
+        "pil_sub_action_code": "D4",
+        "sub_action_description": "COMPLAINT/LETTER HAS BEEN FORWARDED TO ...  ",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2019-07-25 14:35:02+05:30"
+    }
+]

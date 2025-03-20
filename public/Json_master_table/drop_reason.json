@@ -1,0 +1,86 @@
+[
+    {
+        "id": "1",
+        "reason": "ADMINISTRATIVE REASON",
+        "reason_type": "6",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "reason": "BENCH NOT AVAILABLE",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "reason": "COMPLIANCE DUE",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "reason": "SPECIAL BENCH MATTER",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "reason": "PART HEARD MATTER",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "6",
+        "reason": "WRONG CORAM",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "7",
+        "reason": "NOT BEFORE BUT ALLOCATED",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "8",
+        "reason": "TO BE LIST BEFORE ANOTHER BOARD TYPE",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "9",
+        "reason": "CONDITIONAL DISPOSE MATTER",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "10",
+        "reason": "NMD CASE",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "11",
+        "reason": "ALLOCATED DUE TO WRONG UPDATION",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "12",
+        "reason": "PARTY IN PERSON INTERACTION PENDING",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "13",
+        "reason": "SPECIAL DIRECTION",
+        "reason_type": "5",
+        "display": "Y"
+    },
+    {
+        "id": "14",
+        "reason": "Excess Matter After Allocation",
+        "reason_type": "5",
+        "display": "Y"
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "law_id": "1",
+        "law_firm_name": "LAW FIRM 1",
+        "display": "Y"
+    },
+    {
+        "law_id": "2",
+        "law_firm_name": "LAW FIRM 2",
+        "display": "Y"
+    },
+    {
+        "law_id": "3",
+        "law_firm_name": "LAW FIRM 3",
+        "display": "Y"
+    },
+    {
+        "law_id": "4",
+        "law_firm_name": "LAW FIRM 4",
+        "display": "Y"
+    }
+]

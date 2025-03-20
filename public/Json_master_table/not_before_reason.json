@@ -1,0 +1,116 @@
+[
+    {
+        "res_id": "1",
+        "notbef": "B",
+        "res_add": "JUDICIAL ORDER",
+        "display": "Y"
+    },
+    {
+        "res_id": "2",
+        "notbef": "B",
+        "res_add": "ADMINISTRATIVE ORDER",
+        "display": "Y"
+    },
+    {
+        "res_id": "3",
+        "notbef": "B",
+        "res_add": "SAME CRIME NO.",
+        "display": "Y"
+    },
+    {
+        "res_id": "4",
+        "notbef": "B",
+        "res_add": "SAME LOWER DETAILS",
+        "display": "Y"
+    },
+    {
+        "res_id": "5",
+        "notbef": "B",
+        "res_add": "COVERED MATTERS",
+        "display": "Y"
+    },
+    {
+        "res_id": "6",
+        "notbef": "B",
+        "res_add": "ORDER REVIEW/MOD/COR",
+        "display": "Y"
+    },
+    {
+        "res_id": "7",
+        "notbef": "N",
+        "res_add": "JUDICIAL ORDER",
+        "display": "Y"
+    },
+    {
+        "res_id": "8",
+        "notbef": "N",
+        "res_add": "ADMINISTRATIVE ORDER",
+        "display": "Y"
+    },
+    {
+        "res_id": "9",
+        "notbef": "N",
+        "res_add": "RELATION(FAMILY OR BUSINESS)",
+        "display": "Y"
+    },
+    {
+        "res_id": "10",
+        "notbef": "N",
+        "res_add": "ORDER CHALLENGED",
+        "display": "Y"
+    },
+    {
+        "res_id": "11",
+        "notbef": "B",
+        "res_add": "DIRECTED BY HON. CJI",
+        "display": "Y"
+    },
+    {
+        "res_id": "12",
+        "notbef": "B",
+        "res_add": "PART HEARD MATTER",
+        "display": "Y"
+    },
+    {
+        "res_id": "13",
+        "notbef": "B",
+        "res_add": "PART HEARD MATTER",
+        "display": "N"
+    },
+    {
+        "res_id": "14",
+        "notbef": "B",
+        "res_add": "NOTICE ORDER",
+        "display": "N"
+    },
+    {
+        "res_id": "15",
+        "notbef": "B",
+        "res_add": "LIST BY CATEGORY",
+        "display": "N"
+    },
+    {
+        "res_id": "16",
+        "notbef": "B",
+        "res_add": "LEAVE GRANTED",
+        "display": "N"
+    },
+    {
+        "res_id": "17",
+        "notbef": "B",
+        "res_add": "MA/CONTEMPT",
+        "display": "N"
+    },
+    {
+        "res_id": "18",
+        "notbef": "B",
+        "res_add": "NOT TO UPDATE OLD CORAM",
+        "display": "N"
+    },
+    {
+        "res_id": "19",
+        "notbef": "N",
+        "res_add": "HIGH COURT",
+        "display": "Y"
+    }
+]

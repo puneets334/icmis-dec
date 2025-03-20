@@ -1,0 +1,44 @@
+[
+    {
+        "id": "1",
+        "description": "Counter",
+        "adm_updated_by": "213",
+        "updated_on": "2017-09-21 16:09:07+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "2",
+        "description": "RTI",
+        "adm_updated_by": "213",
+        "updated_on": "2017-09-21 16:09:22+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "3",
+        "description": "Petitioner-in-Person",
+        "adm_updated_by": "213",
+        "updated_on": "2017-09-21 16:09:40+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "4",
+        "description": "Post",
+        "adm_updated_by": "213",
+        "updated_on": "2017-09-21 16:09:52+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "5",
+        "description": "Documents",
+        "adm_updated_by": "213",
+        "updated_on": "2018-01-31 14:36:28+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "6",
+        "description": "Online",
+        "adm_updated_by": "213",
+        "updated_on": "2020-04-01 18:00:00+05:30",
+        "is_deleted": "f"
+    }
+]

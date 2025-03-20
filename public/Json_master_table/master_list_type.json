@@ -1,0 +1,26 @@
+[
+    {
+        "id": "1",
+        "list_type_name": "Weekly List"
+    },
+    {
+        "id": "2",
+        "list_type_name": "Advance List"
+    },
+    {
+        "id": "3",
+        "list_type_name": "Regular List"
+    },
+    {
+        "id": "4",
+        "list_type_name": "Misc. List"
+    },
+    {
+        "id": "5",
+        "list_type_name": "Chamber List"
+    },
+    {
+        "id": "6",
+        "list_type_name": "Registrar List"
+    }
+]

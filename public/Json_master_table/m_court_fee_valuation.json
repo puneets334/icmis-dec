@@ -1,0 +1,130 @@
+[
+    {
+        "id": "1",
+        "court_fee_id": "71",
+        "from_valuation": "100001",
+        "to_valuation": "2000000",
+        "for_added_valuation": "50000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "2",
+        "court_fee_id": "71",
+        "from_valuation": "2000001",
+        "to_valuation": "2500000",
+        "for_added_valuation": "100000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "3",
+        "court_fee_id": "61",
+        "from_valuation": "100001",
+        "to_valuation": "2000000",
+        "for_added_valuation": "50000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "4",
+        "court_fee_id": "61",
+        "from_valuation": "2000001",
+        "to_valuation": "2500000",
+        "for_added_valuation": "100000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "5",
+        "court_fee_id": "62",
+        "from_valuation": "100001",
+        "to_valuation": "2000000",
+        "for_added_valuation": "50000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "6",
+        "court_fee_id": "62",
+        "from_valuation": "2000001",
+        "to_valuation": "2500000",
+        "for_added_valuation": "100000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "7",
+        "court_fee_id": "7",
+        "from_valuation": "100001",
+        "to_valuation": "2000000",
+        "for_added_valuation": "50000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "8",
+        "court_fee_id": "7",
+        "from_valuation": "2000001",
+        "to_valuation": "2500000",
+        "for_added_valuation": "100000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "9",
+        "court_fee_id": "74",
+        "from_valuation": "100001",
+        "to_valuation": "2000000",
+        "for_added_valuation": "50000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "10",
+        "court_fee_id": "74",
+        "from_valuation": "2000001",
+        "to_valuation": "2500000",
+        "for_added_valuation": "100000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "11",
+        "court_fee_id": "76",
+        "from_valuation": "100001",
+        "to_valuation": "2000000",
+        "for_added_valuation": "50000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "12",
+        "court_fee_id": "76",
+        "from_valuation": "2000001",
+        "to_valuation": "2500000",
+        "for_added_valuation": "100000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "13",
+        "court_fee_id": "288",
+        "from_valuation": "100001",
+        "to_valuation": "2000000",
+        "for_added_valuation": "50000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "14",
+        "court_fee_id": "288",
+        "from_valuation": "2000001",
+        "to_valuation": "2500000",
+        "for_added_valuation": "100000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "15",
+        "court_fee_id": "286",
+        "from_valuation": "100001",
+        "to_valuation": "2000000",
+        "for_added_valuation": "50000",
+        "added_amount": "1000"
+    },
+    {
+        "id": "16",
+        "court_fee_id": "286",
+        "from_valuation": "2000001",
+        "to_valuation": "2500000",
+        "for_added_valuation": "100000",
+        "added_amount": "1000"
+    }
+]

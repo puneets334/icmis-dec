@@ -1,0 +1,968 @@
+[
+    {
+        "id": "2",
+        "agency_name": "CAT AT BOMBAY",
+        "state_id": "4",
+        "short_agency_name": "CATBO"
+    },
+    {
+        "id": "4",
+        "agency_name": "CAT AT GUJARAT",
+        "state_id": "7",
+        "short_agency_name": "CATGU"
+    },
+    {
+        "id": "5",
+        "agency_name": "CENTRAL EXCISE & GOLD APPLLETTE TRIBUNAL",
+        "state_id": "6",
+        "short_agency_name": "CEGAT"
+    },
+    {
+        "id": "6",
+        "agency_name": "MAHARASTRA ADMINISTRATIVE TRIBUNAL AT BOMBAY",
+        "state_id": "4",
+        "short_agency_name": "SATBO"
+    },
+    {
+        "id": "7",
+        "agency_name": "CAT AT DELHI",
+        "state_id": "6",
+        "short_agency_name": "CATDE"
+    },
+    {
+        "id": "35",
+        "agency_name": "CAT AT HYDERABAD",
+        "state_id": "1",
+        "short_agency_name": "CATHY"
+    },
+    {
+        "id": "36",
+        "agency_name": "CAT AT BANGALORE",
+        "state_id": "11",
+        "short_agency_name": "CATBA"
+    },
+    {
+        "id": "37",
+        "agency_name": "CAT AT MADRAS",
+        "state_id": "18",
+        "short_agency_name": "CATMA"
+    },
+    {
+        "id": "38",
+        "agency_name": "CAT AT JAIPUR",
+        "state_id": "16",
+        "short_agency_name": "CATJA"
+    },
+    {
+        "id": "39",
+        "agency_name": "CAT AT JABALPUR",
+        "state_id": "13",
+        "short_agency_name": "CATMP"
+    },
+    {
+        "id": "41",
+        "agency_name": "TAMIL NADU ADIMINSTRATIVE TRIBUNAL AT MADRAS",
+        "state_id": "18",
+        "short_agency_name": "SATTN"
+    },
+    {
+        "id": "42",
+        "agency_name": "CENTRAL ADMINISTRATIVE TRIBUNAL AT CALCUTTA",
+        "state_id": "21",
+        "short_agency_name": "CATCA"
+    },
+    {
+        "id": "43",
+        "agency_name": "CENTRAL ADMINISTRATIVE TRIBUNAL AT CHANDIGARH",
+        "state_id": "15",
+        "short_agency_name": "CATPB"
+    },
+    {
+        "id": "44",
+        "agency_name": "HIMACHAL PRADESH ADMINISTRATIVE TRIBUNAL AT SHIMLA",
+        "state_id": "8",
+        "short_agency_name": "SATHP"
+    },
+    {
+        "id": "45",
+        "agency_name": "CENTRAL ADMINISTRATIVE TRIBUNAL AT ALLAHABAD",
+        "state_id": "19",
+        "short_agency_name": "CATUP"
+    },
+    {
+        "id": "46",
+        "agency_name": "CENTRAL ADMINISTRATIVE TRIBUNAL AT AHMEDABAD",
+        "state_id": "7",
+        "short_agency_name": "CATGU"
+    },
+    {
+        "id": "47",
+        "agency_name": "CENTRAL ADMINISTRATIVE TRIBUNAL AT ERNAKULAM",
+        "state_id": "12",
+        "short_agency_name": "CATKE"
+    },
+    {
+        "id": "48",
+        "agency_name": "MADHYA PRADESH ADMINISTRATIVE TRIBUNAL AT BHOPAL",
+        "state_id": "13",
+        "short_agency_name": "SATMP"
+    },
+    {
+        "id": "49",
+        "agency_name": "ANDHRA PRADESH ADMINISTRATIVE TRIBUNAL AT HYDERABAD",
+        "state_id": "1",
+        "short_agency_name": "SATAP"
+    },
+    {
+        "id": "50",
+        "agency_name": "MANIPUR LEGISLATIVE ASSEMBLY IMPHAL",
+        "state_id": "2",
+        "short_agency_name": "LAASI"
+    },
+    {
+        "id": "51",
+        "agency_name": "CAT AT PATNA",
+        "state_id": "3",
+        "short_agency_name": "CATBI"
+    },
+    {
+        "id": "52",
+        "agency_name": "CAT AT CUTTACK",
+        "state_id": "14",
+        "short_agency_name": "CATOR"
+    },
+    {
+        "id": "55",
+        "agency_name": "CAT AT CUTTACK",
+        "state_id": "14",
+        "short_agency_name": "CATCU"
+    },
+    {
+        "id": "60",
+        "agency_name": "SPL.COURT (TRIAL OF OFFENCES RELATING TO",
+        "state_id": "6",
+        "short_agency_name": "SCBO1"
+    },
+    {
+        "id": "61",
+        "agency_name": "WEST BENGAL TAXATION TRIBUNAL, CALCUTTA",
+        "state_id": "21",
+        "short_agency_name": "WBTT"
+    },
+    {
+        "id": "62",
+        "agency_name": "CAT AT JODHPUR",
+        "state_id": "16",
+        "short_agency_name": "CATRA"
+    },
+    {
+        "id": "63",
+        "agency_name": "CENTRAL ADMINSTRATIVE TRIBUNAL,GUWAHATI",
+        "state_id": "2",
+        "short_agency_name": "CATAS"
+    },
+    {
+        "id": "64",
+        "agency_name": "MAHARASHTRA ADMN.TRIBUNAL,NAGPUR BENCH",
+        "state_id": "4",
+        "short_agency_name": "SATN"
+    },
+    {
+        "id": "68",
+        "agency_name": "CENTRAL ADMINISTRATIVE TRIBUNAL AT HYDERABAD",
+        "state_id": "1",
+        "short_agency_name": "CATAP"
+    },
+    {
+        "id": "70",
+        "agency_name": "CENTRAL ADMINISTRATIVE TRIBUNAL AT AHAMADABAD",
+        "state_id": "7",
+        "short_agency_name": "CATGU"
+    },
+    {
+        "id": "72",
+        "agency_name": "SALES TAX APPELLATE TRIBUNAL, A.P.",
+        "state_id": "1",
+        "short_agency_name": "STTAP"
+    },
+    {
+        "id": "74",
+        "agency_name": "KARNATAKA ADMINISTRATIVE TRIBUNAL AT BANGALORE",
+        "state_id": "11",
+        "short_agency_name": "SATKA"
+    },
+    {
+        "id": "75",
+        "agency_name": "CENTRAL ADMINISTRATIVE TRIBUNAL,GAUHATI BENCH AT GAUHATI",
+        "state_id": "2",
+        "short_agency_name": "CATAS"
+    },
+    {
+        "id": "76",
+        "agency_name": "CENTRAL ADMINISTRATIVE ADMINISTRTATIVE TRIBUNAL JAIPUR",
+        "state_id": "16",
+        "short_agency_name": "CATRA"
+    },
+    {
+        "id": "78",
+        "agency_name": "KARNATAKA ADMINISTRATIVE TRI.AT BANGALOR",
+        "state_id": "11",
+        "short_agency_name": "SATKA"
+    },
+    {
+        "id": "79",
+        "agency_name": "CENTRAL ADMINISTRATIVE TRIBUNAL JODHPUR BENCH,JODHPUR",
+        "state_id": "16",
+        "short_agency_name": "CATRA"
+    },
+    {
+        "id": "82",
+        "agency_name": "CENTRAL ADMINISTRATIVE TRIBUNAL AT ALLAHABAD,LUCKNOW",
+        "state_id": "19",
+        "short_agency_name": "CATAL"
+    },
+    {
+        "id": "83",
+        "agency_name": "ORISSA ADMINISTRATIVE TRIBUNAL AT BHUBANESWAR",
+        "state_id": "14",
+        "short_agency_name": "SATOR"
+    },
+    {
+        "id": "88",
+        "agency_name": "CENTRAL EXCISE & GOLD APPELLATE TRIBUNAL AT DELHI",
+        "state_id": "6",
+        "short_agency_name": "CEGAT"
+    },
+    {
+        "id": "89",
+        "agency_name": "RAJASTHAN TAXATION TRIBUNAL, JODHPUR",
+        "state_id": "16",
+        "short_agency_name": "RDTT"
+    },
+    {
+        "id": "90",
+        "agency_name": "KERALA STATE CONSUMER DISPUTES REDERSSAL",
+        "state_id": "12",
+        "short_agency_name": "KCDRC"
+    },
+    {
+        "id": "91",
+        "agency_name": "RAJASTHAN TAXATION TRIBUNAL",
+        "state_id": "16",
+        "short_agency_name": "RATT"
+    },
+    {
+        "id": "92",
+        "agency_name": "RAJASTHAN TAXATION TRIBUNAL, JAIPUR",
+        "state_id": "16",
+        "short_agency_name": "RATTJ"
+    },
+    {
+        "id": "93",
+        "agency_name": "ADDITIONAL COMMISSIONER,BHOPAL GAS VICTI",
+        "state_id": "13",
+        "short_agency_name": "ACBGV"
+    },
+    {
+        "id": "94",
+        "agency_name": "STATE TRANSPORT APPELLATE TRIBUNAL",
+        "state_id": "6",
+        "short_agency_name": "STAT"
+    },
+    {
+        "id": "95",
+        "agency_name": "APPELLATE TRI.FOR FORFEITED PROPERTY,ND.",
+        "state_id": "6",
+        "short_agency_name": "ATFP"
+    },
+    {
+        "id": "96",
+        "agency_name": "WEST BENGAL ADMINISTRATIVE TRIBUNAL, CALCUTTA",
+        "state_id": "21",
+        "short_agency_name": "SATWB"
+    },
+    {
+        "id": "98",
+        "agency_name": "RAJASTHAN TAXATION TRIBUNAL, JODHPUR",
+        "state_id": "16",
+        "short_agency_name": "RATTD"
+    },
+    {
+        "id": "99",
+        "agency_name": "CUSTOM EXCISE & GOLD APPLLETTE TRIBUNAL",
+        "state_id": "6",
+        "short_agency_name": "CUGAT"
+    },
+    {
+        "id": "104",
+        "agency_name": "STATE CONSUMER DISPUTE REDRESSAL COMMISSION , U.P.",
+        "state_id": "19",
+        "short_agency_name": "SCDUP"
+    },
+    {
+        "id": "107",
+        "agency_name": "APPELLATE TRIBUNAL FOR ELECTRICITY AT NEW DELHI",
+        "state_id": "6",
+        "short_agency_name": "DEATE"
+    },
+    {
+        "id": "108",
+        "agency_name": "CENTRAL EXCISE SERVICE TAX APPELATE TRIBUNAL",
+        "state_id": "6",
+        "short_agency_name": "CEST"
+    },
+    {
+        "id": "109",
+        "agency_name": "CUSTOM EXCISE SERVICE TAX APPELATE TRIBUNAL",
+        "state_id": "6",
+        "short_agency_name": "CUST"
+    },
+    {
+        "id": "111",
+        "agency_name": "CENTRAL INFORMATION COMMISSION",
+        "state_id": "6",
+        "short_agency_name": "CIC"
+    },
+    {
+        "id": "116",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "1",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "117",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "2",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "118",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "3",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "119",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "4",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "120",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "5",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "121",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "6",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "122",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "7",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "123",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "8",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "124",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "9",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "125",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "10",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "126",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "11",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "127",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "12",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "128",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "13",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "129",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "14",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "130",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "15",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "131",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "16",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "132",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "17",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "133",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "18",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "134",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "19",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "135",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "20",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "136",
+        "agency_name": "ARMED FORCES TRIBUNAL",
+        "state_id": "21",
+        "short_agency_name": "AFT"
+    },
+    {
+        "id": "141",
+        "agency_name": "COMPETITION APELLATE TRIBUNAL",
+        "state_id": "6",
+        "short_agency_name": "COMPAT"
+    },
+    {
+        "id": "77",
+        "agency_name": "INDUSTRIAL TRIBUNAL TAMIL NADU.",
+        "state_id": "18",
+        "short_agency_name": "ITMA"
+    },
+    {
+        "id": "142",
+        "agency_name": "CUTOM EXCISE SERVICE TAX APPELLATE TRIBUNAL",
+        "state_id": "9",
+        "short_agency_name": "CESTAT"
+    },
+    {
+        "id": "143",
+        "agency_name": "LEARNED TRIAL COURT AP ELECTRICITY REGULATORY COMMISSION",
+        "state_id": "1",
+        "short_agency_name": "APERC"
+    },
+    {
+        "id": "254",
+        "agency_name": "ARBITRAL TRIBUNAL",
+        "state_id": "6",
+        "short_agency_name": "AT"
+    },
+    {
+        "id": "114",
+        "agency_name": "CUSTOM EXCISE SERVICE TAX APPELLATE TRIBUNAL, WEST ZONAL BENCH AT AHMEDABAD",
+        "state_id": "7",
+        "short_agency_name": "CESTATGU"
+    },
+    {
+        "id": "40",
+        "agency_name": "CUSTOM EXCISE SERVICE TAX APELLATE TRIBUNAL, WEST ZONAL BENCH AT MUMBAI",
+        "state_id": "4",
+        "short_agency_name": "CESTATBO"
+    },
+    {
+        "id": "57",
+        "agency_name": "TAMIL NADU LAND REFORMS SPECIAL APPELLATE TRIBUNAL",
+        "state_id": "18",
+        "short_agency_name": "TNLST"
+    },
+    {
+        "id": "155",
+        "agency_name": "Telecom Disputes Settlement and Appellate Tribunal",
+        "state_id": "6",
+        "short_agency_name": "TDSAT"
+    },
+    {
+        "id": "159",
+        "agency_name": "Learned National Human Rights Commission, New Delhi",
+        "state_id": "6",
+        "short_agency_name": "LNHRCND"
+    },
+    {
+        "id": "161",
+        "agency_name": "Securities Appellate Tribunal, Mumbai",
+        "state_id": "4",
+        "short_agency_name": "SATM"
+    },
+    {
+        "id": "3",
+        "agency_name": "DCA AT BOMBAY",
+        "state_id": "4",
+        "short_agency_name": "DCABO"
+    },
+    {
+        "id": "73",
+        "agency_name": "CAT AT HIMACHAL PRADESH",
+        "state_id": "9999",
+        "short_agency_name": "CATHP"
+    },
+    {
+        "id": "140",
+        "agency_name": "NATIONAL GREEN TRIBUNAL",
+        "state_id": "6",
+        "short_agency_name": "NGTD"
+    },
+    {
+        "id": "166",
+        "agency_name": "Court of Addl. District and session judge westbengal ",
+        "state_id": "21",
+        "short_agency_name": "ADLJ"
+    },
+    {
+        "id": "167",
+        "agency_name": "WEALTH TAX SETTLEMENT COMMISSION NEW DELHI",
+        "state_id": "6",
+        "short_agency_name": "WTSC"
+    },
+    {
+        "id": "196",
+        "agency_name": "SESSION COURT BHOPAL",
+        "state_id": "13",
+        "short_agency_name": "SCBP"
+    },
+    {
+        "id": "176",
+        "agency_name": "LEARNED DEBTS RECOVERY TRIBUNAL NO.2",
+        "state_id": "21",
+        "short_agency_name": "DRT"
+    },
+    {
+        "id": "178",
+        "agency_name": "AIRPORT ECONOMIC APPELLATE TRIBUNAL NEW DELHI",
+        "state_id": "6",
+        "short_agency_name": "AEAT"
+    },
+    {
+        "id": "180",
+        "agency_name": "DEBT RECOVERY TRIBUNAL, NEW DELHI",
+        "state_id": "6",
+        "short_agency_name": "DRT"
+    },
+    {
+        "id": "165",
+        "agency_name": "NATIONAL GREEN TRIBUNAL, CENTRAL ZONAL BENCH,BHOPAL",
+        "state_id": "13",
+        "short_agency_name": "NGTMP"
+    },
+    {
+        "id": "164",
+        "agency_name": "CUSTOMS EXCISE AND SERVICE TAX APELLATE TRIBUNAL, Circuit Bench Hyderabad",
+        "state_id": "1",
+        "short_agency_name": "CESTAT"
+    },
+    {
+        "id": "182",
+        "agency_name": "NATIONAL GREEN TRIBUNAL, EASTERN ZONE BENCH, KOLKATA",
+        "state_id": "21",
+        "short_agency_name": "NGTWB"
+    },
+    {
+        "id": "162",
+        "agency_name": "CUSTOMS EXCISE AND SERVICE TAX APELLATE TRIBUNAL, South Zonal Bench, Bangalore",
+        "state_id": "11",
+        "short_agency_name": "LCESTATB"
+    },
+    {
+        "id": "163",
+        "agency_name": "NATIONAL GREEN TRIBUNAL, Southern Zone at Chennai",
+        "state_id": "18",
+        "short_agency_name": "NGTSZMA"
+    },
+    {
+        "id": "156",
+        "agency_name": "NATIONAL GREEN TRIBUNAL,Western Zone, Pune",
+        "state_id": "4",
+        "short_agency_name": "NGTWZP"
+    },
+    {
+        "id": "189",
+        "agency_name": "APPELATE TRIBUNAL FOR ELECTRICITY",
+        "state_id": "18",
+        "short_agency_name": "ATE"
+    },
+    {
+        "id": "190",
+        "agency_name": "NCDRC, AP BRANCH OFFICE",
+        "state_id": "1",
+        "short_agency_name": "NCDRCAP"
+    },
+    {
+        "id": "191",
+        "agency_name": "KRISHNA WATER DISPUTE TRIBUNAL",
+        "state_id": "6",
+        "short_agency_name": "KWDTA"
+    },
+    {
+        "id": "195",
+        "agency_name": "ADDITIONAL CHIEF METROPOLITAN MAGISTRATE AHMEDABAD",
+        "state_id": "7",
+        "short_agency_name": "CMMA"
+    },
+    {
+        "id": "197",
+        "agency_name": "UNLAWFUL ACTIVITIES [PREVENTION] TRIBUNAL ,DELHI",
+        "state_id": "6",
+        "short_agency_name": "UATD"
+    },
+    {
+        "id": "256",
+        "agency_name": "STATE CONSUMER DISPUTES REDRESSAL COMMISSION, HARYANA, PUNCHKULA",
+        "state_id": "15",
+        "short_agency_name": "SCDRC PB"
+    },
+    {
+        "id": "257",
+        "agency_name": "Gujarat Electricity Regulatory Commission, Gandhinagar",
+        "state_id": "7",
+        "short_agency_name": "GERC"
+    },
+    {
+        "id": "258",
+        "agency_name": "CENTRAL GOVERNMENT INDUSTRIAL TRIBUNAL CUM LABOUR COURT, BENGALURU",
+        "state_id": "11",
+        "short_agency_name": "CGIT"
+    },
+    {
+        "id": "203",
+        "agency_name": "National Consumer Disputes Redressal Commission, Circuit Bench",
+        "state_id": "4",
+        "short_agency_name": "NCDRC"
+    },
+    {
+        "id": "206",
+        "agency_name": "DEBTS RECOVERY TRIBUNAL",
+        "state_id": "1",
+        "short_agency_name": "DRTAP"
+    },
+    {
+        "id": "207",
+        "agency_name": "Debt Recovery Tribunal",
+        "state_id": "1",
+        "short_agency_name": "APDRT"
+    },
+    {
+        "id": "210",
+        "agency_name": "District Consumers Dispute Redresal Forum",
+        "state_id": "6",
+        "short_agency_name": "DCDRFD"
+    },
+    {
+        "id": "169",
+        "agency_name": "CUSTOMS EXCISE AND SERVICE TAX APELLATE  TRIBUNAL, Kolkata",
+        "state_id": "21",
+        "short_agency_name": "CESTATWB"
+    },
+    {
+        "id": "177",
+        "agency_name": "CUSTOMS EXCISE AND SERVICE TAX APELLATE TRIBUNAL, South Zonal Bench, Chennai",
+        "state_id": "18",
+        "short_agency_name": "CESTATTN"
+    },
+    {
+        "id": "221",
+        "agency_name": "Film Certificate Appellate Tribunal",
+        "state_id": "6",
+        "short_agency_name": "FCATD"
+    },
+    {
+        "id": "224",
+        "agency_name": "Court of Presiding Officer, Industrial Tribunal cum-Labour Court1,Gurgaon, Haryana",
+        "state_id": "15",
+        "short_agency_name": "POITLCHP"
+    },
+    {
+        "id": "228",
+        "agency_name": "Himachal Pradesh Electricity Regulatory Commission,Shimla",
+        "state_id": "8",
+        "short_agency_name": "HPERCS"
+    },
+    {
+        "id": "231",
+        "agency_name": "HON'BLE ELECTION COMMISSION OF INDIA",
+        "state_id": "6",
+        "short_agency_name": "ECID"
+    },
+    {
+        "id": "233",
+        "agency_name": "Uttar Pradesh Electricity Regulatory Commission",
+        "state_id": "19",
+        "short_agency_name": "UPERC"
+    },
+    {
+        "id": "186",
+        "agency_name": "BSE ARBITRAL TRIBUNAL",
+        "state_id": "4",
+        "short_agency_name": "ATBBO"
+    },
+    {
+        "id": "1",
+        "agency_name": "NATIONAL CONSUMERS DISPUTES REDDRESSAL COMMISSION, NEW DELHI",
+        "state_id": "6",
+        "short_agency_name": "NCDRC"
+    },
+    {
+        "id": "205",
+        "agency_name": "DEBTS RECOVERY TRIBUNAL",
+        "state_id": "4",
+        "short_agency_name": "DRTBO"
+    },
+    {
+        "id": "247",
+        "agency_name": "NATIONAL CONSUMER DISPUTES REDRESSAL COMMISSION, CIRCUIT BENCH IN LUCKNOW",
+        "state_id": "19",
+        "short_agency_name": "NCDRC"
+    },
+    {
+        "id": "242",
+        "agency_name": "Consumer Disputes Redressal Commission, Bangalore",
+        "state_id": "11",
+        "short_agency_name": "CDRC"
+    },
+    {
+        "id": "246",
+        "agency_name": "LD.INDUSTRIAL TRIBUNAL-II, KARKARDOOMA COURT, DELHI",
+        "state_id": "6",
+        "short_agency_name": "IT KC "
+    },
+    {
+        "id": "266",
+        "agency_name": "HP State Consumer Dispute Redressal Commission, Shimla",
+        "state_id": "8",
+        "short_agency_name": "HPCDRCS"
+    },
+    {
+        "id": "267",
+        "agency_name": "Appellate Tribunal MCD, Tis Hazari Court",
+        "state_id": "6",
+        "short_agency_name": "ATMCDTHC"
+    },
+    {
+        "id": "271",
+        "agency_name": "Airport Appellate Tribunal",
+        "state_id": "6",
+        "short_agency_name": "HAATND"
+    },
+    {
+        "id": "272",
+        "agency_name": "National Consumer Disputes Redressal Commission, Circuit Bench, Chandigarh",
+        "state_id": "15",
+        "short_agency_name": "NCDRCCHP"
+    },
+    {
+        "id": "278",
+        "agency_name": "Ld. Industrial Tribunal cum Labour Court No.1, Faridabad",
+        "state_id": "15",
+        "short_agency_name": "ITCLCFPH"
+    },
+    {
+        "id": "279",
+        "agency_name": "Central Administrative Tribunal, Bangalore Bench",
+        "state_id": "11",
+        "short_agency_name": "CATBK"
+    },
+    {
+        "id": "280",
+        "agency_name": "Customs, Excise & Service Tax Appellate Tribunal",
+        "state_id": "16",
+        "short_agency_name": "CESTATR"
+    },
+    {
+        "id": "283",
+        "agency_name": "Income Tax Appellate Tribunal, Ahmedabad",
+        "state_id": "7",
+        "short_agency_name": "itat"
+    },
+    {
+        "id": "286",
+        "agency_name": "Additional District and Sessions Judge, Fast Track No. 3, Ajmer  Camp, Kishangarh",
+        "state_id": "16",
+        "short_agency_name": "ADJFTAJK"
+    },
+    {
+        "id": "300",
+        "agency_name": " Central Administrative Tribunal, Nagpur",
+        "state_id": "4",
+        "short_agency_name": "CATNB"
+    },
+    {
+        "id": "310",
+        "agency_name": "Rent Control Tribunal",
+        "state_id": "5",
+        "short_agency_name": "RCTCH"
+    },
+    {
+        "id": "312",
+        "agency_name": "Customs, Excise and Service Tax Appellate Tribunal",
+        "state_id": "19",
+        "short_agency_name": "CESTATUP"
+    },
+    {
+        "id": "314",
+        "agency_name": "State Consumer Disputes Redressal Commission",
+        "state_id": "21",
+        "short_agency_name": "SCDRCC"
+    },
+    {
+        "id": "320",
+        "agency_name": "KARNATAKA ELECTRICITY REGULATORY COMMISSION, BANGALORE",
+        "state_id": "11",
+        "short_agency_name": "KERC"
+    },
+    {
+        "id": "322",
+        "agency_name": "National Consumer Disputes Redressal Commission, Bhopal",
+        "state_id": "13",
+        "short_agency_name": "NCDRCBMP"
+    },
+    {
+        "id": "324",
+        "agency_name": "Central Electricity Regulatory Commission",
+        "state_id": "6",
+        "short_agency_name": "CERCD"
+    },
+    {
+        "id": "328",
+        "agency_name": "TAMIL NADU ELECTRICITY REGULATORY COMMISSION, CHENNAI",
+        "state_id": "18",
+        "short_agency_name": "TNERC"
+    },
+    {
+        "id": "339",
+        "agency_name": "Human Rights Commission, Tamilnadu",
+        "state_id": "18",
+        "short_agency_name": "HRCTNM"
+    },
+    {
+        "id": "10001",
+        "agency_name": "NATIONAL COMPANY LAW APELLATE TRIBUNAL",
+        "state_id": "0",
+        "short_agency_name": "NCLAT"
+    },
+    {
+        "id": "10003",
+        "agency_name": "Customs, Excise and Service Tax Appellate Tribunal",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10007",
+        "agency_name": "DEBT RECOVERY TRIBUNAL , CUTTACK",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10008",
+        "agency_name": "National Company Law Tribunal",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10010",
+        "agency_name": "NATIONAL COMPANT LAW TRIBUNAL, HYDERABAD",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10011",
+        "agency_name": "NATIONAL COMPANT LAW TRIBUNAL",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10012",
+        "agency_name": "National company law tribunal, divisional bench, Chennai",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10014",
+        "agency_name": "NATIONAL COMPANY LAW TRIBUNAL",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10015",
+        "agency_name": "ARMED FORCES TRIBUNAL, CHANDIGARH, REGIONAL BENCH CHANDIMANDIR",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10016",
+        "agency_name": "\"NATIONAL CONSUMER DISPUTES REDRESSAL COMMISSION NEW DELHI, CIRCUIT BENCH AT KOLKATA",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10017",
+        "agency_name": "NATIONAL CONSUMER DISPUTES REDRESSAL COMMISSION NEW DELHI, CIRCUIT BENCH AT KOLKATA",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10018",
+        "agency_name": "NATIONAL COMPANY LAW TRIBUNAL, KOLKATA BENCH",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10022",
+        "agency_name": "DEBTS RECOVERY APPELLATE TRIBUNAL, DELHI",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10023",
+        "agency_name": "NATIONAL COMPANY LAW TRIBUNAL, MUMBAI BENCH",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10024",
+        "agency_name": "NATIONAL COMPANY LAW TRIBUNAL, NEW DELHI",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10025",
+        "agency_name": "Competition Commission of India",
+        "state_id": "0",
+        "short_agency_name": ""
+    },
+    {
+        "id": "10026",
+        "agency_name": " National Scheduled Caste Commission",
+        "state_id": "0",
+        "short_agency_name": ""
+    }
+]

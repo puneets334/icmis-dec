@@ -1,0 +1,368 @@
+<style>
+    #declineButton {
+        background-attachment: scroll;
+        background-clip: border-box;
+        background-color: rgb(26, 26, 26);
+        background-image: none;
+        background-origin: padding-box;
+        background-position: 0% 0%;
+        background-position-x: 0%;
+        background-position-y: 0%;
+        background-repeat: repeat;
+        background-size: auto auto;
+        border-bottom-color: rgb(255, 255, 255);
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-bottom-style: none;
+        border-bottom-width: 0px;
+        border-image-outset: 0;
+        border-image-repeat: stretch stretch;
+        border-image-slice: 100%;
+        border-image-source: none;
+        border-image-width: 1;
+        border-left-color: rgb(255, 255, 255);
+        border-left-style: none;
+        border-left-width: 0px;
+        border-right-color: rgb(255, 255, 255);
+        border-right-style: none;
+        border-right-width: 0px;
+        border-top-color: rgb(255, 255, 255);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-top-style: none;
+        border-top-width: 0px;
+        color: rgb(255, 255, 255);
+        cursor: pointer;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        line-height: 14px;
+        margin-bottom: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 0px;
+        padding-bottom: 4px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 4px;
+    }
+
+    #declineButton:hover {
+        background-color: rgb(200, 26, 26);
+    }
+
+    .header {
+        padding: 10px 16px;
+        background: #555;
+        color: #f1f1f1;
+    }
+
+    .sticky {
+        position: fixed;
+        top: 0;
+        width: 100%;
+    }
+
+    .sticky+.display {
+        padding-top: 66px;
+    }
+    @media print {
+    table {
+        width: 100% !important;
+        margin-left: -0.1% !important;
+    }
+
+    .headings {
+        display: table-header-group !important;
+        margin-bottom: -33.2% !important;
+        margin-left: 14.1% !important;
+    }
+
+    .headings:not(:first-of-type) {
+        display: none !important;
+    }
+
+    tfoot {
+        display: none !important;
+    }
+
+    .print {
+        display: none;
+    }
+}
+</style>
+
+<SCRIPT>
+    $(document).ready(function() {
+        //$.fn.dataTableExt.sErrMode = 'throw';
+        $('#example1').DataTable({
+            "ordering": false
+        });
+
+        $("tr:odd").css({
+            "background-color": "#F4F4F4"
+        });
+
+    });
+</SCRIPT>
+<?php
+if (!isset($_SESSION)) {
+    session_start();
+}
+//echo $_SESSION['user_xa2q'];
+
+?>
+<br>
+<?php
+
+//$userId = $_POST['userID'];
+
+
+
+
+
+try {
+    //$stmt = $dbo->prepare($sql);
+    //$stmt->execute();
+    //$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+?>
+    <div class="header sticky">
+        <h3 style="text-align: center;"> Vacation Advance Matters List Year <?= date('Y') ?></h3>
+        <div align="center">
+            <button type="button" id="declineButton" class="ui-button ui-widget ui-corner-all" onclick="javascript:confirmBeforeDecline();"><strong>Decline Selected Case(s)</strong></button>
+        </div>
+        <button type="submit" class='print' id="print" onclick="printPage()" style="margin-left:80%;font-size:20px;margin-top:-3%" title='Print Report'> <i class="fa fa-print" style="font-size:26px"></i>
+                PDF
+            </button>
+    </div>
+
+
+    <table id="example20" border="width=1px;" class="display" width="90%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Case No @ Diary No.</th>
+                <th>Cause Title</th>
+                <th>Advocate</th>
+                <th width="15%" style="text-align: center;">Decline/Listed</th>
+
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>#</th>
+                <th>Case No @ Diary No.</th>
+                <th>Cause Title</th>
+                <th>Advocate Consent</th>
+                <th width="15%" style="text-align: center;">Decline/Listed</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            <?php
+            $psrno = "1";
+            $srNo = 0;
+            $print_srno  = '';
+            foreach ($vacation_advance_list as $r) {
+                $diary_no = $r['diary_no'];
+                if ($r['diary_no'] == $r['conn_key'] or $r['conn_key'] == 0) {
+                    // $print_brdslno = $row['brd_slno'];
+                    $print_brdslno = $psrno;
+                    $print_srno = $psrno;
+                    $con_no = "0";
+                    $is_connected = "";
+                } else if ($r['main_or_connected'] == 1) {
+                    $print_brdslno = "&nbsp;" . $print_srno . "." . ++$con_no;
+                    $is_connected = "<span style='color:red;'>Connected</span><br/>";
+                }
+                //$srNo++;
+            ?>
+                <tr>
+                    <td><?= $print_brdslno; ?>
+                        <?php
+                        if ($is_connected != '') {
+                            //$print_srno = "";
+
+                        } else {
+                            $print_srno = $print_srno;
+                            $psrno++;
+                        }
+
+                        ?></td>
+                    <td><?= $r['case_no']; ?><br>
+                        <?= $is_connected; ?>
+                    </td>
+                    <td><?= sprintf('%s',  $r['cause_title']); ?></td>
+                    <!-- <td><?/*=$r['advocate'];*/ ?></td>-->
+
+                    <td>
+
+                        <?php
+                        /*$adv_sql = "select group_concat(distinct concat(ifnull(b.name,''),'<font color=\"red\" weight=\"bold\">',
+               (case when v.is_deleted='t' then '(Declined)' else '' end),'</font>') SEPARATOR '<br/>') as advocate
+                   from vacation_advance_list_advocate v inner join bar b on b.aor_code = v.aor_code
+                   where v.diary_no = '" . $r['diary_no'] . "'
+                   and v.vacation_list_year=year(NOW()) and b.if_aor = 'Y' and isdead = 'N' group by v.diary_no";
+                        $adv_stmt = $dbo->prepare($adv_sql);
+                        $adv_stmt->execute();
+                        // $adv_result = $adv_stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+                        if (count($adv_stmt) > 0) {
+                            // while ($r_adv = $adv_result->fetch()) {
+                            while ($r_adv = $adv_stmt->fetch()) {
+                                echo $r_adv['advocate'];
+                            }
+                        }*/
+
+                        ?>
+                         <?php echo $r['advocate']; ?>
+                    </td>
+
+                    <td style="text-align: center;" id="d_<?= $r['diary_no'] ?>">
+                        <?= isset($r['is_deleted']) ? $r['is_deleted']: ''; ?>
+                        <a>
+                            <?PHP
+                            if ($r['declined_by_admin'] == 't') {
+                                
+                                echo "<a class='btn btn-sm btn-danger'  title=\"List\"  onclick=\"javascript:confirmBeforeList($diary_no);\">";
+                            ?>
+                                <span id="deleteButton" class=""></span> Declined</a>
+                    <?php
+                            } else {
+                                if ($r['is_fixed'] != 'Y') {
+                                    /*if ($r['diary_no'] == $r['conn_key'] OR $r['conn_key'] == 0) {
+                        echo "<input type='checkbox' name='vacationList' id='vacationList' value='$r[diary_no]'>";
+                    }*/
+                                    echo "<input type='checkbox' name='vacationList' id='vacationList' value='$diary_no'>";
+                                } else {
+                                    echo "<span style='color:green;'>Fixed For <br> Vacation</span><br/>";
+                                }
+                            }
+
+                    ?>
+                    </td>
+                </tr>
+            <?php
+            }
+            ?>
+
+        <?php
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+    $dbo = null;
+        ?>
+
+        </tbody>
+    </table>
+    <script>
+        function confirmBeforeDecline() {
+            var allVals = [];
+            var noOfCases;
+            $("input:checkbox[name=vacationList]:checked").each(function() {
+                allVals.push($(this).val());
+            });
+            noOfCases = allVals.length;
+            if (noOfCases < 1) {
+                alert('Please select atleast one Case which need to be Decline');
+                return false;
+            } else {
+
+                var choice = confirm('Do you really want to decline the case.....?');
+                if (choice == true) {
+                    declineVacationCase(allVals);
+                } else {
+                    return false;
+                }
+            }
+
+        }
+
+        function confirmBeforeList(diary_no) {
+            var choice = confirm('Do you really want to List the Selected Case.....?');
+            if (choice == true) {
+                ListVacationCase(diary_no);
+            }
+
+        }
+
+        function declineVacationCase(allVals) {
+
+            var empID = $('#empid').val();
+            var userID = $('#user_code').val();
+            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            $.ajax({
+                //url: 'declineVacationListCases.php',
+                url: "<?php echo base_url('Listing/PhysicalHearing/decline_vacation_list_cases'); ?>",
+                type: "POST",
+                data: {
+                    diary_no: allVals,
+                    empID: empID,
+                    userID: userID,
+                    CSRF_TOKEN:CSRF_TOKEN_VALUE
+                },
+                cache: false,
+                success: function(r) {
+                    updateCSRFToken();
+                    //alert('Selected  documents with ID:'+id+' Successfully Deleted');
+                    if (r != '') {
+                        alert('Selected Case with Diary No:(' + allVals + ') Successfully Declined');
+
+                        var data = JSON.parse(r);
+                        //var total_rows = Object.keys(data).length;
+                        $.each(data, function(index, el) {
+                            $('#d_' + index).html(el);
+                        });
+
+                    } else {
+                        alert("Invalid Diary No. !! Please try again...");
+                    }
+                    //getVacationAdvanceList();
+
+                },
+                error: function() {
+                    updateCSRFToken();
+                    alert('ERROR');
+                }
+            });
+        }
+
+        function ListVacationCase(diary_no) {
+            var empID = $('#empid').val();
+            var userID = $('#user_code').val();
+            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            $.ajax({
+                //url: 'restoreVacationAdvanceList.php',
+                url: "<?php echo base_url('Listing/PhysicalHearing/restore_vacation_advance_list'); ?>",
+                type: "POST",
+                data: {
+                    diary_no: diary_no,
+                    empID: empID,
+                    userID: userID,
+                    CSRF_TOKEN:CSRF_TOKEN_VALUE
+                },
+                cache: false,
+                success: function(r) {
+                    updateCSRFToken();
+                    //alert('Selected  documents with ID:'+id+' Successfully Deleted');
+                    if (r != '') {
+                        console.log(r)
+                        alert('Selected Case with Diary NO:' + diary_no + ' Successfully Listed');
+                        $('#d_' + diary_no).html(r);
+                    } else {
+                        alert("Invalid Diary No .!! Please try again...");
+                    }
+                    // getVacationAdvanceList();
+
+                },
+                error: function() {
+                    updateCSRFToken();
+                    alert('ERROR');
+                }
+            });
+        }
+    </script>
+
+<script>
+    function printPage() {
+        window.print();
+    }
+</script>

@@ -1,0 +1,51 @@
+[
+    {
+        "id": "1",
+        "weekday": "2",
+        "listonday": "1",
+        "type": "N",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "weekday": "3",
+        "listonday": "1",
+        "type": "N",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "weekday": "4",
+        "listonday": "5",
+        "type": "NtN",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "weekday": "5",
+        "listonday": "5",
+        "type": "NtN",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "weekday": "6",
+        "listonday": "5",
+        "type": "N",
+        "display": "Y"
+    },
+    {
+        "id": "6",
+        "weekday": "7",
+        "listonday": "1",
+        "type": "NtN",
+        "display": "Y"
+    },
+    {
+        "id": "7",
+        "weekday": "1",
+        "listonday": "1",
+        "type": "NtN",
+        "display": "Y"
+    }
+]

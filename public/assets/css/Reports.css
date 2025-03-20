@@ -1,0 +1,14 @@
+@page
+{
+    size: auto;   /* auto is the current printer page size */
+    margin: 0mm;  /* this affects the margin in the printer settings */
+}
+
+body
+{
+    background-color:#FFFFFF;
+    margin: 0px;  /* the margin on the content before printing */
+}
+a[href]:after {
+    content: none !important;
+}

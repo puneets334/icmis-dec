@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1",
+        "court_name": "High Court",
+        "order_by": "2",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "court_name": "Other",
+        "order_by": "5",
+        "display": "N"
+    },
+    {
+        "id": "3",
+        "court_name": "District Court",
+        "order_by": "3",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "court_name": "Supreme Court",
+        "order_by": "1",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "court_name": "State Agency",
+        "order_by": "4",
+        "display": "Y"
+    }
+]

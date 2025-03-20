@@ -1,0 +1,98 @@
+[
+    {
+        "id": "1",
+        "code": "1",
+        "description": "Deficit Court Fee",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "2",
+        "code": "2",
+        "description": "Appearance not mentioned",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "3",
+        "code": "3",
+        "description": "Wrong Court No/ Item No/ Date of Order",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "4",
+        "code": "4",
+        "description": "Wrong Case No",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "5",
+        "code": "5",
+        "description": "Wrong Cause Title",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "6",
+        "code": "6",
+        "description": "Application unsigned",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "7",
+        "code": "7",
+        "description": "Preocess Fee/ Spare Copies not filed",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "8",
+        "code": "8",
+        "description": "One free copy already given in criminal matters,court fee required",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "9",
+        "code": "9",
+        "description": "No such order/ document filed",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "10",
+        "code": "10",
+        "description": "Clearly specify the order/ document required",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "11",
+        "code": "11",
+        "description": "File weeded out (document not available)",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    },
+    {
+        "id": "12",
+        "code": "12",
+        "description": "Any other defect notified",
+        "adm_updated_by": "1",
+        "updated_on": "2011-10-20 00:00:00+05:30",
+        "is_deleted": "f"
+    }
+]

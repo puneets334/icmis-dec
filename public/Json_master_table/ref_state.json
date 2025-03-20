@@ -1,0 +1,382 @@
+[
+    {
+        "id": "1",
+        "state_name": "ANDAMAN & NICOBAR",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "AN",
+        "is_deleted": "f",
+        "state_code": "01",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "2",
+        "state_name": "ANDHRA PRADESH",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "AP",
+        "is_deleted": "f",
+        "state_code": "02",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "3",
+        "state_name": "ARUNACHAL PRADESH",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "AR",
+        "is_deleted": "f",
+        "state_code": "03",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "4",
+        "state_name": "ASSAM",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "AS",
+        "is_deleted": "f",
+        "state_code": "04",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "5",
+        "state_name": "BIHAR",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "BH",
+        "is_deleted": "f",
+        "state_code": "05",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "6",
+        "state_name": "CHANDIGARH",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "CH",
+        "is_deleted": "f",
+        "state_code": "06",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "7",
+        "state_name": "DAMAN & DIU",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "DA",
+        "is_deleted": "f",
+        "state_code": "07",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "8",
+        "state_name": "DELHI",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "DL",
+        "is_deleted": "f",
+        "state_code": "08",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "9",
+        "state_name": "DADRA & NAGAR HAVELI",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "DN",
+        "is_deleted": "f",
+        "state_code": "09",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "10",
+        "state_name": "GOA",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "GA",
+        "is_deleted": "f",
+        "state_code": "10",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "11",
+        "state_name": "GUJARAT",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "GJ",
+        "is_deleted": "f",
+        "state_code": "11",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "12",
+        "state_name": "HIMACHAL PRADESH",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "HP",
+        "is_deleted": "f",
+        "state_code": "12",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "13",
+        "state_name": "HARYANA",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "HY",
+        "is_deleted": "f",
+        "state_code": "13",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "14",
+        "state_name": "JAMMU & KASHMIR",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "JK",
+        "is_deleted": "f",
+        "state_code": "14",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "15",
+        "state_name": "KERALA",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "KR",
+        "is_deleted": "f",
+        "state_code": "15",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "16",
+        "state_name": "KARNATAKA",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "KA",
+        "is_deleted": "f",
+        "state_code": "16",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "17",
+        "state_name": "LAKSHADWEEP",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "LK",
+        "is_deleted": "f",
+        "state_code": "17",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "18",
+        "state_name": "MEGHALAYA",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "MG",
+        "is_deleted": "f",
+        "state_code": "18",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "19",
+        "state_name": "MAHARASHTRA",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "MH",
+        "is_deleted": "f",
+        "state_code": "19",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "20",
+        "state_name": "MANIPUR",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "MN",
+        "is_deleted": "f",
+        "state_code": "20",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "21",
+        "state_name": "MADHYA PRADESH",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "MP",
+        "is_deleted": "f",
+        "state_code": "21",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "22",
+        "state_name": "MIZORAM",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "MZ",
+        "is_deleted": "f",
+        "state_code": "22",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "23",
+        "state_name": "NAGALAND",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "NG",
+        "is_deleted": "f",
+        "state_code": "23",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "24",
+        "state_name": "ODISHA",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "OD",
+        "is_deleted": "f",
+        "state_code": "24",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "25",
+        "state_name": "PUNJAB",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "PB",
+        "is_deleted": "f",
+        "state_code": "25",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "26",
+        "state_name": "RAJASTHAN",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "RJ",
+        "is_deleted": "f",
+        "state_code": "27",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "27",
+        "state_name": "SIKKIM",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "SK",
+        "is_deleted": "f",
+        "state_code": "28",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "28",
+        "state_name": "TAMILNADU",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "TN",
+        "is_deleted": "f",
+        "state_code": "29",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "29",
+        "state_name": "TRIPURA",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "TR",
+        "is_deleted": "f",
+        "state_code": "30",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "30",
+        "state_name": "UTTAR PRADESH",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "UP",
+        "is_deleted": "f",
+        "state_code": "31",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "31",
+        "state_name": "WEST BENGAL",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "WB",
+        "is_deleted": "f",
+        "state_code": "32",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "32",
+        "state_name": "JHARKHAND",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "JH",
+        "is_deleted": "f",
+        "state_code": "34",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "33",
+        "state_name": "CHHATTISGARH",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "CG",
+        "is_deleted": "f",
+        "state_code": "33",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "34",
+        "state_name": "UTTARAKHAND",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "UA",
+        "is_deleted": "f",
+        "state_code": "35",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "35",
+        "state_name": "PUDUCHERRY",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "PY",
+        "is_deleted": "f",
+        "state_code": "26",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "36",
+        "state_name": "TELANGANA",
+        "adm_updated_by": "1",
+        "updated_on": "2014-11-27 00:00:00+05:30",
+        "short_name": "TL",
+        "is_deleted": "f",
+        "state_code": "36",
+        "barcouncil_emailid": ""
+    },
+    {
+        "id": "37",
+        "state_name": "Ladakh",
+        "adm_updated_by": "1",
+        "updated_on": "2019-11-20 15:17:00+05:30",
+        "short_name": "LA",
+        "is_deleted": "f",
+        "state_code": "37",
+        "barcouncil_emailid": null
+    },
+    {
+        "id": "9999",
+        "state_name": "9999",
+        "adm_updated_by": "1",
+        "updated_on": "2012-05-21 00:00:00+05:30",
+        "short_name": "99",
+        "is_deleted": "f",
+        "state_code": "99",
+        "barcouncil_emailid": ""
+    }
+]

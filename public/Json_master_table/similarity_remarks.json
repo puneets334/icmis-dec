@@ -1,0 +1,82 @@
+[
+    {
+        "id": "1",
+        "conditions": "Common Order",
+        "remarks": "arising out of common order is",
+        "ent_on": "2019-06-29 11:20:38+05:30",
+        "ent_by": "1",
+        "modified_on": "2019-06-29 11:20:38+05:30",
+        "modified_by": "1",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "conditions": "Same Judgment",
+        "remarks": "arising out of same judgment is",
+        "ent_on": "2019-06-29 11:20:38+05:30",
+        "ent_by": "1",
+        "modified_on": "2019-06-29 11:20:38+05:30",
+        "modified_by": "1",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "conditions": "Same Criminal Case",
+        "remarks": "same criminal case/filed by petitioner herein for bail is",
+        "ent_on": "2019-06-29 11:20:38+05:30",
+        "ent_by": "1",
+        "modified_on": "2019-06-29 11:20:38+05:30",
+        "modified_by": "1",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "conditions": "TP filed between Same Parties/Cross parties",
+        "remarks": "filed between same parties/cross parties is",
+        "ent_on": "2019-06-29 11:20:38+05:30",
+        "ent_by": "1",
+        "modified_on": "2019-06-29 11:20:38+05:30",
+        "modified_by": "1",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "conditions": "Similar issue/lawpoint",
+        "remarks": "similar issue/point of law is",
+        "ent_on": "2019-06-29 11:20:38+05:30",
+        "ent_by": "1",
+        "modified_on": "2019-06-29 11:20:38+05:30",
+        "modified_by": "1",
+        "display": "Y"
+    },
+    {
+        "id": "6",
+        "conditions": "Same Parties/Cross parties",
+        "remarks": "filed between same parties/ cross parties is",
+        "ent_on": "2019-06-29 11:20:38+05:30",
+        "ent_by": "1",
+        "modified_on": "2019-06-29 11:20:38+05:30",
+        "modified_by": "1",
+        "display": "Y"
+    },
+    {
+        "id": "7",
+        "conditions": "O/R regarding reference of some matter",
+        "remarks": "referred to page no.... or annexure no.... is",
+        "ent_on": "2019-06-29 11:20:38+05:30",
+        "ent_by": "1",
+        "modified_on": "2019-06-29 11:20:38+05:30",
+        "modified_by": "1",
+        "display": "Y"
+    },
+    {
+        "id": "8",
+        "conditions": "Other",
+        "remarks": "challenging the main order/ in the earlier round of litigation was",
+        "ent_on": "2019-06-29 11:20:38+05:30",
+        "ent_by": "1",
+        "modified_on": "2019-06-29 11:20:38+05:30",
+        "modified_by": "1",
+        "display": "Y"
+    }
+]

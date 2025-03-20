@@ -1,0 +1,155 @@
+[
+    {
+        "id": "1",
+        "pil_code": "1",
+        "pil_category": "Not Addressed to SCI, ",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "2",
+        "pil_code": "2",
+        "pil_category": "Letters in Regional Languages (Vernacular), ",
+        "is_deleted": "t",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "4",
+        "pil_code": "4",
+        "pil_category": "Service Related Matters ",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "5",
+        "pil_code": "5",
+        "pil_category": "Illegal Encroachment / Unauthorised Construction ",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "6",
+        "pil_code": "6",
+        "pil_category": "Sub-Indice Matters, ",
+        "is_deleted": "t",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "7",
+        "pil_code": "7",
+        "pil_category": "Unsigned/ Anonymous Letter, ",
+        "is_deleted": "t",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "8",
+        "pil_code": "8",
+        "pil_category": "Land Acquisition Matters, ",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "9",
+        "pil_code": "9",
+        "pil_category": "Landlord - Tenant Dispute Matters, ",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "10",
+        "pil_code": "10",
+        "pil_category": "Property/Land Dispute Matters, ",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "11",
+        "pil_code": "11",
+        "pil_category": "Election Matters, ",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "12",
+        "pil_code": "12",
+        "pil_category": "Admissions/Examination Related Matters. ",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "13",
+        "pil_code": "13",
+        "pil_category": "Investment/Loan Related Dispute Matters.",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2013-05-01 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "14",
+        "pil_code": "14",
+        "pil_category": "Irrelevant",
+        "is_deleted": "t",
+        "adm_updated_by": "1",
+        "updated_on": "2013-06-15 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "15",
+        "pil_code": "15",
+        "pil_category": "Photocopy",
+        "is_deleted": "t",
+        "adm_updated_by": "1",
+        "updated_on": "2013-06-17 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "16",
+        "pil_code": "16",
+        "pil_category": "No action called for",
+        "is_deleted": "t",
+        "adm_updated_by": "1",
+        "updated_on": "2013-06-15 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "17",
+        "pil_code": "17",
+        "pil_category": "Return U/S Article 235",
+        "is_deleted": "t",
+        "adm_updated_by": "1",
+        "updated_on": "2013-06-15 00:00:00+05:30",
+        "pil_type": "G"
+    },
+    {
+        "id": "18",
+        "pil_code": "18",
+        "pil_category": "Other",
+        "is_deleted": "f",
+        "adm_updated_by": "1",
+        "updated_on": "2016-05-16 13:57:18+05:30",
+        "pil_type": "G"
+    }
+]

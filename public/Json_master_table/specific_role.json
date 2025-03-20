@@ -1,0 +1,42 @@
+[
+    {
+        "id": "1",
+        "usercode": "2410",
+        "flag": "S",
+        "display": "Y",
+        "entered_on": "2023-01-05 15:22:14+05:30",
+        "entered_user": "1"
+    },
+    {
+        "id": "2",
+        "usercode": "2407",
+        "flag": "S",
+        "display": "N",
+        "entered_on": "2023-01-05 15:22:14+05:30",
+        "entered_user": "1"
+    },
+    {
+        "id": "3",
+        "usercode": "9957",
+        "flag": "S",
+        "display": "Y",
+        "entered_on": "2023-01-05 15:22:14+05:30",
+        "entered_user": "1"
+    },
+    {
+        "id": "4",
+        "usercode": "733",
+        "flag": "P",
+        "display": "Y",
+        "entered_on": "2023-08-26 14:15:27+05:30",
+        "entered_user": "1"
+    },
+    {
+        "id": "5",
+        "usercode": "10026",
+        "flag": "S",
+        "display": "Y",
+        "entered_on": "2023-09-25 13:10:37+05:30",
+        "entered_user": "1"
+    }
+]

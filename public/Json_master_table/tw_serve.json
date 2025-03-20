@@ -1,0 +1,338 @@
+[
+    {
+        "id": "1",
+        "serve_stage": "1",
+        "serve_type": "0",
+        "name": "Served",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "serve_stage": "1",
+        "serve_type": "1",
+        "name": "Served on Person",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "serve_stage": "1",
+        "serve_type": "2",
+        "name": "Served on Adult Family Member",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "serve_stage": "1",
+        "serve_type": "3",
+        "name": "Served on Servant/Agent",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "serve_stage": "5",
+        "serve_type": "0",
+        "name": "Un-Served",
+        "display": "Y"
+    },
+    {
+        "id": "6",
+        "serve_stage": "5",
+        "serve_type": "1",
+        "name": "Incomplete Address of Noticee",
+        "display": "Y"
+    },
+    {
+        "id": "7",
+        "serve_stage": "5",
+        "serve_type": "2",
+        "name": "Wrong Address of Noticee",
+        "display": "Y"
+    },
+    {
+        "id": "8",
+        "serve_stage": "5",
+        "serve_type": "3",
+        "name": "Noticee Went to Another Place",
+        "display": "Y"
+    },
+    {
+        "id": "9",
+        "serve_stage": "5",
+        "serve_type": "4",
+        "name": "Noticee is Dead",
+        "display": "Y"
+    },
+    {
+        "id": "10",
+        "serve_stage": "5",
+        "serve_type": "5",
+        "name": "Noticee Denied to Take The Notice",
+        "display": "Y"
+    },
+    {
+        "id": "12",
+        "serve_stage": "12",
+        "serve_type": "0",
+        "name": "Affixed",
+        "display": "Y"
+    },
+    {
+        "id": "13",
+        "serve_stage": "12",
+        "serve_type": "1",
+        "name": "On Wall",
+        "display": "Y"
+    },
+    {
+        "id": "14",
+        "serve_stage": "12",
+        "serve_type": "2",
+        "name": "On Gate of House",
+        "display": "Y"
+    },
+    {
+        "id": "15",
+        "serve_stage": "15",
+        "serve_type": "0",
+        "name": "Awaited",
+        "display": "Y"
+    },
+    {
+        "id": "16",
+        "serve_stage": "16",
+        "serve_type": "0",
+        "name": "Unserved",
+        "display": "N"
+    },
+    {
+        "id": "17",
+        "serve_stage": "17",
+        "serve_type": "0",
+        "name": "Treated as Served",
+        "display": "Y"
+    },
+    {
+        "id": "18",
+        "serve_stage": "15",
+        "serve_type": "1",
+        "name": "Not Known",
+        "display": "Y"
+    },
+    {
+        "id": "19",
+        "serve_stage": "16",
+        "serve_type": "1",
+        "name": "Not Known",
+        "display": "N"
+    },
+    {
+        "id": "20",
+        "serve_stage": "17",
+        "serve_type": "1",
+        "name": "Not Known",
+        "display": "Y"
+    },
+    {
+        "id": "21",
+        "serve_stage": "5",
+        "serve_type": "6",
+        "name": "Not Known",
+        "display": "Y"
+    },
+    {
+        "id": "22",
+        "serve_stage": "5",
+        "serve_type": "7",
+        "name": "Premises Lock",
+        "display": "Y"
+    },
+    {
+        "id": "23",
+        "serve_stage": "1",
+        "serve_type": "4",
+        "name": "Served in Office",
+        "display": "Y"
+    },
+    {
+        "id": "24",
+        "serve_stage": "1",
+        "serve_type": "5",
+        "name": "Other",
+        "display": "Y"
+    },
+    {
+        "id": "25",
+        "serve_stage": "5",
+        "serve_type": "8",
+        "name": "Family Member Denied to Take The Notice",
+        "display": "Y"
+    },
+    {
+        "id": "26",
+        "serve_stage": "5",
+        "serve_type": "9",
+        "name": "Noticee Went to Out of Station",
+        "display": "Y"
+    },
+    {
+        "id": "28",
+        "serve_stage": "1",
+        "serve_type": "6",
+        "name": "Person in Jail",
+        "display": "Y"
+    },
+    {
+        "id": "29",
+        "serve_stage": "1",
+        "serve_type": "7",
+        "name": "Accused Farar",
+        "display": "Y"
+    },
+    {
+        "id": "30",
+        "serve_stage": "1",
+        "serve_type": "8",
+        "name": "Warrant went another place",
+        "display": "Y"
+    },
+    {
+        "id": "31",
+        "serve_stage": "5",
+        "serve_type": "10",
+        "name": "Date  Over",
+        "display": "Y"
+    },
+    {
+        "id": "32",
+        "serve_stage": "5",
+        "serve_type": "11",
+        "name": "Incomplete Address of Accused",
+        "display": "N"
+    },
+    {
+        "id": "33",
+        "serve_stage": "5",
+        "serve_type": "12",
+        "name": "Wrong Address of Accused",
+        "display": "N"
+    },
+    {
+        "id": "34",
+        "serve_stage": "5",
+        "serve_type": "13",
+        "name": "Accused Went to Another Place",
+        "display": "N"
+    },
+    {
+        "id": "35",
+        "serve_stage": "5",
+        "serve_type": "13",
+        "name": "Accused is Dead",
+        "display": "N"
+    },
+    {
+        "id": "36",
+        "serve_stage": "5",
+        "serve_type": "14",
+        "name": "Accused Went to Out of Station",
+        "display": "N"
+    },
+    {
+        "id": "37",
+        "serve_stage": "5",
+        "serve_type": "16",
+        "name": "Person in Jail",
+        "display": "Y"
+    },
+    {
+        "id": "38",
+        "serve_stage": "5",
+        "serve_type": "15",
+        "name": "Zila Badal",
+        "display": "Y"
+    },
+    {
+        "id": "39",
+        "serve_stage": "5",
+        "serve_type": "17",
+        "name": "Accused Farar",
+        "display": "Y"
+    },
+    {
+        "id": "40",
+        "serve_stage": "5",
+        "serve_type": "18",
+        "name": "Others",
+        "display": "Y"
+    },
+    {
+        "id": "41",
+        "serve_stage": "5",
+        "serve_type": "19",
+        "name": "Transfer",
+        "display": "Y"
+    },
+    {
+        "id": "42",
+        "serve_stage": "1",
+        "serve_type": "9",
+        "name": "Not Known",
+        "display": "Y"
+    },
+    {
+        "id": "43",
+        "serve_stage": "43",
+        "serve_type": "0",
+        "name": "Recall",
+        "display": "Y"
+    },
+    {
+        "id": "44",
+        "serve_stage": "43",
+        "serve_type": "1",
+        "name": "Not Known",
+        "display": "Y"
+    },
+    {
+        "id": "45",
+        "serve_stage": "5",
+        "serve_type": "20",
+        "name": "Noticee left without instructions",
+        "display": "Y"
+    },
+    {
+        "id": "46",
+        "serve_stage": "5",
+        "serve_type": "21",
+        "name": "Remarks in Vernacular language",
+        "display": "Y"
+    },
+    {
+        "id": "47",
+        "serve_stage": "5",
+        "serve_type": "22",
+        "name": "No Such person",
+        "display": "Y"
+    },
+    {
+        "id": "48",
+        "serve_stage": "5",
+        "serve_type": "23",
+        "name": "Unclaimed",
+        "display": "Y"
+    },
+    {
+        "id": "49",
+        "serve_stage": "5",
+        "serve_type": "24",
+        "name": "Noticee left India",
+        "display": "Y"
+    },
+    {
+        "id": "50",
+        "serve_stage": "5",
+        "serve_type": "25",
+        "name": "Enquiry addressee not found",
+        "display": "Y"
+    }
+]

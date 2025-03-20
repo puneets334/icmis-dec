@@ -1,0 +1,6437 @@
+[
+    {
+        "id": "1",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "1999",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "2",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2000",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "3",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2001",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "4",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2002",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "5",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2003",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "6",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2004",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "7",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2005",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "8",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2006",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "9",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2007",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "10",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2008",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "11",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2009",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "12",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2010",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "13",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2011",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "14",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2012",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "15",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2013",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "16",
+        "usercode": "14",
+        "casetype_id": "1",
+        "caseyear": "2015",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "17",
+        "usercode": "1362",
+        "casetype_id": "1",
+        "caseyear": "2016",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "18",
+        "usercode": "1362",
+        "casetype_id": "1",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "19",
+        "usercode": "2559",
+        "casetype_id": "1",
+        "caseyear": "2014",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "20",
+        "usercode": "2559",
+        "casetype_id": "1",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "21",
+        "usercode": "138",
+        "casetype_id": "2",
+        "caseyear": "2015",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "22",
+        "usercode": "138",
+        "casetype_id": "7",
+        "caseyear": "2015",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "23",
+        "usercode": "138",
+        "casetype_id": "8",
+        "caseyear": "2015",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "24",
+        "usercode": "138",
+        "casetype_id": "5",
+        "caseyear": "2015",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "25",
+        "usercode": "138",
+        "casetype_id": "6",
+        "caseyear": "2015",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "27",
+        "usercode": "138",
+        "casetype_id": "2",
+        "caseyear": "2016",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "28",
+        "usercode": "138",
+        "casetype_id": "7",
+        "caseyear": "2016",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "29",
+        "usercode": "138",
+        "casetype_id": "8",
+        "caseyear": "2016",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "30",
+        "usercode": "138",
+        "casetype_id": "5",
+        "caseyear": "2016",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "31",
+        "usercode": "138",
+        "casetype_id": "6",
+        "caseyear": "2016",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "33",
+        "usercode": "138",
+        "casetype_id": "2",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "34",
+        "usercode": "138",
+        "casetype_id": "7",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "35",
+        "usercode": "138",
+        "casetype_id": "8",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "36",
+        "usercode": "138",
+        "casetype_id": "5",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "37",
+        "usercode": "138",
+        "casetype_id": "6",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "39",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1950",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "40",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1951",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "41",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1952",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "42",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1953",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "43",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1954",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "44",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1955",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "45",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1956",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "46",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1957",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "47",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1958",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "48",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1959",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "49",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1960",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "50",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1961",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "51",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1962",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "52",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1963",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "53",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1964",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "54",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1965",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "55",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1966",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "56",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1967",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "57",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1968",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "58",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1969",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "59",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1970",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "60",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1971",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "61",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1972",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "62",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1973",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "63",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1974",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "64",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1975",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "65",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1976",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "66",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1977",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "67",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1978",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "68",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1979",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "69",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1980",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "70",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1981",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "71",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1982",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "72",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1983",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "73",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1984",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "74",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1985",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "75",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1986",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "76",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1987",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "77",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1988",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "78",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1989",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "79",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1990",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "80",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1991",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "81",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1992",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "82",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1993",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "83",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1994",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "84",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1995",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "85",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1996",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "86",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1997",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "87",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1998",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "88",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "1999",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "89",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2000",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "90",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2001",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "91",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2002",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "92",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2003",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "93",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2004",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "94",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2005",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "95",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2006",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "96",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2007",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "97",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2008",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "98",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2009",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "99",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2010",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "100",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2011",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "101",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2012",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "102",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2013",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "103",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2014",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "106",
+        "usercode": "147",
+        "casetype_id": "2",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "107",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1950",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "108",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1951",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "109",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1952",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "110",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1953",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "111",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1954",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "112",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1955",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "113",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1956",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "114",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1957",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "115",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1958",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "116",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1959",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "117",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1960",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "118",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1961",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "119",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1962",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "120",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1963",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "121",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1964",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "122",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1965",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "123",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1966",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "124",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1967",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "125",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1968",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "126",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1969",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "127",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1970",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "128",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1971",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "129",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1972",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "130",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1973",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "131",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1974",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "132",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1975",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "133",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1976",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "134",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1977",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "135",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1978",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "136",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1979",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "137",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1980",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "138",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1981",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "139",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1982",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "140",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1983",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "141",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1984",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "142",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1985",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "143",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1986",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "144",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1987",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "145",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1988",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "146",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1989",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "147",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1990",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "148",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1991",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "149",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1992",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "150",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1993",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "151",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1994",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "152",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1995",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "153",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1996",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "154",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1997",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "155",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1998",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "156",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "1999",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "157",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2000",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "158",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2001",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "159",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2002",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "160",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2003",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "161",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2004",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "162",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2005",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "163",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2006",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "164",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2007",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "165",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2008",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "166",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2009",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "167",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2010",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "168",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2011",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "169",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2012",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "170",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2013",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "171",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2014",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "174",
+        "usercode": "147",
+        "casetype_id": "7",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "175",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1950",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "176",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1951",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "177",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1952",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "178",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1953",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "179",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1954",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "180",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1955",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "181",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1956",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "182",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1957",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "183",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1958",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "184",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1959",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "185",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1960",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "186",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1961",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "187",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1962",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "188",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1963",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "189",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1964",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "190",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1965",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "191",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1966",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "192",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1967",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "193",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1968",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "194",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1969",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "195",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1970",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "196",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1971",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "197",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1972",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "198",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1973",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "199",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1974",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "200",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1975",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "201",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1976",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "202",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1977",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "203",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1978",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "204",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1979",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "205",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1980",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "206",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1981",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "207",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1982",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "208",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1983",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "209",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1984",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "210",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1985",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "211",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1986",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "212",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1987",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "213",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1988",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "214",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1989",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "215",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1990",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "216",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1991",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "217",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1992",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "218",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1993",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "219",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1994",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "220",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1995",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "221",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1996",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "222",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1997",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "223",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1998",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "224",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "1999",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "225",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2000",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "226",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2001",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "227",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2002",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "228",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2003",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "229",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2004",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "230",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2005",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "231",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2006",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "232",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2007",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "233",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2008",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "234",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2009",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "235",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2010",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "236",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2011",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "237",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2012",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "238",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2013",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "239",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2014",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "242",
+        "usercode": "147",
+        "casetype_id": "8",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "243",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1950",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "244",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1951",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "245",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1952",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "246",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1953",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "247",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1954",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "248",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1955",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "249",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1956",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "250",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1957",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "251",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1958",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "252",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1959",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "253",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1960",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "254",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1961",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "255",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1962",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "256",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1963",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "257",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1964",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "258",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1965",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "259",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1966",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "260",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1967",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "261",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1968",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "262",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1969",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "263",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1970",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "264",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1971",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "265",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1972",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "266",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1973",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "267",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1974",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "268",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1975",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "269",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1976",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "270",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1977",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "271",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1978",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "272",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1979",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "273",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1980",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "274",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1981",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "275",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1982",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "276",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1983",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "277",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1984",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "278",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1985",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "279",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1986",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "280",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1987",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "281",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1988",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "282",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1989",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "283",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1990",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "284",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1991",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "285",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1992",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "286",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1993",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "287",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1994",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "288",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1995",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "289",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1996",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "290",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1997",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "291",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1998",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "292",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "1999",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "293",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2000",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "294",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2001",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "295",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2002",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "296",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2003",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "297",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2004",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "298",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2005",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "299",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2006",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "300",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2007",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "301",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2008",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "302",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2009",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "303",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2010",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "304",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2011",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "305",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2012",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "306",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2013",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "307",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2014",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "310",
+        "usercode": "147",
+        "casetype_id": "5",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "311",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1950",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "312",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1951",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "313",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1952",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "314",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1953",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "315",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1954",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "316",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1955",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "317",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1956",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "318",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1957",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "319",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1958",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "320",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1959",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "321",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1960",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "322",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1961",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "323",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1962",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "324",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1963",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "325",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1964",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "326",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1965",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "327",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1966",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "328",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1967",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "329",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1968",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "330",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1969",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "331",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1970",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "332",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1971",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "333",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1972",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "334",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1973",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "335",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1974",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "336",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1975",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "337",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1976",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "338",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1977",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "339",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1978",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "340",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1979",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "341",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1980",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "342",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1981",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "343",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1982",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "344",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1983",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "345",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1984",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "346",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1985",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "347",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1986",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "348",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1987",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "349",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1988",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "350",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1989",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "351",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1990",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "352",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1991",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "353",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1992",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "354",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1993",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "355",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1994",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "356",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1995",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "357",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1996",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "358",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1997",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "359",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1998",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "360",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "1999",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "361",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2000",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "362",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2001",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "363",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2002",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "364",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2003",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "365",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2004",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "366",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2005",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "367",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2006",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "368",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2007",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "369",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2008",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "370",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2009",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "371",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2010",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "372",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2011",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "373",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2012",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "374",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2013",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "375",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2014",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "378",
+        "usercode": "147",
+        "casetype_id": "6",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": ""
+    },
+    {
+        "id": "379",
+        "usercode": "1679",
+        "casetype_id": "0",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "380",
+        "usercode": "1679",
+        "casetype_id": "0",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "381",
+        "usercode": "1679",
+        "casetype_id": "0",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "382",
+        "usercode": "1679",
+        "casetype_id": "0",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "383",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1950",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "384",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1951",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "385",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1952",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "386",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1953",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "387",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1954",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "388",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1955",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "389",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1956",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "390",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1957",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "391",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1958",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "392",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1959",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "393",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1960",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "394",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1961",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "395",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1962",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "396",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1963",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "397",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1964",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "398",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1965",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "399",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1966",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "400",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1967",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "401",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1968",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "402",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1969",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "403",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1970",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "404",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1971",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "405",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1972",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "406",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1973",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "407",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1974",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "408",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1975",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "409",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1976",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "410",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1977",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "411",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1978",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "412",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1979",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "413",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1980",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "414",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1981",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "415",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1982",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "416",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1983",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "417",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1984",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "418",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1985",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "419",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1986",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "420",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1987",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "421",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1988",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "422",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1989",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "423",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1990",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "424",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1991",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "425",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1992",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "426",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1993",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "427",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1994",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "428",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1995",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "429",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1996",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "430",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1997",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "431",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1998",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "432",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "1999",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "433",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2000",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "434",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2001",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "435",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2002",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "436",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2003",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "437",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2004",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "438",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2005",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "439",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2006",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "440",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2007",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "441",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2008",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "442",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2009",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "443",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2010",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "444",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2011",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "445",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2012",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "446",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2013",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "447",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2014",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "448",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2015",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "449",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2016",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "450",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "451",
+        "usercode": "2574",
+        "casetype_id": "11",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "452",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1950",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "453",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1951",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "454",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1952",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "455",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1953",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "456",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1954",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "457",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1955",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "458",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1956",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "459",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1957",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "460",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1958",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "461",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1959",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "462",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1960",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "463",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1961",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "464",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1962",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "465",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1963",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "466",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1964",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "467",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1965",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "468",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1966",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "469",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1967",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "470",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1968",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "471",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1969",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "472",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1970",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "473",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1971",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "474",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1972",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "475",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1973",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "476",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1974",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "477",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1975",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "478",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1976",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "479",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1977",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "480",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1978",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "481",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1979",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "482",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1980",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "483",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1981",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "484",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1982",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "485",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1983",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "486",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1984",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "487",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1985",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "488",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1986",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "489",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1987",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "490",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1988",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "491",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1989",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "492",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1990",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "493",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1991",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "494",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1992",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "495",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1993",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "496",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1994",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "497",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1995",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "498",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1996",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "499",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1997",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "500",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1998",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "501",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "1999",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "502",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2000",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "503",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2001",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "504",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2002",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "505",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2003",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "506",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2004",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "507",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2005",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "508",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2006",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "509",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2007",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "510",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2008",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "511",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2009",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "512",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2010",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "513",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2011",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "514",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2012",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "515",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2013",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "516",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2014",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "517",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2015",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "518",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2016",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "519",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "520",
+        "usercode": "2574",
+        "casetype_id": "12",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "521",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1950",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "522",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1951",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "523",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1952",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "524",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1953",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "525",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1954",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "526",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1955",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "527",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1956",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "528",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1957",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "529",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1958",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "530",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1959",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "531",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1960",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "532",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1961",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "533",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1962",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "534",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1963",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "535",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1964",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "536",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1965",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "537",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1966",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "538",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1967",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "539",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1968",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "540",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1969",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "541",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1970",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "542",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1971",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "543",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1972",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "544",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1973",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "545",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1974",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "546",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1975",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "547",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1976",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "548",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1977",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "549",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1978",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "550",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1979",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "551",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1980",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "552",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1981",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "553",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1982",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "554",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1983",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "555",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1984",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "556",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1985",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "557",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1986",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "558",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1987",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "559",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1988",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "560",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1989",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "561",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1990",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "562",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1991",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "563",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1992",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "564",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1993",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "565",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1994",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "566",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1995",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "567",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1996",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "568",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1997",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "569",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1998",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "570",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "1999",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "571",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2000",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "572",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2001",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "573",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2002",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "574",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2003",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "575",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2004",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "576",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2005",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "577",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2006",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "578",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2007",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "579",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2008",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "580",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2009",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "581",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2010",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "582",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2011",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "583",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2012",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "584",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2013",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "585",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2014",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "586",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2015",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "587",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2016",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "588",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "589",
+        "usercode": "2574",
+        "casetype_id": "3",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "590",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1950",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "591",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1951",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "592",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1952",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "593",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1953",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "594",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1954",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "595",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1955",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "596",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1956",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "597",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1957",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "598",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1958",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "599",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1959",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "600",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1960",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "601",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1961",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "602",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1962",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "603",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1963",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "604",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1964",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "605",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1965",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "606",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1966",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "607",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1967",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "608",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1968",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "609",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1969",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "610",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1970",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "611",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1971",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "612",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1972",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "613",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1973",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "614",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1974",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "615",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1975",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "616",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1976",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "617",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1977",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "618",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1978",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "619",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1979",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "620",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1980",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "621",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1981",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "622",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1982",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "623",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1983",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "624",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1984",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "625",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1985",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "626",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1986",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "627",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1987",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "628",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1988",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "629",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1989",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "630",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1990",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "631",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1991",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "632",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1992",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "633",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1993",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "634",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1994",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "635",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1995",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "636",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1996",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "637",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1997",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "638",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1998",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "639",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "1999",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "640",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2000",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "641",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2001",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "642",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2002",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "643",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2003",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "644",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2004",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "645",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2005",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "646",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2006",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "647",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2007",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "648",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2008",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "649",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2009",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "650",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2010",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "651",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2011",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "652",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2012",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "653",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2013",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "654",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2014",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "655",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2015",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "656",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2016",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "657",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "658",
+        "usercode": "2574",
+        "casetype_id": "4",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "R"
+    },
+    {
+        "id": "660",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1950",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "661",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1951",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "662",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1952",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "663",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1953",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "664",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1954",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "665",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1955",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "666",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1956",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "667",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1957",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "668",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1958",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "669",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1959",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "670",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1960",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "671",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1961",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "672",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1962",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "673",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1963",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "674",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1964",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "675",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1965",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "676",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1966",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "677",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1967",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "678",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1968",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "679",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1969",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "680",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1970",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "681",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1971",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "682",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1972",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "683",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1973",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "684",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1974",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "685",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1975",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "686",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1976",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "687",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1977",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "688",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1978",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "689",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1979",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "690",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1980",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "691",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1981",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "692",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1982",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "693",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1983",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "694",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1984",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "695",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1985",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "696",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1986",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "697",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1987",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "698",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1988",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "699",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1989",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "700",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1990",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "701",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1991",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "702",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1992",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "703",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1993",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "704",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1994",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "705",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1995",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "706",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1996",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "707",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1997",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "708",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1998",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "709",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "1999",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "710",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2000",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "711",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2001",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "712",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2002",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "713",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2003",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "714",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2004",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "715",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2005",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "716",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2006",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "717",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2007",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "718",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2008",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "719",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2009",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "720",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2010",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "721",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2011",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "722",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2012",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "723",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2013",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "724",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2014",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "725",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2015",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "726",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2016",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "727",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2017",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "728",
+        "usercode": "138",
+        "casetype_id": "13",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    },
+    {
+        "id": "729",
+        "usercode": "2574",
+        "casetype_id": "39",
+        "caseyear": "2018",
+        "case_from": "0",
+        "case_to": "0",
+        "case_grp": "C"
+    }
+]

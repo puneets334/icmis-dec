@@ -1,0 +1,250 @@
+[
+ {
+  "id": 1,
+  "lgd_code": 35,
+  "state_name": "Andaman And Nicobar Islands",
+  "cmis_state_id": 571222,
+  "state_id": 35
+ },
+ {
+  "id": 2,
+  "lgd_code": 28,
+  "state_name": "Andhra Pradesh",
+  "cmis_state_id": 541950,
+  "state_id": 28
+ },
+ {
+  "id": 3,
+  "lgd_code": 12,
+  "state_name": "Arunachal Pradesh",
+  "cmis_state_id": 537722,
+  "state_id": 12
+ },
+ {
+  "id": 4,
+  "lgd_code": 18,
+  "state_name": "Assam",
+  "cmis_state_id": 511231,
+  "state_id": 18
+ },
+ {
+  "id": 5,
+  "lgd_code": 10,
+  "state_name": "Bihar",
+  "cmis_state_id": 1,
+  "state_id": 10
+ },
+ {
+  "id": 6,
+  "lgd_code": 4,
+  "state_name": "Chandigarh",
+  "cmis_state_id": 125951,
+  "state_id": 4
+ },
+ {
+  "id": 7,
+  "lgd_code": 22,
+  "state_name": "Chhattisgarh",
+  "cmis_state_id": 490809,
+  "state_id": 22
+ },
+ {
+  "id": 8,
+  "lgd_code": 7,
+  "state_name": "Delhi",
+  "cmis_state_id": 490506,
+  "state_id": 7
+ },
+ {
+  "id": 9,
+  "lgd_code": 30,
+  "state_name": "Goa",
+  "cmis_state_id": 490133,
+  "state_id": 30
+ },
+ {
+  "id": 10,
+  "lgd_code": 24,
+  "state_name": "Gujarat",
+  "cmis_state_id": 471342,
+  "state_id": 24
+ },
+ {
+  "id": 11,
+  "lgd_code": 6,
+  "state_name": "Haryana",
+  "cmis_state_id": 592019,
+  "state_id": 6
+ },
+ {
+  "id": 12,
+  "lgd_code": 2,
+  "state_name": "Himachal Pradesh",
+  "cmis_state_id": 571779,
+  "state_id": 2
+ },
+ {
+  "id": 13,
+  "lgd_code": 1,
+  "state_name": "Jammu And Kashmir",
+  "cmis_state_id": 464616,
+  "state_id": 1
+ },
+ {
+  "id": 14,
+  "lgd_code": 20,
+  "state_name": "Jharkhand",
+  "cmis_state_id": 431772,
+  "state_id": 20
+ },
+ {
+  "id": 15,
+  "lgd_code": 29,
+  "state_name": "Karnataka",
+  "cmis_state_id": 402163,
+  "state_id": 29
+ },
+ {
+  "id": 16,
+  "lgd_code": 32,
+  "state_name": "Kerala",
+  "cmis_state_id": 124509,
+  "state_id": 32
+ },
+ {
+  "id": 17,
+  "lgd_code": 37,
+  "state_name": "Ladakh"
+ },
+ {
+  "id": 18,
+  "lgd_code": 31,
+  "state_name": "Lakshadweep",
+  "cmis_state_id": 402133,
+  "state_id": 31
+ },
+ {
+  "id": 19,
+  "lgd_code": 23,
+  "state_name": "Madhya Pradesh",
+  "cmis_state_id": 292979,
+  "state_id": 23
+ },
+ {
+  "id": 20,
+  "lgd_code": 27,
+  "state_name": "Maharashtra",
+  "cmis_state_id": 358033,
+  "state_id": 27
+ },
+ {
+  "id": 21,
+  "lgd_code": 14,
+  "state_name": "Manipur",
+  "cmis_state_id": 355594,
+  "state_id": 14
+ },
+ {
+  "id": 22,
+  "lgd_code": 17,
+  "state_name": "Meghalaya",
+  "cmis_state_id": 349528,
+  "state_id": 17
+ },
+ {
+  "id": 23,
+  "lgd_code": 15,
+  "state_name": "Mizoram",
+  "cmis_state_id": 348677,
+  "state_id": 15
+ },
+ {
+  "id": 24,
+  "lgd_code": 13,
+  "state_name": "Nagaland",
+  "cmis_state_id": 291560,
+  "state_id": 13
+ },
+ {
+  "id": 25,
+  "lgd_code": 21,
+  "state_name": "Odisha",
+  "cmis_state_id": 239687,
+  "state_id": 21
+ },
+ {
+  "id": 26,
+  "lgd_code": 34,
+  "state_name": "Puducherry",
+  "cmis_state_id": 239580,
+  "state_id": 34
+ },
+ {
+  "id": 27,
+  "lgd_code": 3,
+  "state_name": "Punjab",
+  "cmis_state_id": 226817,
+  "state_id": 3
+ },
+ {
+  "id": 28,
+  "lgd_code": 8,
+  "state_name": "Rajasthan",
+  "cmis_state_id": 185190,
+  "state_id": 8
+ },
+ {
+  "id": 29,
+  "lgd_code": 11,
+  "state_name": "Sikkim",
+  "cmis_state_id": 184724,
+  "state_id": 11
+ },
+ {
+  "id": 30,
+  "lgd_code": 33,
+  "state_name": "Tamil Nadu",
+  "cmis_state_id": 168044,
+  "state_id": 33
+ },
+ {
+  "id": 31,
+  "lgd_code": 36,
+  "state_name": "Telangana",
+  "cmis_state_id": 599089,
+  "state_id": 36
+ },
+ {
+  "id": 32,
+  "lgd_code": 38,
+  "state_name": "The Dadra And Nagar Haveli And Daman And Diu"
+ },
+ {
+  "id": 33,
+  "lgd_code": 16,
+  "state_name": "Tripura",
+  "cmis_state_id": 167131,
+  "state_id": 16
+ },
+ {
+  "id": 34,
+  "lgd_code": 5,
+  "state_name": "Uttarakhand",
+  "cmis_state_id": 107620,
+  "state_id": 5
+ },
+ {
+  "id": 35,
+  "lgd_code": 9,
+  "state_name": "Uttar Pradesh",
+  "cmis_state_id": 61023,
+  "state_id": 9
+ },
+ {
+  "id": 36,
+  "lgd_code": 19,
+  "state_name": "West Bengal",
+  "cmis_state_id": 21945,
+  "state_id": 19
+ }
+]

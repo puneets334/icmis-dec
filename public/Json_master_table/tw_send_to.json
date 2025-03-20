@@ -1,0 +1,437 @@
+[
+    {
+        "id": "1",
+        "desg": "Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "desg": "Addl. District Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "desg": "Chief Judicial Magistrate",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "desg": "Addl. Chief Judicial Magistrate",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "desg": "The Superintendent - Central Jail",
+        "display": "Y"
+    },
+    {
+        "id": "6",
+        "desg": "The Superintendent - District Jail",
+        "display": "Y"
+    },
+    {
+        "id": "7",
+        "desg": "The Superintendent - Sub Jail",
+        "display": "Y"
+    },
+    {
+        "id": "8",
+        "desg": "The Superintendent of Police",
+        "display": "Y"
+    },
+    {
+        "id": "9",
+        "desg": "Police Station",
+        "display": "Y"
+    },
+    {
+        "id": "10",
+        "desg": "Judicial Magistrate First Class",
+        "display": "Y"
+    },
+    {
+        "id": "11",
+        "desg": "District Judge",
+        "display": "Y"
+    },
+    {
+        "id": "12",
+        "desg": "Commissioner Workmen Compensation Labor Court",
+        "display": "Y"
+    },
+    {
+        "id": "13",
+        "desg": "Member Technical Railway Claims Tribunal",
+        "display": "Y"
+    },
+    {
+        "id": "14",
+        "desg": "Rent Controlling Authority",
+        "display": "Y"
+    },
+    {
+        "id": "15",
+        "desg": "Mp Arbitration Tribunal",
+        "display": "Y"
+    },
+    {
+        "id": "16",
+        "desg": "M.P. State Waqf Tribunal",
+        "display": "Y"
+    },
+    {
+        "id": "17",
+        "desg": "M.P. State Waqf Board",
+        "display": "Y"
+    },
+    {
+        "id": "18",
+        "desg": "Motor Accident Claim Tribunal",
+        "display": "Y"
+    },
+    {
+        "id": "19",
+        "desg": "M. P. Electricity Regulatory Commission",
+        "display": "Y"
+    },
+    {
+        "id": "20",
+        "desg": "Presiding Officer",
+        "display": "Y"
+    },
+    {
+        "id": "21",
+        "desg": "Labour Court Id Act",
+        "display": "Y"
+    },
+    {
+        "id": "22",
+        "desg": "Central Govt. Industrial Tribunal Cum Labour Court",
+        "display": "Y"
+    },
+    {
+        "id": "23",
+        "desg": "Labour Court No. 1",
+        "display": "Y"
+    },
+    {
+        "id": "24",
+        "desg": "Labour Court No. 2",
+        "display": "Y"
+    },
+    {
+        "id": "25",
+        "desg": "Labour Court",
+        "display": "Y"
+    },
+    {
+        "id": "26",
+        "desg": "Industrial Court",
+        "display": "Y"
+    },
+    {
+        "id": "27",
+        "desg": "Civil Judge",
+        "display": "Y"
+    },
+    {
+        "id": "28",
+        "desg": "Central Administrator Tribunal",
+        "display": "Y"
+    },
+    {
+        "id": "29",
+        "desg": "Joint Registrar",
+        "display": "Y"
+    },
+    {
+        "id": "30",
+        "desg": "S. H. O.",
+        "display": "Y"
+    },
+    {
+        "id": "31",
+        "desg": "Additional Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "32",
+        "desg": "Principal Judge Family Court",
+        "display": "Y"
+    },
+    {
+        "id": "33",
+        "desg": "Board of Revenue, Gwalior",
+        "display": "Y"
+    },
+    {
+        "id": "34",
+        "desg": "Circle Jail",
+        "display": "Y"
+    },
+    {
+        "id": "35",
+        "desg": "Commissioner of Income Tax Jabalpur",
+        "display": "Y"
+    },
+    {
+        "id": "36",
+        "desg": "Commissioner of Income Tax Bhopal",
+        "display": "Y"
+    },
+    {
+        "id": "37",
+        "desg": "Commissioner of Income Tax Indore",
+        "display": "Y"
+    },
+    {
+        "id": "38",
+        "desg": "Special Judge",
+        "display": "Y"
+    },
+    {
+        "id": "39",
+        "desg": "Special Judge(Electricity)",
+        "display": "Y"
+    },
+    {
+        "id": "40",
+        "desg": "Special Judge(SC/ST)",
+        "display": "Y"
+    },
+    {
+        "id": "41",
+        "desg": "Special Judge(Atrocity)",
+        "display": "Y"
+    },
+    {
+        "id": "42",
+        "desg": "Special Judge(P.C. Act)",
+        "display": "Y"
+    },
+    {
+        "id": "43",
+        "desg": "Special Judge(Protection Of Children From Sexual Assualt)",
+        "display": "Y"
+    },
+    {
+        "id": "44",
+        "desg": "Special Judge(NDPS Act)",
+        "display": "Y"
+    },
+    {
+        "id": "45",
+        "desg": "Special Judge(CBI)",
+        "display": "Y"
+    },
+    {
+        "id": "46",
+        "desg": "District Education Officer",
+        "display": "Y"
+    },
+    {
+        "id": "47",
+        "desg": "CEO(PANCHAYAT)",
+        "display": "Y"
+    },
+    {
+        "id": "48",
+        "desg": "1<sup>st</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "49",
+        "desg": "2<sup>nd</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "50",
+        "desg": "3<sup>rd</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "51",
+        "desg": "4<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "52",
+        "desg": "5<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "53",
+        "desg": "6<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "54",
+        "desg": "7<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "55",
+        "desg": "8<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "56",
+        "desg": "9<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "57",
+        "desg": "10<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "58",
+        "desg": "11<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "59",
+        "desg": "12<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "60",
+        "desg": "13<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "61",
+        "desg": "14<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "62",
+        "desg": "15<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "63",
+        "desg": "16<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "64",
+        "desg": "17<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "65",
+        "desg": "18<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "66",
+        "desg": "19<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "67",
+        "desg": "20<sup>th</sup> Addl. District and Session Judge",
+        "display": "Y"
+    },
+    {
+        "id": "68",
+        "desg": "Chief Secretory",
+        "display": "Y"
+    },
+    {
+        "id": "69",
+        "desg": "Small Cause Court",
+        "display": "Y"
+    },
+    {
+        "id": "70",
+        "desg": "Collector",
+        "display": "Y"
+    },
+    {
+        "id": "71",
+        "desg": "Advocate General",
+        "display": "Y"
+    },
+    {
+        "id": "72",
+        "desg": "Addl. Solicitor General, GOI",
+        "display": "Y"
+    },
+    {
+        "id": "73",
+        "desg": "Secretary Legal Service Authority MPHC Jabalpur",
+        "display": "Y"
+    },
+    {
+        "id": "74",
+        "desg": "Juvenile Justice Board ",
+        "display": "Y"
+    },
+    {
+        "id": "75",
+        "desg": "Principal Registrar (J) MPHC Jabalpur",
+        "display": "Y"
+    },
+    {
+        "id": "76",
+        "desg": "Registrar (IT) MPHC Jabalpur",
+        "display": "Y"
+    },
+    {
+        "id": "77",
+        "desg": "S. D. M",
+        "display": "Y"
+    },
+    {
+        "id": "78",
+        "desg": "* Standing Counsel",
+        "display": "Y"
+    },
+    {
+        "id": "79",
+        "desg": "CENTRAL AGENCY SECTION SUPREME COURT COMPOND",
+        "display": "Y"
+    },
+    {
+        "id": "80",
+        "desg": "The Senior Superintendent - Central Jail",
+        "display": "Y"
+    },
+    {
+        "id": "81",
+        "desg": "Mediation Centre",
+        "display": "Y"
+    },
+    {
+        "id": "82",
+        "desg": "The court of Munsif",
+        "display": "Y"
+    },
+    {
+        "id": "83",
+        "desg": "Debts Recovery Tribunal",
+        "display": "Y"
+    },
+    {
+        "id": "84",
+        "desg": "Debts Recovery Tribunal-II",
+        "display": "Y"
+    },
+    {
+        "id": "85",
+        "desg": "SUPREME COURT AOR WELFARE TRUST",
+        "display": "Y"
+    },
+    {
+        "id": "86",
+        "desg": "SUPREME COURT BAR ASSOCIATION",
+        "display": "Y"
+    },
+    {
+        "id": "87",
+        "desg": "Resident Commissioner",
+        "display": "Y"
+    }
+]

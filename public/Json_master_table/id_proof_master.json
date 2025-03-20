@@ -1,0 +1,38 @@
+[
+    {
+        "id": "1",
+        "id_name": "Adhaar",
+        "display": "Y",
+        "entry_on": "2020-05-02 06:14:46+05:30"
+    },
+    {
+        "id": "2",
+        "id_name": "Voter ID",
+        "display": "Y",
+        "entry_on": "2020-05-02 06:18:11+05:30"
+    },
+    {
+        "id": "3",
+        "id_name": "Driving License",
+        "display": "Y",
+        "entry_on": "2020-05-02 06:18:11+05:30"
+    },
+    {
+        "id": "4",
+        "id_name": "Passport",
+        "display": "Y",
+        "entry_on": "2020-05-02 06:18:12+05:30"
+    },
+    {
+        "id": "5",
+        "id_name": "Pancard",
+        "display": "Y",
+        "entry_on": "2020-05-02 06:18:12+05:30"
+    },
+    {
+        "id": "6",
+        "id_name": "Aadhar KYC Offline Authentication",
+        "display": "Y",
+        "entry_on": "2020-05-02 06:18:12+05:30"
+    }
+]

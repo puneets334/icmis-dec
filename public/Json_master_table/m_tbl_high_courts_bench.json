@@ -1,0 +1,683 @@
+{
+"m_tbl_high_courts_bench": [
+	{
+		"id" : 12,
+		"hc_id" : 20,
+		"bench_id" : null,
+		"name" : "High Court of Jharkhand",
+		"est_code" : null,
+		"cmis_state_id" : 431772,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 24,
+		"hc_id" : 21,
+		"bench_id" : null,
+		"name" : "Orissa High Court",
+		"est_code" : null,
+		"cmis_state_id" : 239687,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 25,
+		"hc_id" : 10,
+		"bench_id" : null,
+		"name" : "Patna High Court",
+		"est_code" : null,
+		"cmis_state_id" : 1,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 4,
+		"hc_id" : 18,
+		"bench_id" : null,
+		"name" : "Gauhati High Court",
+		"est_code" : null,
+		"cmis_state_id" : 511231,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 1,
+		"hc_id" : 9,
+		"bench_id" : null,
+		"name" : "Allahabad High Court",
+		"est_code" : null,
+		"cmis_state_id" : 61023,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 2,
+		"hc_id" : 27,
+		"bench_id" : null,
+		"name" : "Bombay High Court",
+		"est_code" : null,
+		"cmis_state_id" : 358033,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 3,
+		"hc_id" : 19,
+		"bench_id" : null,
+		"name" : "Calcutta High Court",
+		"est_code" : null,
+		"cmis_state_id" : 21945,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 5,
+		"hc_id" : 36,
+		"bench_id" : null,
+		"name" : "High Court  for State of Telangana",
+		"est_code" : null,
+		"cmis_state_id" : 599089,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 6,
+		"hc_id" : 28,
+		"bench_id" : null,
+		"name" : "High Court of Andhra Pradesh",
+		"est_code" : null,
+		"cmis_state_id" : 541950,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 7,
+		"hc_id" : 22,
+		"bench_id" : null,
+		"name" : "High Court Of Chhattisgarh",
+		"est_code" : null,
+		"cmis_state_id" : 490809,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 8,
+		"hc_id" : 7,
+		"bench_id" : null,
+		"name" : "High Court of Delhi",
+		"est_code" : null,
+		"cmis_state_id" : 490506,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 9,
+		"hc_id" : 24,
+		"bench_id" : null,
+		"name" : "High Court of Gujarat",
+		"est_code" : null,
+		"cmis_state_id" : 471342,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 10,
+		"hc_id" : 2,
+		"bench_id" : null,
+		"name" : "High Court of Himachal Pradesh",
+		"est_code" : null,
+		"cmis_state_id" : 571779,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 11,
+		"hc_id" : 1,
+		"bench_id" : null,
+		"name" : "High Court of Jammu and Kashmir",
+		"est_code" : null,
+		"cmis_state_id" : 464616,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 27,
+		"hc_id" : 27,
+		"bench_id" : 1,
+		"name" : "Appellate Side,Bombay",
+		"est_code" : "HCBM01",
+		"cmis_state_id" : 358033,
+		"ref_agency_code_id" : 31,
+		"juridiction" : "APPELLATE"
+	},
+	{
+		"id" : 13,
+		"hc_id" : 29,
+		"bench_id" : null,
+		"name" : "High Court of Karnataka",
+		"est_code" : null,
+		"cmis_state_id" : 402163,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 31,
+		"hc_id" : 27,
+		"bench_id" : 2,
+		"name" : "Original Side,Bombay",
+		"est_code" : "HCBM02",
+		"cmis_state_id" : 358033,
+		"ref_agency_code_id" : 31,
+		"juridiction" : "ORIGINAL"
+	},
+	{
+		"id" : 32,
+		"hc_id" : 19,
+		"bench_id" : 3,
+		"name" : " Appellate side",
+		"est_code" : "WBCHCA",
+		"cmis_state_id" : 21945,
+		"ref_agency_code_id" : 25,
+		"juridiction" : "APPELLATE"
+	},
+	{
+		"id" : 34,
+		"hc_id" : 19,
+		"bench_id" : 1,
+		"name" : "Original Side",
+		"est_code" : "WBCHCO",
+		"cmis_state_id" : 21945,
+		"ref_agency_code_id" : 25,
+		"juridiction" : "ORIGINAL"
+	},
+	{
+		"id" : 14,
+		"hc_id" : 32,
+		"bench_id" : null,
+		"name" : "High Court of Kerala",
+		"est_code" : null,
+		"cmis_state_id" : 124509,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 46,
+		"hc_id" : 1,
+		"bench_id" : 2,
+		"name" : "Srinagar Wing",
+		"est_code" : "JKHC01",
+		"cmis_state_id" : 464616,
+		"ref_agency_code_id" : 97,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 15,
+		"hc_id" : 23,
+		"bench_id" : null,
+		"name" : "High Court of Madhya Pradesh",
+		"est_code" : null,
+		"cmis_state_id" : 292979,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 40,
+		"hc_id" : 28,
+		"bench_id" : 1,
+		"name" : "Principlal Bench at Andhra Pradesh",
+		"est_code" : "APHC01",
+		"cmis_state_id" : 541950,
+		"ref_agency_code_id" : 10078,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 45,
+		"hc_id" : 1,
+		"bench_id" : 1,
+		"name" : "Jammu Wing",
+		"est_code" : "JKHC02",
+		"cmis_state_id" : 464616,
+		"ref_agency_code_id" : 8,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 50,
+		"hc_id" : 29,
+		"bench_id" : 1,
+		"name" : "Principal Bench at Bengaluru",
+		"est_code" : "KAHC01",
+		"cmis_state_id" : 402163,
+		"ref_agency_code_id" : 148,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 16,
+		"hc_id" : 14,
+		"bench_id" : null,
+		"name" : "High Court of Manipur",
+		"est_code" : null,
+		"cmis_state_id" : 355594,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 48,
+		"hc_id" : 29,
+		"bench_id" : 2,
+		"name" : "Bench at Dharwad",
+		"est_code" : "KAHC02",
+		"cmis_state_id" : 402163,
+		"ref_agency_code_id" : 110,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 17,
+		"hc_id" : 17,
+		"bench_id" : null,
+		"name" : "High Court of Meghalaya",
+		"est_code" : null,
+		"cmis_state_id" : 349528,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 18,
+		"hc_id" : 3,
+		"bench_id" : null,
+		"name" : "High Court of Punjab and Haryana",
+		"est_code" : null,
+		"cmis_state_id" : 226817,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 49,
+		"hc_id" : 29,
+		"bench_id" : 3,
+		"name" : "Bench at Kalburagi",
+		"est_code" : "KAHC03",
+		"cmis_state_id" : 402163,
+		"ref_agency_code_id" : 236,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 19,
+		"hc_id" : 8,
+		"bench_id" : null,
+		"name" : "High Court Of Rajasthan",
+		"est_code" : null,
+		"cmis_state_id" : 185190,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 26,
+		"hc_id" : 9,
+		"bench_id" : 1,
+		"name" : "Allahabad High Court",
+		"est_code" : "UPHC01",
+		"cmis_state_id" : 61023,
+		"ref_agency_code_id" : 15,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 51,
+		"hc_id" : 32,
+		"bench_id" : 1,
+		"name" : "High Court of Kerala",
+		"est_code" : "KLHC01",
+		"cmis_state_id" : 124509,
+		"ref_agency_code_id" : 24,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 20,
+		"hc_id" : 11,
+		"bench_id" : null,
+		"name" : "High Court of Sikkim",
+		"est_code" : null,
+		"cmis_state_id" : 184724,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 21,
+		"hc_id" : 16,
+		"bench_id" : null,
+		"name" : "High Court of Tripura",
+		"est_code" : null,
+		"cmis_state_id" : 167131,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 22,
+		"hc_id" : 5,
+		"bench_id" : null,
+		"name" : "High Court Of Uttarakhand",
+		"est_code" : null,
+		"cmis_state_id" : 107620,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 55,
+		"hc_id" : 14,
+		"bench_id" : 1,
+		"name" : "High Court of Manipur",
+		"est_code" : "MNHC01",
+		"cmis_state_id" : 355594,
+		"ref_agency_code_id" : 137,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 23,
+		"hc_id" : 33,
+		"bench_id" : null,
+		"name" : "Madras High Court",
+		"est_code" : null,
+		"cmis_state_id" : 168044,
+		"ref_agency_code_id" : null,
+		"juridiction" : null
+	},
+	{
+		"id" : 54,
+		"hc_id" : 23,
+		"bench_id" : 1,
+		"name" : "High Court Of Madhya Pradesh Jabalpur",
+		"est_code" : "MPHC01",
+		"cmis_state_id" : 292979,
+		"ref_agency_code_id" : 17,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 53,
+		"hc_id" : 23,
+		"bench_id" : 2,
+		"name" : "High Court Of Madhya Pradesh Indore",
+		"est_code" : "MPHC02",
+		"cmis_state_id" : 292979,
+		"ref_agency_code_id" : 18,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 52,
+		"hc_id" : 23,
+		"bench_id" : 3,
+		"name" : "High Court Of Madhya Pradesh Gwalior",
+		"est_code" : "MPHC03",
+		"cmis_state_id" : 292979,
+		"ref_agency_code_id" : 19,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 38,
+		"hc_id" : 18,
+		"bench_id" : 1,
+		"name" : "Principal Seat at Guwahati",
+		"est_code" : "GAHC01",
+		"cmis_state_id" : 511231,
+		"ref_agency_code_id" : 29,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 56,
+		"hc_id" : 17,
+		"bench_id" : 1,
+		"name" : "High Court of Meghalaya",
+		"est_code" : "MLHC01",
+		"cmis_state_id" : 349528,
+		"ref_agency_code_id" : 138,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 60,
+		"hc_id" : 11,
+		"bench_id" : 1,
+		"name" : "High Court of Sikkim",
+		"est_code" : "SKHC01",
+		"cmis_state_id" : 184724,
+		"ref_agency_code_id" : 30,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 65,
+		"hc_id" : 21,
+		"bench_id" : 1,
+		"name" : "Orissa High Court",
+		"est_code" : "ODHC01",
+		"cmis_state_id" : 239687,
+		"ref_agency_code_id" : 20,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 57,
+		"hc_id" : 3,
+		"bench_id" : 1,
+		"name" : "High Court of Punjab and Haryana",
+		"est_code" : "PHHC01",
+		"cmis_state_id" : 226817,
+		"ref_agency_code_id" : 10,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 59,
+		"hc_id" : 8,
+		"bench_id" : 2,
+		"name" : "Rajasthan High Court Principal Seat Jodhpur",
+		"est_code" : "RJHC01",
+		"cmis_state_id" : 185190,
+		"ref_agency_code_id" : 12,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 58,
+		"hc_id" : 8,
+		"bench_id" : 1,
+		"name" : "High Court Bench at Jaipur",
+		"est_code" : "RJHC02",
+		"cmis_state_id" : 185190,
+		"ref_agency_code_id" : 11,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 62,
+		"hc_id" : 5,
+		"bench_id" : 1,
+		"name" : "High Court of Uttarakhand",
+		"est_code" : "UKHC01",
+		"cmis_state_id" : 107620,
+		"ref_agency_code_id" : 101,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 33,
+		"hc_id" : 19,
+		"bench_id" : 2,
+		"name" : "Circuit Bench At Jalpaiguri",
+		"est_code" : "WBCHCJ",
+		"cmis_state_id" : 21945,
+		"ref_agency_code_id" : 10090,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 61,
+		"hc_id" : 16,
+		"bench_id" : 1,
+		"name" : "High Court of Tripura",
+		"est_code" : "TRHC01",
+		"cmis_state_id" : 167131,
+		"ref_agency_code_id" : 139,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 67,
+		"hc_id" : 9,
+		"bench_id" : 2,
+		"name" : "Lucknow Bench",
+		"est_code" : "UPHC02",
+		"cmis_state_id" : 61023,
+		"ref_agency_code_id" : 16,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 66,
+		"hc_id" : 10,
+		"bench_id" : 1,
+		"name" : "Principal Bench Patna",
+		"est_code" : "BRHC01",
+		"cmis_state_id" : 1,
+		"ref_agency_code_id" : 26,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 41,
+		"hc_id" : 22,
+		"bench_id" : 1,
+		"name" : "Principal Bench Chhattisgarh",
+		"est_code" : "CGHC01",
+		"cmis_state_id" : 490809,
+		"ref_agency_code_id" : 103,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 42,
+		"hc_id" : 7,
+		"bench_id" : 1,
+		"name" : "Principal Bench at Delhi",
+		"est_code" : "DLHC01",
+		"cmis_state_id" : 490506,
+		"ref_agency_code_id" : 14,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 37,
+		"hc_id" : 18,
+		"bench_id" : 2,
+		"name" : "Kohima Bench",
+		"est_code" : "GAHC02",
+		"cmis_state_id" : 511231,
+		"ref_agency_code_id" : 184,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 35,
+		"hc_id" : 18,
+		"bench_id" : 3,
+		"name" : "Aizawl Bench",
+		"est_code" : "GAHC03",
+		"cmis_state_id" : 511231,
+		"ref_agency_code_id" : 53,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 36,
+		"hc_id" : 18,
+		"bench_id" : 4,
+		"name" : "Itanagar Bench",
+		"est_code" : "GAHC04",
+		"cmis_state_id" : 511231,
+		"ref_agency_code_id" : 183,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 43,
+		"hc_id" : 24,
+		"bench_id" : 1,
+		"name" : "Gujarat High Court",
+		"est_code" : "GJHC24",
+		"cmis_state_id" : 471342,
+		"ref_agency_code_id" : 13,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 39,
+		"hc_id" : 36,
+		"bench_id" : 1,
+		"name" : "Principal Bench at Hyderabad",
+		"est_code" : "HBHC01",
+		"cmis_state_id" : 599089,
+		"ref_agency_code_id" : 10077,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 28,
+		"hc_id" : 27,
+		"bench_id" : 3,
+		"name" : "Bench at Aurangabad",
+		"est_code" : "HCBM03",
+		"cmis_state_id" : 358033,
+		"ref_agency_code_id" : 32,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 30,
+		"hc_id" : 27,
+		"bench_id" : 5,
+		"name" : "High court of Bombay at Goa",
+		"est_code" : "HCGA01",
+		"cmis_state_id" : 358033,
+		"ref_agency_code_id" : 34,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 63,
+		"hc_id" : 33,
+		"bench_id" : 1,
+		"name" : "Madras High Court",
+		"est_code" : "HCMA01",
+		"cmis_state_id" : 168044,
+		"ref_agency_code_id" : 112,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 64,
+		"hc_id" : 33,
+		"bench_id" : 2,
+		"name" : "Madurai Bench of Madras High Court",
+		"est_code" : "HCMD01",
+		"cmis_state_id" : 168044,
+		"ref_agency_code_id" : 113,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 44,
+		"hc_id" : 2,
+		"bench_id" : 1,
+		"name" : "High Court of Himachal Pradesh",
+		"est_code" : "HPHC01",
+		"cmis_state_id" : 571779,
+		"ref_agency_code_id" : 9,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 47,
+		"hc_id" : 20,
+		"bench_id" : 1,
+		"name" : "Principal Bench Jharkhand",
+		"est_code" : "JHHC01",
+		"cmis_state_id" : 431772,
+		"ref_agency_code_id" : 102,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 68,
+		"hc_id" : 19,
+		"bench_id" : 3,
+		"name" : "Circuit Bench at Port Blair",
+		"est_code" : "WBCHPB",
+		"cmis_state_id" : 21945,
+		"ref_agency_code_id" : 216,
+		"juridiction" : "BOTH"
+	},
+	{
+		"id" : 29,
+		"hc_id" : 27,
+		"bench_id" : 4,
+		"name" : "Bench at Nagpur",
+		"est_code" : "HCBM04",
+		"cmis_state_id" : 358033,
+		"ref_agency_code_id" : 33,
+		"juridiction" : "BOTH"
+	}
+]}

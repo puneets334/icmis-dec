@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1",
+        "movement_status": "File sent to CM(NSH)",
+        "updated_on": "2019-11-05 19:22:29+05:30",
+        "usercode": "1"
+    },
+    {
+        "id": "2",
+        "movement_status": "File received by CM(NSH)",
+        "updated_on": "2019-11-05 19:22:29+05:30",
+        "usercode": "1"
+    },
+    {
+        "id": "3",
+        "movement_status": "File refused to receive by CM(NSH)",
+        "updated_on": "2019-11-05 19:22:29+05:30",
+        "usercode": "1"
+    },
+    {
+        "id": "4",
+        "movement_status": "File sent Back to Dealing Assistant",
+        "updated_on": "2019-11-05 19:22:29+05:30",
+        "usercode": "1"
+    },
+    {
+        "id": "5",
+        "movement_status": "File received by dealing assistant",
+        "updated_on": "2019-11-05 19:22:29+05:30",
+        "usercode": "1"
+    }
+]

@@ -1,0 +1,1003 @@
+[
+    {
+        "lccasecode": "0",
+        "lccasename": "--",
+        "corttyp": "L",
+        "display": "N",
+        "skey": ""
+    },
+    {
+        "lccasecode": "1",
+        "lccasename": "CIVIL APPEAL(Regular)\t",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "2",
+        "lccasename": "MISC.CIVIL APPEAL",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "3",
+        "lccasename": "MISC.CIVIL APPLN.",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "4",
+        "lccasename": "CIVIL REVISION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "5",
+        "lccasename": "CIVIL SUIT-A",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "6",
+        "lccasename": "MARRIAGE PETITION.",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "7",
+        "lccasename": "LAND ACQUISITION REFERENCE",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "8",
+        "lccasename": "LAND REFERENCE",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "9",
+        "lccasename": "ELECTITION PETITION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "10",
+        "lccasename": "MOTOR ACCIDENT CLAIM",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "11",
+        "lccasename": "MACT Misc. Appeal (MA)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "12",
+        "lccasename": "MACT Misc. Application",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "13",
+        "lccasename": "SESSIONS TRIAL",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "14",
+        "lccasename": "SPECIAL CASE (Sessions)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "15",
+        "lccasename": "CRIMINAL APPEAL (Regular)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "16",
+        "lccasename": "CRIMINAL REVISION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "17",
+        "lccasename": "CRIMINAL Misc. Appeal",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "18",
+        "lccasename": "TADA SESSIONS CASE",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "19",
+        "lccasename": "TADA CRIMINAL MISC.APPEAL",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "20",
+        "lccasename": "SPL SESSION CASE (NDPS)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "21",
+        "lccasename": "SPECIAL SESSIONS CASE ANTI-CORRUPTION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "22",
+        "lccasename": "SPECIAL SESSIONS CASE (SC/ST) ATROCITY",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "23",
+        "lccasename": "SPECIAL CASE ( E C ACT )",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "24",
+        "lccasename": "SPL CASE NDPS (MAGISTRATE TRIAL)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "25",
+        "lccasename": "REGULAR CIVIL SUIT",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "26",
+        "lccasename": "SPECIAL CIVIL SUIT\t",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "27",
+        "lccasename": "CRIMINAL CASE (REGULAR)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "28",
+        "lccasename": "L.R.M.A.",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "29",
+        "lccasename": "SUMMARY CASE\t",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "30",
+        "lccasename": "ARBITRATION CASE",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "31",
+        "lccasename": "UNREGISTERED CRIMINAL PROCEEDINGS",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "32",
+        "lccasename": "SPECIAL.CRIMINAL MISC.APPEAL",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "33",
+        "lccasename": "NDPS MISC.APPEAL",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "34",
+        "lccasename": "NDPS ( CRIMINAL REVISION )",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "35",
+        "lccasename": "CRIMINAL MISC APPLICATION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "36",
+        "lccasename": "CRIMINAL APPLICATION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "37",
+        "lccasename": "SMALL CAUSE SUIT",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "38",
+        "lccasename": "SPECIAL SUMMARY SUIT",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "39",
+        "lccasename": "NOTICE OF MOTION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "40",
+        "lccasename": "CRIMINAL COMPLAINT",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "41",
+        "lccasename": "INDUSTRIAL DISPUTE ACT",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "42",
+        "lccasename": "WP(+MP) WRIT PETITIONS",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "WP"
+    },
+    {
+        "lccasecode": "43",
+        "lccasename": "WRIT PETITION(CRIMINAL)",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "WP"
+    },
+    {
+        "lccasecode": "44",
+        "lccasename": "Ref.Case",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "45",
+        "lccasename": "COMPLAINT (UNREGISTERED)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "46",
+        "lccasename": "FIRST APPEAL ( CIVIL )",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "47",
+        "lccasename": "SECOND APPEAL CIVIL",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "48",
+        "lccasename": "APEAL FROM ORDER (CIVIL)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "49",
+        "lccasename": "SECOND APPEAL CRIMINAL",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "50",
+        "lccasename": "APPEAL FROM ORDER ( CRIMINAL )",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "51",
+        "lccasename": "ARB. AWARD APPLICATION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "52",
+        "lccasename": "F.D. APPLICATION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "53",
+        "lccasename": "FAMILY COURT CASE",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "54",
+        "lccasename": "FAMILY COURT  (APPLICATION)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "55",
+        "lccasename": "F.I.R./C.R.",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "56",
+        "lccasename": "COMPANY PETITION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "57",
+        "lccasename": "CHAMBER SUMMONS",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "58",
+        "lccasename": "SHOW CAUSE NOTICE",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "59",
+        "lccasename": "DETENTION ORDER",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "60",
+        "lccasename": "COUNTER CLAIM",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "61",
+        "lccasename": "EXTERNMENT ORDER",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "62",
+        "lccasename": "ANTICIPATORY BAIL",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "63",
+        "lccasename": "SUMMONS CASE",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "64",
+        "lccasename": "WORKMAN'S C. APPLICATION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "65",
+        "lccasename": "CIVIL SUIT-B",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "66",
+        "lccasename": "BAIL APPLICATION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "67",
+        "lccasename": "MISC. JUDICIAL CASE  ( CIVIL )",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "68",
+        "lccasename": "MISC. JUDICIAL CASE ( CRIMINAL )",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "69",
+        "lccasename": "ORIGINAL APPLICATION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "70",
+        "lccasename": "TRANSFER APPLICATION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "71",
+        "lccasename": "SPECIAL CASE (CBI) MAGISTRATE TRIAL",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "72",
+        "lccasename": "SPECIAL SESSIONS CASE ( CBI )",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "73",
+        "lccasename": "CONT(+CONC) CONTEMPT CIVIL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CONT"
+    },
+    {
+        "lccasecode": "74",
+        "lccasename": "CONTR(+CONCR) CONTEMPT CRIMINAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CONTR"
+    },
+    {
+        "lccasecode": "75",
+        "lccasename": "FOREST CASES (POR)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "76",
+        "lccasename": "RAILWAY CASES (GRP/RPF)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "77",
+        "lccasename": "MISC. CIVIL CASE",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "78",
+        "lccasename": "REVIEW PETITION",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "RP"
+    },
+    {
+        "lccasecode": "79",
+        "lccasename": "WRIT APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "WA"
+    },
+    {
+        "lccasecode": "80",
+        "lccasename": "ITA(MAIT) INCOME TAX APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "ITA"
+    },
+    {
+        "lccasecode": "81",
+        "lccasename": "SPECIAL CASE (ELECTRICITY)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "82",
+        "lccasename": "LETTERS PATENT APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "LPA"
+    },
+    {
+        "lccasecode": "83",
+        "lccasename": "FA-FIRST APPEALS",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "FA"
+    },
+    {
+        "lccasecode": "84",
+        "lccasename": "SA-SECOND APPEALS",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "SA"
+    },
+    {
+        "lccasecode": "85",
+        "lccasename": "MA-MISC.APPEALS",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "MA"
+    },
+    {
+        "lccasecode": "86",
+        "lccasename": "WPS-WRIT PETITION SERVICE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "WPS"
+    },
+    {
+        "lccasecode": "87",
+        "lccasename": "CR-CIVIL REVISION",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CR"
+    },
+    {
+        "lccasecode": "88",
+        "lccasename": "MCC-MISC.CIVIL CASES",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "MCC"
+    },
+    {
+        "lccasecode": "89",
+        "lccasename": "CONA-CONTEMPT APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CONA"
+    },
+    {
+        "lccasecode": "90",
+        "lccasename": "ITR-INCOME TAX REFERENCE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "ITR"
+    },
+    {
+        "lccasecode": "91",
+        "lccasename": "STR-SALES TAX REFERENCE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "STR"
+    },
+    {
+        "lccasecode": "92",
+        "lccasename": "CER-CENTRAL EXCISE REFERENCE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CER"
+    },
+    {
+        "lccasecode": "93",
+        "lccasename": "CESR-CENTRAL EXCISE AND SALT REFERENCE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CESR"
+    },
+    {
+        "lccasecode": "94",
+        "lccasename": "WTR-WEALTH TAX REFERENCE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "WTR"
+    },
+    {
+        "lccasecode": "95",
+        "lccasename": "MACE-MISC.APPEALS CENTRAL EXCISE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "MACE"
+    },
+    {
+        "lccasecode": "96",
+        "lccasename": "CEA-CENTRAL EXCISE APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CEA"
+    },
+    {
+        "lccasecode": "97",
+        "lccasename": "FEMA-FOREIGN EXCHANGE MANAGEMENT APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "FEMA"
+    },
+    {
+        "lccasecode": "98",
+        "lccasename": "TR-TAX REFERENCE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "TR"
+    },
+    {
+        "lccasecode": "99",
+        "lccasename": "VATA-VALUE ADDED TAX APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "VATA"
+    },
+    {
+        "lccasecode": "100",
+        "lccasename": "WTA-WEALTH TAX APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "WTA"
+    },
+    {
+        "lccasecode": "101",
+        "lccasename": "MACTR-MISC.APPEAL COMMERCIAL TAX REFERENCE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "MACTR"
+    },
+    {
+        "lccasecode": "102",
+        "lccasename": "COMP-COMPANY PETITION",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "COMP"
+    },
+    {
+        "lccasecode": "103",
+        "lccasename": "COMPA(COMA)-COMPANY APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "COMPA"
+    },
+    {
+        "lccasecode": "104",
+        "lccasename": "MACOM(MCOMA)-MISC.COMPANY APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "MACOM"
+    },
+    {
+        "lccasecode": "105",
+        "lccasename": "MAVAT(VATA)-MISC. APPEAL (VAT)",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "MAVAT"
+    },
+    {
+        "lccasecode": "106",
+        "lccasename": "ARBA(AA)-ARBITRATION APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "ARBA"
+    },
+    {
+        "lccasecode": "107",
+        "lccasename": "ARBC(AC)-ARBITRATION CASE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "ARBC"
+    },
+    {
+        "lccasecode": "108",
+        "lccasename": "AR-ARBITRATION REVISION",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "AR"
+    },
+    {
+        "lccasecode": "109",
+        "lccasename": "EP-ELECTION PETITION",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "EP"
+    },
+    {
+        "lccasecode": "110",
+        "lccasename": "CS-CIVIL SUIT",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CS"
+    },
+    {
+        "lccasecode": "111",
+        "lccasename": "OTA-OTHER TAX APPEALS",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "OTA"
+    },
+    {
+        "lccasecode": "112",
+        "lccasename": "CRRE(CRRF)-CRIMINAL REFERENCE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CRRE"
+    },
+    {
+        "lccasecode": "113",
+        "lccasename": "CRRFC-CRIMINAL REFERENCE CAPITAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CRRFC"
+    },
+    {
+        "lccasecode": "114",
+        "lccasename": "CRA-CRIMINAL APPEAL",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CRA"
+    },
+    {
+        "lccasecode": "115",
+        "lccasename": "CRR-CRIMINAL REVISION",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "CRR"
+    },
+    {
+        "lccasecode": "116",
+        "lccasename": "MCRC-MISC.CRIMINAL CASE",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "MCRC"
+    },
+    {
+        "lccasecode": "117",
+        "lccasename": "M.P.Industrial Relations (MPIR)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "118",
+        "lccasename": "Regular Trial No (R.T.No.)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "119",
+        "lccasename": "Misc. Criminal Case (MCRC)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "120",
+        "lccasename": "SLP (Special Leave Petition)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "121",
+        "lccasename": "Civil Appeal Supreme Court",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "122",
+        "lccasename": "I.T.A.",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "123",
+        "lccasename": "EXCISE APPEAL",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "130",
+        "lccasename": "NOT SPECIFIED",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "131",
+        "lccasename": "NOT SPECIFIED",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "132",
+        "lccasename": "WRIT PETITION (SERVICE MATTER)",
+        "corttyp": "H",
+        "display": "Y",
+        "skey": "WPS"
+    },
+    {
+        "lccasecode": "203",
+        "lccasename": "DEPARTMENTAL ENQUIRY",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "208",
+        "lccasename": "SPECIAL CASE MPSIDC",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "209",
+        "lccasename": "SPECIAL CASE N.I. ACT",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "211",
+        "lccasename": "SPECIAL CASES (ANTI DACOITY)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "215",
+        "lccasename": "SPECIAL CASES (EOW)",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "304",
+        "lccasename": "EXECUTION ARBITRATION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "305",
+        "lccasename": "EXECUTION CLASS-A",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "306",
+        "lccasename": "EXECUTION CLASS-B",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "308",
+        "lccasename": "EXECUTION MOTOR ACCIDENT CLAIM CASES",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "309",
+        "lccasename": "MISC. JUDICIAL CASE ACCIDENT CLAIMS REPORT",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "312",
+        "lccasename": "MJC ARBITRATION",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "313",
+        "lccasename": "MJC GUARDIAN & WARDS ACT",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "314",
+        "lccasename": "MJC INSOLVENCY ACT",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "315",
+        "lccasename": "MJC MUSLIM WAKF ACT",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "316",
+        "lccasename": "MJC SUCCESSION MATTERS",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    },
+    {
+        "lccasecode": "399",
+        "lccasename": "Unregistered-Civil",
+        "corttyp": "L",
+        "display": "Y",
+        "skey": ""
+    }
+]

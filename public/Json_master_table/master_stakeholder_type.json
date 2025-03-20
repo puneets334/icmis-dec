@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1",
+        "description": "JAIL",
+        "is_active": "t",
+        "created_on": "2021-07-27 05:42:37+05:30"
+    },
+    {
+        "id": "2",
+        "description": "HIGH COURT",
+        "is_active": "t",
+        "created_on": "2021-07-27 05:42:37+05:30"
+    },
+    {
+        "id": "3",
+        "description": "STATE",
+        "is_active": "t",
+        "created_on": "2021-07-27 05:42:37+05:30"
+    },
+    {
+        "id": "4",
+        "description": "DISTRICT COURT",
+        "is_active": "t",
+        "created_on": "2021-07-27 05:42:37+05:30"
+    },
+    {
+        "id": "5",
+        "description": "TRIBUNAL",
+        "is_active": "t",
+        "created_on": "2021-07-27 05:42:37+05:30"
+    }
+]

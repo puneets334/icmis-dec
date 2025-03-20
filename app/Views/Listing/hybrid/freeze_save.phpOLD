@@ -1,0 +1,20 @@
+<?php
+include("../../includes/db_inc.php");
+session_start();
+if(isset($_POST['courtno'])) {
+    $sql = "insert into hybrid_physical_hearing_consent_freeze (list_type_id, list_number, list_year, user_id, user_ip, to_date, court_no)
+VALUES ('" . $_POST['list_type_id'] . "', '" . $_POST['max_weekly_no'] . "', '" . $_POST['max_weekly_year'] . "', 
+'" . $_SESSION['dcmis_user_idd'] . "', '" . $_POST['ip'] . "', '" . $_POST['max_to_dt'] . "', '" . $_POST['courtno'] . "')";
+    $rs = mysql_query($sql);
+    $afros = mysql_affected_rows();
+    if ($afros > 0) {
+        $return_arr = array("status" => "success");
+    } else {
+        $return_arr = array("status" => "Error:Not Saved");
+    }
+}
+else{
+    $return_arr = array("status" => "Error");
+}
+echo json_encode($return_arr);
+?>

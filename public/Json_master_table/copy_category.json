@@ -1,0 +1,57 @@
+[
+    {
+        "id": "1",
+        "code": "A1",
+        "description": "Urgent Certified",
+        "charges": "1",
+        "urgent_fee": "5",
+        "per_certification_fee": "10",
+        "from_date": "2021-03-15",
+        "to_date": null,
+        "per_page": "1"
+    },
+    {
+        "id": "2",
+        "code": "A2",
+        "description": "Ordinary Urgent Copy",
+        "charges": "1",
+        "urgent_fee": "5",
+        "per_certification_fee": "0",
+        "from_date": "2021-03-15",
+        "to_date": null,
+        "per_page": "1"
+    },
+    {
+        "id": "3",
+        "code": "B ",
+        "description": "Ordinary Certified Copy",
+        "charges": "1",
+        "urgent_fee": "0",
+        "per_certification_fee": "10",
+        "from_date": "2021-03-15",
+        "to_date": null,
+        "per_page": "1"
+    },
+    {
+        "id": "4",
+        "code": "C ",
+        "description": "Ordinary Copy",
+        "charges": "1",
+        "urgent_fee": "0",
+        "per_certification_fee": "0",
+        "from_date": "2021-03-15",
+        "to_date": null,
+        "per_page": "1"
+    },
+    {
+        "id": "5",
+        "code": "D ",
+        "description": "Digital Copy",
+        "charges": "1",
+        "urgent_fee": "0",
+        "per_certification_fee": "0",
+        "from_date": "2021-03-15",
+        "to_date": null,
+        "per_page": "1"
+    }
+]

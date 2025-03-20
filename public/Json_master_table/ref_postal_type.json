@@ -1,0 +1,106 @@
+[
+    {
+        "id": "1",
+        "postal_type_code": "1",
+        "postal_type_description": "Registered Letter",
+        "updated_on": "2012-05-15 11:55:36+05:30",
+        "adm_updated_by": "8",
+        "is_deleted": "t"
+    },
+    {
+        "id": "2",
+        "postal_type_code": "2",
+        "postal_type_description": "Speed Post",
+        "updated_on": "2011-10-03 00:00:00+05:30",
+        "adm_updated_by": "1",
+        "is_deleted": "f"
+    },
+    {
+        "id": "3",
+        "postal_type_code": "3",
+        "postal_type_description": "Courrier",
+        "updated_on": "2011-10-03 00:00:00+05:30",
+        "adm_updated_by": "1",
+        "is_deleted": "f"
+    },
+    {
+        "id": "4",
+        "postal_type_code": "4",
+        "postal_type_description": "Special Messenger",
+        "updated_on": "2011-10-03 00:00:00+05:30",
+        "adm_updated_by": "1",
+        "is_deleted": "f"
+    },
+    {
+        "id": "5",
+        "postal_type_code": "5",
+        "postal_type_description": "Ordinary Post",
+        "updated_on": "2011-10-03 00:00:00+05:30",
+        "adm_updated_by": "1",
+        "is_deleted": "f"
+    },
+    {
+        "id": "6",
+        "postal_type_code": "6",
+        "postal_type_description": "By Hand",
+        "updated_on": "2011-10-03 00:00:00+05:30",
+        "adm_updated_by": "1",
+        "is_deleted": "f"
+    },
+    {
+        "id": "7",
+        "postal_type_code": "7",
+        "postal_type_description": "Registered A.D. Letters",
+        "updated_on": "2012-01-17 00:00:00+05:30",
+        "adm_updated_by": "7",
+        "is_deleted": "f"
+    },
+    {
+        "id": "8",
+        "postal_type_code": "8",
+        "postal_type_description": "Registered A.D. Parcels",
+        "updated_on": "2012-01-17 00:00:00+05:30",
+        "adm_updated_by": "7",
+        "is_deleted": "f"
+    },
+    {
+        "id": "9",
+        "postal_type_code": "9",
+        "postal_type_description": "Registered Parcels",
+        "updated_on": "2012-01-17 00:00:00+05:30",
+        "adm_updated_by": "7",
+        "is_deleted": "f"
+    },
+    {
+        "id": "10",
+        "postal_type_code": "10",
+        "postal_type_description": "UPC",
+        "updated_on": "2012-01-17 00:00:00+05:30",
+        "adm_updated_by": "7",
+        "is_deleted": "f"
+    },
+    {
+        "id": "11",
+        "postal_type_code": "11",
+        "postal_type_description": "By Railway Parcel",
+        "updated_on": "2012-01-17 00:00:00+05:30",
+        "adm_updated_by": "7",
+        "is_deleted": "f"
+    },
+    {
+        "id": "12",
+        "postal_type_code": "12",
+        "postal_type_description": "Regd. A.D. Insured Parcel",
+        "updated_on": "2012-01-17 00:00:00+05:30",
+        "adm_updated_by": "7",
+        "is_deleted": "f"
+    },
+    {
+        "id": "9999",
+        "postal_type_code": "9999",
+        "postal_type_description": null,
+        "updated_on": "2012-09-25 00:00:00+05:30",
+        "adm_updated_by": "1",
+        "is_deleted": "f"
+    }
+]

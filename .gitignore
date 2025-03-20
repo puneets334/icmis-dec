@@ -1,0 +1,15 @@
+/.idea
+.idea/
+.git/
+/.git
+/writable
+/app/Config
+.svn/
+/.svn
+icmisci4/
+corePHP/
+sharedsheet/
+.env
+info.php
+/vendor
+MasterJSON/state.json

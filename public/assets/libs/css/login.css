@@ -1,0 +1,344 @@
+
+.login-page {
+    background-image: url("../../images/bg_banner.png");
+    height: auto;
+    background-size: cover;
+}
+
+.primary-text{
+color:#0183a7;
+}
+
+
+
+.wrap-input01 {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    margin-bottom: 10px
+}
+
+
+.focus-input01 {
+    display: block;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0;
+    color:rgb(1 131 167);
+}
+
+
+
+@-webkit-keyframes anim-shadow {
+    to {
+        box-shadow: 0 0 10px 5px;
+        opacity: 0
+    }
+}
+
+@keyframes anim-shadow {
+    to {
+        box-shadow: 0 0 10px 5px;
+        opacity: 0
+    }
+}
+
+.symbol-input01 {
+    font-size: 15px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    border-radius: 25px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-left: 35px;
+    pointer-events: none;
+    color: #666;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s;
+    transition: all .4s
+}
+
+
+
+.container-login01-form-btn {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.login01-form-btn {
+    color: #fff;
+    text-transform: uppercase;
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    background: #0183a7;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 25px;
+    -webkit-transition: all .4s;
+    -o-transition: all .4s;
+    -moz-transition: all .4s;
+    transition: all .4s
+}
+
+.login01-form-btn:hover {
+    background: #005870;
+}
+.updatesLi li{
+	margin-bottom:10px;
+}
+
+#nav-tab button{
+	color:#0183a7;
+	font-weight:bold;
+	font-size:1rem;
+}
+
+
+
+.updatesLi{
+	max-height:320px;
+	overflow-y:auto;
+}
+
+.card-header{
+    background-color: grey;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* yash css start  */
+.logo_or_name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 15px 10px;
+    border-radius: 0 0px 10px 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.banner-txts {
+    text-align: start;
+}
+.banner-txts h6 {
+    font-size: 20px;
+  
+    margin: 0;
+    line-height: 18px;
+    color: #bb0000;
+}
+.banner-txts span {
+    font-size: 16px;
+    margin: 0;
+    line-height: 26px;
+  
+}
+
+/* marque css  */
+
+.marque__text h6 {
+    background: #bb0000;
+    padding: 10px 10px;
+    color: white;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    border-radius: 5px 0 0 5px;
+}
+
+.marque__text h6::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -15px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 20px solid #bb0000;
+}
+
+
+.marque__text {
+    display: flex;
+    white-space: nowrap;
+    gap: 20px;
+    align-items: center;
+    padding: 0px 0;
+    margin: 15px 0 15px 0;
+    background: white;
+    border-radius: 5px;
+}
+ul.marque_list_content li {
+    border-right: 1px solid gray;
+    padding: 0 40px 0 0;
+}
+
+ul.marque_list_content {
+    display: flex;
+    margin: 0;
+    gap: 40px;
+}
+li::marker {
+    color: #bb0000;
+  }
+  ul.marque_list_content li a {
+    text-decoration: none;
+    color: black;
+}
+.marque__text button {
+    color: #bb0000 !important;
+    padding: 10px 10px;
+    color: white;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    background: transparent;
+    border: none;
+    border-left: 1px solid #dfdfdf;
+    padding: 8px 20px;
+    font-weight: 500;
+}
+/* End ###############  */
+
+/* login css  */
+.login-banner-inner {
+    position: relative;
+}
+.login-banner {
+    padding-right: 0;
+}
+.login-banner-inner .banimg-sec img {
+    width: 100%;
+    border-radius: 10px 0 0 10px;
+    height: 600px;
+    object-fit: cover;
+}
+.login-s-inner {
+    padding: 40px 40px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    border-radius: 0 15px 15px 0;
+    outline: 1px dashed gray;
+    outline-offset: -15px;
+    background: white;
+}
+.httxt h4 {
+    font-size: 30px;
+    margin-bottom: 30px;
+    position: relative;
+    width: fit-content;
+  
+}
+.httxt h4:before {
+    content: '';
+    position: absolute;
+    bottom: -33%;
+    left: 0;
+    width: 85px;
+    background: #110458;
+    height: 3px;
+}
+.loin-form label {
+    font-size: 16px;
+    color: #000;
+}
+.cus-form-ctrl {
+    border-radius: 5px !important;
+    border: 1px solid #E1E1E1;
+    padding: 8px 10px;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+  }
+  .loin-form label a {
+    text-decoration: none;
+}
+.loin-form .login01-form-btn {
+    width: 100%;
+    padding: 12px 5px;
+    line-height: 21px;
+}
+.login01-form-btn{display:inline-block;transition:all 0.5s ease-in-out 0s;-webkit-transition:all 0.5s ease-in-out 0s;border-radius:100px;position:relative;overflow:hidden;background-color: #110458;color: #FFF;border: none;}
+.login01-form-btn:before{left:-20px;-webkit-transform:translate(-50%, -50%);transform:translate(-50%, -50%)}
+.login01-form-btn:after{right:-20px;-webkit-transform:translate(50%, -50%);transform:translate(50%, -50%)}
+.login01-form-btn:before, .login01-form-btn:after{position:absolute;top:50%;content:"";width:20px;height:20px;background-color: #0D48BE;border-radius:50%}
+.login01-form-btn:after, .login01-form-btn:before{z-index:-1;transition:all 0.5s ease-in-out 0s;-webkit-transition:all 0.5s ease-in-out 0s}
+.login01-form-btn:hover{color:#fff;z-index:1;    background: #110458;}
+.login01-form-btn:hover:before{-webkit-animation:criss-cross-left 0.8s both;animation:criss-cross-left 0.8s both;-webkit-animation-direction:alternate;animation-direction:alternate}
+.login01-form-btn:hover:after{-webkit-animation:criss-cross-right 0.8s both;animation:criss-cross-right 0.8s both;-webkit-animation-direction:alternate;animation-direction:alternate}
+@keyframes criss-cross-left {
+    0%{left:-20px}
+    50% {left:50%;width:20px;height:20px}
+    100%{left:50%;width: 500px;height:375px}
+}
+@keyframes criss-cross-right {
+    0%{right:-20px}
+    50%{right:50%;width:20px;height:20px}
+    100%{right:50%;width:375px;height:375px}
+}
+.cus-form-ctrl{border-radius:   5px !important;border: 1px solid #E1E1E1;padding:8px 10px;}
+.form-check-input.cus-form-ctrl {
+    border-radius: 5px !important;
+}.cus-form-ctrl:focus {
+    box-shadow: none;
+    border-color: #110458;
+}
+/* Edn ################  */
+
+/* footer css  */
+.footer-top-sec {
+    padding: 15px;
+}
+.footer-top-sec .copyright-sec p {
+    text-align: center;
+    font-weight: 700;
+}
+
+.footer-top-sec p {
+    margin: 0;
+    font-size: 16px;
+}
+/* Eden ############  */
+/* Edn yash css  */

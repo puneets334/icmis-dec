@@ -1,0 +1,8772 @@
+[
+    {
+        "hdate": null,
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2013-01-01",
+        "hname": "New Years Day",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-01-14",
+        "hname": "Makar Sankrantl",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-01-23",
+        "hname": "Eid Milad-Un-Nabi",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-01-26",
+        "hname": "Republic Day",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-03-27",
+        "hname": "Holi (Dhuredi)",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-03-28",
+        "hname": "Holi (Dhuredi)",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-03-29",
+        "hname": "Good Friday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-04-11",
+        "hname": "Gudi Padwa",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-04-19",
+        "hname": "Ram navmi",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-04-24",
+        "hname": "Mahavir Jayanti",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-05-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-05-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-05-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-05-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-05-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-05-25",
+        "hname": "Buddha Purnima",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-05-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-05-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-05-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-05-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-05-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-05-31",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-03",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-06",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-07",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-08",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-09",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-10",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-11",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-12",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-13",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-06-14",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-08-09",
+        "hname": "Id-UI-Fitar",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-08-15",
+        "hname": "Independence Day",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-08-26",
+        "hname": "Janmashtmi",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-09-09",
+        "hname": "Ganesh Chaturthi",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-09-30",
+        "hname": "Raksha Bandhan",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-10-02",
+        "hname": "Gandhi Jayanti",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-10-13",
+        "hname": "Dussehra",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-10-14",
+        "hname": "Dussehra",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-10-15",
+        "hname": "Dussehra",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-10-16",
+        "hname": "Id Ul Zuha",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-11-02",
+        "hname": "Deepawali",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-11-03",
+        "hname": "Deepawali",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-11-04",
+        "hname": "Deepawali",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-11-05",
+        "hname": "Deepawali",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-11-06",
+        "hname": "Deepawali",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-11-07",
+        "hname": "Deepawali",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-11-14",
+        "hname": "Moharrum",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-12-23",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-12-24",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-12-25",
+        "hname": "Christmas Day",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2013-12-26",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-12-27",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-12-28",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-12-29",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-12-30",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2013-12-31",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-01-01",
+        "hname": "New Years Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-01-04",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-01-05",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-01-11",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-01-12",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-01-14",
+        "hname": "Eid Milad-Un-Nabi / Makar Sankrantl",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-01-18",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-01-19",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-01-25",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-02-01",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-02-02",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-02-08",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-02-09",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-02-15",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-02-16",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-02-22",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-02-23",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-02-27",
+        "hname": "Mahashivratri",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-03-01",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-03-02",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-03-08",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-03-09",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-03-15",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-03-16",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-03-17",
+        "hname": "Holi (Dhuredi)",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-03-18",
+        "hname": "HOLI",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-03-22",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-03-23",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-03-29",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-03-30",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-03-31",
+        "hname": "Gudi Padwa",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-04-06",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-04-08",
+        "hname": "Ram navmi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-04-10",
+        "hname": "Election",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-04-12",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-04-13",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-04-14",
+        "hname": " Dr. Ambedkar Jayanti/Baisakhi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-04-18",
+        "hname": "Good Friday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-04-19",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-04-20",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-04-26",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-04-27",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-05-03",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-05-04",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-05-10",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-05-11",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-05-14",
+        "hname": "Buddha Purnima",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-05-17",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-05-18",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-05-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-05-31",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-03",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-06",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-07",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-08",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-09",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-10",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-11",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-12",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-13",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-06-14",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-06-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-06-21",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-06-22",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-06-28",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-06-29",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-07-05",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-07-06",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-07-12",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-07-13",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-07-19",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-07-20",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-07-26",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-07-27",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-07-29",
+        "hname": "Id-UI-Fitar",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-08-02",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-08-03",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-08-09",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-08-10",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-08-15",
+        "hname": "Independence Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-08-16",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-08-17",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-08-18",
+        "hname": "Janmashtmi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-08-23",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-08-24",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-08-29",
+        "hname": "Ganesh Chaturthi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-08-30",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-08-31",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-09-06",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-09-07",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-09-13",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-09-14",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-09-20",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-09-21",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-09-23",
+        "hname": "Sarv Pitra Moksha Amavashya",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-09-27",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-09-28",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-02",
+        "hname": "Gandhi Jayanti",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-03",
+        "hname": "Dussehra",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-04",
+        "hname": "Dussehra",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-05",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-06",
+        "hname": "IDD",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-11",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-12",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-18",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-19",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-20",
+        "hname": "Deepawali",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-21",
+        "hname": "Deepawali",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-22",
+        "hname": "Deepawali",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-23",
+        "hname": "Deepawali",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-24",
+        "hname": "Deepawali",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-25",
+        "hname": "Deepawali",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-10-26",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-11-01",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-11-02",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-11-04",
+        "hname": "Moharrum",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-11-06",
+        "hname": "Gurunanak Jayanti",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-11-08",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-11-09",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-11-15",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-11-16",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-11-22",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-11-23",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-11-29",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-11-30",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-12-06",
+        "hname": "saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2014-12-07",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-12-13",
+        "hname": "saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-12-14",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-12-21",
+        "hname": "sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-12-22",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-12-23",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-12-24",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-12-25",
+        "hname": "Christmas Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2014-12-26",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-12-27",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-12-28",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-12-29",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-12-30",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2014-12-31",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-01-03",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-01-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-01-10",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-01-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-01-15",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-01-17",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-01-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-01-24",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-01-25",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-01-26",
+        "hname": "Republic Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-01-31",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-02-01",
+        "hname": "Sunday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-02-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-02-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-02-14",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-02-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-02-17",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-02-21",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-02-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-02-28",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-03-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-03-06",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-03-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-03-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-03-14",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-03-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-03-21",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-03-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-03-28",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-03-29",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-04-02",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-04-03",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-04-04",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-04-05",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-04-11",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-04-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-04-14",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-04-18",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-04-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-04-25",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-04-26",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-05-02",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-05-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-05-04",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-05-09",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-05-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-05-16",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-05-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-05-18",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-05-31",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-03",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-06",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-07",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-08",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-09",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-10",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-11",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-12",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-06-13",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-06-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-06-20",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-06-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-06-27",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-06-28",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-07-04",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-07-05",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-07-11",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-07-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-07-18",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-07-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-07-25",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-07-26",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-08-01",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-08-02",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-08-08",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-08-09",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-08-15",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-08-16",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-08-22",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-08-23",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-08-29",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-08-30",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-09-05",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-09-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-09-12",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-09-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-09-17",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-09-19",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-09-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-09-25",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-09-26",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-09-27",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-10-02",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-10-03",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-10-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-10-10",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-10-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-10-12",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-10-17",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-10-18",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-10-21",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-10-22",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-10-23",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-10-24",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-10-25",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-10-31",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-11-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-11-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-09",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-10",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-11",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-12",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-13",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-14",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-21",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-25",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-11-28",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-11-29",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-12-05",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2015-12-06",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-12-12",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-12-13",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-12-19",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-12-20",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2015-12-21",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-12-22",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-12-23",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-12-24",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-12-25",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-12-26",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-12-27",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-12-28",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-12-29",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-12-30",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2015-12-31",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-01-01",
+        "hname": "New Years Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-01-02",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-01-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-01-09",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-01-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-01-15",
+        "hname": "Makar Sankranti",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-01-16",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-01-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-01-23",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-01-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-01-26",
+        "hname": "Republic Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-01-30",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-01-31",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-02-06",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-02-07",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-02-13",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-02-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-02-20",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-02-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-02-27",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-02-28",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-03-05",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-03-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-03-07",
+        "hname": "Mahashivratri",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-03-12",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-03-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-03-19",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-03-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-03-23",
+        "hname": "Holi (Dhuredi)",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-03-24",
+        "hname": "Bhai Dooj",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-03-25",
+        "hname": "Good Friday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-03-26",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-03-27",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-04-02",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-04-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-04-08",
+        "hname": "Gudi Padwa/Chaiti Chand",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-04-09",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-04-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-04-14",
+        "hname": "Dr. Ambedkar Jayanti/ Baisakhi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-04-15",
+        "hname": "Ramnavmi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-04-16",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-04-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-04-19",
+        "hname": "Mahaveer Jayanti",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-04-23",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-04-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-05-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-05-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-05-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-05-14",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-05-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-05-16",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-17",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-18",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-05-31",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-06-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-06-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-06-03",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-06-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-06-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-06-06",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-06-07",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-06-08",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-06-09",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-06-10",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-06-11",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-06-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-06-18",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-06-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-06-25",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-06-26",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-07-02",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-07-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-07-06",
+        "hname": "Id-Ul-Fitar",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-07-07",
+        "hname": "Id-Ul-Fitar",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-07-09",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-07-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-07-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-07-23",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-07-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-07-30",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-07-31",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-08-06",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-08-07",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-08-13",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-08-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-08-15",
+        "hname": "Independence Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-08-18",
+        "hname": "Raksha Bandhan",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-08-20",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-08-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-08-25",
+        "hname": "Janmashtmi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-08-27",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-08-28",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-09-03",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-09-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-09-05",
+        "hname": "Ganesh Chaturthi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-09-10",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-09-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-09-13",
+        "hname": "Id-U1-Zuha",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-09-17",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-09-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-09-24",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-09-25",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-09-30",
+        "hname": "Sarv Pitra Moksha Amavasya",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-01",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-10-02",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-08",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-09",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-10",
+        "hname": "Mahanavmi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-11",
+        "hname": "Dussehra",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-12",
+        "hname": "Moharrum",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-15",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-16",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-22",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-10-23",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-28",
+        "hname": "Deepawali",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-29",
+        "hname": "Deepawali",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-30",
+        "hname": "Deepawali",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-10-31",
+        "hname": "Deepawali",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-11-01",
+        "hname": "Deepawali",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-11-05",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-11-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-11-12",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-11-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-11-14",
+        "hname": "Gurunanak Jayanti",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-11-19",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-11-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-11-26",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-11-27",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-12-03",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2016-12-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-12-10",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-12-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-12-12",
+        "hname": "Id-milad un-Nabi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-12-17",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-12-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2016-12-23",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-12-24",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-12-25",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-12-26",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-12-27",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-12-28",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-12-29",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-12-30",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2016-12-31",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-01-01",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-01-07",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-01-08",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-01-14",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-01-15",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-01-21",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-01-22",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-01-26",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-01-28",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-01-29",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-02-04",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-02-05",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-02-11",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-02-12",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-02-18",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-02-19",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-02-24",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-02-25",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-02-26",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-03-04",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-03-05",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-03-11",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-03-12",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-03-13",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-03-14",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-03-15",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-03-16",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-03-17",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-03-18",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-03-19",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-03-25",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-03-26",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-04-01",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-04-02",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-04-04",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-04-08",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-04-09",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-04-14",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-04-15",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-04-16",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-04-22",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-04-23",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-04-29",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-04-30",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-05-06",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-05-07",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-05-10",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-05-11",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-12",
+        "hname": "Summer Vacation",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-05-13",
+        "hname": "Summer Vacation",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-05-14",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-15",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-16",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-17",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-18",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-05-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-05-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-05-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-05-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-05-31",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-03",
+        "hname": "Summer Vacation",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-06-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-06",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-07",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-08",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-09",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-10",
+        "hname": "Summer Vacation",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-06-11",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-12",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-13",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-14",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-15",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-16",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-17",
+        "hname": "Summer Vacation",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-06-18",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-06-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-07-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-07-02",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-07-08",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-07-09",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-07-15",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-07-16",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-07-22",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-07-23",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-07-29",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-07-30",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-08-05",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-08-06",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-08-07",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-08-12",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-08-13",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-08-15",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-08-19",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-08-20",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-08-26",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-08-27",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-09-02",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-09-03",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-09-09",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-09-10",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-09-16",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-09-17",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-09-23",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-09-24",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-09-25",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-09-26",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-09-27",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-09-28",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-09-29",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-09-30",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-01",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-02",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-07",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-10-08",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-14",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-10-15",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-16",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-17",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-18",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-19",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-20",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-21",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-22",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-10-28",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-10-29",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-11-04",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-11-05",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-11-11",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-11-12",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-11-18",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-11-19",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-11-25",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-11-26",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-12-02",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-12-03",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-12-09",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-12-10",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-12-16",
+        "hname": "",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2017-12-17",
+        "hname": "",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2017-12-18",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-19",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-20",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-21",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-22",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-23",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-24",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-25",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-26",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-27",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-28",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-29",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-30",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2017-12-31",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-01-01",
+        "hname": "New Year Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-01-02",
+        "hname": "Local Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-01-03",
+        "hname": "Local Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-01-06",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-01-07",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-01-13",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-01-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-01-20",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-01-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-01-26",
+        "hname": "Republic Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-01-27",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-01-28",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-02-03",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-02-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-02-10",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-02-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-02-14",
+        "hname": "Maha Shivaratri",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-02-17",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-02-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-02-24",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-02-25",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-02-26",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-02-27",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-02-28",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-03-01",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-03-02",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-03-03",
+        "hname": "Holi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-03-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-03-10",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-03-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-03-17",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-03-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-03-24",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-03-25",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-03-29",
+        "hname": "Mahavir Jayanti",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-03-30",
+        "hname": "Good Friday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-03-31",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-04-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-04-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-04-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-04-14",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-04-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-04-21",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-04-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-04-28",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-04-29",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-04-30",
+        "hname": "Buddha Purnima",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-05-05",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-05-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-05-12",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-05-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-05-19",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-05-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-05-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-05-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-05-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-05-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-05-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-05-26",
+        "hname": "Saturday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-05-27",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-05-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-05-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-05-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-05-31",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-02",
+        "hname": "Saturday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-06-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-06",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-07",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-08",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-09",
+        "hname": "Saturday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-06-11",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-12",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-13",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-14",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-15",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-16",
+        "hname": "Saturday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-06-18",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-23",
+        "hname": "Saturday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-06-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-06-30",
+        "hname": "Saturday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-07-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-07-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-07-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-07-14",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-07-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-07-21",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-07-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-07-28",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-07-29",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-08-04",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-08-05",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-08-11",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-08-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-08-15",
+        "hname": "Independence Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-08-18",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-08-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-08-22",
+        "hname": "Id-ul_zuha (Bakrid)",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-08-25",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-08-26",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-09-01",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-09-02",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-09-03",
+        "hname": "Janmashtami",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-09-08",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-09-09",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-09-15",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-09-16",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-09-21",
+        "hname": "Muharram",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-09-22",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-09-23",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-09-29",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-09-30",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-10-02",
+        "hname": "Mahatma Gandhi Birthday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-10-06",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-10-07",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-10-13",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-10-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-10-15",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-10-16",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-10-17",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-10-18",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-10-19",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-10-20",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-10-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-10-27",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-10-28",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-03",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-11-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-05",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-06",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-07",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-08",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-09",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-10",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-17",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-11-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-21",
+        "hname": "Milad-un-Nabi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-23",
+        "hname": "Guru Nanak Birthday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-11-24",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-11-25",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-12-01",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-12-02",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-12-08",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-12-09",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-12-15",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-12-16",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-12-17",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-12-18",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-12-19",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-12-20",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-12-21",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-12-22",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2018-12-23",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-12-24",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-12-25",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-12-26",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-12-27",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-12-28",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2018-12-29",
+        "hname": "Saturday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-12-30",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2018-12-31",
+        "hname": "Winter Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-01-01",
+        "hname": "New Year Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-01-05",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-01-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-01-12",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-01-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-01-19",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-01-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-01-26",
+        "hname": "Saturday/Republic Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-01-27",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-02-02",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-02-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-02-09",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-02-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-02-16",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-02-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-02-23",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-02-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-02",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-03-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-04",
+        "hname": "Maha Shiv Ratri",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-09",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-03-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-16",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-03-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-18",
+        "hname": "Holi Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-19",
+        "hname": "Holi Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-20",
+        "hname": "Holi Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-21",
+        "hname": "Holi Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-22",
+        "hname": "Holi Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-23",
+        "hname": "Holi Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-03-30",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-03-31",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-04-06",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-04-07",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-04-13",
+        "hname": "Saturday/Ram Navmi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-04-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-04-17",
+        "hname": "Mahavir Jayanti",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-04-18",
+        "hname": "Local Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-04-19",
+        "hname": "Good Friday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-04-20",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-04-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-04-27",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-04-28",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-05-04",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-05-05",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-05-11",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-05-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-05-13",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-14",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-15",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-16",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-17",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-18",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-05-31",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-03",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-06",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-07",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-08",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-09",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-10",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-11",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-12",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-13",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-14",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-15",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-16",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-17",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-18",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-06-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-07-06",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-07-07",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-07-13",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-07-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-07-20",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-07-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-07-27",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-07-28",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-08-03",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-08-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-08-10",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-08-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-08-12",
+        "hname": "Id-Ul-Zuha(Bakrid)",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-08-15",
+        "hname": "Independence Day & Raksha Bandhan",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-08-17",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-08-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-08-24",
+        "hname": "Saturday/Janmashtami",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-08-25",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-08-31",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-09-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-09-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-09-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-09-09",
+        "hname": "Local Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-09-10",
+        "hname": "Muharram",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-09-14",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-09-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-09-21",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-09-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-09-28",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-09-29",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-02",
+        "hname": "Mahatma Gandhis Birthday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-05",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-10-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-07",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-08",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-09",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-10",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-11",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-12",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-19",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-10-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-26",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-10-27",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-28",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-29",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-30",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-10-31",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-11-01",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-11-02",
+        "hname": "Saturday/Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-11-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-11-09",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-11-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-11-11",
+        "hname": "Local Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-11-12",
+        "hname": "Guru Nanak Birthday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-11-16",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-11-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-11-23",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-11-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-11-30",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-12-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-12-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2019-12-14",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-12-15",
+        "hname": "Sunday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2019-12-19",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-20",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-21",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-22",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-23",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-24",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-25",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-26",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-27",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-28",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-29",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-30",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2019-12-31",
+        "hname": "Chirstmas and New Year Holiday.",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-01-01",
+        "hname": "New Year Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-01-02",
+        "hname": "New Year Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-01-03",
+        "hname": "New Year Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-01-04",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-01-05",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-01-11",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-01-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-01-18",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-01-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-01-25",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-01-26",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-02-01",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-02-02",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-02-08",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-02-09",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-02-15",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-02-16",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-02-21",
+        "hname": "Maha Shivaratri",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-02-22",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-02-23",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-02-29",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-03-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-03-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-03-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-03-09",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-03-10",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-03-11",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-03-12",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-03-13",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-03-14",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-03-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-03-21",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-03-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-03-28",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-03-29",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-04-02",
+        "hname": "Ram Navami",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-04-04",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-04-05",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-04-06",
+        "hname": "Mahavir Jayanti",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-04-10",
+        "hname": "Good Friday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-04-11",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-04-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-04-18",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-04-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-04-25",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-04-26",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-05-02",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-05-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-05-07",
+        "hname": "Buddha Purnima",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-05-09",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-05-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-05-16",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-05-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-05-18",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-05-31",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-03",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-06",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-07",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-08",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-09",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-10",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-11",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-12",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-13",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-14",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-15",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-16",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-17",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-18",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-06-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-07-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-07-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-07-03",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-07-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-07-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-07-11",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-07-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-07-18",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-07-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-07-25",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-07-26",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-08-01",
+        "hname": "Id-ul-Zuha(Bakrid)",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-08-02",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-08-03",
+        "hname": "Raksha Bandhan",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-08-08",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-08-09",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-08-12",
+        "hname": "Janmashtami",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-08-15",
+        "hname": "Independence Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-08-16",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-08-22",
+        "hname": "Ganesh Chaturthi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-08-23",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-08-29",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-08-30",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-09-05",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-09-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-09-12",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-09-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-09-19",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-09-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-09-26",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-09-27",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-02",
+        "hname": "Mahatma Gandhis Birthday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-03",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-10-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-10",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-10-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-17",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-10-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-19",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-20",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-21",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-22",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-23",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-24",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-25",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-30",
+        "hname": "Milad-un-Nabi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-10-31",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-11-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-11-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-11-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-11-09",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-11-10",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-11-11",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-11-12",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-11-13",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-11-14",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-11-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-11-21",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-11-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-11-28",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-11-29",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-11-30",
+        "hname": "Guru Nanak Birthday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-12-05",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-12-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-12-12",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-12-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-12-19",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2020-12-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2020-12-21",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-12-22",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-12-23",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-12-24",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-12-25",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-12-26",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-12-27",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-12-28",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-12-29",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-12-30",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2020-12-31",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-01-01",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-01-02",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-01-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-01-09",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-01-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-01-14",
+        "hname": "Makar Sankranti_Pongal_Bihu",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-01-15",
+        "hname": "Local Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-01-16",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-01-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-01-23",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-01-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-01-26",
+        "hname": "Republic Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-01-30",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-01-31",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-02-06",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-02-07",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-02-13",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-02-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-02-20",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-02-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-02-27",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-02-28",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-03-06",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-03-07",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-03-11",
+        "hname": "Maha Shivaratri",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-03-13",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-03-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-03-20",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-03-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-03-27",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-03-28",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-03-29",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-03-30",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-03-31",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-04-01",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-04-02",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-04-03",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-04-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-04-10",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-04-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-04-14",
+        "hname": "Ambedkar Jayanti",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-04-17",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-04-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-04-21",
+        "hname": "Ram Navami",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-04-24",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-04-25",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-05-01",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-05-02",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-05-08",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-05-09",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-05-14",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-15",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-16",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-17",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-18",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-19",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-20",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-21",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-22",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-23",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-24",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-25",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-26",
+        "hname": "Summer Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-05-27",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-28",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-29",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-30",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-05-31",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-01",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-02",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-03",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-04",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-05",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-06",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-07",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-08",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-09",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-10",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-11",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-12",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-13",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-14",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-15",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-16",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-17",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-18",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-19",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-20",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-21",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-22",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-23",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-24",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-25",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-26",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-27",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-28",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-29",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-06-30",
+        "hname": "Summer Holidays",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-07-03",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-07-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-07-10",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-07-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-07-17",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-07-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-07-21",
+        "hname": "Id-ul-Zuha",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-07-24",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-07-25",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-07-31",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-08-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-08-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-08-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-08-14",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-08-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-08-19",
+        "hname": "Muharram",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-08-21",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-08-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-08-28",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-08-29",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-08-30",
+        "hname": "Janmashtami",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-09-04",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-09-05",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-09-10",
+        "hname": "Ganesh Chaturthi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-09-11",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-09-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-09-18",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-09-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-09-25",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-09-26",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-02",
+        "hname": "Mahatma Gandhi Birthday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-09",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-10-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-11",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-12",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-13",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-14",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-15",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-16",
+        "hname": "Dussehra Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-19",
+        "hname": "Milad-un-Nabi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-23",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-10-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-10-30",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-10-31",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-11-01",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-11-02",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-11-03",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-11-04",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-11-05",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-11-06",
+        "hname": "Diwali Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-11-07",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-11-13",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-11-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-11-19",
+        "hname": "Guru Nanak Birthday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-11-20",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-11-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-11-27",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-11-28",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-12-04",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-12-05",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-12-11",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-12-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-12-18",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2021-12-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2021-12-20",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-12-21",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-12-22",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-12-23",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-12-24",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-12-25",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-12-26",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-12-27",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-12-28",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-12-29",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-12-30",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2021-12-31",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-01-01",
+        "hname": "Chirstmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-01-02",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-01-08",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-01-09",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-01-13",
+        "hname": "Local Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-01-14",
+        "hname": "Makar Sankranti_Pongal_Bihu",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-01-15",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-01-16",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-01-22",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-01-23",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-01-26",
+        "hname": "Republic Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-01-29",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-01-30",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-02-05",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-02-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-02-12",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-02-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-02-19",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-02-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-02-26",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-02-27",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-03-01",
+        "hname": "Maha Shivratri",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-03-05",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-03-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-03-12",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-03-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-03-17",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-03-18",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-03-19",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-03-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-03-26",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-03-27",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-04-02",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-04-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-04-09",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-04-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-04-14",
+        "hname": "Mahavir Jayanti",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-04-15",
+        "hname": "Good Friday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-04-16",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-04-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-04-23",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-04-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-04-30",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-05-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-05-03",
+        "hname": "ID-ur-Fidr",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-05-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-05-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-05-14",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-05-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-05-16",
+        "hname": "Buddha Purnima",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-05-21",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-05-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-05-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-05-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-05-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-05-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-05-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-05-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-05-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-05-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-05-31",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-03",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-06",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-07",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-08",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-09",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-10",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-11",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-12",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-13",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-14",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-15",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-16",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-17",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-18",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-06-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-07-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-07-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-07-03",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-07-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-07-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-07-06",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-07-07",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-07-08",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-07-09",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-07-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-07-16",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-07-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-07-23",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-07-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-07-30",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-07-31",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-08-06",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-08-07",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-08-09",
+        "hname": "Muharram",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-08-13",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-08-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-08-15",
+        "hname": "Independence Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-08-19",
+        "hname": "Janmashtami",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-08-20",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-08-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-08-27",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-08-28",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-08-31",
+        "hname": "Ganesh Chaturthi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-09-03",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-09-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-09-10",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-09-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-09-17",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-09-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-09-24",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-09-25",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-01",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-10-02",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-03",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-04",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-05",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-06",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-07",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-08",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-09",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-15",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-10-16",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-22",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-10-23",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-24",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-25",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-26",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-27",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-28",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-29",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-10-30",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-11-05",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-11-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-11-08",
+        "hname": "Guru Nanak Birthday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-11-12",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-11-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-11-19",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-11-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-11-26",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-11-27",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-12-03",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-12-04",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-12-10",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-12-11",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-12-17",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2022-12-18",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2022-12-19",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-20",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-21",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-22",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-23",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-24",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-25",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-26",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-27",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-28",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-29",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-30",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2022-12-31",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-01-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-01-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-01-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-01-14",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-01-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-01-21",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-01-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-01-26",
+        "hname": "Republic Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-01-28",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-01-29",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-02-04",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-02-05",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-02-11",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-02-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-02-18",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-02-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-02-25",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-02-26",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-04",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-03-05",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-06",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-07",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-08",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-09",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-10",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-11",
+        "hname": "Holi Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-18",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-03-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-25",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-03-26",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-30",
+        "hname": "Ram Navami",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-03-31",
+        "hname": "Local Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-04-01",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-04-02",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-04-03",
+        "hname": "Local Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-04-04",
+        "hname": "Mahavir Jayanti",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-04-07",
+        "hname": "Good Friday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-04-08",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-04-09",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-04-15",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-04-16",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-04-22",
+        "hname": "ID-ur-Fidr",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-04-23",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-04-29",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-04-30",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-05-05",
+        "hname": "Buddha Purnima",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-05-06",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-05-07",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-05-13",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-05-14",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-05-20",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-05-21",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-05-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-05-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-05-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-05-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-05-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-05-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-05-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-05-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-05-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-05-31",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-03",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-04",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-05",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-06",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-07",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-08",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-09",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-10",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-11",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-12",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-13",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-14",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-15",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-16",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-17",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-18",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-19",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-20",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-21",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-22",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-23",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-24",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-25",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-26",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-27",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-28",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-29",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-06-30",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-07-01",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-07-02",
+        "hname": "Summer Vacation",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-07-08",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-07-09",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-07-15",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-07-16",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-07-22",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-07-23",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-07-29",
+        "hname": "Muharram",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-07-30",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-08-05",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-08-06",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-08-12",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-08-13",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-08-15",
+        "hname": "Independence Day",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-08-19",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-08-20",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-08-26",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-08-27",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-08-30",
+        "hname": "Raksha Bandhan",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-09-02",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-09-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-09-07",
+        "hname": "Janmashtami",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-09-09",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-09-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-09-16",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-09-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-09-19",
+        "hname": "Ganesh Chaturthi",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-09-23",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-09-24",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-09-28",
+        "hname": "Milad-un-Nabi or Id-e-Milad",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-09-29",
+        "hname": "Local Holiday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-09-30",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-10-01",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-10-02",
+        "hname": "Mahatma Gandhis Birthday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-10-07",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-10-08",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-10-14",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-10-15",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-10-21",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-10-22",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-10-23",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-10-24",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-10-25",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-10-26",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-10-27",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-10-28",
+        "hname": "Dussehra Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-10-29",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-11-04",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-11-05",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-11-11",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-11-12",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-11-13",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-11-14",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-11-15",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-11-16",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-11-17",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-11-18",
+        "hname": "Diwali Holidays",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-11-19",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-11-25",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-11-26",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-11-27",
+        "hname": "Guru Nanak Birthday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-12-02",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-12-03",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-12-09",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-12-10",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-12-16",
+        "hname": "Saturday",
+        "emp_hol": "0"
+    },
+    {
+        "hdate": "2023-12-17",
+        "hname": "Sunday",
+        "emp_hol": "1"
+    },
+    {
+        "hdate": "2023-12-18",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-19",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-20",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-21",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-22",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-23",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-24",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-25",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-26",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-27",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-28",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-29",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-30",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2023-12-31",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    },
+    {
+        "hdate": "2024-01-01",
+        "hname": "Christmas and New Year Holiday",
+        "emp_hol": "2"
+    }
+]

@@ -1,0 +1,512 @@
+[
+    {
+        "id": "1",
+        "name": "Cause Lists",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2014-11-28 18:10:13+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "2",
+        "name": "Final List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "3",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:37+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "3",
+        "name": "Elimination List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2016-05-04 10:43:39+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "4",
+        "name": "Supplementary List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "6/25",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:37+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "5",
+        "name": "Advance List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "2",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:37+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "6",
+        "name": "Elimination Advance List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "4",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:38+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "7",
+        "name": "Registrar List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "8",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:38+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "8",
+        "name": "Elimination Registrar List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "10",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:38+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "9",
+        "name": "Advance Chamber List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "13",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:38+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "10",
+        "name": "Chamber List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "14",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:38+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "11",
+        "name": "Mentioning List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "16",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:38+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "12",
+        "name": "Mentioning Supplementary List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "16",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:39+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "13",
+        "name": "Review List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "15",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:39+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "14",
+        "name": "Weekly List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "18",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:39+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "15",
+        "name": "Terminal List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "17",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:39+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "16",
+        "name": "Weekly with Review List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "24",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:39+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "17",
+        "name": "Daily with Review List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "25",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:39+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "18",
+        "name": "Second Supplementary List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "6/25",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:40+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "19",
+        "name": "Tender",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2014-11-27 11:44:32+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "20",
+        "name": "Notice/Circular",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2014-11-27 11:44:32+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "21",
+        "name": "Daily Order",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-04-13 15:15:50+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "22",
+        "name": "Judgment",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2014-11-27 11:44:32+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "23",
+        "name": "Notice/Circular",
+        "parent_id": null,
+        "destination_id": "1",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-01-03 10:54:35+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "24",
+        "name": "e-Committee",
+        "parent_id": null,
+        "destination_id": "1",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-01-03 10:54:35+05:30",
+        "record_status": "2"
+    },
+    {
+        "id": "25",
+        "name": "For Judicial Sections",
+        "parent_id": null,
+        "destination_id": "1",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-01-03 10:54:35+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "26",
+        "name": "Daily with Review Supplementary List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "25",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:40+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "27",
+        "name": "Notice/Circular",
+        "parent_id": null,
+        "destination_id": "3",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-01-03 10:54:35+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "28",
+        "name": "e-Committee",
+        "parent_id": null,
+        "destination_id": "3",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-01-03 10:54:35+05:30",
+        "record_status": "2"
+    },
+    {
+        "id": "29",
+        "name": "Information",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2014-12-28 11:08:00+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "30",
+        "name": "Third Supplementary List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "6/25",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:40+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "31",
+        "name": "Fourth Supplementary List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "6/25",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:40+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "32",
+        "name": "Fifth Supplementary List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "6/25",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:40+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "33",
+        "name": "Chamber Supplementary List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "14",
+        "access_id": "root",
+        "access_dated": "2015-09-29 17:10:40+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "34",
+        "name": "Registrar Supplementary List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-03-13 16:10:34+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "35",
+        "name": "Advance Notice",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-03-13 16:27:53+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "36",
+        "name": "Listing Notice",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-03-13 16:34:14+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "37",
+        "name": "Deposits",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-03-23 14:20:19+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "38",
+        "name": "Recruitment",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-04-01 15:32:35+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "39",
+        "name": "Daily List of Miscellaneous Matters",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "3",
+        "access_id": "root",
+        "access_dated": "2015-10-15 14:08:00+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "40",
+        "name": "Daily List of Regular Hearing Matters",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "19",
+        "access_id": "root",
+        "access_dated": "2015-10-15 14:08:00+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "41",
+        "name": "List of Curative and Review Petitions",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "15",
+        "access_id": "root",
+        "access_dated": "2015-10-15 14:08:00+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "42",
+        "name": "Quick Links",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-10-08 15:15:03+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "43",
+        "name": "Defective matters not refiled",
+        "parent_id": "42",
+        "destination_id": null,
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2015-10-08 15:15:52+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "44",
+        "name": "Chamber Second Supplementary List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "14",
+        "access_id": "root",
+        "access_dated": "2015-10-15 12:01:37+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "45",
+        "name": "Chamber Third Supplementary List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "14",
+        "access_id": "root",
+        "access_dated": "2015-10-15 12:01:38+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "46",
+        "name": "List of Curative and Review Petitions Supplementary",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "15",
+        "access_id": "root",
+        "access_dated": "2015-10-15 14:08:00+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "47",
+        "name": "List of Curative and Review Petitions Second Supplementary",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "15",
+        "access_id": "root",
+        "access_dated": "2015-10-15 14:08:01+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "48",
+        "name": "Daily List of Curative and Review Petitions",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "15",
+        "access_id": "root",
+        "access_dated": "2016-02-29 15:12:05+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "49",
+        "name": "Daily List of Curative and Review Petitions Supplementary",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": "",
+        "access_id": "root",
+        "access_dated": "2015-10-15 14:08:00+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "50",
+        "name": "Terminal List",
+        "parent_id": null,
+        "destination_id": "2",
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2016-06-02 10:32:17+05:30",
+        "record_status": "0"
+    },
+    {
+        "id": "51",
+        "name": "Additional Advance List",
+        "parent_id": "1",
+        "destination_id": null,
+        "cis_causelist_type_id": null,
+        "access_id": "root",
+        "access_dated": "2017-01-11 11:31:39+05:30",
+        "record_status": "0"
+    }
+]

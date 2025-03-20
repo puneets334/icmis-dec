@@ -1,0 +1,37 @@
+[
+    {
+        "id": "0",
+        "descrip": "READY",
+        "display": "Y"
+    },
+    {
+        "id": "1",
+        "descrip": "MAIN LIST",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "descrip": "SUPPLEMENTARY LIST",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "descrip": "NOT READY",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "descrip": "JUDGEMENT RESERVED",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "descrip": "DELETE AND UPDATE LATER",
+        "display": "N"
+    },
+    {
+        "id": "6",
+        "descrip": "SEEKING DIRECTIONS",
+        "display": "N"
+    }
+]

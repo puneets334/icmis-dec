@@ -1,0 +1,209 @@
+[
+    {
+        "id": "1",
+        "status_code": "F",
+        "description": "At Filing Stage",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": "P"
+    },
+    {
+        "id": "2",
+        "status_code": "S",
+        "description": "Pending Scrutiny",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": "P"
+    },
+    {
+        "id": "3",
+        "status_code": "P",
+        "description": "Pending Registration",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": "P"
+    },
+    {
+        "id": "4",
+        "status_code": "W",
+        "description": "Withdrawn",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "5",
+        "status_code": "L",
+        "description": "Lodged",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "6",
+        "status_code": "D",
+        "description": "Defective",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": "P"
+    },
+    {
+        "id": "7",
+        "status_code": "R",
+        "description": "Pending",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": "P"
+    },
+    {
+        "id": "8",
+        "status_code": "I",
+        "description": "Dismissed",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "9",
+        "status_code": "A",
+        "description": "Part 2 Pending",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": "P"
+    },
+    {
+        "id": "10",
+        "status_code": "O",
+        "description": "Disposed off",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "11",
+        "status_code": "C",
+        "description": "Cancelled",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "12",
+        "status_code": "E",
+        "description": "Recall",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "13",
+        "status_code": "M",
+        "description": "Dismissal After",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "14",
+        "status_code": "N",
+        "description": "Dismissed As Withdrawn",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "15",
+        "status_code": "T",
+        "description": "Recall when withdrawn",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "16",
+        "status_code": "G",
+        "description": "Allowed",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "17",
+        "status_code": "H",
+        "description": "Reffered to Higher Bench",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "18",
+        "status_code": "U",
+        "description": "Remitted to Lower Court",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "19",
+        "status_code": "J",
+        "description": "Disposed off, compliance awaited",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "20",
+        "status_code": "B",
+        "description": "Leave Granted & Disposed off",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "21",
+        "status_code": "K",
+        "description": "Leave Granted & Dismissed",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "22",
+        "status_code": "Q",
+        "description": "Leave Granted & Allowed",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    },
+    {
+        "id": "23",
+        "status_code": "V",
+        "description": "Dismissed As Lodged",
+        "entuser": "1",
+        "entdt": "2017-04-24 11:36:12+05:30",
+        "display": "Y",
+        "flag_pd": " "
+    }
+]

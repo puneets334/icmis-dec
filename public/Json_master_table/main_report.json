@@ -1,0 +1,47 @@
+[
+    {
+        "id": "1",
+        "desc": "Listing",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "desc": "Institution & Disposal",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "desc": "Pendency",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "desc": "Institution",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "desc": "Disposal",
+        "display": "Y"
+    },
+    {
+        "id": "6",
+        "desc": "Court Master",
+        "display": "Y"
+    },
+    {
+        "id": "7",
+        "desc": "Copying",
+        "display": "Y"
+    },
+    {
+        "id": "8",
+        "desc": "Matrix",
+        "display": "Y"
+    },
+    {
+        "id": "9",
+        "desc": "Dealing Assistant",
+        "display": "Y"
+    }
+]

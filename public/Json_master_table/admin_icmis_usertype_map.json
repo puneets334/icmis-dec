@@ -1,0 +1,835 @@
+[
+    {
+        "id": "1",
+        "admin_designation_id": "3",
+        "admin_designation_name": "ADDL. REGISTRAR",
+        "icmis_usertype_id": "4",
+        "icmis_usertype_name": "ADDL. REGISTRAR"
+    },
+    {
+        "id": "2",
+        "admin_designation_id": "2",
+        "admin_designation_name": "REGISTRAR",
+        "icmis_usertype_id": "3",
+        "icmis_usertype_name": "REGISTRAR"
+    },
+    {
+        "id": "3",
+        "admin_designation_id": "129",
+        "admin_designation_name": "EDITOR - MACP I",
+        "icmis_usertype_id": "7",
+        "icmis_usertype_name": "EDITOR"
+    },
+    {
+        "id": "4",
+        "admin_designation_id": "5",
+        "admin_designation_name": "DY. REGISTRAR",
+        "icmis_usertype_id": "6",
+        "icmis_usertype_name": "DY. REGISTRAR"
+    },
+    {
+        "id": "5",
+        "admin_designation_id": "97",
+        "admin_designation_name": "AR CUM PS MACP-II",
+        "icmis_usertype_id": "12",
+        "icmis_usertype_name": "ASTT. REGISTRAR-cum-PS"
+    },
+    {
+        "id": "6",
+        "admin_designation_id": "18",
+        "admin_designation_name": "PS TO REGISTRAR",
+        "icmis_usertype_id": "16",
+        "icmis_usertype_name": "PERSONAL SECRETARY"
+    },
+    {
+        "id": "7",
+        "admin_designation_id": "11",
+        "admin_designation_name": "AR CUM PS",
+        "icmis_usertype_id": "12",
+        "icmis_usertype_name": "ASTT. REGISTRAR-cum-PS"
+    },
+    {
+        "id": "8",
+        "admin_designation_id": "8",
+        "admin_designation_name": "ASST.REGISTRAR",
+        "icmis_usertype_id": "9",
+        "icmis_usertype_name": "ASSISTANT  REGISTRAR"
+    },
+    {
+        "id": "9",
+        "admin_designation_id": "12",
+        "admin_designation_name": "CHIEF LIBRARIAN",
+        "icmis_usertype_id": "13",
+        "icmis_usertype_name": "CHIEF LIBRARIAN"
+    },
+    {
+        "id": "10",
+        "admin_designation_id": "138",
+        "admin_designation_name": "PS TO ADDL. REGISTRAR[Upgraded]",
+        "icmis_usertype_id": "16",
+        "icmis_usertype_name": "PERSONAL SECRETARY"
+    },
+    {
+        "id": "11",
+        "admin_designation_id": "99",
+        "admin_designation_name": "AR MACP-II",
+        "icmis_usertype_id": "8",
+        "icmis_usertype_name": "ASST.REGISTRAR"
+    },
+    {
+        "id": "12",
+        "admin_designation_id": "22",
+        "admin_designation_name": "SENIOR COURT ASSISTANT",
+        "icmis_usertype_id": "17",
+        "icmis_usertype_name": "SENIOR COURT ASSISTANT"
+    },
+    {
+        "id": "13",
+        "admin_designation_id": "166",
+        "admin_designation_name": "DY. REGISTRAR MACP III",
+        "icmis_usertype_id": "6",
+        "icmis_usertype_name": "DY. REGISTRAR"
+    },
+    {
+        "id": "14",
+        "admin_designation_id": "19",
+        "admin_designation_name": "PS TO ADD.REGR.",
+        "icmis_usertype_id": "16",
+        "icmis_usertype_name": "PERSONAL SECRETARY"
+    },
+    {
+        "id": "15",
+        "admin_designation_id": "158",
+        "admin_designation_name": "LIBRARIAN[Promoted]",
+        "icmis_usertype_id": "53",
+        "icmis_usertype_name": "LIBRARIAN"
+    },
+    {
+        "id": "16",
+        "admin_designation_id": "13",
+        "admin_designation_name": "BRANCH OFFICER",
+        "icmis_usertype_id": "14",
+        "icmis_usertype_name": "BRANCH OFFICER"
+    },
+    {
+        "id": "17",
+        "admin_designation_id": "20",
+        "admin_designation_name": "SR. COURT ASSTT.(UPGRADED)",
+        "icmis_usertype_id": "17",
+        "icmis_usertype_name": "SENIOR COURT ASSISTANT"
+    },
+    {
+        "id": "18",
+        "admin_designation_id": "139",
+        "admin_designation_name": "SENIOR COURT ASSISTANT",
+        "icmis_usertype_id": "17",
+        "icmis_usertype_name": "SENIOR COURT ASSISTANT"
+    },
+    {
+        "id": "19",
+        "admin_designation_id": "157",
+        "admin_designation_name": "PERSONAL ASSISTANT [REVISED]",
+        "icmis_usertype_id": "52",
+        "icmis_usertype_name": "PERSONAL ASSISTANT"
+    },
+    {
+        "id": "20",
+        "admin_designation_id": "25",
+        "admin_designation_name": "SENIOR PERSONAL ASSISTANT(UPGRADED)",
+        "icmis_usertype_id": "61",
+        "icmis_usertype_name": "SENIOR PERSONAL ASSISTANT"
+    },
+    {
+        "id": "21",
+        "admin_designation_id": "130",
+        "admin_designation_name": "SENIOR PERSONAL ASSTT [MACP III]",
+        "icmis_usertype_id": "61",
+        "icmis_usertype_name": "SENIOR PERSONAL ASSISTANT"
+    },
+    {
+        "id": "22",
+        "admin_designation_id": "15",
+        "admin_designation_name": "COURT MASTER-SH",
+        "icmis_usertype_id": "43",
+        "icmis_usertype_name": "COURT MASTER (SH)"
+    },
+    {
+        "id": "23",
+        "admin_designation_id": "32",
+        "admin_designation_name": "PERSONAL ASSISTANT (MACP - I)",
+        "icmis_usertype_id": "52",
+        "icmis_usertype_name": "PERSONAL ASSISTANT"
+    },
+    {
+        "id": "24",
+        "admin_designation_id": "29",
+        "admin_designation_name": "COURT ASSISTANT",
+        "icmis_usertype_id": "51",
+        "icmis_usertype_name": "COURT ASSISTANT"
+    },
+    {
+        "id": "25",
+        "admin_designation_id": "34",
+        "admin_designation_name": "JUNIOR COURT ASSISTANT",
+        "icmis_usertype_id": "50",
+        "icmis_usertype_name": "JUNIOR COURT ASSISTANT"
+    },
+    {
+        "id": "26",
+        "admin_designation_id": "150",
+        "admin_designation_name": "SENIOR PERSONAL ASSISTANT [REVISED]",
+        "icmis_usertype_id": "61",
+        "icmis_usertype_name": "SENIOR PERSONAL ASSISTANT"
+    },
+    {
+        "id": "27",
+        "admin_designation_id": "33",
+        "admin_designation_name": "PERSONAL ASSISTANT (MACP - II)",
+        "icmis_usertype_id": "52",
+        "icmis_usertype_name": "PERSONAL ASSISTANT"
+    },
+    {
+        "id": "28",
+        "admin_designation_id": "156",
+        "admin_designation_name": "COURT ASSISTANT [REVISED]",
+        "icmis_usertype_id": "51",
+        "icmis_usertype_name": "COURT ASSISTANT"
+    },
+    {
+        "id": "29",
+        "admin_designation_id": "27",
+        "admin_designation_name": "ASSTT. LIBRARIAN(UPGRADED)",
+        "icmis_usertype_id": "18",
+        "icmis_usertype_name": "ASST.LIBRARIAN"
+    },
+    {
+        "id": "30",
+        "admin_designation_id": "40",
+        "admin_designation_name": "CHAUFFEUR(MACP - II)",
+        "icmis_usertype_id": "21",
+        "icmis_usertype_name": "CHAUFFEUR"
+    },
+    {
+        "id": "31",
+        "admin_designation_id": "102",
+        "admin_designation_name": "RESTORER GD-I(MACP- III)",
+        "icmis_usertype_id": "24",
+        "icmis_usertype_name": "RESTORER"
+    },
+    {
+        "id": "32",
+        "admin_designation_id": "45",
+        "admin_designation_name": "RESTORER GRADE - I",
+        "icmis_usertype_id": "24",
+        "icmis_usertype_name": "RESTORER"
+    },
+    {
+        "id": "33",
+        "admin_designation_id": "106",
+        "admin_designation_name": "LIB.ATENDENT GD - I(MACP-III)",
+        "icmis_usertype_id": "20",
+        "icmis_usertype_name": "LIB.ATTENDANT"
+    },
+    {
+        "id": "34",
+        "admin_designation_id": "107",
+        "admin_designation_name": "GEST.OPRATOR GRADE - I(MACP-III)",
+        "icmis_usertype_id": "22",
+        "icmis_usertype_name": "GEST.OPERATOR"
+    },
+    {
+        "id": "35",
+        "admin_designation_id": "37",
+        "admin_designation_name": "LIB.ATENDENT GD - I",
+        "icmis_usertype_id": "20",
+        "icmis_usertype_name": "LIB.ATTENDANT"
+    },
+    {
+        "id": "36",
+        "admin_designation_id": "94",
+        "admin_designation_name": "GEST. OPERATOR GD-II (MACP- III)",
+        "icmis_usertype_id": "22",
+        "icmis_usertype_name": "GEST.OPERATOR"
+    },
+    {
+        "id": "37",
+        "admin_designation_id": "90",
+        "admin_designation_name": "RESTORER GD-II(MACP- III)",
+        "icmis_usertype_id": "24",
+        "icmis_usertype_name": "RESTORER"
+    },
+    {
+        "id": "38",
+        "admin_designation_id": "85",
+        "admin_designation_name": "USHER(MACP-III)",
+        "icmis_usertype_id": "47",
+        "icmis_usertype_name": "USHER"
+    },
+    {
+        "id": "39",
+        "admin_designation_id": "121",
+        "admin_designation_name": "USHER MACP-III",
+        "icmis_usertype_id": "47",
+        "icmis_usertype_name": "USHER"
+    },
+    {
+        "id": "40",
+        "admin_designation_id": "63",
+        "admin_designation_name": "JUNIOR COURT ATTENDANT(MACP - II)",
+        "icmis_usertype_id": "27",
+        "icmis_usertype_name": "JUNIOR COURT ATTENDANT"
+    },
+    {
+        "id": "41",
+        "admin_designation_id": "133",
+        "admin_designation_name": "RESTORER GD-I(MACP-III)",
+        "icmis_usertype_id": "24",
+        "icmis_usertype_name": "RESTORER"
+    },
+    {
+        "id": "42",
+        "admin_designation_id": "95",
+        "admin_designation_name": "SENIOR COURT ATTENDANT(MACP - III)",
+        "icmis_usertype_id": "25",
+        "icmis_usertype_name": "SENIOR COURT ATTENDANT"
+    },
+    {
+        "id": "43",
+        "admin_designation_id": "92",
+        "admin_designation_name": "LIB. ATTENDANT GD-II (MACP- III)",
+        "icmis_usertype_id": "20",
+        "icmis_usertype_name": "LIB.ATTENDANT"
+    },
+    {
+        "id": "44",
+        "admin_designation_id": "89",
+        "admin_designation_name": "RESTORER GD-II(MACP- II)",
+        "icmis_usertype_id": "24",
+        "icmis_usertype_name": "RESTORER"
+    },
+    {
+        "id": "45",
+        "admin_designation_id": "91",
+        "admin_designation_name": "LIB. ATTENDANT GD-II (MACP- II)",
+        "icmis_usertype_id": "20",
+        "icmis_usertype_name": "LIB.ATTENDANT"
+    },
+    {
+        "id": "46",
+        "admin_designation_id": "39",
+        "admin_designation_name": "CHAUFFEUR(MACP - I)",
+        "icmis_usertype_id": "21",
+        "icmis_usertype_name": "CHAUFFEUR"
+    },
+    {
+        "id": "47",
+        "admin_designation_id": "47",
+        "admin_designation_name": "RESTORER GRADE - II",
+        "icmis_usertype_id": "24",
+        "icmis_usertype_name": "RESTORER"
+    },
+    {
+        "id": "48",
+        "admin_designation_id": "51",
+        "admin_designation_name": "USHER (MACP - II)",
+        "icmis_usertype_id": "47",
+        "icmis_usertype_name": "USHER"
+    },
+    {
+        "id": "49",
+        "admin_designation_id": "54",
+        "admin_designation_name": "SENIOR COURT ATTENDANT(MACP - II)",
+        "icmis_usertype_id": "25",
+        "icmis_usertype_name": "SENIOR COURT ATTENDANT"
+    },
+    {
+        "id": "50",
+        "admin_designation_id": "134",
+        "admin_designation_name": "COURT ASSISTANT MACP-III",
+        "icmis_usertype_id": "51",
+        "icmis_usertype_name": "COURT ASSISTANT"
+    },
+    {
+        "id": "51",
+        "admin_designation_id": "50",
+        "admin_designation_name": "USHER (MACP - I)",
+        "icmis_usertype_id": "47",
+        "icmis_usertype_name": "USHER"
+    },
+    {
+        "id": "52",
+        "admin_designation_id": "93",
+        "admin_designation_name": "GEST. OPERATOR GD-II (MACP- II)",
+        "icmis_usertype_id": "22",
+        "icmis_usertype_name": "GEST.OPERATOR"
+    },
+    {
+        "id": "53",
+        "admin_designation_id": "62",
+        "admin_designation_name": "JUNIOR COURT ATTENDANT(MACP - I)",
+        "icmis_usertype_id": "27",
+        "icmis_usertype_name": "JUNIOR COURT ATTENDANT"
+    },
+    {
+        "id": "54",
+        "admin_designation_id": "148",
+        "admin_designation_name": "JUNIOR COURT ASSISTANT [REVISED]",
+        "icmis_usertype_id": "50",
+        "icmis_usertype_name": "JUNIOR COURT ASSISTANT"
+    },
+    {
+        "id": "55",
+        "admin_designation_id": "149",
+        "admin_designation_name": "COURT ASSISTANT [REVISED]",
+        "icmis_usertype_id": "51",
+        "icmis_usertype_name": "COURT ASSISTANT"
+    },
+    {
+        "id": "56",
+        "admin_designation_id": "53",
+        "admin_designation_name": "SENIOR COURT ATTENDANT(MACP - I)",
+        "icmis_usertype_id": "25",
+        "icmis_usertype_name": "SENIOR COURT ATTENDANT"
+    },
+    {
+        "id": "57",
+        "admin_designation_id": "86",
+        "admin_designation_name": "JUNIOR COURT ATTENDANT(MACP - III)",
+        "icmis_usertype_id": "27",
+        "icmis_usertype_name": "JUNIOR COURT ATTENDANT"
+    },
+    {
+        "id": "58",
+        "admin_designation_id": "118",
+        "admin_designation_name": "JAMADAR(FARASH) MACP-III",
+        "icmis_usertype_id": "46",
+        "icmis_usertype_name": "JAMADAR"
+    },
+    {
+        "id": "59",
+        "admin_designation_id": "56",
+        "admin_designation_name": "CHAMBER ATTENDANT(R) (MACP - I)",
+        "icmis_usertype_id": "26",
+        "icmis_usertype_name": "CHAMBER ATTENDANT"
+    },
+    {
+        "id": "60",
+        "admin_designation_id": "57",
+        "admin_designation_name": "CHAMBER ATTENDANT (R) (MACP - II)",
+        "icmis_usertype_id": "26",
+        "icmis_usertype_name": "CHAMBER ATTENDANT"
+    },
+    {
+        "id": "61",
+        "admin_designation_id": "117",
+        "admin_designation_name": "JAMADAR(FARASH) MACP-II",
+        "icmis_usertype_id": "46",
+        "icmis_usertype_name": "JAMADAR"
+    },
+    {
+        "id": "62",
+        "admin_designation_id": "44",
+        "admin_designation_name": "SPECIAL PROCESS SERVER(MACP - II)",
+        "icmis_usertype_id": "23",
+        "icmis_usertype_name": "SPECIAL PROCESS SERVER"
+    },
+    {
+        "id": "63",
+        "admin_designation_id": "87",
+        "admin_designation_name": "CHAMBER ATTENDANT (R) (MACP - III)",
+        "icmis_usertype_id": "26",
+        "icmis_usertype_name": "CHAMBER ATTENDANT"
+    },
+    {
+        "id": "64",
+        "admin_designation_id": "43",
+        "admin_designation_name": "SPECIAL PROCESS SERVER(MACP - I)",
+        "icmis_usertype_id": "23",
+        "icmis_usertype_name": "SPECIAL PROCESS SERVER"
+    },
+    {
+        "id": "65",
+        "admin_designation_id": "55",
+        "admin_designation_name": "CHAMBER ATTENDANT(R)",
+        "icmis_usertype_id": "26",
+        "icmis_usertype_name": "CHAMBER ATTENDANT"
+    },
+    {
+        "id": "66",
+        "admin_designation_id": "49",
+        "admin_designation_name": "USHER",
+        "icmis_usertype_id": "47",
+        "icmis_usertype_name": "USHER"
+    },
+    {
+        "id": "67",
+        "admin_designation_id": "120",
+        "admin_designation_name": "JAMADAR(SAFAIWALA) MACP-III",
+        "icmis_usertype_id": "46",
+        "icmis_usertype_name": "JAMADAR"
+    },
+    {
+        "id": "68",
+        "admin_designation_id": "119",
+        "admin_designation_name": "JAMADAR(SAFAIWALA) MACP-II",
+        "icmis_usertype_id": "46",
+        "icmis_usertype_name": "JAMADAR"
+    },
+    {
+        "id": "69",
+        "admin_designation_id": "60",
+        "admin_designation_name": "CHAMBER ATTENDANT(T) (MACP - II)",
+        "icmis_usertype_id": "26",
+        "icmis_usertype_name": "CHAMBER ATTENDANT"
+    },
+    {
+        "id": "70",
+        "admin_designation_id": "88",
+        "admin_designation_name": "CHAMBER ATTENDANT (T) (MACP - III)",
+        "icmis_usertype_id": "26",
+        "icmis_usertype_name": "CHAMBER ATTENDANT"
+    },
+    {
+        "id": "71",
+        "admin_designation_id": "131",
+        "admin_designation_name": "LIB.ATENDENT GD-I(MACP-II)",
+        "icmis_usertype_id": "20",
+        "icmis_usertype_name": "LIB.ATTENDANT"
+    },
+    {
+        "id": "72",
+        "admin_designation_id": "132",
+        "admin_designation_name": "RESTORER GD-I(MACP-II)",
+        "icmis_usertype_id": "24",
+        "icmis_usertype_name": "RESTORER"
+    },
+    {
+        "id": "73",
+        "admin_designation_id": "59",
+        "admin_designation_name": "CHAMBER ATTENDANT(T) (MACP - I)",
+        "icmis_usertype_id": "26",
+        "icmis_usertype_name": "CHAMBER ATTENDANT"
+    },
+    {
+        "id": "74",
+        "admin_designation_id": "126",
+        "admin_designation_name": "JAMADAR(SAFAIWALA)",
+        "icmis_usertype_id": "46",
+        "icmis_usertype_name": "JAMADAR"
+    },
+    {
+        "id": "75",
+        "admin_designation_id": "35",
+        "admin_designation_name": "JUNIOR COURT ASSISTANT (MACP - I)",
+        "icmis_usertype_id": "50",
+        "icmis_usertype_name": "JUNIOR COURT ASSISTANT"
+    },
+    {
+        "id": "76",
+        "admin_designation_id": "80",
+        "admin_designation_name": "GENERAL MANAGER",
+        "icmis_usertype_id": "42",
+        "icmis_usertype_name": "GENERAL MANAGER"
+    },
+    {
+        "id": "77",
+        "admin_designation_id": "147",
+        "admin_designation_name": "ASSTT MANAGER CUM STORE KEEPER",
+        "icmis_usertype_id": "31",
+        "icmis_usertype_name": "ASST.MANAGER/STORE KEEPER"
+    },
+    {
+        "id": "78",
+        "admin_designation_id": "112",
+        "admin_designation_name": "HALWAI CUM COOK",
+        "icmis_usertype_id": "35",
+        "icmis_usertype_name": "HALWAI CUM COOK"
+    },
+    {
+        "id": "79",
+        "admin_designation_id": "65",
+        "admin_designation_name": "MANAGER CUM ACCNT",
+        "icmis_usertype_id": "29",
+        "icmis_usertype_name": "MANAGER CUM ACCNT"
+    },
+    {
+        "id": "80",
+        "admin_designation_id": "111",
+        "admin_designation_name": "HALWAI CUM COOK",
+        "icmis_usertype_id": "35",
+        "icmis_usertype_name": "HALWAI CUM COOK"
+    },
+    {
+        "id": "81",
+        "admin_designation_id": "109",
+        "admin_designation_name": "ASST. HALWAI CUM COOK",
+        "icmis_usertype_id": "45",
+        "icmis_usertype_name": "ASST. HALWAI CUM COOK"
+    },
+    {
+        "id": "82",
+        "admin_designation_id": "113",
+        "admin_designation_name": "CLERK",
+        "icmis_usertype_id": "34",
+        "icmis_usertype_name": "CLERK"
+    },
+    {
+        "id": "83",
+        "admin_designation_id": "67",
+        "admin_designation_name": "ASST.MANAGER/STORE KEEPER",
+        "icmis_usertype_id": "31",
+        "icmis_usertype_name": "ASST.MANAGER/STORE KEEPER"
+    },
+    {
+        "id": "84",
+        "admin_designation_id": "144",
+        "admin_designation_name": "CANTEEN ATTENDANT",
+        "icmis_usertype_id": "49",
+        "icmis_usertype_name": "CANTEEN ATTENDANT"
+    },
+    {
+        "id": "85",
+        "admin_designation_id": "142",
+        "admin_designation_name": "CANTEEN ATTENDANT",
+        "icmis_usertype_id": "49",
+        "icmis_usertype_name": "CANTEEN ATTENDANT"
+    },
+    {
+        "id": "86",
+        "admin_designation_id": "58",
+        "admin_designation_name": "CHAMBER ATTENDANT(T)",
+        "icmis_usertype_id": "26",
+        "icmis_usertype_name": "CHAMBER ATTENDANT"
+    },
+    {
+        "id": "87",
+        "admin_designation_id": "42",
+        "admin_designation_name": "SPECIAL PROCESS SERVER",
+        "icmis_usertype_id": "23",
+        "icmis_usertype_name": "SPECIAL PROCESS SERVER"
+    },
+    {
+        "id": "88",
+        "admin_designation_id": "16",
+        "admin_designation_name": "LIBRARIAN",
+        "icmis_usertype_id": "53",
+        "icmis_usertype_name": "LIBRARIAN"
+    },
+    {
+        "id": "89",
+        "admin_designation_id": "101",
+        "admin_designation_name": "COURT ASSISTANT(MACP - II)",
+        "icmis_usertype_id": "51",
+        "icmis_usertype_name": "COURT ASSISTANT"
+    },
+    {
+        "id": "90",
+        "admin_designation_id": "96",
+        "admin_designation_name": "ASST.EDITOR MACP-I",
+        "icmis_usertype_id": "11",
+        "icmis_usertype_name": "ASST.EDITOR"
+    },
+    {
+        "id": "91",
+        "admin_designation_id": "123",
+        "admin_designation_name": "BRANCH OFFICER (SYSTEM ADMINISTRATOR)",
+        "icmis_usertype_id": "14",
+        "icmis_usertype_name": "BRANCH OFFICER"
+    },
+    {
+        "id": "92",
+        "admin_designation_id": "31",
+        "admin_designation_name": "PERSONAL ASSISTANT",
+        "icmis_usertype_id": "52",
+        "icmis_usertype_name": "PERSONAL ASSISTANT"
+    },
+    {
+        "id": "93",
+        "admin_designation_id": "1",
+        "admin_designation_name": "SECRETARY GENERAL",
+        "icmis_usertype_id": "2",
+        "icmis_usertype_name": "SECRETARY GENERAL"
+    },
+    {
+        "id": "94",
+        "admin_designation_id": "136",
+        "admin_designation_name": "ADDL. REGISTRAR [LIBRARY-EX.CADRE]",
+        "icmis_usertype_id": "4",
+        "icmis_usertype_name": "ADDL. REGISTRAR"
+    },
+    {
+        "id": "95",
+        "admin_designation_id": "6",
+        "admin_designation_name": "EDITOR",
+        "icmis_usertype_id": "7",
+        "icmis_usertype_name": "EDITOR"
+    },
+    {
+        "id": "96",
+        "admin_designation_id": "61",
+        "admin_designation_name": "JUNIOR COURT ATTENDANT",
+        "icmis_usertype_id": "27",
+        "icmis_usertype_name": "JUNIOR COURT ATTENDANT"
+    },
+    {
+        "id": "97",
+        "admin_designation_id": "38",
+        "admin_designation_name": "CHAUFFEUR",
+        "icmis_usertype_id": "21",
+        "icmis_usertype_name": "CHAUFFEUR"
+    },
+    {
+        "id": "98",
+        "admin_designation_id": "140",
+        "admin_designation_name": "ASSISTANT DIRECTOR",
+        "icmis_usertype_id": "48",
+        "icmis_usertype_name": "ASSISTANT DIRECTOR"
+    },
+    {
+        "id": "99",
+        "admin_designation_id": "24",
+        "admin_designation_name": "SENIOR PERSONAL ASSISTANT(MACP - I)",
+        "icmis_usertype_id": "61",
+        "icmis_usertype_name": "SENIOR PERSONAL ASSISTANT"
+    },
+    {
+        "id": "100",
+        "admin_designation_id": "23",
+        "admin_designation_name": "SENIOR PERSONAL ASSISTANT",
+        "icmis_usertype_id": "61",
+        "icmis_usertype_name": "SENIOR PERSONAL ASSISTANT"
+    },
+    {
+        "id": "101",
+        "admin_designation_id": "164",
+        "admin_designation_name": "DY. REGISTRAR MACP I",
+        "icmis_usertype_id": "6",
+        "icmis_usertype_name": "DY. REGISTRAR"
+    },
+    {
+        "id": "102",
+        "admin_designation_id": "152",
+        "admin_designation_name": "COURT ASSISTANT(Jr. TRANSLATOR) [REVISED]",
+        "icmis_usertype_id": "51",
+        "icmis_usertype_name": "COURT ASSISTANT"
+    },
+    {
+        "id": "103",
+        "admin_designation_id": "160",
+        "admin_designation_name": "MEMBER - PROCESSES",
+        "icmis_usertype_id": "55",
+        "icmis_usertype_name": "MEMBER - PROCESSES"
+    },
+    {
+        "id": "104",
+        "admin_designation_id": "153",
+        "admin_designation_name": "SR COURT ASSISTANT(Sr. TRANSLATOR) [REVISED]",
+        "icmis_usertype_id": "17",
+        "icmis_usertype_name": "SENIOR COURT ASSISTANT"
+    },
+    {
+        "id": "105",
+        "admin_designation_id": "84",
+        "admin_designation_name": "SENIOR COURT ASSISTANT(Sr. TRANSLATOR)",
+        "icmis_usertype_id": "17",
+        "icmis_usertype_name": "SENIOR COURT ASSISTANT"
+    },
+    {
+        "id": "106",
+        "admin_designation_id": "83",
+        "admin_designation_name": "COURT ASSISTANT(Jr. TRANSLATOR)",
+        "icmis_usertype_id": "51",
+        "icmis_usertype_name": "COURT ASSISTANT"
+    },
+    {
+        "id": "107",
+        "admin_designation_id": "141",
+        "admin_designation_name": "CANTEEN ATTENDANT",
+        "icmis_usertype_id": "49",
+        "icmis_usertype_name": "CANTEEN ATTENDANT"
+    },
+    {
+        "id": "108",
+        "admin_designation_id": "155",
+        "admin_designation_name": "ASSTT LIBRARIAN [REVISED]",
+        "icmis_usertype_id": "18",
+        "icmis_usertype_name": "ASST.LIBRARIAN"
+    },
+    {
+        "id": "109",
+        "admin_designation_id": "26",
+        "admin_designation_name": "ASST.LIBRARIAN",
+        "icmis_usertype_id": "18",
+        "icmis_usertype_name": "ASST.LIBRARIAN"
+    },
+    {
+        "id": "110",
+        "admin_designation_id": "167",
+        "admin_designation_name": "SENIOR COURT ASSISTANT (SENIOR PROGRAMMER)",
+        "icmis_usertype_id": "17",
+        "icmis_usertype_name": "SENIOR COURT ASSISTANT"
+    },
+    {
+        "id": "111",
+        "admin_designation_id": "137",
+        "admin_designation_name": "DY. REGISTRAR[Research]",
+        "icmis_usertype_id": "6",
+        "icmis_usertype_name": "DY. REGISTRAR"
+    },
+    {
+        "id": "112",
+        "admin_designation_id": "154",
+        "admin_designation_name": "PERSONAL ASSISTANT [REVISED]",
+        "icmis_usertype_id": "52",
+        "icmis_usertype_name": "PERSONAL ASSISTANT"
+    },
+    {
+        "id": "113",
+        "admin_designation_id": "159",
+        "admin_designation_name": "MEMBER - PROJECT MANAGEMENT",
+        "icmis_usertype_id": "54",
+        "icmis_usertype_name": "MEMBER - PROJECT MANAGEMENT"
+    },
+    {
+        "id": "114",
+        "admin_designation_id": "10",
+        "admin_designation_name": "ASST.EDITOR",
+        "icmis_usertype_id": "11",
+        "icmis_usertype_name": "ASST.EDITOR"
+    },
+    {
+        "id": "115",
+        "admin_designation_id": "105",
+        "admin_designation_name": "MEMBER(JUDICIAL)",
+        "icmis_usertype_id": "44",
+        "icmis_usertype_name": "MEMBER(JUDICIAL)"
+    },
+    {
+        "id": "116",
+        "admin_designation_id": "161",
+        "admin_designation_name": "OSD - IT",
+        "icmis_usertype_id": "56",
+        "icmis_usertype_name": "OSD - IT"
+    },
+    {
+        "id": "117",
+        "admin_designation_id": "151",
+        "admin_designation_name": "COURT ASSISTANT(PROGRAMMER) [REVISED]",
+        "icmis_usertype_id": "51",
+        "icmis_usertype_name": "COURT ASSISTANT"
+    },
+    {
+        "id": "118",
+        "admin_designation_id": "162",
+        "admin_designation_name": "OSD",
+        "icmis_usertype_id": "113",
+        "icmis_usertype_name": "OSD"
+    },
+    {
+        "id": "119",
+        "admin_designation_id": "163",
+        "admin_designation_name": "Additional Registrar(OSD)",
+        "icmis_usertype_id": "4",
+        "icmis_usertype_name": "ADDL. REGISTRAR"
+    }
+]

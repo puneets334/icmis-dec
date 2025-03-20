@@ -1,0 +1,299 @@
+[
+    {
+        "id": "1",
+        "question": "Who may apply for e-copy ?",
+        "answer": "a. Advocate-on-Record (AOR), <br>b. Advocate authorized by AOR, <br>c. Arguing Counsel, <br>d. Party-in-Person.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 10:51:09+05:30",
+        "updated_on": "2020-12-18 21:18:58+05:30"
+    },
+    {
+        "id": "2",
+        "question": "What is prerequisite information of person applying for eCopying required before making online request ?",
+        "answer": "a. AOR must be registered with Supreme Court Integrated Case Management and Information System. <br>b. For other users, if they are not already registered with eCopying, they need to go through process of verification of identity besides, they need to provide valid mobile number and e-mail. Once OTP is verified, link will be sent to entered email id which will re-direct user to portal.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 10:53:46+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "3",
+        "question": "When can I make valid request for eCopying after verification of my identity ?",
+        "answer": "a. AOR must be registered with the Supreme Court Integrated Case management and Information System (ICMIS) and he/she must be an AOR for one of the parties in which e-copy is sought. <br>b. In case of Appearing Counsel, his/her appearance on the respective date must have been recorded in the Integrated Case management and Information System (ICMIS), particularly for the case for which request for e-copy is made. <br>c. Appearing Counsel whose data is not recorded in the Integrated Case management and Information System (ICMIS) will have to go through the process of verification.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 10:55:23+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "4",
+        "question": "How can I verify my Identity as claimed?",
+        "answer": "a. In case of AOR, one-time-password (OTP) on registered mobile number and email will be sufficient, as process of verification will already have been completed. Therefore, AOR need not re-undergo the process. Confirmation of their online request will be verified through their registered mobile number and registered email address.<br>b. In case of Appearing Counsel or party-in-person not yet registered with the system, they may have to establish identity. They can choose any method of eKYSH (Know your Stake Holder) i.e. offline Aadhar based verification or uploading identity proof which will be verified by Supreme Court Registry. <br>c. Registered mobile number, e-mail ID will be mandatory for all types of applicants, AOR code in case of AOR, any valid photo identity card with registered mobile number and e-mail id for Appearing Counsel.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 10:59:03+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "5",
+        "question": "If mobile number is not registered with Supreme Court, what steps should I follow ?",
+        "answer": "a. Please go through the process of verification of identity wherein your mobile number and email ID will be asked. Once verified, the same will be registered mobile number and registered mail address for the said user. <br>b. AOR if not already registered may have to get himself/herself registered as per procedure prescribed under the Supreme Court Rules of 2013.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:00:03+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "6",
+        "question": "I am Advocate authorized by AOR, will I get OTP on my mobile Number ?",
+        "answer": "Yes, however, OTP will be sent on registered mobile number of AOR.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:00:23+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "7",
+        "question": "I want to obtain copies of Orders, Judgement or Record of Proceedings (RoP), am I entitled ?",
+        "answer": "AOR, Appearing Counsel, party-in-person are entitled to obtain copies of Orders, Judgement or Record of Proceedings (RoP) provided they are eligible to make such request in that case.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:00:56+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "8",
+        "question": "Who can obtain copies of document or part of documents of record of the case, either pending or disposed of ?",
+        "answer": "Only AOR or party-in-person are entitled to obtain document or part of   document in case concerning them and none other.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:01:37+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "9",
+        "question": "I wish to search available record in a case? What are my search options?",
+        "answer": "Any valid user can search availability of documents by entering case type, case number & year or diary number & year. Once this information is submitted, search results will be displayed on the screen. If desired documents are not displayed on the screen, you may make request of desired document(s) by giving necessary details.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:02:16+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "10",
+        "question": "Documents or copies of Order / Judgement / Record of Proceedings which I require, are not shown on the screen after entering case details. What should I do ?",
+        "answer": "Provide details of the documents or of Order / Judgment / Record of Proceedings which you are require but not shown on the screen, one by one. Registry will process your request for e-copy and provide an update so that accurate charges are paid. Needless to say, in the event of unavailability you will be informed about closing your request. After notification of update, once payment is made or valid request is received, it will be processed as eCopying request.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:02:52+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "11",
+        "question": "I need to know or check status of my eCopying request, what should I do ?",
+        "answer": "The user will be notified through SMS updates and mailing alerts for each stage of progress. Additionally, you can check the &ldquo;status&rdquo; on eCopying portal.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:03:43+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "12",
+        "question": "I need to change mailing address on which Physical Authentic eCopy to be delivered?",
+        "answer": "Yes, change of mailing address is possible under Account tab..",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:04:06+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "13",
+        "question": "What are the various modes of delivery of copies?",
+        "answer": "a. Authenticated copy (which is not certified) can be delivered in soft or hard copy. Authenticated soft copy can be delivered on email and authenticated hard copy at the counter or by speed post on the given mailing address.<br>b. Certified hard copy may be delivered at the counter or by speed post on the given mailing address.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:05:12+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "14",
+        "question": "In what time will e-Copy delivered?",
+        "answer": "a. A copy of Record of Proceedings, Judgment or Order is issued within a day on urgent basis, whereas ordinary copy is issued within three days from the date of registration of the application. <br>b. Copies of the documents shall be given within seven days from the date of registration of the application if such document is available in the Copying Section or seven days from receipt of documents from the concerned Branch, if requisition needs to be send.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:08:51+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "15",
+        "question": "What are charges applicable for obtaining authenticated copy in soft form?",
+        "answer": "It is free of cost service provided by Supreme Court of India.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:09:18+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "16",
+        "question": "What are charges applicable for obtaining authenticated or certified hard copy?",
+        "answer": "a. Copying charges consist of copyine fee and copying service charges which are automated in the e-Copying System. The charges vary fro ordinary request and urgent request <br>b. Postage is charged as per standard API provided by India Post. Postage includes standard postal charges applicable in India for speed post. Postage would differ on weight and distance.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:10:03+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "17",
+        "question": "How can I track copy to be delivered by post ?",
+        "answer": "Copy may be tracked by acknowledgment number or by delivery consignment number. Both the numbers will be provided to the users through alerts / notification. Postal consignment can be tracked through India Post website or through eCopying portal.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:10:43+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "18",
+        "question": "What is offline Aadhar Verification?",
+        "answer": "Aadhaar Paperless Offline e-KYC eliminates the need for the resident to provide photo copy of Aadhaar card and instead resident can download the KYC XML and provide the same to an agency which wanted to have his/her KYC. In offline Aadhar verification Aadhaar number of the resident is not revealed, instead only a reference ID is shared. Aadhaar Paperless Offline e-KYC is voluntary and Aadhaar number holder driven.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:11:17+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "19",
+        "question": "What data elements am I sharing through offline Aadhar verification ?",
+        "answer": "While downloading/obtaining offline e-KYC data, following fields are included in the XML : <br>a. Resident Name<br>b. Download Reference Number <br>c. Address <br>d. Photo <br>e. Gender <br>f. DoB/YoB <br>g. Mobile Number (in hashed form) <br>h. Email (in hashed form) <br><br>Aadhaar Paperless Offline e-KYC data is encrypted using a &ldquo;Share Phrase&rdquo; (password given by Aadhar user while downloading zip file) provided by the Aadhaar number holder at the time of downloading which is required to be shared with agencies to read KYC data.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:13:12+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "20",
+        "question": "What is procedure for Offline Aadhar Verification?",
+        "answer": "a. visit&nbsp;(https://resident.uidai.gov.in) <br>b. Enter your UID or VID <br>c. Enter OTP or TOTP received on registered mobile number <br>d. Enter your password before downloading. (four number or characters) <br>e. Download zip file. <br>f. Upload the very zip file on eCopying portal <br>g. Enter the password which you entered while downloading the file. <br>h. Follow the process as given on eCopying portal.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:14:20+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "21",
+        "question": "Is my Data secure in Offline Aadhar verification ?",
+        "answer": "Yes, your data i.e. uploaded xml remains encrypted signed by UIDAI",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:14:44+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "22",
+        "question": "Is Offline Aadhar Verification mandatory ?",
+        "answer": "No, it is optional and voluntary.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:14:56+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "23",
+        "question": "What is eSign electronic signature service ?",
+        "answer": "eSign is legally valid and it is a recognized form of signature under the provisions of Information Technology Act, 2000.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:15:15+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "24",
+        "question": "Who can use eSign services ?",
+        "answer": "Anybody with an Aadhaar number and a mobile registered with Aadhaar can use eSign to sign documents online from any remote place.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:15:34+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "25",
+        "question": "How to validate eSign on pdf viewer ?",
+        "answer": "To validate an eSign, please follow these steps : <br>a. Download the document and open it with Adobe Reader. <br>b. Click on Signature Panel at the top or the eSign appearance. <br>c. When &lsquo;Signature Validation Status&rsquo; opens, click &lsquo;Signature Properties&rsquo;. <br>d. In &lsquo;Signature Properties&rsquo; window, click &lsquo;Show Signer&rsquo;s Certificate&rsquo;. <br>e. You will be redirected to &lsquo;Certificate Viewer&rsquo; window. Click the tab named &lsquo;Trust&rsquo;. <br>f. Click &lsquo;Add to Trusted Certificates&rsquo;. Click &lsquo;OK&rsquo; in the pop-up that follows. <br>g. You will next see &lsquo;Import Contact Settings&rsquo; window. Check (Tick) the boxes provided before Certified documents and the three other options that follow it. And click &lsquo;OK&rsquo; to continue. <br>h. You will be redirected to &lsquo;Certificate Viewer&rsquo; window, click OK at the bottom. <br>i. Click &lsquo;Validate Signature&rsquo; in Signature Properties window. And then click &lsquo;Close&rsquo;. <br>j. Now your eSign is complete. Your eSign will have a Green Tick mark which means it is legally valid.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:17:39+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "26",
+        "question": "Whether my Aaadhar details stored while eSigning request ?",
+        "answer": "No, your aadhar details cannot be stored and are not stored while esigning any document.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:17:52+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "27",
+        "question": "Do I need to verify my identity every time I make request for e-copy ?",
+        "answer": "No, once you have undergone verification process and the information provided during verification, you need not undergo the verification process again.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:18:16+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "28",
+        "question": "Money is debited from my account but transaction shows failed, what should I do?",
+        "answer": "In case the amount has been debited from your bank account/ credit card/ debit card, do not atempt another payment but keep checking the status of your payment at the following URL: https://bharatkosh.gov.in/TrackTransaction/VerifyUser. Against the transaction ref. no. click on hyperlink Know your current status If transaction status is &quot;FAIL OR REFUND IF SETTLED&quot; then amount will be credited back in user&#39;s bank account within 7-10 working days. In every other status appearing on Bharatkosh, please Contact NTRP Helpdesk.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:18:50+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "29",
+        "question": "Where can I get information about payment related issues and grievances ?",
+        "answer": "Check this link - https://bharatkosh.gov.in/NTRPHome/Faq",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:19:07+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "30",
+        "question": "Whether amount paid for eCopying is refundable?",
+        "answer": "No, the paid amount is not refundable.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:19:24+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "31",
+        "question": "What is Digital Copy ?",
+        "answer": "Digital Copy is an authenticated copy of the record. However, it cannot be used in lieu of certified copy. It is not certified copy.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-08-20 11:21:11+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "32",
+        "question": "If the applicant is not a party and desire documents other than Judgement, Record of Proceedings etc.",
+        "answer": "If the applicant is not a party in any matter, he may, if so advised, move an application as per provisions of Order XIII, Rule 2, read with Order VIII, Rule 6(1) and Order V Rule 2 (37), Supreme Court Rules 2013 for obtaining the desired documents in that matter and he may file the application at the filing counter and shall wherever necessary, be accompanied by the documents required under the rules of the Court to be filed along with the said plaint, petition or appeal.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-12-29 17:23:01+05:30",
+        "updated_on": null
+    },
+    {
+        "id": "33",
+        "question": "What are the timing to file application ?",
+        "answer": "eCopying portal available 24X7 for users. However, If application filed in holidays or after working hours (10:00 AM to 5:00 PM), the application will be considered for next working day.",
+        "main_menu": "ecopying",
+        "sub_menu": "ecopying",
+        "created_on": "2020-12-30 15:00:59+05:30",
+        "updated_on": null
+    }
+]

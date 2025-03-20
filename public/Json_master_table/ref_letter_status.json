@@ -1,0 +1,58 @@
+[
+    {
+        "id": "1",
+        "description": "Dispatched to R&I from Section/Concerned",
+        "display": "Y",
+        "usercode": "1",
+        "updated_on": "2019-07-04 14:11:17+05:30"
+    },
+    {
+        "id": "2",
+        "description": "Received in R&I to dispatch",
+        "display": "Y",
+        "usercode": "1",
+        "updated_on": "2019-07-04 14:29:49+05:30"
+    },
+    {
+        "id": "3",
+        "description": "Dispatched to Receipient",
+        "display": "Y",
+        "usercode": "1",
+        "updated_on": "2019-07-04 14:29:49+05:30"
+    },
+    {
+        "id": "4",
+        "description": "Server to Concerned",
+        "display": "Y",
+        "usercode": "1",
+        "updated_on": "2019-07-04 14:29:49+05:30"
+    },
+    {
+        "id": "5",
+        "description": "Un-Served to Concerned",
+        "display": "Y",
+        "usercode": "1",
+        "updated_on": "2019-07-04 14:29:49+05:30"
+    },
+    {
+        "id": "6",
+        "description": "Re-Dispatched to Receipient",
+        "display": "Y",
+        "usercode": "1",
+        "updated_on": "2019-07-04 14:29:49+05:30"
+    },
+    {
+        "id": "7",
+        "description": "AD/Letter Dispatched to Section/Concerned",
+        "display": "Y",
+        "usercode": "1",
+        "updated_on": "2019-07-04 14:29:49+05:30"
+    },
+    {
+        "id": "8",
+        "description": "AD/Letter Received/Returned by Section/Concerned",
+        "display": "Y",
+        "usercode": "1",
+        "updated_on": "2019-07-04 14:29:49+05:30"
+    }
+]

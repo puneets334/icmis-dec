@@ -1,0 +1,947 @@
+[
+    {
+        "org_advocate_id": "317",
+        "org_judge_id": "113",
+        "userid": "1",
+        "ent_dt": "2014-07-24 17:06:13+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "570",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:55:50+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "588",
+        "org_judge_id": "107",
+        "userid": "1",
+        "ent_dt": "2014-07-24 17:07:48+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "668",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:59:11+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "685",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:58:29+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "686",
+        "org_judge_id": "216",
+        "userid": "469",
+        "ent_dt": "2016-11-25 15:06:46+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "710",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 15:00:04+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "712",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2015-11-20 10:14:55+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "714",
+        "org_judge_id": "219",
+        "userid": "469",
+        "ent_dt": "2016-07-08 12:50:30+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "722",
+        "org_judge_id": "216",
+        "userid": "469",
+        "ent_dt": "2015-11-19 16:24:31+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "722",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:54:04+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "774",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:56:34+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "807",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:59:31+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "834",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2017-05-01 17:03:45+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "928",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:53:31+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "938",
+        "org_judge_id": "198",
+        "userid": "1",
+        "ent_dt": "2014-07-24 17:07:48+05:30",
+        "display": "N",
+        "del_dt": "2019-12-05 14:26:38+05:30",
+        "del_user": "146"
+    },
+    {
+        "org_advocate_id": "951",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:57:57+05:30",
+        "display": "N",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "965",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2015-11-20 10:10:46+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1063",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:57:05+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1098",
+        "org_judge_id": "198",
+        "userid": "1",
+        "ent_dt": "2014-07-24 17:07:48+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1100",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2016-09-15 18:15:29+05:30",
+        "display": "N",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1145",
+        "org_judge_id": "201",
+        "userid": "1",
+        "ent_dt": "2014-07-24 17:06:13+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1214",
+        "org_judge_id": "217",
+        "userid": "1",
+        "ent_dt": "2015-03-16 17:42:54+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1220",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 15:00:40+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1231",
+        "org_judge_id": "108",
+        "userid": "1",
+        "ent_dt": "2014-07-24 17:06:13+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1231",
+        "org_judge_id": "213",
+        "userid": "1",
+        "ent_dt": "2014-08-27 00:00:00+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "900",
+        "org_judge_id": "221",
+        "userid": "1",
+        "ent_dt": "2017-05-17 14:55:08+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1283",
+        "org_judge_id": "209",
+        "userid": "1",
+        "ent_dt": "2014-07-24 17:06:13+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1297",
+        "org_judge_id": "221",
+        "userid": "469",
+        "ent_dt": "2016-07-21 14:25:37+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1306",
+        "org_judge_id": "108",
+        "userid": "1",
+        "ent_dt": "2014-07-24 17:06:13+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1310",
+        "org_judge_id": "198",
+        "userid": "1",
+        "ent_dt": "2014-07-24 17:07:48+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1324",
+        "org_judge_id": "108",
+        "userid": "1",
+        "ent_dt": "2014-07-24 17:06:13+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1712",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2015-11-20 10:11:19+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1931",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:50:12+05:30",
+        "display": "N",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1932",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:51:07+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:07:54+05:30",
+        "del_user": "469"
+    },
+    {
+        "org_advocate_id": "1933",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:51:45+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:05:07+05:30",
+        "del_user": "469"
+    },
+    {
+        "org_advocate_id": "1935",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:52:15+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 12:56:16+05:30",
+        "del_user": "469"
+    },
+    {
+        "org_advocate_id": "1962",
+        "org_judge_id": "221",
+        "userid": "469",
+        "ent_dt": "2016-07-21 14:26:27+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2055",
+        "org_judge_id": "216",
+        "userid": "469",
+        "ent_dt": "2015-11-20 10:13:08+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2055",
+        "org_judge_id": "218",
+        "userid": "469",
+        "ent_dt": "2016-11-25 14:55:08+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2108",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2015-10-16 11:34:08+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2167",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2015-11-20 10:16:00+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2216",
+        "org_judge_id": "221",
+        "userid": "469",
+        "ent_dt": "2016-07-21 14:27:03+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2232",
+        "org_judge_id": "221",
+        "userid": "469",
+        "ent_dt": "2016-07-21 14:27:57+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2236",
+        "org_judge_id": "221",
+        "userid": "469",
+        "ent_dt": "2016-07-21 14:27:37+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2293",
+        "org_judge_id": "221",
+        "userid": "469",
+        "ent_dt": "2016-07-21 14:25:07+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2440",
+        "org_judge_id": "221",
+        "userid": "469",
+        "ent_dt": "2017-04-19 19:08:56+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "898",
+        "org_judge_id": "218",
+        "userid": "1",
+        "ent_dt": "2017-05-17 14:55:08+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1107",
+        "org_judge_id": "108",
+        "userid": "1",
+        "ent_dt": "2017-05-18 10:16:00+05:30",
+        "display": "N",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1346",
+        "org_judge_id": "108",
+        "userid": "1",
+        "ent_dt": "2017-05-18 10:16:00+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1934",
+        "org_judge_id": "108",
+        "userid": "1",
+        "ent_dt": "2017-05-18 10:16:00+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "919",
+        "org_judge_id": "111",
+        "userid": "1",
+        "ent_dt": "2017-05-17 14:55:08+05:30",
+        "display": "N",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "288",
+        "org_judge_id": "199",
+        "userid": "1",
+        "ent_dt": "2017-05-17 14:55:08+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "865",
+        "org_judge_id": "107",
+        "userid": "3633",
+        "ent_dt": "2017-08-18 11:05:12+05:30",
+        "display": "N",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "661",
+        "org_judge_id": "107",
+        "userid": "3633",
+        "ent_dt": "2017-08-18 11:05:15+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "661",
+        "org_judge_id": "208",
+        "userid": "3633",
+        "ent_dt": "2017-08-18 11:05:18+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:06:12+05:30",
+        "del_user": "469"
+    },
+    {
+        "org_advocate_id": "661",
+        "org_judge_id": "213",
+        "userid": "3633",
+        "ent_dt": "2017-08-18 11:05:20+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:07:05+05:30",
+        "del_user": "469"
+    },
+    {
+        "org_advocate_id": "665",
+        "org_judge_id": "213",
+        "userid": "3633",
+        "ent_dt": "2017-08-18 11:05:22+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:06:41+05:30",
+        "del_user": "469"
+    },
+    {
+        "org_advocate_id": "2414",
+        "org_judge_id": "213",
+        "userid": "3633",
+        "ent_dt": "2017-08-18 11:05:28+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:06:51+05:30",
+        "del_user": "469"
+    },
+    {
+        "org_advocate_id": "2191",
+        "org_judge_id": "108",
+        "userid": "1",
+        "ent_dt": "2017-08-18 12:57:32+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1176",
+        "org_judge_id": "216",
+        "userid": "559",
+        "ent_dt": "2017-09-20 12:17:05+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "615",
+        "org_judge_id": "108",
+        "userid": "469",
+        "ent_dt": "2018-02-22 17:54:16+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 12:37:19+05:30",
+        "del_user": "1"
+    },
+    {
+        "org_advocate_id": "584",
+        "org_judge_id": "207",
+        "userid": "1",
+        "ent_dt": "2018-03-05 12:57:26+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2552",
+        "org_judge_id": "256",
+        "userid": "559",
+        "ent_dt": "2018-04-23 12:41:00+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2552",
+        "org_judge_id": "256",
+        "userid": "469",
+        "ent_dt": "2018-04-24 14:37:57+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1000",
+        "org_judge_id": "260",
+        "userid": "469",
+        "ent_dt": "2018-05-10 16:24:38+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "951",
+        "org_judge_id": "218",
+        "userid": "1485",
+        "ent_dt": "2018-11-30 11:52:14+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "9175",
+        "org_judge_id": "260",
+        "userid": "146",
+        "ent_dt": "2019-04-23 13:06:36+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "9096",
+        "org_judge_id": "214",
+        "userid": "146",
+        "ent_dt": "2019-07-15 11:39:52+05:30",
+        "display": "N",
+        "del_dt": "2020-01-07 10:35:47+05:30",
+        "del_user": "146"
+    },
+    {
+        "org_advocate_id": "884",
+        "org_judge_id": "218",
+        "userid": "559",
+        "ent_dt": "2019-07-26 16:18:29+05:30",
+        "display": "N",
+        "del_dt": "2020-01-28 17:55:59+05:30",
+        "del_user": "146"
+    },
+    {
+        "org_advocate_id": "584",
+        "org_judge_id": "214",
+        "userid": "146",
+        "ent_dt": "2019-09-05 11:17:56+05:30",
+        "display": "N",
+        "del_dt": "2020-01-07 10:36:11+05:30",
+        "del_user": "146"
+    },
+    {
+        "org_advocate_id": "585",
+        "org_judge_id": "214",
+        "userid": "146",
+        "ent_dt": "2019-09-05 11:18:07+05:30",
+        "display": "N",
+        "del_dt": "2019-09-05 11:18:38+05:30",
+        "del_user": "146"
+    },
+    {
+        "org_advocate_id": "585",
+        "org_judge_id": "214",
+        "userid": "146",
+        "ent_dt": "2019-09-05 11:18:10+05:30",
+        "display": "N",
+        "del_dt": "2019-09-05 11:18:38+05:30",
+        "del_user": "146"
+    },
+    {
+        "org_advocate_id": "616",
+        "org_judge_id": "214",
+        "userid": "146",
+        "ent_dt": "2019-09-05 11:18:18+05:30",
+        "display": "N",
+        "del_dt": "2019-09-05 11:18:52+05:30",
+        "del_user": "146"
+    },
+    {
+        "org_advocate_id": "616",
+        "org_judge_id": "214",
+        "userid": "146",
+        "ent_dt": "2019-09-05 11:18:19+05:30",
+        "display": "N",
+        "del_dt": "2019-09-05 11:18:52+05:30",
+        "del_user": "146"
+    },
+    {
+        "org_advocate_id": "616",
+        "org_judge_id": "214",
+        "userid": "146",
+        "ent_dt": "2019-09-05 11:18:21+05:30",
+        "display": "N",
+        "del_dt": "2019-09-05 11:18:52+05:30",
+        "del_user": "146"
+    },
+    {
+        "org_advocate_id": "585",
+        "org_judge_id": "214",
+        "userid": "146",
+        "ent_dt": "2019-09-05 11:21:21+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "616",
+        "org_judge_id": "214",
+        "userid": "146",
+        "ent_dt": "2019-09-05 11:21:54+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "936",
+        "org_judge_id": "254",
+        "userid": "146",
+        "ent_dt": "2019-09-05 15:11:25+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "904",
+        "org_judge_id": "275",
+        "userid": "146",
+        "ent_dt": "2019-09-24 14:36:14+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "987",
+        "org_judge_id": "275",
+        "userid": "146",
+        "ent_dt": "2019-09-24 14:36:26+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2112",
+        "org_judge_id": "275",
+        "userid": "146",
+        "ent_dt": "2019-11-29 10:55:02+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1283",
+        "org_judge_id": "263",
+        "userid": "146",
+        "ent_dt": "2020-01-24 17:50:31+05:30",
+        "display": "N",
+        "del_dt": "2022-12-06 16:33:54+05:30",
+        "del_user": "747"
+    },
+    {
+        "org_advocate_id": "936",
+        "org_judge_id": "262",
+        "userid": "146",
+        "ent_dt": "2020-01-31 15:55:29+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "9096",
+        "org_judge_id": "214",
+        "userid": "146",
+        "ent_dt": "2020-02-14 14:39:43+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "160",
+        "org_judge_id": "218",
+        "userid": "1486",
+        "ent_dt": "2020-11-26 13:25:00+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2391",
+        "org_judge_id": "218",
+        "userid": "744",
+        "ent_dt": "2021-01-04 17:24:08+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "9454",
+        "org_judge_id": "275",
+        "userid": "10112",
+        "ent_dt": "2021-06-30 16:32:47+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "9302",
+        "org_judge_id": "283",
+        "userid": "10112",
+        "ent_dt": "2021-09-04 15:58:32+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1055",
+        "org_judge_id": "286",
+        "userid": "747",
+        "ent_dt": "2021-09-30 15:16:35+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2112",
+        "org_judge_id": "286",
+        "userid": "747",
+        "ent_dt": "2021-09-30 15:19:54+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1212",
+        "org_judge_id": "286",
+        "userid": "747",
+        "ent_dt": "2021-09-30 15:20:23+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "9007",
+        "org_judge_id": "286",
+        "userid": "747",
+        "ent_dt": "2021-09-30 15:20:42+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2074",
+        "org_judge_id": "286",
+        "userid": "747",
+        "ent_dt": "2021-09-30 15:21:05+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "2463",
+        "org_judge_id": "532",
+        "userid": "559",
+        "ent_dt": "2022-04-21 11:50:02+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "410",
+        "org_judge_id": "532",
+        "userid": "559",
+        "ent_dt": "2022-04-21 11:50:33+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "1063",
+        "org_judge_id": "266",
+        "userid": "49",
+        "ent_dt": "2022-11-11 16:05:54+05:30",
+        "display": "N",
+        "del_dt": "2022-11-29 13:36:21+05:30",
+        "del_user": "747"
+    },
+    {
+        "org_advocate_id": "877",
+        "org_judge_id": "219",
+        "userid": "10354",
+        "ent_dt": "2022-12-02 15:13:12+05:30",
+        "display": "N",
+        "del_dt": "2022-12-03 15:02:09+05:30",
+        "del_user": "10354"
+    },
+    {
+        "org_advocate_id": "1183",
+        "org_judge_id": "286",
+        "userid": "10354",
+        "ent_dt": "2022-12-02 15:13:40+05:30",
+        "display": "N",
+        "del_dt": "2022-12-03 14:56:34+05:30",
+        "del_user": "10354"
+    },
+    {
+        "org_advocate_id": "678",
+        "org_judge_id": "286",
+        "userid": "10354",
+        "ent_dt": "2022-12-02 15:13:43+05:30",
+        "display": "N",
+        "del_dt": "2022-12-03 14:56:25+05:30",
+        "del_user": "10354"
+    },
+    {
+        "org_advocate_id": "2164",
+        "org_judge_id": "271",
+        "userid": "747",
+        "ent_dt": "2022-12-06 20:43:46+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "9196",
+        "org_judge_id": "293",
+        "userid": "742",
+        "ent_dt": "2023-02-14 13:34:32+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "9196",
+        "org_judge_id": "293",
+        "userid": "747",
+        "ent_dt": "2023-02-14 15:42:03+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "9390",
+        "org_judge_id": "267",
+        "userid": "747",
+        "ent_dt": "2023-03-03 10:11:52+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "org_advocate_id": "9335",
+        "org_judge_id": "298",
+        "userid": "762",
+        "ent_dt": "2023-09-25 12:19:56+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    }
+]

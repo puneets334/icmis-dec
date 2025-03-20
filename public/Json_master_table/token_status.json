@@ -1,0 +1,21 @@
+[
+    {
+        "id": "22985",
+        "pending": "Y",
+        "resolved": "Y",
+        "technical_issue": "Y",
+        "in_process": null,
+        "resolved_by_tt": "Y",
+        "pending_from": "2019-02-14 12:44:06+05:30",
+        "pending_to": "2019-02-14 12:55:08+05:30",
+        "technical_issue_from": "2019-02-14 12:44:15+05:30",
+        "technical_issue_to": "2019-02-14 12:55:08+05:30",
+        "resolved_date_by_tt": "2019-02-14 12:55:08+05:30",
+        "resolved_by_dmt": null,
+        "resolved_dmt_user": null,
+        "technical_issue_dmt_user": "1",
+        "technical_issue_assign_to": "775",
+        "resolved_by_tt_user": "775",
+        "technical_issue_assign_date": null
+    }
+]

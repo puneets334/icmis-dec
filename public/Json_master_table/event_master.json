@@ -1,0 +1,18 @@
+[
+    {
+        "event_code": "1",
+        "event_name": "REGISTRATION"
+    },
+    {
+        "event_code": "2",
+        "event_name": "RENEWED"
+    },
+    {
+        "event_code": "3",
+        "event_name": "CANCELLATION"
+    },
+    {
+        "event_code": "4",
+        "event_name": "DELETION"
+    }
+]

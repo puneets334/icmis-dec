@@ -1,0 +1,121 @@
+[
+    {
+        "main_casecode": "11",
+        "main_casename": "WP",
+        "lc_casecode": "42",
+        "lc_casename": "WRIT PETITION",
+        "key": "11"
+    },
+    {
+        "main_casecode": "32",
+        "main_casename": "WPS",
+        "lc_casecode": "42",
+        "lc_casename": "writ pet. (service)",
+        "key": "32"
+    },
+    {
+        "main_casecode": "12",
+        "main_casename": "MA",
+        "lc_casecode": "85",
+        "lc_casename": "Misc. Appeal",
+        "key": "12"
+    },
+    {
+        "main_casecode": "13",
+        "main_casename": "FA",
+        "lc_casecode": "83",
+        "lc_casename": "FIRST APPEAL ( CIVIL )",
+        "key": "13"
+    },
+    {
+        "main_casecode": "14",
+        "main_casename": "SA",
+        "lc_casecode": "84",
+        "lc_casename": "SECOND APPEAL CIVIL",
+        "key": "14"
+    },
+    {
+        "main_casecode": "67",
+        "main_casename": "CONC",
+        "lc_casecode": "73",
+        "lc_casename": "CONTEMPT ( CIVIL )",
+        "key": "67"
+    },
+    {
+        "main_casecode": "17",
+        "main_casename": "LPA",
+        "lc_casecode": "82",
+        "lc_casename": "LETTERS PATENT APPEAL",
+        "key": "17"
+    },
+    {
+        "main_casecode": "18",
+        "main_casename": "MCC",
+        "lc_casecode": "77",
+        "lc_casename": "MISC. CIVIL CASE",
+        "key": "18"
+    },
+    {
+        "main_casecode": "19",
+        "main_casename": "CR",
+        "lc_casecode": "4",
+        "lc_casename": "CIVIL REVISION",
+        "key": "19"
+    },
+    {
+        "main_casecode": "20",
+        "main_casename": "EP",
+        "lc_casecode": "9",
+        "lc_casename": "ELECTITION PETITION",
+        "key": "20"
+    },
+    {
+        "main_casecode": "21",
+        "main_casename": "COMP",
+        "lc_casecode": "56",
+        "lc_casename": "COMPANY PETITION",
+        "key": "21"
+    },
+    {
+        "main_casecode": "28",
+        "main_casename": "MAIT",
+        "lc_casecode": "80",
+        "lc_casename": "MAIT",
+        "key": "28"
+    },
+    {
+        "main_casecode": "51",
+        "main_casename": "CRA",
+        "lc_casecode": "15",
+        "lc_casename": "CRIMINAL APPEAL (Regular)",
+        "key": "51"
+    },
+    {
+        "main_casecode": "53",
+        "main_casename": "CRR",
+        "lc_casecode": "16",
+        "lc_casename": "CRIMINAL REVISION",
+        "key": "53"
+    },
+    {
+        "main_casecode": "54",
+        "main_casename": "CONTR",
+        "lc_casecode": "74",
+        "lc_casename": "CONTEMPT (CRIMINAL )",
+        "key": "54"
+    },
+    {
+        "main_casecode": "57",
+        "main_casename": "WA",
+        "lc_casecode": "79",
+        "lc_casename": "WRIT APPEAL",
+        "key": "57"
+    },
+    {
+        "main_casecode": "60",
+        "main_casename": "ARBC",
+        "lc_casecode": "30",
+        "lc_casename": "ARBITRATION CASE",
+        "key": "60"
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "board_id": "C",
+        "board_display": "Y",
+        "board_name": "Chamber"
+    },
+    {
+        "board_id": "J",
+        "board_display": "Y",
+        "board_name": "Judge"
+    },
+    {
+        "board_id": "R",
+        "board_display": "Y",
+        "board_name": "Registrar"
+    }
+]

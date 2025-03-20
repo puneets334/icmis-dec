@@ -1,0 +1,134 @@
+[
+    {
+        "id": "1",
+        "case_nature": "R",
+        "r_nature": "After notice",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "case_nature": "C",
+        "r_nature": "Curative Petition",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "case_nature": "R",
+        "r_nature": "Curative",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "case_nature": "R",
+        "r_nature": "Review",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "case_nature": "R",
+        "r_nature": "Contempt",
+        "display": "Y"
+    },
+    {
+        "id": "6",
+        "case_nature": "R",
+        "r_nature": "Defective Matters",
+        "display": "Y"
+    },
+    {
+        "id": "7",
+        "case_nature": "R",
+        "r_nature": "Bail",
+        "display": "Y"
+    },
+    {
+        "id": "8",
+        "case_nature": "R",
+        "r_nature": "Direction",
+        "display": "Y"
+    },
+    {
+        "id": "9",
+        "case_nature": "R",
+        "r_nature": "Crl.MP.",
+        "display": "Y"
+    },
+    {
+        "id": "10",
+        "case_nature": "C",
+        "r_nature": "After Notice",
+        "display": "Y"
+    },
+    {
+        "id": "11",
+        "case_nature": "C",
+        "r_nature": "Default",
+        "display": "Y"
+    },
+    {
+        "id": "12",
+        "case_nature": "C",
+        "r_nature": "Review",
+        "display": "Y"
+    },
+    {
+        "id": "13",
+        "case_nature": "R",
+        "r_nature": "Jail Petition",
+        "display": "Y"
+    },
+    {
+        "id": "14",
+        "case_nature": "R",
+        "r_nature": "Delay in Jail Petition",
+        "display": "Y"
+    },
+    {
+        "id": "15",
+        "case_nature": "C",
+        "r_nature": "Fresh Matter-Refiling Delay condoned",
+        "display": "Y"
+    },
+    {
+        "id": "16",
+        "case_nature": "C",
+        "r_nature": "Fresh Matter- Advocate Filed Letter",
+        "display": "Y"
+    },
+    {
+        "id": "17",
+        "case_nature": "C",
+        "r_nature": "Fresh",
+        "display": "Y"
+    },
+    {
+        "id": "18",
+        "case_nature": "R",
+        "r_nature": "Fresh",
+        "display": "Y"
+    },
+    {
+        "id": "19",
+        "case_nature": "C",
+        "r_nature": "Fresh Defective",
+        "display": "Y"
+    },
+    {
+        "id": "20",
+        "case_nature": "R",
+        "r_nature": "Fresh Defective",
+        "display": "Y"
+    },
+    {
+        "id": "21",
+        "case_nature": "C",
+        "r_nature": "After Notice(Pre-Final-Hearing)",
+        "display": "Y"
+    },
+    {
+        "id": "22",
+        "case_nature": "R",
+        "r_nature": "After Notice(Pre-Final-Hearing)",
+        "display": "Y"
+    }
+]

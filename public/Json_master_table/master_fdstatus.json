@@ -1,0 +1,22 @@
+[
+    {
+        "id": "1",
+        "status": "Payment"
+    },
+    {
+        "id": "2",
+        "status": "Part-Payment"
+    },
+    {
+        "id": "3",
+        "status": "Full Active"
+    },
+    {
+        "id": "4",
+        "status": "Sine-die"
+    },
+    {
+        "id": "5",
+        "status": "Others"
+    }
+]

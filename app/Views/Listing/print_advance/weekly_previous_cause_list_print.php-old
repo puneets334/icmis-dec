@@ -1,0 +1,203 @@
+<?= view('header') ?>
+<style>
+    fieldset {
+        padding: 5px;
+        background-color: #F5FAFF;
+        border: 1px solid #0083FF;
+    }
+
+    legend {
+        background-color: #E2F1FF;
+        width: 100%;
+        text-align: center;
+        border: 1px solid #0083FF;
+        font-weight: bold;
+    }
+
+    #customers {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+    }
+
+    #customers td,
+    #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #customers tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #customers tr:hover {
+        background-color: #ddd;
+    }
+
+    #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .class_red {
+        color: red;
+    }
+
+    .table3,
+    .subct2,
+    .subct3,
+    .subct4 {
+        display: none;
+    }
+</style>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header heading">
+
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h3 class="card-title">WEEKLY PREVIOUS CAUSE LIST MODULE</h3>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <form method="post">
+                        <?= csrf_field() ?>
+                        <div id="dv_content1">
+
+
+
+                            <div style="text-align: center">
+                                <span style="font-weight: bold; color:#4141E0; text-decoration: underline;">WEEKLY PREVIOUS CAUSE LIST </span>
+                        
+
+
+                                <div style="col-md-12">
+                                <table class="table table-bordered mt-4">
+                                    <tr>
+                                        
+                                    <td id="id_mf">
+                                    <?php
+
+                                            $path_dir = WRITEPATH . "home/judgment/cl/wk/";
+                                            $files = array();
+                                            // if (is_dir($path_dir)) {
+                                                $files = scandir($path_dir);
+                                                $filecount = count($files)  ?>
+
+
+                                            <div style="col-md-4">
+                                            <select name="dp_wk" id="dp_wk">    
+
+                                            <?php
+                                                for ($i = 0; $i < $filecount; $i++) {
+                                                    if ($files[$i] !== '.' && $files[$i] !== '..') {
+                                                        $pdf_path = $path_dir . $files[$i] . "/weekly.html";
+                                                        $dir_expl = explode("_", $files[$i]);
+                                                        if (count($dir_expl) >= 2) { 
+                                                            $from_dt = explode("-", $dir_expl[0]);
+                                                            $fromdt = isset($from_dt[2]) ? $from_dt[2] . "-" . $from_dt[1] . "-" . $from_dt[0] : '';
+                                                            $to_dt = explode("-", $dir_expl[1]);
+                                                            $todt = isset($to_dt[2]) ? $to_dt[2] . "-" . $to_dt[1] . "-" . $to_dt[0] : '';
+                                                            if ($fromdt && $todt) {
+                                                                echo "<option value='$pdf_path'>$fromdt to $todt</option>";
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                            ?>
+
+                                            </select>
+                                      </td>
+
+                                    
+                                             <td>
+                                               <input type="button" name="btn_get" id="btn_get" value="Click"/>
+                                            </td>
+
+                                       
+                                    </tr>
+                                </table>
+                                <div id="res_loader"></div>
+                            </div>
+                                  
+
+                                    
+                                    <?php 
+                                   // } else {
+                                        //echo "Directory does not exist.";
+                                   // } 
+                                    ?> 
+
+
+                           
+
+                               <div id="dv_res1">
+             
+         
+
+
+                       
+                                </div>
+
+                            </div>
+
+                       </div>
+
+
+                    </form>
+                    <div id="jud_all_al">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+<script>
+
+    $(document).on("focus",".dtp",function(){   
+    $('.dtp').datepicker({dateFormat: 'dd-mm-yy', changeMonth : true,changeYear  : true,yearRange : '1950:2050'
+    });
+    });
+
+  $(document).on("click","#btn_get",function(){
+     var list_dt = $("#dp_wk").val();    
+     var CSRF_TOKEN = 'CSRF_TOKEN';
+     var CSRF_TOKEN_VALUE = $("input[name='CSRF_TOKEN']").val();
+      $.ajax({
+            url: '<?php echo base_url('Listing/PrintAdvance/get_wk_prev_cl');?>',
+            cache: false,
+            async: true,
+            data: {list_dt: list_dt,CSRF_TOKEN:CSRF_TOKEN_VALUE},
+            beforeSend:function(){
+               $('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+            },
+            type: 'POST',
+            success: function(data, status){      
+                updateCSRFToken();           
+               $('#dv_res1').html(data);      
+            },
+            error: function(xhr) {
+                updateCSRFToken();
+                alert("Error: " + xhr.status + " " + xhr.statusText);
+            }
+        });
+   });  
+
+
+</script>
+
+
+
+
+

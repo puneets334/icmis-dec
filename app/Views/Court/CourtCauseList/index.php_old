@@ -1,0 +1,309 @@
+<?=view('header'); ?>
+
+<script type="text/javascript" src="<?php echo base_url('courtMaster/reader_cl.js');?>" ></script>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header heading">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3 class="card-title">Court >> Court Master (NSH) >> Court Master Cause List >> Cause List</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                            <form method="post" name="frm" id="frm" action="<?= site_url(uri_string()) ?>">
+                            <?= csrf_field() ?>
+                                <?php
+                                    //$attribute = array('class' => 'form-horizontal','name' => 'report', 'id' => 'report', 'autocomplete' => 'off');
+                                    //echo form_open('#', $attribute);
+                                    ?>
+
+								    <input type="hidden" name="paps" id="paps" value="">
+									<input type="hidden" name="msg2" id="msg2" value="1234">
+									<input type="hidden" name="msg1" id="msg1" value="123">
+                                    <div class="row">
+                            		<div class="form-group col-md-4">
+                            			<label for="courtno">Court No.</label>
+                            			<select name="courtno" id="courtno" class="form-control">
+                            				<option value="">Select</option>
+                            				<?php
+                            					foreach (get_court_number() as $key => $row) 
+                            					{
+                            				?>
+                            						<option value="<?php echo $key; ?>" <?php if($key == 1){ echo "selected"; } ?>><?php echo $row; ?></option>
+                            				<?php
+                            					}
+                            				?>
+                                            <?php
+                                                // $sql_reg="SELECT
+                                                // t1.courtno,
+                                                // concat(t3.jname,' ',t3.first_name,' ',t3.sur_name) jname
+                                                // FROM
+                                                // roster t1
+                                                // INNER JOIN roster_judge t2
+                                                //     ON t1.id = t2.roster_id
+                                                // INNER JOIN judge t3
+                                                //     ON t3.jcode = t2.judge_id
+                                                // WHERE '".date('Y-m-d')."' >= t1.from_date
+                                                // AND t1.to_date = '0000-00-00'
+                                                // AND t3.jtype = 'R'
+                                                // AND t3.is_retired = 'N'
+                                                // -- AND t2.judge_id IN (520,514,522,523)
+
+                                                // AND t1.display = 'Y'
+                                                // AND t2.display = 'Y'
+                                                // ORDER BY t3.jcode";
+ 
+                                               // $results_reg = mysql_query($sql_reg);
+                                                    if (!empty($regular_judges)) {
+                                                        foreach ($regular_judges as $row_reg) {
+                                                            if($row_reg["courtno"] == 21){
+                                                                echo '<option value="' . $row_reg["courtno"] . '">Registrar Court No. 1</option>';
+                                                            }
+                                                            else if($row_reg["courtno"] == 22){
+                                                                echo '<option value="' . $row_reg["courtno"] . '">Registrar Court No. 2</option>';
+                                                            }
+                                                            else if($row_reg["courtno"] == 61){
+                                                                echo '<option value="' . $row_reg["courtno"] . '">Registrar Virtual Court No. 1</option>';
+                                                            }
+                                                            else if($row_reg["courtno"] == 62){
+                                                                echo '<option value="' . $row_reg["courtno"] . '">Registrar Virtual Court No. 2</option>';
+                                                            }
+
+                                                        }
+                                                    }
+                                                ?>
+                                            
+                            			</select>
+                            		</div>
+                            		<?php
+                            			if (isset($_POST["dtd"]) and $_POST["dtd"]!='')
+                            			{
+		                                	$dtd = $_POST["dtd"];
+		                                }
+		                                else
+		                                {
+		                                	$dtd = date("Y-m-d");
+		                            	}
+                                        if (isset($_POST["hdate"]) and $_POST["hdate"]!='')
+                                            $hdate = $_POST["hdate"];
+                                        else
+                                            $hdate = $dtd;
+                            		?>
+                            		<div class="form-group col-md-4">
+                            			<label for="dtd">Cause List Date</label>
+                            			<input type="date" name="dtd" id="dtd" class="form-control" value="<?php echo $dtd; ?>">
+                            		</div>
+                            		 
+                            		<div class="form-group col-md-12 mt-3">
+                            			<span class="mr-3">
+                            				<input type="radio" name="mf" id="mf" value="M" checked>Miscellaneous
+                            			</span>
+                            			<span class="mr-3">
+			                                <input type="radio" name="mf" id="mf" value="F">Regular
+			                            </span>
+			                            <span class="mr-3">
+			                                <input type="radio" name="mf" id="mf" value="L" >Lok Adalat
+			                            </span>
+			                            <span class="mr-3">
+			                                <input type="radio" name="mf" id="mf" value="S">Mediation
+			                            </span>
+                            		</div>
+                            		<div class="col-md-2 mt-3">
+                            			<input type="button" name="submit" class="btn btn-success" value="Submit" onclick='fsubmit();'>
+                            		</div>
+                                    </div>
+                            	</form>
+
+                                <hr/>
+                                	<a href="javascript:void(0)" class="btn btn-primary mentioning">Mentioning</a>
+                                	<a href="javascript:void(0)" class="btn btn-primary display_board">Message to Display Board</a>
+                                <hr/>
+
+                                <div id="show_mention" style="display: none;">
+                                	<form class="form-inline">
+                                		<div class="form-group col-md-4">
+                                			<label>Oral Mentioning Case No.</label>
+					                		<input type="text" name="mentioningNo" id="mentioningNo" maxlength="4" onkeypress="return isNumber(event)">
+					                		<span class="text-danger mt-1">(Only Number(s) Allowed)</span>
+					                	</div>
+
+					                	<div class="form-group col-md-6">
+					                		<input type="button" name="bt1" id="bt1" class="btn btn-primary mr-2" value="Send" onClick="return save_mentioning_cases_hearing_status(0)">
+		                                    <input type="button" name="btnClearMsg" class="btn btn-primary mr-2" id="btnClearMsg" value="Clear Mentioning" onClick="return save_mentioning_cases_hearing_status(1)">
+		                                    <input type="button" name="bt2" class="btn btn-primary mr-2" id="bt2" value="Cancel"  onClick="call_oral_mentioning();">
+		                                </div>
+                                	</form>
+				                </div>
+
+				                <div id="show_display_board" style="display: none;">
+				                	<form class="form-inline">
+                                		<div class="form-group col-md-6">
+                                			<label>Message</label>
+					                		<textarea name="msgbox" id="msgbox" rows="1" cols="80"></textarea>
+					                		<span class="text-danger mt-1">(Special Characters are not allowed except space and.)</span>
+					                	</div>
+
+					                	<div class="form-group col-md-6">
+					                		<input type="button" name="bt1" id="bt1" class="btn btn-primary mr-2" value="Send" onClick="return save_r1(0)">
+		                                    <input type="button" name="btnClearMsg" class="btn btn-primary mr-2" id="btnClearMsg" value="Clear Message" onClick="return save_r1(1)">
+		                                    <input type="button" name="bt2" class="btn btn-primary mr-2" id="bt2" value="Cancel" onClick="call_mg();">
+		                                </div>
+                                         
+                                	</form>
+				                </div>
+
+				                <center><span id="loader"></span> </center>
+                                <div id="r_box" align="center" style="padding-top: 15px;" ></div>
+                                <div id="hint" style="text-align: center"></div>          
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".mentioning").click(function(){
+			$("#show_mention").show();
+			$("#show_display_board").hide();
+		});
+
+		$(".display_board").click(function(){
+			$("#show_mention").hide();
+			$("#show_display_board").show();
+		});
+	});
+
+    
+
+	function save_r1(action) {
+   
+    // Retrieve the CSRF token from the page
+
+           var CSRF_TOKEN = 'CSRF_TOKEN';
+			var csrf = $("input[name='CSRF_TOKEN']").val();
+
+    var xhr2 = new XMLHttpRequest();
+    var msg1 = document.getElementById("msg1").value;
+    var str1 = "";
+      
+    if (action === 1) {
+        str1 = document.getElementById("msg2").value + "::M" + ":0:0";
+        document.getElementById("msgbox").value = "";
+    } else {
+        var messagetext = document.getElementById("msgbox").value;
+        messagetext = messagetext.replace(/[^a-z\d\s\.]+/gi, "");
+        str1 = document.getElementById("msg2").value + ":" + messagetext + ":M" + ":0:0";
+    }
+
+    // Assuming you have a meta tag with CSRF token
+    var baseUrl = "<?php echo base_url('Court/CourtCauseListController/insert_show') ?>?str=";
+    var url = baseUrl + encodeURIComponent(str1) + '&' + CSRF_TOKEN + '=' + csrf;
+
+    xhr2.open("GET", url, true);
+    xhr2.onreadystatechange = function () {
+        if (xhr2.readyState === 4 && xhr2.status === 200) {
+            var data = xhr2.responseText;
+            var inmsg = msg1.indexOf("Message :");
+            if (inmsg >= 0) {
+                msg1 = msg1.substring(0, inmsg) + "Message : " + document.getElementById("msgbox").value;
+            } else {
+                if (msg1 !== "") {
+                    msg1 = msg1 + "; Message : " + document.getElementById("msgbox").value;
+                } else {
+                    msg1 = "Message : " + document.getElementById("msgbox").value;
+                }
+            }
+            document.getElementById("msg1").value = msg1;
+            alert('Success: Message was saved successfully!');
+        }
+    };
+    xhr2.send(null);
+}
+
+
+function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+
+
+function isCourtNoAndCLDateSelected() {
+    var courtNo = document.getElementById("courtno").value;
+    var causelistDate = document.getElementById("dtd").value;
+
+    if(courtNo===undefined || courtNo=='' || causelistDate===undefined || causelistDate=='')
+    {
+
+        alert("Select Court No. and Cause List Date to continue..");
+        return false;
+    }
+    return true;
+}
+
+function save_mentioning_cases_hearing_status(action) {
+    //alert('hi');
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+    var csrf = $("input[name='CSRF_TOKEN']").val();
+    // Call the function to check if court number and CL date are selected
+    isCourtNoAndCLDateSelected();
+    
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    var csrfName = $('meta[name="csrf-name"]').attr('content');
+
+    var xhr2 = new XMLHttpRequest();
+    
+    var msg1 = document.getElementById("msg1").value;
+    var str1 = "";
+    
+    if (action === 1) {
+        str1 = document.getElementById("msg2").value + "::M" + ":0:0";
+        document.getElementById("mentioningNo").value = "";
+    } else {
+        var messagetext = document.getElementById("mentioningNo").value;
+        messagetext = messagetext.replace(/[^a-z\d\s\.]+/gi, "");
+        str1 = document.getElementById("msg2").value + ":" + messagetext + ":M" + ":0:0";
+    }
+    
+    // Generate the URL with CSRF token
+
+    var baseUrl = "<?php echo base_url('Court/CourtCauseListController/insert_mentioning_case_for_displayboard') ?>?str=";
+    var url = baseUrl + encodeURIComponent(str1) + '&' + CSRF_TOKEN + '=' + csrf;
+    
+    xhr2.open("GET", url, true);
+    xhr2.onreadystatechange = function () {
+        if (xhr2.readyState === 4 && xhr2.status === 200) {
+            var data = xhr2.responseText;
+            var inmsg = msg1.indexOf("Message :");
+            
+            if (inmsg >= 0) {
+                msg1 = msg1.substring(0, inmsg) + "Message : " + document.getElementById("mentioningNo").value;
+            } else {
+                if (msg1 !== "") {
+                    msg1 = msg1 + "; Message : " + document.getElementById("mentioningNo").value;
+                } else {
+                    msg1 = "Message : " + document.getElementById("mentioningNo").value;
+                }
+            }
+            
+            document.getElementById("msg1").value = msg1;
+            alert('Success: Message was saved successfully!');
+        }
+    };
+    
+    xhr2.send(null);
+}
+</script>

@@ -1,0 +1,15 @@
+CREATE TABLE master.bar (
+    create_modify timestamp with time zone,
+    updated_on timestamp with time zone,
+    updated_by bigint,
+    updated_by_ip character varying(100)
+);	
+	
+CREATE TABLE public.fil_trap_seq (
+    create_modify timestamp without time zone,
+    updated_by bigint,
+    updated_by_ip text
+);
+
+
+

@@ -1,0 +1,47 @@
+[
+	{
+		"id" : 1,
+		"category_name" : "Death Penalty Matters",
+		"display" : "Y",
+		"updated_by" : 1,
+		"updated_on" : null,
+		"create_modify" : null,
+		"updated_by_ip" : null
+	},
+	{
+		"id" : 2,
+		"category_name" : "Habeas Corpus Matters",
+		"display" : "Y",
+		"updated_by" : 1,
+		"updated_on" : null,
+		"create_modify" : null,
+		"updated_by_ip" : null
+	},
+	{
+		"id" : 3,
+		"category_name" : "Demolition of Property",
+		"display" : "Y",
+		"updated_by" : 1,
+		"updated_on" : null,
+		"create_modify" : null,
+		"updated_by_ip" : null
+	},
+	{
+		"id" : 4,
+		"category_name" : "Eviction Matter",
+		"display" : "Y",
+		"updated_by" : 1,
+		"updated_on" : null,
+		"create_modify" : null,
+		"updated_by_ip" : null
+	},
+	{
+		"id" : 5,
+		"category_name" : "Bail, Anticipatory Bail Matter",
+		"display" : "Y",
+		"updated_by" : 1,
+		"updated_on" : null,
+		"create_modify" : null,
+		"updated_by_ip" : null
+	}
+]

@@ -1,0 +1,434 @@
+[
+    {
+        "id": "1",
+        "from_weight": "1",
+        "to_weight": "20",
+        "ord_price": "5",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "2",
+        "from_weight": "21",
+        "to_weight": "40",
+        "ord_price": "10",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "3",
+        "from_weight": "41",
+        "to_weight": "60",
+        "ord_price": "15",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "4",
+        "from_weight": "61",
+        "to_weight": "80",
+        "ord_price": "19",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "5",
+        "from_weight": "81",
+        "to_weight": "500",
+        "ord_price": "19",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "6",
+        "from_weight": "501",
+        "to_weight": "1000",
+        "ord_price": "35",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "7",
+        "from_weight": "1001",
+        "to_weight": "1500",
+        "ord_price": "51",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "8",
+        "from_weight": "1501",
+        "to_weight": "2000",
+        "ord_price": "67",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "9",
+        "from_weight": "2001",
+        "to_weight": "2500",
+        "ord_price": "83",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "10",
+        "from_weight": "2501",
+        "to_weight": "3000",
+        "ord_price": "99",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "11",
+        "from_weight": "3001",
+        "to_weight": "3500",
+        "ord_price": "115",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "12",
+        "from_weight": "3501",
+        "to_weight": "4000",
+        "ord_price": "131",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "13",
+        "from_weight": "4001",
+        "to_weight": "4500",
+        "ord_price": "147",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "14",
+        "from_weight": "4501",
+        "to_weight": "5000",
+        "ord_price": "163",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "15",
+        "from_weight": "5001",
+        "to_weight": "5500",
+        "ord_price": "179",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "16",
+        "from_weight": "5501",
+        "to_weight": "6000",
+        "ord_price": "195",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "17",
+        "from_weight": "6001",
+        "to_weight": "6500",
+        "ord_price": "211",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "18",
+        "from_weight": "6501",
+        "to_weight": "7000",
+        "ord_price": "227",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "19",
+        "from_weight": "7001",
+        "to_weight": "7500",
+        "ord_price": "243",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "20",
+        "from_weight": "7501",
+        "to_weight": "8000",
+        "ord_price": "259",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "21",
+        "from_weight": "8001",
+        "to_weight": "8500",
+        "ord_price": "275",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "22",
+        "from_weight": "8501",
+        "to_weight": "9000",
+        "ord_price": "291",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "23",
+        "from_weight": "9001",
+        "to_weight": "9500",
+        "ord_price": "307",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "24",
+        "from_weight": "9501",
+        "to_weight": "10000",
+        "ord_price": "323",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "O"
+    },
+    {
+        "id": "25",
+        "from_weight": "1",
+        "to_weight": "20",
+        "ord_price": "25",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "26",
+        "from_weight": "21",
+        "to_weight": "40",
+        "ord_price": "30",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "27",
+        "from_weight": "41",
+        "to_weight": "60",
+        "ord_price": "35",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "28",
+        "from_weight": "61",
+        "to_weight": "80",
+        "ord_price": "39",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "29",
+        "from_weight": "81",
+        "to_weight": "500",
+        "ord_price": "39",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "30",
+        "from_weight": "501",
+        "to_weight": "1000",
+        "ord_price": "55",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "31",
+        "from_weight": "1001",
+        "to_weight": "1500",
+        "ord_price": "71",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "32",
+        "from_weight": "1501",
+        "to_weight": "2000",
+        "ord_price": "87",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "33",
+        "from_weight": "2001",
+        "to_weight": "2500",
+        "ord_price": "103",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "34",
+        "from_weight": "2501",
+        "to_weight": "3000",
+        "ord_price": "119",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "35",
+        "from_weight": "3001",
+        "to_weight": "3500",
+        "ord_price": "135",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "36",
+        "from_weight": "3501",
+        "to_weight": "4000",
+        "ord_price": "151",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "37",
+        "from_weight": "4001",
+        "to_weight": "4500",
+        "ord_price": "167",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "38",
+        "from_weight": "4501",
+        "to_weight": "5000",
+        "ord_price": "188",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "39",
+        "from_weight": "5001",
+        "to_weight": "5500",
+        "ord_price": "204",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "40",
+        "from_weight": "5501",
+        "to_weight": "6000",
+        "ord_price": "220",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "41",
+        "from_weight": "6001",
+        "to_weight": "6500",
+        "ord_price": "236",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "42",
+        "from_weight": "6501",
+        "to_weight": "7000",
+        "ord_price": "252",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "43",
+        "from_weight": "7001",
+        "to_weight": "7500",
+        "ord_price": "269",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "44",
+        "from_weight": "7501",
+        "to_weight": "8000",
+        "ord_price": "284",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "45",
+        "from_weight": "8001",
+        "to_weight": "8500",
+        "ord_price": "300",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "46",
+        "from_weight": "8501",
+        "to_weight": "9000",
+        "ord_price": "316",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "47",
+        "from_weight": "9001",
+        "to_weight": "9500",
+        "ord_price": "332",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    },
+    {
+        "id": "48",
+        "from_weight": "9501",
+        "to_weight": "10000",
+        "ord_price": "348",
+        "fr_dt": null,
+        "to_dt": null,
+        "del_type": "R"
+    }
+]

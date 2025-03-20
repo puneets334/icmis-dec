@@ -1,0 +1,3946 @@
+[
+    {
+        "id": "29",
+        "role_master_id": "5",
+        "menu_id": "22",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-21 16:04:46+05:30"
+    },
+    {
+        "id": "233",
+        "role_master_id": "32",
+        "menu_id": "09",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:21:56+05:30"
+    },
+    {
+        "id": "286",
+        "role_master_id": "12",
+        "menu_id": "0503",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:40:28+05:30"
+    },
+    {
+        "id": "287",
+        "role_master_id": "13",
+        "menu_id": "06",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:41:06+05:30"
+    },
+    {
+        "id": "288",
+        "role_master_id": "14",
+        "menu_id": "0303",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:41:34+05:30"
+    },
+    {
+        "id": "289",
+        "role_master_id": "15",
+        "menu_id": "11",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:41:52+05:30"
+    },
+    {
+        "id": "290",
+        "role_master_id": "16",
+        "menu_id": "21",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:42:10+05:30"
+    },
+    {
+        "id": "292",
+        "role_master_id": "18",
+        "menu_id": "14",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:43:03+05:30"
+    },
+    {
+        "id": "295",
+        "role_master_id": "22",
+        "menu_id": "20",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:44:31+05:30"
+    },
+    {
+        "id": "379",
+        "role_master_id": "26",
+        "menu_id": "0316",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:57:50+05:30"
+    },
+    {
+        "id": "438",
+        "role_master_id": "33",
+        "menu_id": "27",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 12:37:47+05:30"
+    },
+    {
+        "id": "520",
+        "role_master_id": "20",
+        "menu_id": "16",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 15:11:11+05:30"
+    },
+    {
+        "id": "521",
+        "role_master_id": "29",
+        "menu_id": "050105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 15:21:00+05:30"
+    },
+    {
+        "id": "522",
+        "role_master_id": "29",
+        "menu_id": "05020101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 15:21:00+05:30"
+    },
+    {
+        "id": "523",
+        "role_master_id": "29",
+        "menu_id": "05020201",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 15:21:00+05:30"
+    },
+    {
+        "id": "524",
+        "role_master_id": "29",
+        "menu_id": "05020202",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 15:21:00+05:30"
+    },
+    {
+        "id": "525",
+        "role_master_id": "29",
+        "menu_id": "05020203",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 15:21:00+05:30"
+    },
+    {
+        "id": "526",
+        "role_master_id": "29",
+        "menu_id": "05020204",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 15:21:00+05:30"
+    },
+    {
+        "id": "534",
+        "role_master_id": "35",
+        "menu_id": "0209",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-23 11:04:28+05:30"
+    },
+    {
+        "id": "651",
+        "role_master_id": "36",
+        "menu_id": "29",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-25 10:40:19+05:30"
+    },
+    {
+        "id": "851",
+        "role_master_id": "37",
+        "menu_id": "30",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-02-15 10:48:32+05:30"
+    },
+    {
+        "id": "951",
+        "role_master_id": "38",
+        "menu_id": "02220108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-05-22 14:33:54+05:30"
+    },
+    {
+        "id": "952",
+        "role_master_id": "38",
+        "menu_id": "031101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-05-22 14:33:54+05:30"
+    },
+    {
+        "id": "953",
+        "role_master_id": "38",
+        "menu_id": "140101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-05-22 14:33:54+05:30"
+    },
+    {
+        "id": "954",
+        "role_master_id": "38",
+        "menu_id": "140103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-05-22 14:33:54+05:30"
+    },
+    {
+        "id": "968",
+        "role_master_id": "39",
+        "menu_id": "0209",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-05-23 11:31:00+05:30"
+    },
+    {
+        "id": "1114",
+        "role_master_id": "40",
+        "menu_id": "05010201",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-05-30 12:12:01+05:30"
+    },
+    {
+        "id": "1115",
+        "role_master_id": "40",
+        "menu_id": "050105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-05-30 12:12:01+05:30"
+    },
+    {
+        "id": "1116",
+        "role_master_id": "40",
+        "menu_id": "05010501",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-05-30 12:12:01+05:30"
+    },
+    {
+        "id": "1273",
+        "role_master_id": "41",
+        "menu_id": "0221",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-11 12:30:40+05:30"
+    },
+    {
+        "id": "1312",
+        "role_master_id": "43",
+        "menu_id": "010302",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-27 14:01:58+05:30"
+    },
+    {
+        "id": "1313",
+        "role_master_id": "44",
+        "menu_id": "01120108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-27 14:12:03+05:30"
+    },
+    {
+        "id": "1314",
+        "role_master_id": "44",
+        "menu_id": "01120115",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-27 14:12:03+05:30"
+    },
+    {
+        "id": "1315",
+        "role_master_id": "44",
+        "menu_id": "01120301",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-27 14:12:03+05:30"
+    },
+    {
+        "id": "1316",
+        "role_master_id": "44",
+        "menu_id": "01120302",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-27 14:12:03+05:30"
+    },
+    {
+        "id": "1317",
+        "role_master_id": "44",
+        "menu_id": "01120303",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-27 14:12:03+05:30"
+    },
+    {
+        "id": "1318",
+        "role_master_id": "19",
+        "menu_id": "15",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-28 11:56:03+05:30"
+    },
+    {
+        "id": "1327",
+        "role_master_id": "45",
+        "menu_id": "1705",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-08-24 11:21:58+05:30"
+    },
+    {
+        "id": "1328",
+        "role_master_id": "45",
+        "menu_id": "1706",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-08-24 11:21:58+05:30"
+    },
+    {
+        "id": "1329",
+        "role_master_id": "45",
+        "menu_id": "1707",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-08-24 11:21:58+05:30"
+    },
+    {
+        "id": "1330",
+        "role_master_id": "46",
+        "menu_id": "2201",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-08-25 14:28:04+05:30"
+    },
+    {
+        "id": "1345",
+        "role_master_id": "47",
+        "menu_id": "220801",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-09-01 16:50:50+05:30"
+    },
+    {
+        "id": "1397",
+        "role_master_id": "49",
+        "menu_id": "170101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-09-17 13:00:09+05:30"
+    },
+    {
+        "id": "1398",
+        "role_master_id": "49",
+        "menu_id": "1706",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-09-17 13:00:09+05:30"
+    },
+    {
+        "id": "1399",
+        "role_master_id": "49",
+        "menu_id": "1707",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-09-17 13:00:09+05:30"
+    },
+    {
+        "id": "1400",
+        "role_master_id": "49",
+        "menu_id": "170302",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-09-17 13:00:09+05:30"
+    },
+    {
+        "id": "1401",
+        "role_master_id": "49",
+        "menu_id": "170303",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-09-17 13:00:09+05:30"
+    },
+    {
+        "id": "1402",
+        "role_master_id": "49",
+        "menu_id": "1704",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-09-17 13:00:09+05:30"
+    },
+    {
+        "id": "1550",
+        "role_master_id": "50",
+        "menu_id": "2213",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-11-06 14:43:51+05:30"
+    },
+    {
+        "id": "1551",
+        "role_master_id": "50",
+        "menu_id": "2215",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-11-06 14:43:51+05:30"
+    },
+    {
+        "id": "1552",
+        "role_master_id": "4",
+        "menu_id": "010202",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-02-01 16:30:58+05:30"
+    },
+    {
+        "id": "1553",
+        "role_master_id": "4",
+        "menu_id": "0109",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-02-01 16:30:58+05:30"
+    },
+    {
+        "id": "1554",
+        "role_master_id": "4",
+        "menu_id": "0114",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-02-01 16:30:58+05:30"
+    },
+    {
+        "id": "1555",
+        "role_master_id": "51",
+        "menu_id": "1305",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-02-04 15:59:42+05:30"
+    },
+    {
+        "id": "1637",
+        "role_master_id": "53",
+        "menu_id": "010205",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-04-13 15:57:08+05:30"
+    },
+    {
+        "id": "1638",
+        "role_master_id": "54",
+        "menu_id": "31",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-05-27 12:12:10+05:30"
+    },
+    {
+        "id": "1639",
+        "role_master_id": "55",
+        "menu_id": "011101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-06-09 12:19:11+05:30"
+    },
+    {
+        "id": "1640",
+        "role_master_id": "56",
+        "menu_id": "021201",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-06-16 12:16:11+05:30"
+    },
+    {
+        "id": "1667",
+        "role_master_id": "59",
+        "menu_id": "32",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-06-24 17:02:34+05:30"
+    },
+    {
+        "id": "1668",
+        "role_master_id": "60",
+        "menu_id": "140103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-06-25 10:59:58+05:30"
+    },
+    {
+        "id": "1669",
+        "role_master_id": "61",
+        "menu_id": "2708",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-07-17 12:21:43+05:30"
+    },
+    {
+        "id": "1680",
+        "role_master_id": "62",
+        "menu_id": "33",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-08-14 10:52:20+05:30"
+    },
+    {
+        "id": "1685",
+        "role_master_id": "63",
+        "menu_id": "33",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-09-02 16:01:52+05:30"
+    },
+    {
+        "id": "1686",
+        "role_master_id": "63",
+        "menu_id": "010103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-09-02 16:01:52+05:30"
+    },
+    {
+        "id": "1687",
+        "role_master_id": "64",
+        "menu_id": "34",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-09-23 17:21:26+05:30"
+    },
+    {
+        "id": "1688",
+        "role_master_id": "52",
+        "menu_id": "05020101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-10-18 12:36:09+05:30"
+    },
+    {
+        "id": "1689",
+        "role_master_id": "65",
+        "menu_id": "2213",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-10-18 12:37:31+05:30"
+    },
+    {
+        "id": "1690",
+        "role_master_id": "65",
+        "menu_id": "1829",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-10-18 12:37:31+05:30"
+    },
+    {
+        "id": "1691",
+        "role_master_id": "66",
+        "menu_id": "35",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-10-25 15:41:44+05:30"
+    },
+    {
+        "id": "1825",
+        "role_master_id": "21",
+        "menu_id": "060307",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1826",
+        "role_master_id": "21",
+        "menu_id": "09",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1827",
+        "role_master_id": "21",
+        "menu_id": "1701",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1828",
+        "role_master_id": "21",
+        "menu_id": "170607",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1829",
+        "role_master_id": "21",
+        "menu_id": "170703",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1830",
+        "role_master_id": "21",
+        "menu_id": "1708",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1831",
+        "role_master_id": "21",
+        "menu_id": "1703",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1832",
+        "role_master_id": "21",
+        "menu_id": "170401",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1833",
+        "role_master_id": "21",
+        "menu_id": "170402",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1834",
+        "role_master_id": "21",
+        "menu_id": "170403",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1835",
+        "role_master_id": "21",
+        "menu_id": "170406",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1836",
+        "role_master_id": "21",
+        "menu_id": "170405",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "1884",
+        "role_master_id": "17",
+        "menu_id": "1301",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-02-16 10:11:50+05:30"
+    },
+    {
+        "id": "1885",
+        "role_master_id": "17",
+        "menu_id": "1305",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-02-16 10:11:50+05:30"
+    },
+    {
+        "id": "1886",
+        "role_master_id": "17",
+        "menu_id": "1306",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-02-16 10:11:50+05:30"
+    },
+    {
+        "id": "1887",
+        "role_master_id": "17",
+        "menu_id": "130801",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-02-16 10:11:50+05:30"
+    },
+    {
+        "id": "1888",
+        "role_master_id": "17",
+        "menu_id": "130802",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-02-16 10:11:50+05:30"
+    },
+    {
+        "id": "1889",
+        "role_master_id": "17",
+        "menu_id": "1302",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-02-16 10:11:50+05:30"
+    },
+    {
+        "id": "1890",
+        "role_master_id": "17",
+        "menu_id": "1303",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-02-16 10:11:50+05:30"
+    },
+    {
+        "id": "1891",
+        "role_master_id": "68",
+        "menu_id": "130803",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-02-16 10:12:20+05:30"
+    },
+    {
+        "id": "1990",
+        "role_master_id": "69",
+        "menu_id": "36",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-03-31 16:51:45+05:30"
+    },
+    {
+        "id": "1994",
+        "role_master_id": "70",
+        "menu_id": "1829",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-04-11 11:57:01+05:30"
+    },
+    {
+        "id": "2000",
+        "role_master_id": "48",
+        "menu_id": "01050206",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-20 11:47:02+05:30"
+    },
+    {
+        "id": "2001",
+        "role_master_id": "48",
+        "menu_id": "01050207",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-20 11:47:02+05:30"
+    },
+    {
+        "id": "2002",
+        "role_master_id": "58",
+        "menu_id": "220701",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-29 14:35:25+05:30"
+    },
+    {
+        "id": "2003",
+        "role_master_id": "58",
+        "menu_id": "220703",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-29 14:35:25+05:30"
+    },
+    {
+        "id": "2105",
+        "role_master_id": "9",
+        "menu_id": "01110103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "2106",
+        "role_master_id": "9",
+        "menu_id": "0227",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "2107",
+        "role_master_id": "9",
+        "menu_id": "020703",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "2108",
+        "role_master_id": "9",
+        "menu_id": "0213",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "2109",
+        "role_master_id": "9",
+        "menu_id": "021603",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "2110",
+        "role_master_id": "9",
+        "menu_id": "0219",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "2111",
+        "role_master_id": "9",
+        "menu_id": "02220203",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "2112",
+        "role_master_id": "9",
+        "menu_id": "0224",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "2113",
+        "role_master_id": "9",
+        "menu_id": "03070122",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "2114",
+        "role_master_id": "9",
+        "menu_id": "060307",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "2115",
+        "role_master_id": "9",
+        "menu_id": "2601",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "2116",
+        "role_master_id": "71",
+        "menu_id": "221303",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-31 11:08:07+05:30"
+    },
+    {
+        "id": "2117",
+        "role_master_id": "57",
+        "menu_id": "011701",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 15:47:11+05:30"
+    },
+    {
+        "id": "2118",
+        "role_master_id": "57",
+        "menu_id": "011702",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 15:47:11+05:30"
+    },
+    {
+        "id": "2119",
+        "role_master_id": "57",
+        "menu_id": "011703",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 15:47:11+05:30"
+    },
+    {
+        "id": "2120",
+        "role_master_id": "57",
+        "menu_id": "011709",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 15:47:11+05:30"
+    },
+    {
+        "id": "2121",
+        "role_master_id": "42",
+        "menu_id": "3301",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 16:00:23+05:30"
+    },
+    {
+        "id": "2122",
+        "role_master_id": "42",
+        "menu_id": "2201",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 16:00:23+05:30"
+    },
+    {
+        "id": "2123",
+        "role_master_id": "42",
+        "menu_id": "220901",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 16:00:23+05:30"
+    },
+    {
+        "id": "2124",
+        "role_master_id": "42",
+        "menu_id": "220902",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 16:00:23+05:30"
+    },
+    {
+        "id": "2125",
+        "role_master_id": "42",
+        "menu_id": "220903",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 16:00:23+05:30"
+    },
+    {
+        "id": "2126",
+        "role_master_id": "42",
+        "menu_id": "220904",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 16:00:23+05:30"
+    },
+    {
+        "id": "2127",
+        "role_master_id": "42",
+        "menu_id": "220905",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 16:00:23+05:30"
+    },
+    {
+        "id": "2128",
+        "role_master_id": "42",
+        "menu_id": "220914",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 16:00:23+05:30"
+    },
+    {
+        "id": "2129",
+        "role_master_id": "72",
+        "menu_id": "02220109",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-01 14:50:46+05:30"
+    },
+    {
+        "id": "2155",
+        "role_master_id": "6",
+        "menu_id": "010102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-01 14:52:02+05:30"
+    },
+    {
+        "id": "2156",
+        "role_master_id": "6",
+        "menu_id": "010201",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-01 14:52:02+05:30"
+    },
+    {
+        "id": "2157",
+        "role_master_id": "6",
+        "menu_id": "010202",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-01 14:52:02+05:30"
+    },
+    {
+        "id": "2158",
+        "role_master_id": "6",
+        "menu_id": "0110",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-01 14:52:02+05:30"
+    },
+    {
+        "id": "2159",
+        "role_master_id": "6",
+        "menu_id": "0117",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-01 14:52:02+05:30"
+    },
+    {
+        "id": "2160",
+        "role_master_id": "6",
+        "menu_id": "02220109",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-01 14:52:02+05:30"
+    },
+    {
+        "id": "2197",
+        "role_master_id": "28",
+        "menu_id": "01050101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-09 14:40:19+05:30"
+    },
+    {
+        "id": "2198",
+        "role_master_id": "28",
+        "menu_id": "02220101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-09 14:40:19+05:30"
+    },
+    {
+        "id": "2199",
+        "role_master_id": "28",
+        "menu_id": "02220109",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-09 14:40:19+05:30"
+    },
+    {
+        "id": "2200",
+        "role_master_id": "28",
+        "menu_id": "02220102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-09 14:40:19+05:30"
+    },
+    {
+        "id": "2201",
+        "role_master_id": "28",
+        "menu_id": "02220105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-09 14:40:19+05:30"
+    },
+    {
+        "id": "2202",
+        "role_master_id": "28",
+        "menu_id": "02220108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-09 14:40:19+05:30"
+    },
+    {
+        "id": "2203",
+        "role_master_id": "28",
+        "menu_id": "26",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-09 14:40:19+05:30"
+    },
+    {
+        "id": "2252",
+        "role_master_id": "73",
+        "menu_id": "0119",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-21 08:52:32+05:30"
+    },
+    {
+        "id": "2259",
+        "role_master_id": "74",
+        "menu_id": "0120",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-01 11:27:34+05:30"
+    },
+    {
+        "id": "2307",
+        "role_master_id": "31",
+        "menu_id": "0324",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-03 12:01:19+05:30"
+    },
+    {
+        "id": "2308",
+        "role_master_id": "31",
+        "menu_id": "03070101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-03 12:01:19+05:30"
+    },
+    {
+        "id": "2309",
+        "role_master_id": "31",
+        "menu_id": "03070103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-03 12:01:19+05:30"
+    },
+    {
+        "id": "2310",
+        "role_master_id": "31",
+        "menu_id": "03070110",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-03 12:01:19+05:30"
+    },
+    {
+        "id": "2311",
+        "role_master_id": "31",
+        "menu_id": "03070112",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-03 12:01:19+05:30"
+    },
+    {
+        "id": "2312",
+        "role_master_id": "31",
+        "menu_id": "03070128",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-03 12:01:19+05:30"
+    },
+    {
+        "id": "2313",
+        "role_master_id": "31",
+        "menu_id": "03070132",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-03 12:01:19+05:30"
+    },
+    {
+        "id": "2314",
+        "role_master_id": "31",
+        "menu_id": "03070133",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-03 12:01:19+05:30"
+    },
+    {
+        "id": "2315",
+        "role_master_id": "75",
+        "menu_id": "0325",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-04 15:35:59+05:30"
+    },
+    {
+        "id": "2316",
+        "role_master_id": "75",
+        "menu_id": "030607",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-04 15:35:59+05:30"
+    },
+    {
+        "id": "2326",
+        "role_master_id": "76",
+        "menu_id": "01050207",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-09-20 10:33:10+05:30"
+    },
+    {
+        "id": "2327",
+        "role_master_id": "77",
+        "menu_id": "021201",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-09-21 15:54:05+05:30"
+    },
+    {
+        "id": "2328",
+        "role_master_id": "77",
+        "menu_id": "031101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-09-21 15:54:05+05:30"
+    },
+    {
+        "id": "2346",
+        "role_master_id": "78",
+        "menu_id": "0321",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-11-24 14:45:26+05:30"
+    },
+    {
+        "id": "2396",
+        "role_master_id": "8",
+        "menu_id": "0201",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2397",
+        "role_master_id": "8",
+        "menu_id": "0227",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2398",
+        "role_master_id": "8",
+        "menu_id": "0202",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2399",
+        "role_master_id": "8",
+        "menu_id": "0203",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2400",
+        "role_master_id": "8",
+        "menu_id": "0204",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2401",
+        "role_master_id": "8",
+        "menu_id": "0205",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2402",
+        "role_master_id": "8",
+        "menu_id": "0206",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2403",
+        "role_master_id": "8",
+        "menu_id": "020601",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2404",
+        "role_master_id": "8",
+        "menu_id": "020604",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2405",
+        "role_master_id": "8",
+        "menu_id": "020602",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2406",
+        "role_master_id": "8",
+        "menu_id": "020603",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2407",
+        "role_master_id": "8",
+        "menu_id": "0207",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2408",
+        "role_master_id": "8",
+        "menu_id": "0208",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2409",
+        "role_master_id": "8",
+        "menu_id": "0209",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2410",
+        "role_master_id": "8",
+        "menu_id": "0211",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2411",
+        "role_master_id": "8",
+        "menu_id": "0212",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2412",
+        "role_master_id": "8",
+        "menu_id": "0213",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2413",
+        "role_master_id": "8",
+        "menu_id": "0214",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2414",
+        "role_master_id": "8",
+        "menu_id": "0215",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2415",
+        "role_master_id": "8",
+        "menu_id": "0216",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2416",
+        "role_master_id": "8",
+        "menu_id": "0217",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2417",
+        "role_master_id": "8",
+        "menu_id": "0218",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2418",
+        "role_master_id": "8",
+        "menu_id": "0219",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2419",
+        "role_master_id": "8",
+        "menu_id": "0220",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2420",
+        "role_master_id": "8",
+        "menu_id": "0221",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2421",
+        "role_master_id": "8",
+        "menu_id": "0222",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2422",
+        "role_master_id": "8",
+        "menu_id": "02220101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2423",
+        "role_master_id": "8",
+        "menu_id": "02220109",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2424",
+        "role_master_id": "8",
+        "menu_id": "02220102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2425",
+        "role_master_id": "8",
+        "menu_id": "02220103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2426",
+        "role_master_id": "8",
+        "menu_id": "02220104",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2427",
+        "role_master_id": "8",
+        "menu_id": "02220105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2428",
+        "role_master_id": "8",
+        "menu_id": "02220106",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2429",
+        "role_master_id": "8",
+        "menu_id": "02220107",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2430",
+        "role_master_id": "8",
+        "menu_id": "02220108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2431",
+        "role_master_id": "8",
+        "menu_id": "022202",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2432",
+        "role_master_id": "8",
+        "menu_id": "0223",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2433",
+        "role_master_id": "8",
+        "menu_id": "022601",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "2464",
+        "role_master_id": "25",
+        "menu_id": "37",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-01-13 11:41:31+05:30"
+    },
+    {
+        "id": "2465",
+        "role_master_id": "25",
+        "menu_id": "010103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-01-13 11:41:31+05:30"
+    },
+    {
+        "id": "2466",
+        "role_master_id": "25",
+        "menu_id": "021101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-01-13 11:41:31+05:30"
+    },
+    {
+        "id": "2467",
+        "role_master_id": "25",
+        "menu_id": "02220108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-01-13 11:41:31+05:30"
+    },
+    {
+        "id": "2468",
+        "role_master_id": "25",
+        "menu_id": "0305",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-01-13 11:41:31+05:30"
+    },
+    {
+        "id": "2469",
+        "role_master_id": "25",
+        "menu_id": "03070309",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-01-13 11:41:31+05:30"
+    },
+    {
+        "id": "2470",
+        "role_master_id": "25",
+        "menu_id": "03070310",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-01-13 11:41:31+05:30"
+    },
+    {
+        "id": "2471",
+        "role_master_id": "25",
+        "menu_id": "03070311",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-01-13 11:41:31+05:30"
+    },
+    {
+        "id": "2472",
+        "role_master_id": "25",
+        "menu_id": "03070312",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-01-13 11:41:31+05:30"
+    },
+    {
+        "id": "2473",
+        "role_master_id": "25",
+        "menu_id": "03070313",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-01-13 11:41:31+05:30"
+    },
+    {
+        "id": "2522",
+        "role_master_id": "81",
+        "menu_id": "01050201",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-03 10:08:45+05:30"
+    },
+    {
+        "id": "2523",
+        "role_master_id": "81",
+        "menu_id": "01050204",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-03 10:08:45+05:30"
+    },
+    {
+        "id": "2524",
+        "role_master_id": "81",
+        "menu_id": "01050205",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-03 10:08:45+05:30"
+    },
+    {
+        "id": "2525",
+        "role_master_id": "81",
+        "menu_id": "01050401",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-03 10:08:45+05:30"
+    },
+    {
+        "id": "2526",
+        "role_master_id": "81",
+        "menu_id": "021202",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-03 10:08:45+05:30"
+    },
+    {
+        "id": "2527",
+        "role_master_id": "81",
+        "menu_id": "021602",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-03 10:08:45+05:30"
+    },
+    {
+        "id": "2528",
+        "role_master_id": "81",
+        "menu_id": "021603",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-03 10:08:45+05:30"
+    },
+    {
+        "id": "2529",
+        "role_master_id": "34",
+        "menu_id": "020302",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2530",
+        "role_master_id": "34",
+        "menu_id": "020902",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2531",
+        "role_master_id": "34",
+        "menu_id": "02220106",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2532",
+        "role_master_id": "34",
+        "menu_id": "022303",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2533",
+        "role_master_id": "34",
+        "menu_id": "0307",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2534",
+        "role_master_id": "34",
+        "menu_id": "030703",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2535",
+        "role_master_id": "34",
+        "menu_id": "0603",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2536",
+        "role_master_id": "34",
+        "menu_id": "2001",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2537",
+        "role_master_id": "34",
+        "menu_id": "1801",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2538",
+        "role_master_id": "34",
+        "menu_id": "1815",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2539",
+        "role_master_id": "34",
+        "menu_id": "1816",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2540",
+        "role_master_id": "34",
+        "menu_id": "1817",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2541",
+        "role_master_id": "34",
+        "menu_id": "1818",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2542",
+        "role_master_id": "34",
+        "menu_id": "1819",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2543",
+        "role_master_id": "34",
+        "menu_id": "1821",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2544",
+        "role_master_id": "34",
+        "menu_id": "1824",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2545",
+        "role_master_id": "34",
+        "menu_id": "1827",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2546",
+        "role_master_id": "34",
+        "menu_id": "1828",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2547",
+        "role_master_id": "34",
+        "menu_id": "1829",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2548",
+        "role_master_id": "34",
+        "menu_id": "1802",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2549",
+        "role_master_id": "34",
+        "menu_id": "1803",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2550",
+        "role_master_id": "34",
+        "menu_id": "1804",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2551",
+        "role_master_id": "34",
+        "menu_id": "1805",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2552",
+        "role_master_id": "34",
+        "menu_id": "1806",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2553",
+        "role_master_id": "34",
+        "menu_id": "1807",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2554",
+        "role_master_id": "34",
+        "menu_id": "1808",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2555",
+        "role_master_id": "34",
+        "menu_id": "1810",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2556",
+        "role_master_id": "34",
+        "menu_id": "1811",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2557",
+        "role_master_id": "34",
+        "menu_id": "1813",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2558",
+        "role_master_id": "34",
+        "menu_id": "1814",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2559",
+        "role_master_id": "34",
+        "menu_id": "1830",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2560",
+        "role_master_id": "34",
+        "menu_id": "1831",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2561",
+        "role_master_id": "34",
+        "menu_id": "1820",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2562",
+        "role_master_id": "34",
+        "menu_id": "1823",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2563",
+        "role_master_id": "34",
+        "menu_id": "1825",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2564",
+        "role_master_id": "34",
+        "menu_id": "1826",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "2614",
+        "role_master_id": "30",
+        "menu_id": "0304",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2615",
+        "role_master_id": "30",
+        "menu_id": "0309",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2616",
+        "role_master_id": "30",
+        "menu_id": "031112",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2617",
+        "role_master_id": "30",
+        "menu_id": "031702",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2618",
+        "role_master_id": "30",
+        "menu_id": "03070101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2619",
+        "role_master_id": "30",
+        "menu_id": "03070103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2620",
+        "role_master_id": "30",
+        "menu_id": "03070110",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2621",
+        "role_master_id": "30",
+        "menu_id": "03070112",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2622",
+        "role_master_id": "30",
+        "menu_id": "03070115",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2623",
+        "role_master_id": "30",
+        "menu_id": "03070129",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2624",
+        "role_master_id": "30",
+        "menu_id": "03070130",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2625",
+        "role_master_id": "30",
+        "menu_id": "03070133",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2626",
+        "role_master_id": "30",
+        "menu_id": "030707",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "2679",
+        "role_master_id": "79",
+        "menu_id": "3301",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-04-26 14:31:23+05:30"
+    },
+    {
+        "id": "2680",
+        "role_master_id": "79",
+        "menu_id": "3302",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-04-26 14:31:23+05:30"
+    },
+    {
+        "id": "2681",
+        "role_master_id": "79",
+        "menu_id": "3303",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-04-26 14:31:23+05:30"
+    },
+    {
+        "id": "2682",
+        "role_master_id": "79",
+        "menu_id": "3305",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-04-26 14:31:23+05:30"
+    },
+    {
+        "id": "2683",
+        "role_master_id": "79",
+        "menu_id": "3307",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-04-26 14:31:23+05:30"
+    },
+    {
+        "id": "2684",
+        "role_master_id": "79",
+        "menu_id": "3304",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-04-26 14:31:23+05:30"
+    },
+    {
+        "id": "2685",
+        "role_master_id": "79",
+        "menu_id": "3308",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-04-26 14:31:23+05:30"
+    },
+    {
+        "id": "2690",
+        "role_master_id": "83",
+        "menu_id": "300901",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-11 15:38:51+05:30"
+    },
+    {
+        "id": "2691",
+        "role_master_id": "10",
+        "menu_id": "01050401",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2692",
+        "role_master_id": "10",
+        "menu_id": "020701",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2693",
+        "role_master_id": "10",
+        "menu_id": "021101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2694",
+        "role_master_id": "10",
+        "menu_id": "021401",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2695",
+        "role_master_id": "10",
+        "menu_id": "021601",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2696",
+        "role_master_id": "10",
+        "menu_id": "021602",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2697",
+        "role_master_id": "10",
+        "menu_id": "021603",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2698",
+        "role_master_id": "10",
+        "menu_id": "021701",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2699",
+        "role_master_id": "10",
+        "menu_id": "021801",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2700",
+        "role_master_id": "10",
+        "menu_id": "02220108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2701",
+        "role_master_id": "10",
+        "menu_id": "050201",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2702",
+        "role_master_id": "10",
+        "menu_id": "050204",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2703",
+        "role_master_id": "10",
+        "menu_id": "050202",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2704",
+        "role_master_id": "10",
+        "menu_id": "05020211",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2705",
+        "role_master_id": "10",
+        "menu_id": "050203",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "2717",
+        "role_master_id": "11",
+        "menu_id": "02220108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "2718",
+        "role_master_id": "11",
+        "menu_id": "0501",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "2719",
+        "role_master_id": "11",
+        "menu_id": "050101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "2720",
+        "role_master_id": "11",
+        "menu_id": "050106",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "2721",
+        "role_master_id": "11",
+        "menu_id": "050108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "2722",
+        "role_master_id": "11",
+        "menu_id": "050102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "2723",
+        "role_master_id": "11",
+        "menu_id": "050104",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "2724",
+        "role_master_id": "11",
+        "menu_id": "050105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "2725",
+        "role_master_id": "11",
+        "menu_id": "050107",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "2726",
+        "role_master_id": "11",
+        "menu_id": "050109",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "2727",
+        "role_master_id": "11",
+        "menu_id": "0505",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "2728",
+        "role_master_id": "85",
+        "menu_id": "050301",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-14 10:56:48+05:30"
+    },
+    {
+        "id": "2729",
+        "role_master_id": "86",
+        "menu_id": "050301",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-14 10:57:15+05:30"
+    },
+    {
+        "id": "2730",
+        "role_master_id": "87",
+        "menu_id": "4003",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-27 10:30:53+05:30"
+    },
+    {
+        "id": "2731",
+        "role_master_id": "67",
+        "menu_id": "3301",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-31 13:54:21+05:30"
+    },
+    {
+        "id": "2732",
+        "role_master_id": "67",
+        "menu_id": "010103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-31 13:54:21+05:30"
+    },
+    {
+        "id": "2733",
+        "role_master_id": "67",
+        "menu_id": "011710",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-31 13:54:21+05:30"
+    },
+    {
+        "id": "2734",
+        "role_master_id": "67",
+        "menu_id": "1831",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-31 13:54:21+05:30"
+    },
+    {
+        "id": "2735",
+        "role_master_id": "82",
+        "menu_id": "300901",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-01 11:57:09+05:30"
+    },
+    {
+        "id": "2736",
+        "role_master_id": "82",
+        "menu_id": "300902",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-01 11:57:09+05:30"
+    },
+    {
+        "id": "2737",
+        "role_master_id": "84",
+        "menu_id": "4001",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-02 15:46:47+05:30"
+    },
+    {
+        "id": "2738",
+        "role_master_id": "84",
+        "menu_id": "4002",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-02 15:46:47+05:30"
+    },
+    {
+        "id": "2739",
+        "role_master_id": "84",
+        "menu_id": "4003",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-02 15:46:47+05:30"
+    },
+    {
+        "id": "2740",
+        "role_master_id": "84",
+        "menu_id": "4004",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-02 15:46:47+05:30"
+    },
+    {
+        "id": "2741",
+        "role_master_id": "88",
+        "menu_id": "4005",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-02 15:47:07+05:30"
+    },
+    {
+        "id": "2794",
+        "role_master_id": "2",
+        "menu_id": "010105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2795",
+        "role_master_id": "2",
+        "menu_id": "010102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2796",
+        "role_master_id": "2",
+        "menu_id": "010401",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2797",
+        "role_master_id": "2",
+        "menu_id": "0105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2798",
+        "role_master_id": "2",
+        "menu_id": "011401",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2799",
+        "role_master_id": "2",
+        "menu_id": "011701",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2800",
+        "role_master_id": "2",
+        "menu_id": "011707",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2801",
+        "role_master_id": "2",
+        "menu_id": "011708",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2802",
+        "role_master_id": "2",
+        "menu_id": "011702",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2803",
+        "role_master_id": "2",
+        "menu_id": "011703",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2804",
+        "role_master_id": "2",
+        "menu_id": "011706",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2805",
+        "role_master_id": "2",
+        "menu_id": "011709",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2806",
+        "role_master_id": "2",
+        "menu_id": "021603",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "2882",
+        "role_master_id": "1",
+        "menu_id": "010101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2883",
+        "role_master_id": "1",
+        "menu_id": "010105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2884",
+        "role_master_id": "1",
+        "menu_id": "010106",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2885",
+        "role_master_id": "1",
+        "menu_id": "010102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2886",
+        "role_master_id": "1",
+        "menu_id": "010104",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2887",
+        "role_master_id": "1",
+        "menu_id": "012102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2888",
+        "role_master_id": "1",
+        "menu_id": "010201",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2889",
+        "role_master_id": "1",
+        "menu_id": "010202",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2890",
+        "role_master_id": "1",
+        "menu_id": "010203",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2891",
+        "role_master_id": "1",
+        "menu_id": "0103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2892",
+        "role_master_id": "1",
+        "menu_id": "0104",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2893",
+        "role_master_id": "1",
+        "menu_id": "01120101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2894",
+        "role_master_id": "1",
+        "menu_id": "01120102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2895",
+        "role_master_id": "1",
+        "menu_id": "01120105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2896",
+        "role_master_id": "1",
+        "menu_id": "01120107",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2897",
+        "role_master_id": "1",
+        "menu_id": "01120108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2898",
+        "role_master_id": "1",
+        "menu_id": "01120113",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2899",
+        "role_master_id": "1",
+        "menu_id": "01120115",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2900",
+        "role_master_id": "1",
+        "menu_id": "011203",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2901",
+        "role_master_id": "1",
+        "menu_id": "0113",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2902",
+        "role_master_id": "1",
+        "menu_id": "0114",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2903",
+        "role_master_id": "1",
+        "menu_id": "011701",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2904",
+        "role_master_id": "1",
+        "menu_id": "011707",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2905",
+        "role_master_id": "1",
+        "menu_id": "011708",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2906",
+        "role_master_id": "1",
+        "menu_id": "011702",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2907",
+        "role_master_id": "1",
+        "menu_id": "011703",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2908",
+        "role_master_id": "1",
+        "menu_id": "011706",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2909",
+        "role_master_id": "1",
+        "menu_id": "011709",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2910",
+        "role_master_id": "89",
+        "menu_id": "012101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:41:43+05:30"
+    },
+    {
+        "id": "2911",
+        "role_master_id": "90",
+        "menu_id": "4101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-16 14:42:22+05:30"
+    },
+    {
+        "id": "2912",
+        "role_master_id": "91",
+        "menu_id": "031106",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-18 11:46:19+05:30"
+    },
+    {
+        "id": "2913",
+        "role_master_id": "3",
+        "menu_id": "010501",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2914",
+        "role_master_id": "3",
+        "menu_id": "0107",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2915",
+        "role_master_id": "3",
+        "menu_id": "0108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2916",
+        "role_master_id": "3",
+        "menu_id": "011401",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2917",
+        "role_master_id": "3",
+        "menu_id": "011402",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2918",
+        "role_master_id": "3",
+        "menu_id": "0115",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2919",
+        "role_master_id": "3",
+        "menu_id": "0116",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2920",
+        "role_master_id": "3",
+        "menu_id": "011701",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2921",
+        "role_master_id": "3",
+        "menu_id": "011707",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2922",
+        "role_master_id": "3",
+        "menu_id": "011708",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2923",
+        "role_master_id": "3",
+        "menu_id": "011702",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2924",
+        "role_master_id": "3",
+        "menu_id": "011703",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2925",
+        "role_master_id": "3",
+        "menu_id": "011706",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2926",
+        "role_master_id": "3",
+        "menu_id": "011709",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2927",
+        "role_master_id": "3",
+        "menu_id": "03070302",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2928",
+        "role_master_id": "3",
+        "menu_id": "09",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2929",
+        "role_master_id": "3",
+        "menu_id": "2505",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2930",
+        "role_master_id": "3",
+        "menu_id": "2504",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "2931",
+        "role_master_id": "3",
+        "menu_id": "2509",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "3016",
+        "role_master_id": "80",
+        "menu_id": "01050501",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3017",
+        "role_master_id": "80",
+        "menu_id": "0310",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3018",
+        "role_master_id": "80",
+        "menu_id": "0322",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3019",
+        "role_master_id": "80",
+        "menu_id": "0323",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3020",
+        "role_master_id": "80",
+        "menu_id": "0308",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3021",
+        "role_master_id": "80",
+        "menu_id": "0311",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3022",
+        "role_master_id": "80",
+        "menu_id": "0313",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3023",
+        "role_master_id": "80",
+        "menu_id": "0314",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3024",
+        "role_master_id": "80",
+        "menu_id": "0315",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3025",
+        "role_master_id": "80",
+        "menu_id": "0317",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3026",
+        "role_master_id": "80",
+        "menu_id": "0305",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3027",
+        "role_master_id": "80",
+        "menu_id": "0307",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3028",
+        "role_master_id": "80",
+        "menu_id": "0326",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "3126",
+        "role_master_id": "24",
+        "menu_id": "01050401",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3127",
+        "role_master_id": "24",
+        "menu_id": "0310",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3128",
+        "role_master_id": "24",
+        "menu_id": "0322",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3129",
+        "role_master_id": "24",
+        "menu_id": "0323",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3130",
+        "role_master_id": "24",
+        "menu_id": "030601",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3131",
+        "role_master_id": "24",
+        "menu_id": "030603",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3132",
+        "role_master_id": "24",
+        "menu_id": "030604",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3133",
+        "role_master_id": "24",
+        "menu_id": "030605",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3134",
+        "role_master_id": "24",
+        "menu_id": "0308",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3135",
+        "role_master_id": "24",
+        "menu_id": "031101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3136",
+        "role_master_id": "24",
+        "menu_id": "031102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3137",
+        "role_master_id": "24",
+        "menu_id": "031103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3138",
+        "role_master_id": "24",
+        "menu_id": "031104",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3139",
+        "role_master_id": "24",
+        "menu_id": "031105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3140",
+        "role_master_id": "24",
+        "menu_id": "031106",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3141",
+        "role_master_id": "24",
+        "menu_id": "031107",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3142",
+        "role_master_id": "24",
+        "menu_id": "031108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3143",
+        "role_master_id": "24",
+        "menu_id": "031109",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3144",
+        "role_master_id": "24",
+        "menu_id": "031111",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3145",
+        "role_master_id": "24",
+        "menu_id": "031112",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3146",
+        "role_master_id": "24",
+        "menu_id": "031113",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3147",
+        "role_master_id": "24",
+        "menu_id": "031114",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3148",
+        "role_master_id": "24",
+        "menu_id": "031115",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3149",
+        "role_master_id": "24",
+        "menu_id": "031116",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3150",
+        "role_master_id": "24",
+        "menu_id": "0313",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3151",
+        "role_master_id": "24",
+        "menu_id": "0314",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3152",
+        "role_master_id": "24",
+        "menu_id": "0315",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3153",
+        "role_master_id": "24",
+        "menu_id": "0317",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3154",
+        "role_master_id": "24",
+        "menu_id": "03070137",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3155",
+        "role_master_id": "24",
+        "menu_id": "03070103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3156",
+        "role_master_id": "24",
+        "menu_id": "03070109",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3157",
+        "role_master_id": "24",
+        "menu_id": "03070110",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3158",
+        "role_master_id": "24",
+        "menu_id": "03070124",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3159",
+        "role_master_id": "24",
+        "menu_id": "03070125",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3160",
+        "role_master_id": "24",
+        "menu_id": "03070126",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3161",
+        "role_master_id": "24",
+        "menu_id": "03070127",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3162",
+        "role_master_id": "24",
+        "menu_id": "03070128",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3163",
+        "role_master_id": "24",
+        "menu_id": "03070129",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3164",
+        "role_master_id": "24",
+        "menu_id": "03070130",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3165",
+        "role_master_id": "24",
+        "menu_id": "03070131",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3166",
+        "role_master_id": "24",
+        "menu_id": "03070132",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3167",
+        "role_master_id": "24",
+        "menu_id": "03070133",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3168",
+        "role_master_id": "24",
+        "menu_id": "03070134",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3169",
+        "role_master_id": "24",
+        "menu_id": "030703",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3170",
+        "role_master_id": "24",
+        "menu_id": "0326",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "3171",
+        "role_master_id": "23",
+        "menu_id": "0302",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3172",
+        "role_master_id": "23",
+        "menu_id": "0310",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3173",
+        "role_master_id": "23",
+        "menu_id": "0320",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3174",
+        "role_master_id": "23",
+        "menu_id": "0321",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3175",
+        "role_master_id": "23",
+        "menu_id": "0322",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3176",
+        "role_master_id": "23",
+        "menu_id": "0324",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3177",
+        "role_master_id": "23",
+        "menu_id": "0304",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3178",
+        "role_master_id": "23",
+        "menu_id": "030601",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3179",
+        "role_master_id": "23",
+        "menu_id": "030602",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3180",
+        "role_master_id": "23",
+        "menu_id": "030604",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3181",
+        "role_master_id": "23",
+        "menu_id": "030605",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3182",
+        "role_master_id": "23",
+        "menu_id": "030606",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3183",
+        "role_master_id": "23",
+        "menu_id": "0308",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3184",
+        "role_master_id": "23",
+        "menu_id": "0309",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3185",
+        "role_master_id": "23",
+        "menu_id": "031101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3186",
+        "role_master_id": "23",
+        "menu_id": "031102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3187",
+        "role_master_id": "23",
+        "menu_id": "031103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3188",
+        "role_master_id": "23",
+        "menu_id": "031104",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3189",
+        "role_master_id": "23",
+        "menu_id": "031105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3190",
+        "role_master_id": "23",
+        "menu_id": "031106",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3191",
+        "role_master_id": "23",
+        "menu_id": "031107",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3192",
+        "role_master_id": "23",
+        "menu_id": "031110",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3193",
+        "role_master_id": "23",
+        "menu_id": "031112",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3194",
+        "role_master_id": "23",
+        "menu_id": "031113",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3195",
+        "role_master_id": "23",
+        "menu_id": "031115",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3196",
+        "role_master_id": "23",
+        "menu_id": "031116",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3197",
+        "role_master_id": "23",
+        "menu_id": "0313",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3198",
+        "role_master_id": "23",
+        "menu_id": "0314",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3199",
+        "role_master_id": "23",
+        "menu_id": "0315",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3200",
+        "role_master_id": "23",
+        "menu_id": "0317",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3201",
+        "role_master_id": "23",
+        "menu_id": "0305",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3202",
+        "role_master_id": "23",
+        "menu_id": "03070137",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3203",
+        "role_master_id": "23",
+        "menu_id": "03070103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3204",
+        "role_master_id": "23",
+        "menu_id": "03070124",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3205",
+        "role_master_id": "23",
+        "menu_id": "03070125",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3206",
+        "role_master_id": "23",
+        "menu_id": "03070126",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3207",
+        "role_master_id": "23",
+        "menu_id": "03070127",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3208",
+        "role_master_id": "23",
+        "menu_id": "03070128",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3209",
+        "role_master_id": "23",
+        "menu_id": "03070129",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3210",
+        "role_master_id": "23",
+        "menu_id": "03070130",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3211",
+        "role_master_id": "23",
+        "menu_id": "03070131",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3212",
+        "role_master_id": "23",
+        "menu_id": "03070132",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3213",
+        "role_master_id": "23",
+        "menu_id": "03070133",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3214",
+        "role_master_id": "23",
+        "menu_id": "03070134",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3215",
+        "role_master_id": "23",
+        "menu_id": "030704",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3216",
+        "role_master_id": "23",
+        "menu_id": "030705",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3217",
+        "role_master_id": "23",
+        "menu_id": "030707",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3218",
+        "role_master_id": "23",
+        "menu_id": "030703",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "3219",
+        "role_master_id": "7",
+        "menu_id": "0121",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-22 17:13:23+05:30"
+    },
+    {
+        "id": "3220",
+        "role_master_id": "7",
+        "menu_id": "01110101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-22 17:13:23+05:30"
+    },
+    {
+        "id": "3221",
+        "role_master_id": "7",
+        "menu_id": "01110105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-22 17:13:23+05:30"
+    },
+    {
+        "id": "3222",
+        "role_master_id": "7",
+        "menu_id": "01110106",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-22 17:13:23+05:30"
+    },
+    {
+        "id": "3223",
+        "role_master_id": "7",
+        "menu_id": "01110102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-22 17:13:23+05:30"
+    },
+    {
+        "id": "3224",
+        "role_master_id": "7",
+        "menu_id": "01110103",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-22 17:13:23+05:30"
+    },
+    {
+        "id": "3225",
+        "role_master_id": "7",
+        "menu_id": "01110104",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-22 17:13:23+05:30"
+    },
+    {
+        "id": "3226",
+        "role_master_id": "7",
+        "menu_id": "01110107",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-22 17:13:23+05:30"
+    },
+    {
+        "id": "3227",
+        "role_master_id": "7",
+        "menu_id": "02220109",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-22 17:13:23+05:30"
+    },
+    {
+        "id": "3228",
+        "role_master_id": "27",
+        "menu_id": "01120101",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3229",
+        "role_master_id": "27",
+        "menu_id": "01120117",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3230",
+        "role_master_id": "27",
+        "menu_id": "01120102",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3231",
+        "role_master_id": "27",
+        "menu_id": "01120105",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3232",
+        "role_master_id": "27",
+        "menu_id": "01120107",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3233",
+        "role_master_id": "27",
+        "menu_id": "01120108",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3234",
+        "role_master_id": "27",
+        "menu_id": "01120112",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3235",
+        "role_master_id": "27",
+        "menu_id": "01120113",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3236",
+        "role_master_id": "27",
+        "menu_id": "01120115",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3237",
+        "role_master_id": "27",
+        "menu_id": "011202",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3238",
+        "role_master_id": "27",
+        "menu_id": "011204",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3239",
+        "role_master_id": "27",
+        "menu_id": "2508",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3240",
+        "role_master_id": "27",
+        "menu_id": "2509",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "3241",
+        "role_master_id": "27",
+        "menu_id": "2510",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    }
+]

@@ -1,0 +1,200 @@
+[
+    {
+        "id": "1",
+        "bank_name": "Andhra Bank, M-35, Connaught Circus Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-21 05:15:15+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "2",
+        "bank_name": "Allahabad Bank,Parliament Street Branch",
+        "updated_by": "2247",
+        "updated_datetime": "2019-10-05 12:19:51+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "3",
+        "bank_name": "Bank of Maharashtra, B-29, Connaught Place Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-21 05:16:14+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "4",
+        "bank_name": "Bank of Baroda, 16, Sansad Marg Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-21 05:16:32+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "5",
+        "bank_name": "Bank of India, Bahadurshah Zafar Marg, Hans Bhawan Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-21 05:17:07+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "6",
+        "bank_name": "Central Bank of India, Link House, 3, Bahadurshah Zafar Marg Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-21 05:17:42+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "7",
+        "bank_name": "Canara Bank, 6, Bhagwan Das Road Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-21 05:18:01+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "8",
+        "bank_name": "Corporation Bank, M-41, Connaught Place Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-21 05:18:19+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "9",
+        "bank_name": "Indian Bank, G-41, Connaught Place Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-21 05:18:38+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "10",
+        "bank_name": "Indian Overseas Bank, Rachna CInema Building, Rajindra Place Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-21 05:19:27+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "11",
+        "bank_name": "Oriental Bank of Commerce, E-Block, Connaught Place Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-24 10:26:18+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "12",
+        "bank_name": "Punjab National Bank, Fire Station, Rajinder Nagar Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-24 10:26:45+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "13",
+        "bank_name": "State Bank of India, 11, Sansad Marg, Main Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-24 10:27:07+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "14",
+        "bank_name": "Syndicate Bank, Arunachal Building, 19, Barakhamba Road Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-24 10:27:35+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "15",
+        "bank_name": "UCO Bank, Supreme Court Compound Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-25 10:28:44+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "16",
+        "bank_name": "Vijaya Bank, 17 Barakhamba Road Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-25 05:02:13+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "17",
+        "bank_name": "Union Bank of India, Ansari Road, New Delhi",
+        "updated_by": "2247",
+        "updated_datetime": "2019-06-25 05:11:53+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "18",
+        "bank_name": "Punjab & Sind Bank, Purana Quila Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-06-25 05:48:23+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "19",
+        "bank_name": "Punjab & Sind Bank, Corporate Banking Branch",
+        "updated_by": "2247",
+        "updated_datetime": "2019-09-26 11:44:10+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "20",
+        "bank_name": "Indian Bank, Nehru Place Branch",
+        "updated_by": "2247",
+        "updated_datetime": "2019-10-04 05:10:55+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "21",
+        "bank_name": "Indian Bank, Nehru Place Branch",
+        "updated_by": "1353",
+        "updated_datetime": "2019-11-06 02:19:43+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    },
+    {
+        "id": "22",
+        "bank_name": "Punjab & Sind Bank, Hauz Khas Branch",
+        "updated_by": "2247",
+        "updated_datetime": "2019-11-08 02:45:41+05:30",
+        "contact_person": null,
+        "email_id": null,
+        "ph_no": null
+    }
+]

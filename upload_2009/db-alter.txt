@@ -1,0 +1,430 @@
+Deepak added on 05-09-2024
+
+ALTER TABLE "main" ADD "tentative_cl_dt" TIMESTAMP NULL DEFAULT NULL;
+ALTER TABLE "main" ADD "next_dt" DATE NULL DEFAULT NULL;
+ALTER TABLE "main" ADD "mainhead" VARCHAR(255) NULL DEFAULT NULL;
+ALTER TABLE "main" ADD "subhead" VARCHAR(255) NULL DEFAULT NULL;
+ALTER TABLE "main" ADD "brd_slno" BIGINT NULL DEFAULT NULL;
+ALTER TABLE "main" ADD "ent_dt" DATE NULL DEFAULT NULL;
+ALTER TABLE "heardt" ADD "descrip" TEXT NULL DEFAULT NULL;
+
+=======================================
+
+
+Done By Sunil on 13/09/24
+=======================================
+ALTER TABLE "dispose_delete"
+	ALTER COLUMN "fil_no" TYPE VARCHAR(16),
+	ALTER COLUMN "fil_no" DROP NOT NULL,
+	ALTER COLUMN "fil_no" SET DEFAULT NULL;
+
+
+=======================================
+
+Done By Anuj on 21/08/24
+
+ALTER TABLE heardt
+ALTER COLUMN diary_no TYPE BIGINT
+USING diary_no::BIGINT;
+
+ALTER TABLE heardt_a
+ALTER COLUMN diary_no TYPE BIGINT
+USING diary_no::BIGINT;
+
+ALTER TABLE last_heardt
+ALTER COLUMN diary_no TYPE BIGINT
+USING diary_no::BIGINT;
+
+ALTER TABLE main
+ALTER COLUMN diary_no TYPE BIGINT
+USING diary_no::BIGINT;
+
+ALTER TABLE main_a
+ALTER COLUMN diary_no TYPE BIGINT
+USING diary_no::BIGINT;
+=============================================
+
+
+
+Ram Gopal Verma
+—---------------------------------------------------------------------------------
+alter table not_before alter column diary_no type bigint using diary_no::bigint
+
+alter table case_remarks_multiple alter column diary_no type bigint using diary_no::bigint
+
+10- 09 - 2024
+ALTER TABLE "filing_stats"
+	ADD "create_modify" TIMESTAMP NULL;
+COMMENT ON COLUMN "filing_stats"."create_modify" IS '';
+ALTER TABLE "filing_stats"
+	ADD "updated_by" BIGINT NULL DEFAULT NULL;
+COMMENT ON COLUMN "filing_stats"."updated_by" IS '';
+ALTER TABLE "filing_stats"
+	ADD "updated_by_ip" VARCHAR(100) NULL;
+COMMENT ON COLUMN "filing_stats"."updated_by_ip" IS '';
+
+
+ALTER TABLE "obj_save"
+	ALTER COLUMN "save_dt" TYPE TIMESTAMP,
+	ALTER COLUMN "save_dt" DROP NOT NULL,
+	ALTER COLUMN "save_dt" DROP DEFAULT;
+COMMENT ON COLUMN "obj_save"."save_dt" IS '';
+
+11-09-2024
+ALTER TABLE "obj_save"
+	ALTER COLUMN "rm_dt" TYPE TIMESTAMP,
+	ALTER COLUMN "rm_dt" DROP NOT NULL,
+	ALTER COLUMN "rm_dt" DROP DEFAULT;
+COMMENT ON COLUMN "obj_save"."rm_dt" IS '';
+
+ALTER TABLE "docdetails"
+	ALTER COLUMN "ent_dt" TYPE TIMESTAMP,
+	ALTER COLUMN "ent_dt" DROP NOT NULL,
+	ALTER COLUMN "ent_dt" DROP DEFAULT;
+
+ALTER TABLE "docdetails_a"
+	ALTER COLUMN "ent_dt" TYPE TIMESTAMP,
+	ALTER COLUMN "ent_dt" DROP NOT NULL,
+	ALTER COLUMN "ent_dt" DROP DEFAULT;
+
+12-09-2024
+ALTER TABLE "ref_agency_code"
+	ALTER COLUMN "agency_or_court" TYPE BIGINT,
+	ALTER COLUMN "agency_or_court" SET NOT NULL,
+	ALTER COLUMN "agency_or_court" DROP DEFAULT;
+
+
+
+
+
+
+===============================
+
+
+
+Sandeep Tripathi
+—--------------------------------------------------------------------------------------------------
+
+ALTER TABLE "ac"
+RENAME COLUMN "updatedby" TO "updated_by";
+
+ALTER TABLE "ac"
+ADD "create_modify" VARCHAR(45) NULL DEFAULT NULL;
+
+ALTER TABLE "ac"
+RENAME COLUMN "updatedon" TO "updated_on";
+
+
+ALTER TABLE "ac"
+RENAME COLUMN "updatedip" TO "updated_by_ip";
+
+ALTER TABLE "ac"
+	ALTER COLUMN "nationality" TYPE VARCHAR(255),
+	ALTER COLUMN "nationality" SET NOT NULL,
+	ALTER COLUMN "nationality" DROP DEFAULT;
+
+ALTER TABLE "ac"
+ALTER COLUMN "eq_x" TYPE VARCHAR(255),
+	ALTER COLUMN "eq_x" SET NOT NULL,
+	ALTER COLUMN "eq_x" DROP DEFAULT;
+
+ALTER TABLE "ac"
+ALTER COLUMN "eq_xii" TYPE VARCHAR(50),
+	ALTER COLUMN "eq_xii" SET NOT NULL,
+	ALTER COLUMN "eq_xii" DROP DEFAULT;
+
+ALTER TABLE "ac"
+ALTER COLUMN "eq_ug" TYPE VARCHAR(50),
+	ALTER COLUMN "eq_ug" SET NOT NULL,
+	ALTER COLUMN "eq_ug" DROP DEFAULT;
+
+ALTER TABLE "ac"
+ALTER COLUMN "eq_pg" TYPE VARCHAR(50),
+	ALTER COLUMN "eq_pg" SET NOT NULL,
+	ALTER COLUMN "eq_pg" DROP DEFAULT;
+
+
+//// Please check old column name before run below query -------------
+
+ALTER TABLE "ac"
+ALTER COLUMN "updated_by_ip" TYPE VARCHAR(255),
+	ALTER COLUMN "updated_by_ip" SET NOT NULL,
+	ALTER COLUMN "updated_by_ip" DROP DEFAULT;
+
+ALTER TABLE "ac"
+ALTER COLUMN " modified_on" TYPE VARCHAR(50),
+	ALTER COLUMN " modified_on" DROP NOT NULL,
+	ALTER COLUMN " modified_on" SET DEFAULT NULL;
+
+ALTER TABLE "ac"
+ALTER COLUMN "modified_by" TYPE VARCHAR(50),
+	ALTER COLUMN "modified_by" DROP NOT NULL,
+	ALTER COLUMN "modified_by" SET DEFAULT NULL;
+
+
+ALTER TABLE "ac"
+ALTER COLUMN " modified_ip" TYPE VARCHAR(50),
+	ALTER COLUMN " modified_ip" DROP NOT NULL,
+	ALTER COLUMN " modified_ip" SET DEFAULT NULL;
+
+///------ End ---------------------------
+
+
+11-09-2024
+ALTER TABLE "transactions"
+	ALTER COLUMN "updated_by_ip" TYPE VARCHAR(45),
+	ALTER COLUMN "updated_by_ip" DROP NOT NULL,
+	ALTER COLUMN "updated_by_ip" SET DEFAULT NULL;
+
+
+ALTER TABLE "transactions"
+	ALTER COLUMN "remarks" TYPE VARCHAR(500),
+	ALTER COLUMN "remarks" DROP NOT NULL,
+	ALTER COLUMN "remarks" SET DEFAULT NULL;
+
+
+===================================================================
+
+
+
+
+Vinit Garg 
+—---------------------------------------------------------------------------------------------------
+ALTER TABLE "main"
+	ADD "listorder" VARCHAR(150) NULL DEFAULT NULL; 
+
+
+ALTER TABLE "main"
+	ADD "next_dt " VARCHAR(150) NULL;
+
+
+
+========================================================
+
+
+Kausar Eqbal
+
+ALTER TABLE "post_bar_code_mapping"
+	ADD "updated_by_ip" VARCHAR(45) NULL DEFAULT NULL;
+ALTER TABLE "post_bar_code_mapping"
+	ADD "updated_by" BIGINT NULL DEFAULT NULL;
+ALTER TABLE "post_bar_code_mapping"
+	ADD "updated_on" TIMESTAMPTZ NULL DEFAULT NULL;
+ALTER TABLE "post_bar_code_mapping"
+	ADD "create_modify" TIMESTAMPTZ NULL DEFAULT NULL;
+
+
+=============================================================
+
+Vijay Bisht
+
+13-09-2024
+alter table advance_allocated alter column diary_no type bigint using diary_no::BIGINT
+
+
+17-09-2024
+ALTER TABLE "last_heardt"
+ALTER COLUMN "board_type" TYPE VARCHAR(10),
+ALTER COLUMN "board_type" SET NOT NULL,
+ALTER COLUMN "board_type" DROP DEFAULT;
+
+19-09-2024
+alter table advanced_drop_note alter column diary_no type bigint using diary_no::BIGINT;
+alter table advance_allocated alter column diary_no type bigint using diary_no::BIGINT;
+ALTER TABLE "last_heardt"
+ALTER COLUMN "coram_del_res" TYPE VARCHAR(50),
+ALTER COLUMN "coram_del_res" DROP NOT NULL,
+ALTER COLUMN "coram_del_res" DROP DEFAULT;
+
+
+
+
+=============================================
+Kausar Eqbal  - 18-09-2024
+
+ALTER TABLE "copying_reasons_for_rejection"
+	ADD "updated_by_ip" VARCHAR(45) NULL;
+ALTER TABLE "copying_reasons_for_rejection"
+	ADD "updated_on" TIMESTAMPTZ NULL DEFAULT NULL;
+ALTER TABLE "copying_reasons_for_rejection"
+	ADD "updated_by" BIGINT NULL;
+ALTER TABLE "copying_reasons_for_rejection"
+	ADD "create_modify" TIMESTAMPTZ NULL DEFAULT NULL;
+
+
+
+ALTER TABLE "copying_role"
+	ADD "create_modify" TIMESTAMPTZ NULL DEFAULT NULL;
+ALTER TABLE "copying_role"
+	ADD "updated_by_ip" VARCHAR(45) NULL DEFAULT NULL;
+ALTER TABLE "copying_role"
+	ADD "updated_by" BIGINT NULL DEFAULT NULL;
+ALTER TABLE "copying_role"
+	ADD "updated_on" TIMESTAMPTZ NULL DEFAULT NULL;
+
+
+
+Date:- 19-09-24
+ALTER TABLE "copying_order_issuing_application_new"
+	ADD "updated_by" BIGINT NULL DEFAULT NULL;
+
+ALTER TABLE "copying_order_issuing_application_new"
+	ADD "updated_by_ip" VARCHAR(100) NULL DEFAULT NULL;
+
+ALTER TABLE "copying_application_documents"
+	ADD "updated_by" BIGINT NULL DEFAULT NULL;
+ALTER TABLE "copying_application_documents"
+	ADD "updated_by_ip" VARCHAR(100) NULL DEFAULT NULL;
+
+ALTER TABLE "copying_application_documents"
+	ADD "updated_on" TIMESTAMPTZ NULL DEFAULT NULL;
+
+ALTER TABLE "copying_application_documents"
+	ADD "create_modify" TIMESTAMPTZ NULL DEFAULT NULL;
+
+
+Date:-20-09-24
+ALTER TABLE "copying_application_defects"
+	ADD "updated_on" TIMESTAMPTZ NULL DEFAULT NULL;
+ALTER TABLE "copying_application_defects"
+	ADD "updated_by" BIGINT NULL DEFAULT NULL;
+ALTER TABLE "copying_application_defects"
+	ADD "updated_by_ip" VARCHAR(100) NULL;
+
+
+Date:- 03-10-2024
+—--------------------------
+
+ALTER TABLE "ec_pil_group_file" ADD "updated_by_ip" VARCHAR(100) NULL DEFAULT NULL;
+ALTER TABLE "ec_pil_group_file" ADD "create_modify" TIMESTAMPTZ NULL DEFAULT NULL;
+ALTER TABLE "ec_pil_group_file" ADD "updated_by" BIGINT NULL DEFAULT NULL;
+	
+	
+ALTER TABLE "ec_pil" ADD "updated_by" TIMESTAMPTZ NULL DEFAULT NULL;
+	
+ALTER TABLE "ec_pil_log" ADD "updated_by_ip" VARCHAR(50) NULL DEFAULT NULL;
+	
+ALTER TABLE "ec_pil" ADD "updated_by_ip" VARCHAR(50) NULL DEFAULT NULL;
+	
+ALTER TABLE "ec_pil_log" ADD "updated_by" BIGINT NULL DEFAULT NULL;
+ALTER TABLE "ec_pil" ADD "create_modify" TIMESTAMPTZ NULL DEFAULT NULL;
+ALTER TABLE "ec_pil_log" ADD "create_modify" TIMESTAMPTZ NULL DEFAULT NULL;
+	
+
+
+
+
+===================================================
+VINIT GARG  - 18-09-2024
+
+ALTER TABLE "advance_single_judge_allocated"
+    ADD "relief" VARCHAR(50) NULL;
+
+===================================================
+Anuj Singh  - 03-10-2024
+
+ALTER TABLE not_before 
+ADD COLUMN j2 BIGINT,
+ADD COLUMN j3 BIGINT,
+ADD COLUMN j4 BIGINT,
+ADD COLUMN j5 BIGINT;
+
+ALTER TABLE ec_pil 
+ALTER COLUMN updated_by TYPE INT 
+USING EXTRACT(EPOCH FROM updated_by)::integer;
+
+insert into docdetails_history (diary_no, doccode, doccode1, docnum, docyear, filedby, docfee, other1, iastat, forresp, feemode, fee1, fee2, usercode, ent_dt, display, remark, lst_mdf, lst_user, j1, j2, j3, party, advocate_id, verified, verified_by, verified_on, sc_ia_sta_code, sc_ref_code_id, sc_application_no, no_of_copy, sc_old_doc_code, docd_id, verified_remarks, dispose_date, last_modified_by, disposal_remark, is_efiled, update_by, update_on, updated_by_ip, create_modify)
+select diary_no, doccode, doccode1, docnum, docyear, filedby, docfee, other1, iastat, forresp, feemode, fee1, fee2, usercode, ent_dt, display, remark, lst_mdf, lst_user, j1, j2, j3, party, advocate_id, verified, verified_by, verified_on, sc_ia_sta_code, sc_ref_code_id, sc_application_no, no_of_copy, sc_old_doc_code, docd_id, verified_remarks, dispose_date, last_modified_by, disposal_remark, is_efiled, updated_by, updated_on, updated_by_ip 
+,now() from docdetails where diary_no='22024' and doccode='8' and doccode1='0'
+and docnum='61182' and docyear='2024'
+
+
+
+ALTER TABLE "judge"
+	ADD "jsen" INTEGER NOT NULL DEFAULT 0;
+
+
+
+
+alter table jail_petition_details add column create_modify timestamp with time zone
+alter table jail_petition_details add column updated_on timestamp with time zone
+ALTER TABLE "jail_petition_details" ADD "updated_by" BIGINT NULL DEFAULT NULL;
+ALTER TABLE "jail_petition_details" ADD "updated_by_ip" VARCHAR(500) NULL DEFAULT NULL;
+
+ALTER TABLE "indexing" ADD "source_flag" VARCHAR(250) NULL DEFAULT NULL;
+ALTER TABLE "indexing" ADD "transaction_id" BIGINT NULL DEFAULT NULL;
+
+
+
+alter table public.advocate add column create_modify timestamp;
+alter table public.advocate add column updated_by BIGINT;
+alter table public.advocate add column updated_by_ip TEXT;
+alter table public.party add column create_modify timestamp;
+alter table public.party add column updated_by BIGINT;
+alter table public.party add column updated_by_ip TEXT;
+alter table public.lowerct add column create_modify timestamp;
+alter table public.lowerct add column updated_by BIGINT;
+alter table public.lowerct add column updated_by_ip TEXT;
+alter table public.lowerct_judges add column create_modify timestamp;
+alter table public.lowerct_judges add column updated_by BIGINT;
+alter table public.lowerct_judges add column updated_by_ip TEXT;
+alter table public.not_before add column create_modify timestamp;
+alter table public.not_before add column updated_by BIGINT;
+alter table public.not_before add column updated_by_ip TEXT;
+alter table public.party_additional_address add column create_modify timestamp;
+alter table public.party_additional_address add column updated_by BIGINT;
+alter table public.party_additional_address add column updated_by_ip TEXT;
+alter table public.jail_petition_details add column create_modify timestamp;
+alter table public.jail_petition_details add column updated_by BIGINT;
+alter table public.jail_petition_details add column updated_by_ip TEXT;
+alter table public.sclsc_details add column create_modify timestamp;
+alter table public.sclsc_details add column updated_by BIGINT;
+alter table public.sclsc_details add column updated_by_ip TEXT;
+alter table public.main_deleted_cases add column create_modify timestamp;
+alter table public.main_deleted_cases add column updated_by BIGINT;
+alter table public.main_deleted_cases add column updated_by_ip TEXT;
+alter table public.special_category_filing add column create_modify timestamp;
+alter table public.special_category_filing add column updated_by BIGINT;
+alter table public.special_category_filing add column updated_by_ip TEXT;
+alter table public.diary_copy_set add column create_modify timestamp;
+alter table public.diary_copy_set add column updated_by BIGINT;
+alter table public.diary_copy_set add column updated_by_ip TEXT;
+alter table public.main add column create_modify timestamp;
+alter table public.main add column updated_by BIGINT;
+alter table public.main add column updated_by_ip TEXT;
+
+
+alter table master.random_user_hc add column create_modify timestamp;
+alter table master.random_user_hc  add column updated_by BIGINT;
+alter table master.random_user_hc add column updated_by_ip TEXT;
+alter table public.fil_trap add column create_modify timestamp;
+alter table public.fil_trap add column updated_by BIGINT;
+alter table public.fil_trap add column updated_by_ip TEXT;
+alter table public.fil_trap_seq add column create_modify timestamp;
+alter table public.fil_trap_seq add column updated_by BIGINT;
+alter table public.fil_trap_seq add column updated_by_ip TEXT;
+alter table public.fil_trap add column updated_on timestamp;
+alter table public.fil_trap_seq add column updated_on timestamp;
+
+
+alter table relied_details add column create_modify timestamp DEFAULT CURRENT_TIMESTAMP; 
+alter table relied_details add column updated_on timestamp DEFAULT CURRENT_TIMESTAMP;
+alter table relied_details  add column updated_by BIGINT;
+alter table relied_details add column updated_by_ip TEXT;
+ 
+
+ alter table transfer_to_details add column create_modify timestamp DEFAULT CURRENT_TIMESTAMP; 
+alter table transfer_to_details add column updated_on timestamp DEFAULT CURRENT_TIMESTAMP;
+alter table transfer_to_details  add column updated_by BIGINT;
+alter table transfer_to_details add column updated_by_ip TEXT;
+
+
+
+Ram Gopal Verma
+Extra columns added with respect to lowerct table in lowerct_history
+
+alter table lowerct_history add column create_modify timestamp DEFAULT CURRENT_TIMESTAMP; 
+alter table lowerct_history add column updated_on timestamp DEFAULT CURRENT_TIMESTAMP; 
+alter table lowerct_history add column updated_by_ip TEXT;
+
+ 

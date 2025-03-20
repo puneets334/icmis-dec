@@ -1,0 +1,272 @@
+[
+    {
+        "code": "1",
+        "purpose": "Habeas Corpus",
+        "priority": "2",
+        "displayable": "FIL",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "2",
+        "purpose": "Administrative Order",
+        "priority": "18",
+        "displayable": "",
+        "display": "Y",
+        "transfer_pur": "Y",
+        "fx_wk": "O"
+    },
+    {
+        "code": "3",
+        "purpose": "Personal Appearance Cases",
+        "priority": "3",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "4",
+        "purpose": "Fixed Date by Court",
+        "priority": "3",
+        "displayable": "FIL",
+        "display": "Y",
+        "transfer_pur": "N",
+        "fx_wk": "F"
+    },
+    {
+        "code": "5",
+        "purpose": "Mention Memo",
+        "priority": "4",
+        "displayable": "FIL",
+        "display": "Y",
+        "transfer_pur": "N",
+        "fx_wk": "F"
+    },
+    {
+        "code": "6",
+        "purpose": "Mention Memo Week",
+        "priority": "8",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "7",
+        "purpose": "Next Week / Week Commencing / C.O.Week",
+        "priority": "10",
+        "displayable": "",
+        "display": "Y",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "8",
+        "purpose": "After Week/Month/Vacation",
+        "priority": "11",
+        "displayable": "",
+        "display": "Y",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "9",
+        "purpose": "Withdrawal of Case",
+        "priority": "9",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "10",
+        "purpose": "After Week / After Vacation",
+        "priority": "12",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "11",
+        "purpose": "After Month",
+        "priority": "13",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "12",
+        "purpose": "Special Bench",
+        "priority": "14",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "13",
+        "purpose": "Nominated",
+        "priority": "15",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "14",
+        "purpose": "Held Up",
+        "priority": "17",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "15",
+        "purpose": "Except",
+        "priority": "17",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "16",
+        "purpose": "Ordinary",
+        "priority": "19",
+        "displayable": "FIL",
+        "display": "Y",
+        "transfer_pur": "Y",
+        "fx_wk": "O"
+    },
+    {
+        "code": "17",
+        "purpose": "SPC",
+        "priority": "5",
+        "displayable": "FIL",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "18",
+        "purpose": "Outside Counsel",
+        "priority": "6",
+        "displayable": "FIL",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "19",
+        "purpose": "3rd Pendency Drive",
+        "priority": "19",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "20",
+        "purpose": "Final Hearing Bail",
+        "priority": "1",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "21",
+        "purpose": "IA",
+        "priority": "15",
+        "displayable": "",
+        "display": "Y",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "22",
+        "purpose": "RA",
+        "priority": "7",
+        "displayable": "REG",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "23",
+        "purpose": "IA (Urgent Hearing)",
+        "priority": "14",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "24",
+        "purpose": "Auto Updated (CMIS)",
+        "priority": "12",
+        "displayable": "",
+        "display": "Y",
+        "transfer_pur": "N",
+        "fx_wk": "F"
+    },
+    {
+        "code": "25",
+        "purpose": "Freshly Filed Adjourned",
+        "priority": "8",
+        "displayable": "",
+        "display": "Y",
+        "transfer_pur": "N",
+        "fx_wk": "F"
+    },
+    {
+        "code": "32",
+        "purpose": "FRESH",
+        "priority": "7",
+        "displayable": "FIL",
+        "display": "Y",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "47",
+        "purpose": "Vacation Application (Winter) and I.R.",
+        "priority": "99",
+        "displayable": "FIL",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "48",
+        "purpose": "Not Reached / Adjourned",
+        "priority": "16",
+        "displayable": "",
+        "display": "Y",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "49",
+        "purpose": "Vacation Matter",
+        "priority": "99",
+        "displayable": "FIL",
+        "display": "Y",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    },
+    {
+        "code": "99",
+        "purpose": "NULL",
+        "priority": "99",
+        "displayable": "",
+        "display": "N",
+        "transfer_pur": "N",
+        "fx_wk": "W"
+    }
+]

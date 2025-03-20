@@ -1,0 +1,502 @@
+[
+    {
+        "dispcode": "1",
+        "dispname": "Abated",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "2",
+        "dispname": "Addl. Ground",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "3",
+        "dispname": "Allowed",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "16",
+        "short_name": "Allowed",
+        "national_code": "2001",
+        "ndisposal_type_short": "Allowed"
+    },
+    {
+        "dispcode": "4",
+        "dispname": "Amount Awarded",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "5",
+        "dispname": "Compromised/Consent Terms",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "6",
+        "dispname": "Confirmed",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "7",
+        "dispname": "Converted",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "8",
+        "dispname": "Decided Case",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "9",
+        "dispname": "Dismiss For Default/Want of Prosecution",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "10",
+        "dispname": "Dismissed",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "8",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "11",
+        "dispname": "Dismissed as not pressed",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "12",
+        "dispname": "Dismissed for non-complying conditional Order",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "13",
+        "dispname": "Dismissed with peremptory order",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "14",
+        "dispname": "Disposal on conditional Order",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Conditional Order",
+        "national_code": "2002",
+        "ndisposal_type_short": "Conditional Order"
+    },
+    {
+        "dispcode": "15",
+        "dispname": "Disposed in Lok Adalat",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "16",
+        "dispname": "Disposed Off",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "10",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "17",
+        "dispname": "Disposed off (In Chamber)",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "18",
+        "dispname": "Granted",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Granted",
+        "national_code": "3003",
+        "ndisposal_type_short": "Granted"
+    },
+    {
+        "dispcode": "19",
+        "dispname": "Heard",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "20",
+        "dispname": "Heard & Reserved",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "21",
+        "dispname": "Infructuous",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "0",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "22",
+        "dispname": "Leave Granted",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Granted",
+        "national_code": "3003",
+        "ndisposal_type_short": "Granted"
+    },
+    {
+        "dispcode": "23",
+        "dispname": "Modified",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "24",
+        "dispname": "Order modified",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "25",
+        "dispname": "Order on PUD/Clerical error",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "26",
+        "dispname": "Order Recalled",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "27",
+        "dispname": "Partly Allowed",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Allowed",
+        "national_code": "2001",
+        "ndisposal_type_short": "Allowed"
+    },
+    {
+        "dispcode": "28",
+        "dispname": "Permission Rejected",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "29",
+        "dispname": "Proceedings Closed/Dropped",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "30",
+        "dispname": "Recalled",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "12",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "31",
+        "dispname": "Reversed",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "32",
+        "dispname": "Set Aside",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "33",
+        "dispname": "Withdrawn",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "4",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "34",
+        "dispname": "Lodged",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "5",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "35",
+        "dispname": "Dismissed As Lodged",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "23",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "36",
+        "dispname": "Dismissed After",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "13",
+        "short_name": "Conditional Order",
+        "national_code": "2002",
+        "ndisposal_type_short": "Conditional Order"
+    },
+    {
+        "dispcode": "37",
+        "dispname": "Dismissed as withdrawn",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "14",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "38",
+        "dispname": "Recall when  withdrawn",
+        "display": "Y",
+        "spk": "N",
+        "sc_code": "15",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "39",
+        "dispname": "Reffered to Larger Bench",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "17",
+        "short_name": "Others",
+        "national_code": "3004",
+        "ndisposal_type_short": "Others"
+    },
+    {
+        "dispcode": "40",
+        "dispname": "Remitted to Lower Court",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "18",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "41",
+        "dispname": "Disposed Off , compliance awaited",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "19",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "42",
+        "dispname": "Leave Granted & Disposed off",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "20",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "43",
+        "dispname": "Leave Granted & Dismissed",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "21",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "44",
+        "dispname": "Leave Granted & Allowed",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Allowed",
+        "national_code": "2001",
+        "ndisposal_type_short": "Allowed"
+    },
+    {
+        "dispcode": "45",
+        "dispname": "Transferred to High Court",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Disposed of",
+        "national_code": "3002",
+        "ndisposal_type_short": "Disposed of"
+    },
+    {
+        "dispcode": "46",
+        "dispname": "Rejected",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "47",
+        "dispname": "Dismissed on ground of delay",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "48",
+        "dispname": "Appeals Allowed",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Allowed",
+        "national_code": "2001",
+        "ndisposal_type_short": "Allowed"
+    },
+    {
+        "dispcode": "49",
+        "dispname": "Delay Condoned and matter dismissed(including all pending Ias)",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    },
+    {
+        "dispcode": "50",
+        "dispname": "Permission to File SLP/Appeal-allowed and matter dismissed(including all pending Ias)",
+        "display": "Y",
+        "spk": " ",
+        "sc_code": "0",
+        "short_name": "Dismissed",
+        "national_code": "3001",
+        "ndisposal_type_short": "Dismissed"
+    }
+]

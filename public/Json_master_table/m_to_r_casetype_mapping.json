@@ -1,0 +1,26 @@
+[
+    {
+        "id": "1",
+        "m_casetype": "1",
+        "r_casetype": "3",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "m_casetype": "2",
+        "r_casetype": "4",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "m_casetype": "7",
+        "r_casetype": "11",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "m_casetype": "8",
+        "r_casetype": "12",
+        "display": "Y"
+    }
+]

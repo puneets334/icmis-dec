@@ -1,0 +1,263 @@
+[
+    {
+        "id": "1",
+        "agency_state": "Andhra Pradesh",
+        "adm_updated_by": "1",
+        "updated_on": "2011-11-28 17:56:45+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "AP",
+        "cmis_state_id": "541950"
+    },
+    {
+        "id": "2",
+        "agency_state": "Assam",
+        "adm_updated_by": "1",
+        "updated_on": "2011-11-28 17:06:47+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "AS",
+        "cmis_state_id": "511231"
+    },
+    {
+        "id": "3",
+        "agency_state": "Bihar",
+        "adm_updated_by": "1",
+        "updated_on": "2011-11-28 17:07:44+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "BI",
+        "cmis_state_id": "1"
+    },
+    {
+        "id": "4",
+        "agency_state": "Maharashtra",
+        "adm_updated_by": "1",
+        "updated_on": "2011-06-03 16:21:16+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "BO",
+        "cmis_state_id": "358033"
+    },
+    {
+        "id": "5",
+        "agency_state": "Chhattisgarh",
+        "adm_updated_by": "1",
+        "updated_on": "2011-08-05 18:14:52+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "CH",
+        "cmis_state_id": "490809"
+    },
+    {
+        "id": "6",
+        "agency_state": "Delhi",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "DE",
+        "cmis_state_id": "490506"
+    },
+    {
+        "id": "7",
+        "agency_state": "Gujarat",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "GU",
+        "cmis_state_id": "471342"
+    },
+    {
+        "id": "8",
+        "agency_state": "Himachal Pradesh",
+        "adm_updated_by": "1",
+        "updated_on": "2011-11-28 17:03:11+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "HP",
+        "cmis_state_id": "571779"
+    },
+    {
+        "id": "9",
+        "agency_state": "Jammu & Kashmir",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "JK",
+        "cmis_state_id": "464616"
+    },
+    {
+        "id": "10",
+        "agency_state": "Jharkhand",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "JH",
+        "cmis_state_id": "431772"
+    },
+    {
+        "id": "11",
+        "agency_state": "Karnataka",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "KA",
+        "cmis_state_id": "402163"
+    },
+    {
+        "id": "12",
+        "agency_state": "Kerala",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "KE",
+        "cmis_state_id": "124509"
+    },
+    {
+        "id": "13",
+        "agency_state": "Madhya Pradesh",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "MP",
+        "cmis_state_id": "292979"
+    },
+    {
+        "id": "14",
+        "agency_state": "Orissa",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "OR",
+        "cmis_state_id": "239687"
+    },
+    {
+        "id": "15",
+        "agency_state": "Punjab",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "PB",
+        "cmis_state_id": "226817"
+    },
+    {
+        "id": "16",
+        "agency_state": "Rajasthan",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "RA",
+        "cmis_state_id": "185190"
+    },
+    {
+        "id": "17",
+        "agency_state": "Sikkim",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "SI",
+        "cmis_state_id": "184724"
+    },
+    {
+        "id": "18",
+        "agency_state": "Tamil Nadu",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "TN",
+        "cmis_state_id": "168044"
+    },
+    {
+        "id": "19",
+        "agency_state": "Uttar Pradesh",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "UP",
+        "cmis_state_id": "61023"
+    },
+    {
+        "id": "20",
+        "agency_state": "Uttarakhand",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "UT",
+        "cmis_state_id": "107620"
+    },
+    {
+        "id": "21",
+        "agency_state": "West bengal",
+        "adm_updated_by": "1",
+        "updated_on": "2011-03-04 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "WB",
+        "cmis_state_id": "21945"
+    },
+    {
+        "id": "22",
+        "agency_state": "Manipur",
+        "adm_updated_by": "1",
+        "updated_on": "2011-11-03 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "MN",
+        "cmis_state_id": "355594"
+    },
+    {
+        "id": "23",
+        "agency_state": "Meghalaya",
+        "adm_updated_by": "1",
+        "updated_on": "2011-11-03 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "ML",
+        "cmis_state_id": "349528"
+    },
+    {
+        "id": "24",
+        "agency_state": "Tripura",
+        "adm_updated_by": "1",
+        "updated_on": "2011-11-05 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "TR",
+        "cmis_state_id": "167131"
+    },
+    {
+        "id": "25",
+        "agency_state": "Mizoram",
+        "adm_updated_by": "1",
+        "updated_on": "2013-09-25 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "MZ",
+        "cmis_state_id": "348677"
+    },
+    {
+        "id": "26",
+        "agency_state": "Haryana",
+        "adm_updated_by": "1",
+        "updated_on": "2018-02-08 00:00:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "HR",
+        "cmis_state_id": "592019"
+    },
+    {
+        "id": "27",
+        "agency_state": "Telangana",
+        "adm_updated_by": "1",
+        "updated_on": "2018-03-09 15:00:00+05:30",
+        "is_deleted": "false",
+        "agency_state_code": "TL",
+        "cmis_state_id": "599089"
+    },
+    {
+        "id": "28",
+        "agency_state": "Goa",
+        "adm_updated_by": "1",
+        "updated_on": "2018-04-10 15:54:00+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "GA",
+        "cmis_state_id": "490133"
+    },
+    {
+        "id": "9999",
+        "agency_state": "9999",
+        "adm_updated_by": "1",
+        "updated_on": "2011-11-28 17:56:45+05:30",
+        "is_deleted": "False",
+        "agency_state_code": "99",
+        "cmis_state_id": "0"
+    }
+]

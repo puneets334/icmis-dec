@@ -1,0 +1,23 @@
+[
+    {
+        "id": "1",
+        "direction_given_by": "Honble Court",
+        "is_deleted": "F",
+        "updated_by": "1",
+        "updated_on": "2022-07-06 10:07:28+05:30"
+    },
+    {
+        "id": "2",
+        "direction_given_by": "SCLSC",
+        "is_deleted": "F",
+        "updated_by": "1",
+        "updated_on": "2022-07-06 10:07:33+05:30"
+    },
+    {
+        "id": "3",
+        "direction_given_by": "Regular Practice",
+        "is_deleted": "F",
+        "updated_by": "1",
+        "updated_on": "2022-07-06 10:07:36+05:30"
+    }
+]

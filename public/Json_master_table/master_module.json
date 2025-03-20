@@ -1,0 +1,182 @@
+[
+    {
+        "id": "1",
+        "module_name": "FRESH",
+        "module_desc": "FROM FILING COUNTER",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "module_name": "CLPRO",
+        "module_desc": "CALL LISTING PROGRAM",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "module_name": "MIGRATION",
+        "module_desc": "MP to SCI",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "module_name": "LBP",
+        "module_desc": "LIST BEFORE PROGRAM",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "module_name": "DA",
+        "module_desc": "Dealing Assistant",
+        "display": "Y"
+    },
+    {
+        "id": "6",
+        "module_name": "NOTICE",
+        "module_desc": "NOTICE",
+        "display": "Y"
+    },
+    {
+        "id": "7",
+        "module_name": "CLA",
+        "module_desc": "Cause List Allocation Module",
+        "display": "Y"
+    },
+    {
+        "id": "8",
+        "module_name": "TX",
+        "module_desc": "Transfer Module",
+        "display": "Y"
+    },
+    {
+        "id": "9",
+        "module_name": "TXP",
+        "module_desc": "Transfer Pool Module",
+        "display": "Y"
+    },
+    {
+        "id": "10",
+        "module_name": "UPHDT",
+        "module_desc": "Update Heardt",
+        "display": "Y"
+    },
+    {
+        "id": "11",
+        "module_name": "TENTETIVE",
+        "module_desc": "update tentetive date",
+        "display": "Y"
+    },
+    {
+        "id": "12",
+        "module_name": "Case Drop",
+        "module_desc": "Case Drop Before Printing",
+        "display": "Y"
+    },
+    {
+        "id": "13",
+        "module_name": "Motion Listing",
+        "module_desc": "Motion Listing Bases on Catego",
+        "display": "Y"
+    },
+    {
+        "id": "14",
+        "module_name": "LDPRO",
+        "module_desc": "Loose Doc Proposal",
+        "display": "Y"
+    },
+    {
+        "id": "15",
+        "module_name": "LDVPRO",
+        "module_desc": "Loose Doc Verification Proposa",
+        "display": "Y"
+    },
+    {
+        "id": "16",
+        "module_name": "M_Auto_cl",
+        "module_desc": "Motion Auto Cause List",
+        "display": "Y"
+    },
+    {
+        "id": "17",
+        "module_name": "MM",
+        "module_desc": "Mention Memo",
+        "display": "Y"
+    },
+    {
+        "id": "18",
+        "module_name": "cron_p",
+        "module_desc": "cron proposal",
+        "display": "Y"
+    },
+    {
+        "id": "19",
+        "module_name": "LWR",
+        "module_desc": "lower court",
+        "display": "Y"
+    },
+    {
+        "id": "20",
+        "module_name": "spl_listing",
+        "module_desc": "Special Case List",
+        "display": "Y"
+    },
+    {
+        "id": "21",
+        "module_name": "retired_coram_rm",
+        "module_desc": "Retired Coram Removed",
+        "display": "Y"
+    },
+    {
+        "id": "22",
+        "module_name": "cron_10tive",
+        "module_desc": "Tentative Date fixed by Cron S",
+        "display": "Y"
+    },
+    {
+        "id": "23",
+        "module_name": "vacation_list",
+        "module_desc": "Vacation cases listing",
+        "display": "Y"
+    },
+    {
+        "id": "24",
+        "module_name": "Transfer_module",
+        "module_desc": "Transfer as it is",
+        "display": "Y"
+    },
+    {
+        "id": "25",
+        "module_name": "Advance Elimination",
+        "module_desc": "Advance Elimination",
+        "display": "Y"
+    },
+    {
+        "id": "26",
+        "module_name": "Final Eliminatation",
+        "module_desc": "Final Eliminatation",
+        "display": "Y"
+    },
+    {
+        "id": "27",
+        "module_name": "Supply Eliminatation",
+        "module_desc": "Supply Eliminatation",
+        "display": "Y"
+    },
+    {
+        "id": "28",
+        "module_name": "Advance_Prepone",
+        "module_desc": "Advance Preponement",
+        "display": "Y"
+    },
+    {
+        "id": "29",
+        "module_name": "SJA",
+        "module_desc": "Single Judge Allocation",
+        "display": "Y"
+    },
+    {
+        "id": "99",
+        "module_name": "SDL",
+        "module_desc": "Specially Directed Listing",
+        "display": "Y"
+    }
+]

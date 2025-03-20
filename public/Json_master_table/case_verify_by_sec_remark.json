@@ -1,0 +1,62 @@
+[
+    {
+        "id": "1",
+        "remarks": "Accepted"
+    },
+    {
+        "id": "2",
+        "remarks": "Court Remark"
+    },
+    {
+        "id": "3",
+        "remarks": "Subhead"
+    },
+    {
+        "id": "4",
+        "remarks": "Purpose"
+    },
+    {
+        "id": "5",
+        "remarks": "Cause Title"
+    },
+    {
+        "id": "6",
+        "remarks": "AOR NA"
+    },
+    {
+        "id": "7",
+        "remarks": "Statutary Info"
+    },
+    {
+        "id": "8",
+        "remarks": "Proposal missing"
+    },
+    {
+        "id": "9",
+        "remarks": "IA"
+    },
+    {
+        "id": "10",
+        "remarks": "ROP"
+    },
+    {
+        "id": "11",
+        "remarks": "Before / Not Before"
+    },
+    {
+        "id": "12",
+        "remarks": "Registration "
+    },
+    {
+        "id": "13",
+        "remarks": "Tagging / De-Tagging"
+    },
+    {
+        "id": "14",
+        "remarks": "Court Compliance"
+    },
+    {
+        "id": "15",
+        "remarks": "Service Status "
+    }
+]

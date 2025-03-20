@@ -1,0 +1,29 @@
+[
+    {
+        "casetype": "",
+        "lawcode": "0",
+        "nature": "R",
+        "law": "Criminal Appeal by Certificate of fitness (under Article 132 (1) and 134 of the Constitution of India, 1950",
+        "display": "Y",
+        "case_code": "0",
+        "id": "1"
+    },
+    {
+        "casetype": "",
+        "lawcode": "0",
+        "nature": "C",
+        "law": "Civil Appeal by Certificate of fitness (under Article 132 (1) and 133(1) of the Constitution of India, 1950",
+        "display": "Y",
+        "case_code": "0",
+        "id": "2"
+    },
+    {
+        "casetype": "",
+        "lawcode": "0",
+        "nature": "C",
+        "law": "Appeals u/s 13(2) of Chhattisgarh Rent Control Act ",
+        "display": "Y",
+        "case_code": "0",
+        "id": "3"
+    }
+]

@@ -1,0 +1,164 @@
+[
+    {
+        "dept_id": "808",
+        "org_judge_id": "216",
+        "userid": "1",
+        "ent_dt": "2017-05-18 13:04:19+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "dept_id": "809",
+        "org_judge_id": "107",
+        "userid": "1",
+        "ent_dt": "2017-05-18 13:04:19+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "dept_id": "810",
+        "org_judge_id": "108",
+        "userid": "1",
+        "ent_dt": "2017-05-18 13:04:19+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:01:20+05:30",
+        "del_user": "469"
+    },
+    {
+        "dept_id": "811",
+        "org_judge_id": "112",
+        "userid": "1",
+        "ent_dt": "2017-05-18 13:04:19+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "dept_id": "244",
+        "org_judge_id": "210",
+        "userid": "1",
+        "ent_dt": "2017-05-18 13:04:19+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "dept_id": "300",
+        "org_judge_id": "107",
+        "userid": "1",
+        "ent_dt": "2017-08-18 10:19:41+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "dept_id": "300",
+        "org_judge_id": "209",
+        "userid": "1",
+        "ent_dt": "2017-08-18 10:19:48+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:02:14+05:30",
+        "del_user": "469"
+    },
+    {
+        "dept_id": "811",
+        "org_judge_id": "218",
+        "userid": "1",
+        "ent_dt": "2017-08-18 10:20:13+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:02:49+05:30",
+        "del_user": "469"
+    },
+    {
+        "dept_id": "461",
+        "org_judge_id": "218",
+        "userid": "1",
+        "ent_dt": "2017-08-18 10:20:18+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:02:59+05:30",
+        "del_user": "469"
+    },
+    {
+        "dept_id": "461",
+        "org_judge_id": "218",
+        "userid": "1",
+        "ent_dt": "2017-08-18 10:20:19+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:02:59+05:30",
+        "del_user": "469"
+    },
+    {
+        "dept_id": "461",
+        "org_judge_id": "218",
+        "userid": "1",
+        "ent_dt": "2017-08-18 10:20:19+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:02:59+05:30",
+        "del_user": "469"
+    },
+    {
+        "dept_id": "323",
+        "org_judge_id": "108",
+        "userid": "3633",
+        "ent_dt": "2017-08-18 11:05:37+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 12:58:05+05:30",
+        "del_user": "469"
+    },
+    {
+        "dept_id": "302",
+        "org_judge_id": "108",
+        "userid": "3633",
+        "ent_dt": "2017-08-18 11:05:39+05:30",
+        "display": "N",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "dept_id": "120",
+        "org_judge_id": "108",
+        "userid": "3633",
+        "ent_dt": "2017-08-18 11:05:43+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 12:58:34+05:30",
+        "del_user": "469"
+    },
+    {
+        "dept_id": "8",
+        "org_judge_id": "108",
+        "userid": "3633",
+        "ent_dt": "2017-08-18 11:05:46+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 13:00:41+05:30",
+        "del_user": "469"
+    },
+    {
+        "dept_id": "701",
+        "org_judge_id": "108",
+        "userid": "3633",
+        "ent_dt": "2017-08-18 11:05:52+05:30",
+        "display": "N",
+        "del_dt": "2018-04-05 12:37:01+05:30",
+        "del_user": "1"
+    },
+    {
+        "dept_id": "728",
+        "org_judge_id": "108",
+        "userid": "559",
+        "ent_dt": "2017-09-14 16:10:11+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    },
+    {
+        "dept_id": "300",
+        "org_judge_id": "256",
+        "userid": "10354",
+        "ent_dt": "2022-12-02 11:12:30+05:30",
+        "display": "Y",
+        "del_dt": null,
+        "del_user": "0"
+    }
+]

@@ -1,0 +1,164 @@
+[
+    {
+        "id": "1",
+        "edu_desc": "DIPLOMA HOLDER",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "2",
+        "edu_desc": "DOCTORATE",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "3",
+        "edu_desc": "GRADUATE",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "4",
+        "edu_desc": "HIGHER SECONDARY - SENIOR SECONDARY",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "5",
+        "edu_desc": "ILLITERATE",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "6",
+        "edu_desc": "M.PHIL",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "7",
+        "edu_desc": "MATRICULATE",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "8",
+        "edu_desc": "MIDDLE SCHOOL",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "9",
+        "edu_desc": "POST GRADUATE",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "10",
+        "edu_desc": "PRIMARY SCHOOL",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "11",
+        "edu_desc": "PROFESSIONAL DIPLOMA",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "12",
+        "edu_desc": "PROFESSIONAL GRADUATES",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "13",
+        "edu_desc": "PROFESSIONAL POST GRADUATE",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "14",
+        "edu_desc": "PUC or PLUS 2",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "15",
+        "edu_desc": "SECONDARY",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "16",
+        "edu_desc": "SECONDARY SCHOOL",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "17",
+        "edu_desc": "NA",
+        "display": "N",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    },
+    {
+        "id": "18",
+        "edu_desc": "MCA",
+        "display": "Y",
+        "entdt": "2017-02-18 12:07:06+05:30",
+        "entuser": "1",
+        "updt": null,
+        "upuser": "0"
+    }
+]

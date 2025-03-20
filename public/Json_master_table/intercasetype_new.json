@@ -1,0 +1,380 @@
+[
+    {
+        "main_casecode": "63",
+        "main_casename": "AA",
+        "lc_casecode": "106",
+        "lc_casename": "ARBA(AA)-ARBITRATION APPEAL",
+        "key": "63",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "64",
+        "main_casename": "AC",
+        "lc_casecode": "107",
+        "lc_casename": "ARBC(AC)-ARBITRATION CASE",
+        "key": "64",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "65",
+        "main_casename": "AR",
+        "lc_casecode": "108",
+        "lc_casename": "AR-ARBITRATION REVISION",
+        "key": "65",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "74",
+        "main_casename": "CEA",
+        "lc_casecode": "96",
+        "lc_casename": "CEA-CENTRAL EXCISE APPEAL",
+        "key": "74",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "27",
+        "main_casename": "CER",
+        "lc_casecode": "92",
+        "lc_casename": "CER-CENTRAL EXCISE REFERENCE",
+        "key": "27",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "30",
+        "main_casename": "CESR",
+        "lc_casecode": "93",
+        "lc_casename": "CESR-CENTRAL EXCISE AND SALT REFERENCE",
+        "key": "30",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "21",
+        "main_casename": "COMP",
+        "lc_casecode": "102",
+        "lc_casename": "COMP-COMPANY PETITION",
+        "key": "21",
+        "avail": "Y",
+        "old_code": "56"
+    },
+    {
+        "main_casecode": "69",
+        "main_casename": "COMPA",
+        "lc_casecode": "103",
+        "lc_casename": "COMPA(COMA)-COMPANY APPEAL",
+        "key": "69",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "66",
+        "main_casename": "CONA",
+        "lc_casecode": "89",
+        "lc_casename": "CONA-CONTEMPT APPEAL",
+        "key": "66",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "67",
+        "main_casename": "CONC",
+        "lc_casecode": "73",
+        "lc_casename": "CONT(+CONC) CONTEMPT CIVIL",
+        "key": "67",
+        "avail": "Y",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "73",
+        "main_casename": "CONCR",
+        "lc_casecode": "74",
+        "lc_casename": "CONTR(+CONCR) CONTEMPT CRIMINAL",
+        "key": "73",
+        "avail": "Y",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "19",
+        "main_casename": "CR",
+        "lc_casecode": "87",
+        "lc_casename": "CR-CIVIL REVISION",
+        "key": "19",
+        "avail": "Y",
+        "old_code": "4"
+    },
+    {
+        "main_casecode": "51",
+        "main_casename": "CRA",
+        "lc_casecode": "114",
+        "lc_casename": "CRA-CRIMINAL APPEAL",
+        "key": "51",
+        "avail": "Y",
+        "old_code": "15"
+    },
+    {
+        "main_casecode": "53",
+        "main_casename": "CRR",
+        "lc_casecode": "115",
+        "lc_casename": "CRR-CRIMINAL REVISION",
+        "key": "53",
+        "avail": "Y",
+        "old_code": "16"
+    },
+    {
+        "main_casecode": "71",
+        "main_casename": "CRRF",
+        "lc_casecode": "112",
+        "lc_casename": "CRRE(CRRF)-CRIMINAL REFERENCE",
+        "key": "71",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "72",
+        "main_casename": "CRRFC",
+        "lc_casecode": "113",
+        "lc_casename": "CRRFC-CRIMINAL REFERENCE CAPITAL",
+        "key": "72",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "34",
+        "main_casename": "CS",
+        "lc_casecode": "110",
+        "lc_casename": "CS-CIVIL SUIT",
+        "key": "34",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "20",
+        "main_casename": "EP",
+        "lc_casecode": "109",
+        "lc_casename": "EP-ELECTION PETITION",
+        "key": "20",
+        "avail": "Y",
+        "old_code": "9"
+    },
+    {
+        "main_casecode": "13",
+        "main_casename": "FA",
+        "lc_casecode": "83",
+        "lc_casename": "FA-FIRST APPEALS",
+        "key": "13",
+        "avail": "Y",
+        "old_code": "46"
+    },
+    {
+        "main_casecode": "75",
+        "main_casename": "FEMA",
+        "lc_casecode": "97",
+        "lc_casename": "FEMA-FOREIGN EXCHANGE MANAGEMENT APPEAL",
+        "key": "75",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "22",
+        "main_casename": "ITR",
+        "lc_casecode": "90",
+        "lc_casename": "ITR-INCOME TAX REFERENCE",
+        "key": "22",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "17",
+        "main_casename": "LPA",
+        "lc_casecode": "82",
+        "lc_casename": "LETTERS PATENT APPEAL",
+        "key": "17",
+        "avail": "Y",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "12",
+        "main_casename": "MA",
+        "lc_casecode": "85",
+        "lc_casename": "MA-MISC.APPEALS",
+        "key": "12",
+        "avail": "Y",
+        "old_code": "11"
+    },
+    {
+        "main_casecode": "35",
+        "main_casename": "MACE",
+        "lc_casecode": "95",
+        "lc_casename": "MACE-MISC.APPEALS CENTRAL EXCISE",
+        "key": "35",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "62",
+        "main_casename": "MACTR",
+        "lc_casecode": "101",
+        "lc_casename": "MACTR-MISC.APPEAL COMMERCIAL TAX REFERENCE",
+        "key": "62",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "28",
+        "main_casename": "MAIT",
+        "lc_casecode": "80",
+        "lc_casename": "ITA(MAIT) INCOME TAX APPEAL",
+        "key": "28",
+        "avail": "Y",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "58",
+        "main_casename": "MAVAT",
+        "lc_casecode": "105",
+        "lc_casename": "MAVAT(VATA)-MISC. APPEAL (VAT)",
+        "key": "58",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "18",
+        "main_casename": "MCC",
+        "lc_casecode": "88",
+        "lc_casename": "MCC-MISC.CIVIL CASES",
+        "key": "18",
+        "avail": "Y",
+        "old_code": "77"
+    },
+    {
+        "main_casecode": "52",
+        "main_casename": "MCRC",
+        "lc_casecode": "116",
+        "lc_casename": "MCRC-MISC.CRIMINAL CASE",
+        "key": "52",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "70",
+        "main_casename": "MMCOMA",
+        "lc_casecode": "104",
+        "lc_casename": "MACOM(MCOMA)-MISC.COMPANY APPEAL",
+        "key": "70",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "79",
+        "main_casename": "OTA",
+        "lc_casecode": "111",
+        "lc_casename": "OTA-OTHER TAX APPEALS",
+        "key": "79",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "68",
+        "main_casename": "RP",
+        "lc_casecode": "78",
+        "lc_casename": "REVIEW PETITION",
+        "key": "68",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "14",
+        "main_casename": "SA",
+        "lc_casecode": "84",
+        "lc_casename": "SA-SECOND APPEALS",
+        "key": "14",
+        "avail": "Y",
+        "old_code": "47"
+    },
+    {
+        "main_casecode": "29",
+        "main_casename": "STR",
+        "lc_casecode": "91",
+        "lc_casename": "STR-SALES TAX REFERENCE",
+        "key": "29",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "76",
+        "main_casename": "TR",
+        "lc_casecode": "98",
+        "lc_casename": "TR-TAX REFERENCE",
+        "key": "76",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "77",
+        "main_casename": "VATA",
+        "lc_casecode": "99",
+        "lc_casename": "VATA-VALUE ADDED TAX APPEAL",
+        "key": "77",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "57",
+        "main_casename": "WA",
+        "lc_casecode": "79",
+        "lc_casename": "WRIT APPEAL",
+        "key": "57",
+        "avail": "Y",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "11",
+        "main_casename": "WP",
+        "lc_casecode": "42",
+        "lc_casename": "WP(+MP) WRIT PETITIONS",
+        "key": "11",
+        "avail": "Y",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "11",
+        "main_casename": "WP",
+        "lc_casecode": "43",
+        "lc_casename": "WRIT PETITION(CRIMINAL)",
+        "key": "11",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "32",
+        "main_casename": "WPS",
+        "lc_casecode": "86",
+        "lc_casename": "WPS-WRIT PETITIONS(SM)",
+        "key": "32",
+        "avail": "Y",
+        "old_code": "42"
+    },
+    {
+        "main_casecode": "78",
+        "main_casename": "WTA",
+        "lc_casecode": "100",
+        "lc_casename": "WTA-WEALTH TAX APPEAL",
+        "key": "78",
+        "avail": " ",
+        "old_code": "0"
+    },
+    {
+        "main_casecode": "23",
+        "main_casename": "WTR",
+        "lc_casecode": "94",
+        "lc_casename": "WTR-WEALTH TAX REFERENCE",
+        "key": "23",
+        "avail": " ",
+        "old_code": "0"
+    }
+]

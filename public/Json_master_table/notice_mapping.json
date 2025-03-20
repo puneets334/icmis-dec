@@ -1,0 +1,200 @@
+[
+    {
+        "id": "1",
+        "section_id": "20",
+        "registrar": "3569",
+        "additional_registrar": "1430",
+        "deputy_registrar": "",
+        "assistant_registrar": "1459",
+        "branch_officer": "1329"
+    },
+    {
+        "id": "2",
+        "section_id": "21",
+        "registrar": "3569",
+        "additional_registrar": "",
+        "deputy_registrar": "1439",
+        "assistant_registrar": "101",
+        "branch_officer": "501"
+    },
+    {
+        "id": "3",
+        "section_id": "55",
+        "registrar": "9785",
+        "additional_registrar": "",
+        "deputy_registrar": "1436",
+        "assistant_registrar": "403",
+        "branch_officer": "638"
+    },
+    {
+        "id": "4",
+        "section_id": "74",
+        "registrar": "9785",
+        "additional_registrar": "",
+        "deputy_registrar": "1436",
+        "assistant_registrar": "443",
+        "branch_officer": "1266"
+    },
+    {
+        "id": "5",
+        "section_id": "22",
+        "registrar": "9785",
+        "additional_registrar": "1430",
+        "deputy_registrar": "",
+        "assistant_registrar": "1464",
+        "branch_officer": "735"
+    },
+    {
+        "id": "6",
+        "section_id": "23",
+        "registrar": "9785",
+        "additional_registrar": "",
+        "deputy_registrar": "1483",
+        "assistant_registrar": "1481",
+        "branch_officer": "1284"
+    },
+    {
+        "id": "7",
+        "section_id": "24",
+        "registrar": "9785",
+        "additional_registrar": "",
+        "deputy_registrar": "1436",
+        "assistant_registrar": "401",
+        "branch_officer": "662"
+    },
+    {
+        "id": "8",
+        "section_id": "25",
+        "registrar": "9782",
+        "additional_registrar": "1427",
+        "deputy_registrar": "",
+        "assistant_registrar": "676",
+        "branch_officer": "1276,1311"
+    },
+    {
+        "id": "9",
+        "section_id": "26",
+        "registrar": "9782",
+        "additional_registrar": "1427",
+        "deputy_registrar": "",
+        "assistant_registrar": "94",
+        "branch_officer": "53"
+    },
+    {
+        "id": "10",
+        "section_id": "27",
+        "registrar": "3569",
+        "additional_registrar": "1413",
+        "deputy_registrar": "",
+        "assistant_registrar": "678",
+        "branch_officer": "4"
+    },
+    {
+        "id": "11",
+        "section_id": "42",
+        "registrar": "3569",
+        "additional_registrar": "",
+        "deputy_registrar": "",
+        "assistant_registrar": "1533",
+        "branch_officer": "1331"
+    },
+    {
+        "id": "12",
+        "section_id": "43",
+        "registrar": "3569",
+        "additional_registrar": "1413",
+        "deputy_registrar": "",
+        "assistant_registrar": "1457",
+        "branch_officer": "1570"
+    },
+    {
+        "id": "13",
+        "section_id": "44",
+        "registrar": "9785",
+        "additional_registrar": "1416",
+        "deputy_registrar": "",
+        "assistant_registrar": "1456",
+        "branch_officer": "1580"
+    },
+    {
+        "id": "14",
+        "section_id": "45",
+        "registrar": "3605",
+        "additional_registrar": "1433",
+        "deputy_registrar": "",
+        "assistant_registrar": "698",
+        "branch_officer": "1285"
+    },
+    {
+        "id": "15",
+        "section_id": "54",
+        "registrar": "3605",
+        "additional_registrar": "306",
+        "deputy_registrar": "",
+        "assistant_registrar": "698",
+        "branch_officer": "1285"
+    },
+    {
+        "id": "16",
+        "section_id": "48",
+        "registrar": "9785",
+        "additional_registrar": "",
+        "deputy_registrar": "1483",
+        "assistant_registrar": "426,409",
+        "branch_officer": "1342,1599"
+    },
+    {
+        "id": "17",
+        "section_id": "49",
+        "registrar": "3605",
+        "additional_registrar": "1414",
+        "deputy_registrar": "",
+        "assistant_registrar": "55",
+        "branch_officer": "913"
+    },
+    {
+        "id": "18",
+        "section_id": "50",
+        "registrar": "1068",
+        "additional_registrar": "1414",
+        "deputy_registrar": "",
+        "assistant_registrar": "401",
+        "branch_officer": "1560"
+    },
+    {
+        "id": "19",
+        "section_id": "51",
+        "registrar": "1068",
+        "additional_registrar": "1427",
+        "deputy_registrar": "",
+        "assistant_registrar": "1491",
+        "branch_officer": "1581"
+    },
+    {
+        "id": "20",
+        "section_id": "52",
+        "registrar": "1068",
+        "additional_registrar": "",
+        "deputy_registrar": "407",
+        "assistant_registrar": "1492",
+        "branch_officer": "1239"
+    },
+    {
+        "id": "21",
+        "section_id": "46",
+        "registrar": "0",
+        "additional_registrar": "1413",
+        "deputy_registrar": "",
+        "assistant_registrar": null,
+        "branch_officer": null
+    },
+    {
+        "id": "22",
+        "section_id": "47",
+        "registrar": "0",
+        "additional_registrar": "1413",
+        "deputy_registrar": null,
+        "assistant_registrar": null,
+        "branch_officer": null
+    }
+]

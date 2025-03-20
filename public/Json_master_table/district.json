@@ -1,0 +1,356 @@
+[
+    {
+        "dcode": "0",
+        "dname": "Not Mention",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "40",
+        "dname": "INDORE BENCH, HIGH COURT OF M.P.",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "41",
+        "dname": "GWALIOR BENCH, HIGH COURT OF M.P.",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "42",
+        "dname": "JABALPUR MAIN SEAT, HIGH COURT OF M.P.",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "50",
+        "dname": "BALAGHAT",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "51",
+        "dname": "BETUL",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "52",
+        "dname": "BHIND",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "53",
+        "dname": "BHOPAL",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "54",
+        "dname": "CHHATARPUR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "55",
+        "dname": "CHHINDWARA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "56",
+        "dname": "DAMOH",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "57",
+        "dname": "DATIA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "58",
+        "dname": "DEWAS",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "59",
+        "dname": "DHAR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "60",
+        "dname": "GUNA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "61",
+        "dname": "GWALIOR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "62",
+        "dname": "HOSHANGABAD",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "63",
+        "dname": "INDORE",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "64",
+        "dname": "JABALPUR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "65",
+        "dname": "JHABUA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "66",
+        "dname": "KHANDWA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "67",
+        "dname": "KHARGONE",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "68",
+        "dname": "MANDLA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "69",
+        "dname": "NEEMUCH",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "70",
+        "dname": "MANDSAUR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "71",
+        "dname": "MORENA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "72",
+        "dname": "NARSINGHPUR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "73",
+        "dname": "PANNA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "74",
+        "dname": "RAISEN",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "75",
+        "dname": "RAJGARH",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "76",
+        "dname": "RATLAM",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "77",
+        "dname": "REWA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "78",
+        "dname": "SAGAR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "79",
+        "dname": "SATNA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "80",
+        "dname": "SEHORE",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "81",
+        "dname": "SEONI",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "82",
+        "dname": "SHAHDOL",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "83",
+        "dname": "SHAJAPUR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "84",
+        "dname": "SHIVPURI",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "85",
+        "dname": "SIDHI",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "86",
+        "dname": "TIKAMGARH",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "87",
+        "dname": "UJJAIN",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "88",
+        "dname": "VIDISHA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "89",
+        "dname": "KATNI",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "90",
+        "dname": "BARWANI",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "91",
+        "dname": "HARDA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "92",
+        "dname": "SHEOPUR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "93",
+        "dname": "BURHANPUR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "94",
+        "dname": "DINDORI",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "95",
+        "dname": "ANUPPUR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "96",
+        "dname": "UMARIA",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "97",
+        "dname": "ALIRAJPUR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "98",
+        "dname": "SINGRAULI",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "99",
+        "dname": "OTHER STATE",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "101",
+        "dname": "NEW DELHI",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "102",
+        "dname": "MUMBAI",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "103",
+        "dname": "ASHOKNAGAR",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "104",
+        "dname": "OTHER COUNTRY",
+        "chby": "01",
+        "display": "Y"
+    },
+    {
+        "dcode": "105",
+        "dname": "AGAR",
+        "chby": "01",
+        "display": "Y"
+    }
+]

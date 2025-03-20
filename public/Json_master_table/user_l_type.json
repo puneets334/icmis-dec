@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1",
+        "name": "Casual Leave",
+        "s_name": "CL",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "name": "Earned Leave",
+        "s_name": "EL",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "name": "Optional Leave",
+        "s_name": "OL",
+        "display": "Y"
+    },
+    {
+        "id": "11",
+        "name": "HeadQuarter Leave",
+        "s_name": "HQL",
+        "display": "N"
+    },
+    {
+        "id": "12",
+        "name": "Vacation Leave",
+        "s_name": "VL",
+        "display": "Y"
+    }
+]

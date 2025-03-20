@@ -1,0 +1,93 @@
+[
+    {
+        "id": "1",
+        "bench_name": "CORAM 2",
+        "abbr": "2",
+        "display": "Y",
+        "board_type_mb": "J"
+    },
+    {
+        "id": "2",
+        "bench_name": "CORAM 3",
+        "abbr": "3",
+        "display": "Y",
+        "board_type_mb": "J"
+    },
+    {
+        "id": "3",
+        "bench_name": "CORAM 5",
+        "abbr": "5",
+        "display": "Y",
+        "board_type_mb": "J"
+    },
+    {
+        "id": "4",
+        "bench_name": "CORAM 7",
+        "abbr": "7",
+        "display": "Y",
+        "board_type_mb": "J"
+    },
+    {
+        "id": "5",
+        "bench_name": "CORAM 9",
+        "abbr": "9",
+        "display": "Y",
+        "board_type_mb": "J"
+    },
+    {
+        "id": "6",
+        "bench_name": "CORAM 11",
+        "abbr": "11",
+        "display": "Y",
+        "board_type_mb": "J"
+    },
+    {
+        "id": "7",
+        "bench_name": "LOK ADALAT",
+        "abbr": "LK",
+        "display": "Y",
+        "board_type_mb": "J"
+    },
+    {
+        "id": "8",
+        "bench_name": "MEDIATION",
+        "abbr": "MD",
+        "display": "Y",
+        "board_type_mb": "J"
+    },
+    {
+        "id": "10",
+        "bench_name": "REGISTRAR",
+        "abbr": "1",
+        "display": "Y",
+        "board_type_mb": "R"
+    },
+    {
+        "id": "11",
+        "bench_name": "CHAMBER",
+        "abbr": "1",
+        "display": "Y",
+        "board_type_mb": "C"
+    },
+    {
+        "id": "12",
+        "bench_name": "SINGLE JUDGE",
+        "abbr": "1",
+        "display": "Y",
+        "board_type_mb": "S"
+    },
+    {
+        "id": "13",
+        "bench_name": "CORAM4",
+        "abbr": "4",
+        "display": "Y",
+        "board_type_mb": "C"
+    },
+    {
+        "id": "14",
+        "bench_name": "CHAMBER CIRCULATION",
+        "abbr": "1",
+        "display": "Y",
+        "board_type_mb": "CC"
+    }
+]

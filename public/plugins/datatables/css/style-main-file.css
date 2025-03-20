@@ -1,0 +1,28 @@
+
+div.dt-buttons {
+    position: relative;
+    float: left;
+}
+div.dt-buttons {
+    margin-bottom: 10px;
+}
+.btn-group2 {
+    position: relative;
+    z-index: 1;
+    padding-left: 10px;
+    float: right !important;
+}
+/*optional*/
+.btn-group, .btn-group-vertical {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.skin-blue .main-header .logo, .dropdown-menu>li>a, .btn-default, .sidebar a, .btn-default, .sidebar a, .btn, .btn {
+    position: relative;
+    overflow: hidden;
+}
+.buttons-html5, .buttons-print, .buttons-colvis {
+    padding: 2px 8px;
+}
+/*optional*/

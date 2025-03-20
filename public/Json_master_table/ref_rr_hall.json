@@ -1,0 +1,93 @@
+[
+    {
+        "hall_no": "1",
+        "description": "Near Library Ground Floor",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:25:26+05:30"
+    },
+    {
+        "hall_no": "2",
+        "description": "Inside II-C",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:28:37+05:30"
+    },
+    {
+        "hall_no": "3",
+        "description": "Hall No 3",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:28:37+05:30"
+    },
+    {
+        "hall_no": "4",
+        "description": "Paper Books Godown",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:28:37+05:30"
+    },
+    {
+        "hall_no": "5",
+        "description": "Basement New Building",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:28:37+05:30"
+    },
+    {
+        "hall_no": "6",
+        "description": "Servant Quarters",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:28:37+05:30"
+    },
+    {
+        "hall_no": "7",
+        "description": "Almirah Placed near Judges Library",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:28:37+05:30"
+    },
+    {
+        "hall_no": "8",
+        "description": "Almirah Placed near Section V-B",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:34:43+05:30"
+    },
+    {
+        "hall_no": "9",
+        "description": "Almirah Placed near Section I",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:34:43+05:30"
+    },
+    {
+        "hall_no": "10",
+        "description": "Room No.115 (New Building)",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:34:43+05:30"
+    },
+    {
+        "hall_no": "11",
+        "description": "Servant Quarters near Museum",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:34:43+05:30"
+    },
+    {
+        "hall_no": "12",
+        "description": "Almirah Placed near Section I-A",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:34:43+05:30"
+    },
+    {
+        "hall_no": "13",
+        "description": "Kept in Almirah Placed in 1st Floor above Section V",
+        "display": "Y",
+        "updated_by": "1",
+        "updated_on": "2018-08-02 14:34:43+05:30"
+    }
+]

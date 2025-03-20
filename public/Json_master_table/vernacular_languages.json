@@ -1,0 +1,135 @@
+[
+    {
+        "id": "1",
+        "name": "English",
+        "display_name": "English",
+        "short_name": "ENG",
+        "display": "Y"
+    },
+    {
+        "id": "2",
+        "name": "Hindi",
+        "display_name": "हिन्दी",
+        "short_name": "HIN",
+        "display": "Y"
+    },
+    {
+        "id": "3",
+        "name": "Gujarati",
+        "display_name": "ગુજરાતી",
+        "short_name": "GUJ",
+        "display": "Y"
+    },
+    {
+        "id": "4",
+        "name": "Punjabi",
+        "display_name": "ਪੰਜਾਬੀ",
+        "short_name": "PUN",
+        "display": "Y"
+    },
+    {
+        "id": "5",
+        "name": "Bengali",
+        "display_name": "বাংলা",
+        "short_name": "BEN",
+        "display": "Y"
+    },
+    {
+        "id": "6",
+        "name": "Telugu",
+        "display_name": "తెలుగు",
+        "short_name": "TEL",
+        "display": "Y"
+    },
+    {
+        "id": "7",
+        "name": "Kannada",
+        "display_name": "ಕನ್ನಡ",
+        "short_name": "KAN",
+        "display": "Y"
+    },
+    {
+        "id": "8",
+        "name": "Tamil",
+        "display_name": "தமிழ்",
+        "short_name": "TAM",
+        "display": "Y"
+    },
+    {
+        "id": "9",
+        "name": "Malayalam",
+        "display_name": "മലയാളം",
+        "short_name": "MAL",
+        "display": "Y"
+    },
+    {
+        "id": "10",
+        "name": "Urdu",
+        "display_name": "اُردُو",
+        "short_name": "URD",
+        "display": "Y"
+    },
+    {
+        "id": "11",
+        "name": "Marathi",
+        "display_name": "मराठी",
+        "short_name": "MAR",
+        "display": "Y"
+    },
+    {
+        "id": "12",
+        "name": "Assamese",
+        "display_name": "অসমীয়া",
+        "short_name": "ASM",
+        "display": "Y"
+    },
+    {
+        "id": "13",
+        "name": "Kashmiri",
+        "display_name": "कॉशुर",
+        "short_name": "KAS",
+        "display": "Y"
+    },
+    {
+        "id": "14",
+        "name": "Konkani",
+        "display_name": "कोंकणी",
+        "short_name": "KOK",
+        "display": "Y"
+    },
+    {
+        "id": "15",
+        "name": "Odia",
+        "display_name": "ଓଡ଼ିଆ",
+        "short_name": "ORI",
+        "display": "Y"
+    },
+    {
+        "id": "16",
+        "name": "Nepali",
+        "display_name": " नेपाली",
+        "short_name": "NEP",
+        "display": "Y"
+    },
+    {
+        "id": "17",
+        "name": "Garo",
+        "display_name": "আ·চিক",
+        "short_name": "GAR",
+        "display": "Y"
+    },
+    {
+        "id": "18",
+        "name": "Khasi",
+        "display_name": "খসি",
+        "short_name": "KHA",
+        "display": "Y"
+    },
+    {
+        "id": "19",
+        "name": "Naga",
+        "display_name": "Nagamese",
+        "short_name": "NAG",
+        "display": "Y"
+    }
+]

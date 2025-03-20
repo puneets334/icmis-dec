@@ -1,0 +1,68 @@
+[
+    {
+        "id": "1",
+        "state_code": "7",
+        "district_code": "1",
+        "court_name": ""
+    },
+    {
+        "id": "2",
+        "state_code": "7",
+        "district_code": "3",
+        "court_name": ""
+    },
+    {
+        "id": "3",
+        "state_code": "7",
+        "district_code": "4",
+        "court_name": ""
+    },
+    {
+        "id": "4",
+        "state_code": "7",
+        "district_code": "101",
+        "court_name": ""
+    },
+    {
+        "id": "5",
+        "state_code": "7",
+        "district_code": "9",
+        "court_name": ""
+    },
+    {
+        "id": "6",
+        "state_code": "7",
+        "district_code": "8",
+        "court_name": ""
+    },
+    {
+        "id": "7",
+        "state_code": "7",
+        "district_code": "2",
+        "court_name": ""
+    },
+    {
+        "id": "8",
+        "state_code": "7",
+        "district_code": "6",
+        "court_name": ""
+    },
+    {
+        "id": "9",
+        "state_code": "7",
+        "district_code": "7",
+        "court_name": ""
+    },
+    {
+        "id": "10",
+        "state_code": "7",
+        "district_code": "102",
+        "court_name": ""
+    },
+    {
+        "id": "11",
+        "state_code": "7",
+        "district_code": "103",
+        "court_name": ""
+    }
+]

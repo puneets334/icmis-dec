@@ -1,0 +1,72 @@
+[
+    {
+        "id": "1",
+        "description": "Add Documents",
+        "created_on": "2021-08-05 11:03:20+05:30",
+        "created_by": "0",
+        "is_deleted": "0"
+    },
+    {
+        "id": "2",
+        "description": "Digital Signature",
+        "created_on": "2021-08-05 11:03:20+05:30",
+        "created_by": "0",
+        "is_deleted": "0"
+    },
+    {
+        "id": "3",
+        "description": "Digital Certification",
+        "created_on": "2021-08-05 11:03:20+05:30",
+        "created_by": "0",
+        "is_deleted": "0"
+    },
+    {
+        "id": "4",
+        "description": "Downloaded",
+        "created_on": "2021-08-05 11:03:20+05:30",
+        "created_by": "0",
+        "is_deleted": "0"
+    },
+    {
+        "id": "5",
+        "description": "Add Recipients",
+        "created_on": "2021-08-05 11:03:20+05:30",
+        "created_by": "0",
+        "is_deleted": "0"
+    },
+    {
+        "id": "6",
+        "description": "OTP Sent",
+        "created_on": "2021-08-05 11:03:20+05:30",
+        "created_by": "0",
+        "is_deleted": "0"
+    },
+    {
+        "id": "7",
+        "description": "OTP Resend",
+        "created_on": "2021-08-05 11:03:20+05:30",
+        "created_by": "0",
+        "is_deleted": "0"
+    },
+    {
+        "id": "8",
+        "description": "OTP Verify",
+        "created_on": "2021-08-05 11:03:20+05:30",
+        "created_by": "0",
+        "is_deleted": "0"
+    },
+    {
+        "id": "9",
+        "description": "Complete",
+        "created_on": "2021-08-05 11:03:20+05:30",
+        "created_by": "0",
+        "is_deleted": "0"
+    },
+    {
+        "id": "10",
+        "description": "Delete Attached File",
+        "created_on": "2021-08-05 11:03:20+05:30",
+        "created_by": "0",
+        "is_deleted": "0"
+    }
+]

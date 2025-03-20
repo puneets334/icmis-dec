@@ -1,0 +1,1038 @@
+[
+    {
+        "su_menu_id": "1",
+        "id": "1",
+        "sub_mn_nm": "Entry",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "2",
+        "id": "2",
+        "sub_mn_nm": "Generate",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "3",
+        "id": "1",
+        "sub_mn_nm": "User Management",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "4",
+        "id": "2",
+        "sub_mn_nm": "Lower Court",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "5",
+        "id": "3",
+        "sub_mn_nm": "Party",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "6",
+        "id": "4",
+        "sub_mn_nm": "Category",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "7",
+        "id": "3",
+        "sub_mn_nm": "Advocate",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "8",
+        "id": "1",
+        "sub_mn_nm": "Advocate",
+        "o_d": "4",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "9",
+        "id": "4",
+        "sub_mn_nm": "Defects",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "10",
+        "id": "4",
+        "sub_mn_nm": "Limitation",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "11",
+        "id": "4",
+        "sub_mn_nm": "Registration",
+        "o_d": "4",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "12",
+        "id": "5",
+        "sub_mn_nm": "Pool",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "13",
+        "id": "5",
+        "sub_mn_nm": "Allocation",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "14",
+        "id": "5",
+        "sub_mn_nm": "Print",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "15",
+        "id": "5",
+        "sub_mn_nm": "Roster",
+        "o_d": "4",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "16",
+        "id": "6",
+        "sub_mn_nm": "Proposal",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "17",
+        "id": "4",
+        "sub_mn_nm": "Report",
+        "o_d": "5",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "18",
+        "id": "7",
+        "sub_mn_nm": "Loose Documents",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "19",
+        "id": "8",
+        "sub_mn_nm": "Receive File",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "20",
+        "id": "8",
+        "sub_mn_nm": "Dispatch File",
+        "o_d": "6",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "21",
+        "id": "8",
+        "sub_mn_nm": "Dispatch",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "22",
+        "id": "2",
+        "sub_mn_nm": "Indexing",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "23",
+        "id": "3",
+        "sub_mn_nm": "Sentence Status",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "24",
+        "id": "6",
+        "sub_mn_nm": "Notices",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "25",
+        "id": "4",
+        "sub_mn_nm": "Similarities",
+        "o_d": "6",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "26",
+        "id": "9",
+        "sub_mn_nm": "Mention Memo",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "27",
+        "id": "10",
+        "sub_mn_nm": "Drop Request",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "28",
+        "id": "11",
+        "sub_mn_nm": "Pending",
+        "o_d": "5",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "29",
+        "id": "12",
+        "sub_mn_nm": "Message",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "30",
+        "id": "13",
+        "sub_mn_nm": "Registration",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "31",
+        "id": "14",
+        "sub_mn_nm": "List Before/Not Before/Coram",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "32",
+        "id": "7",
+        "sub_mn_nm": "Movement of Document",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "33",
+        "id": "15",
+        "sub_mn_nm": "Law Firm",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "34",
+        "id": "5",
+        "sub_mn_nm": "Transfer",
+        "o_d": "8",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "35",
+        "id": "16",
+        "sub_mn_nm": "Judgement/Order",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "36",
+        "id": "6",
+        "sub_mn_nm": "Connected/Linked Cases",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "37",
+        "id": "11",
+        "sub_mn_nm": "Office Report",
+        "o_d": "6",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "38",
+        "id": "17",
+        "sub_mn_nm": "Court Master Cause List",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "39",
+        "id": "5",
+        "sub_mn_nm": "Update Heardt",
+        "o_d": "7",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "40",
+        "id": "6",
+        "sub_mn_nm": "Previous Case Remarks",
+        "o_d": "5",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "41",
+        "id": "19",
+        "sub_mn_nm": "Generate",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "42",
+        "id": "20",
+        "sub_mn_nm": "Scaned File",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "43",
+        "id": "21",
+        "sub_mn_nm": "Case Search",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "44",
+        "id": "5",
+        "sub_mn_nm": "Case Drop",
+        "o_d": "5",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "45",
+        "id": "6",
+        "sub_mn_nm": "RED-ORANGE-GREEN-YELLOW",
+        "o_d": "211",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "46",
+        "id": "19",
+        "sub_mn_nm": "Lower Court",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "47",
+        "id": "19",
+        "sub_mn_nm": "Extra Party",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "48",
+        "id": "19",
+        "sub_mn_nm": "Category",
+        "o_d": "5",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "49",
+        "id": "6",
+        "sub_mn_nm": "Regular Registration",
+        "o_d": "7",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "51",
+        "id": "22",
+        "sub_mn_nm": "Change Password",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "52",
+        "id": "15",
+        "sub_mn_nm": "Lower Court Judges",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "53",
+        "id": "19",
+        "sub_mn_nm": "Similarities",
+        "o_d": "6",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "54",
+        "id": "8",
+        "sub_mn_nm": "Dispatch CauseList Cases",
+        "o_d": "5",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "55",
+        "id": "6",
+        "sub_mn_nm": "Update IA",
+        "o_d": "14",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "56",
+        "id": "11",
+        "sub_mn_nm": "Pending Cases ",
+        "o_d": "1",
+        "display": "N"
+    },
+    {
+        "su_menu_id": "57",
+        "id": "6",
+        "sub_mn_nm": "Direct Disposal of Case",
+        "o_d": "18",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "58",
+        "id": "23",
+        "sub_mn_nm": "Help",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "59",
+        "id": "15",
+        "sub_mn_nm": "ICMIS MASTER",
+        "o_d": "4",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "60",
+        "id": "2",
+        "sub_mn_nm": "Report",
+        "o_d": "4",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "61",
+        "id": "24",
+        "sub_mn_nm": "Eliminate(Weed) Case",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "62",
+        "id": "20",
+        "sub_mn_nm": "Supreme Court Scan",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "63",
+        "id": "11",
+        "sub_mn_nm": "Filing",
+        "o_d": "7",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "65",
+        "id": "13",
+        "sub_mn_nm": "Download Orders",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "66",
+        "id": "11",
+        "sub_mn_nm": "Copying",
+        "o_d": "8",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "67",
+        "id": "11",
+        "sub_mn_nm": "DA",
+        "o_d": "17",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "68",
+        "id": "6",
+        "sub_mn_nm": "Verify",
+        "o_d": "12",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "69",
+        "id": "6",
+        "sub_mn_nm": "Verify",
+        "o_d": "15",
+        "display": "N"
+    },
+    {
+        "su_menu_id": "70",
+        "id": "19",
+        "sub_mn_nm": "Extra Advocate",
+        "o_d": "4",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "71",
+        "id": "6",
+        "sub_mn_nm": "Recall",
+        "o_d": "11",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "72",
+        "id": "1",
+        "sub_mn_nm": "Case Block for Loose Doc",
+        "o_d": "5",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "73",
+        "id": "29",
+        "sub_mn_nm": "Update DA Code",
+        "o_d": "6",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "74",
+        "id": "11",
+        "sub_mn_nm": "Special Benches",
+        "o_d": "13",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "75",
+        "id": "26",
+        "sub_mn_nm": "Report",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "76",
+        "id": "11",
+        "sub_mn_nm": "Sensitive Cases",
+        "o_d": "10",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "77",
+        "id": "8",
+        "sub_mn_nm": "Filing Trap",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "78",
+        "id": "11",
+        "sub_mn_nm": "Cause List",
+        "o_d": "9",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "79",
+        "id": "5",
+        "sub_mn_nm": "Report",
+        "o_d": "6",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "80",
+        "id": "16",
+        "sub_mn_nm": "Generate Proceedings",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "81",
+        "id": "20",
+        "sub_mn_nm": "Registration",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "82",
+        "id": "11",
+        "sub_mn_nm": "High Court",
+        "o_d": "11",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "83",
+        "id": "21",
+        "sub_mn_nm": "Case Search For MM",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "84",
+        "id": "27",
+        "sub_mn_nm": "Disposal Letters",
+        "o_d": "1",
+        "display": "N"
+    },
+    {
+        "su_menu_id": "85",
+        "id": "16",
+        "sub_mn_nm": "Upload Proceedings",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "86",
+        "id": "6",
+        "sub_mn_nm": "Daily Court Remarks",
+        "o_d": "21",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "87",
+        "id": "16",
+        "sub_mn_nm": "MM Upload",
+        "o_d": "5",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "88",
+        "id": "1",
+        "sub_mn_nm": "State Agency",
+        "o_d": "6",
+        "display": "N"
+    },
+    {
+        "su_menu_id": "89",
+        "id": "20",
+        "sub_mn_nm": "Causelist OR-ROP",
+        "o_d": "4",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "90",
+        "id": "11",
+        "sub_mn_nm": "No Dacode",
+        "o_d": "14",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "91",
+        "id": "4",
+        "sub_mn_nm": "Verification",
+        "o_d": "10",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "92",
+        "id": "11",
+        "sub_mn_nm": "Department Wise",
+        "o_d": "16",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "93",
+        "id": "28",
+        "sub_mn_nm": "Import Data",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "94",
+        "id": "29",
+        "sub_mn_nm": "Reports",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "95",
+        "id": "30",
+        "sub_mn_nm": "Reports",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "96",
+        "id": "31",
+        "sub_mn_nm": "Reports",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "97",
+        "id": "31",
+        "sub_mn_nm": "List Before/Not Before/Coram",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "98",
+        "id": "14",
+        "sub_mn_nm": "Reports",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "99",
+        "id": "32",
+        "sub_mn_nm": "Report",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "100",
+        "id": "11",
+        "sub_mn_nm": "Monitoring",
+        "o_d": "12",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "101",
+        "id": "8",
+        "sub_mn_nm": "Reports",
+        "o_d": "4",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "102",
+        "id": "28",
+        "sub_mn_nm": "Admin",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "103",
+        "id": "11",
+        "sub_mn_nm": "AOR Cases",
+        "o_d": "18",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "104",
+        "id": "11",
+        "sub_mn_nm": "Court Master",
+        "o_d": "22",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "105",
+        "id": "24",
+        "sub_mn_nm": "Consignment",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "106",
+        "id": "6",
+        "sub_mn_nm": "Question of Law",
+        "o_d": "202",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "107",
+        "id": "11",
+        "sub_mn_nm": "Filing Monitoring",
+        "o_d": "15",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "108",
+        "id": "33",
+        "sub_mn_nm": "Latest Updates",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "109",
+        "id": "34",
+        "sub_mn_nm": "SMS Godown",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "110",
+        "id": "34",
+        "sub_mn_nm": "SMS - R&I",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "111",
+        "id": "4",
+        "sub_mn_nm": "Sensitive Case",
+        "o_d": "15",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "112",
+        "id": "8",
+        "sub_mn_nm": "Defective Paperbook Record",
+        "o_d": "8",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "113",
+        "id": "5",
+        "sub_mn_nm": "Vacation Advance List",
+        "o_d": "10",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "114",
+        "id": "6",
+        "sub_mn_nm": "Data Updation",
+        "o_d": "10",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "115",
+        "id": "5",
+        "sub_mn_nm": "Ready Matters",
+        "o_d": "33",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "116",
+        "id": "1",
+        "sub_mn_nm": "Transfer File",
+        "o_d": "7",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "117",
+        "id": "34",
+        "sub_mn_nm": "da_allocation",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "118",
+        "id": "11",
+        "sub_mn_nm": "File Cover",
+        "o_d": "32",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "119",
+        "id": "24",
+        "sub_mn_nm": "File Movement",
+        "o_d": "4",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "120",
+        "id": "19",
+        "sub_mn_nm": "Renew",
+        "o_d": "8",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "121",
+        "id": "35",
+        "sub_mn_nm": "Upload Scanned File",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "122",
+        "id": "1",
+        "sub_mn_nm": "Judges",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "123",
+        "id": "11",
+        "sub_mn_nm": "Default Reports",
+        "o_d": "33",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "124",
+        "id": "1",
+        "sub_mn_nm": "Menu Privilege",
+        "o_d": "8",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "125",
+        "id": "36",
+        "sub_mn_nm": "Monitoring",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "126",
+        "id": "36",
+        "sub_mn_nm": "Report",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "127",
+        "id": "5",
+        "sub_mn_nm": "Advance List",
+        "o_d": "16",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "128",
+        "id": "5",
+        "sub_mn_nm": "Elimination List",
+        "o_d": "17",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "129",
+        "id": "5",
+        "sub_mn_nm": "Advance List-Report",
+        "o_d": "13",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "130",
+        "id": "35",
+        "sub_mn_nm": "HC_OR",
+        "o_d": "5",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "131",
+        "id": "11",
+        "sub_mn_nm": "Uploaded Orders/Judgments List",
+        "o_d": "68",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "132",
+        "id": "37",
+        "sub_mn_nm": "Raise Issue",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "133",
+        "id": "39",
+        "sub_mn_nm": "PIL Entry",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "134",
+        "id": "39",
+        "sub_mn_nm": "Reports",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "136",
+        "id": "6",
+        "sub_mn_nm": "File Cover",
+        "o_d": "40",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "137",
+        "id": "40",
+        "sub_mn_nm": "FDR",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "138",
+        "id": "41",
+        "sub_mn_nm": "Receipt",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "139",
+        "id": "41",
+        "sub_mn_nm": "Reports",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "140",
+        "id": "11",
+        "sub_mn_nm": "Listing",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "141",
+        "id": "6",
+        "sub_mn_nm": "Amend Causetitle",
+        "o_d": "212",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "142",
+        "id": "16",
+        "sub_mn_nm": "Vernacular Judgments",
+        "o_d": "18",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "143",
+        "id": "41",
+        "sub_mn_nm": "Dispatch",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "144",
+        "id": "41",
+        "sub_mn_nm": "Dispatch Reports",
+        "o_d": "4",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "145",
+        "id": "14",
+        "sub_mn_nm": "e-Court",
+        "o_d": "3",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "146",
+        "id": "8",
+        "sub_mn_nm": "Causelist File Movement",
+        "o_d": "9",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "147",
+        "id": "11",
+        "sub_mn_nm": "ROP Uploaded",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "148",
+        "id": "42",
+        "sub_mn_nm": "e-SCR",
+        "o_d": "1",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "149",
+        "id": "17",
+        "sub_mn_nm": "report",
+        "o_d": "2",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "150",
+        "id": "24",
+        "sub_mn_nm": "Advocate on Record",
+        "o_d": "7",
+        "display": "Y"
+    },
+    {
+        "su_menu_id": "151",
+        "id": "16",
+        "sub_mn_nm": "Report",
+        "o_d": "4",
+        "display": "Y"
+    }
+]

@@ -1,0 +1,27 @@
+<?php
+include("../../includes/db_inc.php");
+session_start();
+if(isset($_POST['freeze_id'])){
+$query = "SELECT f.court_no, r.*, c.* FROM hybrid_physical_hearing_consent_freeze f
+inner join roster r on r.courtno = f.court_no and r.m_f = 2 and r.to_date >= curdate() and r.display = 'Y'
+inner join cl_printed c on c.roster_id = r.id and c.display = 'Y' and c.next_dt >= curdate()
+where f.court_no = '".$_POST['courtno']."' ";
+    $query = mysql_query($query) or mysql_errno($query);
+    if(mysql_num_rows($query) > 0){
+        $return_arr = array("status" => "Error:Not Allowed, Daily List Already Published");
+    }
+    else{
+        $sql = "update hybrid_physical_hearing_consent_freeze set is_active = 'f', unfreezed_by = '".$_SESSION['dcmis_user_idd'] ."', unfreezed_date = NOW(), unfreezed_user_ip = '".$_POST['ip']."' where id = " .  $_POST['freeze_id']." and is_active = 't'";
+        $rs = mysql_query($sql) or mysql_errno($sql);
+        if (mysql_affected_rows() > 0) {
+            $return_arr = array("status" => "success");
+        } else {
+            $return_arr = array("status" => "Error:Unable to Save");
+        }
+    }
+
+}
+else {
+    $return_arr = array("status" => "Error");
+}
+echo json_encode($return_arr);

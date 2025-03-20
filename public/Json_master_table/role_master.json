@@ -1,0 +1,639 @@
+[
+    {
+        "id": "1",
+        "role_desc": "Counter",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:39:02+05:30"
+    },
+    {
+        "id": "2",
+        "role_desc": "scruitny",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-03 16:29:05+05:30"
+    },
+    {
+        "id": "3",
+        "role_desc": "Verification",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-24 11:34:33+05:30"
+    },
+    {
+        "id": "4",
+        "role_desc": "Caveat",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-02-01 16:30:58+05:30"
+    },
+    {
+        "id": "5",
+        "role_desc": "Master Management",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-21 16:04:46+05:30"
+    },
+    {
+        "id": "6",
+        "role_desc": "IB extension",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-01 14:52:02+05:30"
+    },
+    {
+        "id": "7",
+        "role_desc": "E-Filing",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-22 17:13:23+05:30"
+    },
+    {
+        "id": "8",
+        "role_desc": "Judicial",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-12-24 10:26:42+05:30"
+    },
+    {
+        "id": "9",
+        "role_desc": "branch management",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-30 16:47:21+05:30"
+    },
+    {
+        "id": "10",
+        "role_desc": "Court Master(NSH)",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-05-24 10:48:37+05:30"
+    },
+    {
+        "id": "11",
+        "role_desc": "Court Master(SH)",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-01 16:04:59+05:30"
+    },
+    {
+        "id": "12",
+        "role_desc": "E-court",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:40:28+05:30"
+    },
+    {
+        "id": "13",
+        "role_desc": "Copying",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:41:06+05:30"
+    },
+    {
+        "id": "14",
+        "role_desc": "Mentioning",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:41:34+05:30"
+    },
+    {
+        "id": "15",
+        "role_desc": "Cash and Accounts",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:41:52+05:30"
+    },
+    {
+        "id": "16",
+        "role_desc": "Editorial",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:42:10+05:30"
+    },
+    {
+        "id": "17",
+        "role_desc": "Scanning",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-02-16 10:11:50+05:30"
+    },
+    {
+        "id": "18",
+        "role_desc": "Paperbook",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:43:03+05:30"
+    },
+    {
+        "id": "19",
+        "role_desc": "PIL(E)",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-28 11:56:03+05:30"
+    },
+    {
+        "id": "20",
+        "role_desc": "R &amp; I",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 15:11:11+05:30"
+    },
+    {
+        "id": "21",
+        "role_desc": "Record Room",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-01-19 16:19:00+05:30"
+    },
+    {
+        "id": "22",
+        "role_desc": "SCLSC",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:44:31+05:30"
+    },
+    {
+        "id": "23",
+        "role_desc": "Miscellaneous Listing",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:56+05:30"
+    },
+    {
+        "id": "24",
+        "role_desc": "misc",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 15:03:36+05:30"
+    },
+    {
+        "id": "25",
+        "role_desc": "Monitoring",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-01-13 11:41:31+05:30"
+    },
+    {
+        "id": "26",
+        "role_desc": "Single Case Allocation",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:57:50+05:30"
+    },
+    {
+        "id": "27",
+        "role_desc": "Report Masters(Filing)",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-25 14:33:42+05:30"
+    },
+    {
+        "id": "28",
+        "role_desc": "Reports Master(Judicial)",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-09 14:40:19+05:30"
+    },
+    {
+        "id": "29",
+        "role_desc": "Reports Master(Court)",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 15:21:00+05:30"
+    },
+    {
+        "id": "30",
+        "role_desc": "Reports Master(Misclleneous Listing)",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-21 15:52:36+05:30"
+    },
+    {
+        "id": "31",
+        "role_desc": "Reports Master(Regular Listing)",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-03 12:01:19+05:30"
+    },
+    {
+        "id": "32",
+        "role_desc": "Exchange",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 10:21:56+05:30"
+    },
+    {
+        "id": "33",
+        "role_desc": "Coram",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-22 12:37:47+05:30"
+    },
+    {
+        "id": "34",
+        "role_desc": "Management Reports",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-04 11:04:33+05:30"
+    },
+    {
+        "id": "35",
+        "role_desc": "Elimination",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-23 11:04:28+05:30"
+    },
+    {
+        "id": "36",
+        "role_desc": "Reports Master (Listing)",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-01-25 10:40:19+05:30"
+    },
+    {
+        "id": "37",
+        "role_desc": "Judges Library",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-02-15 10:48:32+05:30"
+    },
+    {
+        "id": "38",
+        "role_desc": "1A-Annexe",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-05-22 14:33:54+05:30"
+    },
+    {
+        "id": "39",
+        "role_desc": "Decree",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-05-23 11:31:00+05:30"
+    },
+    {
+        "id": "40",
+        "role_desc": "Translation Cell",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-05-30 12:12:01+05:30"
+    },
+    {
+        "id": "41",
+        "role_desc": "V and VI",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-11 12:30:40+05:30"
+    },
+    {
+        "id": "42",
+        "role_desc": "CCMM",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 16:00:23+05:30"
+    },
+    {
+        "id": "43",
+        "role_desc": "partyupdation",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-27 14:01:58+05:30"
+    },
+    {
+        "id": "44",
+        "role_desc": "Public Relation Office",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-07-27 14:12:03+05:30"
+    },
+    {
+        "id": "45",
+        "role_desc": "Aor clerk",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-08-24 11:21:58+05:30"
+    },
+    {
+        "id": "46",
+        "role_desc": "Advocate on Record",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-08-25 14:28:04+05:30"
+    },
+    {
+        "id": "47",
+        "role_desc": "Section_mgmt",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-09-01 16:50:50+05:30"
+    },
+    {
+        "id": "48",
+        "role_desc": "Defects Restoration- IB",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-20 11:47:02+05:30"
+    },
+    {
+        "id": "49",
+        "role_desc": "Report Master(Record Room)",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-09-17 13:00:09+05:30"
+    },
+    {
+        "id": "50",
+        "role_desc": "Master Mgm Pack1",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2020-11-06 14:43:51+05:30"
+    },
+    {
+        "id": "51",
+        "role_desc": "Scanning Paperbook Movement",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-02-04 15:59:42+05:30"
+    },
+    {
+        "id": "52",
+        "role_desc": "vc",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-10-18 12:36:09+05:30"
+    },
+    {
+        "id": "53",
+        "role_desc": "Addition_of_Writ_Caveator",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-04-13 15:57:08+05:30"
+    },
+    {
+        "id": "54",
+        "role_desc": "Web Casting",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-05-27 12:12:10+05:30"
+    },
+    {
+        "id": "55",
+        "role_desc": "e-Filing Admin",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-06-09 12:19:11+05:30"
+    },
+    {
+        "id": "56",
+        "role_desc": "Sensitive Updation",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-06-16 12:16:11+05:30"
+    },
+    {
+        "id": "57",
+        "role_desc": "File_Dispatch_Receive_Ib",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-06-17 15:47:11+05:30"
+    },
+    {
+        "id": "58",
+        "role_desc": "I-B user  mangement",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-29 14:35:25+05:30"
+    },
+    {
+        "id": "59",
+        "role_desc": "CJI Office",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-06-24 17:02:34+05:30"
+    },
+    {
+        "id": "60",
+        "role_desc": "Scanning_Admin",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-06-25 10:59:58+05:30"
+    },
+    {
+        "id": "61",
+        "role_desc": "Coram Query",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-07-17 12:21:43+05:30"
+    },
+    {
+        "id": "62",
+        "role_desc": "AR-DR",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-08-14 10:52:20+05:30"
+    },
+    {
+        "id": "63",
+        "role_desc": "ADDITIONAL/DEPUTY REGISTRAR",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-09-02 16:01:52+05:30"
+    },
+    {
+        "id": "64",
+        "role_desc": "Dynamic Report",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-09-23 17:21:26+05:30"
+    },
+    {
+        "id": "65",
+        "role_desc": "VC Room Creation",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-10-18 12:37:31+05:30"
+    },
+    {
+        "id": "66",
+        "role_desc": "Hybrid Hearing",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2021-10-25 15:41:44+05:30"
+    },
+    {
+        "id": "67",
+        "role_desc": "cc role for updation",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-31 13:54:21+05:30"
+    },
+    {
+        "id": "68",
+        "role_desc": "Scanning Role 1",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-02-16 10:12:20+05:30"
+    },
+    {
+        "id": "69",
+        "role_desc": "Faster Cell",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-03-31 16:51:45+05:30"
+    },
+    {
+        "id": "70",
+        "role_desc": "VC stats",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-04-11 11:57:01+05:30"
+    },
+    {
+        "id": "71",
+        "role_desc": "VC ROOM",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-05-31 11:08:07+05:30"
+    },
+    {
+        "id": "72",
+        "role_desc": "Dak_report [modified]",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-01 14:50:46+05:30"
+    },
+    {
+        "id": "73",
+        "role_desc": "IB master management",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-07-21 08:52:32+05:30"
+    },
+    {
+        "id": "74",
+        "role_desc": "filing-statistics",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-01 11:27:34+05:30"
+    },
+    {
+        "id": "75",
+        "role_desc": "Single Judge",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-08-04 15:35:59+05:30"
+    },
+    {
+        "id": "76",
+        "role_desc": "bo Ib",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-09-20 10:33:10+05:30"
+    },
+    {
+        "id": "77",
+        "role_desc": "Registrar_Role",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-09-21 15:54:05+05:30"
+    },
+    {
+        "id": "78",
+        "role_desc": "gate info",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2022-11-24 14:45:26+05:30"
+    },
+    {
+        "id": "79",
+        "role_desc": "AR/DR updation",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-04-26 14:31:23+05:30"
+    },
+    {
+        "id": "80",
+        "role_desc": "regular_listing_users",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-09-12 14:28:49+05:30"
+    },
+    {
+        "id": "81",
+        "role_desc": "Soft Copy(I-B)",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-03-03 10:08:45+05:30"
+    },
+    {
+        "id": "82",
+        "role_desc": "Neutral_citation",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-01 11:57:09+05:30"
+    },
+    {
+        "id": "83",
+        "role_desc": "OLD JUDGMENT",
+        "display": "N",
+        "updated_by": null,
+        "updated_on": "2023-05-11 15:38:51+05:30"
+    },
+    {
+        "id": "84",
+        "role_desc": "Library Requisition",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-02 15:46:47+05:30"
+    },
+    {
+        "id": "85",
+        "role_desc": "Digital Courts",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-14 10:56:48+05:30"
+    },
+    {
+        "id": "86",
+        "role_desc": "Digital Advocates",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-14 10:57:15+05:30"
+    },
+    {
+        "id": "87",
+        "role_desc": "Digital Library",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-07-27 10:30:53+05:30"
+    },
+    {
+        "id": "88",
+        "role_desc": "Library Admin",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-02 15:47:07+05:30"
+    },
+    {
+        "id": "89",
+        "role_desc": "efiling diary dispatch",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-08 12:41:43+05:30"
+    },
+    {
+        "id": "90",
+        "role_desc": "IB[AR-DR-Addl Reg]",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-16 14:42:22+05:30"
+    },
+    {
+        "id": "91",
+        "role_desc": "Cause List Verify Module",
+        "display": "Y",
+        "updated_by": null,
+        "updated_on": "2023-08-18 11:46:19+05:30"
+    }
+]

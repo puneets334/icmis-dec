@@ -1,0 +1,4354 @@
+[
+    {
+        "su_su_menu_id": "1",
+        "su_menu_id": "1",
+        "sub_sub_mn_nm": "Insert",
+        "url": "admin/menus.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "2",
+        "su_menu_id": "2",
+        "sub_sub_mn_nm": "Add",
+        "url": "filing/new_filing_so.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "3",
+        "su_menu_id": "3",
+        "sub_sub_mn_nm": "Manage",
+        "url": "usermgmt/user_mgmt_view.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "4",
+        "su_menu_id": "3",
+        "sub_sub_mn_nm": "User Type",
+        "url": "usermgmt/user_type.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "5",
+        "su_menu_id": "3",
+        "sub_sub_mn_nm": "User Range",
+        "url": "usermgmt/user_range.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "6",
+        "su_menu_id": "3",
+        "sub_sub_mn_nm": "User Section",
+        "url": "usermgmt/section.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "7",
+        "su_menu_id": "3",
+        "sub_sub_mn_nm": "User Dept",
+        "url": "usermgmt/user_dept.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "8",
+        "su_menu_id": "3",
+        "sub_sub_mn_nm": "New User",
+        "url": "usermgmt/new_user.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "9",
+        "su_menu_id": "3",
+        "sub_sub_mn_nm": "Pass Reset",
+        "url": "usermgmt/pass_reset.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "10",
+        "su_menu_id": "3",
+        "sub_sub_mn_nm": "User Leave",
+        "url": "usermgmt/user_leave.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "11",
+        "su_menu_id": "3",
+        "sub_sub_mn_nm": "Peon n Driver",
+        "url": "usermgmt/pnd.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "12",
+        "su_menu_id": "4",
+        "sub_sub_mn_nm": "Insert",
+        "url": "lowerct/lowercourt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "13",
+        "su_menu_id": "5",
+        "sub_sub_mn_nm": "Add",
+        "url": "addentry/new_extraparty.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "14",
+        "su_menu_id": "6",
+        "sub_sub_mn_nm": "Add",
+        "url": "scrutiny/checker_ans.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "15",
+        "su_menu_id": "5",
+        "sub_sub_mn_nm": "Update",
+        "url": "addentry/mod_extraparty.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "16",
+        "su_menu_id": "7",
+        "sub_sub_mn_nm": "Add",
+        "url": "addadvocate/new_filing_adv.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "17",
+        "su_menu_id": "7",
+        "sub_sub_mn_nm": "Update",
+        "url": "addadvocate/up_filing_adv.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "18",
+        "su_menu_id": "8",
+        "sub_sub_mn_nm": "Registration-CMIS",
+        "url": "advocatereg/adv_add_bar.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "19",
+        "su_menu_id": "9",
+        "sub_sub_mn_nm": "Add",
+        "url": "defects/objection.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "20",
+        "su_menu_id": "9",
+        "sub_sub_mn_nm": "Modify",
+        "url": "defects/objection_upd.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "21",
+        "su_menu_id": "8",
+        "sub_sub_mn_nm": "Update-Short",
+        "url": "advocatereg/update_aor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "22",
+        "su_menu_id": "9",
+        "sub_sub_mn_nm": "Delete",
+        "url": "defects/objection_del.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "23",
+        "su_menu_id": "8",
+        "sub_sub_mn_nm": "Update-Full",
+        "url": "advocatereg/update_full.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "24",
+        "su_menu_id": "8",
+        "sub_sub_mn_nm": "Update-Death",
+        "url": "advocatereg/update_de.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "25",
+        "su_menu_id": "2",
+        "sub_sub_mn_nm": "Modify",
+        "url": "filing/new_filing_mod.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "26",
+        "su_menu_id": "10",
+        "sub_sub_mn_nm": "Add/Update",
+        "url": "limitation/limitation.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "27",
+        "su_menu_id": "11",
+        "sub_sub_mn_nm": "View",
+        "url": "scrutiny/report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "28",
+        "su_menu_id": "12",
+        "sub_sub_mn_nm": "Pool",
+        "url": "listing/pool/index.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "29",
+        "su_menu_id": "13",
+        "sub_sub_mn_nm": "Allocation",
+        "url": "listing/allocation/index_a.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "30",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Print",
+        "url": "listing/print/cl_print.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "31",
+        "su_menu_id": "15",
+        "sub_sub_mn_nm": "Add",
+        "url": "roster/roster.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "32",
+        "su_menu_id": "16",
+        "sub_sub_mn_nm": "Add/Update",
+        "url": "da/proposal.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "33",
+        "su_menu_id": "17",
+        "sub_sub_mn_nm": "View",
+        "url": "scrutiny/registration_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "34",
+        "su_menu_id": "18",
+        "sub_sub_mn_nm": "Insert",
+        "url": "loosedoc/loosedoc.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "35",
+        "su_menu_id": "19",
+        "sub_sub_mn_nm": "Receive",
+        "url": "fm/receive.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "36",
+        "su_menu_id": "20",
+        "sub_sub_mn_nm": "Dispatch",
+        "url": "fm/dispatch.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "37",
+        "su_menu_id": "10",
+        "sub_sub_mn_nm": "Remove",
+        "url": "defects/obj_cl.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "38",
+        "su_menu_id": "9",
+        "sub_sub_mn_nm": "Remove Defects",
+        "url": "defects/obj_cl.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "39",
+        "su_menu_id": "22",
+        "sub_sub_mn_nm": "Add/Update",
+        "url": "indexing/indexing.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "40",
+        "su_menu_id": "23",
+        "sub_sub_mn_nm": "Add/Update",
+        "url": "sentence/sentence.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "41",
+        "su_menu_id": "24",
+        "sub_sub_mn_nm": "Generate",
+        "url": "notices/talwana.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "42",
+        "su_menu_id": "25",
+        "sub_sub_mn_nm": "View",
+        "url": "similarities/report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "43",
+        "su_menu_id": "26",
+        "sub_sub_mn_nm": "Add",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "44",
+        "su_menu_id": "27",
+        "sub_sub_mn_nm": "Add",
+        "url": "droprequest/droprequest.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "45",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Pending",
+        "url": "report/pending.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "46",
+        "su_menu_id": "29",
+        "sub_sub_mn_nm": "Inbox",
+        "url": "communication/inbox.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "47",
+        "su_menu_id": "29",
+        "sub_sub_mn_nm": "Compose",
+        "url": "communication/compose.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "48",
+        "su_menu_id": "29",
+        "sub_sub_mn_nm": "Sentbox",
+        "url": "communication/sentbox.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "49",
+        "su_menu_id": "29",
+        "sub_sub_mn_nm": "Trash",
+        "url": "communication/trash.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "50",
+        "su_menu_id": "30",
+        "sub_sub_mn_nm": "Add",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "51",
+        "su_menu_id": "31",
+        "sub_sub_mn_nm": "Add",
+        "url": "listbefore/before_notbefore.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "52",
+        "su_menu_id": "31",
+        "sub_sub_mn_nm": "Delete",
+        "url": "listbefore/before_notbefore_del.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "53",
+        "su_menu_id": "4",
+        "sub_sub_mn_nm": "Not Before Judges",
+        "url": "judge/not_before.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "54",
+        "su_menu_id": "32",
+        "sub_sub_mn_nm": "Bulk Dispatch",
+        "url": "loosemove/bulk_dispatch.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "55",
+        "su_menu_id": "32",
+        "sub_sub_mn_nm": "Bulk Receive",
+        "url": "loosemove/bulk_receive.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "56",
+        "su_menu_id": "32",
+        "sub_sub_mn_nm": "Verify/Defect",
+        "url": "loosemove/verify.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "57",
+        "su_menu_id": "33",
+        "sub_sub_mn_nm": "Add",
+        "url": "law_firm/law_firm_add.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "58",
+        "su_menu_id": "34",
+        "sub_sub_mn_nm": "transfer",
+        "url": "listing/transfer/transfer.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "59",
+        "su_menu_id": "35",
+        "sub_sub_mn_nm": "Upload",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "60",
+        "su_menu_id": "36",
+        "sub_sub_mn_nm": "Add/Update",
+        "url": "da/conn_case_entry_da.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "61",
+        "su_menu_id": "37",
+        "sub_sub_mn_nm": "Fresh",
+        "url": "office_report/fresh.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "62",
+        "su_menu_id": "38",
+        "sub_sub_mn_nm": "Cause List",
+        "url": "reader/reader_cl.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "63",
+        "su_menu_id": "37",
+        "sub_sub_mn_nm": "Fresh Defective",
+        "url": "office_report/defective.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "64",
+        "su_menu_id": "39",
+        "sub_sub_mn_nm": "Update",
+        "url": "updateheardt/update_heardt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "65",
+        "su_menu_id": "40",
+        "sub_sub_mn_nm": "Update",
+        "url": "da/prev_case_remarks.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "66",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Previous Cl",
+        "url": "listing/print/prev_cl.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "67",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Make Unprint",
+        "url": "listing/print/make_unprint.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "68",
+        "su_menu_id": "41",
+        "sub_sub_mn_nm": "Add",
+        "url": "caveat/caveat_entry.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "69",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Header Footer",
+        "url": "listing/header_footer/note.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "70",
+        "su_menu_id": "42",
+        "sub_sub_mn_nm": "View",
+        "url": "scan_file/scan_file.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "71",
+        "su_menu_id": "43",
+        "sub_sub_mn_nm": "Search",
+        "url": "case_status/case_status.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "72",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Drop Note",
+        "url": "listing/drop_note/case_drop.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "73",
+        "su_menu_id": "44",
+        "sub_sub_mn_nm": "Case Drop",
+        "url": "listing/drop_note/case_drop.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "74",
+        "su_menu_id": "45",
+        "sub_sub_mn_nm": "VIEW",
+        "url": "da_rgb/da_case_rgb.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "75",
+        "su_menu_id": "41",
+        "sub_sub_mn_nm": "Modify",
+        "url": "caveat/caveat_mod.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "76",
+        "su_menu_id": "46",
+        "sub_sub_mn_nm": "Insert",
+        "url": "caveat/caveatlowercourt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "77",
+        "su_menu_id": "47",
+        "sub_sub_mn_nm": "Add",
+        "url": "extracaveat/extra_caveat.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "78",
+        "su_menu_id": "48",
+        "sub_sub_mn_nm": "Add",
+        "url": "caveat/checker_ans_caveat.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "79",
+        "su_menu_id": "9",
+        "sub_sub_mn_nm": "verification",
+        "url": "defects/verification.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "80",
+        "su_menu_id": "49",
+        "sub_sub_mn_nm": "Register Case",
+        "url": "da/regular_registration.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "82",
+        "su_menu_id": "9",
+        "sub_sub_mn_nm": "Report",
+        "url": "/defects/report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "83",
+        "su_menu_id": "51",
+        "sub_sub_mn_nm": "Change",
+        "url": "admin/u.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "84",
+        "su_menu_id": "52",
+        "sub_sub_mn_nm": "Add/Update",
+        "url": "lowerct/judge_master.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "85",
+        "su_menu_id": "53",
+        "sub_sub_mn_nm": "View",
+        "url": "caveat/report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81001",
+        "su_menu_id": "32",
+        "sub_sub_mn_nm": "Old Case IA/DOC Registration",
+        "url": "da/old_verify.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81002",
+        "su_menu_id": "25",
+        "sub_sub_mn_nm": "Caveat",
+        "url": "similarities/caveat_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81003",
+        "su_menu_id": "25",
+        "sub_sub_mn_nm": "Caveat",
+        "url": "similarities/caveat_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81004",
+        "su_menu_id": "47",
+        "sub_sub_mn_nm": "Update",
+        "url": "extracaveat/mod_extracaveat.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81005",
+        "su_menu_id": "54",
+        "sub_sub_mn_nm": "Dispatch",
+        "url": "fm/dispatch_cl_cases.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81006",
+        "su_menu_id": "55",
+        "sub_sub_mn_nm": "Update",
+        "url": "da/ia_update.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81007",
+        "su_menu_id": "56",
+        "sub_sub_mn_nm": "View",
+        "url": "report/da_pendency.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81008",
+        "su_menu_id": "36",
+        "sub_sub_mn_nm": "Check for difference in Connected Cases and Proposal",
+        "url": "da/da_wise_conn_differ.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81009",
+        "su_menu_id": "18",
+        "sub_sub_mn_nm": "Update",
+        "url": "loosedoc/loosedoc_up.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81011",
+        "su_menu_id": "42",
+        "sub_sub_mn_nm": "Diary No Details",
+        "url": "indexing/party_details.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81012",
+        "su_menu_id": "42",
+        "sub_sub_mn_nm": "Indexing Excel",
+        "url": "indexing/index_csv.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81013",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Prev Cl All",
+        "url": "listing/print/prev_cl_all.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81014",
+        "su_menu_id": "57",
+        "sub_sub_mn_nm": "Dispose",
+        "url": "da/set_dispose.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81015",
+        "su_menu_id": "58",
+        "sub_sub_mn_nm": "Help",
+        "url": "Help/help.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81016",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "Keyword",
+        "url": "icmis-master/keyword.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81017",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "LOWER COURT CASE TYPE",
+        "url": "icmis-master/lc_mc_states.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81018",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "Docdetails MASTER",
+        "url": "icmis-master/doc_details.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81019",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "POLICE STATION",
+        "url": "icmis-master/police_station.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81020",
+        "su_menu_id": "30",
+        "sub_sub_mn_nm": "Application Status",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81021",
+        "su_menu_id": "61",
+        "sub_sub_mn_nm": "Eliminate",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81022",
+        "su_menu_id": "62",
+        "sub_sub_mn_nm": "View",
+        "url": "document_scan/scan_file.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81023",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Diary",
+        "url": "report/get_today_diary.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81024",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Caveat",
+        "url": "report/get_today_caveat.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81025",
+        "su_menu_id": "35",
+        "sub_sub_mn_nm": "Upload Cases",
+        "url": "judord/pnt_com_upload.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81026",
+        "su_menu_id": "35",
+        "sub_sub_mn_nm": "Digital Signature",
+        "url": "judord/digital_signature.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81027",
+        "su_menu_id": "38",
+        "sub_sub_mn_nm": "Reprint",
+        "url": "judord/reprint_j_o.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81028",
+        "su_menu_id": "35",
+        "sub_sub_mn_nm": "Reprint",
+        "url": "judord/reprint_j_o.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81029",
+        "su_menu_id": "16",
+        "sub_sub_mn_nm": "Removal of Default",
+        "url": "da/objection_da.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81030",
+        "su_menu_id": "42",
+        "sub_sub_mn_nm": "HC DC Indexing",
+        "url": "indexing/hc_dc_indexing.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81031",
+        "su_menu_id": "65",
+        "sub_sub_mn_nm": "View",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81032",
+        "su_menu_id": "66",
+        "sub_sub_mn_nm": "View",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81033",
+        "su_menu_id": "66",
+        "sub_sub_mn_nm": "DA Wise",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81034",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "High Court-Casetype",
+        "url": "report/get_pendency.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81035",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Year-Casetype",
+        "url": "report/get_pendency_year_casetype_wise.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81036",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Year-Section",
+        "url": "report/get_pendency_section_year_wise.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81037",
+        "su_menu_id": "67",
+        "sub_sub_mn_nm": "ROGY Complete",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81038",
+        "su_menu_id": "68",
+        "sub_sub_mn_nm": "verify dummy",
+        "url": "verify/verify_index.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81039",
+        "su_menu_id": "68",
+        "sub_sub_mn_nm": "Verify",
+        "url": "verify/verify_report.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81040",
+        "su_menu_id": "68",
+        "sub_sub_mn_nm": "report",
+        "url": "verify/verify_report.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81041",
+        "su_menu_id": "68",
+        "sub_sub_mn_nm": "Report",
+        "url": "verify/verify_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81042",
+        "su_menu_id": "62",
+        "sub_sub_mn_nm": "HC DC Indexing Report",
+        "url": "indexing/indexing_hc_dc_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81043",
+        "su_menu_id": "67",
+        "sub_sub_mn_nm": "ROGY DAWise",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81044",
+        "su_menu_id": "13",
+        "sub_sub_mn_nm": "Motion (A)",
+        "url": "listing/allocation/a_m.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81045",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Tagged Matter",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81046",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Judge-wise",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81047",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Subject Category-wise",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81048",
+        "su_menu_id": "37",
+        "sub_sub_mn_nm": "After Notice",
+        "url": "office_report/after_notice.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81049",
+        "su_menu_id": "70",
+        "sub_sub_mn_nm": "Add",
+        "url": "extracaveatadv/add_extra_cav_adv.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81050",
+        "su_menu_id": "70",
+        "sub_sub_mn_nm": "Update",
+        "url": "extracaveatadv/up_extra_cav_adv.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81051",
+        "su_menu_id": "13",
+        "sub_sub_mn_nm": "Misc.",
+        "url": "listing/allocation/a_m_b.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81052",
+        "su_menu_id": "68",
+        "sub_sub_mn_nm": "Verify Original",
+        "url": "verify/verify_index_real.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81053",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Verify CL",
+        "url": "listing/print/cl_print_verify.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81054",
+        "su_menu_id": "18",
+        "sub_sub_mn_nm": "Update Docs before 8.5.17",
+        "url": "loosedoc/old_loosedoc_up.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81055",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Year Nature Wise",
+        "url": "report/year_head_nature_wise_ason_rpt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81056",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Institution",
+        "url": "report/institution.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81057",
+        "su_menu_id": "140",
+        "sub_sub_mn_nm": "MH listed notListed",
+        "url": "report/listed_notListed.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81058",
+        "su_menu_id": "71",
+        "sub_sub_mn_nm": "Update",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81059",
+        "su_menu_id": "57",
+        "sub_sub_mn_nm": "Conditional Dispose",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81060",
+        "su_menu_id": "57",
+        "sub_sub_mn_nm": "Restore",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81061",
+        "su_menu_id": "72",
+        "sub_sub_mn_nm": "Insert and Delete",
+        "url": "loosedoc/case_block.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81062",
+        "su_menu_id": "73",
+        "sub_sub_mn_nm": "Update",
+        "url": "updateda/update_da.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81063",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Section Wise",
+        "url": "listing/print/cl_print_section.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81064",
+        "su_menu_id": "74",
+        "sub_sub_mn_nm": "Special Beches Report",
+        "url": "report/special_bench.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81065",
+        "su_menu_id": "75",
+        "sub_sub_mn_nm": "View",
+        "url": "defects/chamber_judge_cases.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81066",
+        "su_menu_id": "66",
+        "sub_sub_mn_nm": "Userwise Report",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81067",
+        "su_menu_id": "66",
+        "sub_sub_mn_nm": "File Request",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81068",
+        "su_menu_id": "76",
+        "sub_sub_mn_nm": "View",
+        "url": "sensitive_case/sensitive_case.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81069",
+        "su_menu_id": "77",
+        "sub_sub_mn_nm": "Incomplete Matters",
+        "url": "filingtrap/incomplete.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81070",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "da wise rogy",
+        "url": "da_rgb/da_wise_rgo_rpt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81071",
+        "su_menu_id": "77",
+        "sub_sub_mn_nm": "Completed Matters",
+        "url": "filingtrap/complete.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81072",
+        "su_menu_id": "77",
+        "sub_sub_mn_nm": "Complete View",
+        "url": "filingtrap/comp_view.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81073",
+        "su_menu_id": "37",
+        "sub_sub_mn_nm": "Upload",
+        "url": "office_report/upload_office_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81074",
+        "su_menu_id": "74",
+        "sub_sub_mn_nm": "Special Bench n Coram",
+        "url": "report/special_coram.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81075",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Section-Wise",
+        "url": "listing/print/cl_print_section.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81076",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Sec List",
+        "url": "listing/report/spread_out.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81077",
+        "su_menu_id": "80",
+        "sub_sub_mn_nm": "Generate",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81078",
+        "su_menu_id": "81",
+        "sub_sub_mn_nm": "Cancel Registration",
+        "url": "registration/cancel_registration.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81079",
+        "su_menu_id": "44",
+        "sub_sub_mn_nm": "Case Drop",
+        "url": "listing/drop_note/case_drop.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81080",
+        "su_menu_id": "82",
+        "sub_sub_mn_nm": "Caveat",
+        "url": "highcourt/caveat_search.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81081",
+        "su_menu_id": "44",
+        "sub_sub_mn_nm": "Note",
+        "url": "listing/drop_note/note.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81082",
+        "su_menu_id": "83",
+        "sub_sub_mn_nm": "Search for MM",
+        "url": "search_mm/search.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81083",
+        "su_menu_id": "77",
+        "sub_sub_mn_nm": "Send/Receive To/From Advocate Chamber",
+        "url": "filingtrap/advocate_chm.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81084",
+        "su_menu_id": "26",
+        "sub_sub_mn_nm": "Report",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81085",
+        "su_menu_id": "84",
+        "sub_sub_mn_nm": "Simple",
+        "url": "dismissal/simple.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81086",
+        "su_menu_id": "84",
+        "sub_sub_mn_nm": "Civil",
+        "url": "dismissal/simple.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81087",
+        "su_menu_id": "84",
+        "sub_sub_mn_nm": "Criminal",
+        "url": "dismissal/simple.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81088",
+        "su_menu_id": "84",
+        "sub_sub_mn_nm": "Writ",
+        "url": "dismissal/simple.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81089",
+        "su_menu_id": "85",
+        "sub_sub_mn_nm": "Upload",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81090",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Loose Documents",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81091",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Index",
+        "url": "listing/report/roster_j_c.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81092",
+        "su_menu_id": "86",
+        "sub_sub_mn_nm": "Daily Remarks",
+        "url": "da/daily_court_remarks.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81093",
+        "su_menu_id": "87",
+        "sub_sub_mn_nm": "Upload",
+        "url": "mmupld/mm_upload.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81094",
+        "su_menu_id": "87",
+        "sub_sub_mn_nm": "MM Upload Report",
+        "url": "mmupld/user_jud_ord_rpt_mm.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81095",
+        "su_menu_id": "7",
+        "sub_sub_mn_nm": "Search By Name",
+        "url": "addadvocate/search_by_name.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81096",
+        "su_menu_id": "67",
+        "sub_sub_mn_nm": "Loose Document",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81097",
+        "su_menu_id": "13",
+        "sub_sub_mn_nm": "Regular",
+        "url": "listing/allocation/a_r_b.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81098",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Allocation Report",
+        "url": "listing/report/allocated.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81099",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Weekly",
+        "url": "listing/print/wk_cl_print.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81100",
+        "su_menu_id": "82",
+        "sub_sub_mn_nm": "caveat-caveat",
+        "url": "highcourt/caveat_to_caveat.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81101",
+        "su_menu_id": "82",
+        "sub_sub_mn_nm": "Diary-Diary",
+        "url": "highcourt/diary_diary.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81102",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Spl Cases",
+        "url": "listing/report/spl_case.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81103",
+        "su_menu_id": "88",
+        "sub_sub_mn_nm": "Add",
+        "url": "master/state_agency.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81104",
+        "su_menu_id": "42",
+        "sub_sub_mn_nm": "Indexing(Loose Document)",
+        "url": "indexing/index_csv_loose.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81105",
+        "su_menu_id": "89",
+        "sub_sub_mn_nm": "View",
+        "url": "report/causelist_or_rop.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81106",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Sec List",
+        "url": "listing/report/spread_out.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81107",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Section Wise",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81108",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Date Wise Matter Listed",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81109",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "CauseList Info",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81110",
+        "su_menu_id": "90",
+        "sub_sub_mn_nm": "No Dacode Report",
+        "url": "report/nodacode.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81111",
+        "su_menu_id": "32",
+        "sub_sub_mn_nm": "Defective Documents",
+        "url": "loosemove/verified_defective.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81112",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Filing Trap Monitoring",
+        "url": "filingtrap/filtrap_mon.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81113",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Auto Proposal",
+        "url": "listing/cron/cron_p.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81114",
+        "su_menu_id": "24",
+        "sub_sub_mn_nm": "Reprint",
+        "url": "notices/rep_rec_tal.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81115",
+        "su_menu_id": "91",
+        "sub_sub_mn_nm": "Verify",
+        "url": "defects/verification.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81116",
+        "su_menu_id": "92",
+        "sub_sub_mn_nm": "View",
+        "url": "departmentwise/department_wise_rpt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81117",
+        "su_menu_id": "53",
+        "sub_sub_mn_nm": "Notice",
+        "url": "caveat/notice.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81118",
+        "su_menu_id": "37",
+        "sub_sub_mn_nm": "Reports",
+        "url": "office_report/office_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81119",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Complete Filing Report",
+        "url": "report/com_fil_rpt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81120",
+        "su_menu_id": "58",
+        "sub_sub_mn_nm": "MA Registration",
+        "url": "Help/mareg.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81121",
+        "su_menu_id": "43",
+        "sub_sub_mn_nm": "Search By Document",
+        "url": "search_mm/search_doc.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81122",
+        "su_menu_id": "93",
+        "sub_sub_mn_nm": "From Date",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81123",
+        "su_menu_id": "67",
+        "sub_sub_mn_nm": "Work Done",
+        "url": "report/workdone.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81124",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "AOR Not Before",
+        "url": "listing/report/ntl_judge.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81125",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Dept Not Before",
+        "url": "listing/report/ntl_judge_dept.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81126",
+        "su_menu_id": "31",
+        "sub_sub_mn_nm": "AOR",
+        "url": "listing/not_go_judge/aor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81127",
+        "su_menu_id": "31",
+        "sub_sub_mn_nm": "Dept",
+        "url": "listing/not_go_judge/dept.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81128",
+        "su_menu_id": "31",
+        "sub_sub_mn_nm": "Coram Remove on Retired",
+        "url": "listing/retirement/coram_del.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81129",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Prev CL WK",
+        "url": "listing/print/prev_cl_wk.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81130",
+        "su_menu_id": "67",
+        "sub_sub_mn_nm": "AOR wise matters",
+        "url": "aor/aor_wise_matters.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81131",
+        "su_menu_id": "94",
+        "sub_sub_mn_nm": "Work Done",
+        "url": "report/workdone.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81132",
+        "su_menu_id": "94",
+        "sub_sub_mn_nm": "causelist",
+        "url": "listing/print/cl_print_section.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81133",
+        "su_menu_id": "94",
+        "sub_sub_mn_nm": "ROGY",
+        "url": "da_rgb/da_wise_rgo_rpt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81134",
+        "su_menu_id": "95",
+        "sub_sub_mn_nm": "Work Done",
+        "url": "report/workdone.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81135",
+        "su_menu_id": "96",
+        "sub_sub_mn_nm": "Work Done",
+        "url": "report/workdone.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81136",
+        "su_menu_id": "95",
+        "sub_sub_mn_nm": "Causelist",
+        "url": "listing/print/cl_print_section.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81137",
+        "su_menu_id": "96",
+        "sub_sub_mn_nm": "Causelist",
+        "url": "listing/print/cl_print_section.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81138",
+        "su_menu_id": "95",
+        "sub_sub_mn_nm": "ROGY",
+        "url": "da_rgb/da_wise_rgo_rpt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81139",
+        "su_menu_id": "96",
+        "sub_sub_mn_nm": "ROGY",
+        "url": "da_rgb/da_wise_rgo_rpt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81140",
+        "su_menu_id": "97",
+        "sub_sub_mn_nm": "Add",
+        "url": "listbefore/before_notbefore.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81141",
+        "su_menu_id": "97",
+        "sub_sub_mn_nm": "Delete",
+        "url": "listbefore/before_notbefore_del.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81142",
+        "su_menu_id": "97",
+        "sub_sub_mn_nm": "AOR",
+        "url": "listing/not_go_judge/aor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81143",
+        "su_menu_id": "97",
+        "sub_sub_mn_nm": "Dept",
+        "url": "listing/not_go_judge/dept.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81144",
+        "su_menu_id": "97",
+        "sub_sub_mn_nm": "Coram Remove on Retirement",
+        "url": "listing/retirement/coram_del.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81145",
+        "su_menu_id": "66",
+        "sub_sub_mn_nm": "Search by Diary Number",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81146",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Roster Cat",
+        "url": "listing/report/roster_reg.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81147",
+        "su_menu_id": "98",
+        "sub_sub_mn_nm": "Causelist",
+        "url": "listing/print/cl_print_section.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81148",
+        "su_menu_id": "98",
+        "sub_sub_mn_nm": "Work done",
+        "url": "report/workdone.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81149",
+        "su_menu_id": "98",
+        "sub_sub_mn_nm": "ROGY",
+        "url": "da_rgb/da_wise_rgo_rpt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81150",
+        "su_menu_id": "7",
+        "sub_sub_mn_nm": "Standing Council",
+        "url": "addadvocate/standing_council.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81151",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Bunch Matters",
+        "url": "listing/report/bunch_matter.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81152",
+        "su_menu_id": "24",
+        "sub_sub_mn_nm": "Dispatch",
+        "url": "notices/tw_dispatch.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81153",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Subject Category-wise (Group Count)",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81154",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Judges Wise Matters (Listed/Disposed)",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81155",
+        "su_menu_id": "24",
+        "sub_sub_mn_nm": "Dispatch Report",
+        "url": "notices/dispatch_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81156",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Spread Out",
+        "url": "listing/report/spread_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81157",
+        "su_menu_id": "24",
+        "sub_sub_mn_nm": "A.D.Letter",
+        "url": "notices/ad_letter.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81158",
+        "su_menu_id": "99",
+        "sub_sub_mn_nm": "Pending Matters",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81159",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Fresh",
+        "url": "listing/print/cl_print_fresh.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81160",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Detailed Pendency",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81161",
+        "su_menu_id": "24",
+        "sub_sub_mn_nm": "Acknowledgement",
+        "url": "notices/not_ack.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81162",
+        "su_menu_id": "24",
+        "sub_sub_mn_nm": " Acknwledgement Report",
+        "url": "notices/rep_ack_tal.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81163",
+        "su_menu_id": "17",
+        "sub_sub_mn_nm": "Cause Title (Diary Search)",
+        "url": "cause_title/diary_search.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81164",
+        "su_menu_id": "53",
+        "sub_sub_mn_nm": "Caveat/Diary not linked",
+        "url": "caveat/caveat_diary_matched.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81165",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Cause Title (Diary Search)",
+        "url": "cause_title/diary_search.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81166",
+        "su_menu_id": "57",
+        "sub_sub_mn_nm": "Leave Granted Disposal",
+        "url": "da/leave_grant_disposal.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81167",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "In Person",
+        "url": "listing/report/inperson.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81168",
+        "su_menu_id": "66",
+        "sub_sub_mn_nm": "Copying Request",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81169",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Case Type Wise Listed/Disposed",
+        "url": "listing/report/case_type_listed_disposed.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81170",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Disposal(Updated On)",
+        "url": "report_code_ignitor.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81171",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Disposal(Order date)",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81172",
+        "su_menu_id": "100",
+        "sub_sub_mn_nm": "Verification",
+        "url": "verification/verification.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81173",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Pendency Report (New)",
+        "url": "report/pendency_report_kk.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81174",
+        "su_menu_id": "94",
+        "sub_sub_mn_nm": "Sec List",
+        "url": "listing/report/spread_out.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81175",
+        "su_menu_id": "95",
+        "sub_sub_mn_nm": "Sec List",
+        "url": "listing/report/spread_out.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81176",
+        "su_menu_id": "96",
+        "sub_sub_mn_nm": "Sec List",
+        "url": "listing/report/spread_out.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81177",
+        "su_menu_id": "98",
+        "sub_sub_mn_nm": "Sec List",
+        "url": "listing/report/spread_out.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81178",
+        "su_menu_id": "101",
+        "sub_sub_mn_nm": "Received/Dispatched between Dates",
+        "url": "fm/dispatch_receive_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81179",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Pendency Bifurcation",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81180",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Pendency-Bifurcation",
+        "url": "report/pendency_bifurcation.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81181",
+        "su_menu_id": "102",
+        "sub_sub_mn_nm": "Check Docs",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81182",
+        "su_menu_id": "103",
+        "sub_sub_mn_nm": "AOR Cases",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81183",
+        "su_menu_id": "103",
+        "sub_sub_mn_nm": "AOR Cases Entrywise",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81184",
+        "su_menu_id": "103",
+        "sub_sub_mn_nm": "AOR Case Default",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81185",
+        "su_menu_id": "102",
+        "sub_sub_mn_nm": "Transaction by RefID",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81186",
+        "su_menu_id": "102",
+        "sub_sub_mn_nm": "Transaction by Date",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81187",
+        "su_menu_id": "102",
+        "sub_sub_mn_nm": "Docs by D.No.",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81188",
+        "su_menu_id": "104",
+        "sub_sub_mn_nm": "Daily Disposal Remarks",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81189",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Casetype Wise",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81190",
+        "su_menu_id": "105",
+        "sub_sub_mn_nm": "Insert",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81191",
+        "su_menu_id": "105",
+        "sub_sub_mn_nm": "Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81192",
+        "su_menu_id": "103",
+        "sub_sub_mn_nm": "AOR Cases-CIS",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81193",
+        "su_menu_id": "103",
+        "sub_sub_mn_nm": "AOR Cases-CIS(without entry date)",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81194",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Defective Matters Not Listed",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81195",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Elimination List",
+        "url": "listing/print/elimination_cl_print.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81196",
+        "su_menu_id": "30",
+        "sub_sub_mn_nm": "Specimen Signature",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81197",
+        "su_menu_id": "106",
+        "sub_sub_mn_nm": "Insert",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81198",
+        "su_menu_id": "106",
+        "sub_sub_mn_nm": "Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81200",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Main-Subject-Category-wise",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81201",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "STATE AGENCY",
+        "url": "master/state_agency.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81202",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "DISTRICT",
+        "url": "master/district_master.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81203",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Verify Weekly",
+        "url": "listing/print/cl_print_verify_weekly.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81204",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "SectionList Publish",
+        "url": "listing/print/sec_list.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81205",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Section List",
+        "url": "listing/report/seclist.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81206",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Elemination Transfer",
+        "url": "listing/report/elemination_transfer.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81207",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Caveat 90 Days",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81208",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Section List NEW",
+        "url": "listing/report/sec_list_dynamic.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81209",
+        "su_menu_id": "37",
+        "sub_sub_mn_nm": "Reprint",
+        "url": "office_report/reprint.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81210",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Case Monitoring",
+        "url": "listing/monitoring_team/index_page.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81211",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Category/Auto Link Changed",
+        "url": "report/change_category.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81212",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Judges Category",
+        "url": "listing/report/cat_judge.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81213",
+        "su_menu_id": "106",
+        "sub_sub_mn_nm": "Verify Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81214",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Verification Report",
+        "url": "listing/monitoring_team/verify_index.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81215",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Spread Out Certificate",
+        "url": "listing/report/spread_out_certificate.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81216",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Cat / Roster Cases",
+        "url": "listing/report/cat_avl_case.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81217",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Cat/Roster Court Wise",
+        "url": "listing/report/cat_avl_case_indv.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81218",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Cat/Roster Court wise Saved",
+        "url": "listing/report/cat_avl_case_indv_saved.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81219",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Cat/Roster Ratio Judge wise",
+        "url": "listing/report/cat_avl_case_indv_ratio.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81220",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Spread Out Certificate Cat. Wise",
+        "url": "listing/report/spread_out_cert_catwise.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81221",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "DAK Section-wise",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81222",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Cases tobe List (Coram Wise)",
+        "url": "listing/report/coram_wise_cat_tobe_list.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81223",
+        "su_menu_id": "107",
+        "sub_sub_mn_nm": "Diary Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81224",
+        "su_menu_id": "107",
+        "sub_sub_mn_nm": "Lower Court Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81225",
+        "su_menu_id": "107",
+        "sub_sub_mn_nm": "Defect Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81226",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Dak Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81227",
+        "su_menu_id": "108",
+        "sub_sub_mn_nm": "Entry",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81228",
+        "su_menu_id": "108",
+        "sub_sub_mn_nm": "Display",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81229",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Cases Tobe List (Judge Wise)",
+        "url": "/listing/report/judge_date_wise_tobe_list.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81230",
+        "su_menu_id": "109",
+        "sub_sub_mn_nm": "Send SMS",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81231",
+        "su_menu_id": "110",
+        "sub_sub_mn_nm": "Send SMS",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81232",
+        "su_menu_id": "111",
+        "sub_sub_mn_nm": "Insert",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81233",
+        "su_menu_id": "111",
+        "sub_sub_mn_nm": "Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81234",
+        "su_menu_id": "4",
+        "sub_sub_mn_nm": "Copy Lower Court Data",
+        "url": "lowerct/cp_hc_dc.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81235",
+        "su_menu_id": "5",
+        "sub_sub_mn_nm": "Copy Party Details",
+        "url": "Copy_Party/cp_party_det.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81236",
+        "su_menu_id": "5",
+        "sub_sub_mn_nm": "Modify Copied Party Details",
+        "url": "Copy_Party/mod_extraparty.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81237",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Vacation Advance List",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81238",
+        "su_menu_id": "31",
+        "sub_sub_mn_nm": "AOR Not Go Judge Delete",
+        "url": "listing/report/ntl_judge_delete.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81239",
+        "su_menu_id": "31",
+        "sub_sub_mn_nm": "Dept Not Go Judge Delete",
+        "url": "listing/report/ntl_judge_dept_delete.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81240",
+        "su_menu_id": "24",
+        "sub_sub_mn_nm": "Edit Draft Notices",
+        "url": "notices/rep_rec_tal1.php",
+        "display": "N",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81241",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Advance Vacation List",
+        "url": "listing/print/vacation_cl_print.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81242",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Defective Cases",
+        "url": "listing/report/defective.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81243",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Weekly Section List",
+        "url": "listing/print/cl_print_section_wk.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81244",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Party Search",
+        "url": "party_search/diary_search.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81245",
+        "su_menu_id": "17",
+        "sub_sub_mn_nm": "Party Search",
+        "url": "party_search/diary_search.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81246",
+        "su_menu_id": "112",
+        "sub_sub_mn_nm": "Add",
+        "url": "filingtrap/DefectiveMatterRecordKeeping.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81247",
+        "su_menu_id": "112",
+        "sub_sub_mn_nm": "Update",
+        "url": "filingtrap/DefectiveMatterRecordUpdate.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81248",
+        "su_menu_id": "112",
+        "sub_sub_mn_nm": "Report",
+        "url": "filingtrap/DefectiveMatterReport.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81249",
+        "su_menu_id": "112",
+        "sub_sub_mn_nm": "Bulk Update",
+        "url": "filingtrap/UpdateBulk.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81250",
+        "su_menu_id": "100",
+        "sub_sub_mn_nm": "Case Alloted",
+        "url": "case_alloted/filing.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81251",
+        "su_menu_id": "100",
+        "sub_sub_mn_nm": "Not Verified",
+        "url": "verification/not_verified.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81252",
+        "su_menu_id": "39",
+        "sub_sub_mn_nm": "Report (Update Heardt)",
+        "url": "listing/report/update_heardt_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81253",
+        "su_menu_id": "113",
+        "sub_sub_mn_nm": "Decline (Vacation List Cases)",
+        "url": "listing/vacation/vacation_del.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81254",
+        "su_menu_id": "113",
+        "sub_sub_mn_nm": "Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81255",
+        "su_menu_id": "13",
+        "sub_sub_mn_nm": "Daily Vacation",
+        "url": "listing/allocation/a_r_vacation.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81256",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Elimination List",
+        "url": "/listing/report/elemination_transfer.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81257",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Vacation Final List",
+        "url": "listing/print/vacation_remain_cl_print.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81258",
+        "su_menu_id": "113",
+        "sub_sub_mn_nm": "Add Case",
+        "url": "listing/vacation/addCase.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81259",
+        "su_menu_id": "13",
+        "sub_sub_mn_nm": "Vacation allocation",
+        "url": "listing/allocation/a_r_vacation.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81260",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Vacation Registrar List",
+        "url": "listing/report/vac_reg_cl.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81261",
+        "su_menu_id": "13",
+        "sub_sub_mn_nm": "Registrar Vacation ",
+        "url": "listing/allocation/registrar_vacation.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81262",
+        "su_menu_id": "114",
+        "sub_sub_mn_nm": "Data Updation",
+        "url": "listing/monitoring_team/wrong_updated.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81263",
+        "su_menu_id": "114",
+        "sub_sub_mn_nm": "DA Cases",
+        "url": "listing/monitoring_team/da_wise_rgo_rpt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81264",
+        "su_menu_id": "115",
+        "sub_sub_mn_nm": "Judge Coram Detailed",
+        "url": "listing/report/judge_coram_cases_detail.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81265",
+        "su_menu_id": "115",
+        "sub_sub_mn_nm": "All Judge Coram",
+        "url": "listing/report/judge_coram_cases.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81266",
+        "su_menu_id": "115",
+        "sub_sub_mn_nm": "Coram Notice Order",
+        "url": "listing/report/judge_coram_cases_notice.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81267",
+        "su_menu_id": "115",
+        "sub_sub_mn_nm": "Elimination/Preponement",
+        "url": "listing/elimination/elimination.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81268",
+        "su_menu_id": "114",
+        "sub_sub_mn_nm": "Section Wise Report",
+        "url": "listing/monitoring_team/sec_wise_rgo_rpt.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81269",
+        "su_menu_id": "116",
+        "sub_sub_mn_nm": "Transfer",
+        "url": "case_alloted/transfer_cases.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81270",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "UOI SLPs",
+        "url": "report/uoislp.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81271",
+        "su_menu_id": "117",
+        "sub_sub_mn_nm": "Allocation",
+        "url": "pbgodown/view_user_information.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81272",
+        "su_menu_id": "117",
+        "sub_sub_mn_nm": "Draft_List",
+        "url": "pbgodown/advance_list.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81273",
+        "su_menu_id": "100",
+        "sub_sub_mn_nm": "Listed Not Verified",
+        "url": "verification/listed_not_verified.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81274",
+        "su_menu_id": "23",
+        "sub_sub_mn_nm": "Report",
+        "url": "/sentence/report_kk.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81275",
+        "su_menu_id": "117",
+        "sub_sub_mn_nm": "Cause_List",
+        "url": "pbgodown/final_list.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81276",
+        "su_menu_id": "118",
+        "sub_sub_mn_nm": "PB_Index_Print",
+        "url": "report/ib/template.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81277",
+        "su_menu_id": "119",
+        "sub_sub_mn_nm": "Bulk Receive / Auto Dispatch",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81278",
+        "su_menu_id": "119",
+        "sub_sub_mn_nm": "File Revert (Receive)",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81279",
+        "su_menu_id": "119",
+        "sub_sub_mn_nm": "Report(Receive/Dispatch)",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81280",
+        "su_menu_id": "119",
+        "sub_sub_mn_nm": "Case Allotment",
+        "url": "usermgmt/rr_user_mgmt_view.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81281",
+        "su_menu_id": "120",
+        "sub_sub_mn_nm": "Renew",
+        "url": "caveat/renew_caveat.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81282",
+        "su_menu_id": "121",
+        "sub_sub_mn_nm": "Upload",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81283",
+        "su_menu_id": "121",
+        "sub_sub_mn_nm": "Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81284",
+        "su_menu_id": "100",
+        "sub_sub_mn_nm": "Pending For Scan Report",
+        "url": "case_alloted/receivedFile.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81285",
+        "su_menu_id": "122",
+        "sub_sub_mn_nm": "Add Judge",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81286",
+        "su_menu_id": "122",
+        "sub_sub_mn_nm": "Modify",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81287",
+        "su_menu_id": "122",
+        "sub_sub_mn_nm": "List",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81288",
+        "su_menu_id": "123",
+        "sub_sub_mn_nm": "Cases Not Verified",
+        "url": "report/casesNotVerified.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81289",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Reday/Not Ready",
+        "url": "listing/report/ready_not.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81290",
+        "su_menu_id": "57",
+        "sub_sub_mn_nm": "Remove Conditional Dispose",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81291",
+        "su_menu_id": "5",
+        "sub_sub_mn_nm": "Restore",
+        "url": "addentry/restore_party.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81292",
+        "su_menu_id": "67",
+        "sub_sub_mn_nm": "OR_Uploaded",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81293",
+        "su_menu_id": "61",
+        "sub_sub_mn_nm": "Pending For Weeding",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81294",
+        "su_menu_id": "61",
+        "sub_sub_mn_nm": "Userwise Work Done",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81295",
+        "su_menu_id": "123",
+        "sub_sub_mn_nm": "Defects after 90 days",
+        "url": "report/defectiveMorethan90days.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81296",
+        "su_menu_id": "94",
+        "sub_sub_mn_nm": "Case Verification",
+        "url": "/report/workdone_verify.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81297",
+        "su_menu_id": "66",
+        "sub_sub_mn_nm": "AOR signature report",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81298",
+        "su_menu_id": "37",
+        "sub_sub_mn_nm": "Copy OR",
+        "url": "office_report/change_date.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81299",
+        "su_menu_id": "95",
+        "sub_sub_mn_nm": "Case Verification",
+        "url": "report/workdone_verify.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81300",
+        "su_menu_id": "96",
+        "sub_sub_mn_nm": "Case Verification",
+        "url": "report/workdone_verify.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81301",
+        "su_menu_id": "94",
+        "sub_sub_mn_nm": "Case Verification Report",
+        "url": "report/workdone_verify_from.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81302",
+        "su_menu_id": "124",
+        "sub_sub_mn_nm": "Menu Privilege",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81303",
+        "su_menu_id": "67",
+        "sub_sub_mn_nm": "Pending Copying Requests",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81304",
+        "su_menu_id": "125",
+        "sub_sub_mn_nm": "ROP Verification",
+        "url": "rop_v/daily_court_remarks.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81305",
+        "su_menu_id": "126",
+        "sub_sub_mn_nm": "ROP Verification",
+        "url": "rop_verification_report/daily_court_remarks.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81306",
+        "su_menu_id": "126",
+        "sub_sub_mn_nm": "Advance List",
+        "url": "listing/monitoring_team/verify_index_da_wise.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81307",
+        "su_menu_id": "125",
+        "sub_sub_mn_nm": "Case Monitoring",
+        "url": "listing/monitoring_team/index_page.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81308",
+        "su_menu_id": "126",
+        "sub_sub_mn_nm": "Verifed by MT",
+        "url": "listing/monitoring_team/verify_index.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81309",
+        "su_menu_id": "5",
+        "sub_sub_mn_nm": "Multi Party Dispose",
+        "url": "addentry/dispose_party.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81310",
+        "su_menu_id": "23",
+        "sub_sub_mn_nm": "Sentence Details",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81311",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "Judge Roster",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81312",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "Judge Category",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81313",
+        "su_menu_id": "79",
+        "sub_sub_mn_nm": "Judge Category",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81314",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "Judge Category Update",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81315",
+        "su_menu_id": "127",
+        "sub_sub_mn_nm": "Advance Allocation",
+        "url": "listing/allocation/advance_allocation.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81316",
+        "su_menu_id": "127",
+        "sub_sub_mn_nm": "Print / Publish",
+        "url": "listing/print/cl_print_advance.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81317",
+        "su_menu_id": "127",
+        "sub_sub_mn_nm": "Case Drop",
+        "url": "listing/drop_note_advance/case_drop.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81318",
+        "su_menu_id": "127",
+        "sub_sub_mn_nm": "Drop Note",
+        "url": "listing/drop_note_advance/note.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81319",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Draft / Advance List for Sections",
+        "url": "listing/print/cl_print_advance_section.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81320",
+        "su_menu_id": "128",
+        "sub_sub_mn_nm": "Advance Elimination",
+        "url": "listing/cron/cron_advance_elimination.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81321",
+        "su_menu_id": "128",
+        "sub_sub_mn_nm": "Advance Elimination Print / Publish",
+        "url": "listing/print/cl_print_advance_elimination.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81322",
+        "su_menu_id": "128",
+        "sub_sub_mn_nm": "Final Elimination",
+        "url": "listing/cron/cron_final_elimination.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81323",
+        "su_menu_id": "128",
+        "sub_sub_mn_nm": "Final Elimination Print / Publish",
+        "url": "listing/print/cl_print_final_elimination.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81324",
+        "su_menu_id": "98",
+        "sub_sub_mn_nm": "CL_J1",
+        "url": "/listing/print/cl_print_section_reg.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81325",
+        "su_menu_id": "31",
+        "sub_sub_mn_nm": "Coram Query",
+        "url": "listbefore/before_notbefore_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81326",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "Judge Category Bulk Update",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81327",
+        "su_menu_id": "129",
+        "sub_sub_mn_nm": "Date Wise",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81328",
+        "su_menu_id": "129",
+        "sub_sub_mn_nm": "Judge Wise",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81329",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "Judge Category Bulk Transfer",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81330",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Elimination Statistics",
+        "url": "report/elimination_statistics.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81331",
+        "su_menu_id": "98",
+        "sub_sub_mn_nm": "Cause List - OR",
+        "url": "/listing/print/cl_print_office_report_reg.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81332",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Blank Coram Cases",
+        "url": "listing/report/blank_coram.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81333",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Blank Category Cases",
+        "url": "listing/report/blank_category.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81334",
+        "su_menu_id": "30",
+        "sub_sub_mn_nm": "Bulk Status Update",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81335",
+        "su_menu_id": "67",
+        "sub_sub_mn_nm": "Work done -> I-B extension",
+        "url": "report/ibworkdone.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81336",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Heardt Entry Details",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81337",
+        "su_menu_id": "63",
+        "sub_sub_mn_nm": "Diary - RP/Cur/Cont",
+        "url": "report/get_rp_cp_cur.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81338",
+        "su_menu_id": "126",
+        "sub_sub_mn_nm": "Monitoring Error ",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81339",
+        "su_menu_id": "126",
+        "sub_sub_mn_nm": "Error DA Wise Count",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81340",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Listing Statistics",
+        "url": "listing/report/listing_statistics.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81341",
+        "su_menu_id": "94",
+        "sub_sub_mn_nm": "Loose Doc UserWise",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81342",
+        "su_menu_id": "95",
+        "sub_sub_mn_nm": "Loose Doc UserWise",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81343",
+        "su_menu_id": "96",
+        "sub_sub_mn_nm": "Loose Doc UserWise",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81344",
+        "su_menu_id": "18",
+        "sub_sub_mn_nm": "Case Block for Loose Doc",
+        "url": "loosedoc/case_block.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81345",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Institution / Disposal",
+        "url": "report/monthlyReport.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81346",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Pre / After Notice Cases",
+        "url": "listing/report/pre_notice.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81347",
+        "su_menu_id": "94",
+        "sub_sub_mn_nm": "Pending_PreNotice",
+        "url": "listing/report/pre_notice.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81348",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Allocation Report (NEW)",
+        "url": "listing/report/listing_info.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81349",
+        "su_menu_id": "100",
+        "sub_sub_mn_nm": "Court Remark modify",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81350",
+        "su_menu_id": "67",
+        "sub_sub_mn_nm": "Future Listing",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81351",
+        "su_menu_id": "9",
+        "sub_sub_mn_nm": "Refiling on back date",
+        "url": "defects/obj_back_date.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81352",
+        "su_menu_id": "9",
+        "sub_sub_mn_nm": "Cancel Refiling",
+        "url": "defects/cancel_refiling.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81353",
+        "su_menu_id": "4",
+        "sub_sub_mn_nm": "Elevated Judges Matters",
+        "url": "lower_court_judges/sensitive_case.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81354",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Coram Given By",
+        "url": "listing/coram_cases/coram_del.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81355",
+        "su_menu_id": "37",
+        "sub_sub_mn_nm": "BUlK OR UPLOAD",
+        "url": "office_report/cl_print_section_bulk_or.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81356",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Non Presiding Coram Cases",
+        "url": "listing/report/non_presiding_coram.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81357",
+        "su_menu_id": "130",
+        "sub_sub_mn_nm": "HC_OR",
+        "url": "hcor/indexing_hc_dc_report_casewise.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81358",
+        "su_menu_id": "117",
+        "sub_sub_mn_nm": "Fixed Date Matters",
+        "url": "pbgodown/fd_matters.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81359",
+        "su_menu_id": "131",
+        "sub_sub_mn_nm": "Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81360",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Fresh Cases Report",
+        "url": "listing/report/fresh_cases_stats.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81361",
+        "su_menu_id": "100",
+        "sub_sub_mn_nm": "Registered matters( Not Verified and Not Listed)",
+        "url": "verification/registerd_not_verified_not_listed.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81362",
+        "su_menu_id": "100",
+        "sub_sub_mn_nm": "Registered matters(Verified but Not Listed)",
+        "url": "verification/registered_verified_not_listed.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81363",
+        "su_menu_id": "132",
+        "sub_sub_mn_nm": "Compose",
+        "url": "token/compose.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81364",
+        "su_menu_id": "132",
+        "sub_sub_mn_nm": "Inbox for icmis_ helpdesk",
+        "url": "token/inbox.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81365",
+        "su_menu_id": "132",
+        "sub_sub_mn_nm": "sentbox",
+        "url": "token/sentbox.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81366",
+        "su_menu_id": "132",
+        "sub_sub_mn_nm": "Report->Issue resolved by DMT",
+        "url": "token/issue_resolved.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81367",
+        "su_menu_id": "132",
+        "sub_sub_mn_nm": "Msg for Administrator(technical)",
+        "url": "token/inbox_admin.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81368",
+        "su_menu_id": "132",
+        "sub_sub_mn_nm": "Inbox(Technical User)",
+        "url": "token/inbox_technical_user.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81369",
+        "su_menu_id": "132",
+        "sub_sub_mn_nm": "Report for  Administrator( tasks assigned to Technical users)",
+        "url": "token/report_admin.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81370",
+        "su_menu_id": "98",
+        "sub_sub_mn_nm": "Update Heardt (Report)",
+        "url": "listing/report/update_heardt_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81371",
+        "su_menu_id": "98",
+        "sub_sub_mn_nm": "Deleted Cases",
+        "url": "listing/report/dropped_cases.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81372",
+        "su_menu_id": "98",
+        "sub_sub_mn_nm": "Date Given By User",
+        "url": "listing/report/date_given_by_da.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81373",
+        "su_menu_id": "94",
+        "sub_sub_mn_nm": "Case Remarks Verification",
+        "url": "listing/case_remarks_verification/index.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81374",
+        "su_menu_id": "40",
+        "sub_sub_mn_nm": "Case Remarks Verification By BO",
+        "url": "listing/case_remarks_verification/index.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81375",
+        "su_menu_id": "133",
+        "sub_sub_mn_nm": "Add/Edit",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81376",
+        "su_menu_id": "133",
+        "sub_sub_mn_nm": "PIL Group ",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81377",
+        "su_menu_id": "134",
+        "sub_sub_mn_nm": "Reports",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81378",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Pre Notice Matters",
+        "url": "listing/print/pre_notice_matters/index.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81379",
+        "su_menu_id": "134",
+        "sub_sub_mn_nm": "User Wise",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81380",
+        "su_menu_id": "124",
+        "sub_sub_mn_nm": "Report->Menu_permission",
+        "url": "admin/menu_permission.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81381",
+        "su_menu_id": "134",
+        "sub_sub_mn_nm": "Query",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81382",
+        "su_menu_id": "24",
+        "sub_sub_mn_nm": "update_dispatch",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81383",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Freeze-Unfreeze",
+        "url": "listing/print/freeze_unfreeze.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81384",
+        "su_menu_id": "31",
+        "sub_sub_mn_nm": "Registrar Coram Shifting",
+        "url": "listing/retirement/reg_coram_del.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81385",
+        "su_menu_id": "133",
+        "sub_sub_mn_nm": "Add Cases in PIL Group",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81386",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Section_List_CSV",
+        "url": "listing/print/cl_print_section1.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81387",
+        "su_menu_id": "136",
+        "sub_sub_mn_nm": "Cover Print",
+        "url": "report/ib/template.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81388",
+        "su_menu_id": "119",
+        "sub_sub_mn_nm": "Re-Consign Restored Cases",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81389",
+        "su_menu_id": "12",
+        "sub_sub_mn_nm": "Regiastrar In Chamber",
+        "url": "listing/summer/registrar_create_pool.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81390",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "HC Not Before Required",
+        "url": "/listing/report/hc_not_before_required.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81391",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Cases Filed against Judgement",
+        "url": "listing/report/sc_disposed_cav_verfication.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81392",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Regular Case in Misc Head",
+        "url": "listing/report/regular_in_misc.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81393",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "IMP IAs Pedning",
+        "url": "listing/report/imp_ias_pending.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81394",
+        "su_menu_id": "136",
+        "sub_sub_mn_nm": "PB Cover",
+        "url": "/report/ib/paperbookcover.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81395",
+        "su_menu_id": "137",
+        "sub_sub_mn_nm": "entry",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81396",
+        "su_menu_id": "137",
+        "sub_sub_mn_nm": "Bank Master",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81397",
+        "su_menu_id": "137",
+        "sub_sub_mn_nm": "search",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81398",
+        "su_menu_id": "138",
+        "sub_sub_mn_nm": "Add/Update",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81399",
+        "su_menu_id": "139",
+        "sub_sub_mn_nm": "Date-wise Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81400",
+        "su_menu_id": "77",
+        "sub_sub_mn_nm": "Refiling_Report",
+        "url": "filingtrap/refilingreport.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81401",
+        "su_menu_id": "138",
+        "sub_sub_mn_nm": "Dispatch to officer/Section",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81402",
+        "su_menu_id": "138",
+        "sub_sub_mn_nm": "Receive Dak",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81403",
+        "su_menu_id": "139",
+        "sub_sub_mn_nm": "Dispatch Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81404",
+        "su_menu_id": "139",
+        "sub_sub_mn_nm": "Receipt By Section/Officer",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81405",
+        "su_menu_id": "141",
+        "sub_sub_mn_nm": "Modifty/Print",
+        "url": "da/ammended_cause_title.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81406",
+        "su_menu_id": "127",
+        "sub_sub_mn_nm": "Advance TP",
+        "url": "listing/allocation/advance_allocation_tp.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81407",
+        "su_menu_id": "142",
+        "sub_sub_mn_nm": "Report",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81408",
+        "su_menu_id": "127",
+        "sub_sub_mn_nm": "Previous Advance List",
+        "url": "listing/print/prev_advance_list_all.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81409",
+        "su_menu_id": "138",
+        "sub_sub_mn_nm": "Update Serve Status",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81410",
+        "su_menu_id": "138",
+        "sub_sub_mn_nm": "Dispatch AD to Section",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81411",
+        "su_menu_id": "143",
+        "sub_sub_mn_nm": "Dispatch To R&I",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81412",
+        "su_menu_id": "143",
+        "sub_sub_mn_nm": "Recieve Letter Sent by Section",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81413",
+        "su_menu_id": "143",
+        "sub_sub_mn_nm": "Print Address Slip",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81414",
+        "su_menu_id": "143",
+        "sub_sub_mn_nm": "Dispatch from R&I",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81415",
+        "su_menu_id": "143",
+        "sub_sub_mn_nm": "Re-Dispatch From R&I",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81416",
+        "su_menu_id": "143",
+        "sub_sub_mn_nm": "Dispatch To R&I Without Process Id",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81417",
+        "su_menu_id": "143",
+        "sub_sub_mn_nm": "Create Letter Group",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81418",
+        "su_menu_id": "144",
+        "sub_sub_mn_nm": "Datewise Action Taken in Section",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81419",
+        "su_menu_id": "144",
+        "sub_sub_mn_nm": "DateWise Action Taken in R&I",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81420",
+        "su_menu_id": "144",
+        "sub_sub_mn_nm": "Dispatch Query",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81421",
+        "su_menu_id": "144",
+        "sub_sub_mn_nm": "Advance Query",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81422",
+        "su_menu_id": "38",
+        "sub_sub_mn_nm": "Summary",
+        "url": "plc/daily_court.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81423",
+        "su_menu_id": "145",
+        "sub_sub_mn_nm": "Live Court",
+        "url": "plc/court_process.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81424",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Pendency_Category",
+        "url": "pendency_report/category.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81425",
+        "su_menu_id": "38",
+        "sub_sub_mn_nm": "Live Reporting",
+        "url": "newreader/reader_cl.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81426",
+        "su_menu_id": "139",
+        "sub_sub_mn_nm": "Received Query",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81427",
+        "su_menu_id": "14",
+        "sub_sub_mn_nm": "Merge PDF",
+        "url": "listing/print/cl_merge_first_page.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81428",
+        "su_menu_id": "146",
+        "sub_sub_mn_nm": "Send File To CM(NSH)",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81429",
+        "su_menu_id": "146",
+        "sub_sub_mn_nm": "Receive File From DA",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81430",
+        "su_menu_id": "146",
+        "sub_sub_mn_nm": "Send Back File to DA",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81431",
+        "su_menu_id": "146",
+        "sub_sub_mn_nm": "Receive Files From CM",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81432",
+        "su_menu_id": "146",
+        "sub_sub_mn_nm": "Movement Transactions",
+        "url": "causeListFileMovement/transaction.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81433",
+        "su_menu_id": "146",
+        "sub_sub_mn_nm": "Matters Listed and Received",
+        "url": "causeListFileMovement/Matters_Listed.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81434",
+        "su_menu_id": "146",
+        "sub_sub_mn_nm": "Status Statistics",
+        "url": "causeListFileMovement/Sql_report.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81435",
+        "su_menu_id": "140",
+        "sub_sub_mn_nm": "Defective_Listed_Matters",
+        "url": "listing/report/defective _cases_stats.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81436",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "Calendar",
+        "url": "sc_working_days/working_days.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81437",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Not Ready/Updation Awaited",
+        "url": "report/pending_not_ready_conn.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81438",
+        "su_menu_id": "147",
+        "sub_sub_mn_nm": "Court Statistics",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81439",
+        "su_menu_id": "59",
+        "sub_sub_mn_nm": "Calendar Report",
+        "url": "sc_working_days/Buttonsadded.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81440",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Section Wise Pendency",
+        "url": "report/sectionwise_pendency.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81441",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "CAV Matters",
+        "url": "report/cav_matters.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81442",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "After Week/Week Commencing",
+        "url": "report/week_after/commencing.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81443",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Category Wise Judge Matters",
+        "url": "report/category_ui.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81444",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Part Heard",
+        "url": "report/partly_heard_cases.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81445",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Pre/After Notice",
+        "url": "report/pre_after_notice.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81446",
+        "su_menu_id": "148",
+        "sub_sub_mn_nm": "Update Note",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81447",
+        "su_menu_id": "148",
+        "sub_sub_mn_nm": "Report",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81448",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Not-Updated Cases",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81449",
+        "su_menu_id": "149",
+        "sub_sub_mn_nm": "CAV",
+        "url": "report/cav_matters.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81450",
+        "su_menu_id": "149",
+        "sub_sub_mn_nm": "Part Heard",
+        "url": "report/partly_heard_cases.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81451",
+        "su_menu_id": "149",
+        "sub_sub_mn_nm": "Fixed Date Matters",
+        "url": "listing/report/judge_coram_cases_detail_for_nsh.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81452",
+        "su_menu_id": "8",
+        "sub_sub_mn_nm": "AOR Pending Matters",
+        "url": "report/aor_wise_pendency.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81453",
+        "su_menu_id": "150",
+        "sub_sub_mn_nm": "AOR Wise Pending Matters",
+        "url": "report/aor_wise_pendency.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81454",
+        "su_menu_id": "26",
+        "sub_sub_mn_nm": "Day_Report",
+        "url": "report/Mentioned_Matters.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81455",
+        "su_menu_id": "28",
+        "sub_sub_mn_nm": "Section Pendency",
+        "url": "report/Sectionwise_Pendency.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81456",
+        "su_menu_id": "78",
+        "sub_sub_mn_nm": "Disposed List",
+        "url": "report_code_ignitor.php",
+        "display": "Y",
+        "purpose": ""
+    },
+    {
+        "su_su_menu_id": "81457",
+        "su_menu_id": "133",
+        "sub_sub_mn_nm": "Generate Letters",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81458",
+        "su_menu_id": "133",
+        "sub_sub_mn_nm": "Generate Brief History",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81459",
+        "su_menu_id": "138",
+        "sub_sub_mn_nm": "Forward / Initiate",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81460",
+        "su_menu_id": "139",
+        "sub_sub_mn_nm": "Forwarded / Initiated",
+        "url": "code_ignitor.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81461",
+        "su_menu_id": "149",
+        "sub_sub_mn_nm": "CauseList with OR",
+        "url": "listing/print/cl_print_court_master.php",
+        "display": "Y",
+        "purpose": null
+    },
+    {
+        "su_su_menu_id": "81462",
+        "su_menu_id": "151",
+        "sub_sub_mn_nm": "CauseList with OR",
+        "url": "listing/print/cl_print_court_master.php",
+        "display": "Y",
+        "purpose": null
+    }
+]

@@ -1,0 +1,17 @@
+[
+    {
+        "desgname": "Chief Justice",
+        "national_code": "",
+        "desgcode": "1"
+    },
+    {
+        "desgname": "Judge",
+        "national_code": null,
+        "desgcode": "2"
+    },
+    {
+        "desgname": "Retired Judge",
+        "national_code": null,
+        "desgcode": "3"
+    }
+]

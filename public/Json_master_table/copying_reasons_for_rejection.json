@@ -1,0 +1,634 @@
+[
+    {
+        "id": "1",
+        "reasons": "WRONG PARTICULARS",
+        "user_id": "1",
+        "entry_time": "2021-03-15 17:44:43+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.186.23"
+    },
+    {
+        "id": "2",
+        "reasons": "APPEARANCE NOT MENTIONED",
+        "user_id": "1",
+        "entry_time": "2021-03-15 17:45:41+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.186.23"
+    },
+    {
+        "id": "3",
+        "reasons": "PHOTO MISMATCH",
+        "user_id": "1",
+        "entry_time": "2021-03-15 17:46:16+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.186.23"
+    },
+    {
+        "id": "4",
+        "reasons": "AADHAR CARD INCOMPLETE (ADDRESS PROOF IS ALSO REQUIRED)",
+        "user_id": "1150",
+        "entry_time": "2021-03-18 10:51:01+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.192"
+    },
+    {
+        "id": "5",
+        "reasons": "APPLY ON THE LETTER HEAD OF PRINCIPAL HOME SECRETARY",
+        "user_id": "1103",
+        "entry_time": "2021-03-19 11:51:15+05:30",
+        "is_active": "F",
+        "ip_address": "10.40.187.192"
+    },
+    {
+        "id": "6",
+        "reasons": "PHOTO COPY OF ID IS NOT CLEAR",
+        "user_id": "1385",
+        "entry_time": "2021-03-23 14:24:14+05:30",
+        "is_active": "F",
+        "ip_address": "10.40.187.106"
+    },
+    {
+        "id": "7",
+        "reasons": "ID IS NOT CLEAR",
+        "user_id": "1385",
+        "entry_time": "2021-03-23 14:25:35+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.106"
+    },
+    {
+        "id": "8",
+        "reasons": "NOT APPEARED ON THIS DATE",
+        "user_id": "1385",
+        "entry_time": "2021-03-23 14:33:03+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.106"
+    },
+    {
+        "id": "9",
+        "reasons": "ORIGINAL RECORD TO BE FLAGGED FIRST",
+        "user_id": "1103",
+        "entry_time": "2021-04-08 10:14:33+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.192"
+    },
+    {
+        "id": "10",
+        "reasons": "MULTIPLE APPLICATIONS REQUESTING THE SAME DOCUMENTS",
+        "user_id": "1103",
+        "entry_time": "2021-04-08 10:18:31+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.192"
+    },
+    {
+        "id": "11",
+        "reasons": "DOCUMENT IS AVAILABLE. PLEASE APPLY IN THE AVAILABLE DOCUMENT.",
+        "user_id": "9917",
+        "entry_time": "2021-04-09 10:33:32+05:30",
+        "is_active": "F",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "12",
+        "reasons": "DOCUMENT IS AVAILABLE.SELECT AVAILABLE DOCUMENT IN \"REQUEST TYPE\"",
+        "user_id": "9917",
+        "entry_time": "2021-04-09 10:36:10+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "13",
+        "reasons": "NO JUDGMENT IS AVAILABLE.",
+        "user_id": "9917",
+        "entry_time": "2021-04-09 10:44:48+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "14",
+        "reasons": "ID PROOF UPLOADED IS BLUR.",
+        "user_id": "9917",
+        "entry_time": "2021-04-09 11:14:05+05:30",
+        "is_active": "F",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "15",
+        "reasons": "DOCUMENTS ARE NOT GIVEN TO APPEARING COUNSEL",
+        "user_id": "9917",
+        "entry_time": "2021-04-19 10:31:28+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "16",
+        "reasons": "INVALID ID. UPLOAD ID WITH ADDRESS PROOF.",
+        "user_id": "1150",
+        "entry_time": "2021-04-22 14:08:55+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.167"
+    },
+    {
+        "id": "17",
+        "reasons": "BAIL ORDER IS GIVEN TO AOR ONLY.",
+        "user_id": "9917",
+        "entry_time": "2021-05-05 10:09:27+05:30",
+        "is_active": "F",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "18",
+        "reasons": "BAIL ORDER IS NOT GIVEN TO ARGUING COUNSEL.",
+        "user_id": "9917",
+        "entry_time": "2021-05-05 10:10:38+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "19",
+        "reasons": "KINDLY SELECT AOR INSTEAD OF ARGUING COUNSEL",
+        "user_id": "9917",
+        "entry_time": "2021-07-02 10:26:47+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "20",
+        "reasons": "VIDEO NOT PROPERLY RECORDED.",
+        "user_id": "1150",
+        "entry_time": "2021-07-13 17:07:17+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.4"
+    },
+    {
+        "id": "21",
+        "reasons": "NOT A BAIL ORDER",
+        "user_id": "9917",
+        "entry_time": "2021-07-14 15:02:21+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "22",
+        "reasons": "WRONG DATE SELECTED.",
+        "user_id": "9917",
+        "entry_time": "2021-07-15 11:30:55+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "23",
+        "reasons": "FILE WEEDED OUT AFTER DUE PRESERVATION",
+        "user_id": "1103",
+        "entry_time": "2021-07-22 12:01:15+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.192"
+    },
+    {
+        "id": "24",
+        "reasons": "AVAILABLE IN COMPLETE FILE ITSELF",
+        "user_id": "1103",
+        "entry_time": "2021-07-22 12:25:09+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.192"
+    },
+    {
+        "id": "25",
+        "reasons": "ID PROOF WITH COMPLETE ADDRESS IS REQUIRED.",
+        "user_id": "1150",
+        "entry_time": "2021-08-04 14:31:49+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "26",
+        "reasons": "MATTER IS BULKY PLEASE SPECIFY THE DOCUMENTS",
+        "user_id": "1179",
+        "entry_time": "2021-08-05 14:28:29+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.151"
+    },
+    {
+        "id": "27",
+        "reasons": "NO SIGNED ORDER AVAILABLE",
+        "user_id": "1385",
+        "entry_time": "2021-08-12 11:07:51+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.106"
+    },
+    {
+        "id": "28",
+        "reasons": "WITHDRAWAN",
+        "user_id": "1179",
+        "entry_time": "2021-08-16 11:03:55+05:30",
+        "is_active": "F",
+        "ip_address": "10.40.187.151"
+    },
+    {
+        "id": "29",
+        "reasons": "NO SUCH ORDER/ PROCEEDING AVAILABLE OF THIS DATE",
+        "user_id": "9917",
+        "entry_time": "2021-08-23 15:20:27+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "30",
+        "reasons": "NO SUCH DOCUMENT AVAILABLE",
+        "user_id": "1150",
+        "entry_time": "2021-08-25 13:21:21+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.4"
+    },
+    {
+        "id": "31",
+        "reasons": "AADHAR CARD WITH PICTURE IS REQUIRED.",
+        "user_id": "131",
+        "entry_time": "2021-08-26 10:46:23+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "32",
+        "reasons": "CLARIFY THE REQUIRED ORDER",
+        "user_id": "131",
+        "entry_time": "2021-09-17 15:49:47+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.152"
+    },
+    {
+        "id": "33",
+        "reasons": "APPLICANT AND ARGUING COUNSEL NAME ARE DIFFERENT",
+        "user_id": "131",
+        "entry_time": "2021-09-30 16:21:11+05:30",
+        "is_active": "F",
+        "ip_address": "10.40.187.106"
+    },
+    {
+        "id": "34",
+        "reasons": "APPLICANT NAME IS DIFFERENT FROM ARGUING COUNSEL NAME",
+        "user_id": "131",
+        "entry_time": "2021-09-30 16:22:42+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.106"
+    },
+    {
+        "id": "35",
+        "reasons": "WEEDED OUT FILE, NO SUCH DOCUMENT AVAILABLE",
+        "user_id": "9917",
+        "entry_time": "2021-10-04 10:48:43+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "36",
+        "reasons": "SPECIFICATION OF DOCUMENTS REQUIRED",
+        "user_id": "1179",
+        "entry_time": "2021-10-05 16:52:05+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.151"
+    },
+    {
+        "id": "37",
+        "reasons": "IMAGE NOT CAPTURED PROPERLY.",
+        "user_id": "9917",
+        "entry_time": "2021-10-06 14:09:06+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "38",
+        "reasons": "PROCESS FEE YET TO BE FILED",
+        "user_id": "131",
+        "entry_time": "2021-10-06 16:09:50+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.106"
+    },
+    {
+        "id": "39",
+        "reasons": "WITHDRAWN",
+        "user_id": "131",
+        "entry_time": "2021-10-07 16:04:16+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.106"
+    },
+    {
+        "id": "40",
+        "reasons": "NOT A PARTY IN THIS CASE.",
+        "user_id": "9917",
+        "entry_time": "2021-10-08 12:51:16+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "41",
+        "reasons": "ID PROOF WITH COMPLETE ADDRESS IS REQUIRED",
+        "user_id": "1150",
+        "entry_time": "2021-11-08 10:19:06+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "42",
+        "reasons": "CASE UNDER DEFECT LIST.",
+        "user_id": "1150",
+        "entry_time": "2021-11-16 14:21:11+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.4"
+    },
+    {
+        "id": "43",
+        "reasons": "REQUIRED DOCUMENTS ARE NOT AVAILABLE",
+        "user_id": "1179",
+        "entry_time": "2021-11-17 16:04:29+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.151"
+    },
+    {
+        "id": "44",
+        "reasons": "MULTIPLE APPLY.",
+        "user_id": "1150",
+        "entry_time": "2021-11-29 10:56:27+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "45",
+        "reasons": "KINDLY SPECIFY THE REQUIRED DOCUMENT",
+        "user_id": "131",
+        "entry_time": "2021-12-06 16:45:00+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.106"
+    },
+    {
+        "id": "46",
+        "reasons": "IMAGE UPLOADED IS BLANK.",
+        "user_id": "9917",
+        "entry_time": "2022-01-07 14:39:29+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "47",
+        "reasons": "FATHER NAME MISMATCH",
+        "user_id": "9917",
+        "entry_time": "2022-01-12 17:05:45+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "48",
+        "reasons": "ID PROOF WITH FATHER NAME IS REQUIRED",
+        "user_id": "9917",
+        "entry_time": "2022-02-09 10:20:49+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "49",
+        "reasons": "NOT A PARTY (INTERVENER)",
+        "user_id": "1179",
+        "entry_time": "2022-02-21 14:37:47+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.151"
+    },
+    {
+        "id": "50",
+        "reasons": "AADHAR CARD IMAGE IS NOT CLEAR",
+        "user_id": "131",
+        "entry_time": "2022-03-09 18:59:26+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.106"
+    },
+    {
+        "id": "51",
+        "reasons": "AADHAR CARD IMAGE IS BLUR.",
+        "user_id": "9917",
+        "entry_time": "2022-04-07 10:55:48+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "52",
+        "reasons": "(IMPLEADER) CLARIFICATION REQUIRED WHETHER PARTY IN APPEAL OR REVIEW",
+        "user_id": "1179",
+        "entry_time": "2022-04-27 16:32:00+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.151"
+    },
+    {
+        "id": "53",
+        "reasons": "PLEASE CLARIFY THE TYPE OF DOCUMENT.NO DECREE AVAILABLE IN THIS MATTER",
+        "user_id": "1179",
+        "entry_time": "2022-07-05 16:01:47+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.151"
+    },
+    {
+        "id": "54",
+        "reasons": "ID PROOF WITH FATHER/MOTHER NAME IS REQUIRED.",
+        "user_id": "9917",
+        "entry_time": "2022-07-06 10:21:23+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "55",
+        "reasons": "PARTY NAME AND ID UPLOADED IS OF DIFFERENT PERSONS.",
+        "user_id": "9917",
+        "entry_time": "2022-07-20 10:15:49+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "56",
+        "reasons": "PARTY IS REPRESENTED BY AOR, APPLY THROUGH AOR.",
+        "user_id": "9917",
+        "entry_time": "2022-08-02 10:43:22+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "57",
+        "reasons": "ID UPLOADED AND PHOTO/VIDEO ARE OF DIFFERENT PERSONS",
+        "user_id": "9917",
+        "entry_time": "2022-09-03 10:12:32+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "58",
+        "reasons": "NO APPEARANCE IN THIS ORDER",
+        "user_id": "1179",
+        "entry_time": "2022-09-07 10:24:49+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.151"
+    },
+    {
+        "id": "59",
+        "reasons": "UPLOAD AADHAR CARD PICTURE WITH AADHAR NUMBER.",
+        "user_id": "9917",
+        "entry_time": "2022-09-13 10:21:56+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "60",
+        "reasons": "DEFECTIVE MATTER",
+        "user_id": "9917",
+        "entry_time": "2022-09-30 10:26:21+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "61",
+        "reasons": "ID PROOF IS NOT LEGIBLE",
+        "user_id": "9917",
+        "entry_time": "2022-10-22 10:52:52+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "62",
+        "reasons": "ID PROOF WITH MOTHER NAME IS REQUIRED.",
+        "user_id": "9917",
+        "entry_time": "2023-01-06 10:23:46+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "63",
+        "reasons": "ADDRESS NOT MATCHING",
+        "user_id": "9917",
+        "entry_time": "2023-01-20 12:05:19+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "64",
+        "reasons": "UPLOADED IMAGE MISMATCHED WITH ID PROOF",
+        "user_id": "10030",
+        "entry_time": "2023-01-27 11:09:27+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "65",
+        "reasons": "FIRST COPY OF ANY BAIL ORDER WILL NOT BE GIVEN TO ARGUING COUNSEL",
+        "user_id": "1179",
+        "entry_time": "2023-02-02 11:19:53+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.151"
+    },
+    {
+        "id": "66",
+        "reasons": "DETAILS DOES NOT MATCH WITH RECORDS",
+        "user_id": "10030",
+        "entry_time": "2023-03-14 15:27:50+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "67",
+        "reasons": "UPLOAD ID WITH PHOTO",
+        "user_id": "10030",
+        "entry_time": "2023-03-27 14:12:45+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "68",
+        "reasons": "UPLOAD  ORIGINAL ID FOR VERIFICATION",
+        "user_id": "10030",
+        "entry_time": "2023-04-18 11:21:21+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "69",
+        "reasons": "SELECT AVAILABLE DOCUMENT AT THE TIME OF APPLY WITH FIRST BAIL ORDER",
+        "user_id": "9917",
+        "entry_time": "2023-05-01 12:53:54+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.165"
+    },
+    {
+        "id": "70",
+        "reasons": "IA TO BE LISTED BEFORE COURT FIRST.",
+        "user_id": "10030",
+        "entry_time": "2023-05-24 12:07:27+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "71",
+        "reasons": "APPLY SIGNED ORDER AND PROCEEDING SEPARATELY.",
+        "user_id": "9917",
+        "entry_time": "2023-05-26 10:58:12+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.165"
+    },
+    {
+        "id": "72",
+        "reasons": "WEEDED OUT",
+        "user_id": "10030",
+        "entry_time": "2023-05-26 13:06:35+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "73",
+        "reasons": "MEDIATION AND SETTLEMENT AGREEMENT YET TO BE LISTED",
+        "user_id": "10030",
+        "entry_time": "2023-06-01 12:21:20+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "74",
+        "reasons": "DECREE NOT PREPARED YET .",
+        "user_id": "10030",
+        "entry_time": "2023-06-01 12:52:00+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "75",
+        "reasons": "PAGENATION PROBLEM",
+        "user_id": "9917",
+        "entry_time": "2023-06-22 15:12:38+05:30",
+        "is_active": "F",
+        "ip_address": "10.40.187.192"
+    },
+    {
+        "id": "76",
+        "reasons": "PAGINATION PROBLEM",
+        "user_id": "9917",
+        "entry_time": "2023-06-22 15:12:54+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.192"
+    },
+    {
+        "id": "77",
+        "reasons": "ADDRESS MISSING IN SUBMITTED ID PROOF",
+        "user_id": "10030",
+        "entry_time": "2023-07-22 10:51:45+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "78",
+        "reasons": "LODGED MATTER AS PER REGISTRAR ORDER",
+        "user_id": "10030",
+        "entry_time": "2023-08-23 11:27:48+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.59"
+    },
+    {
+        "id": "79",
+        "reasons": "APPLY THROUGH AOR",
+        "user_id": "9917",
+        "entry_time": "2023-09-20 15:35:57+05:30",
+        "is_active": "T",
+        "ip_address": "10.40.187.165"
+    }
+]
