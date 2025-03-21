@@ -152,6 +152,7 @@ class ReportModel extends Model
             $builder->limit(500);
             // echo $builder->getCompiledSelect();die;
             return $results = $builder->get()->getResult();
+            
             //echo $this->db->getLastQuery();die;
 
             }

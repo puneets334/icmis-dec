@@ -69,6 +69,10 @@ class MonitoringTeam extends BaseController
                 }
             }
         }
+        if(empty($result_remarks) && ! is_array($result_remarks) )
+        {
+            echo "<center>Please Check Record it`s not Found it !!</center>";die;
+        }
         
 
         if (!empty($peremptory_diary)) {
