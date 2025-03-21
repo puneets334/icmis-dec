@@ -77,7 +77,7 @@
                                                         <td><br> <b> Enter Diary no's. for bulk dispose in comma separated format (CSV FORMAT) </b> </td>
                                                     </tr>
                                                     <tr>
-                                                        <td align="center"> <textarea id="cavno" name="cavno" class="form-control" placeholder="diary no's in csv format i.e. diaryno 25/2020 as 252020"> </textarea>
+                                                        <td align="center"> <textarea id="cavno" name="cavno" class="form-control" placeholder="diary no's in csv format i.e. diaryno 25/2020 as 252020"></textarea>
 
                                                     </tr>
 
@@ -130,8 +130,8 @@
         var dno = document.getElementById('cavno').value;
         var disp_type = document.getElementById('disp_type').value;
         var rj_date = document.getElementById('rj_date').value;
-        var h_date = document.getElementById('hdate').value;
-
+        var h_date = document.getElementById('hdate').value;        
+        
         if (dismissal_date == '') {
             alert("dismissal date is blank.");
             $('#dismissal_date').focus();
@@ -157,6 +157,11 @@
         if (disp_type == '') {
             alert("Please Select dismissal type");
             $('#disp_type').focus();
+            return;
+        }
+        if (dno == '') {
+            alert("Please Select Diary Number.");
+            $('#cavno').focus();
             return;
         }
 
