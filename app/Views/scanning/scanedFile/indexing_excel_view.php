@@ -26,10 +26,16 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3">
                 <div class="card">
-                    <div class="card-header heading">
-                        <h3 class="pb-0">Indexing Excel View/Download</h3>
+
+                    <div class="card-header heading ">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h3 class="card-title">Scanning > Scaned File > Indexing Excel</h3>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <form id="dateForm" method="post">
@@ -54,12 +60,14 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="card-footer col-md-4 mt-4">
+                                    <button type="button" id="submitIevForm" class="btn btn-primary">SUBMIT</button>
+                                </div>
                             </div>
                         </form>
                     </div>
-                    <div class="card-footer">
-                        <button type="button" id="submitIevForm" class="btn btn-primary w-25">SUBMIT</button>
-                    </div>
+
                 </div>
 
                 <div class="card">
@@ -73,12 +81,12 @@
 </section>
 <div id="res_loader"></div>
 <script>
-     $('.datepicker').datepicker({
-            format: 'dd/mm/yy',
-            changeMonth: true,
-            changeYear: true,
-            yearRange: '1950:2050'
-        });
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '1950:2050'
+    });
     $('#submitIevForm').on('click', function(e) {
         e.preventDefault();
         var txt_fd = $('#txt_frm_date').val();
@@ -115,8 +123,8 @@
                     $('#res_loader').html('');
                     $('#downloadLink').html('<h5 class="mb-0 text-danger">Error generating CSV.</h5>');
                     return;
-                }
-
+                updateCSRFToken();
+                
                 var downloadUrl = URL.createObjectURL(blob);
                 var a = document.createElement('a');
                 var filename = xhr.getResponseHeader('Content-Disposition').split('filename=')[1].replace(/"/g, '');
@@ -125,12 +133,12 @@
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
-                $('#downloadLink').html('<h5 class="mb-0 text-success">CSV generated successfully!</h5>');
+                
+                $('#downloadLink').html('<h5 class="mb-0 text-success">CSV Generated Successfully!</h5>');
             },
             error: function(xhr, status, error) {
-                $('#res_loader').html('');
-                $('#res_loader').html('');
                 updateCSRFToken();
+                $('#res_loader').html('');
                 $('#downloadLink').html('<h5 class="text-danger">Error: ' + error + '</h5>');
             }
         });

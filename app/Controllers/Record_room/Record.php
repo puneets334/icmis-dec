@@ -11,7 +11,7 @@ use App\Models\Entities\Model_Ac;
 
 
 class Record extends BaseController
-{ 
+{
     public $Model_Ac;
 
     public $model;
@@ -54,6 +54,7 @@ class Record extends BaseController
             }
 
             $tvap = $this->request->getGet('tvap');
+
             $wordChunks = explode(";", $tvap);
             $vform = array_map(function ($item) {
                 return str_replace("undefined", "", $item);
@@ -124,9 +125,6 @@ class Record extends BaseController
     }
 
 
-
-
-
     private function getUserIP()
     {
         $client  = $this->request->getServer('HTTP_CLIENT_IP');
@@ -168,7 +166,7 @@ class Record extends BaseController
         $val = $Model->getval($id);
         $data['val'] = $val;
         // echo "<pre>";
-        // print_r($id);
+        // print_r($val);
         // exit();
         return view('Record_room/modify_ac_form1', $data);
     }
@@ -196,7 +194,7 @@ class Record extends BaseController
 
         $wordChunks = explode(";", $tvap);
         for ($i = 0; $i < count($wordChunks); $i++) {
-            $vform[$i] = str_replace("undgdfgefined", "", $wordChunks[$i]);
+            $vform[$i] = str_replace("undefined", "", $wordChunks[$i]);
         }
         $vcname = $vform[2] . ' ' . $vform[3] . ' ' . $vform[4];
         try {
@@ -209,11 +207,11 @@ class Record extends BaseController
                 'pa_line1' => $vform[6],
                 'pa_line2' => $vform[7],
                 'pa_district' => $vform[8],
-                'pa_pin' => $vform[9],
-                'ppa_line1' => $vform[10],
-                'ppa_line2' => $vform[11],
+                'pa_pin' => (isset($vform[9]) && !empty($vform[9])) ? $vform[9] : 0,
+                'ppa_line1' => !empty($vform[10]) ? $vform[10] : '',
+                'ppa_line2' => !empty($vform[11]) ? $vform[11] : '',
                 'ppa_district' => $vform[12],
-                'ppa_pin' => $vform[13],
+                'ppa_pin' => (isset($vform[13]) && !empty($vform[13])) ? $vform[13] : 0,
                 'dob' => date('Y-m-d', strtotime($vform[14])),
                 'place_birth' => $vform[15],
                 'nationality' => $vform[16],
@@ -235,7 +233,6 @@ class Record extends BaseController
             $model = new Model_record();
             $model->updateAc($id, $data);
 
-            // Show alert message
             echo "<script>alert('Record Successfully Updated')</script>";
         } catch (\Exception $e) {
             die("Error! Contact Administrator!!");
@@ -259,17 +256,16 @@ class Record extends BaseController
         $options1 = $Model->getaoroption($tvap);
 
         if (!empty($options1)) {
-            $optionsHtml = '';
+            $optionsHtml = '<select id="vadvc">';
             foreach ($options1 as $option) {
-                $optionsHtml .= '<div>' . htmlspecialchars($option['aor_code']) . ' - ' . htmlspecialchars($option['name']) . '</div>';
+                $optionsHtml .= '<option  value=' . $option['aor_code'] . '>' . htmlspecialchars($option['aor_code']) . ' - ' . htmlspecialchars($option['name']) . '</option>';
             }
+            $optionsHtml .= '</select>';
             return $optionsHtml;
         } else {
             return '';
         }
     }
-
-
 
 
     public function getAorOptions1()
@@ -310,7 +306,6 @@ class Record extends BaseController
         $data['mergedData'] = $mergedData;
         return view('Record_room/reports/lst_aor_rep1', $data);
     }
-
 
 
     public function getCancelRecords()
@@ -395,7 +390,7 @@ class Record extends BaseController
     {
         $currentYear = date("Y");
         $model = new Model_record();
-        $allotmentCategory = $this->request->getPost('allotmentCategory');        
+        $allotmentCategory = $this->request->getPost('allotmentCategory');
         $data['view_rs'] = $model->getRefHallData();
         $data['model'] = $model;
         return view('Record_room/file_movement/rr_view_user_information_hall', $data);
@@ -405,7 +400,7 @@ class Record extends BaseController
     {
         $model = new Model_record();
         $data['model'] = $model;
-        $data['keyValue'] = $this->request->getGet('key');
+        $data['keyValue'] = $this->request->getGet('key') != '' ? $this->request->getGet('key') : '';
         $data['setter'] = $this->request->getGet('setter');
         $data['cur_user_type'] = $this->request->getGet('cur_user_type');
         $data['deptname'] = $this->request->getGet('deptname');
@@ -419,7 +414,7 @@ class Record extends BaseController
         $data['userValue'] = $this->request->getGet('user');
         $data['serviceValue'] = $this->request->getGet('service');
         $data['empid'] = $this->request->getGet('empid');
-        $data['userid'] = $this->request->getGet('userid');
+        $data['userid'] = $this->request->getGet('userid') != '' ? $this->request->getGet('userid') : '';
         $data['statusValue'] = $this->request->getGet('status');
         $data['utypeValue'] = $this->request->getGet('utype');
         $data['utypeValue'] = $this->request->getGet('utype');
@@ -430,13 +425,14 @@ class Record extends BaseController
         $data['da_code'] = $this->request->getGet('da_code');
         $data['rkds_code'] = $this->request->getGet('rkds_code');
         $data['rkdcmpda_code'] = $this->request->getGet('rkdcmpda_code');
-        $data['hall_no'] = $this->request->getGet('hall_no');
+        $data['hall_no'] = $this->request->getGet('hall_no') != '' ? $this->request->getGet('hall_no') : '';
 
         $data['usercode'] = session()->get('login')['usercode'];
-
+        // echo "<pre>";
+        // print_r($data);die;
         return view('Record_room/file_movement/rr_user_mgmt_multiple', $data);
     }
-    
+
     public function rr_view_user_information()
     {
         $model = new Model_record();
@@ -446,16 +442,14 @@ class Record extends BaseController
         $data['desg'] = $this->request->getGet('desg');
         $data['cur_user_type'] = $this->request->getGet('cur_user_type');
         $data['allotmentCategory'] = $this->request->getGet('allotmentCategory');
-
-        $data['jud_sel'] = $this->request->getGet('jud_sel');
-        $data['orderjud'] = $this->request->getGet('orderjud');
-        $data['view_sta'] = $this->request->getGet('view_sta');
-        $data['auth_name'] = $this->request->getGet('auth_name');
-        $data['authValue'] = $this->request->getGet('auth');
-        $data['auth_sel_name'] = $this->request->getGet('auth_sel_name');
+        $data['jud_sel'] = $this->request->getGet('jud_sel') != '' ? $this->request->getGet('jud_sel') : '';
+        $data['orderjud'] = $this->request->getGet('orderjud') != '' ? $this->request->getGet('orderjud') : '';
+        $data['view_sta'] = $this->request->getGet('view_sta') != '' ? $this->request->getGet('view_sta') : '';
+        $data['auth_name'] = $this->request->getGet('auth_name') != '' ? $this->request->getGet('auth_name') : '';
+        $data['authValue'] = $this->request->getGet('auth') != '' ? $this->request->getGet('auth') : '';
+        $data['auth_sel_name'] = $this->request->getGet('auth_sel_name') != '' ? $this->request->getGet('auth_sel_name') : '';
 
         $data['usercode'] = session()->get('login')['usercode'];
-
         return view('Record_room/file_movement/rr_view_user_information', $data);
     }
 
@@ -513,8 +507,8 @@ class Record extends BaseController
     {
         $model = new Model_record();
         $records = $model->getClerksWithMoreThan2AORs();
-        
-        $data['clerks']=array();
+
+        $data['clerks'] = array();
 
 
         foreach ($records as $record) {
@@ -615,6 +609,9 @@ class Record extends BaseController
         $wordChunks = explode(";", $tvap);
         $vform = array_map(fn($chunk) => str_replace("undefined", "", $chunk), $wordChunks);
 
+        $sessionData = session()->get();
+        $ucode = $sessionData['login']['usercode'];
+
         $vcname = $vform[2] . ' ' . $vform[3] . ' ' . $vform[4];
 
         if (empty($vform[0]) || empty($vcname) || empty($vform[5]) || empty($vform[21])) {
@@ -649,8 +646,8 @@ class Record extends BaseController
             'eino' => $vform[21],
             'regdate' => date('Y-m-d', strtotime($vform[22]))
         ];
-
         $acModel->getInsertData($data);
+        // print_r($acModel);die;
 
         $db = \Config\Database::connect();
         $transactionModel = $db->table('transactions');
@@ -662,8 +659,6 @@ class Record extends BaseController
             'updated_on' => date("Y-m-d H:i:s"),
             'updated_by_ip' => getClientIP()
         ]);
-
-
         return $this->response->setJSON(['success' => 'Registered Successfully !!']);
     }
 
@@ -683,8 +678,8 @@ class Record extends BaseController
             } else {
                 echo "Record Not found";
             }
-        } catch (DatabaseException $e) {
-            echo "Error! Contact Administrator!";
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
     }
 
@@ -696,7 +691,7 @@ class Record extends BaseController
 
         $sessionData = session()->get();
         $ucode = $sessionData['login']['usercode'];
-
+        // $tvap= "1;03/11/2025;test;5350";
         $tvap = $this->request->getPost('tvap');
         $wordChunks = explode(';', $tvap);
         $vform = array_map(
@@ -712,10 +707,9 @@ class Record extends BaseController
 
         try {
             $model = new TransactionModel();
-            $existingRecord = $model->where('acid', $vform[3])
-                ->where('event_code', $vform[0])
-                ->countAllResults();
 
+            $existingRecord = $model->where('acid', $vform[3])->where('event_code', $vform[0])->countAllResults();
+            
             if ($existingRecord > 0) {
                 return $this->response->setJSON(['error' => 'Data already exists !!!']);
             }
@@ -723,7 +717,7 @@ class Record extends BaseController
             $data = [
                 'acid' => $vform[3],
                 'event_code' => $vform[0],
-                'event_date' => \DateTime::createFromFormat('d-m-Y', $vform[1])->format('Y-m-d'),
+                'event_date' => date('d-m-Y', strtotime($vform[1])),
                 'remarks' => $vform[2],
                 'updated_by' => $ucode,
                 'updated_by_ip' => getClientIP(),

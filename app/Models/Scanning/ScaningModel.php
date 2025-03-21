@@ -15,26 +15,22 @@ class ScaningModel extends Model
     // Fetch court data
     public function getDataByDateRange($fromDate, $toDate)
     {
-        $db = \Config\Database::connect();
-        $sql = "SELECT c.SNO, c.Case_NO, c.Cause_Title, c.diary_dt, c.verified_on
-                FROM (
-                    SELECT 
-                    ROW_NUMBER() OVER (ORDER BY dv.verification_date ASC) AS SNO,  -- Moved ROW_NUMBER here
-                    CONCAT(m.reg_no_display, ' @ ', m.diary_no) AS Case_NO, 
-                    CONCAT(pet_name, ' Vs. ', res_name) AS Cause_Title, 
-                    TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_dt, 
-                    TO_CHAR(dv.verification_date, 'DD-MM-YYYY HH24:MI:SS') AS verified_on
-                    FROM public.defects_verification dv 
-                    INNER JOIN public.main m ON dv.diary_no = m.diary_no
-                    WHERE m.c_status = 'P' 
-                    AND dv.verification_date::DATE BETWEEN ? AND ? 
-                    AND CAST(dv.verification_status AS INTEGER) = 0  -- Cast to integer or compare to string
-                    ORDER BY dv.verification_date ASC
-                ) c;";
+        $builder = $this->db->table('public.defects_verification dv');
+        $builder->select("ROW_NUMBER() OVER (ORDER BY dv.verification_date ASC) AS SNO,
+                  CONCAT(m.reg_no_display, ' @ ', m.diary_no) AS Case_NO, 
+                  CONCAT(pet_name, ' Vs. ', res_name) AS Cause_Title, 
+                  TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_dt, 
+                  TO_CHAR(dv.verification_date, 'DD-MM-YYYY HH24:MI:SS') AS verified_on")
+            ->join('public.main m', 'dv.diary_no = m.diary_no')
+            ->where('m.c_status', 'P')
+            ->where('CAST(dv.verification_status AS INTEGER)', 0)
+            ->where('DATE(dv.verification_date) >=', $fromDate)
+            ->where('DATE(dv.verification_date) <=', $toDate)
+            ->orderBy('dv.verification_date', 'ASC');
 
-        $query = $db->query($sql, [$fromDate, $toDate]);
+        $query = $builder->get();
         $result = $query->getResult();
-        return $result;     
+        return $result;
     }
 
     public function getCaseType()
@@ -215,11 +211,22 @@ class ScaningModel extends Model
     }
     public function getIndexDocs($diary_no)
     {
-        $sql = "SELECT docdesc, a.doccode, a.doccode1, other, fp, tp, np, pdf_name, lowerct_id, a.i_type FROM (
-        SELECT * FROM public.indexing  WHERE diary_no = ? AND display = 'Y' ) a LEFT JOIN master.docmaster b ON a.doccode = b.doccode 
-        AND a.doccode1 = b.doccode1 AND (b.display = 'Y' OR b.display = 'E') ORDER BY  CASE WHEN a.doccode = 100 THEN 0  ELSE 1  END,  fp;";    
-        $query = $this->db->query($sql, [$diary_no]); // Bind the parameter
+        // $sql = "SELECT docdesc, a.doccode, a.doccode1, other, fp, tp, np, pdf_name, lowerct_id, a.i_type FROM (
+        // SELECT * FROM public.indexing  WHERE diary_no = ? AND display = 'Y' ) a LEFT JOIN master.docmaster b ON a.doccode = b.doccode 
+        // AND a.doccode1 = b.doccode1 AND (b.display = 'Y' OR b.display = 'E') ORDER BY  CASE WHEN a.doccode = 100 THEN 0  ELSE 1  END,  fp;";    
+        // $query = $this->db->query($sql, [$diary_no]); // Bind the parameter
+        // return $query->getResult();
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('public.indexing AS a');
+        $builder->select('docdesc, a.doccode, a.doccode1, other, fp, tp, np, pdf_name, lowerct_id, a.i_type');
+        $builder->join('master.docmaster AS b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1 AND (b.display = \'Y\' OR b.display = \'E\')', 'left');
+        $builder->where('a.diary_no', $diary_no);
+        $builder->where('b.display', 'Y'); 
+        $builder->orderBy('CASE WHEN a.doccode = 100 THEN 0 ELSE 1 END, fp', 'ASC', false);
+        $query = $builder->get();
         return $query->getResult();
+
     }
     /* 22-10-2024 */
 

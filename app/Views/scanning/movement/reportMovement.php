@@ -9,6 +9,13 @@
         width: auto !important;
         padding: 4px;
     }
+
+  
+table.dataTable>thead .sorting,
+table.dataTable>thead {
+    background-color: #0d48be !important;
+    color: #fff !important;
+}
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -18,7 +25,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Report</h3>
+                                <h3 class="card-title">Scanning >> Movement >> Report</h3>
                             </div>
                             <div class="col-sm-2">
                             </div>
@@ -31,8 +38,7 @@
                                     <div class="tab-content">
                                         <div class="active tab-pane">
                                             <form id="push-form" method="POST" action="">
-                                                <!-- <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf_token" /> -->
-                                                <?=csrf_field(); ?>
+                                                <?= csrf_field(); ?>
                                                 <div class="row">
 
                                                     <div class="col-md-5 diary_section">
@@ -61,10 +67,10 @@
                                                                 <button type="button" id="btn_rpt_search" name="view" value="date_wise" class="btn btn-block btn-primary">Search</button>
 
                                                             </div>
-                                                        </div>
+                                                        </div> 
                                                     </div>
                                                 </div>
-                                                <div id="dv_data">
+                                                <div id="dv_data" class="ml-3 mr-3">
                                                     <table id="head" style="display:none;">
                                                         <thead>
                                                             <tr>
@@ -81,17 +87,17 @@
                                                         </thead>
                                                     </table>
 
-                                                    <table id="reportTable1" class="m-1 table table-striped table-hover">
+                                                    <table id="move_report" class="table-bordered table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th style="width:5%; font-weight:bold;">#</th>
-                                                                <th style="width:5%;font-weight:bold;">Item No</th>
-                                                                <th style="width:15%;font-weight:bold;">Diary No</th>
-                                                                <th style="width:15%;font-weight:bold;">List Date</th>
-                                                                <th style="width:10%;font-weight:bold;">Movement</th>
-                                                                <th style="width:10%;font-weight:bold;">Event</th>
-                                                                <th style="width:10%;font-weight:bold;">Date / Time</th>
-                                                                <th style="width:10%;font-weight:bold;">User Name</th>
+                                                                <th style="width:5%;">#</th>
+                                                                <th style="width:7%;">Item No</th>
+                                                                <th style="width:12%;">Diary No</th>
+                                                                <th style="width:12%;">List Date</th>
+                                                                <th style="width:10%;">Movement</th>
+                                                                <th style="width:10%;">Events</th>
+                                                                <th style="width:15%;">Date / Time</th>
+                                                                <th style="width:17%;">User Name</th>
 
                                                             </tr>
                                                         </thead>
@@ -113,53 +119,72 @@
     </div>
 </section>
 <script>
-   /*  $(document).ready(function() {
-        $('#reportTable1').DataTable({
-            "processing": true,
-            "serverSide": false,
-            "paging": true
-        });
-    }); */
+    $(document).ready(function() {
+        var table = $('#move_report').DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "dom": 'Bfrtip',
+            "bProcessing": true,
+            "buttons": ["excel", "pdf"],
 
-
-    $("#btn_rpt_search").click(function() {
-        // Get input values
-        var To_date = $(".to_date").val();
-        var movement_flag_type = $("#mvmnt_type_flag_id").val();
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-
-        // Make AJAX request
-        $.ajax({ // Use base_url() to set the URL dynamically
-            url: "<?php echo base_url('scanning/search_rpt'); ?>",
-            type: 'POST',
-            data: {
-                search_rpt: 'Rpt_search',
-                To_date: To_date,
-                movement_flag_type: movement_flag_type,
-                CSRF_TOKEN: CSRF_TOKEN_VALUE
-            },
-            cache: false,
-            async: true,
-            success: function(data) {
-                updateCSRFToken();
-                // Parse the JSON response
-                if (typeof data === 'object') {
-                    var rdata = data;
-                } else {
-                    var rdata = JSON.parse(data); // Ensure this is valid JSON
+            "columns": [{
+                    "data": "id"
+                },
+                {
+                    "data": "item_no"
+                },
+                {
+                    "data": "dairy_no"
+                },
+                {
+                    "data": "list_dt"
+                },
+                {
+                    "data": "movement_flag"
+                },
+                {
+                    "data": "event_type"
+                },
+                {
+                    "data": "entry_date_time"
+                },
+                {
+                    "data": "name"
                 }
-                // console.log(rdata);
-                // Loop through the response data and add it to the DataTable
-                $('#reportTable1 tbody').html(rdata.html);
-        
-                // If you want to refresh the DataTable after injecting HTML
-                // table.rows.add($(rdata.html)).draw(); 
-            },
-            error: function(xhr) {
-                updateCSRFToken();
-                alert("Error: " + xhr.status + " " + xhr.statusText);
-            }
+            ]
+        });
+
+        $("#btn_rpt_search").click(function() {
+            var To_date = $(".to_date").val();
+            var movement_flag_type = $("#mvmnt_type_flag_id").val();
+            var CSRF_TOKEN = 'CSRF_TOKEN';
+            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
+            $.ajax({
+                url: "<?php echo base_url('scanning/SaccaningController/search_rpt'); ?>",
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    search_rpt: 'Rpt_search',
+                    To_date: To_date,
+                    movement_flag_type: movement_flag_type,
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE
+                },
+                cache: false,
+                async: true,
+                success: function(response) {
+                    // console.log(response.data);
+                    table.clear();
+                    table.rows.add(response.data);
+                    table.draw();
+                    updateCSRFToken();
+                },
+                error: function(xhr) {
+                    updateCSRFToken();
+                    alert("Error: " + xhr.status + " " + xhr.statusText);
+                }
+            });
         });
     });
 </script>

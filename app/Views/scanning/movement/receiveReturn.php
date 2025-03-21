@@ -18,7 +18,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Case Movement Module</h3>
+                                <h3 class="card-title">Scanning > Movement > Receive / Return </h3>
                             </div>
                             <div class="col-sm-2">
                             </div>
@@ -51,7 +51,7 @@
                                                             <div class="input-group-prepend">
                                                                 <span class="input-group-text" id="list_date_addon">List Date</span>
                                                             </div>
-                                                            <input type="text" class="form-control bg-white list_date"
+                                                            <input type="text" class="form-control bg-white dtp list_date"
                                                                 aria-describedby="list_date_addon" placeholder="Date..." readonly>
                                                         </div>
                                                         <div class="input-group col-3 mb-3">
@@ -223,9 +223,6 @@
             "font-weight": "bold" // Optional for emphasis
         });
         return false;
-        
-
-
 
 
         var movement_flag_type = $('#mvmnt_type_id').val();

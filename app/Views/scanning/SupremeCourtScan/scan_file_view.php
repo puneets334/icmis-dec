@@ -1,4 +1,11 @@
 <?= view('header') ?>
+<style>
+table.dataTable>thead .sorting,
+table.dataTable>thead {
+    background-color: #0d48be !important;
+    color: #fff !important;
+}
+</style>
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -7,28 +14,45 @@
                     <?= csrf_field() ?>
                     <div class="card">
                         <div class="card-header heading">
-                            <h3 class="mb-0">Supreme Court Scan View</h3>
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <h3 class="card-title">Supreme Court Scan View</h3>
+                                </div>
+                                <div class="col-sm-2">
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="diary_no" class="form-label">Diary Number</label>
-                                        <input class="form-control" type="text" id="diary_no" name="diary_no" size="5" require>
+                                        <input class="form-control" type="text" placeholder="Enter Diary Number" id="diary_no" name="diary_no" size="5" require>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="year" class="form-label">Diary Year</label>
-                                        <input class="form-control datepicker" type="text" id="year" name="year" maxlength="4" size="4" require>
+                                        <?php $year = 1950;
+                                        $total = 0;
+                                        $current_year = date('Y');
+                                        ?>
+                                        <select name="diary_year" id="year" class="custom-select rounded-0">
+                                            <?php for ($x = $current_year; $x >= $year; $x--) { ?>
+                                                <option value="<?php echo $x; ?>" <?php echo ($x === (int)$diary_year) ? 'selected' : ''; ?>>
+                                                    <?php echo $x; ?>
+                                                </option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
+                                </div>
+                                <div class="col-md-4 mt-3 card-footer">
+                                    <button type="button" class="btn btn-primary w-25" id="getDiaryDetail">SUBMIT</button>
                                 </div>
 
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="button" class="btn btn-primary w-25" id="getDiaryDetail">SUBMIT</button>
-                        </div>
+
                     </div>
                 </form>
                 <div class="card">
@@ -87,16 +111,17 @@
             $("#getDiaryDetail").attr("disabled", true);
 
             $.ajax({
-                url: '<?= base_url('Scanning/SupremeCourtScan/SupremeCourtScanController/getDiaryDocument') ?>',
-                method: 'POST',
+                url: "<?= base_url('Scanning/SupremeCourtScan/SupremeCourtScanController/getDiaryDocument') ?>",
+                method: 'GET',
                 data: {
                     diary_no: diary_no,
                     year: year,
                     '<?= csrf_token() ?>': csrf
                 },
-                beforeSend: function() {
+                beforeSend: function()
+                {
                     $('#message').html('<h5 class="mb-0 text-warning">Diary data loading, please wait...</h5>');
-                    $('#res_loader').html('<div style="position: absolute;top: 50%;left: 50%;text-align: center;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);"><img src="../../images/load.gif"/></div>');
+                    $('#res_loader').html('<div style="position: absolute;top: 50%;left: 50%;text-align: center;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);"><img src="<?= base_url();?>/images/load.gif"></div>');
                 },
                 success: function(data) {
                     $('#res_loader').html('');
@@ -109,13 +134,15 @@
                         $("#message").html('<h4 class="text-center text-danger mb-0">Error: ' + data.message + '</h4>');
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function(xhr, status, error)
+                {
                     updateCSRFToken();
                     $('#res_loader').html('');
                     $("#message").html('<h4 class="text-center text-danger mb-0">Error: ' + error + '</h4>');
                     $("#getDiaryDetail").attr("disabled", false);
                 },
-                complete: function() {
+                complete: function()
+                {
                     $('#res_loader').html('');
                     $("#getDiaryDetail").attr("disabled", false);
                 }
@@ -132,7 +159,7 @@
 
                 fileUrl = decodeURIComponent(fileUrl.replace(/\\/g, '/'));
 
-                console.log("Opening PDF at:", fileUrl); 
+                console.log("Opening PDF at:", fileUrl);
 
                 const pdfViewer = document.getElementById("ob_shw");
 
@@ -154,6 +181,7 @@
         });
     });
 </script>
+
 <div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg shadow" role="document">
         <div class="modal-content rounded-3 shadow">
