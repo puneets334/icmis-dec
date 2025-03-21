@@ -322,18 +322,92 @@ class CaseRemarksVerification extends Model
 			'h.main_supp_flag' => 0,
 			'DATE(h.ent_dt)' => $date,
 			'm.dacode' => $id
-		];
+		]; 
 
 		if (!empty($cs_v_leftjoin_sq)) {
 			$builder->where($cs_v_leftjoin_sq);
 		}
 
 		$builder->where($whereConditions);
-		$builder->orderBy('h.ent_dt', 'ASC');
-         $query = $builder->get();
 		
+		$builder->orderBy('h.ent_dt', 'ASC');
+		//pr($builder->getCompiledSelect());
+		$builder->limit(2);
+        $query = $builder->get();
 		return $query->getResultArray(); 
     }
+	
+	public function sql_get_oc($id){
+			$sectionQuery = $this->db->table('master.users')
+							->select('section')
+							->where('usercode', $id)
+							->get()
+							->getRow(); 
+
+			if (!$sectionQuery) {
+				return []; 
+			}
+			
+		 $section = $sectionQuery->section;
+
+		$builder = $this->db->table('master.users u');
+		$builder->select('u.*');
+		$builder->where('u.section', $section);
+		$builder->whereIn('u.usertype', [14, 9, 6, 4]);
+		$builder->where('u.display', 'Y');
+
+		$query = $builder->get();
+		return $query->getResultArray();
+	}
+	
+	public function workdone_verify_response_status_update($ucode,$dno,$board_type,$mainhead,$next_dt,$userType){
+			if($userType == 14){
+				$data = [
+					'diary_no'  => $dno,
+					'next_dt'   => $next_dt,
+					'm_f'       => $mainhead,
+					'board_type'=> $board_type,
+					'bo_ent_dt' => date('Y-m-d H:i:s'), 
+					'bo_ucode'  => $ucode,
+				];
+
+				$this->db->table('case_verify_by_sec')->insert($data);
+				return $this->db->affectedRows(); 
+			}else{
+			    $data = [];
+
+				if ($userType == 9) {
+					$data = [
+							'b.ar_ent_dt' => date('Y-m-d H:i:s'),
+							'b.ar_ucode'  => $ucode
+						];
+					} elseif ($userType == 4 || $userType == 6) {
+						$data = [
+							'b.dy_ent_dt' => date('Y-m-d H:i:s'),
+							'b.dy_ucode'  => $ucode
+						];
+					}
+
+				if (!empty($data)) {
+						$subquery = $this->db->table('case_verify_by_sec')
+									   ->select('diary_no, max(bo_ent_dt) AS max_entdt')
+									   ->where('diary_no', $dno)
+									   ->groupBy('diary_no')
+									   ->getCompiledSelect();  
+
+						$builder = $this->db->table('case_verify_by_sec b');
+						$builder->join('(' . $subquery . ') a', 'b.diary_no = a.diary_no', 'inner');
+						$builder->set($data); 
+						$builder->where('a.max_entdt', 'b.bo_ent_dt');
+						$builder->where('a.diary_no', $dno);
+						$builder->update();
+						//echo $builder->getCompiledSelect(); die;
+						return $this->db->affectedRows(); 
+				}
+			}
+       return 0;  
+	}
+	
 
     public function workdone_verify_get_from_data($empid, $date, $date2, $model, $chk_user_sec_map, $section, $usertype)
     {

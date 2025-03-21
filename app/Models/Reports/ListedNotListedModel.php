@@ -6,6 +6,8 @@ use CodeIgniter\Model;
 
 class ListedNotListedModel extends Model
 {
+	protected $table = 'fil_trap';
+	
     public function GetListedData()
     {
         $builder = $this->db->table('master.listing_purpose');
@@ -241,5 +243,110 @@ class ListedNotListedModel extends Model
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
-    }
+    } 
+	
+	// module Scrutiny Matters
+
+     public function get_scrutiny_matters_details($frm_dt, $to_dt, $empid, $case){
+		
+		if ($case == 'spallot' || $case == 'sptotal') {
+                  
+			$query1 = $this->db->table('fil_trap')
+				->select('diary_no, d_to_empid, disp_dt, remarks, comp_dt')
+				->whereIn('remarks', ['DE -> SCR'])
+				->where('DATE(disp_dt) >=', $frm_dt)
+				->where('DATE(disp_dt) <=', $to_dt);
+			if($case!= 'sptotal'){
+				$query1->where('d_to_empid', $empid);
+			}
+
+			$query2 = $this->db->table('fil_trap_his')
+				->select('diary_no, d_to_empid, disp_dt, remarks, comp_dt')
+				->whereIn('remarks', ['DE -> SCR'])
+				->where('DATE(disp_dt) >=', $frm_dt)
+				->where('DATE(disp_dt) <=', $to_dt);
+			if($case!= 'sptotal'){
+				$query2->where('d_to_empid', $empid);
+			}
+			
+			$finalQuery = $query1->union($query2);
+
+			$finalQuery = $this->db->table('(' . $finalQuery->getCompiledSelect() . ') AS temp')
+				->select('m.diary_no, CONCAT(pet_name, \' vs \', res_name) as causetitle, disp_dt')
+				->join('main m', 'm.diary_no = temp.diary_no');
+
+
+			return $finalQuery->get()->getResultArray();
+
+		}elseif($case == 'spcomp' || $case == 'spcomplete') {
+			
+			$query1 = $this->db->table('fil_trap')
+				->select('diary_no, d_to_empid, disp_dt, remarks, comp_dt')
+				->whereIn('remarks', ['DE -> SCR'])
+				->where('DATE(disp_dt) >=', $frm_dt)
+				->where('DATE(disp_dt) <=', $to_dt)
+				->where('comp_dt IS NOT NULL');
+			
+			if($case!= 'spcomplete'){
+				$query1->where('d_to_empid', $empid);
+			}	
+
+			$query2 = $this->db->table('fil_trap_his')
+				->select('diary_no, d_to_empid, disp_dt, remarks, comp_dt')
+				->whereIn('remarks', ['DE -> SCR'])
+				->where('DATE(disp_dt) >=', $frm_dt)
+				->where('DATE(disp_dt) <=', $to_dt)
+				->where('comp_dt IS NOT NULL');  
+				
+			if($case!= 'spcomplete'){
+				$query2->where('d_to_empid', $empid);
+			}	
+
+			$finalQuery = $query1->union($query2);
+
+			$finalQuery = $this->db->table('(' . $finalQuery->getCompiledSelect() . ') AS temp')
+				->select('m.diary_no, CONCAT(pet_name, \' vs \', res_name) as causetitle, disp_dt')
+				->join('main m', 'm.diary_no = temp.diary_no');
+
+
+			$result = $finalQuery->get()->getResult();
+			return $result;
+			
+		}elseif($case == 'spnotcomp' || $case == 'sppend') {
+		
+				$query1 = $this->db->table('fil_trap')
+						->select('diary_no, d_to_empid, disp_dt, remarks, comp_dt')
+						->whereIn('remarks', ['DE -> SCR'])
+						->where('DATE(disp_dt) >=', $frm_dt)
+						->where('DATE(disp_dt) <=', $to_dt)
+						->where('comp_dt IS NULL');
+				
+				if($case!= 'sppend'){
+				   $query1->where('d_to_empid', $empid);
+			    }				
+				
+
+				$query2 = $this->db->table('fil_trap_his')
+					->select('diary_no, d_to_empid, disp_dt, remarks, comp_dt')
+					->whereIn('remarks', ['DE -> SCR'])
+					->where('DATE(disp_dt) >=', $frm_dt)
+					->where('DATE(disp_dt) <=', $to_dt)
+					->where('comp_dt IS NULL');
+                
+				if($case!= 'sppend'){
+				   $query2->where('d_to_empid', $empid);
+			    }
+
+				$finalQuery = $query1->union($query2);
+
+				$finalQuery = $this->db->table('(' . $finalQuery->getCompiledSelect() . ') AS temp')
+						->select('m.diary_no, CONCAT(pet_name, \' vs \', res_name) as causetitle, disp_dt')
+						->join('main m', 'm.diary_no = temp.diary_no');
+
+
+			    return $finalQuery->get()->getResultArray();
+       }
+	}
+	
+	
 }
