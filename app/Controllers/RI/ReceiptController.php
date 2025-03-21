@@ -371,8 +371,7 @@ class ReceiptController extends BaseController
 
     public function completeDetail($ecPostalReceived)
     {
-        //        echo ">>>".$ecPostalReceived;
-        //        die;
+        
         $detail = $this->RIModel->getCompleteDetail($ecPostalReceived);
         if ($detail) {
             $data['completeDetails'] = $detail;
@@ -388,6 +387,7 @@ class ReceiptController extends BaseController
 
         return view('RI/Receipt/rptCompleteDetails', $data);
     }
+
     /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>END OF DATE-WISE REPORT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  */
 
     /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>BELOW FUNCTIONS ARE OF DISPATCH AD TO SECTION<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<  */
@@ -727,14 +727,13 @@ class ReceiptController extends BaseController
     {
 
         $usercode = session()->get('login')['usercode'];
+
         if (!empty($_POST)) {
             $fromDate = $_POST['fromDate'];
             $toDate = $_POST['toDate'];
             $reportType = $_POST['reportType'];
             $userDetails = $this->RIModel->getUserDetails($usercode);
-            echo "<pre>";
-            //echo "fdfdfdfdfdfdfdf";print_r($userDetails->section); die;
-
+          
             if (isset($fromDate) && isset($toDate)) {
                 $data['reportType'] = $reportType;
                 $data['fromDate'] = $fromDate;
@@ -748,9 +747,8 @@ class ReceiptController extends BaseController
                     $this->date_formatter($toDate, 'Y-m-d'),
                     $reportType,
                     $usercode,
-                    $userSection // Pass section value
+                    $userSection 
                 );
-
                 return view('RI/Receipt/dateWiseReceivedReport', $data);
             }
         }
@@ -816,16 +814,14 @@ class ReceiptController extends BaseController
     public function getDakDataForReceive()
     {
         $this->db = \Config\Database::connect();
-        $this->db->transStart();
+        //$this->db->transStart();
         $usercode = session()->get('login')['usercode'];
         $userDetails = $this->RIModel->getUserDetails($usercode);
         $userSection = isset($userDetails->section) ? $userDetails->section : null;
         $data['dealingSections'] = $this->RIModel->getSection();
         $data['forReceiveInSection'] = $this->RIModel->getDakDataForReceive($usercode, $userSection, 'P');
-
         $data['forInitiatedReceivedInSection'] = $this->RIModel->getInitiatedDakDataForReceive($usercode, $userSection, 'P');
-        //        echo "<pre>";   print_r($data);      die;
-        $this->db->transComplete();
+      
         return view('RI/Receipt/getReceiptDakForSection', $data);
     }
 

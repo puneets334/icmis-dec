@@ -7,7 +7,7 @@ if((isset($receivedBySectionDetails) && sizeof($receivedBySectionDetails)>0 ) ||
 <div class="row"><button type="button" id="print" name="print" style="width:8%" onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button></div>
 <div id="printable" class="dataTables_wrapper dt-bootstrap4 query_builder_wrapper">
 
-    <table  id="tblActionTakenReport" class="table table-bordered table-striped datatable_report">
+    <table  id="tblActionTakenReport" class="table table-striped custom-table">
 
         <thead>
         <tr>
