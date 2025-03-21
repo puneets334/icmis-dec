@@ -46,7 +46,7 @@ if(isset($_POST['caseNo']) || isset($_POST['processId']) || isset($_POST['diaryN
                 <tr>
                     <td></td>
                     <td style="text-align: left !important;">
-                        <a href="<?=base_url();?>index.php/RIController/getCompleteDispatchTransaction/<?=$case['ec_postal_dispatch_id']?>" target="_blank">
+                        <a href="<?=base_url();?>/RI/DispatchController/getCompleteDispatchTransaction/<?=$case['ec_postal_dispatch_id']?>" target="_blank">
                             <?php if ($case['is_with_process_id'] == 1) { ?>
                                 <b>Process Id: <?= $case['process_id'] ?>/<?= $case['process_id_year'] ?></b>
                             <?php }

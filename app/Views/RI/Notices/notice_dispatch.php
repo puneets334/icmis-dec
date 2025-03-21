@@ -9,6 +9,16 @@
         width: auto !important;
         padding: 4px;
     }
+
+    .sp_red {
+        color: red;
+        cursor: pointer;
+    }
+
+    .sp_green {
+        color: green;
+        cursor: pointer;
+    }
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -185,11 +195,11 @@
                     pro_ty: pro_ty,
                     ddlOR: ddlOR_x,
                     rd_ck_nt: rd_ck_nt,
-                    sp_sp_pro: sp_sp_pro,
-                    CSRF_TOKEN: CSRF_TOKEN_VALUE
+                    sp_sp_pro: sp_sp_pro
+                    //CSRF_TOKEN: CSRF_TOKEN_VALUE
                 },
                 success: function(data, status) {
-                    updateCSRFToken();
+                   // updateCSRFToken();
                     $("#res_loader").html(data);
                     var ck_rd_nt = '';
                     if (rd_ck_nt == 0)
@@ -209,7 +219,7 @@
                         $('#price_0').focus();
                 },
                 error: function(xhr) {
-                    updateCSRFToken();
+                   // updateCSRFToken();
                     alert("Error:" + xhr.text + ' ' + xhr.status);
                 }
             });
@@ -245,6 +255,622 @@
             }
 
         }
+    }
+
+
+    function disp_data_sin(str) {
+
+        // var ddlOR=$('#ddlOR').val();
+
+        if ($('#hd_d_t').val() == '0')
+            var ddlOR = $('#ddlOR').val();
+        else if ($('#hd_d_t').val() == '1')
+            var ddlOR = $('#ddlOR_x').val();
+        if (((ddlOR == 'R' || ddlOR == 'Z') && $('#rdn_not_link').is(':checked')) || ddlOR == 'A' || (ddlOR == 'O' && $('#rdn_not_link').is(':checked'))) {
+            var ln_nl_val = '';
+            var chk_fill_det = 0;
+            var txt_bar_cd = '0';
+            var ex_get_id = str.split('_');
+
+            var ddlState_ext = '0';
+            var ddl_district_ext = '0';
+            if ($('#ddlState_ext' + ex_get_id[1]).length)
+                ddlState_ext = $('#ddlState_ext' + ex_get_id[1]).val();
+            if ($('#ddl_district_ext' + ex_get_id[1]).length)
+                ddl_district_ext = $('#ddl_district_ext' + ex_get_id[1]).val();
+            var ddlTehsil = $('#ddlTehsil' + ex_get_id[1]).val();
+            var txtWeight = $('#txtWeight' + ex_get_id[1]).val();
+            var price = $('#price_' + ex_get_id[1]).html();
+            var hd_noticetype = $('#hd_noticetype' + ex_get_id[1]).val();
+            var chkDispatch = $('#chkDispatch_' + ex_get_id[1]);
+            //  alert(hd_noticetype);
+            var ck_un_lnk = '';
+            if ($('#rdn_not_link').is(':checked')) {
+                ck_un_lnk = 0;
+                ln_nl_val = $('#rdn_not_link').val();
+            } else if ($('#rdn_link').is(':checked')) {
+                ck_un_lnk = 1;
+                ln_nl_val = $('#rdn_link').val();
+            }
+            if ($('#txt_bar_cd' + ex_get_id[1]).length)
+                txt_bar_cd = $('#txt_bar_cd' + ex_get_id[1]).val();
+
+            if (chkDispatch.is(':not(:checked)')) {
+                alert("Please check Process Id");
+                return false;
+            }
+            if ((txtWeight == '' && ck_un_lnk == 0 && (ddlOR == 'R' || ddlOR == 'Z')) ||
+                ($('#txtWeight' + ex_get_id[1]).is(':not(:disabled)') && ck_un_lnk == 1 &&
+                    $('#txtWeight' + ex_get_id[1]).val() == '') || ddlState_ext == '' ||
+                ddl_district_ext == '' || (price == '' && ck_un_lnk == 0) ||
+                (txt_bar_cd == '') ||
+                ($('#txtWeight' + ex_get_id[1]).is(':not(:disabled)') && ck_un_lnk == 1 && price == '') || (txtWeight == '' && ck_un_lnk == 0 && (ddlOR == 'O'))) {
+                chk_fill_det = 1;
+                //if(ddlTehsil=='')
+                //    $('#ddlTehsil'+ex_get_id[1]).css('background-color','red');
+                if (txtWeight == '' && ck_un_lnk == 0 && (ddlOR == 'R' || ddlOR == 'Z'))
+                    $('#txtWeight' + ex_get_id[1]).css('background-color', 'red');
+                if ($('#txtWeight' + ex_get_id[1]).is(':not(:disabled)') && ck_un_lnk == 1 && $('#txtWeight' + ex_get_id[1]).val() == '')
+
+                    $('#txtWeight' + ex_get_id[1]).css('background-color', 'red');
+                if (ddlState_ext == '')
+                    $('#ddlState_ext' + ex_get_id[1]).css('background-color', 'red');
+                if (ddl_district_ext == '')
+                    $('#ddl_district_ext' + ex_get_id[1]).css('background-color', 'red');
+                if (price == '' && ck_un_lnk == 0)
+                    $('#price_' + ex_get_id[1]).css('background-color', 'red');
+                if (txt_bar_cd == '')
+                    $('#txt_bar_cd' + ex_get_id[1]).css('background-color', 'red');
+                if ($('#txtWeight' + ex_get_id[1]).is(':not(:disabled)') && ck_un_lnk == 1 && price == '')
+                    $('#price_' + ex_get_id[1]).css('background-color', 'red');
+                if (txtWeight == '' && ck_un_lnk == 0 && (ddlOR == 'O'))
+                    $('#txtWeight' + ex_get_id[1]).css('background-color', 'red');
+
+            }
+
+            if (chk_fill_det == 1) {
+                alert("Please fill detailts shown in red color");
+            } else {
+                $('#' + str).attr('disabled', true);
+                var gus_l_nl = '';
+                var txt_bar_cd = '';
+
+                if (ln_nl_val == '1') {
+                    if ($('#hd_d_t').val() == '0')
+                        var ddlOR = $('#ddlOR').val();
+                    else if ($('#hd_d_t').val() == '1')
+                        var ddlOR = $('#ddlOR_x').val();
+
+                    var CSRF_TOKEN = 'CSRF_TOKEN';
+                    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+                    $.ajax({
+                        url: "<?php echo base_url(); ?>/RI/DispatchController/get_dis_max_id",
+                        type: 'GET',
+                        cache: false,
+                        async: false,
+                        data: {
+                            ddlOR: ddlOR,
+
+                        },
+                        success: function(data, status) {
+                            alert(data);
+                            gus_l_nl = data;
+                        },
+                        error: function(xhr) {
+                            alert("Error:" + xhr.text + ' ' + xhr.status);
+                        }
+                    });
+                }
+
+
+                var con_chk_data = '';
+                var tot_id = '';
+
+                //  var ex_get_id=$(this).attr('id').split('_');
+                if (con_chk_data == '') {
+                    con_chk_data = $('#tr_sn' + ex_get_id[1]).attr('id');
+                } else {
+                    con_chk_data = con_chk_data + ',' + $('#tr_sn' + ex_get_id[1]).attr('id');
+                }
+                var hd_talw_id = $('#hd_talw_id' + ex_get_id[1]).val();
+                //                    var ddlOR=$('#ddlOR').val();
+                if ($('#hd_d_t').val() == '0')
+                    var ddlOR = $('#ddlOR').val();
+                else if ($('#hd_d_t').val() == '1')
+                    var ddlOR = $('#ddlOR_x').val();
+
+                var set_scp_nm = '';
+                var chks_s_cps = '';
+                var hdsto = $('#hdsto' + ex_get_id[1]).val();
+                var hdsname = encodeURI($('#hdsname' + ex_get_id[1]).val());
+                var hdcpsto = $('#hdcpsto' + ex_get_id[1]).val();
+                var hdtot_sc = $('#hdtot_sc' + ex_get_id[1]).val();
+
+                var ck_hdsto = $('#ck_hdsto' + ex_get_id[1]).val();
+                var ck_hdcpsto = $('#ck_hdcpsto' + ex_get_id[1]).val();
+
+
+                var ck_dis_m = $('#ck_dis_m' + ex_get_id[1]).val();
+
+
+                if (ddlOR == 'O' || ddlOR == 'R') {
+                    if (hdsto != 0 && hdsto != '') {
+                        set_scp_nm = hdsto;
+                        chks_s_cps = '0';
+                    } else if (hdsto == '') {
+                        set_scp_nm = hdcpsto;
+                        chks_s_cps = '1';
+                    } else if (hdsto == '0') {
+                        set_scp_nm = hdsname;
+                        chks_s_cps = '2';
+                    }
+                } else if (ddlOR == 'Z' || ddlOR == 'A') {
+                    hdsto = 0;
+                    set_scp_nm = hdsname;
+                    chks_s_cps = '2';
+                }
+                if (tot_id == '') {
+                    tot_id = hd_talw_id;
+                } else {
+                    tot_id = tot_id + '@' + hd_talw_id;
+                }
+
+                var ddlTehsil = $('#ddlTehsil' + ex_get_id[1]).val();
+                var txtWeight = $('#txtWeight' + ex_get_id[1]).val();
+                var price = $('#price_' + ex_get_id[1]).html();
+                var txtRemdis = $('#txtRemdis_' + ex_get_id[1]).val();
+                var hd_del_typo = $('#hd_del_typo' + ex_get_id[1]).val();
+
+                var hd_ml_state = $('#hd_ml_state' + ex_get_id[1]).val();
+                var hd_ml_district = $('#hd_ml_district' + ex_get_id[1]).val();
+                var hd_proc_yrs = $('#hd_proc_yrs' + ex_get_id[1]).val();
+
+                var hd_hd_rec_dt = $('#hd_hd_rec_dt' + ex_get_id[1]).val();
+                var fil_hd = $('#fil_hd' + ex_get_id[1]).val();
+                var spnottype = $('#spnottype_' + ex_get_id[1]).html();
+                var sp_hd_noticetype = $('#sp_hd_noticetype' + ex_get_id[1]).html();
+                var hd_noticetype = $('#hd_noticetype' + ex_get_id[1]).val();
+                var hd_ddl_oraz = $('#hd_ddl_oraz').val();
+                var hd_not_det = '';
+
+                if ($('#' + hd_talw_id).length)
+                    //                  if($('#'+hd_talw_id).length && !$('#hd_noticetype'+ex_get_id[1]).length)
+                    hd_not_det = encodeURIComponent($('#' + hd_talw_id).html());
+                else {
+                    var hd_n_t_c = $('#hd_talw_id' + ex_get_id[1]).val() + '_' + $('#hd_noticetype' + ex_get_id[1]).val() + '_' + $('#hd_ddl_oraz').val();
+                    hd_not_det = encodeURIComponent($('#' + hd_n_t_c).html());
+
+                }
+                //                    alert(hd_n_t_c);   
+                //                  alert(hd_not_det);
+                if (ddlOR == 'R' || ddlOR == 'Z') {
+                    txt_bar_cd = $('#txt_bar_cd' + ex_get_id[1]).val();
+                }
+                var ddlState_ext = '0';
+                var ddl_district_ext = '0';
+                if ($('#ddlState_ext' + ex_get_id[1]).length)
+                    ddlState_ext = $('#ddlState_ext' + ex_get_id[1]).val();
+                if ($('#ddl_district_ext' + ex_get_id[1]).length)
+                    ddl_district_ext = $('#ddl_district_ext' + ex_get_id[1]).val();
+
+                var CSRF_TOKEN = 'CSRF_TOKEN';
+                var CSRF_TOKEN_VALUE = $("input[name='CSRF_TOKEN']").val();
+                $.ajax({
+                    url: "<?php echo base_url(); ?>/RI/DispatchController/save_tw_dispatch",
+                    type: 'POST',
+                    async: false,
+                    cache: false,
+                    proccessData: false,
+                    data: {
+                        hd_talw_id: hd_talw_id,
+                        ddlOR: ddlOR,
+                        ddlTehsil: ddlTehsil,
+                        txtWeight: txtWeight,
+                        price: price,
+                        txtRemdis: txtRemdis,
+                        ln_nl_val: ln_nl_val,
+                        gus_l_nl: gus_l_nl,
+                        txt_bar_cd: txt_bar_cd,
+                        hd_del_typo: hd_del_typo,
+                        ddlState_ext: ddlState_ext,
+                        ddl_district_ext: ddl_district_ext,
+                        hdsto: hdsto,
+                        hdsname: hdsname,
+                        hdcpsto: hdcpsto,
+                        hdtot_sc: hdtot_sc,
+                        ck_hdsto: ck_hdsto,
+                        ck_hdcpsto: ck_hdcpsto,
+                        ck_dis_m: ck_dis_m,
+                        hd_ml_state: hd_ml_state,
+                        hd_ml_district: hd_ml_district,
+                        hd_proc_yrs: hd_proc_yrs,
+                        hd_hd_rec_dt: hd_hd_rec_dt,
+                        fil_hd: fil_hd,
+                        hd_not_det: hd_not_det,
+                        spnottype: spnottype,
+                        sp_hd_noticetype: sp_hd_noticetype,
+                        hd_noticetype: hd_noticetype,
+                        hd_ddl_oraz: hd_ddl_oraz,
+                        CSRF_TOKEN: CSRF_TOKEN_VALUE
+                    },
+                    success: function(data, status) {
+                        updateCSRFToken();
+                        alert(data);
+                        var sp_con_chk_data = con_chk_data.split(',');
+                        for (var i = 0; i < sp_con_chk_data.length; i++) {
+                            $('#' + sp_con_chk_data[i]).remove();
+                        }
+                        if (ddlOR == 'O' || ddlOR == 'R' || ddlOR == 'Z') {
+                            if ($('#rdn_not_link').is(':checked')) {
+                                $('#rdn_not_link').attr('checked', false);
+                            } else if ($('#rdn_link').is(':checked')) {
+                                $('#rdn_link').attr('checked', false);
+                            }
+
+                            $('.cl_chkbox').each(function() {
+                                $(this).attr('disabled', true);
+                            });
+                            $('.cl_tw_weight').each(function() {
+                                $(this).attr('disabled', true);
+                            });
+                        }
+                        clear_dt();
+
+                    },
+                    error: function(xhr) {
+                        updateCSRFToken();
+                        alert("Error:" + xhr.text + ' ' + xhr.status);
+                    }
+                });
+
+
+
+            }
+        } else if ((ddlOR == 'O' || ddlOR == 'R' || ddlOR == 'Z') && $('#rdn_link').is(':checked')) {
+            disp_data();
+        }
+    }
+
+
+    // async function save_tw_dispatch() {
+    //     await updateCSRFTokenSync();
+
+    //     var CSRF_TOKEN = 'CSRF_TOKEN';
+    //     var CSRF_TOKEN_VALUE = $("input[name='CSRF_TOKEN']").val();
+
+    // }
+
+
+    function clear_dt() {
+        var date = new Date();
+        $('#txtProcessId').val('');
+        $('#pro_yr').val(date.getFullYear());
+        $('#sp_sp_pro').html('');
+        $('#dv_bn').html('');
+    }
+
+
+
+    function disp_data() {
+
+        var ck_chk_st = 0;
+        var ck_st = 0;
+        var ln_nl_val = '';
+        $('.cl_chkbox').each(function() {
+            if ($(this).is(':checked')) {
+                ck_chk_st++;
+            }
+        });
+        if (ck_chk_st == 0) {
+            alert("Please check atleast one Process Id");
+        } else {
+            var chk_fill_det = 0;
+            var txt_bar_cd = '0';
+            $('.cl_chkbox').each(function() {
+                if ($(this).is(':checked')) {
+                    var ex_get_id = $(this).attr('id').split('_');
+                    var ddlState_ext = '0';
+                    var ddl_district_ext = '0';
+                    if ($('#ddlState_ext' + ex_get_id[1]).length)
+                        ddlState_ext = $('#ddlState_ext' + ex_get_id[1]).val();
+                    if ($('#ddl_district_ext' + ex_get_id[1]).length)
+                        ddl_district_ext = $('#ddl_district_ext' + ex_get_id[1]).val();
+                    var ddlTehsil = $('#ddlTehsil' + ex_get_id[1]).val();
+
+
+                    var txtWeight = $('#txtWeight' + ex_get_id[1]).val();
+                    var price = $('#price_' + ex_get_id[1]).html();
+                    var hd_noticetype = $('#hd_noticetype' + ex_get_id[1]).val();
+                    //  alert(hd_noticetype);
+                    if ($('#hd_d_t').val() == '0')
+                        var ddlOR = $('#ddlOR').val();
+                    else if ($('#hd_d_t').val() == '1')
+                        var ddlOR = $('#ddlOR_x').val();
+
+                    var ck_un_lnk = '';
+                    if ($('#rdn_not_link').is(':checked')) {
+                        ck_un_lnk = 0;
+                        ln_nl_val = $('#rdn_not_link').val();
+                    } else if ($('#rdn_link').is(':checked')) {
+                        ck_un_lnk = 1;
+                        ln_nl_val = $('#rdn_link').val();
+                    }
+                    if ($('#txt_bar_cd' + ex_get_id[1]).length)
+                        txt_bar_cd = $('#txt_bar_cd' + ex_get_id[1]).val();
+                    if ((txtWeight == '' && ck_un_lnk == 0 && hd_noticetype != '51' && hd_noticetype != '52' && (ddlOR == 'R' || ddlOR == 'Z')) ||
+                        ($('#txtWeight' + ex_get_id[1]).is(':not(:disabled)') && ck_un_lnk == 1 &&
+                            $('#txtWeight' + ex_get_id[1]).val() == '') || ddlState_ext == '' || ddl_district_ext == '' ||
+                        (price == '' && ck_un_lnk == 0) || (txt_bar_cd == '' && hd_noticetype != '51' &&
+                            hd_noticetype != '52') || ($('#txtWeight' + ex_get_id[1]).is(':not(:disabled)') &&
+                            ck_un_lnk == 1 && price == '') || (txtWeight == '' && ck_un_lnk == 0 && ddlOR == 'O') ||
+                        (txtWeight == '' && ck_un_lnk == 0 && (ddlOR == 'R' || ddlOR == 'Z'))
+                    ) {
+                        chk_fill_det = 1;
+                        if (ddlTehsil == '')
+                            alert('hello');
+                        //$('#ddlTehsil'+ex_get_id[1]).css('background-color','red');
+                        if (txtWeight == '' && ck_un_lnk == 0 && hd_noticetype != '51' && hd_noticetype != '52' && (ddlOR == 'R' || ddlOR == 'Z'))
+                            $('#txtWeight' + ex_get_id[1]).css('background-color', 'red');
+                        if ($('#txtWeight' + ex_get_id[1]).is(':not(:disabled)') && ck_un_lnk == 1 && $('#txtWeight' + ex_get_id[1]).val() == '')
+
+                            $('#txtWeight' + ex_get_id[1]).css('background-color', 'red');
+                        if (ddlState_ext == '')
+                            $('#ddlState_ext' + ex_get_id[1]).css('background-color', 'red');
+                        if (ddl_district_ext == '')
+                            $('#ddl_district_ext' + ex_get_id[1]).css('background-color', 'red');
+                        if (price == '' && ck_un_lnk == 0)
+                            $('#price_' + ex_get_id[1]).css('background-color', 'red');
+                        if (txt_bar_cd == '' && hd_noticetype != '51' && hd_noticetype != '52')
+                            $('#txt_bar_cd' + ex_get_id[1]).css('background-color', 'red');
+                        if ($('#txtWeight' + ex_get_id[1]).is(':not(:disabled)') && ck_un_lnk == 1 && price == '')
+                            $('#price_' + ex_get_id[1]).css('background-color', 'red');
+                        if (txtWeight == '' && ck_un_lnk == 0 && ddlOR == 'O')
+                            $('#txtWeight' + ex_get_id[1]).css('background-color', 'red');
+                        if (txtWeight == '' && ck_un_lnk == 0 && (ddlOR == 'R' || ddlOR == 'Z'))
+                            $('#price_' + ex_get_id[1]).css('background-color', 'red');
+
+                    }
+
+                }
+            });
+
+            if (chk_fill_det == 1) {
+                alert("Please fill detailts shown in red color");
+            } else {
+
+                $('.cl_submit').attr('disabled', true);
+                var gus_l_nl = '';
+                var txt_bar_cd = '';
+
+                if (ln_nl_val == '1') {
+                    if ($('#hd_d_t').val() == '0')
+                        var ddlOR = $('#ddlOR').val();
+                    else if ($('#hd_d_t').val() == '1')
+                        var ddlOR = $('#ddlOR_x').val();
+
+                    $.ajax({
+                        url: "<?php echo base_url(); ?>/RI/DispatchController/get_dis_max_id",
+                        type: 'GET',
+                        cache: false,
+                        async: false,
+                        data: {
+                            ddlOR: ddlOR
+                        },
+                        success: function(data, status) {
+
+                            gus_l_nl = data;
+                        },
+                        error: function() {
+                            alert("Error:" + xhr.text + ' ' + xhr.status);
+                        }
+                    });
+                }
+
+                var con_chk_data = '';
+                var tot_id = '';
+                var set_scp_nm = '';
+                var chks_s_cps = '';
+
+
+
+                $('.cl_chkbox').each(function() {
+
+                    if ($(this).is(':checked')) {
+                        // alert("dfdfdf");
+                        ck_st++;
+                        var ex_get_id = $(this).attr('id').split('_');
+                        if (con_chk_data == '') {
+                            con_chk_data = $('#tr_sn' + ex_get_id[1]).attr('id');
+                        } else {
+                            con_chk_data = con_chk_data + ',' + $('#tr_sn' + ex_get_id[1]).attr('id');
+                        }
+                        var hd_talw_id = $('#hd_talw_id' + ex_get_id[1]).val();
+                        // var ddlOR=$('#ddlOR').val();
+                        var hdsto = $('#hdsto' + ex_get_id[1]).val();
+                        var hdsname = encodeURI($('#hdsname' + ex_get_id[1]).val());
+                        var hdcpsto = $('#hdcpsto' + ex_get_id[1]).val();
+                        //                    alert(hdsto);
+                        //                    alert(hdcpsto);
+
+                        var ck_hdsto = $('#ck_hdsto' + ex_get_id[1]).val();
+                        var ck_hdcpsto = $('#ck_hdcpsto' + ex_get_id[1]).val();
+                        var ck_dis_m = $('#ck_dis_m' + ex_get_id[1]).val();
+
+                        var hdtot_sc = $('#hdtot_sc' + ex_get_id[1]).val();
+                        if ($('#hd_d_t').val() == '0')
+                            var ddlOR = $('#ddlOR').val();
+                        else if ($('#hd_d_t').val() == '1')
+                            var ddlOR = $('#ddlOR_x').val();
+                        if (ddlOR == 'O' || ddlOR == 'R') {
+
+
+                            if (hdsto != 0 && hdsto != '') {
+                                set_scp_nm = hdsto;
+                                chks_s_cps = '0';
+                            } else if (hdsto == '') {
+                                set_scp_nm = hdcpsto;
+                                chks_s_cps = '1';
+                            } else if (hdsto == '0') {
+
+                                set_scp_nm = hdsname;
+                                chks_s_cps = '2';
+                            }
+                        } else if (ddlOR == 'Z' || ddlOR == 'A') {
+                            hdsto = 0;
+                            set_scp_nm = hdsname;
+                            chks_s_cps = '2';
+                        }
+                        //                    alert(set_scp_nm);
+                        //                    alert(chks_s_cps);
+                        if ($('#hd_d_t').val() == '0')
+                            var ddlOR = $('#ddlOR').val();
+                        else if ($('#hd_d_t').val() == '1')
+                            var ddlOR = $('#ddlOR_x').val();
+                        if (tot_id == '') {
+                            tot_id = hd_talw_id;
+                        } else {
+                            tot_id = tot_id + '@' + hd_talw_id;
+                        }
+                        var ddlTehsil = $('#ddlTehsil' + ex_get_id[1]).val();
+                        var txtWeight = $('#txtWeight' + ex_get_id[1]).val();
+                        var price = $('#price_' + ex_get_id[1]).html();
+                        var txtRemdis = $('#txtRemdis_' + ex_get_id[1]).val();
+                        var hd_del_typo = $('#hd_del_typo' + ex_get_id[1]).val();
+                        var hd_proc_yrs = $('#hd_proc_yrs' + ex_get_id[1]).val();
+                        var hd_hd_rec_dt = $('#hd_hd_rec_dt' + ex_get_id[1]).val();
+                        var fil_hd = $('#fil_hd' + ex_get_id[1]).val();
+                        var hd_ml_state = $('#hd_ml_state' + ex_get_id[1]).val();
+                        var hd_ml_district = $('#hd_ml_district' + ex_get_id[1]).val();
+                        var spnottype = $('#spnottype_' + ex_get_id[1]).html();
+                        var sp_hd_noticetype = $('#sp_hd_noticetype' + ex_get_id[1]).html();
+
+                        var hd_noticetype = $('#hd_noticetype' + ex_get_id[1]).val();
+                        var hd_ddl_oraz = $('#hd_ddl_oraz').val();
+                        var hd_not_det = '';
+
+                        if ($('#' + hd_talw_id).length)
+                        //                     if($('#'+hd_talw_id).length>0 && $('#hd_noticetype'+ex_get_id[1]).val<=0)
+                        {
+                            //                  alert('anshul');
+                            hd_not_det = encodeURIComponent($('#' + hd_talw_id).html());
+
+                        } else {
+                            var hd_n_t_c = $('#hd_talw_id' + ex_get_id[1]).val() + '_' + $('#hd_noticetype' + ex_get_id[1]).val() + '_' + $('#hd_ddl_oraz').val();
+                            hd_not_det = encodeURIComponent($('#' + hd_n_t_c).html());
+
+                        }
+                        //alert(hd_not_det);             
+                        //                    alert(hd_not_det);
+                        if (ddlOR == 'R' || ddlOR == 'Z') {
+                            txt_bar_cd = $('#txt_bar_cd' + ex_get_id[1]).val();
+                        }
+                        var ddlState_ext = '0';
+                        var ddl_district_ext = '0';
+                        if ($('#ddlState_ext' + ex_get_id[1]).length)
+                            ddlState_ext = $('#ddlState_ext' + ex_get_id[1]).val();
+                        if ($('#ddl_district_ext' + ex_get_id[1]).length)
+                            ddl_district_ext = $('#ddl_district_ext' + ex_get_id[1]).val();
+
+
+                        var CSRF_TOKEN = 'CSRF_TOKEN';
+                        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
+                        $.ajax({
+                            url: "<?php echo base_url(); ?>/RI/DispatchController/save_tw_dispatch",
+                            type: 'POST',
+                            async: false,
+                            cache: false,
+
+                            data: {
+                                hd_talw_id: hd_talw_id,
+                                ddlOR: ddlOR,
+                                ddlTehsil: ddlTehsil,
+                                txtWeight: txtWeight,
+                                price: price,
+                                txtRemdis: txtRemdis,
+                                ln_nl_val: ln_nl_val,
+                                gus_l_nl: gus_l_nl,
+                                txt_bar_cd: txt_bar_cd,
+                                hd_del_typo: hd_del_typo,
+                                ddlState_ext: ddlState_ext,
+                                ddl_district_ext: ddl_district_ext,
+                                hdsto: hdsto,
+                                hdsname: hdsname,
+                                hdcpsto: hdcpsto,
+                                hdtot_sc: hdtot_sc,
+                                ck_hdsto: ck_hdsto,
+                                ck_hdcpsto: ck_hdcpsto,
+                                ck_dis_m: ck_dis_m,
+                                hd_proc_yrs: hd_proc_yrs,
+                                hd_hd_rec_dt: hd_hd_rec_dt,
+                                fil_hd: fil_hd,
+                                hd_ml_state: hd_ml_state,
+                                hd_ml_district: hd_ml_district,
+                                hd_not_det: hd_not_det,
+                                spnottype: spnottype,
+                                sp_hd_noticetype: sp_hd_noticetype,
+                                hd_noticetype: hd_noticetype,
+                                hd_ddl_oraz: hd_ddl_oraz,
+                                CSRF_TOKEN: CSRF_TOKEN_VALUE
+                            },
+                            success: function(data, status) {
+                                updateCSRFToken();
+                                if (ck_st == ck_chk_st) {
+                                    alert(data);
+                                    show_ids(tot_id, ddlOR, set_scp_nm, chks_s_cps, ln_nl_val);
+
+                                }
+                            },
+                            error: function(xhr) {
+                                updateCSRFToken();
+                                alert("Error:" + xhr.text + ' ' + xhr.status);
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    }
+
+    function show_ids(tot_id, ddlOR, set_scp_nm, chks_s_cps, ln_nl_val) {
+        set_scp_nm = encodeURIComponent(set_scp_nm);
+
+        tot_id = encodeURIComponent(tot_id);
+
+        //    alert(tot_id);
+        document.getElementById('ggg').style.width = 'auto';
+        document.getElementById('ggg').style.height = ' 500px';
+        document.getElementById('ggg').style.overflow = 'scroll';
+        //  margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;
+        document.getElementById('ggg').style.marginLeft = '18px';
+        document.getElementById('ggg').style.marginRight = '18px';
+        document.getElementById('ggg').style.marginBottom = '25px';
+        document.getElementById('ggg').style.marginTop = '30px';
+
+        document.getElementById('dv_sh_hd').style.display = 'block';
+        document.getElementById('dv_fixedFor_P').style.display = 'block';
+        document.getElementById('dv_fixedFor_P').style.marginTop = '3px';
+        document.getElementById('ggg').innerHTML = '<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>';
+        $.ajax({
+            url: "<?php echo base_url(); ?>/RI/DispatchController/show_ids",
+            type: 'GET',
+            cache: false,
+            async: true,
+            data: {
+                tot_id: tot_id,
+                ddlOR: ddlOR,
+                set_scp_nm: set_scp_nm,
+                chks_s_cps: chks_s_cps,
+                ln_nl_val: ln_nl_val
+            },
+            success: function(data, status) {
+                $('#ggg').html(data);
+            },
+            error: function(xhr) {
+                alert("Error:" + xhr.text + ' ' + xhr.status);
+            }
+        });
+
     }
 
 

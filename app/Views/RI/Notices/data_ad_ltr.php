@@ -1,4 +1,7 @@
 <?php if (isset($results) && count($results) > 0): ?>
+    <!-- <div style="text-align: center">
+        <input type="button" name="btn_print" id='btn_print' value="Print" />
+    </div> -->
     <div class="table-responsive">
         <table id="report" class="table table-striped custom-table">
             <thead>
@@ -77,12 +80,11 @@
                 ?>
             </tbody>
         </table>
+        
     <?php else: ?>
         <div style="text-align: center"><b>No Record Found</b></div>
     <?php endif; ?>
-    <div style="text-align: center">
-        <input type="button" name="btn_print" id='btn_print' value="Print" />
-    </div>
+   
     </div>
 
     <script>
