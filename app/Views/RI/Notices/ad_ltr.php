@@ -52,11 +52,11 @@
                                                 <div class="row">
                                                     <div class="col-sm-12 col-md-3 mb-3">
                                                         <label for="fromDate">From Date</label>
-                                                        <input type="text" id="fromDate" name="fromDate" size="8" maxlength="10" value="<?php echo date('d-m-Y'); ?>" class="dtp form-control" readonly />
+                                                        <input type="text" id="fromDate" name="fromDate" size="8" maxlength="10" value="<?php echo date('d-m-Y'); ?>" class="dtp form-control"  />
                                                     </div>
                                                     <div class="col-sm-12 col-md-3 mb-3">
                                                         <label for="to">To Date</label>
-                                                        <input type="text" id="toDate" name="toDate" size="8" maxlength="10" value="<?php echo date('d-m-Y'); ?>" class="dtp form-control" readonly />
+                                                        <input type="text" id="toDate" name="toDate" size="8" maxlength="10" value="<?php echo date('d-m-Y'); ?>" class="dtp form-control"  />
                                                     </div>
                                                     <div class="col-sm-12 col-md-3 mb-3">
                                                         <label for="ddlOR">Delivery Type</label>
@@ -100,6 +100,21 @@
         var ddlOR = $("#ddlOR").val();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
+         
+        date1 = new Date(fromDate.split('-')[2],fromDate.split('-')[1]-1,fromDate.split('-')[0]);
+        date2 = new Date(toDate.split('-')[2],toDate.split('-')[1]-1,toDate.split('-')[0]);
+     
+        var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+         
+        if(diffDays>15)
+        {
+            alert("Please Select time period of 15 days!");
+            return false;
+        }
+
+
         if (fromDate == "") {
             alert("Select Received From Date.");
             $("#fromDate").focus();
