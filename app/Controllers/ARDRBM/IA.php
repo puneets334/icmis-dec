@@ -939,7 +939,7 @@ class IA extends BaseController
             if ($order_dt) {
                 $order_date = $order_dt['next_dt'];
             } else {
-                $order_dt = $this->Model_IA->getOrderDetails2($diaryno);
+                $order_dt = $this->Model_IA->getOrderDetails2($diaryno);                
                 if ($order_dt) {
                     $order_date = $order_dt['next_dt'];
                 }
