@@ -217,9 +217,9 @@ class ReceiptController extends BaseController
             $valueField = rtrim($valueField, ',') . ")";
 
             // echo $columnName . "<br>" . $valueField;
-        
-         $query = "insert into ec_postal_received" . $columnName . " values " . $valueField;
-           
+
+            $query = "insert into ec_postal_received" . $columnName . " values " . $valueField;
+
 
             $insertedId = $this->RIModel->saveReceiptData($query, "i");
             // echo "<pre>";
@@ -249,7 +249,7 @@ class ReceiptController extends BaseController
             if (!empty($addressedto)) {
                 $updateQuery = $updateQuery . "address_to='" . $this->addSlashinString($addressedto) . "',";
             }
-            
+
 
             if (!empty($receiptMode) && $receiptMode != 0) {
                 $updateQuery = $updateQuery . "ref_postal_type_id=" . $receiptMode . ",";
@@ -319,8 +319,8 @@ class ReceiptController extends BaseController
             $updateQuery = rtrim($updateQuery, ',');
 
             $query = "update ec_postal_received set " . $updateQuery . " where id=" . $receiptid;
-                    //    echo $query;
-                    //    die;
+            //    echo $query;
+            //    die;
             $this->RIModel->transferReceiptDataToLogtable($receiptid);
             $rowsaffected = $this->RIModel->saveReceiptData($query);
             //            echo $rowsaffected;die;
@@ -338,10 +338,8 @@ class ReceiptController extends BaseController
             // pr($result);
             if ($rowsaffected != null && $rowsaffected != "") {
                 echo "Success";
-               
             } else {
                 echo "Error";
-              
             }
         }
         $this->db->transComplete();
@@ -422,8 +420,6 @@ class ReceiptController extends BaseController
 
     public function getDataForADToDispatch()
     {
-        // pr($_POST);
-
 
         if (!empty($_POST)) {
             $searchBy = $_POST['searchBy'];
@@ -456,16 +452,23 @@ class ReceiptController extends BaseController
 
         ];
 
-
-
         $getDakToDispatch = $this->RIModel->enteredDakToDispatchInRIWithProcessId21($data);
         if ($getDakToDispatch) {
             $data['dataForADToDispatch'] = $getDakToDispatch;
         } else {
             $data['dataForADToDispatch'] = '';
         }
-        echo view('RI/Receipt/dataToDispatchAD', $data);
-        exit();
+
+        return view('RI/Receipt/dataToDispatchAD', $data);
+    }
+
+    public function doDispatchADToSection()
+    {
+        extract($_POST);
+        $usercode = session()->get('login')['usercode'];
+        foreach ($selectedCases as $index => $case) {
+            $this->RIModel->dispatchADToSection($case, $sendToSection[$index], $usercode);
+        }
     }
 
 
@@ -477,31 +480,30 @@ class ReceiptController extends BaseController
         $data['judges'] = $this->RIModel->getJudge();
         $data['dealingSections'] = $this->RIModel->getSection();
         $data['officers'] = $this->RIModel->getOfficers();
-        //        BELOW KEYS ARE USED BUT NOT DEFINED ANYWHERE IN OLD CODE
-        //        $data['reportType'] = '';
         $data['judgeid'] = '';
         $data['officerid'] = '';
         $data['dealingSectionid'] = '';
         return view('RI/Receipt/dispatchReceiptDak', $data);
     }
 
+    public function doDispatchDak(){
+
+        extract($_POST);
+        $usercode= session()->get('login')['usercode'];
+        foreach ($selectedCases as $dak){
+            $this->RIModel->transferReceiptDataToLogtable($dak);
+            $result=$this->RIModel->doDispatch($dak,$usercode);
+            if($result==1){
+                $data['dispatchedDetails']=$this->RIModel->getDispatchedDak($selectedCases);
+
+            }
+        }
+       return view('RI/Receipt/dispatchedReport',$data);
+    }
+
     public function getDispatchData()
     {
-        //      echo "<pre>";
-        //      print_r($_POST);
-        //      die;
-        //
-        //        Array
-        //        (
-        //            [searchBy] => j
-        //            [fromDate] => 2024-01-04
-        //    [toDate] => 2024-01-04
-        //    [parcelReceiptMode] => 1
-        //    [judge] => 219
-        //    [officer] => 0
-        //    [dealingSection] => 0
-        //)
-
+       
         if (!empty($_POST)) {
             //            echo "RRR";
             $whereCondition = "";
@@ -532,7 +534,7 @@ class ReceiptController extends BaseController
 
                 $data['receiptData'] = $this->RIModel->getDispatchData($whereCondition, $receiptModeCondition, $fromDate, $toDate);
             }
-            echo view('RI/Receipt/getDispatchReceiptDak', $data);
+            return view('RI/Receipt/getDispatchReceiptDak', $data);
         }
     }
 
