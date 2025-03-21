@@ -3813,7 +3813,7 @@ function get_case_alloted_popup_details($frm_dt, $to_dt, $ddl_users, $case, $row
            }
 	}
 }
-
+ 
 
 
 }
