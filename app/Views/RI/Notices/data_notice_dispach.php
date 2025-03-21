@@ -33,6 +33,7 @@
                     <th>
                         Remark
                     </th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,7 +84,7 @@
                                     $send_to_name = send_to_name($row['send_to_type'], $row['tw_sn_to']);
                                 }
 
-                                echo $send_to_name;
+                                echo $send_to_name ?? '';
                                 if ($row['tw_sn_to'] != 0 && $row['send_to_type'] == 3) {
                                     $send_to_address = send_to_address($row['send_to_type'], $row['tw_sn_to']);
                                     echo "<br><b>Address: </b><br>" . $send_to_address;
@@ -123,8 +124,9 @@
                             <?php
 
                             $tehsil = get_tehsil_frm_district($t_dis);
+                          
                             ?>
-                            <select name="ddlTehsil<?php echo $s_no; ?>" id="ddlTehsil<?php echo $s_no; ?>" class="cl_ddl_dis" onfocus="hide_clr(this.id)" style="width:80px; <?php if ($row['state_code'] > 100) { ?>color:red; font-weight: bold;<?php } ?> ">
+                            <select   name="ddlTehsil<?php echo $s_no; ?>" id="ddlTehsil<?php echo $s_no; ?>" class="form-control cl_ddl_dis" onfocus="hide_clr(this.id)"   <?php if ($row['state_code'] > 100) { ?>color:red; font-weight: bold;<?php } ?> ">
 
                                 <option value="">Select</option>
                                 <?php
@@ -145,7 +147,7 @@
                                                                                                                                                                                                                                                                                                                                                             if ($ddlOR == 'R' || $ddlOR == 'Z') { ?> value='0' <?php } ?> onfocus="hide_clr(this.id)" <?php if ($ddlOR == 'A') { ?> value="0" <?php } ?> />
                         </td>
                         <td>
-                            <div id="price_<?php echo $s_no; ?>" <?php if ($ddlOR == 'O') { ?> contenteditable="false" <?php } else { ?>contenteditable="true" <?php } ?> style="width:100%;border: 1px solid black;height: 20px" onfocus="hide_clr(this.id)" class="cl_price"></div>
+                            <div id="price_<?php echo $s_no; ?>" <?php if ($ddlOR == 'O') { ?> contenteditable="false" <?php } else { ?>contenteditable="true" <?php } ?> style="width:100%;" onfocus="hide_clr(this.id)" class="form-control cl_price"></div>
                         </td>
 
                         <?php
@@ -161,14 +163,16 @@
                         <td>
                             <input type="button" name="btnsinsub_<?php echo $s_no; ?>" id="btnsinsub_<?php echo $s_no; ?>" value="Submit" onclick="disp_data_sin(this.id)" class="cp_ind_sb" <?php if ($ddlOR == 'O') { ?> disabled="true" <?php } ?> />
                             <?php
-
+                            
                             if ($ckk_f_no != $row['fil_no'] . '_' . $row['rec_dt']) {
                                 $fil_nm = "notices/" . $row['fil_no'] . '_' . $row['rec_dt'] . ".html";
-                                $ds = fopen($fil_nm, 'r');
-                                $b_z = fread($ds, filesize($fil_nm));
-                                fclose($ds);
-                                $msg = $msg . utf8_encode($b_z);
-                                $ckk_f_no = $row['fil_no'] . '_' . $row['rec_dt']
+                                if (file_exists($fil_nm)) {
+                                    $ds = fopen($fil_nm, 'r');
+                                    $b_z = fread($ds, filesize($fil_nm));
+                                    fclose($ds);
+                                    $msg = $msg . utf8_encode($b_z);
+                                    $ckk_f_no = $row['fil_no'] . '_' . $row['rec_dt'];
+                                }
                             ?>
 
                             <?php } ?>
@@ -200,4 +204,4 @@
             <?php
         } ?>
         </table>
-        <div id="hd_not_det">No Record Found</div>
+         

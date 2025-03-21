@@ -2829,18 +2829,8 @@ if (!function_exists('get_casenos_comma')) {
                         // $sql_ct_type = mysql_query("Select short_description,cs_m_f from casetype where casecode='" . $t_m1 . "' and display='Y'") or die("Error" . __LINE__ . mysql_error());
                         // $row = mysql_fetch_array($sql_ct_type);
 
-                        if ($row && isset($row['short_description'])) {
-                            $res_ct_typ = $row['short_description'];
-                        } else {
-                            $res_ct_typ = ''; 
-                        }
-
-                        if ($row && isset($row['cs_m_f'])) {
-                            $res_ct_typ_mf = $row['cs_m_f'];
-                        } else {
-                            $res_ct_typ_mf = ''; 
-                        }
-                        
+                        $res_ct_typ = $row['short_description'];
+                        $res_ct_typ_mf = $row['cs_m_f'];
                         if (trim($t_fil_no) != '')
                             $t_fil_no .= ",<br>";
                         if ($t_m2 == $t_m21)
@@ -4746,7 +4736,7 @@ function send_to_name($id_val, $tw_sn_to)
 
 
     if (!empty($r_sql))
-        return $r_sql['desg'];
+        return $r_sql['desg'] ?? '';
     else
         return '';
 }
@@ -4762,7 +4752,7 @@ function send_to_address($send_to_type, $tw_sn_to)
     }
     $query = $db->query($sql);
     $r_sql = $query->getRowArray();
-    return $r_sql['ag_adrss'];
+    return $r_sql['ag_adrss'] ?? '';
 }
 
 function get_section($dairy_no)
@@ -4776,7 +4766,7 @@ function get_section($dairy_no)
                 AND b.display = 'Y'
                 AND c.display = 'Y'";
     $query =  $db->query($section);
-    $res_section = $query->getRowArray()['section_name'];
+    $res_section = $query->getRowArray()['section_name'] ?? '';
     return $res_section;
 }
 
@@ -4785,7 +4775,7 @@ function get_advocate_address($tw_sn_to)
     $db = \Config\Database::connect();
     $get_address = "Select caddress from master.bar where bar_id='$tw_sn_to'";
     $query =  $db->query($get_address);
-    $r_get_address = $query->getRowArray()['caddress'];
+    $r_get_address = $query->getRowArray()['caddress'] ?? '';
     return $r_get_address;
 }
 
@@ -4800,17 +4790,19 @@ function get_state($state)
 function get_tehsil_frm_district($district)
 {
     $get_state_dis = is_data_from_table('master.state', " id_no='$district' and display='Y' ", 'state_code,district_code', '');
-
-    $s_det = is_data_from_table('master.state', " state_code='$get_state_dis[state_code]' and district_code='$get_state_dis[district_code]' and village_code=0 and display='Y'", 'name,id_no', '');
-
+   
+    $s_det = is_data_from_table('master.state', " state_code='$get_state_dis[state_code]' and district_code='$get_state_dis[district_code]' and village_code=0 and display='Y'", 'name,id_no', 'A');
+   
     $o_array = array();
-
+    //pr($s_det);
     foreach ($s_det as $row) {
+        
         $i_array = array();
-        $i_array[0] = $row['id_no'];
-        $i_array[1] = $row['name'];
+        $i_array[0] = $row['id_no'] ?? '';
+        $i_array[1] = $row['name'] ?? '';
         $o_array[] = $i_array;
     }
+    
     return $o_array;
 }
 

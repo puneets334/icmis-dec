@@ -831,6 +831,7 @@ class DispatchController extends BaseController
             $u_cond = '';
 
         $results['results'] = $this->RIModel->getNoticeAdLtrDetails($txt_frmdate, $txt_todate, $ddlOR, $ucode, $u_cond);
+        
         return view('RI/Notices/data_ad_ltr', $results);
     }
 
@@ -902,6 +903,93 @@ class DispatchController extends BaseController
         $result['result'] = $this->RIModel->update_notice_dispatch($pro_yr,$result['ddlOR']);
         return view('RI/Notices/data_notice_dispach', $result);
 
+    }
+
+
+    public function get_dis_max_id()
+    {
+        $yr=date('Y');
+        if($_REQUEST['ddlOR']=='O')
+        {
+            $sql = is_data_from_table('master.tw_max_process', " year='$yr' ", 'tw_disp_id', '');
+            $res_sq=  $sql['tw_disp_id'] ?? 0 ;
+        }         
+        else if($_REQUEST['ddlOR']=='R' || $_REQUEST['ddlOR']=='Z'){
+            $sql = is_data_from_table('master.tw_max_process', " year='$yr' ", 'tw_disp_reg', '');
+            $res_sq=  $sql['tw_disp_reg'] ?? 0;
+        }
+           
+        
+        echo $res_sq=$res_sq+1;
+    }
+
+    public function save_tw_dispatch()
+    {    
+        $ucode = session()->get('login')['usercode'];
+        $yr=date('Y');
+
+            $ORA='';
+            if($_REQUEST['ddlOR']=='O')
+            {
+                $ORA='tw_disp_id';
+            }
+            else if($_REQUEST['ddlOR']=='R' || $_REQUEST['ddlOR']=='Z')
+            {
+                $ORA='tw_disp_reg';
+            }
+            else if($_REQUEST['ddlOR']=='A')
+            {
+                $ORA='tw_disp_adv_reg';
+            }
+        
+            if($_REQUEST['ln_nl_val']=='0')
+            {
+                $sql = is_data_from_table('master.tw_max_process', " year='$yr' ", "'.$ORA.'", '');
+                //$sql=  mysql_query("select $ORA from  tw_max_process where year='$yr'") or die("Error:".  mysql_error());
+
+                $res_sq=   $sql[$ORA] ?? 0;
+                $res_sq=$res_sq+1;
+            }
+            else if($_REQUEST['ln_nl_val']=='1')
+            {
+                $res_sq=$_REQUEST['gus_l_nl'];
+            }
+
+             
+            $chk_bcr_sql = is_data_from_table('tw_comp_not', " barcode='$_REQUEST[txt_bar_cd]' and  display='Y' ", "count(barcode) as total", '');
+            //exit(0);
+           
+            $res_barcode = $chk_bcr_sql['total'];
+            if ($res_barcode <= 0) {
+
+                $ins="Update tw_comp_not set station='$_REQUEST[ddlTehsil]',weight='$_REQUEST[txtWeight]',
+                    stamp='$_REQUEST[price]',dis_remark='$_REQUEST[txtRemdis]',dispatch_user_id='$ucode',dispatch_dt=now(),
+                    dispatch_id='$res_sq',barcode='$_REQUEST[txt_bar_cd]' where id='$_REQUEST[hd_talw_id]' and display='Y'";
+
+
+                if($this->db->query($ins))
+                {                                 
+                    $sq_update=$this->db->query("Update master.tw_max_process set $ORA='$res_sq' where year='$yr'");
+                    echo "Data Inserted Successsfully";
+                
+                
+                }else{
+                    echo "Data is not Inserted Successsfully";
+                }               
+            }
+            else
+            {      
+                echo "Bar Code Already Used. Please try again with New One.";
+            }
+        
+    }
+
+
+    public function show_ids()
+    {
+        $data['_REQUEST'] = $_REQUEST;
+        $data['result'] = $this->RIModel->getDispatchDetails($_REQUEST['tot_id']);
+        return view('RI/Notices/show_ids', $data);
     }
 
 

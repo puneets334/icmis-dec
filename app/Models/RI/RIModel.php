@@ -1964,7 +1964,14 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
 
     public function getNoticeAdLtrDetails($txt_frmdate, $txt_todate, $ddlOR, $ucode, $u_cond)
     {
-        $sql = "SELECT d.id,a.diary_no, process_id, a.name, case when (send_to_type='' or send_to_type::integer IN (2, 3)) then address when (send_to_type::integer = 1) then bb.caddress else '' END AS address, b.name nt_typ, del_type, 
+        $sql = "SELECT d.id,a.diary_no, process_id, a.name, 
+        CASE 
+        WHEN (send_to_type ~ '^[0-9]+$' AND send_to_type::INTEGER IN (2, 3)) 
+        THEN address 
+        WHEN (send_to_type ~ '^[0-9]+$' AND send_to_type::INTEGER = 1) 
+        THEN bb.caddress 
+        ELSE '' 
+    END AS address,  b.name nt_typ, del_type, 
       tw_sn_to, copy_type, send_to_type, fixed_for, rec_dt, office_notice_rpt,reg_no_display,
       sendto_district,sendto_state,nt_type,tal_state,tal_district,dispatch_id,dispatch_dt,station,weight,stamp,
       barcode,dis_remark,dispatch_user_id
@@ -2056,7 +2063,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
     {
         $sql = "SELECT d.id,a.diary_no, process_id, a.name, case when (send_to_type='' or send_to_type::integer=3 or send_to_type::integer=2 ) then address when (send_to_type::integer=1) then bb.      caddress else '' END AS address, b.name nt_typ, del_type, 
             tw_sn_to, copy_type, send_to_type, fixed_for, rec_dt, office_notice_rpt,reg_no_display,
-            sendto_district,sendto_state,nt_type,tal_state,tal_district,s.State_code
+            sendto_district,sendto_state,nt_type,tal_state,tal_district,s.State_code,fil_no
         FROM tw_tal_del a
         JOIN master.tw_notice b ON a.nt_type = b.id::text
         JOIN tw_o_r c ON c.tw_org_id = a.id
@@ -2068,7 +2075,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
         AND print =1
         AND b.display = 'Y'
         AND c.display = 'Y'
-        AND d.display = 'Y' and dispatch_id=0 and dispatch_dt = null 
+        AND d.display = 'Y' and dispatch_id =0 and dispatch_dt is null 
         and $pro_yr and del_type='$ddlOR'";
 
         $query = $this->db->query($sql);
@@ -4139,6 +4146,62 @@ else '' end as case_no");
         $query = $builder->get();
         return $query->getResultArray();
     }
+
+
+    public function getDispatchDetails($tot_id)
+{
+    $builder = $this->db->table('tw_tal_del a');
+    
+    $builder->select([
+        'd.id',
+        'a.diary_no',
+        'process_id',
+        'a.name',
+        'address',
+        'b.name AS nt_typ',
+        'del_type',
+        'tw_sn_to',
+        'copy_type',
+        'send_to_type',
+        'fixed_for',
+        'rec_dt',
+        'office_notice_rpt',
+        'reg_no_display',
+        'sendto_district',
+        'sendto_state',
+        'nt_type',
+        'tal_state',
+        'tal_district',
+        'dispatch_id',
+        "DATE(dispatch_dt) AS dispatch_dt",
+        'weight',
+        'stamp',
+        'barcode',
+        'dis_remark',
+        'station'
+    ]);
+
+    // Joining Tables
+    $builder->join('master.tw_notice b', 'a.nt_type = b.id');
+    $builder->join('tw_o_r c', 'c.tw_org_id = a.id');
+    $builder->join('tw_comp_not d', 'd.tw_o_r_id = c.id');
+    $builder->join('main m', 'a.diary_no = m.diary_no');
+
+    // Where Conditions
+    $builder->where('a.display', 'Y');
+    $builder->where('b.display', 'Y');
+    $builder->where('c.display', 'Y');
+    $builder->where('d.display', 'Y');
+    $builder->where('dispatch_id !=', 0);
+    $builder->where("dispatch_dt IS NOT NULL");
+    $builder->where('d.id', $tot_id); 
+
+    // Execute Query
+    $query = $builder->get();
+
+    return $query->getResultArray();
+}
+
 
 
 
