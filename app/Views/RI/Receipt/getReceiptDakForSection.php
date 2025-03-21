@@ -185,7 +185,7 @@
                                     </div>
                                     <!--<table id="reportTable1" class="table table-striped table-hover">-->
                                 <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4 query_builder_wrapper">
-                                    <table  id="tblDispatchDak" class="table table-bordered table-striped datatable_report">
+                                    <table  id="tblDispatchDak" class="table table-striped custom-table datatable_report">
 <!--                                    <table id="" style="width: 95%" class="table table-striped table-hover">-->
                                         <thead>
                                         <tr>
