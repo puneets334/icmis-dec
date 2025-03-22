@@ -414,6 +414,15 @@ class Proposal extends BaseController
         return $this->response->setJSON($data);
     }
 
+    public function get_result_1() 
+    {
+        $request = \Config\Services::request();
+
+        $count = $this->ProposalModel->get_result_1($request->getGet('idn_id'), $request->getGet('id_id'));
+
+        echo '<input type="hidden" name="hd_id_id" id="hd_id_id" value="' . $count . '"/>';
+    }
+
     public function proposalAdd()
     {
         $request = \Config\Services::request();
