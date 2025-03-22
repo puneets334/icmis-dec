@@ -14,6 +14,7 @@ class Report extends BaseController
     {
         $this->ListedNotListedModel = new ListedNotListedModel();
         $this->pendency_reports_model = new PendencyReportsModel();
+		helper('function_helper');
     }
     public function listed_notListed()
     {
@@ -68,7 +69,7 @@ class Report extends BaseController
 		$data['to_dt'] = date('Y-m-d', strtotime($this->request->getPost('txt_to_dt')));
 		$data['empid'] = $this->request->getPost('empid');
 		$data['case'] = $this->request->getPost('detailfor');
-		$data['records'] = $this->ListedNotListedModel->get_scrutiny_matters_details($data['frm_dt'], $data['to_dt'],$data['empid'],$data['case']);
+		$data['result_array'] = $this->ListedNotListedModel->get_scrutiny_matters_details($data['frm_dt'], $data['to_dt'],$data['empid'],$data['case']);
 		return view('Reports/get_scrutiny_matters_popup_details', $data);
 	}
 	
