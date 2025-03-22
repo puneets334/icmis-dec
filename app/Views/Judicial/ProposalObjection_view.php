@@ -1,4 +1,5 @@
 <?= view('header') ?>
+<script type="text/javascript" src="<?= base_url() ?>/judicial/objection_da.js"></script>
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -58,7 +59,18 @@
         </div>
     </div>
 </section>
-
+<div id="dv_fixedFor" style="text-align: center;position: fixed;top:0;display: none;
+	left:0;
+	width:100%;
+	height:100%;z-index: 105">
+    <div>
+        <input type="button" name="btnSave" id="btnSave" value="Save" onclick="upd_fil_for()" />
+        <input type="button" name="btnCancel" id="btnCancel" value="Cancel" onclick="cn_data()" />
+        <input type="hidden" name="hd_hd_sh_fno" id="hd_hd_sh_fno" />
+        <input type="hidden" name="hd_hd_spl" id="hd_hd_spl" />
+        <input type="hidden" name="hd_hd_category" id="hd_hd_category" />
+    </div>
+</div>
 <script src="<?php echo base_url('plugins/jquery-validation/jquery.validate.js'); ?>"></script>
 <script src="<?php echo base_url('plugins/jquery-validation/additional-methods.js'); ?>"></script>
 
@@ -217,7 +229,7 @@
                 $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             success: function(data) {
-                updateCSRFToken();
+                // updateCSRFToken();
                 $("#loader").html('');
 
                 if(data.error != undefined && data.success == 0) {
@@ -228,7 +240,7 @@
             },
 
             error: function() {
-                updateCSRFToken();
+                // updateCSRFToken();
                 alert('Something went wrong! please contact computer cell');
             }
         });
