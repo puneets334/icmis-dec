@@ -309,7 +309,7 @@ class ListedNotListedModel extends Model
 				->join('main m', 'm.diary_no = temp.diary_no');
 
 
-			$result = $finalQuery->get()->getResult();
+			$result = $finalQuery->get()->getResultArray();
 			return $result;
 			
 		}elseif($case == 'spnotcomp' || $case == 'sppend') {

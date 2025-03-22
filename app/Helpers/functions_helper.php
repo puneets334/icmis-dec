@@ -4224,7 +4224,7 @@ function da()
 			->get();
 
 	if ($query->getNumRows() > 0) {
-		return $query->getRow()->case_pages; 
+		return $query->getRowArray(); 
 	} else {
 		return  null; 
 	}
