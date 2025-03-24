@@ -735,11 +735,14 @@ class Model_IA extends Model
         $builder->where('h.next_dt <= CURRENT_DATE');
 
         // Subquery for max next_dt
-        $subquery = "(SELECT MAX(next_dt) FROM last_heardt b WHERE b.diary_no = h.diary_no AND b.clno != 0 AND b.brd_slno != 0 AND b.brd_slno IS NOT NULL AND b.roster_id != 0 AND b.roster_id IS NOT NULL AND (b.bench_flag IS NULL OR b.bench_flag = '') AND main_supp_flag IN (1, 2))";
+        $subquery = "(SELECT MAX(next_dt) FROM last_heardt b WHERE b.diary_no = h.diary_no AND b.clno != 0 AND b.brd_slno != 0 AND b.brd_slno IS NOT NULL AND b.roster_id != 0 AND b.roster_id IS NOT NULL AND (b.bench_flag IS NULL OR b.bench_flag = '') AND main_supp_flag IN (1, 2) limit 2)";
         $builder->where("h.next_dt = {$subquery}");
 
         $builder->where('crm.r_head IN (181, 182, 3, 183, 184, 1, 41, 176, 177, 178, 27, 196, 200, 201)');
-        $builder->groupBy(['h.next_dt', 'h.diary_no']);
+        $builder->groupBy(['h.next_dt', 'h.diary_no']);        
+        $builder->limit(2);
+        //$builder->get();
+        //echo $this->db->getLastquery();die;
         return $builder->get()->getRowArray();
     }
 

@@ -2258,6 +2258,32 @@ class ProposalModel extends Model
         return ['ian_p' => $ian_p, 'html' => $ian];
     }
 
+    public function get_result_1($idn = 0, $id = 0)
+    {
+        $sessionUser = session()->get('login')['usercode'];
+
+        $builder = $this->db->table('obj_save');
+
+        if ($idn == '0') {
+            $builder->set('rm_dt', 'NOW()', false)
+                    ->set('rm_user_id', $sessionUser)
+                    ->where('id', $id)
+                    ->where('display', 'Y');
+        } elseif ($idn == '1') {
+            $builder->set('display', 'I')
+                    ->set('status', '7')
+                    ->set('rm_user_id', $sessionUser)
+                    ->where('id', $id)
+                    ->where('display', 'Y');
+        }
+
+        // echo $builder->getCompiledUpdate();die;
+
+        $builder->update();
+
+        return ($this->db->affectedRows() > 0) ? 1 : 0;
+    }
+
     public function getOtherDocuments($fil_no = [])
     {
         $fil_no_diary_no = $fil_no['diary_no']; // Make sure to sanitize input for security

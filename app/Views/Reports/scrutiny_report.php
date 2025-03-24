@@ -110,12 +110,11 @@
     });
 
     function get_rec(str) {
-        var sp_split = str.split('_');
+		var sp_split = str.split('_');
         var empid = sp_split[1];
         var detailfor = sp_split[0];
         var txt_frm_dt = $('#from_dt1').val();
         var txt_to_dt = $('#from_dt2').val();
-        // var ddl_users = $('#ddl_users').val();
         document.getElementById('ggg').style.width = 'auto';
         document.getElementById('ggg').style.height = ' 500px';
         document.getElementById('ggg').style.overflow = 'scroll';
@@ -129,15 +128,18 @@
 
         document.getElementById('dv_fixedFor_P').style.display = 'block';
         document.getElementById('dv_fixedFor_P').style.marginTop = '3px';
-
+        
+		var CSRF_TOKEN = 'CSRF_TOKEN';
+        var csrf = $("input[name='CSRF_TOKEN']").val();
         $.ajax({
-            url: 'get_scrutiny_matters.php',
+            url: "<?php echo base_url('/Report/get_scrutiny_matters') ?>",
             cache: false,
             async: true,
             beforeSend: function() {
-                $('#ggg').html('<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
+                $('#ggg').html('<table widht="100%" align="center"><tr style="text-align: center;"><td><img src="../images/load.gif"/></td></tr></table>');
             },
             data: {
+				CSRF_TOKEN: csrf,
                 empid: empid,
                 detailfor: detailfor,
                 txt_frm_dt: txt_frm_dt,
@@ -150,11 +152,11 @@
             },
             error: function(xhr) {
 				 updateCSRFToken();
-                alert("Error: " + xhr.status + " " + xhr.statusText);
+				 $("#ggg").html("<div style='margin:0 auto;margin-top:20px;text-align:center'>ERROR, PLEASE CONTACT SERVER ROOM</div>");
+               // alert("Error: " + xhr.status + " " + xhr.statusText);
             }
          });
-		  updateCSRFToken();
-    }
+	 }
 
     function closeData() {
         document.getElementById('ggg').scrollTop = 0;

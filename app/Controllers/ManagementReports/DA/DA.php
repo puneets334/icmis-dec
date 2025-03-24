@@ -73,16 +73,29 @@ class DA extends BaseController
 
     public function workdone_verify_get_full()
     {
-        $data['type'] = $this->request->getPost('type');
+		$data['type'] = $this->request->getPost('type');
         $data['flag'] = $this->request->getPost('flag');
         $data['date'] = $this->request->getPost('date');
         $data['name'] = $this->request->getPost('name');
         $data['id'] =   $this->request->getPost('id');
 		$data['model'] = $this->CaseRemarksVerification;
-        $data['usertype'] = $_SESSION['login']['usertype'];
-        $data['data'] =  $data['model']->workdone_verify_get_full($data['type'], $data['flag'], $data['date'], $data['name'], $data['id'], $data['usertype']);
-        return view('ManagementReport/DA/workdone_verify_get_popup_view', $data);   
+		$data['usertype'] = $_SESSION['login']['usertype'];
+        $data['result_array'] =  $data['model']->workdone_verify_get_full($data['type'], $data['flag'], $data['date'], $data['name'], $data['id'], $data['usertype']);
+        $data['sql_get_oc'] =  $data['model']->sql_get_oc($data['id']);
+		return view('ManagementReport/DA/workdone_verify_get_popup_view', $data);   
    }
+
+   public function workdone_verify_response(){
+	    $usertype = $_SESSION['login']['usertype'];
+		$ucode= $_SESSION['login']['empid'];
+		$str_explo = explode("_", $this->request->getPost('dno'));
+		$dno = $str_explo[0];
+		$board_type = $str_explo[1];
+		$mainhead = $str_explo[2];
+		$next_dt = $str_explo[3];
+		$data['model'] = $this->CaseRemarksVerification;
+	    echo $data['model']->workdone_verify_response_status_update($ucode,$dno,$board_type,$mainhead,$next_dt,$usertype);
+  }
 
     public function workdone_verify_from()
     {
