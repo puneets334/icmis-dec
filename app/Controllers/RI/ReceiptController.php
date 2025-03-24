@@ -845,7 +845,7 @@ class ReceiptController extends BaseController
         $usercode = session()->get('login')['usercode'];
         foreach ($selectedCases as $dak) {
             $id = explode('#', $dak);
-            //            echo "<pre>";  print_r($id);    die;
+            //            echo "<pre>";  print_r($id);    die;                                                                                                  
             $ecPostalTransaction_id = $id[1];
             $dakTransactionData['dakTransactionFullData'] = $this->RIModel->getDakTransactionDetails($ecPostalTransaction_id);
             //            echo "<pre>";
@@ -868,10 +868,9 @@ class ReceiptController extends BaseController
         $data['receivedBySectionDetails'] = $this->RIModel->getReceivedBySectionDak($selectedCases);
         $data['initiatedReceivedBySectionDetails'] = $this->RIModel->getInitiatedReceivedBySectionDak($selectedCases);
         $this->db->transComplete();
-        //        echo "<pre>";
-        //        print_r($data);die;
-        echo view('RI/Receipt/receivedBySectionReport', $data);
-        exit();
+
+        return view('RI/Receipt/receivedBySectionReport', $data);
+        
     }
 
 
