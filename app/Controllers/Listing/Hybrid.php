@@ -86,8 +86,8 @@ class Hybrid extends BaseController
 
     public function registry_consent_save()
     {
-        $_REQUEST['from_time'] = ($_REQUEST['from_time']) ? $_REQUEST['from_time'] : "00:00:00";
-        $_REQUEST['to_time'] = ($_REQUEST['to_time']) ? $_REQUEST['to_time'] : "00:00:00";
+        $_REQUEST['from_time'] = (isset($_REQUEST['from_time']) && !empty($_REQUEST['from_time'])) ? $_REQUEST['from_time'] : "00:00:00";
+        $_REQUEST['to_time'] = (isset($_REQUEST['to_time'])  && !empty($_REQUEST['to_time'])) ? $_REQUEST['to_time'] : "00:00:00";
         if (isset($_REQUEST['diary_no'])) {
             $return_arr = $this->hybrid_model->saveConsentRegistry($_REQUEST);
         } else {

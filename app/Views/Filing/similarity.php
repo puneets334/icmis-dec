@@ -360,7 +360,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="btn btn-success btn-sm" type="button" onclick="viewcasestatus('<?php echo $row['c_diary']; ?>')"> <?php echo substr($row['c_diary'], 0, -4) . '-' .  substr($row['c_diary'], -4); ?></div>
-                                                            /
+                                                            
 
                                                             <?php
                                                             $case_no = $row['short_description'];
@@ -368,15 +368,16 @@
                                                                 $case_no = $case_no . '/' . $row['fil_no'];
                                                             if ($row['fil_dt'] != '')
                                                                 $case_no = $case_no . '/' . $row['fil_dt'];
-                                                            //            echo $row['short_description'].'/'.$row['fil_no'].'/'.$row['fil_dt'];
+                                                            // echo $row['short_description'].'/'.$row['fil_no'].'/'.$row['fil_dt'];
                                                             if ($case_no == '')
-                                                                echo "-";
+                                                                echo "/ -";
                                                             else
-                                                                echo $case_no;
+                                                                echo '/ '.$case_no;
                                                             ?>
 
 
-                                                        </td><input type="hidden" name="hd_link<?php echo $sn2; ?>" id="hd_link<?php echo $sn2; ?>" value="<?php echo $row['c_diary']; ?>" />
+                                                        </td>
+                                                        <input type="hidden" name="hd_link<?php echo $sn2; ?>" id="hd_link<?php echo $sn2; ?>" value="<?php echo $row['c_diary']; ?>" />
 
                                                         <td> <?php echo $row['court_name'] ?> /
                                                             <?php
@@ -386,19 +387,21 @@
                                                             echo $row['agency_name'];
                                                             ?>
                                                         </td>
-                                                        <td> <?php
+                                                        <td> 
+                                                            <?php
                                                                 echo $row['type_sname'] . '-' . $row['lct_caseno'] . '-' . $row['lct_caseyear'];
-                                                                ?></td>
-                                                        <td> <?php if ($row['lct_dec_dt'] != '') echo date('d-m-Y', strtotime($row['lct_dec_dt'])); ?>
-                                                            / <?php
+                                                            ?>
+                                                        </td>
+                                                        <td> <?php if ($row['lct_dec_dt'] != '') echo date('d-m-Y', strtotime($row['lct_dec_dt'])). ' / '; ?>
+                                                            <?php
                                                                 echo $row['is_order_challenged'];
                                                                 ?>
                                                             <?php
                                                             if ($row['full_interim_flag'] == 'F')
                                                                 echo "Final";
                                                             else 
-                                                    if ($row['full_interim_flag'] == 'I')
-                                                                echo "Interim";
+                                                                if ($row['full_interim_flag'] == 'I')
+                                                                    echo "Interim";
                                                             ?>
 
                                                         </td>
