@@ -361,10 +361,69 @@ rpc.pil_category,ep.petition_date,epgf.group_file_number,ep.address,ep.mobile,ep
 
     }
 
+   /* public function getPilReportData($fromDate, $toDate, $reportType, $perPage, $offset)
+{
+    $builder = $this->db->table('ec_pil ep');
+    $builder->select("ep.*, rs.state_name, concat(ep.diary_number, '/', ep.diary_year) as pil_diary_number, 
+                      rpat.pil_sub_action_code, rpat.sub_action_description, rpc.pil_code, rpc.pil_category, 
+                      u.name as username, u.empid");
+
+    $builder->join('master.ref_pil_action_taken rpat', 'ep.ref_action_taken_id = rpat.id', 'LEFT');
+    $builder->join('master.ref_pil_category rpc', 'ep.ref_pil_category_id = rpc.id', 'LEFT');
+    $builder->join('master.ref_state rs', 'ep.ref_state_id = rs.id', 'LEFT');
+    $builder->join('master.users u', 'ep.adm_updated_by = u.usercode', 'LEFT');
+
+    // 🔹 Apply filters based on report type
+    switch ($reportType) {
+        case "R":
+            $builder->where("date(received_on) BETWEEN '$fromDate' AND '$toDate'");
+            $builder->orderBy('received_on');
+            break;
+
+        case "D":
+            $builder->where("date(destroy_on) BETWEEN '$fromDate' AND '$toDate'");
+            $builder->where('ep.is_deleted', 't'); // Ensure only deleted records are counted
+            $builder->orderBy('destroy_on');
+            break;
+
+        case "P":
+            $builder->where("date(petition_date) BETWEEN '$fromDate' AND '$toDate'");
+            $builder->orderBy('petition_date');
+            break;
+
+        default:
+            return [
+                'total' => 0,
+                'data' => []
+            ]; // Return empty if invalid reportType
+    }
+
+    // 🔹 Get total records count
+    $totalRecords = $builder->countAllResults(false);
+
+    if ($totalRecords == 0) {
+        return [
+            'total' => 0,
+            'data' => []
+        ];
+    }
+
+    // 🔹 Implement pagination
+    $builder->limit($perPage, $offset);
+    $query = $builder->get();
+    $result = $query->getResultArray();
+
+    return [
+        'total' => $totalRecords,
+        'data' => $result
+    ];
+} */
+
+
+
     public function getPilReportData($fromDate, $toDate, $reportType)
     {
-//        echo $reportType.">>>".$fromDate.">>>$toDate";
-//        die;
+ 
         $queryString = "";
 
         if ($reportType == "R") {
@@ -379,16 +438,7 @@ rpc.pil_category,ep.petition_date,epgf.group_file_number,ep.address,ep.mobile,ep
             $builder->where("date(received_on) between '$fromDate' and '$toDate'");
             $builder->orderBy('received_on');
             $query = $builder->get();
-
-//            $queryString="select ep.*,rs.state_name,concat(ep.diary_number,'/',ep.diary_year) as pil_diary_number,
-// rpat.pil_sub_action_code,rpat.sub_action_description,rpc.pil_code,rpc.pil_category,
-//  u.name as username,u.empid
-//        from ec_pil ep
-//        left join master.ref_pil_action_taken rpat on ep.ref_action_taken_id=rpat.id
-//        left join master.ref_pil_category rpc on ep.ref_pil_category_id=rpc.id
-//        left join master.ref_state rs on ep.ref_state_id=rs.id
-//        left join master.users u on ep.adm_updated_by=u.usercode
-//        where date(received_on) between ? and ? order by received_on";
+ 
         } elseif ($reportType == "D") {
 
             $builder = $this->db->table('ec_pil ep');
@@ -403,16 +453,7 @@ rpc.pil_category,ep.petition_date,epgf.group_file_number,ep.address,ep.mobile,ep
             $builder->where('ep.is_deleted', 't');
             $builder->orderBy('destroy_on');
             $query = $builder->get();
-
-//            $queryString="select ep.*,rs.state_name,concat(ep.diary_number,'/',ep.diary_year) as pil_diary_number,
-// rpat.pil_sub_action_code,rpat.sub_action_description,rpc.pil_code,rpc.pil_category,
-//  u.name as username,u.empid
-//        from ec_pil ep
-//        left join master.ref_pil_action_taken rpat on ep.ref_action_taken_id=rpat.id
-//        left join master.ref_pil_category rpc on ep.ref_pil_category_id=rpc.id
-//        left join master.ref_state rs on ep.ref_state_id=rs.id
-//        left join master.users u on ep.adm_updated_by=u.usercode
-//        where date(destroy_on) between ? and ? and ep.is_deleted='t' order by destroy_on";
+ 
         } elseif ($reportType == "P") {
 
             $builder = $this->db->table('ec_pil ep');
@@ -427,34 +468,21 @@ rpc.pil_category,ep.petition_date,epgf.group_file_number,ep.address,ep.mobile,ep
             $builder->orderBy('petition_date');
             $query = $builder->get();
 
-//            $queryString="select ep.*,rs.state_name,concat(ep.diary_number,'/',ep.diary_year) as pil_diary_number,
-// rpat.pil_sub_action_code,rpat.sub_action_description,rpc.pil_code,rpc.pil_category,
-//  u.name as username,u.empid
-//        from ec_pil ep
-//        left join master.ref_pil_action_taken rpat on ep.ref_action_taken_id=rpat.id
-//        left join master.ref_pil_category rpc on ep.ref_pil_category_id=rpc.id
-//        left join master.ref_state rs on ep.ref_state_id=rs.id
-//        left join master.users u on ep.adm_updated_by=u.usercode
-//        where date(petition_date) between ? and ? order by petition_date";
+ 
         }
-
-//        $query=$this->db->getLastQuery();
-//        echo (string) $query;exit();
+ 
 
         $result = $query->getResultArray();
-//        echo "<pre>";
-//        print_r($result);die;
+ 
         if ($query->getNumRows() >= 1) {
-//            echo "<pre>";
-//            print_r($result);
-//            die;
+ 
             return $result;
         } else {
             return false;
         }
 
 
-    }
+    }  
 
     public function getUserWorkDone($fromDate, $toDate, $reportType)
     {
@@ -462,7 +490,7 @@ rpc.pil_category,ep.petition_date,epgf.group_file_number,ep.address,ep.mobile,ep
         if ($reportType == "C") {
 
             $builder = $this->db->table('ec_pil ep');
-            $builder->select('ep.adm_updated_by,date(ep.updated_on) ,u.empid,u.name,count(*) total_cases');
+            $builder->select('ep.adm_updated_by,date(ep.updated_on) updated_date ,u.empid,u.name,count(*) total_cases');
             $builder->join('master.users u', 'ep.adm_updated_by=u.usercode', 'INNER');
             $builder->where("date(ep.updated_on) between '$fromDate' and '$toDate'");
             $builder->groupBy('ep.adm_updated_by,date(ep.updated_on),u.empid,u.name');
@@ -575,10 +603,7 @@ rpc.pil_category,ep.petition_date,epgf.group_file_number,ep.address,ep.mobile,ep
     }
     public function getQueryPilData($columnName, $text)
     {
-//        echo $columnName.">>",$text;
-//        die;
-//    $db = \Config\Database::connect();
-
+ 
         if (!empty($columnName) && !empty($text)) {
             $builder = $this->db->table('ec_pil');
             $builder->select('ec_pil.*, concat(ec_pil.diary_number, \'/\', ec_pil.diary_year) as pil_diary_number,u.name as username,u.empid');

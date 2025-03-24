@@ -108,11 +108,11 @@
                                         </div>
                                       <div class="col-md-3">
                                           <label class="control-label"><h5>From Date</h5></label>
-                                            <input type="date" id="from_date" name="from_date" class="form-control" required placeholder="From Date">
+                                            <input type="text" id="from_date" name="from_date" class="form-control dtp" required placeholder="From Date">
                                        </div>
                                       <div class="col-md-3">
                                           <label class="control-label"><h5>To Date</h5></label>
-                                            <input type="date" class="form-control" id="to_date" required name="to_date" placeholder="To Date">
+                                            <input type="text" class="form-control dtp" id="to_date" required name="to_date" placeholder="To Date">
                                         </div>
                                         <div class="col-md-3">
                                             <button type="button" style="margin-left: 7%;margin-top: 11%;" id="view" name="save" value="submit" onclick="checkDates()" class="btn btn-primary">View</button>
@@ -120,141 +120,9 @@
                                       <?php form_close(); ?>
 
                                     </div> <br><br> <br>
-
+                        <div id="div_result"></div>
                         <div id="printable" class="box box-danger">
-                        <?php
-//                        print_r($reportType);
-//                        print_r($to_date);
-//                        print_r($first_date);
-//                        print_r($pil_result);
-//                        die;
-
-                        $reportText="Received";
-                        if(isset($reportType)){
-                            if($reportType=="D"){
-                                $reportText="Destroyed";
-                            }
-                            elseif ($reportType=="P"){
-                                $reportText="Petition Date";
-                            }
-                        }
-                        ?>
-                            <br>
-
-
-                        <?php
-                        if(!empty($pil_result)) {
-//                            echo "<pre>";
-//                            print_r($pil_result);
-//                            die;
-
-                        ?>
-                     <h2 align="center">PIL <?=$reportText?>  Between <?php echo !empty($first_date)? date('d-m-Y',strtotime($first_date)):'';?> to <?php echo !empty($to_date)?date('d-m-Y',strtotime($to_date)):'';?></h2>
-                            <br>
-                    <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4 query_builder_wrapper">
-                        <table  id="reportTable1" style="width: 100%" class="table table-bordered table-striped datatable_report">
-                            <thead>
-                            <tr>
-                                <th width="7%">SNo.</th>
-                                <th width="7%">Inward Number</th>
-                                <th width="15%">Address To</th>
-                                <th width="25%">Received From</th>
-                                <th width="7%">Received On</th>
-                                <th width="6%">Petition Date</th>
-                                <th width="24%">Status</th>
-                                <th width="16%">Updated By</th>
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $i=1;
-//                            echo "<pre>";
-//                            print_r($pil_result);
-//                            die;
-
-                            foreach ($pil_result as $result)
-                            {
-
-
-                                ?>
-                                <tr>
-                                    <td><?= $i++; ?></td>
-
-                                    <td>
-                                        <a href="<?=base_url();?>/PIL/PilController/rptPilCompleteData/<?=$result['id']?>" target="_blank">
-                                            <?=$result['pil_diary_number'];?>
-                                        </a>
-                                    </td>
-                                    <td><?=$result['address_to'];?></td>
-                                    <td><?=$result['received_from'];?><br/><?=$result['address'];?>
-                                        <?php
-                                        if(!empty($result['state_name'])){
-                                            echo " ,State: ".$result['state_name'];
-                                        }
-                                        if(!empty($result['email'])){
-                                            echo "<br/> Email: ".$result['email'];
-                                        }
-                                        if(!empty($result['mobile'])){
-                                            echo "<br/> Mobile: ".$result['mobile'];
-                                        }
-                                        ?>
-                                    </td>
-                                    <td><?=!empty($result['received_on'])?date("d-m-Y", strtotime($result['received_on'])):null?></td>
-                                    <td><?=!empty($result['petition_date'])?date("d-m-Y", strtotime($result['petition_date'])):null?></td>
-                                    <td><?php
-                                        if(!empty($result['action_taken']))
-                                        {
-                                            switch (trim($result['action_taken'])){
-                                                case "L":{
-                                                    $actionTakenText = "No Action Required"; break;
-                                                }
-                                                case "W":{
-                                                    $actionTakenText = "Written Letter to ".$result['written_to']. " on ".date('d-m-Y', strtotime($result['written_on'])) ; break;
-                                                }
-                                                case "R":{
-                                                    $actionTakenText = "Letter Returned to Sender on ".date('d-m-Y', strtotime($result['return_date'])) ; break;
-                                                }
-                                                case "S":{
-                                                    $actionTakenText = "  ".$result['sent_to']. " on ".date('d-m-Y', strtotime($result['sent_on'])); break;
-                                                }
-                                                case "T":{
-                                                    if($result['transfered_on']!== null)
-                                                        $result['transfered_on'] = date('d-m-Y', strtotime($result['transfered_on']));
-                                                    $actionTakenText = "Letter Transferred To ".$result['transfered_to']." on ".$result['transfered_on']; break;
-                                                }
-                                                case "I":{
-                                                    $actionTakenText = "Letter Converted To Writ"; break;
-                                                }
-                                                case "O":{
-                                                    $actionTakenText = "Other Remedy"; break;
-                                                }
-                                                default:{
-                                                    $actionTakenText = "UNDER PROCESS"; break;
-                                                }
-                                            }
-                                            echo $actionTakenText;
-
-                                        }else{
-                                            $actionTakenText = "UNDER PROCESS";
-                                            echo $actionTakenText;
-                                        }
-
-                                        ?>
-                                    </td>
-                                    <td><?=$result['username'].'('.$result['empid'].')'?>
-                                        <br/> At: <?=date('d-m-Y h:i:s A', strtotime($result['updated_on']))?></td>
-                                </tr>
-
-                                <?php
-                            }
-                            ?>
-                            </tbody>
-                        </table>
-                    </div>
-                        <?php
-                          }
-                        ?>
+                        
                         </div>
                     </div>
 
@@ -283,34 +151,65 @@
     <!-- /.section -->
     <script>
 
+$(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
+    });
+
         function checkDates() {
             var fromDate = document.getElementById('from_date').value;
             var toDate = document.getElementById('to_date').value;
             // console.log(typeof (fromDate));return false;
-
-            if( (fromDate == '') && (toDate == ''))
+             if( (fromDate == '') && (toDate == ''))
             {
                 alert("Please select the from date and to date also !!!!");
-                document.getElementById('from_date').focus();
+                 document.getElementById('from_date').focus();
                 // document.getElementById('to_date').focus();
 
-            }else{
-                if (fromDate > toDate) {
+            } 
+
+            if (fromDate > toDate) {
                     alert("To Date must be greater than From date");
-                    return false;
+                     return false;
                 }
-                document.getElementById('push-form').submit();
-            }
+                var CSRF_TOKEN = 'CSRF_TOKEN';
+                var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            //document.getElementById('push-form').submit();
+            $.ajax({
+                method: "GET",
+                data: {                    
+                    'from_date': fromDate,
+                    'to_date' : toDate,
+                    'reportType':$('#reportType').val(),
+                },
+                
+                url: "<?php echo base_url('PIL/PilController/getpilReportResult'); ?>",
+                beforeSend: function () {
+                    $('#printable').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+                },
+                success: function(data) {                     
+                    updateCSRFToken();
+                    $('#printable').html(data);
+                },
+                error: function(data) {
+                    updateCSRFToken();
+                    alert(data);
+                    
+                }
+            });
+           
+
+
 
 
         }
 
-        $(function () {
-            $(".datatable_report").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel",{extend: 'pdfHtml5',orientation: 'landscape',pageSize: 'LEGAL' },
-                    { extend: 'colvis',text: 'Show/Hide'}],"bProcessing": true,"extend": 'colvis',"text": 'Show/Hide'
-            }).buttons().container().appendTo('.query_builder_wrapper .col-md-6:eq(0)');
-
-        });
+        
     </script>

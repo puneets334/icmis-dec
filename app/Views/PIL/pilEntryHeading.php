@@ -38,7 +38,7 @@ $uri = current_url(true); ?>
             $url_district_master = base_url('PIL/PilController/addToPilGroupShow');
         }else{
             $ColorCode = 'background-color: #169F85;color:#ffffff;';
-            $status_color = 'btn-outline-primary';
+            $status_color = 'btn-info';
             $url_district_master = base_url('PIL/PilController/addToPilGroupShow');
         }
         ?>
@@ -53,7 +53,7 @@ $uri = current_url(true); ?>
             $url_lower_court_case_type = base_url('PIL/PilController/index');
         } else{
             $ColorCode = 'background-color: #169F85;color:#ffffff;';
-            $status_color = 'btn-outline-primary';
+            $status_color = 'btn-info';
             $url_lower_court_case_type = base_url('PIL/PilController/index');
         }
         ?>
@@ -69,7 +69,7 @@ $uri = current_url(true); ?>
             $url_lower_court_judge = base_url('PIL/PilController/showPilGroup');
         } else{
             $ColorCode = 'background-color: #169F85;color:#ffffff;';
-            $status_color = 'btn-outline-primary';
+            $status_color = 'btn-info';
             $url_lower_court_judge = base_url('PIL/PilController/showPilGroup');
         }
         ?>

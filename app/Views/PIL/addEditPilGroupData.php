@@ -142,12 +142,12 @@
                             <div class="col-md-3" >
                                 <h5 style="display: flex;margin-top: -8%;">Group File Number</h5>
                                 <input type="text" class="form-control" id="groupFileNumber" name="groupFileNumber" placeholder="Group File Number"  value="<?php echo !empty($groupFileNumber)?$groupFileNumber:''; ?>">
-                            </div>&nbsp;&nbsp;&nbsp;
-
-                            <button type="button" name="save" id="save" style="text-align:center;" onClick="submitPilGroupMethod()" class="btn btn-sm btn-success" >Save </button>&nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <button type="button" name="cancel" id="cancel-btn" style="text-align:center" onClick="goBackToPilGroup()" class="btn  btn-sm btn-primary" >Cancel </button>
-
+                            </div> 
+                            <div class="col-md-3" >
+                                <button type="button" name="save" id="save" style="text-align:center;" onClick="submitPilGroupMethod()" class="btn btn-success mt-2" >Save </button>&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <button type="button" name="cancel" id="cancel-btn" style="text-align:center" onClick="goBackToPilGroup()" class="btn btn-primary mt-2" >Cancel </button>
+                            </div>
                            </div>
                         <br><br>
 

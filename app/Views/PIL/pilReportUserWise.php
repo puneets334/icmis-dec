@@ -96,11 +96,11 @@
 
                             <div class="col-md-3">
                                 <label class="control-label"><h5>From Date</h5></label>
-                                <input type="date" id="from_date" name="from_date" class="form-control " required placeholder="From Date">
+                                <input type="text" id="from_date" name="from_date" class="form-control dtp" required placeholder="From Date">
                             </div>
                             <div class="col-md-3">
                                 <label class="control-label"><h5>To Date</h5></label>
-                                <input type="date" class="form-control " id="to_date" required name="to_date" placeholder="To Date">
+                                <input type="text" class="form-control dtp" id="to_date" required name="to_date" placeholder="To Date">
                             </div>
                             <div class="col-md-3">
                                 <button type="button" style="margin-left: 7%;margin-top: 11%;" id="view" name="save" value="submit" onclick="checkDates()" class="btn btn-primary">View</button>
@@ -126,6 +126,18 @@
     </section>
     <!-- /.section -->
     <script>
+
+$(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
+    });
 
         function checkDates() {
             var fromDate = document.getElementById('from_date').value;

@@ -282,10 +282,66 @@ class Home extends BaseController
 
     public function insert_data()
     {
-        echo "DSF";
-        echo "<pre>";
-        print_r($_POST);
-        die;
+
+        $message = "";
+        $inserted = 0;
+        $notinserted = 0;
+        if (isset($_FILES['userfile']['name'])) { //check if form was submitted
+            $uploaddir = '/var/www/html/';
+            $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
+
+            if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+                $myfile = fopen("$uploadfile", "r") or die("Unable to open file!");
+
+                $contents = fread($myfile, filesize($uploadfile));
+                fclose($myfile);
+                $variables = explode("\n", $contents);
+
+                foreach ($variables as $variable) {
+                    $var = explode("##", $variable);
+
+                    $court = $var[0];
+                    $issb = $var[1];
+                    $btime = $var[2];
+                    $webex = $var[3];
+                    $remarks = $var[4];
+                    $bench_date = $var[5];
+                    if ($issb == 'N') {
+                        $result_array = $this->Model_vcWebCastDetails->insert_vc($court, $issb, $btime, $webex, $remarks, $bench_date);
+                    } else {
+                        $result_array = $this->Model_vcWebCastDetails->insert_sb($court, $issb, $btime, $webex, $remarks, $bench_date);
+                    }
+                    if ($result_array == true) {
+                        //$this->data['rev_result'] = "inserted";
+                        $inserted = $inserted + 1;
+                    } else {
+                        $notinserted = $notinserted + 1;
+                        //$this->data['rev_result'] = "not inserted";
+                    }
+                }
+            }
+        }
+        if (isset($_POST['sorb']) && $_POST['sorb'] == 's') {
+
+            if (isset($_POST['webex']) && $_POST['webex'] != null) {
+                $result_array = $this->Model_vcWebCastDetails->insert_vc($_POST['virtual_court_number'], 'N', $_POST['bench_timing'], $_POST['webex'], $_POST['remarks'], $_POST['bench_date']);
+                if ($result_array == true) {
+                    $inserted = $inserted + 1;
+                } else {
+                    $notinserted = $notinserted + 1;
+                }
+            }
+            if (isset($_POST['speclink']) && $_POST['speclink'] != null) {
+                $result_array = $this->Model_vcWebCastDetails->insert_sb($_POST['virtual_court_number'], 'Y', $_POST['bench_timing'], $_POST['speclink'], $_POST['remarks'], $_POST['bench_date']);
+                if ($result_array == true) {
+                    $inserted = $inserted + 1;
+                } else {
+                    $notinserted = $notinserted + 1;
+                }
+            }
+        }
+        echo $inserted;
+        echo $notinserted;
     }
 
 
