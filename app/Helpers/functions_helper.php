@@ -1180,10 +1180,11 @@ function f_connected_case_count_listed($conn_key, $next_dt)
         (select m.diary_no, m.conn_key from main m where m.conn_key = '$conn_key' and c_status = 'P'
         union
         select m.diary_no, m.conn_key from main m
-        inner join conct ct on ct.conn_key = m.conn_key
+        inner join conct ct on ct.conn_key::bigint = m.conn_key::bigint
         where m.conn_key = '$conn_key' and ct.list = 'Y' and m.c_status = 'P') m
         inner join heardt h on h.diary_no = m.diary_no 
-        where m.diary_no != m.conn_key and h.clno > 0 and h.next_dt = '$next_dt' ";
+        where m.diary_no::bigint != m.conn_key::bigint and h.clno > 0 and h.next_dt = '$next_dt' ";
+
     $result = $db->query($sql);
     $value = $result->getRowObject();
     return $value->total_connected;
@@ -4199,9 +4200,9 @@ function da()
 			->get();
 
 		if ($query->getNumRows() > 0) {
-			return $query->getRow()->coram; 
+			$r_get_b_c = $query->getRow()->coram; 
 		} else {
-			return null; 
+			$r_get_b_c = null; 
 		}
 }
 
@@ -4224,85 +4225,9 @@ function da()
 			->get();
 
 	if ($query->getNumRows() > 0) {
-		return $query->getRowArray(); 
+		$case_pages = $query->getRow()->case_pages; 
 	} else {
-		return  null; 
+		$case_pages = null; 
 	}
 	  
 }
-
-function case_verification_report_popup_inside_details($id){
-	
-		$db = \Config\Database::connect();
-
-		$builder = $db->table('tempo o');
-		$builder->select("o.diary_no, o.jm AS pdfname, DATE(o.dated) AS orderdate, 
-			CASE 
-				WHEN o.jt = 'rop' THEN 'ROP'
-				WHEN o.jt = 'judgment' THEN 'Judgement'
-				WHEN o.jt = 'or' THEN 'Office Report'
-			END AS jo");
-		$builder->where('o.diary_no', $id);
-		$tempo = $builder->get()->getResultArray();
-
-	
-		$builder = $db->table('ordernet o');
-		$builder->select("o.diary_no, o.pdfname AS pdfname, DATE(o.orderdate) AS orderdate, 
-			CASE 
-				WHEN o.type = 'O' THEN 'ROP'
-				WHEN o.type = 'J' THEN 'Judgement'
-			END AS jo");
-		$builder->where('o.diary_no', $id);
-		$ordernet = $builder->get()->getResultArray();
-
-	
-		$builder = $db->table('rop_text_web.old_rop o');
-		$builder->select("o.dn AS diary_no, CONCAT('ropor/rop/all/', o.pno, '.pdf') AS pdfname, DATE(o.orderDate) AS orderdate, 'ROP' AS jo");
-		$builder->where('o.dn', $id);
-		$old_rop = $builder->get()->getResultArray();
-
-	
-		$builder = $db->table('scordermain o');
-		$builder->select("o.dn AS diary_no, CONCAT('judis/', o.filename, '.pdf') AS pdfname, DATE(o.juddate) AS orderdate, 'Judgment' AS jo");
-		$builder->where('o.dn', $id);
-		$scordermain = $builder->get()->getResultArray();
-
-	
-		$builder = $db->table('rop_text_web.ordertext o');
-		$builder->select("o.dn AS diary_no, CONCAT('bosir/orderpdf/', o.pno, '.pdf') AS pdfname, DATE(o.orderdate) AS orderdate, 'ROP' AS jo");
-		$builder->where('o.dn', $id);
-		$builder->where('o.display', 'Y');
-		$ordertext = $builder->get()->getResultArray();
-
-	
-		$builder = $db->table('rop_text_web.oldordtext o');
-		$builder->select("o.dn AS diary_no, CONCAT('bosir/orderpdfold/', o.pno, '.pdf') AS pdfname, DATE(o.orderdate) AS orderdate, 'ROP' AS jo");
-		$builder->where('o.dn', $id);
-		$oldordtext = $builder->get()->getResultArray();
-
-	
-		$results = array_merge($tempo, $ordernet, $old_rop, $scordermain, $ordertext, $oldordtext);
-
-	
-		$results = array_filter($results, function ($row) {
-			return $row['jo'] === 'ROP';
-		});
-
-	
-		usort($results, function ($a, $b) {
-			return strtotime($b['orderdate']) - strtotime($a['orderdate']);
-		});
-
-		return $results;
-	 
-	 
- }
-
-
-
-    
-
-    
-    
-
-

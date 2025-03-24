@@ -244,7 +244,7 @@ if(!empty($diary_details)){?>
                 <?php
                 $head='';
                 $stage = '';       
-                    
+                    // pr($heardt_case);
                 if ($stage == "" && !empty($heardt_case) )  {
                     if ($heardt_case["mainhead"] == "M") {
                         $stage = "Motion Hearing";
@@ -259,10 +259,13 @@ if(!empty($diary_details)){?>
                     if ($heardt_case["subhead"] != "") {
                         $t_stage = "";
                         
+                        // echo $heardt_case["subhead"];
+                        // die;
                         $row1_s = $Model_case_status->getSubheadings($heardt_case);
+                        // pr($row1_s);
                         if (!empty($row1_s)) {
                             //while ($row1_s = mysql_fetch_array($result1_s)) {
-                                if ($heardt_case["mainhead"] == "F") {
+                                if ($heardt_case["mainhead"] == "F" && isset($row1_s["stage_nature"])) {
                                     switch ($row1_s["stage_nature"]) {
                                         case "C":
                                             $sn = "Civil - ";
@@ -351,7 +354,7 @@ if(!empty($diary_details)){?>
                 $sta_inf = $db->query($sta);
                 $rowstinf = $sta_inf->getRowArray();                
                 $sta_infd = '';
-                if(!empty($rowstinf)) {
+                if(!empty($rowstinf) && !empty($rowstinf["remark"])) {
                    $sta_infd = " [<font color='green' style='font-size:12px;font-weight:100;'>" . stripslashes(str_replace('[', '', str_replace(']', '', $rowstinf["remark"]))) . "</font>]";
                 }
                 ?>

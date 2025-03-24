@@ -285,7 +285,8 @@ class CaseInfo extends BaseController
         $last_listed_on = "";
         $last_listed_on_jud = "";
         if (!empty($data['heardt_case'])) {
-            foreach ($data['heardt_case'] as $row1) {
+            $row1 = $data['heardt_case'];
+            // foreach ($data['heardt_case'] as $row1) {
                 if ($row1['tbl'] == 'H') {
                     $tentative_cl_dt = $row1['tentative_cl_dt'];
                 }
@@ -299,8 +300,9 @@ class CaseInfo extends BaseController
                     $next_dt = date("Y-m-d", strtotime($row1["next_dt"]));
                     $cl_printed = $model->get_cl_printed_data($next_dt, $row1['mainhead'], $row1["clno"], $row1["roster_id"]);
                 }
-            }
+            // }
         }
+
         $data['case_type_history'] = json_decode($model->get_case_type_history($main_diary_number, $flag), true);
         $data['fill_dt_case'] = json_decode($model->get_fill_dt_case($main_diary_number, $flag), true);
         $data['diary_section_details'] = json_decode($model->get_diary_section_details($main_diary_number, $flag), true);
@@ -1143,6 +1145,7 @@ class CaseInfo extends BaseController
                         $disptype = $row_rj['disp_type'];
                         if ($disptype != "") {
                             $drow = $this->CaseInfoModel->get_disposal($disptype);
+                            $d_spk = '';
                             if ($drow) {
                                 if ($ucode == 203 || $ucode == 204 || $ucode == 888 || $ucode == 912) {
                                     if ($drow->spk == "N")
@@ -1561,11 +1564,13 @@ class CaseInfo extends BaseController
                     $res_ct_typ = $this->CaseInfoModel->shortDesc($t_m1);
                     // $res_ct_typ = $row['short_description'];   
                     // $res_ct_typ_mf = $row['cs_m_f'];
+
+                    $short_description = isset($res_ct_typ->short_description) ? $res_ct_typ->short_description : '';
     
-                    if($t_m2==$t_m21)
-                        $t_fil_no.='<font color="#043fff" style=" white-space: nowrap;">'.$res_ct_typ->short_description." ".$t_m2.' / '.$t_m3.'</font>'.$separator."(Reg.Dt.".$t_m4.")<br>";
+                    if($t_m2 == $t_m21)
+                        $t_fil_no.='<font color="#043fff" style=" white-space: nowrap;">'.$short_description." ".$t_m2.' / '.$t_m3.'</font>'.$separator."(Reg.Dt.".$t_m4.")<br>";
                     else
-                        $t_fil_no.= '<font color="#043fff" style=" white-space: nowrap;">'.$res_ct_typ->short_description." ".$t_m2.' - '. $t_m21 .' / '.$t_m3.'</font>'.$separator."(Reg.Dt.".$t_m4.")<br>";
+                        $t_fil_no.= '<font color="#043fff" style=" white-space: nowrap;">'.$short_description." ".$t_m2.' - '. $t_m21 .' / '.$t_m3.'</font>'.$separator."(Reg.Dt.".$t_m4.")<br>";
                 }
             }
             

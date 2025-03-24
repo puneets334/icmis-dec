@@ -119,15 +119,15 @@
                             <br><br>
 
 
-
+                                                    
                     <div class="row">
                         <?php
                         $attribute = array('class' => 'form-horizontal', 'name' => 'frmPilGroupPdf', 'id' => 'frmPilGroupPdf', 'autocomplete' => 'off', 'method' => 'POST');
                         echo form_open(base_url('PIL/PilController/downloadGeneratedReport/With_Brief_History/0/0'), $attribute);
                         ?>
-
-                        <label ><h5>Brief History of the case and relief sought:</h5></label>
-
+                        <div class="col-sm-12">
+                            <label ><h5>Brief History of the case and relief sought:</h5></label> 
+                            </div>                
                         <div class="col-sm-3">
 
                             <textarea class="form-control" rows="5" cols="10" name="comment" id="comment"></textarea>
@@ -220,18 +220,16 @@
                 },
                 url: "<?php echo base_url('PIL/PilController/addToPilGroupReport'); ?>",
                 success: function (data) {
-                        // console.log(data);
-                     // console.log(data.casesInPilGroup);
+                    updateCSRFToken();
+                    
                     var dataArray = data.casesInPilGroup;
-                    // console.log(data.casesInPilGroup);
-                    // alert(typeof (dataArray));
+                  
                     var html = "";
                     if (dataArray !== undefined && dataArray !== null) {
                         var i = 1;
                         dataArray.forEach(dt => {
 
-                            // console.log(new Date(dt['received_on']).toLocaleDateString('en-GB').replace(/\//g,'-'));
-
+                           
                             html += '<tr>'
                             html += '<td>' + i++ + '</td>'
                             html += '<td>' + dt['pil_diary_number'] + '</td>'
@@ -250,11 +248,12 @@
                         alert("No record Found");
                     }
 
-                    updateCSRFToken();
+                   
                 },
                 error: function (data) {
-                    alert(data);
                     updateCSRFToken();
+                    alert(data);
+                    
                 }
             });
 

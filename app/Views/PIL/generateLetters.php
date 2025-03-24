@@ -145,14 +145,14 @@
 
                        
 
+                <br><br>              
+                <div id="dataForReport"></div>
+                    </div>
 
-
-                    </div><br><br>
-
-
+                    
                 </div>
 
-                <div id="dataForReport"></div>
+               
 
             </div> <!-- card div -->
 
@@ -174,11 +174,11 @@
 
 
     <script>
-        function updateCSRFToken() {
-            $.getJSON("<?php echo base_url('Csrftoken'); ?>", function (result) {
-                $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-            });
-        }
+        // function updateCSRFToken() {
+        //     $.getJSON("<?php echo base_url('Csrftoken'); ?>", function (result) {
+        //         $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
+        //     });
+        // }
 
         function getValues(){
         var diaryNo=document.getElementById("diaryNo").value;
@@ -207,9 +207,28 @@
         }
 
 
-        $.post("<?=base_url()?>/PIL/PilController/getSenderAndAddressForLetterGeneration", $("#frmLetterReport").serialize(), function (result) {                /*alert(result);*/
-            $("#dataForReport").html(result);
+        // $.post("<?=base_url()?>/PIL/PilController/getSenderAndAddressForLetterGeneration", $("#frmLetterReport").serialize(), function (result) {                /*alert(result);*/
+        //     $("#dataForReport").html(result);
+        // });
+         
+       // var formData = $("#frmLetterReport").serialize();
+        //formData += '&'+CSRF_TOKEN+'='+CSRF_TOKEN_VALUE;
+
+        $.ajax({
+            type: "POST",             
+            data: $("#frmLetterReport").serialize(),
+            url: "<?= base_url() ?>/PIL/PilController/getSenderAndAddressForLetterGeneration",
+            success: function (data) {                 
+                 updateCSRFToken();
+                 $("#dataForReport").html(data);
+            },
+            error: function (data) {
+                updateCSRFToken();
+                alert("No record Found");
+               
+            }
         });
+ 
     }
     </script>
 
