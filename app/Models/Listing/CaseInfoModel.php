@@ -577,7 +577,7 @@ class CaseInfoModel extends Model
     }
 
     public function shortDescMain($diaryno){
-        $builder = $this->db->table('casetype c');
+        $builder = $this->db->table('master.casetype c');
         $builder->select('c.short_description')
         ->join('main m', 'c.casecode = m.casetype_id')
         ->where('m.diary_no', $diaryno);
@@ -1326,8 +1326,7 @@ class CaseInfoModel extends Model
 
         $builder = $this->db->table("($subQuery) as a");
         $builder->select("STRING_AGG(j.jname, ', ' ORDER BY j.judge_seniority) AS judges");
-        $builder->join('master.judge j', "j.jcode::TEXT = ANY(string_to_array(a.jcodes, ','))", 'left');
-
+        $builder->join('master.judge j', "CAST(j.jcode AS TEXT) = ANY(string_to_array(a.jcodes, ','))", 'left');
         $query = $builder->get();
         return $query->getResultArray();  
     }

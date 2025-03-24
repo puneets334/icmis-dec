@@ -258,15 +258,18 @@ class Model_case_status extends Model
             ->where('next_dt IS NOT NULL');
         $unionResult = $query1->union($query2);
 
-        $finalQuery = $this->db->newQuery()->select(" t1.*,(case when  t1.tbl = 'H' then (case when t1.main_supp_flag IN (1,2) then 'L' else 'P' end) else
- (case when t1.main_supp_flag IN (1,2) then 'L' else 'P' end) end)
- AS porl")->fromSubquery($unionResult, 't1')->orderBy('t1.tbl,t1.next_dt_o DESC')->get();
+        $finalQuery = $this->db->newQuery()
+            ->select(" t1.*,(case when  t1.tbl = 'H' then (case when t1.main_supp_flag IN (1,2) then 'L' else 'P' end) else  (case when t1.main_supp_flag IN (1,2) then 'L' else 'P' end) end)  AS porl")
+            ->fromSubquery($unionResult, 't1')
+            ->orderBy('t1.tbl,t1.next_dt_o DESC')
+            ->get();
 
-        //$query = $this->db->getLastQuery();
-        //echo (string) $query;
+        // $query = $this->db->getLastQuery();
+        // echo (string) $query;
 
         if ($finalQuery->getNumRows() >= 1) {
-            $result = $finalQuery->getResultArray();
+            // $result = $finalQuery->getResultArray();
+            $result = $finalQuery->getRowArray();
             return json_encode($result);
         } else {
             return false;
