@@ -76,8 +76,9 @@
             "buttons": ["excel", "pdf"]
         });
 
-        $(document).on('click', '#btn_search', function() {
+        $(document).on('click', '#btn_search', async function() {
             let txt_frm_dt = $('#txt_frm_dt').val();
+            await updateCSRFTokenSync();
             let csrfName = $("#csrf_token").attr('name');
             let csrfHash = $("#csrf_token").val();
             $.ajax({
@@ -95,67 +96,72 @@
                     [csrfName]: csrfHash
                 },
                 type: 'POST',
-                success: function(response) {
-                    if (response.success) {
-
-                        let html = '<div class="table-responsive"><table id="example1" class="table table-striped custom-table">';
-                        html += '<thead><tr><th>S.No.</th><th>Case No.</th><th>Cause Title</th>';
-                        if (response.usercode === '9796') {
-                            html += '<th>Listed/Updated For</th>';
-                        }
-                        let today = new Date();
-                        let dayAfterTomorrow = new Date();
-                        dayAfterTomorrow.setDate(today.getDate() + 2);
-                        response.data.forEach((row, index) => {
-                            let nextDate = new Date(row.next_dt);
-                            let color = 'light-gray';
-                            let displayStyle = 'display:none;';
-
-                            if (row.clno != 0 && row.brd_slno != 0 && nextDate >= today && nextDate <= dayAfterTomorrow) {
-                                color = 'red';
-                                if (response.category == 1 || response.category == 0) {
-                                    displayStyle = '';
-                                }
-                            } else if (row.clno != 0 && row.brd_slno != 0 && nextDate >= today) {
-                                color = 'orange';
-                                if (response.category == 2 || response.category == 0) {
-                                    displayStyle = '';
-                                }
-                            } else {
-                                if (response.category == 0) {
-                                    displayStyle = '';
-                                }
-                            }
-
-                            html += `<tr style="background-color: ${color}; ${displayStyle}">`;
-                            html += `<td>${index + 1}</td>`;
-                            html += `<td>${row.case_no}</td>`;
-                            html += `<td>${row.cause_title}</td>`;
-                            if (response.usercode === '9796') {
-                                html += `<td>${new Date(row.next_dt).toLocaleDateString('en-GB')}</td>`;
-                            }
-                            html += '</tr>';
-                        });
-
-                        html += '</tbody>';
-                        html += '</table></div>';
-                        $('#dv_data').html(html);
-                        $("#csrf_token").val(response.csrfHash);
-                        $("#csrf_token").attr('name', response.csrfName);
-
-                        $("#example1").DataTable({
-                            "responsive": true,
-                            "lengthChange": false,
-                            "autoWidth": false,
-                            "dom": 'Bfrtip',
-                            "bProcessing": true,
-                            "buttons": ["excel", "pdf"]
-                        });
-                    } else {
-                        $('#dv_data').html('<div style="text-align: center"><b>No Record Found</b></div>');
-                        $("#csrf_token").val(response.csrfHash);
-                        $("#csrf_token").attr('name', response.csrfName);
+                success: function(response) {                    
+                    let result = JSON.parse(response);
+                    if(result.solve == true){
+                        $('#dv_data').html(result.content);
                     }
+                    else {
+                        $('#dv_data').html('<div style="text-align: center"><b>No Record Found</b></div>');
+                        //$("#csrf_token").val(response.csrfHash);
+                        //$("#csrf_token").attr('name', response.csrfName);
+                    }
+                    // if (response.success) {
+
+                    //     let html = '<div class="table-responsive"><table id="example1" class="table table-striped custom-table">';
+                    //     html += '<thead><tr><th>S.No.</th><th>Case No.</th><th>Cause Title</th>';
+                    //     if (response.usercode === '9796') {
+                    //         html += '<th>Listed/Updated For</th>';
+                    //     }
+                    //     let today = new Date();
+                    //     let dayAfterTomorrow = new Date();
+                    //     dayAfterTomorrow.setDate(today.getDate() + 2);
+                    //     response.data.forEach((row, index) => {
+                    //         let nextDate = new Date(row.next_dt);
+                    //         let color = 'light-gray';
+                    //         let displayStyle = 'display:none;';
+
+                    //         if (row.clno != 0 && row.brd_slno != 0 && nextDate >= today && nextDate <= dayAfterTomorrow) {
+                    //             color = 'red';
+                    //             if (response.category == 1 || response.category == 0) {
+                    //                 displayStyle = '';
+                    //             }
+                    //         } else if (row.clno != 0 && row.brd_slno != 0 && nextDate >= today) {
+                    //             color = 'orange';
+                    //             if (response.category == 2 || response.category == 0) {
+                    //                 displayStyle = '';
+                    //             }
+                    //         } else {
+                    //             if (response.category == 0) {
+                    //                 displayStyle = '';
+                    //             }
+                    //         }
+
+                    //         html += `<tr style="background-color: ${color}; ${displayStyle}">`;
+                    //         html += `<td>${index + 1}</td>`;
+                    //         html += `<td>${row.case_no}</td>`;
+                    //         html += `<td>${row.cause_title}</td>`;
+                    //         if (response.usercode === '9796') {
+                    //             html += `<td>${new Date(row.next_dt).toLocaleDateString('en-GB')}</td>`;
+                    //         }
+                    //         html += '</tr>';
+                    //     });
+
+                    //     html += '</tbody>';
+                    //     html += '</table></div>';
+                    //     $('#dv_data').html(html);
+                    //     $("#csrf_token").val(response.csrfHash);
+                    //     $("#csrf_token").attr('name', response.csrfName);
+
+                    //     $("#example1").DataTable({
+                    //         "responsive": true,
+                    //         "lengthChange": false,
+                    //         "autoWidth": false,
+                    //         "dom": 'Bfrtip',
+                    //         "bProcessing": true,
+                    //         "buttons": ["excel", "pdf"]
+                    //     });
+                    // } 
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     alert("Error: " + jqXHR.status + " " + errorThrown);
