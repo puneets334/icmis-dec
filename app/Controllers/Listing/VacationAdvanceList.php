@@ -243,7 +243,8 @@ class VacationAdvanceList extends BaseController
         $caseDetails = $this->CaseAdd->getCaseDetails_1($dno);
         $casetype = $this->CaseAdd->getCaseTopDetails($dno);
         $r_case =[];
-        if(isset($casetype['fil_no_fh']) && ($casetype['fil_no_fh'] != '' || $casetype['fil_no_fh'] != NULL)){
+        //if(isset($casetype['fil_no_fh']) && ($casetype['fil_no_fh'] != '' || $casetype['fil_no_fh'] != NULL)){
+        if(isset($casetype['fil_no_fh']) && !empty($casetype['fil_no_fh'])){
             $r_case = $this->CaseAdd->getCaseTypeR($casetype['fil_no_fh']);
         }
         navigate_diary($dno);
