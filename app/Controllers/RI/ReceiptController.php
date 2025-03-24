@@ -667,6 +667,7 @@ class ReceiptController extends BaseController
 
     public function getServeType()
     {
+        pr($_REQUEST);
         //        extract($_GET);
         //pr($_POST);
         //exit;
