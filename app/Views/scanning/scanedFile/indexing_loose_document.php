@@ -32,7 +32,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Indexing(Loose Document) >> View/Download</h3>
+                                <h3 class="card-title">Scanning >> Scaned file >> Indexing(Loose Document)</h3>
                             </div>
                             <div class="col-sm-2">
                             </div>
@@ -54,7 +54,7 @@
                                     <label for="txt_to_date" class="form-label">To Date</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                                        <input type="text" class="form-control datepicker" id="txt_to_date" name="txt_to_date" placeholder="TO Date" require>
+                                        <input type="text" class="form-control datepicker" id="txt_to_date" name="txt_to_date" placeholder="To Date" require>
                                     </div>
                                 </div>
 
@@ -95,6 +95,12 @@
             var csv_type = 'indexingLooseDocument';
             var csrf = $('input[name="<?= csrf_token() ?>"]').val();
 
+
+        if (!txt_fd || !txt_td) {
+            alert('Please provide both From Date and To Date.');
+            return;
+        }
+
             $.ajax({
                 url: '<?= base_url('Scanning/ScanningController/exportCsv') ?>',
                 method: 'POST',
@@ -110,8 +116,8 @@
                     return xhr;
                 },
                 beforeSend: function() {
-                    $('#downloadLink').html('<h5 class="mb-0 text-warning">Generating CSV, please wait...</h5>');
                     $('#res_loader').html('<div style="position: absolute;top: 50%;left: 50%;text-align: center;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);"><img src="<?= base_url();?>/images/load.gif"/></div>');
+                    $('#downloadLink').html('<h5 class="mb-0 text-warning">Generating CSV, please wait...</h5>');
                 },
                 success: function(blob, status, xhr) {
                     // Check for errors from the server
@@ -135,7 +141,7 @@
                 error: function(xhr, status, error) {
                     $('#res_loader').html('');
                     updateCSRFToken();
-                    $('#downloadLink').html('<h5 class="mb-0 text-danger">An error occurred: ' + error  + '</h5>'); // Show error message
+                    $('#downloadLink').html('<h5 class="mb-0 text-danger">Error : ' + error  + '</h5>'); // Show error message
                 }
             });
         });

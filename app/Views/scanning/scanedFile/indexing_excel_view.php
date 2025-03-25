@@ -22,6 +22,7 @@
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
+  
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -32,7 +33,7 @@
                     <div class="card-header heading ">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Scanning > Scaned File > Indexing Excel</h3>
+                                <h3 class="card-title">Scanning >> Scaned File >> Indexing Excel</h3>
                             </div>
                             <div class="col-sm-2"></div>
                         </div>
@@ -81,12 +82,13 @@
 </section>
 <div id="res_loader"></div>
 <script>
-    $('.datepicker').datepicker({
+   $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
         changeMonth: true,
         changeYear: true,
         yearRange: '1950:2050'
     });
+
     $('#submitIevForm').on('click', function(e) {
         e.preventDefault();
         var txt_fd = $('#txt_frm_date').val();
@@ -116,14 +118,15 @@
             },
             beforeSend: function() {
                 $('#downloadLink').html('<h5 class="mb-0 text-warning">Generating CSV, please wait...</h5>');
-                $('#res_loader').html('<div style="position: absolute;top: 50%;left: 50%;text-align: center;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);"><img src="../../images/load.gif"/></div>');
+                $('#res_loader').html('<div style="position: absolute;top: 50%;left: 50%;text-align: center;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);"><img src="<?=base_url();?>/images/load.gif"/></div>');
             },
             success: function(blob, status, xhr) {
+                updateCSRFToken();
                 if (xhr.status !== 200) {
                     $('#res_loader').html('');
                     $('#downloadLink').html('<h5 class="mb-0 text-danger">Error generating CSV.</h5>');
                     return;
-                updateCSRFToken();
+                }
                 
                 var downloadUrl = URL.createObjectURL(blob);
                 var a = document.createElement('a');
@@ -135,6 +138,7 @@
                 a.remove();
                 
                 $('#downloadLink').html('<h5 class="mb-0 text-success">CSV Generated Successfully!</h5>');
+                $('#res_loader').html('');
             },
             error: function(xhr, status, error) {
                 updateCSRFToken();

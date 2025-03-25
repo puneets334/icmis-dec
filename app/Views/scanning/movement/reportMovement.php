@@ -16,6 +16,17 @@ table.dataTable>thead {
     background-color: #0d48be !important;
     color: #fff !important;
 }
+@media print {
+            table thead tr th {
+                font-weight: bold;
+                color: black;  /* Set header color to black for print */
+                background-color: #f1f1f1; /* Optionally set background color */
+            }
+            /* You can also hide unnecessary elements like pagination buttons during print */
+            .dataTables_paginate {
+                display: none;
+            }
+        }
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -45,7 +56,7 @@ table.dataTable>thead {
                                                         <div class="form-group row">
                                                             <label for="inputEmail3" class="col-sm-5 col-form-label">List Date From</label>
                                                             <div class="col-sm-7">
-                                                                <input type="date" id="to_date_addon" name="to_date_addon" class="form-control to_date" required="" placeholder="Date...">
+                                                                <input type="text" id="to_date_addon" name="to_date_addon" class="form-control to_date datepicker" required="" placeholder="Date...">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -126,7 +137,28 @@ table.dataTable>thead {
             "autoWidth": false,
             "dom": 'Bfrtip',
             "bProcessing": true,
-            "buttons": ["excel", "pdf"],
+            "pageLength": 25,
+            // "buttons": ["excel", "pdf"],
+            "buttons": [
+                // {
+                //     extend: 'excelHtml5',
+                //     text: 'Export to Excel',
+                //     title: 'Movement-Report',
+                //     filename: 'Movement-Report'
+                // },
+                // {
+                //     extend: 'pdfHtml5',
+                //     text: 'Save as PDF',
+                //     title: 'Movement-Report',
+                //     filename: 'Movement-Report'
+                // },
+                {
+                    extend: 'print',
+                    text: 'Print',
+                    title: 'Scan Move Report',
+                    filename: 'Scan-Movement-Report'
+                }
+            ],
 
             "columns": [{
                     "data": "id"
@@ -186,5 +218,12 @@ table.dataTable>thead {
                 }
             });
         });
+    });
+
+    $('.datepicker').datepicker({
+        format: 'dd-mm-yyyy',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '1950:2050'
     });
 </script>

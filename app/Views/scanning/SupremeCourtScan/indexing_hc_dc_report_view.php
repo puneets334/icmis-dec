@@ -39,7 +39,7 @@ table.dataTable>thead {
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Scanning >> Supreme Court Scan >> HC DC Indexing View/Download</h3>
+                                <h3 class="card-title">Scanning >> Supreme Court Scan >> HC DC Indexing Report</h3>
                             </div>
                             <div class="col-sm-2">
                             </div>
@@ -121,26 +121,42 @@ table.dataTable>thead {
 </section>
 <div id="res_loader"></div>
 <script>
+ $('.datepicker').datepicker({
+        format: 'dd-mm-yyyy',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '1950:2050'
+    });
+
 function updateCSRFToken() {
     $.get('<?= site_url('Scanning/SupremeCourtScan/SupremeCourtScanController/getCSRF'); ?>', function(data) {
         $('input[name="<?= csrf_token() ?>"]').val(data.csrf_token);
     }, 'json');
 }
-$('.datepicker').datepicker({
-    dateFormat: 'dd-mm-yy',
-    changeMonth: true,
-    changeYear: true,
-    yearRange: '1950:2050'
-});
+
 
 $(document).ready(function() {
     var table = $('#hcdc_index').DataTable({
         "responsive": true,
         "lengthChange": false,
         "autoWidth": false,
+        "pageLength": 25,
         "dom": 'Bfrtip',
         "bProcessing": true,
-        "buttons": ["excel", "pdf"],
+        "buttons": [
+            {
+                extend: 'excelHtml5',
+                text: 'Excel', 
+                title: 'HC DC Indexing Report', 
+                filename: 'HC-DC-Indexing-Report'
+            },
+            {
+                extend: 'pdfHtml5',
+                text: 'PDF',
+                title: 'HC DC Indexing Report', 
+                filename: 'HC-DC-Indexing-Report'
+            }
+        ],
 
         "columns": [{
                 "data": "srno"
@@ -193,6 +209,7 @@ $(document).ready(function() {
                     );
             },
             success: function(data) {
+                updateCSRFToken();
                 if (data.status == '1') {
                     $('#res_loader').html('');
                     $("#message").html('');
@@ -204,7 +221,7 @@ $(document).ready(function() {
 
                     // $('#result').html(data.html);
                 } else {
-                    updateCSRFToken();
+                   
                     $('#res_loader').html('');
                     $('#result').html('');
                     table.clear();

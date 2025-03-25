@@ -50,7 +50,8 @@ class SupremeCourtScanModal extends Model
         } elseif ($status == '2') {
             $builder->where('ihd.conformation', 0);
         } elseif ($status == '12') {
-            $builder->whereIN('ihd.conformation', [0, 1]);
+            // $builder->whereIN('ihd.conformation', [0, 1]);
+            $builder->where('conformation', );
         }
 
         $builder->groupStart()

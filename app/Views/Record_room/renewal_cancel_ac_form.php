@@ -324,7 +324,7 @@
 
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-info" name="submit" id="register_rc" onclick="">
+                                                    <button type="button" class="btn btn-info" name="submit" id="register_rc" onclick="">
                                                         <span class="glyphicon glyphicon-plus"></span> Submit
                                                     </button>
                                                 </div>

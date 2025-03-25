@@ -10,17 +10,29 @@
         padding: 4px;
     }
 
-table.dataTable>thead .sorting,
-table.dataTable>thead {
-    background-color: #0d48be !important;
-    color: #fff !important;
-}
-.h5-title {
-    font-style: italic;
-    font-weight: 600;
-    text-align: center;
-    text-decoration: underline;
-}
+    table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+    }
+
+    .h5-title {
+        /* font-style: italic; */
+        font-weight: 600;
+        text-align: center;
+        /* text-decoration: underline; */
+    }
+    @media print {
+            table thead tr th {
+                font-weight: bold;
+                color: black;  /* Set header color to black for print */
+                background-color: #f1f1f1; /* Optionally set background color */
+            }
+            /* You can also hide unnecessary elements like pagination buttons during print */
+            .dataTables_paginate {
+                display: none;
+            }
+        }
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -30,7 +42,7 @@ table.dataTable>thead {
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Freshly Filed - Verified Cases</h3>
+                                <h3 class="card-title">Scanning >> Freshly Filed - Verified Cases</h3>
                             </div>
                             <div class="col-sm-2">
                             </div>
@@ -47,9 +59,9 @@ table.dataTable>thead {
                                                 <div class="row">
                                                     <div class="col-sm-5">
                                                         <div class="form-group row">
-                                                            <label for="from" class="col-sm-6">From Date</label>
+                                                            <label for="from" class="col-sm-6 mt-3">From Date</label>
                                                             <div class="col-sm-6">
-                                                                <input type="date" id="fromDate" value="<?= isset($fromDate)?$fromDate:'' ?>" name="fromDate" class="form-control datepick" required="" placeholder="From Date">
+                                                                <input type="text" id="fromDate" value="<?= isset($fromDate) ? date("d-m-Y", strtotime($fromDate)) : '' ?>" name="fromDate" class="form-control datepicker" required="" placeholder="From Date">
                                                             </div>
                                                         </div>
 
@@ -57,9 +69,9 @@ table.dataTable>thead {
                                                     <div class="col-sm-5">
 
                                                         <div class="form-group row">
-                                                            <label for="from" class="col-sm-6">To Date</label>
+                                                            <label for="from" class="col-sm-6 mt-3">To Date</label>
                                                             <div class="col-sm-6">
-                                                                <input type="date" id="toDate" name="toDate" value="<?= isset($toDate)?$toDate:'' ?>" class="form-control datepick" required="" placeholder="To Date">
+                                                                <input type="text" id="toDate" name="toDate" value="<?= isset($toDate) ? date("d-m-Y", strtotime($toDate)) : '' ?>" class="form-control datepicker" required="" placeholder="To Date">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -138,8 +150,33 @@ table.dataTable>thead {
             "autoWidth": false,
             "dom": 'Bfrtip',
             "bProcessing": true,
-            "buttons": ["excel", "pdf"]
+           "pageLength": 25,     
+            "buttons": [{
+                    extend: 'excelHtml5',
+                    text: 'Export to Excel',
+                    title: '<?= $title ?? 'Freshly-filed-verified-cases'?>',
+                    filename: '<?= $title ?? 'Freshly-filed-verified-cases'?>'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: 'Save as PDF',
+                    title: '<?= $title ?? 'Freshly-filed-verified-cases'?>',
+                    filename: '<?= $title ?? 'Freshly-filed-verified-cases'?>'
+                },
+                {
+                    extend: 'print',
+                    text: 'Print',
+                    title: '<?= $title ?? 'Freshly-filed-verified-cases'?>',
+                    filename: '<?= $title ?? 'Freshly-filed-verified-cases'?>'
+                }
+            ]
         });
+    });
+    $('.datepicker').datepicker({
+        format: 'dd-mm-yyyy',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '1950:2050'
     });
 
     $(document).on("focus", ".dtp", function() {

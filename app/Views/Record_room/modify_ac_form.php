@@ -1,19 +1,19 @@
 <?= view('header') ?>
 
-<link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>">
+<!-- <link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>"> -->
 <div class="card-header heading">
     <div class="row">
         <div class="col-sm-10">
             <h3 class="card-title">Report >>&nbsp; Clerk Details</h3>
         </div>
         <div class="col-sm-2">
-            <div class="custom_action_menu">
+            <!-- <div class="custom_action_menu">
                 <button class="btn btn-success btn-sm" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
                 <button class="btn btn-primary btn-sm" type="button"><i class="fas fa-pen   " aria-hidden="true"></i>
                 </button>
                 <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
@@ -75,6 +75,7 @@
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
+            "pageLength": 13,
             "buttons": [
                 "copy", "csv", "excel", {
                     extend: 'pdfHtml5',
@@ -97,4 +98,6 @@
     <div id="header" style="background-color:White;"></div>
     <div id="footer" style="background-color:White;"></div>
 </div>
-<?= view('sci_main_footer') ?>
+<?php 
+view('sci_main_footer');
+ ?>

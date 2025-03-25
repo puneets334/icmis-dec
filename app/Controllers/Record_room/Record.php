@@ -141,20 +141,13 @@ class Record extends BaseController
     }
 
 
-
     // modification -------------
     public function modify_details()
     {
-
         $Model = new Model_record();
-
-        $data = [
-            'clerkDetails' => $Model->getClerkDetails(),
-        ];
-
+        $data['clerkDetails'] = $Model->getClerkDetails();
         return view('Record_room/modify_ac_form', $data);
     }
-
 
 
     // modification details page -----------------

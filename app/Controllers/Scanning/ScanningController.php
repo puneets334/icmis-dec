@@ -36,7 +36,7 @@ class ScanningController extends BaseController
 
     public function hcDcIndexing()
     {
-        return view('Scanning/scanedFile/hc_dc_indexing_view'); // Load your view
+        return view('scanning/scanedFile/hc_dc_indexing_view'); // Load your view
     }
 
     public function indexingExcelView()
@@ -200,7 +200,7 @@ class ScanningController extends BaseController
 
             // Set CSV download headers
             header('Content-Type: text/csv');
-            header('Content-Disposition: attachment; filename="document_' . date('Y-m-d_H-i-s') . '.csv');
+            header('Content-Disposition: attachment; filename="' . date('Y-m-d_H-i-s') . '.csv');
 
             // Open PHP output stream for writing the CSV
             $fp = fopen('php://output', 'w');
@@ -258,13 +258,16 @@ class ScanningController extends BaseController
         $request = service('request');
         $txt_frm_date = $request->getVar('txt_frm_date');
         $txt_to_date = $request->getVar('txt_to_date');
-
-        $txt_frm_date = date('Y-m-d', strtotime($txt_frm_date));
-        $txt_to_date = date('Y-m-d', strtotime($txt_to_date));
-
+        
+        $txt_frm_date = DateTime::createFromFormat('d/m/Y', $txt_frm_date)->format('Y-m-d');
+        $txt_to_date = DateTime::createFromFormat('d/m/Y', $txt_to_date)->format('Y-m-d');
+        
         // Get records using your model
         $records = $this->lowerCourtModel->getRecords($txt_frm_date, $txt_to_date);
-
+        // echo $this->db->getLastQuery();
+        // echo "<pre>";
+        // print_r($records);
+        // die;
         // Prepare CSV output
         if (!empty($records)) {
             $csv_header = [

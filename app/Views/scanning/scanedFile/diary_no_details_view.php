@@ -1,3 +1,4 @@
+
 <?= view('header') ?>
 <style>
     .input-group {
@@ -31,7 +32,7 @@
                     <div class="card-header heading ">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Scaned File >> Diary No Details</h3>
+                                <h3 class="card-title">Scanning >> Scaned File >> Diary No Details</h3>
                             </div>
                             <div class="col-sm-2"></div>
                         </div>
@@ -45,8 +46,8 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="ddl_dt_type" class="col-form-label">Select Date Type</label>
-                                        <select class="form-control select-box" name="ddl_dt_type" id="ddl_dt_type">
-                                            <option value="">Select</option>
+                                        <select class="form-control" name="ddl_dt_type" id="ddl_dt_type">
+                                            <!-- <option value="">Select</option> -->
                                             <option value="1">Registration Date</option>
                                             <option value="2">Listing Date</option>
                                         </select>
@@ -97,11 +98,12 @@
         selectOnClose: true
     });
     $('.datepicker').datepicker({
-        format: 'dd/mm/yyyy',
+        format: 'dd-mm-yyyy',
         changeMonth: true,
         changeYear: true,
         yearRange: '1950:2050'
     });
+
     $('#diaryNoDetail').on('click', function(e) {
         e.preventDefault();
 
@@ -118,7 +120,7 @@
 
         $.ajax({
             url: '<?= base_url('Scanning/ScanningController/getDiaryDetails') ?>',
-            method: 'POST',
+            method: 'GET',
             data: {
                 txt_frm_date: txt_frm_date,
                 txt_to_date: txt_to_date,
@@ -137,6 +139,7 @@
             },
             success: function(blob, status, xhr) {
                 updateCSRFToken();
+                $("#result").html('');
                 $('#res_loader').html(''); // Clear the loading message
                 var contentDisposition = xhr.getResponseHeader('Content-Disposition');
                 var filename = "Diary_no_details-<?= date('YmdHis') ?>.csv"; // Default file name
@@ -193,6 +196,7 @@
                 updateCSRFToken();
                 $('#res_loader').html(''); // Clear the loading message
                 $('#downloadLink').html('');
+                $('#message').html('');
                 $("#result").html('<h4 class="text-center text-danger mb-0">Error: ' + error + '</h4>');
             },
             complete: function() {

@@ -24,10 +24,15 @@ class SaccaningController extends BaseController
     $data = [];
     $title = '';
     if ($this->request->getMethod() == 'post') {
-      $fromDate = $this->request->getPost('fromDate');
-      $toDate = $this->request->getPost('toDate');
-      $title = "Verification of freshly filed cases completed from " . date("d-m-Y", strtotime($fromDate)) . " to " . date("d-m-Y", strtotime($toDate)) . " (as on " . date('d-m-Y H:i:s') . ")";
+      $fromDate = date("Y-m-d", strtotime($this->request->getPost('fromDate')));
+      $toDate = date("Y-m-d", strtotime($this->request->getPost('toDate')));
+
+      
+      // $toDate = $this->request->getPost('toDate');
+      $title = "Verification of Freshly Filed Cases Completed From " . date("d-m-Y", strtotime($fromDate)) . " To " . date("d-m-Y", strtotime($toDate)) . " (As On " . date('d-m-Y H:i:s') . ")";
       $FreshlyData = $this->ScaningModel->getDataByDateRange($fromDate, $toDate);
+      $title = (empty($FreshlyData)) ? 'No Records Found' : $title;
+
       $data = [
         'title' => $title,
         'FreshlyData' => $FreshlyData,
@@ -79,6 +84,7 @@ class SaccaningController extends BaseController
   public function receiveReturnMovement()
   {
     $data['caseType'] = $this->ScaningModel->getCaseType();
+    // echo "<pre>";print_r($data);die;
     return view('scanning/movement/receiveReturn', $data);
   }
 
@@ -91,7 +97,7 @@ class SaccaningController extends BaseController
 
   public function search_rpt()
   {
-    if ($this->request->getPost('search_rpt') == 'Rpt_search') {
+      if ($this->request->getPost('search_rpt') == 'Rpt_search') {
       $to_dt = date("Y-m-d", strtotime($this->request->getPost('To_date')));
       // $from_dt = date("Y-m-d", strtotime($this->request->getPost('From_date'))); // Uncomment if needed
       $movement_flag_type = $this->request->getPost('movement_flag_type');
@@ -116,11 +122,12 @@ class SaccaningController extends BaseController
       }
       // echo $builder->getCompiledSelect(); 
       $query = $builder->get();
+      // exit();
 
       $output = [];
-      foreach ($query->getResultArray() as $row) {
+      foreach ($query->getResultArray() as $key=>$row) {
         $output[] = [
-          'id'             => $row['id'],
+          'id'             => $key+1,
           'item_no'        => $row['item_no'],
           'dairy_no'       => $row['dairy_no'],
           'list_dt'        => $row['list_dt'],
@@ -140,10 +147,7 @@ class SaccaningController extends BaseController
 
   public function scanMoveProcess()
   {
-
     $ScaningModel = new ScaningModel();
-
-    // Get the required inputs
     $list_date = $this->request->getPost('list_date');
     $mainhead = $this->request->getPost('mainhead');
     $courtno = $this->request->getPost('courtno');
@@ -153,29 +157,112 @@ class SaccaningController extends BaseController
     $list_date_dmy = date("d-m-Y", strtotime($list_date));
     $list_date = date("Y-m-d", strtotime($list_date));
 
-    // Stage based on mainhead value
     $stg = $mainhead == 'M' ? 1 : 2;
-
+  
     // Build the condition
-    $t_cn = " AND `courtno` = '{$courtno}' AND IF(to_date = '0000-00-00', to_date = '0000-00-00', '{$list_date}' BETWEEN from_date AND to_date)";
-
-    // Fetch distinct roster_id and board_type_mb
-    $roster_ids = $ScaningModel->getRosterIds($stg, $t_cn);
-
+    $t_cn= "r.courtno = '$courtno' AND ( to_date IS NULL OR '$list_date' BETWEEN from_date AND to_date )";
+    $roster_ids = $ScaningModel->getRosterIds($stg, $t_cn);    
+    // echo "<pre>";print_r($roster_ids);exit();
     // Prepare additional WHERE conditions based on movement_flag_type
     $where_condition = $ScaningModel->buildWhereCondition($movement_flag_type);
-
-    // Fetch the main query
+    if(empty($roster_ids))
+    {
+      $results = [];
+    }else{  
     $results = $ScaningModel->getCaseDetails($list_date, $mainhead, $roster_ids, $where_condition);
+    }
 
-    // Check if any results were found
+    // echo "<pre>";print_r($results);exit();
+
     if ($results) {
-      return view('table_view', ['results' => $results, 'list_date_dmy' => $list_date_dmy, 'courtno' => $courtno, 'mainhead' => $mainhead]);
+      return view('scanning/movement/receive_return_view', ['results' => $results, 'list_date_dmy' => $list_date_dmy, 'courtno' => $courtno, 'mainhead' => $mainhead]);
     } else {
       return 'No Records Found';
     }
   }
 
+
+  public function add_update_scanning_movement()
+  {
+    return true;
+    // echo "<pre>";
+    // print_r($this->request->getPost());
+    // exit();
+    if ($this->request->getPost('action') == 'save_record') {
+      $dairyno = $this->request->getPost('diaryno');
+      $cause_title = $this->request->getPost('cause_title');
+      $movement_flag = $this->request->getPost('movement');
+      $event_type = ($movement_flag == 'receive') ? $this->request->getPost('event') : '';
+
+      $dateDefult = new \DateTime();
+      $date_time_defult = $dateDefult->format('Y-m-d H:i:s');
+      $clientIP = $this->request->getPost('clientIP');
+      $roster_id = $this->request->getPost('roster_id');
+      $list_date = $this->request->getPost('list_dt');
+      $item_no = $this->request->getPost('item_no');
+      $user_id = session()->get('login')['usercode'];;
+
+      $builder = $this->db->table('scan_movement');
+      $builder->where('dairy_no', $dairyno);
+      $builder->where('is_active', 'T');
+      $row_chk = $builder->countAllResults();
+
+      if ($row_chk == 0) {
+        $data = [
+          'dairy_no' => $dairyno,
+          'list_dt' => $list_date,
+          'roster_id' => $roster_id,
+          'item_no' => $item_no,
+          'movement_flag' => $movement_flag,
+          'event_type' => $event_type,
+          'user_id' => $user_id,
+          'ip_address' => $clientIP,
+          'is_active' => 'T',
+          'entry_date_time' => $date_time_defult
+        ];
+        $builder->insert($data);
+        $last_id = $this->db->insertID();
+
+        if ($last_id > 0) {
+          echo "1"; // INSERT SUCCESSFULLY..
+          exit();
+        } else {
+          echo "0"; // NOT INSERT..
+          exit();
+        }
+      } else {
+        $builder = $this->db->table('scan_movement_history');
+        $builder->insertSelect('scan_movement', '*', ['dairy_no' => $dairyno, 'is_active' => 'T']);
+        $last_insrt_his_id = $this->db->insertID();
+
+        if ($last_insrt_his_id > 0) {
+          $data = [
+            'list_dt' => $list_date,
+            'roster_id' => $roster_id,
+            'item_no' => $item_no,
+            'movement_flag' => $movement_flag,
+            'event_type' => $event_type,
+            'user_id' => $user_id,
+            'ip_address' => $clientIP,
+            'is_active' => 'T',
+            'entry_date_time' => $date_time_defult
+          ];
+          $builder = $this->db->table('scan_movement');
+          $builder->where('dairy_no', $dairyno);
+          $builder->update($data);
+          $affected_rows = $this->db->affectedRows();
+
+          if ($affected_rows > 0) {
+            echo "1"; // RETURN SUCCESSFULLY..
+            exit();
+          } else {
+            echo "0";
+            exit();
+          }
+        }
+      }
+    }
+  }
 
   public function listTypeAssetsSearch()
   {
