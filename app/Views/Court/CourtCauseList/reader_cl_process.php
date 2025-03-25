@@ -118,7 +118,11 @@ if (!empty($results10)) {
             $check_for_regular_case="FOUND";
             
           $ct2 = $row10['ct2'];
+          $res_ct_typ = '';
+          if(!empty($ct2))
+          {
           $res_ct_typ = is_data_from_table('master.casetype', " casecode=$ct2 and display='Y' ", 'short_description', $row = '')['short_description']; 
+          }
           if($row10['crf2']==$row10['crl2']){ 
             $t_fil_no= ''.$res_ct_typ." ".ltrim($row10['crf2'],'0').'/'.$row10['f_year']; 
           }
