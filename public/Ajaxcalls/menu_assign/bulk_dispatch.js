@@ -20,7 +20,8 @@ $(document).ready(function(){
         $("#case_yr").removeProp('disabled');
     });
 
-    $("input[name=btnGetR]").click(function(){
+    $("input[name=btnGetR]").click(function()
+    {
         var diaryno, diaryyear, cstype, csno, csyr;
         var regNum = new RegExp('^[0-9]+$');
          
@@ -207,6 +208,7 @@ $(document).on("change","#department",function(){
     
      $("#btnGetR").click(function ()
         {
+           
             $("#dv_res1").html('<center><img src="../images/load.gif"/></center>');
             $.ajax
                     ({
@@ -274,11 +276,15 @@ function receivethis(){
         });
     }
 }
-function dispatchFunction(){
-     if(confirm("Are You Sure to Receive this File")){
+function dispatchFunction()
+{
+    alert('save_dispatch');
+     if(confirm("Are You Sure to Receive this File"))
+{
 
    var full_data = new Array();
     var check = false;
+   
     $("input[type='checkbox'][name^='chk']").each(function () {
 
         if($(this).is(":checked")==true)
@@ -293,20 +299,26 @@ function dispatchFunction(){
         return false;
     }        
     $("#btnrece").prop('disabled','disabled');
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
     $.ajax({
         type:"POST",
-        url:"./save_dispatch.php",
-        data:{alldata:full_data}
+        // url:"./save_dispatch.php",
+        url: base_url + "/Exchange/MovementOfDoc/MovementOfDocument/save_dispatch",
+        data:{alldata:full_data,CSRF_TOKEN: CSRF_TOKEN_VALUE}
     })
     .done(function(msg){
+        updateCSRFToken();
         $("#btnrece").removeProp('disabled');
-       if(msg!='') alert('message from server: '+msg);
-             setTimeout(function(){// wait for 5 secs(2)
-           location.reload(); // then reload the page.(3)
+       if(msg!='')
+        alert('message from server: '+msg);
+             setTimeout(function(){
+           location.reload(); 
       }, 1000); 
        // $("#result").html(msg);
     })
+    
     .fail(function(){
+        updateCSRFToken();
         $("#btnrece").removeProp('disabled');
         alert("Error Occured, Please Contact Server Room");
     });

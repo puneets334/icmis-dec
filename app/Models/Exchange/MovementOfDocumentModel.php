@@ -17,6 +17,7 @@ class MovementOfDocumentModel extends Model
 
     public function getDiaryNumber($ct, $cn, $cy)
     {
+      
         // Prepare and execute the first query
         $builder = $this->db->table('main');
         $builder->select("SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) AS dn, SUBSTR(diary_no, -4) AS dy");
@@ -70,13 +71,14 @@ class MovementOfDocumentModel extends Model
 
     public function getRecentDocuments($ucode)
     {
+       
         $sevenDaysAgo = date('Y-m-d', strtotime('-7 days'));
         $builder = $this->db->table('docdetails a');
         $builder->select('a.*, c.*, m.*');
         $builder->join('master.docmaster c', 'a.doccode = c.doccode AND a.doccode1 = c.doccode1', 'left');
         $builder->join('main m', 'a.diary_no = m.diary_no', 'left');
 
-        $builder->where('a.ent_dt >', $sevenDaysAgo);
+       $builder->where('a.ent_dt >', $sevenDaysAgo);
         $builder->where('a.diary_no !=', 0);
         $builder->where('a.display', 'Y');
         $builder->where('a.usercode', $ucode);
@@ -706,5 +708,21 @@ class MovementOfDocumentModel extends Model
             ->getRow();
 
         return ($builder->total ?? 0) + ($builder2->total ?? 0);
+    }
+
+    public function verified_defectives($diary_no, $doccode, $doccode1, $docnum, $docyear) 
+    {
+        $sql="SELECT fil_no FROM ld_move WHERE diary_no='$diary_no' AND doccode='$doccode' AND doccode1='$doccode1' AND docnum='$docnum' AND docyear='$docyear'";
+        $query = $this->db->query($sql);
+        $result = $query->getRowArray();
+        return $result;
+    }
+
+    public function insertDatas($new_value0, $new_value1, $new_value2, $new_value3, $new_value4, $ucode, $new_value5, $now)
+
+    {
+        $sql="INSERT INTO ld_move(diary_no,doccode,doccode1,docnum,docyear,disp_by,disp_to,disp_dt) VALUES('$new_value0','$new_value1','$new_value2','$new_value3','$new_value4','$ucode','$new_value5','$now')";
+        pr($sql);$query = $this->db->query($sql);
+
     }
 }
