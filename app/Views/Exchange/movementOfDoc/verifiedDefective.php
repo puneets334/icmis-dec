@@ -117,4 +117,95 @@
             }
         });
     }
+
+    // check function again because in core php not working properly
+
+    //     function verifyFunction()
+    // {
+    //     let CSRF_TOKEN = 'CSRF_TOKEN';
+    //     let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    //     var full_data = new Array();
+    //     var full_data_tb = new Array();
+    //     var check = false; var vr='';
+    //     $("input[type='checkbox'][name^='chk']").each(function ()
+    //     {
+    //         if($(this).is(":checked")==true)
+    //         {
+    //             full_data.push($(this).val());
+    //             var thisid=$(this).attr('id');
+    //             thisid=thisid.replace('chk','');
+    //             full_data_tb.push($('#tb'+thisid).val());
+    //             check = true;
+    //         }
+    //     });
+    //     $("input[type='radio'][name^='vr']").each(function ()
+    //     {
+    //         if($(this).is(":checked")==true)
+    //         {
+    //             vr = $(this).val();
+    //         }
+    //     });
+    //     if(check == false)
+    //     {
+    //         alert("Please select at least one document");
+    //         return false;
+    //     }
+    //     if(vr == '')
+    //     {
+    //         alert("Please select Verify or Reject");
+    //         return false;
+    //     }
+    //     if(vr == 'V')
+    //     {
+    //         var vr_text='Verify';
+    //     }
+            
+    //     if(vr == 'R')
+    //     {
+    //         var vr_text='Reject';
+    //     }
+            
+    //     vr_text = "Are you sure to "+vr_text+" selected documents";
+    //     if(confirm(vr_text))
+    //     {
+    //         $("#btnrece").prop('disabled','disabled');
+    //         $.ajax({
+    //             type: "POST",
+    //             url: "<?= base_url('Exchange/MovementOfDoc/MovementOfDocument/verifySave'); ?>",
+    //             data:
+    //             {
+    //                 CSRF_TOKEN: CSRF_TOKEN_VALUE,
+    //                 alldata: full_data,
+    //                 vr: vr,
+    //                 tb: full_data_tb
+    //             },
+    //             beforeSend: function()
+    //             {
+    //                 $("#btnrece").prop('disabled', true); 
+    //             },
+    //             success: function(msg)
+    //             {
+    //                 $("#btnrece").removeProp('disabled'); 
+
+    //                 if (msg != '')
+    //                 {
+    //                     alert('Message from server: ' + msg);
+    //                 }
+    //                 updateCSRFToken();
+    //                 setTimeout(function()
+    //                 { // Wait for 1 second
+    //                     location.reload(); // Reload the page
+    //                 }, 1000);
+    //             },
+    //             error: function()
+    //             {
+    //                 updateCSRFToken();
+    //                 $("#btnrece").removeProp('disabled'); // Enable button on error
+    //                 alert("Error Occurred, Please Contact Server Room");
+    //             }
+    //         });
+    //     }   
+    // }
+
+   
 </script>
