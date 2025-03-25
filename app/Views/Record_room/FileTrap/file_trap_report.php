@@ -81,11 +81,11 @@
                                             <tr>
                                                 <td><?= $s_no; ?></td>
                                                 <td>
-                                                    <a href="#" class="btn" data-toggle="modal" data-target="#myModal" id="<?= $result['diary_no']; ?>">
+                                                    <a href="#" class="" data-toggle="modal" data-target="#myModal" id="<?= $result['diary_no']; ?>">
                                                         <strong><?= $result['case_no']; ?></strong>
                                                     </a>
                                                     <br>
-                                                    <?= $result['Cause_title']; ?>
+                                                    <?= $result['cause_title']; ?>
                                                     <br>Order Dt.: <?= $result['order_date']; ?>
                                                     <br>Coram: <?= $result['coram']; ?>
                                                     <?php if (!empty($result['consignment_remark'])) { ?>
@@ -93,17 +93,17 @@
                                                     <?php } ?>
                                                 </td>
                                                 <td>
-                                                    <?= $result['dispathBy']; ?><br>
-                                                    Role: <?= $result['roleBy']; ?><br>
+                                                    <?= $result['dispathby']; ?><br>
+                                                    Role: <?= $result['roleby']; ?><br>
                                                     EmpId: <?= $result['d_by_empid']; ?>
                                                 </td>
                                                 <td>
-                                                    <?= $result['dispathTo']; ?><br>
-                                                    Role: <?= $result['roleTo']; ?><br>
+                                                    <?= $result['dispathto']; ?><br>
+                                                    Role: <?= $result['roleto']; ?><br>
                                                     EmpId: <?= $result['d_to_empid']; ?>
                                                 </td>
                                                 <td>
-                                                    <?= date('d-m-Y', strtotime($result['dispatchDate'])); ?>
+                                                    <?= date('d-m-Y', strtotime($result['dispatchdate'])); ?>
                                                 </td>
                                                 <td><?= $result['remarks']; ?></td>
                                             </tr>
@@ -118,7 +118,7 @@
 
                         <!-- Modal -->
                         <div class="modal fade" id="myModal" role="dialog">
-                            <div class="modal-dialog">
+                            <div class="modal-dialog modal-xl">
                                 <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -126,13 +126,13 @@
                                         <h4 class="modal-title">File Trap Timeline</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <ul class="timeline">
+                                        <div id="divCaseTimeline"></div>
+                                        <!-- <ul class="timeline">
                                             <li>
                                                 <div class="timeline-body">
-                                                    <div id="divCaseTimeline"></div>
                                                 </div>
                                             </li>
-                                        </ul>
+                                        </ul> -->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -196,24 +196,23 @@
 
         $('a').click(function() {
             var id = $(this).attr('id');
-
             $.ajax({
-                    type: 'POST',
-                    url: "<?= base_url() ?>index.php/FileTrap/caseTimeline",
+                    type: 'GET',
+                    url: "<?= base_url() ?>/Record_room/FileTrap/caseTimeline",
                     beforeSend: function(xhr) {
-                        $("#divCaseTimeline").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>../images/load.gif'></div>");
+                        $("#divCaseTimeline").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>/images/load.gif'></div>");
                     },
                     data: {
                         diaryNo: id
                     }
                 })
                 .done(function(result) {
-
+                    console.log(result);
                     $("#divCaseTimeline").html(result);
 
                 })
                 .fail(function() {
-                    alert("ERROR, Please Contact Server Room");
+                    alert("ERROR, Please Contact Server Roomed");
                 });
         });
         $('#reportTable1').DataTable({
@@ -248,4 +247,26 @@
 
         });
     });
+    $(function() {
+        $("#query_builder_report").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": [
+                "copy", "csv", "excel", {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL'
+                },
+                {
+                    extend: 'colvis',
+                    text: 'Show/Hide'
+                }
+            ],
+            "processing": true, // Changed "bProcessing" to "processing"
+            "ordering": false, // Added to disable sorting
+
+        }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
+    });
 </script>
+

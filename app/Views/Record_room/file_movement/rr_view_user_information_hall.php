@@ -1,7 +1,8 @@
 <?php if (count($view_rs) > 0) {
+   
 ?>
 
-    <table style="margin-left: auto;margin-right: auto;margin-bottom: 20px;" cellpadding="6" id="mainbtl">
+    <table class="table table-bordered table-striped" style="margin-left: auto;margin-right: auto;margin-bottom: 120px;" cellpadding="6" id="mainbtl">
 
         <tr style="text-align: center;" class="for-print">
             <td colspan="12">REPORT FOR RECORD ROOM HALLs </td>
@@ -21,7 +22,7 @@
             <tr>
                 <td><?= $sno; ?></td>
                 <td><span class="cl_manage" id="cl_manage_hall<?php echo $row['hall_no']; ?>"><?= $row['hall_no']; ?></span></td>
-                <td><?= @$row['Description']; ?></td>
+                <td><?= $row['description']; ?></td>
                 <td>
                     <?= isset($row['active_from']) ? date('d-M-Y', strtotime($row['active_from'])) : 'N/A'; ?>
                 </td>
@@ -32,12 +33,13 @@
                         <?php
                         $chk_case = $model->get_chk_case($row['hall_no']);
                         if (count($chk_case) > 0) {
+                            $currentYear = date('Y');
                             foreach ($chk_case as $row_chk) {
                         ?>
                                 <div class="cl_chk_case">
                                     <?php
 
-                                    if ($row_chk['case_from'] == 1 and $row_chk['case_to'] == 555555  and $row_chk['caseyear_from'] == 1950 and $row_chk['caseyear_to'] == $currentYear) {
+                                    if ($row_chk['case_from'] == 1 and $row_chk['case_to'] == 555555  and $row_chk['caseyear_from'] == 1950 and $row_chk['caseyear_to'] == @$currentYear) {
                                         echo $row_chk['short_description'] . '- ALL';
                                     } else {
                                         echo $row_chk['short_description'] . '-' . $row_chk['case_from'] . '-' . $row_chk['caseyear_from'] . '-' . $row_chk['case_to'] . '-' . $row_chk['caseyear_to'] . @$caseStage;
@@ -75,7 +77,7 @@
 
     <div id="sar1" style="background-color: white;overflow: auto;margin: 60px 300px 30px 300px;height: 60%;">
         <div id="sp_close" style="text-align: right;cursor: pointer;float: right">
-            <img src="./close-button.gif" style="width: 20px;height: 20px;">
+            <img src="<?= base_url('images/close_btn.png');?>" style="width: 20px;height: 20px;">
         </div>
         <div id="sar" style="border: 0px solid red"></div>
     </div>
