@@ -102,13 +102,14 @@
                                <button type="button" class="btn btn-primary" onclick="addEditPilDetail(0, '<?=base_url()?>');"><i class="fa fa-plus"></i> Add New PIL</button>
                             </div>
                             <div class="col-md-3" id="divDiaryNo">
-                                <label style="display: flex;margin-left: -13%;"><h5>Search by PIL Inward Number</h5></label>
-                                <input type="text" class="form-control" placeholder="Inward No" required id="diaryNo" name="diaryNo" style="margin-left: 54%;margin-top: -11%;">
+                                <label><h5 style="margin: 0;">Search by PIL Inward Number</h5></label>
+                                <input type="text" class="form-control" placeholder="Inward No" required id="diaryNo" name="diaryNo" >
 
                             </div>
 
                             <div class="col-md-3">
-                                <select class="form-control" required id="diaryYear" name="diaryYear" style="margin-left: 53%;">
+                            <label><h5 style="margin: 0;">Select Year</h5></label>
+                                <select class="form-control" required id="diaryYear" name="diaryYear" >
                                     <?php
                                     for($year=date('Y'); $year>=1950; $year--)
                                         echo '<option value="'.$year.'">'.$year.'</option>';
@@ -118,7 +119,7 @@
                             </div>
 
                             <div class="input-group-btn" style="text-align:center ">
-                                <button type="submit" name="search" id="search-btn" class="btn btn-primary"  style="margin-left: 278%;">Search </button>
+                                <button type="submit" name="search" id="search-btn" class="btn btn-primary mt-4"  style="margin-left: 278%;">Search </button>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6 pull-right">

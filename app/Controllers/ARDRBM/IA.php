@@ -835,7 +835,7 @@ class IA extends BaseController
     }
 
     public function regno_display_change_process()
-    {
+    {        
         $data['option'] = $this->request->getPost('option');
         $data['radio'] = $this->request->getPost('radio');
         $data['dno'] = $this->request->getPost('dno');
@@ -845,7 +845,12 @@ class IA extends BaseController
         $data['cyr'] = $this->request->getPost('cyr');
         // $data['dno_2'] = $this->request->getPost('diary_no');
         $data['regno'] = $this->request->getPost('regno');
-
+        $data['diary_no'] = $this->request->getPost('diary_no');
+        if( isset($data['diary_no']) && !empty($data['diary_no']) &&
+         isset($data['regno']) && !empty($data['regno']) && $data['option'] == 2)
+        {
+            $this->Model_IA->updateRegistrationNumber($data['diary_no'],$data['regno']);
+        }  
         $data['model_ia'] = $this->Model_IA;
 
         return view('ARDRBM/regno_display_change_process', $data);
@@ -939,7 +944,7 @@ class IA extends BaseController
             if ($order_dt) {
                 $order_date = $order_dt['next_dt'];
             } else {
-                $order_dt = $this->Model_IA->getOrderDetails2($diaryno);
+                $order_dt = $this->Model_IA->getOrderDetails2($diaryno);                
                 if ($order_dt) {
                     $order_date = $order_dt['next_dt'];
                 }

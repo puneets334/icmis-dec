@@ -181,6 +181,7 @@ class FDR extends BaseController
         $data['banks'] = $this->fdr_model->get_Banks();
 
         $request = \Config\Services::request();
+        
 
         if (
             $request->getPost('type') != 0 ||
@@ -196,6 +197,7 @@ class FDR extends BaseController
             $request->getPost('month') != 0 ||
             $request->getPost('year') != 0
         ) {
+            
             $condition_array = [];
             $spl_condition = "1=1";
 
@@ -211,41 +213,47 @@ class FDR extends BaseController
 
             if (!empty($request->getPost('depositDate'))) {
                 $dates = explode(" - ", $request->getPost('depositDate'));
-                $spl_condition .= " AND (deposit_date BETWEEN '" . date('Y-m-d', strtotime($dates[0])) . "' AND '" . date('Y-m-d', strtotime($dates[1])) . "')";
+                //$spl_condition .= " AND (deposit_date BETWEEN '" . date('Y-m-d', strtotime($dates[0])) . "' AND '" . date('Y-m-d', strtotime($dates[1])) . "')";
+                $spl_condition .= " AND (deposit_date BETWEEN '" . date('Y-m-d', strtotime($dates[1])) . "' AND '" . date('Y-m-d', strtotime($dates[0])) . "')"; 
             }
 
             if (!empty($request->getPost('maturityDate'))) {
                 $dates = explode(" - ", $request->getPost('maturityDate'));
-                $spl_condition .= " AND (maturity_date BETWEEN '" . date('Y-m-d', strtotime($dates[0])) . "' AND '" . date('Y-m-d', strtotime($dates[1])) . "')";
+                //$spl_condition .= " AND (maturity_date BETWEEN '" . date('Y-m-d', strtotime($dates[0])) . "' AND '" . date('Y-m-d', strtotime($dates[1])) . "')";
+                $spl_condition .= " AND (maturity_date BETWEEN '" . date('Y-m-d', strtotime($dates[1])) . "' AND '" . date('Y-m-d', strtotime($dates[0])) . "')";
             }
 
             if ($request->getPost('disposedCase') != 0) {
+                                                
                 $data['searchResult'] = $this->fdr_model->disposedReport($request->getPost('disposedCase'));
             } elseif (
                 $request->getPost('caseType') != 0 &&
                 $request->getPost('caseNo') != 0 &&
                 $request->getPost('caseYear') != 0
-            ) {
+            ) {  
+                              
                 $caseNo = $request->getPost('caseNo');
                 $caseType = $request->getPost('caseType');
                 $caseYear = $request->getPost('caseYear');
-
                 $data['searchResult'] = $this->fdr_model->caseTypeReport($caseNo, $caseType, $caseYear);
                 // pr($data['searchResult']);
             } elseif (
-                $request->getPost('days') != 0 ||
-                $request->getPost('month') != 0 ||
-                $request->getPost('year') != 0
+                (!empty($request->getPost('days')) && $request->getPost('days') != 0  ) || 
+                (!empty($request->getPost('month')) && $request->getPost('month') != 0 ) ||
+                (!empty($request->getPost('year')) &&  $request->getPost('year') != 0 )
             ) {
+                
                 $days = $request->getPost('days');
                 $month = $request->getPost('month');
                 $year = $request->getPost('year');
 
                 $data['searchResult'] = $this->fdr_model->tenureWiseReport($days, $month, $year);
-            } else {
-                $data['searchResult'] = $this->fdr_model->searchResult($condition_array, $spl_condition);
+            } else { 
+                                                  
+                $data['searchResult'] = $this->fdr_model->search_result($condition_array, $spl_condition);                
             }
-
+            
+            
             return view('FDR/search_result', $data);
         } else {
             return "Please select some input.";

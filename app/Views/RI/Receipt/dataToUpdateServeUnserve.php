@@ -100,8 +100,8 @@ if(!empty($dataToUpdateServeStatus)){
         });
       }
         function getServeType(id){
-            var CSRF_TOKEN = 'CSRF_TOKEN';
-            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            //var CSRF_TOKEN = 'CSRF_TOKEN';
+            //var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
             stage=$("#serveStage_"+id).val();
 
             //$.get("<?//=base_url('RI/ReceiptController/getServeType')?>//", {'stage':stage,'id':id}, function (result) {
@@ -110,28 +110,28 @@ if(!empty($dataToUpdateServeStatus)){
             //});
 
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: '<?= base_url('RI/ReceiptController/getServeType') ?>',
-                headers: {
-                    'X-CSRF-TOKEN': CSRF_TOKEN_VALUE
-                },
+                // headers: {
+                //     'X-CSRF-TOKEN': CSRF_TOKEN_VALUE
+                // },
                 data: {
                     'stage': stage,
                     'id': id
                 },
                 success: function(result) {
                     $("#tdServeType_" + id).html(result);
-                    updateCSRFToken();
+                  //  updateCSRFToken();
                 },
                 error: function() {
                     alert("Error, Something Went Wrong!!qq");
-                    updateCSRFToken();
+                   // updateCSRFToken();
                 }
             });
         }
 
 
-        function doUpdateServeUnserve() {
+     /*   function doUpdateServeUnserve() {
         var selectedCases = [];
         var serveStage= [];
         var serveType= [];
@@ -176,7 +176,7 @@ if(!empty($dataToUpdateServeStatus)){
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         $.ajax({
                 type: 'POST',
-                url: '<?= base_url('RI/ReceiptController/doUpdateServeUnServe') ?>',
+                url: '<?//= base_url('RI/ReceiptController/doUpdateServeUnServe') ?>',
                 headers: {
                     'X-CSRF-TOKEN': CSRF_TOKEN_VALUE
                 },
@@ -195,7 +195,7 @@ if(!empty($dataToUpdateServeStatus)){
                     updateCSRFToken();
                 }
             });
-    }
+    } */
 
 </script>
 

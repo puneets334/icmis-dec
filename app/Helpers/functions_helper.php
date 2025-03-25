@@ -1180,10 +1180,11 @@ function f_connected_case_count_listed($conn_key, $next_dt)
         (select m.diary_no, m.conn_key from main m where m.conn_key = '$conn_key' and c_status = 'P'
         union
         select m.diary_no, m.conn_key from main m
-        inner join conct ct on ct.conn_key = m.conn_key
+        inner join conct ct on ct.conn_key::bigint = m.conn_key::bigint
         where m.conn_key = '$conn_key' and ct.list = 'Y' and m.c_status = 'P') m
         inner join heardt h on h.diary_no = m.diary_no 
-        where m.diary_no != m.conn_key and h.clno > 0 and h.next_dt = '$next_dt' ";
+        where m.diary_no::bigint != m.conn_key::bigint and h.clno > 0 and h.next_dt = '$next_dt' ";
+
     $result = $db->query($sql);
     $value = $result->getRowObject();
     return $value->total_connected;
@@ -4230,12 +4231,3 @@ function da()
 	}
 	  
 }
-
-
-
-    
-
-    
-    
-
-

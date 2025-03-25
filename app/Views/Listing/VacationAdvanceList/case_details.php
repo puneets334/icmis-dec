@@ -77,11 +77,11 @@
                                                 <th>
                                                     <?php
                                                     echo "Case No.-";
-                                                    if (isset($casetype['fil_no']) && ($casetype['fil_no'] != '' || $casetype['fil_no'] != NULL)) {
+                                                    if (isset($casetype['fil_no']) && !empty($casetype['fil_no'])) {
                                                         echo '[M]' . $casetype['short_description'] . SUBSTR($casetype['fil_no'], 3) . '/' . $casetype['m_year'];
                                                     }
 
-                                                    if (isset($casetype['fil_no_fh']) && ($casetype['fil_no_fh'] != '' || $casetype['fil_no_fh'] != NULL)) {
+                                                    if (isset($casetype['fil_no_fh']) && !empty($casetype['fil_no_fh'])) {
 
                                                         echo ',[R]' . $r_case['short_description'] . SUBSTR($casetype['fil_no_fh'], 3) . '/' . $casetype['f_year'];
                                                     }

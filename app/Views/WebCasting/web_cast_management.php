@@ -125,7 +125,7 @@
                                                                 <td><?= $row['display']; ?></td>
                                                                 <td>
 
-                                                                    <button type="button" name="edit" onclick="editFunction(<?= $id; ?>)"><i class="fas fa-pen" style="color: #5cb85c" aria-hidden="true"></i></button>
+                                                                    <button type="button" name="edit" onclick="editFunction(<?= $id; ?>)"><i class="fa fa-pencil" style="color: #5cb85c" aria-hidden="true"></i></button>
                                                                     |
 
                                                                     <button type="button" onclick="deleteFunction(<?= $id; ?>)" name="delete" class="btn btn-danger btn-sm"> <i class="fas fa-trash" aria-hidden="true"></i> </button>
@@ -177,7 +177,7 @@
                                                                 <td><?= $row['display']; ?></td>
                                                                 <td>
 
-                                                                    <button type="button" name="edit_j" onclick="editJFunction(<?= $id; ?>)"><i class="fas fa-pen" style="color: #5cb85c" aria-hidden="true"></i></button>
+                                                                    <button type="button" name="edit_j" onclick="editJFunction(<?= $id; ?>)"><i class="fa fa-pencil" style="color: #5cb85c" aria-hidden="true"></i></button>
                                                                     |
 
                                                                     <button type="button" onclick="deleteJFunction(<?= $id; ?>)" name="delete_j" class="btn btn-danger btn-sm"> <i class="fas fa-trash" aria-hidden="true"></i> </button>
@@ -222,7 +222,7 @@
                                                                 <div id="datp" >
                                                                     <label for="webex" class="control-label col-md-3">Cause List Date</label>
                                                                     <div class="control-label col-md-3">
-                                                                        <input type="date" class="form-control"  id="bench_date" name="bench_date" placeholder="">
+                                                                        <input type="text" class="form-control datepick"  id="bench_date" name="bench_date" placeholder="">
                                                                     </div>
                                                                 </div>
 
@@ -578,12 +578,14 @@
         }
     </script>
 <script>
+    $(function() {
+        $('.datepick').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
 
-    function updateCSRFToken() {
-        $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) {
-            $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
+            autoclose: true
         });
-    }
+    });
 
     function showhide(id)
     {
@@ -634,6 +636,7 @@
         // updateCSRFToken();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+ 
         var courtdate = $('#bench_date').val();
         var courtno = $('#virtual_court_number').val();
         var linksb = $('#issb').val();
@@ -650,10 +653,9 @@
         {
             var spl = $('#speclink').val();
         }
-        alert(courtdate+">>"+courtno+">>"+linksb+">>"+webex+">>"+btime+">>"+remark+">>"+spl);
+        //alert(courtdate+">>"+courtno+">>"+linksb+">>"+webex+">>"+btime+">>"+remark+">>"+spl);
 
-        let dat = {
-            CSRF_TOKEN: CSRF_TOKEN_VALUE,
+        let dat = {            
             'cd': courtdate,
             'cn': courtno,
             'webex':webex,
@@ -663,21 +665,23 @@
             $.ajax({
                 type: "POST",
                 data:{
-                    dat
+                    dat,CSRF_TOKEN: CSRF_TOKEN_VALUE
                 },
                 // cache : false,
                 // processData: false,
                 // dataType: 'JSON',
                 url: "<?php echo base_url('WebCasting/Home/insert_data'); ?>",
                 success: function (data) {
-                    console.log(data);
+                    updateCSRFToken();
+                     
                     alert(data);
                     // updateCSRFToken();
                 },
                 error: function(data) {
+                    updateCSRFToken();
                     alert(data);
                     alert('No Rows inserted');
-                    updateCSRFToken();
+                    
                 }
             });
         },500)
@@ -703,6 +707,7 @@
                 dataType: 'JSON',
                 url: "<?php echo base_url('WebCasting/Home/editMediaPersons'); ?>",
                 success: function(data) {
+                    updateCSRFToken();
                     if (data) {
                         // alert(data);
                          $('#id_editj').val((data[0].id));
@@ -719,11 +724,12 @@
                     } else {
                         alert(data);
                     }
-                    updateCSRFToken();
+                    
                 },
                 error: function(data) {
-                    alert(data);
                     updateCSRFToken();
+                    alert(data);
+                     
                 }
             });
 
@@ -747,15 +753,17 @@
                     },
                     url: "<?php echo base_url('WebCasting/Home/DeleteJournalist'); ?>",
                     success: function(data) {
+                        updateCSRFToken();
                         if (data) {
                             alert(data);
                             window.location.reload();
                         }
-                        updateCSRFToken();
+                         
                     },
                     error: function(data) {
-                        alert(data);
                         updateCSRFToken();
+                        alert(data);
+                        
                     }
                 });
             }
@@ -763,11 +771,7 @@
     </script>
 
     <script>
-        function updateCSRFToken() {
-            $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) {
-                $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-            });
-        }
+         
 
         function deleteFunction(id) {
             // alert("SD");
@@ -787,13 +791,15 @@
                     },
                     url: "<?php echo base_url('WebCasting/Home/DeleteCourtNo'); ?>",
                     success: function(data) {
+                        updateCSRFToken();
                         if (data) {
                             alert(data);
                             window.location.reload();
                         }
-                        updateCSRFToken();
+                         
                     },
                     error: function(data) {
+                        updateCSRFToken();
                         alert(data);
                         updateCSRFToken();
                     }
@@ -820,6 +826,7 @@
                 dataType: 'JSON',
                 url: "<?php echo base_url('WebCasting/Home/ModelUpdate'); ?>",
                 success: function(data) {
+                    updateCSRFToken();
                     if (data) {
                         console.log(data);
                         $('#id_modal').val((data[0].id));
@@ -849,11 +856,12 @@
                     } else {
                         alert(data);
                     }
-                    updateCSRFToken();
+                    
                 },
                 error: function(data) {
-                    alert(data);
                     updateCSRFToken();
+                    alert(data);
+                    
                 }
             });
 
@@ -874,4 +882,4 @@
     </script>
 
 
- <?=view('sci_main_footer') ?>
+ <?//=view('sci_main_footer') ?>

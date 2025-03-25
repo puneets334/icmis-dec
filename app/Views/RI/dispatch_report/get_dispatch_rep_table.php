@@ -113,8 +113,13 @@
               <?php if ($row['dispatch_id'] != $get_dis_id) { ?>
                 <td rowspan="<?php echo $row['s'] ?>">
                   <?php
-                  $get_emp_details = is_data_from_table('master.users', "usercode = $row ['dispatch_user_id'] and display='Y'", "empid,name");
-                  echo $get_emp_details[0] . '-' . $get_emp_details[1]; ?>
+                  $get_emp_details = is_data_from_table('master.users', "usercode = '$row[dispatch_user_id]' and display='Y'", "empid,name",'');
+                 if(!empty($get_emp_details))
+                 {  
+                     echo $get_emp_details['empid'] . '-' . $get_emp_details['name']; 
+                 } 
+                  
+                  ?>
                 </td>
             <?php
               }
@@ -133,7 +138,7 @@
                   $send_to_name = send_to_name($row['send_to_type'], $row['tw_sn_to']);
                 }
 
-                echo $send_to_name;
+                echo $send_to_name ?? '';
                 ?>
               </div>
               <div style="color: red">
@@ -194,7 +199,7 @@
             </td>
           </tr>
         <?php
-
+       
         }
         ?>
         <tr>
@@ -208,6 +213,7 @@
           <td>
             <b><?php echo $tot_st; ?></b>
           </td>
+          <td></td>
         </tr>
       <?php
       } else {

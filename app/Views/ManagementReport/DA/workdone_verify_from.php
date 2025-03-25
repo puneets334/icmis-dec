@@ -37,7 +37,7 @@
                                                 <?= csrf_field() ?>
                                                 <div class="row">
 
-                                                    <div class="col-sm-12 col-md-5 mb-3">
+                                                    <div class="col-sm-12 col-md-7 mb-3">
                                                         <label for=""> Case Verification Report <span style="color: #35b9cd">
                                                                 <?php if ($usertype == 1) {
                                                                     echo "FOR ALL DA";
@@ -60,7 +60,7 @@
                                                         <label for="">TO </label>
                                                         <input type="text" id="date_for2" class="dtp form-control" size="10" value="<?php echo date('d-m-Y'); ?>" />
                                                     </div>
-                                                    <div class="col-sm-12 col-md-3 mb-3">
+                                                    <div class="col-sm-12 col-md-2 mb-3">
                                                         <button type="button" id="btnreport" class="quick-btn mt-26">SHOW REPORT</button>
                                                     </div>
                                                 </div>
@@ -126,6 +126,7 @@
     });
 
     $(document).on("click", "[id^='dacase_']", function() {
+		
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var tempid = this.id.split('_');
@@ -156,9 +157,12 @@
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             cache: false,
+            async: true,
+			beforeSend: function() {
+                $('#ggg').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+            },
             success: function(msg_new) {
-                // alert(data);
-                updateCSRFToken();
+				updateCSRFToken();
                 $("#ggg").html(msg_new);
             }
         }).fail(function() {

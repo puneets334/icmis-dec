@@ -160,8 +160,11 @@ $tot_remr=0;
             <span id="sptotpenr_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_ssrs=$tot_ssrs+$row['sssss']; echo $row['sssss']; ?></span></td>
         <td>
             <span id="sptwd_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_ss=$tot_ss+$row['ssss']; echo $row['ssss']; ?></span>
-        </td>
-        <?php }?>
+        </td> 
+        <?php }else{ ?>
+		 <td></td>
+		 <td></td>
+		<?php }?>
          <input type="hidden" name="hd_nm_id<?php echo $sno; ?>" id="hd_nm_id<?php echo $sno; ?>" value="<?php echo $row['d_to_empid']; ?>"/>
     </tr>
 <?php
@@ -220,7 +223,7 @@ $sno++;
     </tr>
  <?php }} ?>		
       <tr>
-         <th colspan="2" style="text-align: center; border: 1px solid #8080805e;">Total</th>
+         <td colspan="2" style="text-align: center; border: 1px solid #8080805e;">Total</td>
          <td><span id="spallot_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_alloted; ?></span></td>
          <td><span id="spcomp_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_comp; ?></span></td>
          <td><span id="spnotcomp_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_rem; ?></span></td>
@@ -248,7 +251,10 @@ $sno++;
            <td>
              <span id="sptwd_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ss; ?></span>
 			</td>
-         <?php } ?>
+         <?php }else{ ?>
+		 <td></td>
+		 <td></td>
+		 <?php } ?>
     </tr>
 </tbody>   
 </table>

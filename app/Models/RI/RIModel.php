@@ -873,11 +873,11 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
             // Execute the query and get the results
             $query = $builder->get();
             $result = $query->getRowArray();
-          
-            if (!empty($result)  && count($result) >= 1) {
-                return $result['diary_no'];
+
+            if (!empty($result)) {
+                return $result['diary_no'] ?? '';
             } else {
-                return 'false';
+                return '';
             }
         } else {
             // Handle the case when $builder is not initialized (unexpected searchType)
@@ -1088,7 +1088,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
         // Step 2: Insert the fetched data into ec_postal_received_log
         $logBuilder = $db->table('ec_postal_received_log');
         $logBuilder->insertBatch($postalReceivedData);
-        
+
         // Check if the insert was successful
         if ($db->affectedRows() > 0) {
             return true;
@@ -1791,7 +1791,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
     {
 
         //  pr($data['fromDate']);die;
-        //extract($post);
+        extract($data);
 
         $builder = $this->db->table('ec_postal_dispatch epd');
 
@@ -1861,30 +1861,40 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
             if ($searchBy == 's') {
                 if ($data['fromDate'] != '' && $data['toDate'] != '') {
                     if ($dealingSection != 0) {
-                        $whereDateRange = " and date(epdt.updated_on) between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "' and epd.usersection_id=$dealingSection";
+                        $whereDateRange = "  date(epdt.updated_on) between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "' and epd.usersection_id=$dealingSection";
                     } else {
-                        $whereDateRange = " and date(epdt.updated_on)  between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "'";
+                        $whereDateRange = "  date(epdt.updated_on)  between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "'";
                     }
                 }
             } else if ($searchBy == 'c' || $searchBy == 'd') {
-                $fetchedDiaryNo = $this->RIModel->getSearchDiary($searchBy, $caseType, $caseNo, $caseYear, $diaryNumber, $diaryYear);
-                $whereDateRange = " and epd.diary_no=" . $fetchedDiaryNo;
+                $fetchedDiaryNo = $this->getSearchDiary($searchBy, $caseType, $caseNo, $caseYear, $diaryNumber, $diaryYear);
+              
+                $fetchedDiaryNo = (!empty($fetchedDiaryNo)) ? $fetchedDiaryNo : "NULL";
+                $whereDateRange =  "  epd.diary_no=" . $fetchedDiaryNo;
             } else if ($searchBy == 'p') {
-                $whereDateRange = " and epd.process_id=$processId and process_id_year=" . $processYear;
+                $whereDateRange = "   epd.process_id=$processId and process_id_year='".$processYear."'";
             }
 
             if ($dispatchMode != 0 && $dispatchMode != '') {
 
-                $whereDateRange .= " and epd.ref_postal_type_id=$dispatchMode";
+                $whereDateRange .= "  epd.ref_postal_type_id=$dispatchMode";
             }
         } else {
             if ($data['fromDate'] != '' && $data['toDate'] != '') {
 
-                $whereDateRange = " and date(epdt.updated_on)  between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "'";
+                $whereDateRange = "  date(epdt.updated_on)  between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "'";
             }
         }
 
-        //        epd.ref_letter_status_id in (4,5)>> and epd.process_id=12345 and process_id_year=2024 and epd.ref_postal_type_id=
+        // Apply where conditions safely
+        if (!empty($wherePostalDispatch)) {
+            $builder->where($wherePostalDispatch);
+        }
+        if (!empty($whereDateRange)) {
+            $builder->where($whereDateRange);
+        }
+
+             //   epd.ref_letter_status_id in (4,5)>> and epd.process_id=12345 and process_id_year=2024 and epd.ref_postal_type_id=
 
         ###this need to uncomment
 
@@ -1899,6 +1909,8 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
 
         return $query->getResultArray();
     }
+
+    
 
 
     function getLetterStatus()
@@ -1952,7 +1964,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
 
     function saveReceiptData($query, $actionType = "")
     {
-        
+
         if ($actionType == "i") {
             $this->db->query($query);
             return $this->db->insert_id();
@@ -1964,14 +1976,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
 
     public function getNoticeAdLtrDetails($txt_frmdate, $txt_todate, $ddlOR, $ucode, $u_cond)
     {
-        $sql = "SELECT d.id,a.diary_no, process_id, a.name, 
-        CASE 
-        WHEN (send_to_type ~ '^[0-9]+$' AND send_to_type::INTEGER IN (2, 3)) 
-        THEN address 
-        WHEN (send_to_type ~ '^[0-9]+$' AND send_to_type::INTEGER = 1) 
-        THEN bb.caddress 
-        ELSE '' 
-    END AS address,  b.name nt_typ, del_type, 
+        $sql = "SELECT d.id,a.diary_no, process_id, a.name, case when (send_to_type='' or send_to_type::integer IN (2, 3)) then address when (send_to_type::integer = 1) then bb.caddress else '' END AS address, b.name nt_typ, del_type, 
       tw_sn_to, copy_type, send_to_type, fixed_for, rec_dt, office_notice_rpt,reg_no_display,
       sendto_district,sendto_state,nt_type,tal_state,tal_district,dispatch_id,dispatch_dt,station,weight,stamp,
       barcode,dis_remark,dispatch_user_id
@@ -2063,7 +2068,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
     {
         $sql = "SELECT d.id,a.diary_no, process_id, a.name, case when (send_to_type='' or send_to_type::integer=3 or send_to_type::integer=2 ) then address when (send_to_type::integer=1) then bb.      caddress else '' END AS address, b.name nt_typ, del_type, 
             tw_sn_to, copy_type, send_to_type, fixed_for, rec_dt, office_notice_rpt,reg_no_display,
-            sendto_district,sendto_state,nt_type,tal_state,tal_district,s.State_code,fil_no
+            sendto_district,sendto_state,nt_type,tal_state,tal_district,s.State_code
         FROM tw_tal_del a
         JOIN master.tw_notice b ON a.nt_type = b.id::text
         JOIN tw_o_r c ON c.tw_org_id = a.id
@@ -2075,7 +2080,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
         AND print =1
         AND b.display = 'Y'
         AND c.display = 'Y'
-        AND d.display = 'Y' and dispatch_id =0 and dispatch_dt is null 
+        AND d.display = 'Y' and dispatch_id=0 and dispatch_dt = null 
         and $pro_yr and del_type='$ddlOR'";
 
         $query = $this->db->query($sql);
@@ -2083,10 +2088,8 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
         return $result;
     }
 
-    function getDataToack($pro_yr)
-    {        
-        
-
+    function getDataToack()
+    {
         $sql = "SELECT 
         d.id, 
         a.diary_no, 
@@ -2124,14 +2127,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
         LEFT JOIN 
         tw_comp_not d ON d.tw_o_r_id = c.id 
         LEFT JOIN 
-        main m ON a.diary_no = m.diary_no
-        WHERE  a.display = 'Y'
-        AND print =1
-        AND b.display = 'Y'
-        AND c.display = 'Y'
-        AND d.display = 'Y' and dispatch_id!=0 and dispatch_dt IS NOT NULL and ser_dt_ent_dt IS NULL
-        $pro_yr order by dispatch_id
-        ";
+        main m ON a.diary_no = m.diary_no";
 
         $query = $this->db->query($sql);
 
@@ -2143,93 +2139,6 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
         // print_r($result);
         // echo '</pre>';
     }
-
-    public function lowerCourtOr($diary_no)
-{
-    // Get active_casetype_id
-    $builder = $this->db->table('main')
-                        ->select('active_casetype_id')
-                        ->where('diary_no', $diary_no)
-                        ->get();
-
-    $res_chk_casetype = $builder->getRowArray()['active_casetype_id'] ?? null;
-
-    $is_order_challenged = '';
-    if (!in_array($res_chk_casetype, [25, 26, 7, 8])) {
-        $is_order_challenged = " AND is_order_challenged = 'Y' ";
-    }
-
-    $sql = "
-        SELECT 
-            a.lct_dec_dt, 
-            a.l_dist, 
-            a.ct_code, 
-            a.l_state, 
-            b.name, 
-            CASE 
-                WHEN a.ct_code = 3 THEN 
-                    (SELECT name FROM state s WHERE s.id_no = a.l_dist AND display = 'Y')
-                ELSE 
-                    (SELECT CONCAT(agency_name, ', ', address) 
-                     FROM ref_agency_code c 
-                     WHERE c.cmis_state_id = a.l_state 
-                     AND c.id = a.l_dist 
-                     AND is_deleted = FALSE)
-            END AS agency_name, 
-            a.crimeno, 
-            a.crimeyear, 
-            a.polstncode, 
-            (SELECT policestndesc FROM police p 
-             WHERE p.policestncd = a.polstncode 
-             AND p.display = 'Y' 
-             AND p.cmis_state_id = a.l_state 
-             AND p.cmis_district_id = a.l_dist) AS policestndesc, 
-            a.lct_casetype, 
-            a.lct_caseno, 
-            a.lct_caseyear, 
-            CASE 
-                WHEN a.ct_code = 4 THEN 
-                    (SELECT short_description FROM casetype ct WHERE ct.display = 'Y' AND ct.casecode = a.lct_casetype) 
-                ELSE 
-                    (SELECT type_sname FROM lc_hc_casetype d WHERE d.lccasecode = a.lct_casetype AND d.display = 'Y') 
-            END AS type_sname, 
-            a.lower_court_id, 
-            a.is_order_challenged, 
-            a.full_interim_flag, 
-            a.judgement_covered_in, 
-            a.lct_judge_desg 
-        FROM lowerct a 
-        LEFT JOIN state b ON a.l_state = b.id_no AND b.display = 'Y' 
-        JOIN main e ON e.diary_no = a.diary_no 
-        WHERE a.diary_no = ? 
-        AND lw_display = 'Y' 
-        {$is_order_challenged}
-        ORDER BY a.lower_court_id";
-
-    $query = $this->db->query($sql, [$diary_no]);
-
-    return $query->getResultArray(); // Return an array of results
-}
-
-
-public function getModePath($hd_talw_id)
-{
-    $sql = "SELECT mode_path 
-            FROM tw_o_r 
-            WHERE id = (
-                SELECT tw_o_r_id 
-                FROM tw_comp_not 
-                WHERE id = ? 
-                AND display = 'Y'
-            ) 
-            AND display = 'Y'";
-
-    $query = $this->db->query($sql, [$hd_talw_id]);
-
-    return $query->getRowArray(); // Returns a single row as an associative array
-}
-
-
 
     function post_dispatch_report()
     {
@@ -2526,7 +2435,7 @@ public function getModePath($hd_talw_id)
 
     function updateEcPostalTransactions($dataForInsert, $dataForUpdate, $id)
     {
-      
+
         $data = array(
             'action_taken_on' => date('Y-m-d H:i:s'),
             'last_updated_on' => date('Y-m-d H:i:s'),
@@ -2544,7 +2453,7 @@ public function getModePath($hd_talw_id)
         $builder->update($dataForUpdate);
 
         // Insert new record
-        $builder->insert($dataForInsert);  
+        $builder->insert($dataForInsert);
     }
 
 
@@ -2708,7 +2617,7 @@ else '' end as case_no");
         $builder->update($dataForDispatch);
 
         if ($this->db->affectedRows() > 0) {
-            echo "hi";
+            
             $dataForDispatchTransactions = array(
                 'ec_postal_dispatch_id' => $id,
                 'ref_letter_status_id' => $letterStatus,
@@ -2883,164 +2792,77 @@ else '' end as case_no");
     }
 
     function getDakDataForReceive($usercode, $section, $status = "", $actionType = "", $fromDate = "", $toDate = "")
-    // {
-
-    //     $whereCondition = "";
-    //     $dateCondition = "";
-    //     if ($status == 'P') {
-    //         $whereCondition = "(ept.action_taken is null or ept.action_taken=0 or CAST(ept.action_taken_by as text)='')";
-    //     } elseif ($status = 'R') {
-    //         if ($actionType == 1) {
-    //             $whereCondition = "ept.action_taken=$actionType and (ept.action_taken_on is not null or ept.action_taken_on!='')";
-    //         }
-    //     }
-    //     if ($fromDate != "" && $toDate != "") {
-    //         $dateCondition = "and date(ept.action_taken_on) between $fromDate and $toDate";
-    //     }
-    //     $sql = "";
-    //     if ($usercode == 1) {
-    //       //            echo "FFF";
-    //         $builder = $this->db->table('ec_postal_received ecpd');
-    //         $builder->select("ecpd.is_ad_card,ecpd.ec_postal_dispatch_id,epd.is_with_process_id,epd.process_id,epd.process_id_year,epd.reference_number,                
-    //             (select name from master.tw_serve where serve_stage=epd.serve_stage and serve_type=0) as serve_stage,
-    //           (select name from master.tw_serve where id=epd.tw_serve_id) as serve_type,epd.serve_remarks, 
-    //             ept.id as ec_postal_transactions_id,ecpd.id,ecpd.ec_case_id,ecpd.sender_name,ecpd.address,concat(ecpd.diary_no,'/',ecpd.diary_year) as diary,ecpd.remarks,
-    //                 ecpd.subject,(case when ecpd.postal_no is not null then ecpd.postal_no else case when ecpd.letter_no is not null then ecpd.letter_no end end) as postal_number,
-    //                 (case when ecpd.postal_date is not null then ecpd.postal_date else case when ecpd.letter_date is not null then ecpd.letter_date end end) as postal_date,
-    //               (select postal_type_description from master.ref_postal_type rpt where rpt.id=ecpd.ref_postal_type_id) as postal_type,
-    //               (case when ept.dispatched_to_user_type='s' then (select section_name from master.usersection where id=ept.dispatched_to) else 
-    //               case when ept.dispatched_to_user_type = 'o' then (select concat(name,' (',empid,') ') from master.users where usercode=ept.dispatched_to) else 
-    //               case when ept.dispatched_to_user_type = 'j' then (select jname from master.judge where jcode=ept.dispatched_to) else ecpd.postal_addressee end end end) as address_to
-    //               ,ec.diary_no as diary_number,ec.reg_no_display,
-    //              (select concat(name ,'(',empid,')') from master.users where usercode=ept.dispatched_by) as dispatched_by,ept.dispatched_on,
-    //              (select concat(name ,'(',empid,')') from master.users where usercode=ept.action_taken_by) as action_taken_by,ept.action_taken_on,ept.action_taken,ept.is_forwarded,
-    //    (case when ept.letterPriority='0' THEN 'Normal' else case when ept.letterPriority='1' THEN 'Urgent But Not Important' 
-    //        else case  when ept.letterPriority='2' THEN 'Important But Not Urgent' else case when ept.letterPriority='3' THEN 'Urgent And Important' END END END END) as letterPriority");
-
-    //         $builder->join('main ec', 'ecpd.ec_case_id=ec.diary_no', 'LEFT');
-    //         $builder->join('ec_postal_transactions ept', 'ecpd.id=ept.ec_postal_received_id', 'LEFT');
-    //         $builder->join('ec_postal_dispatch epd', 'ecpd.ec_postal_dispatch_id=epd.id', 'LEFT');
-
-    //         $builder->where("(ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted='f' and ept.dispatched_by is not null and CAST(ept.dispatched_by as text) !=''");
-    //         $builder->where("$whereCondition $dateCondition");
-
-    //         $builder->orderBy("ecpd.diary_no");
-
-    //     } else {
-    //         //echo "EEE";
-    //         $builder = $this->db->table('ec_postal_received ecpd');
-    //         $builder->select("ecpd.is_ad_card,ecpd.ec_postal_dispatch_id,epd.is_with_process_id,epd.process_id,epd.process_id_year,epd.reference_number,
-    //     (select name from master.tw_serve where serve_stage=epd.serve_stage and serve_type=0) as serve_stage,
-    //     (select name from master.tw_serve where id=epd.tw_serve_id) as serve_type,epd.serve_remarks,
-    //     ept.id as ec_postal_transactions_id,ecpd.id,ecpd.ec_case_id,ecpd.sender_name,ecpd.address,concat(ecpd.diary_no,'/',ecpd.diary_year) as diary,ecpd.remarks,
-    //     ecpd.subject,(case when ecpd.postal_no is not null then ecpd.postal_no else case when ecpd.letter_no is not null then ecpd.letter_no end end) as postal_number,
-    //     (case when ecpd.postal_date is not null then ecpd.postal_date else case when ecpd.letter_date is not null then ecpd.letter_date end end) as postal_date,
-    //     (select postal_type_description from master.ref_postal_type rpt where rpt.id=ecpd.ref_postal_type_id) as postal_type,
-    //     (case when ept.dispatched_to_user_type='s' then (select section_name from master.usersection where id=ept.dispatched_to) else 
-    //     case when ept.dispatched_to_user_type = 'o' then (select concat(name,' (',empid,') ') from master.users where usercode=ept.dispatched_to) else 
-    //     case when ept.dispatched_to_user_type = 'j' then (select jname from master.judge where jcode=ept.dispatched_to) else ecpd.postal_addressee end end end) as address_to
-    //     ,ec.diary_no as diary_number,ec.reg_no_display,
-    //     (select concat(name ,'(',empid,')') from master.users where usercode=ept.dispatched_by) as dispatched_by,ept.dispatched_on,
-    //     (select concat(name ,'(',empid,')') from master.users where usercode=ept.action_taken_by) as action_taken_by,ept.action_taken_on,ept.action_taken,ept.is_forwarded,
-    //     (case when ept.letterPriority='0' THEN 'Normal' else case when ept.letterPriority='1' THEN 'Urgent But Not Important' else case  when ept.letterPriority='2' THEN 'Important But Not Urgent' else case when ept.letterPriority='3' THEN 'Urgent And Important' END END END END) as letterPriority ");
-
-    //         $builder->join('main ec', 'ecpd.ec_case_id=ec.diary_no', 'LEFT');
-    //         $builder->join('ec_postal_transactions ept', 'ecpd.id=ept.ec_postal_received_id', 'LEFT');
-    //         $builder->join('ec_postal_dispatch epd', 'ecpd.ec_postal_dispatch_id=epd.id', 'LEFT');
-
-    //         $builder->where("(ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted='f' and ept.dispatched_by is not null and CAST(ept.dispatched_by as text) !=''");
-    //         $builder->where("$whereCondition $dateCondition");
-    //         $builder->where("((ept.dispatched_to_user_type='s' and ept.dispatched_to=$section) or (ept.dispatched_to_user_type='o' and ept.dispatched_to=$usercode)) ");
-    //         $builder->orderBy("ecpd.diary_no");
-
-    //     }
-
-    //     $query = $builder->get();
-    //     //        $query=$this->db->getLastQuery();echo (string) $query;exit();
-    //             $result = $query->getResultArray();
-    //     //        echo "<pre>";
-    //     //        print_r($result);
-    //     //        die;
-
-    //     if($query->getNumRows()>=1)
-    //     {
-    //         return $result;
-    //     }else{
-    //         return false;
-    //     }
-
-    // }
-
     {
-        $sql = "SELECT 
-                ecpd.is_ad_card, 
-                ecpd.ec_postal_dispatch_id, 
-                epd.is_with_process_id, 
-                epd.process_id, 
-                epd.process_id_year, 
-                epd.reference_number, 
-                (SELECT name FROM master.tw_serve WHERE serve_stage = epd.serve_stage AND serve_type = 0) AS serve_stage, 
-                (SELECT name FROM master.tw_serve WHERE id = epd.tw_serve_id) AS serve_type, 
-                epd.serve_remarks, 
-                ept.id AS ec_postal_transactions_id, 
-                ecpd.id, 
-                ecpd.ec_case_id, 
-                ecpd.sender_name, 
-                ecpd.address, 
-                CONCAT(ecpd.diary_no, '/', ecpd.diary_year) AS diary, 
-                ecpd.remarks, 
-                ecpd.subject, 
-                (CASE 
-                    WHEN ecpd.postal_no IS NOT NULL THEN ecpd.postal_no 
-                    ELSE CASE 
-                    WHEN ecpd.letter_no IS NOT NULL THEN ecpd.letter_no 
-                    END 
-                END) AS postal_number, 
-                (CASE 
-                    WHEN ecpd.postal_date IS NOT NULL THEN ecpd.postal_date 
-                    ELSE CASE 
-                    WHEN ecpd.letter_date IS NOT NULL THEN ecpd.letter_date 
-                    END 
-                END) AS postal_date, 
-                (SELECT postal_type_description FROM master.ref_postal_type rpt WHERE rpt.id = ecpd.ref_postal_type_id) AS postal_type, 
-                (CASE 
-                    WHEN ept.dispatched_to_user_type = 's' THEN (SELECT section_name FROM master.usersection WHERE id = ept.dispatched_to) 
-                    WHEN ept.dispatched_to_user_type = 'o' THEN (SELECT CONCAT(name, ' (', empid, ')') FROM master.users WHERE usercode = ept.dispatched_to) 
-                    WHEN ept.dispatched_to_user_type = 'j' THEN (SELECT jname FROM master.judge WHERE jcode = ept.dispatched_to) 
-                    ELSE ecpd.postal_addressee 
-                END) AS address_to, 
-                ec.diary_no AS diary_number, 
-                ec.reg_no_display, 
-                (SELECT CONCAT(name, ' (', empid, ')') FROM master.users WHERE usercode = ept.dispatched_by) AS dispatched_by, 
-                ept.dispatched_on, 
-                (SELECT CONCAT(name, ' (', empid, ')') FROM master.users WHERE usercode = ept.action_taken_by) AS action_taken_by, 
-                ept.action_taken_on, 
-                ept.action_taken, 
-                ept.is_forwarded, 
-                (CASE 
-                    WHEN ept.letterPriority = 0 THEN 'Normal' 
-                    WHEN ept.letterPriority = 1 THEN 'Urgent But Not Important' 
-                    WHEN ept.letterPriority = 2 THEN 'Important But Not Urgent' 
-                    WHEN ept.letterPriority = 3 THEN 'Urgent And Important' 
-                END) AS letterPriority 
-                FROM 
-                ec_postal_received ecpd 
-                LEFT JOIN 
-                main ec ON ecpd.ec_case_id = ec.diary_no 
-                LEFT JOIN 
-                ec_postal_transactions ept ON ecpd.id = ept.ec_postal_received_id 
-                LEFT JOIN 
-                ec_postal_dispatch epd ON ecpd.ec_postal_dispatch_id = epd.id 
-               
-                ORDER BY 
-                ecpd.diary_no";
-        $query  = $this->db->query($sql);
-        $result =   $query->getResultArray();
-        return  $result;
+        
+        $whereCondition = "";
+        $dateCondition = "";
+        if ($status == 'P') {
+            $whereCondition = "and (ept.action_taken is null or ept.action_taken=0 or ept.action_taken_by is null)";
+        } elseif ($status = 'R') {
+            if ($actionType == 1) {
+                $whereCondition = "and ept.action_taken=$actionType and (ept.action_taken_on is not null or ept.action_taken_on is not null)";
+            }
+        }
+        if ($fromDate != "" && $toDate != "") {
+            $dateCondition = " and date(ept.action_taken_on) between $fromDate and $toDate";
+        }
+        $sql = "";
+        if ($usercode == 1) {
+            $sql = "select ecpd.is_ad_card,ecpd.ec_postal_dispatch_id,epd.is_with_process_id,epd.process_id,epd.process_id_year,epd.reference_number,                
+                (select name from master.tw_serve where serve_stage=epd.serve_stage and serve_type=0) as serve_stage,
+              (select name from master.tw_serve where id=epd.tw_serve_id) as serve_type,epd.serve_remarks, 
+                ept.id as ec_postal_transactions_id,ecpd.id,ecpd.ec_case_id,ecpd.sender_name,ecpd.address,concat(ecpd.diary_no,'/',ecpd.diary_year) as diary,ecpd.remarks,
+                    ecpd.subject,case when ecpd.postal_no is not null then ecpd.postal_no else case when ecpd.letter_no is not null then ecpd.letter_no end end as postal_number,
+                    case when ecpd.postal_date is not null then ecpd.postal_date else case when ecpd.letter_date is not null then ecpd.letter_date end end as postal_date,
+                  (select postal_type_description from master.ref_postal_type rpt where rpt.id=ecpd.ref_postal_type_id) as postal_type,
+                  (case when ept.dispatched_to_user_type='s' then (select section_name from master.usersection where id=ept.dispatched_to) else 
+                  case when ept.dispatched_to_user_type = 'o' then (select concat(name,' (',empid,') ') from master.users where usercode=ept.dispatched_to) else 
+                  case when ept.dispatched_to_user_type = 'j' then (select jname from master.judge where jcode=ept.dispatched_to) else ecpd.postal_addressee end end end) as address_to
+                  ,ec.diary_no as diary_number,ec.reg_no_display,
+                 (select concat(name ,'(',empid,')') from master.users where usercode=ept.dispatched_by) as dispatched_by,ept.dispatched_on,
+                 (select concat(name ,'(',empid,')') from master.users where usercode=ept.action_taken_by) as action_taken_by,ept.action_taken_on,ept.action_taken,ept.is_forwarded,(case when ept.letterPriority='0' THEN 'Normal' else case when ept.letterPriority='1' THEN 'Urgent But Not Important' else case  when ept.letterPriority='2' THEN 'Important But Not Urgent' else case when ept.letterPriority='3' THEN 'Urgent And Important' END END END END) as letterPriority 
+                  from ec_postal_received ecpd left join main ec on ecpd.ec_case_id=ec.diary_no
+                  left join ec_postal_transactions ept on ecpd.id=ept.ec_postal_received_id
+                  left join ec_postal_dispatch epd on ecpd.ec_postal_dispatch_id=epd.id 
+                  where (ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted='f' and ept.dispatched_by is not null and ept.dispatched_by is not null 
+                  $whereCondition    $dateCondition  
+                  order by ecpd.diary_no";
+                  $bindings = array('f'); 
+                //   $finalQuery = vsprintf(str_replace("?", "'%s'", $sql), $bindings);
+          
+           $query = $this->db->query($sql, $bindings);
+            if ($query->getNumRows() > 1) {
+                return $query->getResultArray();
+            }
+        } else {
+            $sql = "select ecpd.is_ad_card,ecpd.ec_postal_dispatch_id,epd.is_with_process_id,epd.process_id,epd.process_id_year,epd.reference_number,
+                (select name from master.tw_serve where serve_stage=epd.serve_stage and serve_type=0) as serve_stage,
+              (select name from master.tw_serve where id=epd.tw_serve_id) as serve_type,epd.serve_remarks,
+                  ept.id as ec_postal_transactions_id,ecpd.id,ecpd.ec_case_id,ecpd.sender_name,ecpd.address,concat(ecpd.diary_no,'/',ecpd.diary_year) as diary,ecpd.remarks,
+                    ecpd.subject,case when ecpd.postal_no is not null then ecpd.postal_no else case when ecpd.letter_no is not null then ecpd.letter_no end end as postal_number,
+                    case when ecpd.postal_date is not null then ecpd.postal_date else case when ecpd.letter_date is not null then ecpd.letter_date end end as postal_date,
+                  (select postal_type_description from master.ref_postal_type rpt where rpt.id=ecpd.ref_postal_type_id) as postal_type,
+                  (case when ept.dispatched_to_user_type='s' then (select section_name from master.usersection where id=ept.dispatched_to) else 
+                  case when ept.dispatched_to_user_type = 'o' then (select concat(name,' (',empid,') ') from master.users where usercode=ept.dispatched_to) else 
+                  case when ept.dispatched_to_user_type = 'j' then (select jname from master.judge where jcode=ept.dispatched_to) else ecpd.postal_addressee end end end) as address_to
+                  ,ec.diary_no as diary_number,ec.reg_no_display,
+                 (select concat(name ,'(',empid,')') from master.users where usercode=ept.dispatched_by) as dispatched_by,ept.dispatched_on,
+                 (select concat(name ,'(',empid,')') from master.users where usercode=ept.action_taken_by) as action_taken_by,ept.action_taken_on,ept.action_taken,ept.is_forwarded,(case when ept.letterPriority='0' THEN 'Normal' else case when ept.letterPriority='1' THEN 'Urgent But Not Important' else case  when ept.letterPriority='2' THEN 'Important But Not Urgent' else case when ept.letterPriority='3' THEN 'Urgent And Important' END END END END) as letterPriority  
+                  from ec_postal_received ecpd left join main ec on ecpd.ec_case_id=ec.diary_no
+                  left join ec_postal_transactions ept on ecpd.id=ept.ec_postal_received_id
+                  left join ec_postal_dispatch epd on ecpd.ec_postal_dispatch_id=epd.id
+                  where (ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted='f' and ept.dispatched_by is not null and ept.dispatched_by is not null
+                  $whereCondition $dateCondition
+                  and ((ept.dispatched_to_user_type='s' and ept.dispatched_to=?) or (ept.dispatched_to_user_type='o' and ept.dispatched_to=?))
+                  order by ecpd.diary_no";
 
-        // echo '<pre>'; 
-        // print_r($result);
-        // echo '</pre>';
+                  $bindings = array('f', $section, $usercode); 
+                  
+            $query = $this->db->query($sql, array('f', $section, $usercode));
+            if ($query->getNumRows() > 1) {
+                return $query->getResultArray();
+            }
+        }
     }
 
     public function get_notice_ack_report($txtFromDate)
@@ -3220,107 +3042,57 @@ else '' end as case_no");
         //  echo '</pre>';
     }
 
-    function getInitiatedDakDataForReceive($usercode, $section, $status = "", $actionType = "", $fromDate = "", $toDate = "")
-    {
+    function getInitiatedDakDataForReceive($usercode, $section, $status = "", $actionType = "", $fromDate = "", $toDate = ""){
         //echo $usercode.'||'.$section;
-
         $whereCondition = "";
         $dateCondition = "";
         if ($status == 'P') {
-            $whereCondition = " (ept.action_taken is null or ept.action_taken=0 or cast(ept.action_taken_by as text)='')";
+            $whereCondition = "and (ept.action_taken is null or ept.action_taken=0 or ept.action_taken_by is null)";
         } elseif ($status = 'R') {
             if ($actionType == 1) {
-                $whereCondition = "and ept.action_taken=$actionType and (ept.action_taken_on is not null or ept.action_taken_on!='')";
+                $whereCondition = "and ept.action_taken=$actionType and (ept.action_taken_on is not null or ept.action_taken_on! is not null)";
             }
         }
         if ($fromDate != "" && $toDate != "") {
             $dateCondition = " and date(ept.action_taken_on) between $fromDate and $toDate";
         }
         $sql = "";
-        $usercode = 2;
-
         if ($usercode == 1) {
-
-            //            $sql = "select ecpd.id, ecpd.letter_no as letter_number,
-            //                    ecpd.letter_subject as subject, ept.id as ec_postal_transactions_id, (case when ept.dispatched_to_user_type='s' then (select section_name from usersection where id=ept.dispatched_to) else
-            //                  case when ept.dispatched_to_user_type = 'o' then (select concat(name,' (',empid,') ') from users where usercode=ept.dispatched_to) else
-            //                  case when ept.dispatched_to_user_type = 'j' then (select jname from judge where jcode=ept.dispatched_to) end end end) as address_to,
-            //                 (select concat(name ,'(',empid,')') from users where usercode=ept.dispatched_by) as dispatched_by,ept.dispatched_on,
-            //                 (select concat(name ,'(',empid,')') from users where usercode=ept.action_taken_by) as action_taken_by,ept.action_taken_on,ept.action_taken,ept.is_forwarded,(case when ept.letterPriority='0' THEN 'Normal' else case when ept.letterPriority='1' THEN 'Urgent But Not Important' else case  when ept.letterPriority='2' THEN 'Important But Not Urgent' else case when ept.letterPriority='3' THEN 'Urgent And Important' END END END END) as letterPriority
-            //                  from ec_postal_user_initiated_letter ecpd
-            //                  left join ec_postal_transactions ept on ecpd.id=ept.ec_postal_user_initiated_letter_id
-            //                  where (ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted=? and ept.dispatched_by is not null and ept.dispatched_by !=''
-            //                  $whereCondition    $dateCondition
-            //                  order by ecpd.id DESC ";
-
-            $builder = $this->db->table('ec_postal_user_initiated_letter ecpd');
-            $builder->select("ecpd.id, ecpd.letter_no as letter_number,
+            $sql = "select ecpd.id, ecpd.letter_no as letter_number,
                     ecpd.letter_subject as subject, ept.id as ec_postal_transactions_id, (case when ept.dispatched_to_user_type='s' then (select section_name from master.usersection where id=ept.dispatched_to) else 
                   case when ept.dispatched_to_user_type = 'o' then (select concat(name,' (',empid,') ') from master.users where usercode=ept.dispatched_to) else 
                   case when ept.dispatched_to_user_type = 'j' then (select jname from master.judge where jcode=ept.dispatched_to) end end end) as address_to,
                  (select concat(name ,'(',empid,')') from master.users where usercode=ept.dispatched_by) as dispatched_by,ept.dispatched_on,
-                 (select concat(name ,'(',empid,')') from master.users where usercode=ept.action_taken_by) as action_taken_by,ept.action_taken_on,ept.action_taken,
-                 ept.is_forwarded,
-                 (case when ept.letterPriority='0' THEN 'Normal' else case when ept.letterPriority='1' THEN 'Urgent But Not Important' else 
-                 case  when ept.letterPriority='2' THEN 'Important But Not Urgent' else case when ept.letterPriority='3' THEN 'Urgent And Important' END END END END) as letterPriority ");
+                 (select concat(name ,'(',empid,')') from master.users where usercode=ept.action_taken_by) as action_taken_by,ept.action_taken_on,ept.action_taken,ept.is_forwarded,(case when ept.letterPriority='0' THEN 'Normal' else case when ept.letterPriority='1' THEN 'Urgent But Not Important' else case  when ept.letterPriority='2' THEN 'Important But Not Urgent' else case when ept.letterPriority='3' THEN 'Urgent And Important' END END END END) as letterPriority 
+                  from ec_postal_user_initiated_letter ecpd
+                  left join ec_postal_transactions ept on ecpd.id=ept.ec_postal_user_initiated_letter_id
+                  where (ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted='f' and ept.dispatched_by is not null and ept.dispatched_by is not null 
+                  $whereCondition    $dateCondition 
+                  order by ecpd.id DESC ";
 
-
-            $builder->join('ec_postal_transactions ept', 'ecpd.id=ept.ec_postal_user_initiated_letter_id', 'LEFT');
-            $builder->where("(ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted='f' and ept.dispatched_by is not null and CAST(ept.dispatched_by as text) !=''");
-            $builder->where("$whereCondition $dateCondition");
-            $builder->orderBy("ecpd.id", "DESC");
-
-            //            $query = $this->db->query($sql, array('f'));
-            //            if ($query->num_rows() >= 1) {
-            //                return $query->result_array();
-            //            }
+                $bindings = array('f'); 
+                $query = $this->db->query($sql, $bindings);
+            
+            if ($query->getNumRows() >= 1) {
+                return $query->getResultArray();
+            }
         } else {
-            //            $sql = "select ecpd.id, ecpd.letter_no as letter_number,
-            //                    ecpd.letter_subject as subject, ept.id as ec_postal_transactions_id, (case when ept.dispatched_to_user_type='s' then (select section_name from usersection where id=ept.dispatched_to) else
-            //                  case when ept.dispatched_to_user_type = 'o' then (select concat(name,' (',empid,') ') from users where usercode=ept.dispatched_to) else
-            //                  case when ept.dispatched_to_user_type = 'j' then (select jname from judge where jcode=ept.dispatched_to) end end end) as address_to,
-            //                 (select concat(name ,'(',empid,')') from users where usercode=ept.dispatched_by) as dispatched_by,ept.dispatched_on,
-            //                 (select concat(name ,'(',empid,')') from users where usercode=ept.action_taken_by) as action_taken_by,ept.action_taken_on,ept.action_taken,
-            //       ept.is_forwarded,
-            //       (case when ept.letterPriority='0' THEN 'Normal' else case when ept.letterPriority='1' THEN 'Urgent But Not Important' else
-            //           case  when ept.letterPriority='2' THEN 'Important But Not Urgent' else case when ept.letterPriority='3' THEN 'Urgent And Important' END END END END) as letterPriority
-            //
-            //             from ec_postal_user_initiated_letter ecpd
-            //                  left join ec_postal_transactions ept on ecpd.id=ept.ec_postal_user_initiated_letter_id
-            //                  where (ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted=? and ept.dispatched_by is not null and ept.dispatched_by !=''
-            //                  $whereCondition    $dateCondition
-            //                   and ((ept.dispatched_to_user_type='s' and ept.dispatched_to=?) or (ept.dispatched_to_user_type='o' and ept.dispatched_to=?))
-            //                  order by ecpd.id DESC ";
-
-            $builder = $this->db->table('ec_postal_user_initiated_letter ecpd');
-            $builder->select("ecpd.id, ecpd.letter_no as letter_number,
-                    ecpd.letter_subject as subject, ept.id as ec_postal_transactions_id, 
-                    (case when ept.dispatched_to_user_type='s' then (select section_name from master.usersection where id=ept.dispatched_to) else 
+            $sql = "select ecpd.id, ecpd.letter_no as letter_number,
+                    ecpd.letter_subject as subject, ept.id as ec_postal_transactions_id, (case when ept.dispatched_to_user_type='s' then (select section_name from master.usersection where id=ept.dispatched_to) else 
                   case when ept.dispatched_to_user_type = 'o' then (select concat(name,' (',empid,') ') from master.users where usercode=ept.dispatched_to) else 
                   case when ept.dispatched_to_user_type = 'j' then (select jname from master.judge where jcode=ept.dispatched_to) end end end) as address_to,
                  (select concat(name ,'(',empid,')') from master.users where usercode=ept.dispatched_by) as dispatched_by,ept.dispatched_on,
-                 (select concat(name ,'(',empid,')') from master.users where usercode=ept.action_taken_by) as action_taken_by,ept.action_taken_on,ept.action_taken,
-       ept.is_forwarded,
-       (case when ept.letterPriority='0' THEN 'Normal' else case when ept.letterPriority='1' THEN 'Urgent But Not Important' else 
-           case  when ept.letterPriority='2' THEN 'Important But Not Urgent' else case when ept.letterPriority='3' THEN 'Urgent And Important' END END END END) as letterPriority ");
-            $builder->join('ec_postal_transactions ept', 'ecpd.id=ept.ec_postal_user_initiated_letter_id', 'LEFT');
-            $builder->where("(ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted='f' and ept.dispatched_by is not null and cast(ept.dispatched_by as text) !=''");
-            $builder->where("$whereCondition $dateCondition");
-            $builder->where("((ept.dispatched_to_user_type='s' and ept.dispatched_to=$section) or (ept.dispatched_to_user_type='o' and ept.dispatched_to=$usercode))");
-            $builder->orderBy("ecpd.id", "DESC");
-        }
-
-        $query = $builder->get();
-        //        $query=$this->db->getLastQuery();echo (string) $query;exit();
-        $result = $query->getResultArray();
-        //        echo "<pre>";
-        //        print_r($result);
-        //        die;
-
-        if ($query->getNumRows() >= 1) {
-            return $result;
-        } else {
-            return false;
+                 (select concat(name ,'(',empid,')') from master.users where usercode=ept.action_taken_by) as action_taken_by,ept.action_taken_on,ept.action_taken,ept.is_forwarded,(case when ept.letterPriority='0' THEN 'Normal' else case when ept.letterPriority='1' THEN 'Urgent But Not Important' else case  when ept.letterPriority='2' THEN 'Important But Not Urgent' else case when ept.letterPriority='3' THEN 'Urgent And Important' END END END END) as letterPriority 
+                  from ec_postal_user_initiated_letter ecpd
+                  left join ec_postal_transactions ept on ecpd.id=ept.ec_postal_user_initiated_letter_id
+                  where (ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted='f' and ept.dispatched_by is not null and ept.dispatched_by is not null
+                  $whereCondition    $dateCondition 
+                   and ((ept.dispatched_to_user_type='s' and ept.dispatched_to=?) or (ept.dispatched_to_user_type='o' and ept.dispatched_to=?))
+                  order by ecpd.id DESC ";
+                $query = $this->db->query($sql, array('f', $section, $usercode));
+                if ($query->getNumRows() >= 1) {
+                    return $query->getResultArray();
+                }
         }
     }
 
@@ -4060,150 +3832,99 @@ else '' end as case_no");
         return $result;
     }
 
-
-    public function getRICompleteDetail($id)
-{
-    $builder = $this->db->table('ec_postal_dispatch epd');
-    
-    $builder->select([
-        'rls.description as current_status',
-        'epd.is_case',
-        'epd.is_with_process_id',
-        'epd.reference_number',
-        'epd.id as ec_postal_dispatch_id',
-        'epd.process_id',
-        'epd.process_id_year',
-        "COALESCE(m.reg_no_display, CONCAT(SUBSTRING(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4), '/', RIGHT(CAST(m.diary_no AS TEXT), 4))) AS case_no",
-        'epd.diary_no',
-        'epd.send_to_name',
-        'epd.send_to_address',
-        'tn.name as doc_type',
-        's.name as state_name',
-        'd.name as district_name',
-        'epd.pincode',
-        'epd.tal_state',
-        'epd.tal_district',
-        "(SELECT CONCAT(name, '(', empid, ')') FROM master.users WHERE usercode = epd.usercode) AS last_updated_by",
-        'epd.updated_on as last_updated_on',
-        'us.section_name',
-        'epd.serial_number',
-        'epd.ref_postal_type_id',
-        'epd.postal_charges',
-        'epd.weight',
-        'epd.waybill_number',
-        'epd.usersection_id',
-        "(SELECT section_name FROM master.usersection WHERE id = epd.usersection_id) AS send_to_section",
-        "(SELECT name FROM master.tw_serve WHERE serve_stage = epd.serve_stage AND serve_type = 0) AS serve_stage",
-        "(SELECT name FROM master.tw_serve WHERE id = epd.tw_serve_id) AS serve_type",
-        'epd.serve_remarks',
-        'rpt.postal_type_description'
-    ]);
-
-    // Left joins
-    $builder->join('main m', 'CAST(epd.diary_no AS BIGINT) = m.diary_no', 'left');
-    $builder->join('master.tw_notice tn', 'epd.tw_notice_id = tn.id', 'left');
-    $builder->join('master.usersection us', 'epd.usersection_id = us.id', 'left');
-    $builder->join('master.ref_letter_status rls', 'epd.ref_letter_status_id = rls.id', 'left');
-    $builder->join('master.ref_postal_type rpt', 'epd.ref_postal_type_id = rpt.id', 'left');
-    $builder->join('master.state s', 's.id_no = epd.tal_state', 'left');
-    $builder->join('master.state d', 'd.id_no = epd.tal_district', 'left');
-
-    // Where condition
-    $builder->where('epd.id', $id);
-
-    // Fetch and return the result
-    $query = $builder->get();
-    return $query->getRow();
-}
-
-
-
-    public function getDispatchTransactions($id)
+    public function dispatchADToSection($id, $sendToSection, $usercode)
     {
-        $builder = $this->db->table('ec_postal_dispatch_transactions epdt');
-        
-        $builder->select([
-            'rls.description as letter_stage',
-            'u.name',
-            'u.empid',
-            'epdt.updated_on',
-            'us.section_name',
-            'epdt.remarks'
-        ]);
+        $this->db->transStart();
 
-        // Joins
-        $builder->join('master.ref_letter_status rls', 'epdt.ref_letter_status_id = rls.id', 'inner');
-        $builder->join('master.users u', 'epdt.usercode = u.usercode', 'inner');
-        $builder->join('master.usersection us', 'u.section = us.id', 'left');
+        $sqlInsert = "INSERT INTO ec_postal_received
+                    (ref_postal_type_id,is_openable,postal_no,postal_date,
+                    sender_name,address,ref_city_id,ref_state_id,pin_code,
+                    adm_updated_by,updated_on,ec_case_id,received_on,
+                    is_ad_card,ec_postal_dispatch_id,is_original_record)
+                    select ref_postal_type_id,?,waybill_number,(select updated_on from ec_postal_dispatch_transactions where ec_postal_dispatch_id=ec_postal_dispatch.id limit 1)
+                    ,send_to_name,send_to_address,tal_district,tal_state,pincode,?,now(),diary_no,
+                    now(),?,id,? from ec_postal_dispatch where id=?";
 
-        // Where condition
-        $builder->where('epdt.ec_postal_dispatch_id', $id);
+        $bindings = array('t', $usercode, 1, 'f', $id);
+        $this->db->query($sqlInsert, $bindings);
 
-        // Order by
-        $builder->orderBy('epdt.ref_letter_status_id', 'ASC');
+        //echo $this->db->last_query();
+        $ecPostalReceivedId = $this->db->insertID();
 
-        // Execute and return results
-        $query = $builder->get();
-        return $query->getResultArray();
+        if (!empty($ecPostalReceivedId)) {
+            //Add send to section detail in ec_postal_transactions
+            $data = array(
+                'ec_postal_received_id' => $ecPostalReceivedId,
+                'dispatched_to_user_type' => 's',
+                'dispatched_to' => $sendToSection,
+                'dispatched_by' => $usercode,
+                'dispatched_on' => date('Y-m-d H:i:s'),
+                'is_active' => 't'
+            );
+            $this->db->table('ec_postal_transactions')->insert($data);
+            //echo $this->db->last_query();
+            //Update ref_letter_status_id in ec_postal_dispatch
+            $dataForDispatch = array(
+                'ref_letter_status_id' => 7, // 7 for AD/Letter Dispatched to Section/Concerned
+                'usercode' => $usercode,
+                'updated_on' => date('Y-m-d H:i:s')
+            );
+
+            $this->db->table('ec_postal_dispatch')->where('id', $id)->update($dataForDispatch);
+
+            //echo $this->db->last_query();
+            if ($this->db->affectedRows() > 0) {
+                // Enter a row with status of AD send to Section in ec_postal_dispatch_transaction
+                $dataForDispatchTransactions = array(
+                    'ec_postal_dispatch_id' => $id,
+                    'ref_letter_status_id' => 7,
+                    'usercode' => $usercode,
+                    'updated_on' => date('Y-m-d H:i:s')
+                );
+                $this->db->table('ec_postal_dispatch_transactions')->insert($dataForDispatchTransactions);
+                //echo $this->db->last_query();
+            }
+        }
+        $this->db->transComplete();
     }
 
+    function doDispatch($id, $usercode)
+    {
 
-    public function getDispatchDetails($tot_id)
-{
-    $builder = $this->db->table('tw_tal_del a');
-    
-    $builder->select([
-        'd.id',
-        'a.diary_no',
-        'process_id',
-        'a.name',
-        'address',
-        'b.name AS nt_typ',
-        'del_type',
-        'tw_sn_to',
-        'copy_type',
-        'send_to_type',
-        'fixed_for',
-        'rec_dt',
-        'office_notice_rpt',
-        'reg_no_display',
-        'sendto_district',
-        'sendto_state',
-        'nt_type',
-        'tal_state',
-        'tal_district',
-        'dispatch_id',
-        "DATE(dispatch_dt) AS dispatch_dt",
-        'weight',
-        'stamp',
-        'barcode',
-        'dis_remark',
-        'station'
-    ]);
+        $builder = $this->db->table('ec_postal_transactions');
+        $data = [
+            'dispatched_by' => $usercode,
+            'dispatched_on' => date('Y-m-d H:i:s')
+        ];
+        $builder->where('ec_postal_received_id', $id)
+            ->where('is_active', 't')
+            ->where('(dispatched_by IS NULL OR dispatched_by = 0)', null, false)
+            ->update($data);
 
-    // Joining Tables
-    $builder->join('master.tw_notice b', 'a.nt_type = b.id');
-    $builder->join('tw_o_r c', 'c.tw_org_id = a.id');
-    $builder->join('tw_comp_not d', 'd.tw_o_r_id = c.id');
-    $builder->join('main m', 'a.diary_no = m.diary_no');
+        return $this->db->affectedRows();
+    }
 
-    // Where Conditions
-    $builder->where('a.display', 'Y');
-    $builder->where('b.display', 'Y');
-    $builder->where('c.display', 'Y');
-    $builder->where('d.display', 'Y');
-    $builder->where('dispatch_id !=', 0);
-    $builder->where("dispatch_dt IS NOT NULL");
-    $builder->where('d.id', $tot_id); 
+    function getDispatchedDak($ids)
+    {
+        $builder = "select ecpd.id,ecpd.ec_case_id,sender_name,address,concat(ecpd.diary_no,'/',ecpd.diary_year) as diary,ecpd.remarks,
+        ecpd.subject,case when postal_no is not null then postal_no else case when letter_no is not null then letter_no end end as postal_number,
+        case when postal_date is not null then postal_date else case when letter_date is not null then letter_date end end as postal_date,
+      (select postal_type_description from master.ref_postal_type rpt where rpt.id=ref_postal_type_id) as postal_type,
+      (case when ept.dispatched_to_user_type='s' then (select section_name from master.usersection where id=ept.dispatched_to) else 
+        case when ept.dispatched_to_user_type = 'o' then (select concat(name,' (',empid,') ') from master.users where usercode=ept.dispatched_to) else 
+        case when ept.dispatched_to_user_type = 'j' then (select jname from master.judge where jcode=ept.dispatched_to) else ecpd.postal_addressee end end end) as address_to
+      ,ec.diary_no as diary_number,ec.reg_no_display,     
+     (select concat(name ,'(',empid,')') from master.users where usercode=ept.dispatched_by) as dispatched_by,ept.dispatched_on
+      from ec_postal_received ecpd left join main ec on ecpd.ec_case_id=ec.diary_no
+      left join ec_postal_transactions ept on ecpd.id=ept.ec_postal_received_id
+      where (ept.is_active='t' or ept.is_active is null) and ecpd.id in (" . implode(',', $ids) . ") and ecpd.is_deleted=? order by ecpd.diary_no";
 
-    // Execute Query
-    $query = $builder->get();
+        $bindings = array('f');
+        //   $finalQuery = vsprintf(str_replace("?", "'%s'", $sql), $bindings);
+        //   pr($finalQuery);
 
-    return $query->getResultArray();
-}
+        $query = $this->db->query($builder, $bindings);
 
-
-
-
-
+        return $query->getResultArray();
+    }
 }
