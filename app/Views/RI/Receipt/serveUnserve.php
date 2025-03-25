@@ -147,7 +147,7 @@
                                                 <label for="from" class="col-sm-4 col-form-label">From Date: </label>
                                                 <div class="col-sm-7">
 
-                                                    <input type="date" id="fromDate" name="fromDate" class="form-control datepick" autocomplete="off" placeholder="From Date" value="<?= !empty($fromDate)?$fromDate:null; ?>">
+                                                    <input type="text" id="fromDate" name="fromDate" class="form-control dtp" autocomplete="off" placeholder="From Date" value="<?= !empty($fromDate)?$fromDate:null; ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -156,7 +156,7 @@
                                                 <label for="to_date" class="col-sm-4 col-form-label">To Date:</label>
                                                 <div class="col-sm-7">
 
-                                                    <input type="date" id="toDate" name="toDate" class="form-control datepick" placeholder="From Date" autocomplete="off" value="<?= !empty($toDate)?$toDate:null; ?>">
+                                                    <input type="text" id="toDate" name="toDate" class="form-control dtp" placeholder="From Date" autocomplete="off" value="<?= !empty($toDate)?$toDate:null; ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -336,6 +336,18 @@
     <!-- /.section -->
     <script>
 
+$(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
+    });
+
         function check() {
 
             var searchBy = $("input[name='searchBy']:checked").val();
@@ -395,9 +407,17 @@
             $.ajax({
                 type: 'POST',
                 url:'<?=base_url('/RI/ReceiptController/getDataForServeUnserve');?>',
+                beforeSend: function() {
+                    $('#dataForServeUnServe').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+                },
                 data: $("#updateServeUnserve").serialize(),
                 success: function (result) {
+                    updateCSRFToken();
                     $("#dataForServeUnServe").html(result);
+                },
+                error: function(xhr, status, error) {
+                    updateCSRFToken();
+                    $("#dataForServeUnServe").html("<p style='color:red;text-align:center;'>Error loading data. Please try again.</p>");
                 }
             });
 
@@ -460,7 +480,7 @@
             }
 
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url:'<?=base_url('RI/ReceiptController/doUpdateServeUnServe')?>',
                 data: {
                     selectedCases: selectedCases,
@@ -468,15 +488,15 @@
                     serveType: serveType,
                     remarks: remarks
                 },
-                success: function(result){
+                success: function(result){                   
                         if(result>0){
                             alert(result+ " Selected Letters Serve Status Updated Successfully!");
                             check();
                         }
                     },
-                error: function() {
+                error: function() {                  
                     alert("Error, Something Went Wrong!!");
-                    updateCSRFToken();
+                    
                 }
 
             });
