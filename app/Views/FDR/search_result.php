@@ -17,7 +17,9 @@
                                 <h3 class="card-title">FDR >> SEARCH</h3>
                             </div>
                             <div class="col-sm-2">
-
+                                <a href="<?=base_url()?>/CashAccounts/Fdr/fdr_search" class="btn btn-primary">
+                                    <i class="fa fa-arrow-left"></i>Back
+                                </a>  
                             </div>
                         </div>
                     </div>
@@ -55,7 +57,7 @@
                                 <td>".$row['section_name']."</td>
                                 <td>".$row['document_number']."</td>
                                 <td>".$row['account_number']."</td>
-                                <td>".money_format('%!i', $row['amount'])."</td>
+                                <td>".number_format($row['amount'], 2)."</td>
                                 <td>".$row['bank_name']."</td>
                                 <td>".date('d-m-Y', strtotime($row['deposit_date']))."</td>
                                 <td>".date('d-m-Y', strtotime($row['maturity_date']))."</td>

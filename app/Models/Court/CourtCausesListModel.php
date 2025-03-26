@@ -1549,7 +1549,7 @@ public function insertShowCauselist($causeslistarrydata)
 
              
 
-            $builder = $this->db->table('docdetails');
+           /* $builder = $this->db->table('docdetails');
             $builder->select([
                 "COUNT(CASE WHEN position(',' || doccode1 || ',' LIKE '%,40,%' OR doccode1 IN (40, 48, 49, 50, 63) THEN 1 END) AS c1",
                 "COUNT(CASE WHEN position(',' || doccode1 || ',' LIKE '%,2,%' OR doccode1 IN (2, 27, 28, 56, 57) THEN 1 END) AS c2"
@@ -1561,7 +1561,20 @@ public function insertShowCauselist($causeslistarrydata)
             $builder->where('iastat', 'P');
             $builder->where('display', 'Y');
             $query = $builder->get();
-            $row_ia = $query->getRow();
+            $row_ia = $query->getRow(); */
+
+            $sql_check_ia = "SELECT
+                COUNT(CASE WHEN doccode1 = ANY(ARRAY[40,48,49,50,63]) THEN 1 END) AS c1,
+                COUNT(CASE WHEN doccode1 = ANY(ARRAY[2,27,28,56,57]) THEN 1 END) AS c2
+            FROM docdetails
+            WHERE diary_no = ? 
+            AND doccode = 8
+            AND doccode1 = ANY(ARRAY[40,48,49,50,63,2,27,28,56,57])
+            AND iastat = 'P'
+            AND display = 'Y'";
+
+            $query = $this->db->query($sql_check_ia, [$fno_o]);
+            $row_ia = $query->getRowArray();
 
             if($row_ia['c1'] > 0)
                 $check_ia=" 1=1 ";
@@ -1578,7 +1591,7 @@ public function insertShowCauselist($causeslistarrydata)
                 $check_mf=" 1=2 ";
 
             $check_for_nr1=" b1.sno in (16,19) AND ".$check_ia1." AND ".$check_mf;
-            $check_for_nr2=" r1.rhead in (16,19) AND ".$check_ia1." AND ".$check_mf;
+            $check_for_nr2=" string_to_array(r1.rhead, ',')::int[] && ARRAY[16,19] AND ".$check_ia1." AND ".$check_mf;
 
             if($row_cis["listorder"]==5)
                 $check_mm=" 1=1 ";
@@ -1586,263 +1599,154 @@ public function insertShowCauselist($causeslistarrydata)
                 $check_mm=" 1=2 ";
             ///NEW SQL
                     $tdt_str="";
-                   echo  $sql_td="SELECT
-            r1.*,
-            (
-                IF(
-                r1.pcnt > 1,
-                (SELECT
-                    CONCAT(
-                    IF(
-                        b1.compliance_limit_in_day > 0,
-                        (
-                            IF((((b1.sno = 16 OR b1.sno = 19 OR b1.sno = 125 OR b1.sno = 132 OR b1.sno = 145 OR b1.sno = 159) AND (FIND_IN_SET(".$subhead.", '804,805,806,822,823') = 0 AND NOT ".$check_ia.")) OR ((b1.sno = 5 or b1.sno=146) AND FIND_IN_SET(".$subhead.", '811,812') > 0)),
-                            (
-                            IF(((FIND_IN_SET(".$subhead.", '813,814') = 0 AND NOT(".$check_for_nr1.")) OR b1.sno = 125 OR b1.sno = 132 OR b1.sno = 145 OR b1.sno = 159 OR ((b1.sno = 5 or b1.sno=146) AND FIND_IN_SET(".$subhead.", '811,812') > 0)) AND NOT(".$check_for_nr1."),
-                            IF((b1.sno = 16 OR b1.sno = 19 OR b1.sno = 125 OR b1.sno = 132 OR b1.sno = 145 OR b1.sno = 159),
-                            (DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL (IF('".$row_cis["mainhead"]."'='F',3,6)) DAY
-                            )),
-                            DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL (9- DAYOFWEEK('".$dt_o."')) DAY
-                            )),(IF(((FIND_IN_SET(".$subhead.", '813,814') > 0 and ".$check_mm.") OR (".$check_for_nr1.")),
-            IF((".$check_for_nr1."),DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL 3 DAY
-                            ),DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL 2 DAY
-                            )),
-                            DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL 28 DAY
-                            )
-                            )
-                            )
-                            )
-                            ),
-                            (
-                        IF(((b1.sno = 5 or b1.sno=146) AND (FIND_IN_SET(".$subhead.", '804,805,806,822,823') > 0 OR ".$check_ia.")), DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL 2 DAY
-                        ), IF((b1.sno = 130 AND (FIND_IN_SET(".$subhead.", '804,805,806,822,823') > 0 OR ".$check_ia.")), DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL 7 DAY
-                        ), DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL b1.compliance_limit_in_day + 1 DAY
-                        ))))
-                        )
-                        ),
-                        (
-                        IF(
-                            (
-                            FIND_IN_SET(b1.sno, '15,84,113') > 0
-                            ),
-                            (
-                            CASE
-                                b1.sno
-                                WHEN 15
-                                THEN '2099-12-12'
-                                WHEN 84
-                                THEN '2088-12-12'
-                            END
-                            ),
-                            (
-                            1
-                            )
-                        )
-                        )
-                    ),
-                    '||',
-                    b1.sno
-                    ) AS ttdt
-                FROM
-                    case_remarks_head b1
-                WHERE FIND_IN_SET(b1.sno, r1.rhead) > 0
-                ORDER BY ttdt
-                LIMIT 1),
-                (
-                    CONCAT(
-                    IF(
-                        r1.compliance_limit_in_day > 0,
-                        (
-                            IF((((r1.rhead = 16 OR r1.rhead = 19 OR r1.rhead = 125 OR r1.rhead = 132 OR r1.rhead = 145 OR r1.rhead = 159) AND (FIND_IN_SET(".$subhead.", '804,805,806,822,823') = 0 AND NOT ".$check_ia.")) OR ((r1.rhead = 5 OR r1.rhead=146) AND FIND_IN_SET(".$subhead.", '811,812') > 0)),
-                            (
-                            IF(((FIND_IN_SET(".$subhead.", '813,814') = 0 AND NOT(".$check_for_nr2."))  OR r1.rhead = 125 OR r1.rhead = 132 OR r1.rhead = 145 OR r1.rhead = 159 OR ((r1.rhead = 5 OR r1.rhead=146) AND FIND_IN_SET(".$subhead.", '811,812') > 0)) AND NOT(".$check_for_nr2."),
-                            IF((r1.rhead = 16 OR r1.rhead = 19 OR r1.rhead = 125 OR r1.rhead = 132 OR r1.rhead = 145 OR r1.rhead = 159),
-                            (DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL (IF('".$row_cis["mainhead"]."'='F',3,6)) DAY
-                            )),
-                            DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL (9- DAYOFWEEK('".$dt_o."')) DAY
-                            )),
-            (IF(((FIND_IN_SET(".$subhead.", '813,814') > 0 and ".$check_mm.") OR (".$check_for_nr2.")),
-            IF((".$check_for_nr2."),DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL 3 DAY
-                            ),DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL 2 DAY
-                            )),
-                            DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL 28 DAY
-                            )
-                            )
-                            )
 
-                            )
-                            ),
-                            (
-                        IF(((r1.rhead = 5 OR r1.rhead=146) AND (FIND_IN_SET(".$subhead.", '804,805,806,822,823') > 0 OR ".$check_ia.")), DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL 2 DAY
-                        ), IF((r1.rhead = 130 AND (FIND_IN_SET(".$subhead.", '804,805,806,822,823') > 0 OR ".$check_ia.")), DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL 7 DAY
-                        ), DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL r1.compliance_limit_in_day + 1 DAY
-                        ))))
-                        )
-                        ),
-                        (
-                        CASE
-                        WHEN (
-            r1.rhead =12 )
-            THEN (
-            SELECT MAX( hdate )
-            FROM holidays
-            WHERE hdate > '".$dt_o."' AND YEAR(hdate)=YEAR('".$dt_o."')
-            AND hname LIKE '%Vacation%'
-            GROUP BY hname
-            LIMIT 1
-            )
-                            WHEN (
-                            r1.rhead = 21
-                            OR r1.rhead = 24
-                            OR r1.rhead = 59
-                            OR r1.rhead = 131
-                            OR r1.rhead = 70
-                            )
-                            THEN DATE(
-                            DATE_FORMAT(STR_TO_DATE(r1.head_content, '%d-%m-%Y'), '%Y-%m-%d')
-                            )
-                            WHEN (r1.rhead = 8
-                            OR r1.rhead = 124)
-                                THEN DATE_ADD(
-                                '".$dt_o."',
-                                INTERVAL 7 DAY
-                            )
-                            WHEN (r1.rhead = 190 or r1.rhead = 181 or r1.rhead = 204 or r1.rhead = 205)
-                                THEN (
-                CASE
-                WHEN
-                (r1.head_content='' and (r1.rhead = 181 or r1.rhead = 204 or r1.rhead = 205))
-                THEN
-                DATE_ADD('".$dt_o."', INTERVAL 45 DAY)
-                WHEN
-                SUBSTRING_INDEX(REPLACE(r1.head_content,'D:',''), ',', 1)>0
-                THEN
-                DATE_ADD('".$dt_o."', INTERVAL SUBSTRING_INDEX(REPLACE(r1.head_content,'D:',''), ',', 1)+1 DAY)
-                WHEN
-                SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(r1.head_content,'W:',''), ',', 2), ',', -1)>0
-                THEN
-                DATE_ADD(DATE_ADD('".$dt_o."', INTERVAL SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(r1.head_content,'W:',''), ',', 2), ',', -1) WEEK), INTERVAL 1 DAY)
-                WHEN
-                SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(r1.head_content,'M:',''), ',', 3), ',', -1)>0
-                THEN
-                DATE_ADD(DATE_ADD('".$dt_o."', INTERVAL SUBSTRING_INDEX(SUBSTRING_INDEX(REPLACE(r1.head_content,'M:',''), ',', 3), ',', -1) MONTH), INTERVAL 1 DAY)
-                ELSE
-                DATE_ADD('".$dt_o."', INTERVAL 8 DAY)
-                END
-                            )
-                            WHEN (r1.rhead = 149 OR r1.rhead = 53 OR r1.rhead = 133)
-                            THEN DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL r1.head_content + 1 DAY
-                            )
-                            WHEN (r1.rhead = 54)
-                            THEN DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL (r1.head_content) MONTH
-                            )
-                            WHEN (r1.rhead = 23)
-                            THEN DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL ((r1.head_content * 7)+1) DAY
-                            )
-                            WHEN (r1.rhead = 25)
-                            THEN DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL (r1.head_content + 1) DAY
-                            )
-                            WHEN (r1.rhead = 123)
-                            THEN DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL (r1.head_content) MONTH
-                            )
-                            WHEN (r1.rhead = 122)
-                            THEN DATE_ADD(
-                            '".$dt_o."',
-                            INTERVAL ((r1.head_content * 7)) DAY
-                            )
-                            WHEN (r1.rhead = 68)
-                            THEN IF(
-                            MONTH('".$dt_o."') > r1.head_content,
-                            STR_TO_DATE(
-                                CONCAT(
-                                YEAR('".$dt_o."') + 1,
-                                '-',
-                                r1.head_content,
-                                '-01'
-                                ),
-                                '%Y-%m-%d'
-                            ),
-                            STR_TO_DATE(
-                                CONCAT(
-                                YEAR('".$dt_o."'),
-                                '-',
-                                r1.head_content,
-                                '-01'
-                                ),
-                                '%Y-%m-%d'
-                            )
-                            )
-                        END
-                        )
-                    ),
-                    '||',
-                    r1.rhead
-                    )
-                )
-                )
-            ) AS tdate
-            FROM
-            (SELECT
-                GROUP_CONCAT(a1.r_head) AS rhead,
-                a1.`head_content`,
-                a.`compliance_limit_in_day`,
-                a.priority,
-                IF(a.priority = 999, 2, 1) AS pcnt
-            FROM
-                case_remarks_head a,
-                case_remarks_multiple a1
-            WHERE a1.diary_no = '".$fno_o."'
-                AND a1.`cl_date` = '".$dt_o."'
-                AND a.sno = a1.r_head
-            GROUP BY a.priority
-            LIMIT 1) r1 ";
-            die;
-                    $results_dt=mysql_query($sql_td) or die(mysql_error());
-                    if(mysql_affected_rows()>0)
+                  
+  $sql_td = "SELECT
+ r1.*,
+ (
+     CASE 
+         WHEN r1.pcnt > 1 THEN (
+             SELECT
+                 CONCAT(
+                     CASE 
+                         WHEN b1.compliance_limit_in_day > 0 THEN (
+                             CASE 
+                                 WHEN (b1.sno IN (16, 19, 125, 132, 145, 159) 
+                                       AND $subhead != ANY(ARRAY[804,805,806,822,823]) 
+                                       AND NOT $check_ia)
+                                      OR (b1.sno IN (5, 146) AND $subhead = ANY(ARRAY[811,812])) 
+                                 THEN (
+                                     CASE 
+                                         WHEN ($subhead != ANY(ARRAY[813,814]) AND NOT $check_for_nr1)
+                                              OR b1.sno IN (125, 132, 145, 159)
+                                              OR (b1.sno IN (5, 146) AND $subhead = ANY(ARRAY[811,812])) 
+                                         THEN (
+                                             CASE 
+                                                 WHEN b1.sno IN (16, 19, 125, 132, 145, 159) 
+                                                 THEN 
+                                                     CAST('$dt_o' AS DATE) + (CASE WHEN '{$row_cis["mainhead"]}' = 'F' 
+                                                                    THEN INTERVAL '3 days' 
+                                                                    ELSE INTERVAL '6 days' END)
+                                                 ELSE 
+                                                    CAST('$dt_o' AS DATE) + INTERVAL '1 day' * (9 - EXTRACT(DOW FROM CAST('$dt_o' AS DATE)))
+                                             END
+                                         )
+                                         ELSE (
+                                             CASE 
+                                                 WHEN ($subhead = ANY(ARRAY[813,814]) AND $check_mm) OR $check_for_nr1 
+                                                 THEN 
+                                                     CAST('$dt_o' AS DATE) + (CASE WHEN $check_for_nr1 
+                                                                    THEN INTERVAL '3 days' 
+                                                                    ELSE INTERVAL '2 days' END)
+                                                 ELSE 
+                                                    CAST('$dt_o' AS DATE) + INTERVAL '28 days'
+                                             END
+                                         )
+                                     END
+                                 )
+                                 ELSE (
+                                     CASE 
+                                         WHEN (b1.sno IN (5, 146) AND ($subhead = ANY(ARRAY[804,805,806,822,823]) OR $check_ia)) 
+                                         THEN CAST('$dt_o' AS DATE) + INTERVAL '2 days'
+                                         WHEN (b1.sno = 130 AND ($subhead = ANY(ARRAY[804,805,806,822,823]) OR $check_ia)) 
+                                         THEN CAST('$dt_o' AS DATE) + INTERVAL '7 days'
+                                         ELSE 
+                                             CAST('$dt_o' AS DATE) + INTERVAL '1 day' * (b1.compliance_limit_in_day + 1)
+                                     END
+                                 )
+                             END
+                         )
+                         ELSE NULL
+                     END,
+                     '||', b1.sno
+                 ) AS ttdt
+             FROM master.case_remarks_head b1
+             WHERE b1.sno = ANY(string_to_array(r1.rhead, ',')::int[])
+             ORDER BY ttdt
+             LIMIT 1
+         )
+         ELSE (
+             CONCAT(
+                 CASE 
+                     WHEN r1.compliance_limit_in_day > 0 THEN (
+                         CASE 
+                             WHEN (string_to_array(r1.rhead, ',')::int[] && ARRAY[16, 19, 125, 132, 145, 159] 
+                                   AND $subhead != ANY(ARRAY[804,805,806,822,823]) 
+                                   AND NOT $check_ia)
+                                  OR (string_to_array(r1.rhead, ',')::int[] && ARRAY[5, 146] AND $subhead = ANY(ARRAY[811,812])) 
+                             THEN (
+                                 CASE 
+                                     WHEN ($subhead != ANY(ARRAY[813,814]) AND NOT $check_for_nr2)
+                                          OR string_to_array(r1.rhead, ',')::int[] && ARRAY[125, 132, 145, 159]
+                                          OR (string_to_array(r1.rhead, ',')::int[] && ARRAY[5, 146] AND $subhead = ANY(ARRAY[811,812])) 
+                                     THEN (
+                                         CASE 
+                                             WHEN string_to_array(r1.rhead, ',')::int[] && ARRAY[16, 19, 125, 132, 145, 159] 
+                                             THEN 
+                                                 CAST('$dt_o' AS DATE) + (CASE WHEN '{$row_cis["mainhead"]}' = 'F' 
+                                                                THEN INTERVAL '3 days' 
+                                                                ELSE INTERVAL '6 days' END)
+                                             ELSE 
+                                                 CAST('$dt_o' AS DATE) + INTERVAL '1 day' * (9 - EXTRACT(DOW FROM CAST('$dt_o' AS DATE)))
+                                         END
+                                     )
+                                     ELSE (
+                                         CASE 
+                                             WHEN ($subhead = ANY(ARRAY[813,814]) AND $check_mm) OR $check_for_nr2 
+                                             THEN 
+                                                 CAST('$dt_o' AS DATE) + (CASE WHEN $check_for_nr2 
+                                                                THEN INTERVAL '3 days' 
+                                                                ELSE INTERVAL '2 days' END)
+                                             ELSE 
+                                                 CAST('$dt_o' AS DATE) + INTERVAL '28 days'
+                                         END
+                                     )
+                                 END
+                             )
+                             ELSE (
+                                 CASE 
+                                     WHEN (string_to_array(r1.rhead, ',')::int[] && ARRAY[5, 146] AND ($subhead = ANY(ARRAY[804,805,806,822,823]) OR $check_ia)) 
+                                     THEN CAST('$dt_o' AS DATE) + INTERVAL '2 days'
+                                     WHEN (string_to_array(r1.rhead, ',')::int[] && ARRAY[130] AND ($subhead = ANY(ARRAY[804,805,806,822,823]) OR $check_ia)) 
+                                     THEN CAST('$dt_o' AS DATE) + INTERVAL '7 days'
+                                     ELSE 
+                                         CAST('$dt_o' AS DATE) + INTERVAL '1 day' * (r1.compliance_limit_in_day + 1)
+                                 END
+                             )
+                         END
+                     )
+                     ELSE NULL
+                 END,
+                 '||', r1.rhead
+             )
+         )
+     END
+ ) AS tdate
+FROM (
+ SELECT 
+     string_agg(a1.r_head::TEXT, ',') AS rhead,
+     a1.head_content,
+     a.compliance_limit_in_day,
+     a.priority,
+     CASE WHEN a.priority = 999 THEN 2 ELSE 1 END AS pcnt
+ FROM master.case_remarks_head a
+ JOIN case_remarks_multiple a1 ON a.sno = a1.r_head
+ WHERE a1.diary_no = '$fno_o'
+ AND a1.cl_date = '$dt_o'
+ GROUP BY a.priority, a.compliance_limit_in_day, a1.head_content
+ LIMIT 1
+) r1;
+";
+ 
+
+$query = $this->db->query($sql_td);
+ 
+
+ 
+                    $results_dt = $query->getRowArray();
+                    if(!empty($results_dt))
                     {
-                        $row_dt=mysql_fetch_array($results_dt);
+                        $row_dt=$results_dt;
 
                         $t_tdt=explode("||", $row_dt["tdate"]);
                         //if(count($t_tdt)==2)
@@ -2085,7 +1989,7 @@ public function insertShowCauselist($causeslistarrydata)
                         }
                         else
                         {
-                            $str_up_disp = "INSERT INTO dispose(diary_no, `month`,`year`,dispjud,ord_dt,disp_dt,disp_type,bench,jud_id,ent_dt,camnt,usercode,crtstat,jorder,disp_type_all) VALUES('".$fno_o."',".$dmonth.",".$dyear.",'".$j1."','".$dt_o."','".$hdt."',".$disp_code.",'".$bench."','".$judges."',NOW(),0,".$ucode1.",'".$temp_mh."','','".$disp_type_all."')";
+                            $str_up_disp = "INSERT INTO dispose(diary_no, \"month\",\"year\",dispjud,ord_dt,disp_dt,disp_type,bench,jud_id,ent_dt,camnt,usercode,crtstat,jorder,disp_type_all) VALUES('".$fno_o."',".$dmonth.",".$dyear.",'".$j1."','".$dt_o."','".$hdt."',".$disp_code.",'".$bench."','".$judges."',NOW(),0,".$ucode1.",'".$temp_mh."','','".$disp_type_all."')";
                             $this->db->query($str_up_disp);                            
                         }                        
             
@@ -2121,7 +2025,7 @@ public function insertShowCauselist($causeslistarrydata)
             //removed is_nmd=1 and added DAYOFWEEK(working_date)=3 by preeti on 30.4.2024
             $heardtNmdQuery = "
                 SELECT working_date AS working_date 
-                FROM sc_working_days 
+                FROM master.sc_working_days 
                 WHERE EXTRACT(DOW FROM working_date) = 2  -- 2 for Tuesday
                 AND is_holiday = 0 
                 AND working_date > ? 
@@ -2132,7 +2036,7 @@ public function insertShowCauselist($causeslistarrydata)
             $query = $this->db->query($heardtNmdQuery, [$listing_date]); 
             $row_cis = $query->getRowArray();
 
-            if(!empty($row_cis)){            
+            if(!empty($row_cis) && !empty($row_cis['working_date'])){            
                 return date($row_cis['working_date']);
             }else{
                 return '';
@@ -2159,42 +2063,39 @@ public function insertShowCauselist($causeslistarrydata)
                     }
         
                     $sql = "
-                        SELECT
-                            *,
+                    SELECT
+                        *,
+                        CASE
+                            WHEN (wd = 0) THEN cdates
+                        END AS c1,
+                        CASE
+                            WHEN (wk = 1) THEN MAX(cdates)
+                            ELSE MIN(cdates)
+                        END AS c2,
+                        MIN(
                             CASE
-                                WHEN (wd = 0)
-                                THEN cdates
-                            END AS c1,
-                            CASE
-                                WHEN (wk = 1)
-                                THEN MAX(cdates)
-                                ELSE MIN(cdates)
-                            END AS c2,
-                            MIN(
-                                CASE
-                                    WHEN (wd = 1
-                                        OR wd = 2
-                                        OR wd = 3)
-                                    THEN cdates
-                                END
-                            ) AS r1
-                        FROM
-                            (
-                                SELECT
-                                    t1.cdates,
-                                    EXTRACT(DOW FROM t1.cdates) AS wd,  -- Using EXTRACT for day of the week
-                                    EXTRACT(ISO WEEK FROM t1.cdates) - EXTRACT(ISO WEEK FROM DATE '".$dt."') + 1 AS wk  -- Using EXTRACT for week
-                                FROM
-                                    (".$t_var.") t1
-                                    LEFT JOIN holidays t2
-                                        ON t1.cdates = t2.hdate
-                                WHERE EXTRACT(DOW FROM t1.cdates) NOT IN (5, 6)  -- Skip Saturday and Sunday (5=Saturday, 6=Sunday)
-                                    AND t2.hdate IS NULL
-                            ) z1
-                        GROUP BY z1.wk;
-                    ";
-                    $query = $this->db->query($sql);
-                    $results = $query->getResultArray();
+                                WHEN (wd = 1 OR wd = 2 OR wd = 3) THEN cdates
+                            END
+                        ) AS r1
+                    FROM
+                        (
+                            SELECT
+                                t1.cdates,
+                                EXTRACT(DOW FROM t1.cdates::DATE) AS wd,  -- Cast cdates to DATE
+                                EXTRACT(WEEK FROM t1.cdates::DATE) - EXTRACT(WEEK FROM DATE '".$dt."') + 1 AS wk  -- Ensure date comparison
+                            FROM
+                                (".$t_var.") t1
+                                LEFT JOIN master.holidays t2 ON t1.cdates::DATE = t2.hdate  -- Explicit cast to DATE
+                            WHERE EXTRACT(DOW FROM t1.cdates::DATE) NOT IN (5, 6)  -- Skip Saturday (5) and Sunday (6)
+                                AND t2.hdate IS NULL
+                        ) z1
+                    GROUP BY z1.wk,z1.cdates,z1.wd;
+                ";
+                
+                $query = $this->db->query($sql);
+                $results = $query->getResultArray();
+                
+
 
                    if(!empty($results))
                    {

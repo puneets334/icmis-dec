@@ -158,7 +158,7 @@
 
 
                                 <?php form_close(); ?>
-
+           <div style="color:green;font-weight:800;" id="msssg_div"></div>
                             </div>
                         </div>
 
@@ -233,10 +233,10 @@
                                             <div class="col-sm-6">
                                                         <textarea class="form-control" name="remarks" id="remarks" rows="5" maxlength="1000" onkeypress="return alpha(event)" placeholder="Remarks.......">
                                                         <?php
-                                                        if(!empty($remarksInfo))
-                                                        {
-                                                            echo trim($remarksInfo['summary']);
-                                                        }
+                                                        // if(count($remarksInfo)>0)
+                                                        // {
+                                                        //     echo trim($remarksInfo['summary']);
+                                                        // }
                                                         ?>
                                                         </textarea>
                                                 <font color="red">[max 1000 characters allowed including space and dot only]</font>
@@ -244,15 +244,15 @@
                                                 <span><span id="chars">
                                                                         <?php
                                                                         $remarksLength=0;
-                                                                        if(!empty($remarksInfo))
-                                                                        {
-                                                                            $remarksLength = strlen($remarksInfo['summary']);
-                                                                            echo 1000-$remarksLength;
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            echo 1000-$remarksLength;
-                                                                        }
+                                                                        // if(!empty($remarksInfo))
+                                                                        // {
+                                                                        //     $remarksLength = strlen($remarksInfo['summary']);
+                                                                        //     echo 1000-$remarksLength;
+                                                                        // }
+                                                                        // else
+                                                                        // {
+                                                                        //     echo 1000-$remarksLength;
+                                                                        // }
                                                                         ?></span> characters remaining</span>
                                             </div>
                                         </div>
@@ -316,7 +316,8 @@
             var CSRF_TOKEN = 'CSRF_TOKEN';
             var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
-            var remarks = document.getElementById('remarks').value;
+            var remarks = document.getElementById('remarks').value.trim();
+
             // alert(remarks);
             $.ajax({
                 type:"POST",
@@ -328,22 +329,26 @@
                 url: "<?php echo base_url('Editorial/ESCR/saveSummary'); ?>",
                 success: function(data) {
                     updateCSRFToken();
-                    // console.log(data);return false;
-                    // alert(data);
-                    if(data == 'Cases is not available for verification !!!' || data == 'Data is saved successfully !!!')
-                    {
-                        document.getElementById("saveButton").disabled = true;
-                        document.getElementById("verifyButton").disabled = true;
-                    }else{
-                      $('.container-fluid').html(data);
-
-                    }
+                    console.log("data: ", JSON.parse(data));
+                    var res = JSON.parse(data);
+                    if(res.status == 2){
+                       $('#msssg_div').html(res.msg);
+                       setTimeout(function() {
+                        location.reload();
+                        console.log("This message appeared after 2 seconds.");
+                        }, 8000);
+                   }
+                   else{
+                    window.location.href = res.msg;
+                   }
+                      
                 },
                 error: function(data) {
                     alert(data);
                     updateCSRFToken();
                 }
             });
+            updateCSRFToken();
         }
 
     </script>

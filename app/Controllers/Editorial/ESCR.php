@@ -84,107 +84,99 @@ class ESCR extends BaseController
         }
         if (!empty($_POST))
         {
+            $optradio = $_POST['optradio'];
 
-            if ($_POST['optradio'] == 1)
+            if ($optradio == 1)
             {
                 if (((isset($_POST['caseType']))) || (!empty($_POST['caseType'])) && (((isset($_POST['caseNo']))) || (!empty($_POST['caseNo'])))) {
 
                     $caseTypeId = $_POST['caseType'];
                     $caseNo = $_POST['caseNo'];
                     $caseYear = $_POST['caseYear'];
-                    $getdiarydetail = $this->escr_model->get_diary_details($caseTypeId, $caseNo, $caseYear);
-                    echo "<pre>"; print_r($getdiarydetail); die;
-                    if(!empty($getdiarydetail))
-                    {
-                        $data['diaryDetails'] = $getdiarydetail[0];
+                    $getdiarydetail = $this->escr_model->get_diary_details($optradio,$caseTypeId, $caseNo, $caseYear,$diaryNo=null,$diaryYear=null);
+                    $data['diaryDetails'] = $getdiarydetail;
 
-                    }
                 }
             }
-            // if ($_POST['optradio'] == 2)
-            // {
-            //     $diaryNo = $_POST['diaryNumber'];
-            //     $diaryYear = $_POST['diaryYear'];
-
-            //     $data['diaryDetails'] = [
-            //         'dn' => $diaryNo,
-            //         'dy' =>$diaryYear,
-            //         'diary_no' => $diaryNo . $diaryYear,
-            //     ];
-            // }
-
+            if ($optradio == 2)
+            {
+                $diaryNo = $_POST['diaryNumber'];
+                $diaryYear = $_POST['diaryYear'];
+                $getdiarydetail = $this->escr_model->get_diary_details($optradio,$caseTypeId=null, $caseNo=null, $caseYear=null,$diaryNo,$diaryYear);
+                $data['diaryDetails'] = $getdiarydetail;
+            }
+        
             if (!empty($data['diaryDetails']))
             {
-// //                echo "EWEWE";
+                ///////////////////////////////////////////////
+                foreach ($data['diaryDetails'] as $row)
+                {
+                    // diary No for All further process
+                    $diaryNumber=$row['diary_no'];
+                    session()->set(array('diaryNo' => $row['dn']));
+                    session()->set(array('diaryYear' => $row['dy']));
+                    session()->set(array('diaryNumber' => $row['diary_no']));
+                }
 
-//                 $diaryNumber = $data['diaryDetails']['diary_no'];
+                $judgmentDate = $_POST['judgmentDate'];
 
-//                 $judgmentDate = $_POST['judgmentDate'];
+                $data['judgmentDate'] = $_POST['judgmentDate'];
+                session()->set(array('diaryno' => $diaryNumber));
 
-//                 $data['judgmentDate'] = $_POST['judgmentDate'];
-//                 session()->set(array('diaryno' => $diaryNumber));
+                session()->set(array('judgmentDate' => $_POST['judgmentDate']));
+                $caseInfo = $this->escr_model->getCaseDetails($diaryNumber);
+                if(count($caseInfo)>0)
+                {
+                    $data['caseInfo']=$caseInfo[0];
+                }else{
+                    $data['caseInfo']='';
+                }
 
-//                 session()->set(array('judgmentDate' => $_POST['judgmentDate']));
-// //                echo 'www';
-// //                MADE 3 FUNCTION TO GET CASE DETAILS,JUDGMENT INFO AND REMARKS
-//                 $caseInfo = $this->get_caseinfo_function($diaryNumber);
-// //                echo "<pre>";  print_r($caseInfo);die;
-//                 if(!empty($caseInfo))
-//                 {
-//                     $data['caseInfo']=$caseInfo[0];
-//                 }else{
-//                     $data['caseInfo']='';
-//                 }
+                $judgmentdetail = $this->escr_model->getJudgmentDetails( $diaryNumber,$judgmentDate);
+                if(count($judgmentdetail)>0)
+                {
+                    $data['judgmentInfo']=$judgmentdetail;
+                }else{
+                    $data['judgmentInfo']='';
+                }
 
-//                 $judgmentdetail = $this->get_judgmentdetail_function( $diaryNumber,$judgmentDate);
-// //                echo "<pre>";  print_r($judgmentdetail);die;
-//                 if(!empty($judgmentdetail))
-//                 {
-//                     $data['judgmentInfo']=$judgmentdetail;
-//                 }else{
-//                     $data['judgmentInfo']='';
-//                 }
+                $remarks = $this->escr_model->getRemarkFunction( $diaryNumber,$judgmentDate);
+                if(count($remarks)>0)
+                {
+                    $data['remarksInfo']= $remarks[0];
+                }else{
+                    $data['remarksInfo']='';
+                }
+                if(empty($data['judgmentInfo'] ) )
+                {
+                    $data['caseInfo'] = '';
+                    $data['judgmentInfo'] = '';
+                    $data['remarksInfo']='';
+                    session()->setFlashdata("message_error", 'Judgment has not been uploaded yet');
+                }
+                else if(!empty($data['remarksInfo'])&&($data['remarksInfo']['is_verified']=='t'))
+                {
+                    $data['caseInfo'] = '';
+                    $data['judgmentInfo'] = '';
+                    $data['remarksInfo']='';
+                    session()->setFlashdata('message_error', 'Gist for the searched Case has been verified.Updation not allowed.');
+                }
 
-//                 $remarks = $this->get_remark_function( $diaryNumber,$judgmentDate);
-// //                echo "<pre>"; print_r($remarks);die;
-//                 if(!empty($remarks))
-//                 {
-//                     $data['remarksInfo']= $remarks;
-//                 }else{
-//                     $data['remarksInfo']='';
-//                 }
-// //                echo "<pre>"; echo ">>>".print_r($data);die;
+                
 
-//                 if(empty($data['judgmentInfo'] ) )
-//                 {
-//                     $data['caseInfo'] = '';
-//                     $data['judgmentInfo'] = '';
-//                     $data['remarksInfo']='';
-//                     session()->setFlashdata("message_error", 'Judgment has not been uploaded yet');
-//                     // $this->session->set_flashdata('msg', '<div class="alert alert-danger text-center">Judgment has not been uploaded yet</div>');
-// //
-// //                    return redirect()->to("Editorial/eSCREntry");
-//                 }
-//                 else if(!empty($data['remarksInfo'])&&($data['remarksInfo']['is_verified']=='t'))
-//                 {
-//                     $data['caseInfo'] = '';
-//                     $data['judgmentInfo'] = '';
-//                     $data['remarksInfo']='';
-//                     session()->setFlashdata('message_error', 'Gist for the searched Case has been verified.Updation not allowed.');
-// //                    return redirect()->to("Editorial/eSCREntry");
-//                 }
-
-            } else
+            } 
+            else
             {
                 $data['save']='saveMentionMemo';
                 $data['caseInfo'] = '';
                 $data['judgmentInfo'] = '';
                 $data['remarksInfo']='';
-                session()->setFlashdata('message_error', 'Case Not Found');
-//                return redirect()->to("Editorial/eSCREntry");
+               session()->setFlashdata('message_error', 'Case Not Found');
             }
         }
-
+        
+       
+    
         return view('Editorial/eSCREntry', $data);
     }
 
@@ -192,67 +184,10 @@ class ESCR extends BaseController
 
     public function saveSummary()
     {
-//           echo "<pre>";
-//           print_r($_POST);  die;
-        $this->db = \Config\Database::connect();
-        $this->db->transStart();
-        $remarks = $_POST['remark'];
-        $remarks=trim(htmlspecialchars($remarks,ENT_QUOTES));
-        $dno = $_SESSION['diaryno'];
-        $juddate = $_SESSION['judgmentDate'];
-        $client_ip = getClientIP();
-        $userCode = $_SESSION['login']['usercode'];
-        $loggedInUserRole = $this->masterEscrUser->select('role')->where('usercode', $userCode)->findAll();
-        $userrole=$loggedInUserRole[0]['role'];
-        $updated_by='';
-        $updated_on='';
-        $updated_by_ip='';
-//        echo $remarks;die;
-
-        $sqlCheck = $this->escr_model->judgement_summary_check($dno,$juddate);
-//        echo "<pre>"; print_r($sqlCheck);die;
-        if(!empty($sqlCheck))
-        {
-            foreach($sqlCheck as $row)
-            {
-                $updated_by=$row['updated_by'];
-                $updated_on=$row['updated_on'];
-                $updated_by_ip=$row['updated_by_ip'];
-
-            }
-            $update = $this->escr_model->judgment_summary_update($dno,$juddate,$userCode,$client_ip);
-
-        }
-        if($userrole==1)
-        {
-
-            $insert = $this->escr_model->judgment_summary_insertion($userrole,$dno,$remarks,$juddate,$userCode,$client_ip);
-        }else if($userrole==2) {
-            if(($updated_on != '') && ($updated_by != '') && ($updated_by_ip != '') && ($updated_by != '0'))
-            {
-                $insert = $this->escr_model->judgment_summary_insertion($userrole,$dno, $remarks, $juddate, $userCode, $client_ip, $updated_by, $updated_on, $updated_by_ip);
-
-            } else {
-
-                $insert = $this->escr_model->judgment_summary_insertion($userrole,$dno, $remarks, $juddate, $userCode, $client_ip);
-            }
-        }
-            if($insert)
-            {
-//                echo $sql.">>".$userrole;die;
-                if($userrole==2) {
-                    session()->setFlashdata('success_msg', 'Case is Verified.');
-                    $empid = session()->get('login')['empid'];
-                    $role=2;
-                    $this->user_report_details($empid,$role);
-
-                }else{
-                   echo "DATA IS SAVED SUCCESSFULLY!!!!";
-                }
-
-            }
-
-        $this->db->transComplete();
+       $remarks=$this->request->getPost('remark');
+       $result = $this->escr_model->saveSummary($_SESSION['diaryno'],$remarks,date('Y-m-d',strtotime($_SESSION['judgmentDate'])));
+       return $result;
+  
     }
 
 //         MADE 3 FUNCTION DEFINITION OF CASE DETAILS,JUDGMENT INFO AND REMARKS
@@ -342,6 +277,7 @@ class ESCR extends BaseController
             ->where('main.diary_no',$diaryNumber)->get()->getResultArray();
 
         $combinedResults = array_merge($query1, $query2);
+
         return $combinedResults;
 
 
@@ -350,39 +286,10 @@ class ESCR extends BaseController
     public function get_judgmentdetail_function($diaryNumber ,$judgmentDate)
     {
         $detail = $this->escr_model->judgment_detail($diaryNumber ,$judgmentDate);
-//      echo "<pre>"; print_r($detail);die;
         return $detail;
    }
 
-    public function get_remark_function($diaryNumber ,$judgmentDate)
-    {
-        // echo $diaryNumber.">>>>>".$judgmentDate;
-        // die;
-        $remark=[];
-        $query4 = $this->judgmentSummary->select('*')
-            ->where('is_deleted','f')->where('diary_no', $diaryNumber)->where('orderdate',$judgmentDate)->get()->getResultArray();
-        //  $query4 = $this->db->getLastQuery();
-        //  echo $query4;
-        //  die;
-        // echo "<pre>";
-        // print_r($query4);
-        // die;
-        if(!empty($query4))
-        {
-
-            $remark = $query4[0];
-            return $remark;
-
-        }
-        else{
-
-            return false;
-
-        }
-
-
-
-    }
+   
     public function report()
     {
         $fromDate = $this->request->getGet('fromDate');

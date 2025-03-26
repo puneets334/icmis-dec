@@ -17,7 +17,7 @@ class MovementOfDocumentModel extends Model
 
     public function getDiaryNumber($ct, $cn, $cy)
     {
-      
+
         // Prepare and execute the first query
         $builder = $this->db->table('main');
         $builder->select("SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) AS dn, SUBSTR(diary_no, -4) AS dy");
@@ -71,14 +71,14 @@ class MovementOfDocumentModel extends Model
 
     public function getRecentDocuments($ucode)
     {
-       
+
         $sevenDaysAgo = date('Y-m-d', strtotime('-7 days'));
         $builder = $this->db->table('docdetails a');
         $builder->select('a.*, c.*, m.*');
         $builder->join('master.docmaster c', 'a.doccode = c.doccode AND a.doccode1 = c.doccode1', 'left');
         $builder->join('main m', 'a.diary_no = m.diary_no', 'left');
 
-       $builder->where('a.ent_dt >', $sevenDaysAgo);
+        $builder->where('a.ent_dt >', $sevenDaysAgo);
         $builder->where('a.diary_no !=', 0);
         $builder->where('a.display', 'Y');
         $builder->where('a.usercode', $ucode);
@@ -286,24 +286,28 @@ class MovementOfDocumentModel extends Model
 
     public function getUserSection($ucode)
     {
+
         return $this->db->table('master.users')
             ->where('usercode', $ucode)
             ->where('display', 'Y')
             ->get()
-            ->getRowArray();
+            ->getResultArray();
     }
 
     public function getAllDAUsercodes($officerSection)
     {
-        return $this->db->table('master.users')
-            ->select('group_concat(usercode) as allDA')
+        $result = $this->db->table('master.users')
+            ->select("STRING_AGG(usercode::TEXT, ',') AS allDA")
             ->where('section', $officerSection)
             ->where('display', 'Y')
             ->whereIn('usertype', [51, 17, 50, 14, 9])
             ->groupBy('section')
             ->get()
             ->getRowArray();
+
+        return $result ?? [];
     }
+
 
     public function get_select_rs($condition)
     {
@@ -328,7 +332,7 @@ class MovementOfDocumentModel extends Model
         return $this->db->query($select_q)->getResultArray();
     }
 
-    public function updateRecords($data,$ucode)
+    public function updateRecords($data, $ucode)
     {
         foreach ($data as $value) {
             $new_value = explode('-', $value);
@@ -407,39 +411,37 @@ class MovementOfDocumentModel extends Model
     public function verify_defect()
     {
         $usercode = session()->get('login')['usercode'];
-        $queryString = "SELECT * 
-        FROM ld_move a
-        INNER JOIN docdetails b ON
-        (
-            a.diary_no = b.diary_no 
+
+        $query = $this->db->table('ld_move a')
+            ->select('*')
+            ->join(
+                'docdetails b',
+                'a.diary_no = b.diary_no 
             AND a.diary_no > 0 
             AND b.diary_no > 0 
             AND a.doccode = b.doccode 
             AND a.doccode1 = b.doccode1 
             AND a.docnum = b.docnum 
             AND a.docyear = b.docyear 
-            AND b.display = 'Y' 
-            AND a.rece_by = $usercode 
-            AND b.verified = ''
-        )
-        INNER JOIN main m ON a.diary_no = m.diary_no 
-        LEFT JOIN master.docmaster c ON (a.doccode = c.doccode AND a.doccode1 = c.doccode1) 
-        WHERE b.iastat = 'P'
-        ORDER BY a.disp_dt DESC";
-
-        $query = $this->db->query($queryString);
+            AND b.display = \'Y\' 
+            AND a.rece_by = ' . $this->db->escape($usercode) . ' 
+            AND b.verified = \'\'',
+                'inner'
+            )
+            ->join('main m', 'a.diary_no = m.diary_no', 'inner')
+            ->join('master.docmaster c', 'a.doccode = c.doccode AND a.doccode1 = c.doccode1', 'left')
+            ->where('b.iastat', 'P')
+            ->orderBy('a.disp_dt', 'DESC')
+            ->get();
         $output = '';
-        if ($query->getNumRows() >= 1)
-        {
+        if ($query->getNumRows() >= 1) {
             $result = $query->getResultArray();
-
             $output = '<div class="table-responsive"><table class="table c_vertical_align tbl_border" style="width: auto;">';
             $output .= '<tr><td colspan="8" align="center">RECORDS TO BE VERIFY<span id="enable-in-print"> FOR ' . get_user_details($usercode) . '</span></td></tr>';
             $output .= '<tr><td align="center">SNo.</td><td>Document No.</td><td>Document Type</td><td align="center">Diary No.</td><td>Case Nos.</td><td>Remarks</td><td>Dispatch By</td><td>Dispatch Date</td><td>Defect Remarks</td><td></td></tr>';
-            
+
             $sno = 1;
-            foreach ($result as $row)
-            {
+            foreach ($result as $row) {
                 $get_real_diaryno = !empty($row['diary_no']) ? get_real_diaryno($row['diary_no']) : '';
                 $get_casenos_comma = !empty($row['diary_no']) ? get_casenos_comma($row['diary_no']) : '';
                 $get_user_details = !empty($row['disp_by']) ? get_user_details($row['disp_by']) : '';
@@ -463,9 +465,7 @@ class MovementOfDocumentModel extends Model
             }
             $output .= '<tr><td colspan="10" align="center"><input type="radio" name="vr" value="V" checked="checked"/>Verified <input type="radio" name="vr" value="R"/>Defective<input type="button" value="Verify" id="btnrece" onclick="verifyFunction()" /></td></tr>';
             $output .= '</table></div>';
-        }
-        else
-        {
+        } else {
             $output = '<div class="nofound">SORRY!!!, NO RECORD FOUND</div>';
         }
         return $output;
@@ -475,19 +475,18 @@ class MovementOfDocumentModel extends Model
     {
         $usercode = session()->get('login')['usercode'];
         $vr = $_REQUEST['vr'];
-        foreach ($_REQUEST['alldata'] as $key => $value)
-        {
+        foreach ($_REQUEST['alldata'] as $key => $value) {
             $t_vr = $_REQUEST['tb'][$key];
             $new_value = explode('-', $value);
             $updateData =
-            [
-                'verified' => $vr,
-                'verified_by' => $usercode,
-                'verified_on' => date('Y-m-d H:i:s'),
-                'verified_remarks' => $t_vr,
-            ];
+                [
+                    'verified' => $vr,
+                    'verified_by' => $usercode,
+                    'verified_on' => date('Y-m-d H:i:s'),
+                    'verified_remarks' => $t_vr,
+                ];
 
-            $this->db->table('docdetails')->where('diary_no', $new_value[0])->where('doccode', $new_value[1])->where('doccode1', $new_value[2])->where('docnum', $new_value[3])->where('docyear',$new_value[4])->update($updateData);
+            $this->db->table('docdetails')->where('diary_no', $new_value[0])->where('doccode', $new_value[1])->where('doccode1', $new_value[2])->where('docnum', $new_value[3])->where('docyear', $new_value[4])->update($updateData);
         }
     }
 
@@ -500,12 +499,9 @@ class MovementOfDocumentModel extends Model
         ORDER BY casecode, short_description";
 
         $query = $this->db->query($queryString);
-        if ($query->getNumRows() >= 1)
-        {
+        if ($query->getNumRows() >= 1) {
             return $query->getResultArray();
-        }
-        else
-        {
+        } else {
             return [];
         }
     }
@@ -513,8 +509,7 @@ class MovementOfDocumentModel extends Model
     public function old_verify_process()
     {
         // pr($_REQUEST['d_no']);
-        if(isset($_REQUEST['ct']) && $_REQUEST['ct'] != '')
-        {
+        if (isset($_REQUEST['ct']) && $_REQUEST['ct'] != '') {
             $get_dno = "SELECT 
             substr(cast(diary_no as text), 1, length(cast(diary_no as text)) - 4) as dn, 
             substr(cast(diary_no as text), -4) as dy
@@ -535,17 +530,14 @@ class MovementOfDocumentModel extends Model
             $query = $this->db->query($get_dno);
             $get_dno = $query->getResultArray();
             $html = '<div class="cl_center"><b>No Record Found</b></div>';
-                return $html;
+            return $html;
 
 
             // $get_dno = mysql_query($get_dno) or die(__LINE__.'->'.mysql_error());
             // $get_dno = mysql_fetch_array($get_dno);
             // $_REQUEST['d_no'] = $get_dno['dn'];
             // $_REQUEST['d_yr'] = $get_dno['dy'];
-        }
-
-        else
-        {
+        } else {
             $queryString = "SELECT 
                 diary_no,
                 conn_key,
@@ -587,22 +579,18 @@ class MovementOfDocumentModel extends Model
             FROM 
                 main 
             WHERE 
-                SUBSTR(diary_no::text, 1, LENGTH(diary_no::text) - 4) = '".$_REQUEST['d_no']."'
-                AND SUBSTR(diary_no::text, -4) = '".$_REQUEST['d_yr']."'";
+                SUBSTR(diary_no::text, 1, LENGTH(diary_no::text) - 4) = '" . $_REQUEST['d_no'] . "'
+                AND SUBSTR(diary_no::text, -4) = '" . $_REQUEST['d_yr'] . "'";
 
-                // pr($queryString);
+            // pr($queryString);
 
             $query = $this->db->query($queryString);
-            if ($query->getNumRows() >= 1)
-            {
+            if ($query->getNumRows() >= 1) {
                 // pr($queryString);
                 // return $query->getResultArray();
                 $html = '<div class="cl_center"><b>No Record Found</b></div>';
                 return $html;
-
-            }
-            else
-            {
+            } else {
                 $html = '<div class="cl_center"><b>No Record Found</b></div>';
                 return $html;
             }
@@ -612,34 +600,26 @@ class MovementOfDocumentModel extends Model
     public function verified_defective()
     {
         $usercode = session()->get('login')['usercode'];
-        $queryString = "SELECT *
-        FROM ld_move a
-        INNER JOIN docdetails b ON
-        (
-            a.diary_no = b.diary_no
-            AND a.diary_no > 0
-            AND b.diary_no > 0
-            AND a.doccode = b.doccode
-            AND a.doccode1 = b.doccode1
-            AND a.docnum = b.docnum
-            AND a.docyear = b.docyear
-            AND b.display = 'Y'
-            AND a.rece_by = $usercode
-            AND b.verified = 'R'
-        )
-        INNER JOIN main m ON a.diary_no = m.diary_no
-        LEFT JOIN master.docmaster c ON (
-            a.doccode = c.doccode
-            AND a.doccode1 = c.doccode1
-        )
-        ORDER BY a.disp_dt DESC";
-
-        $query = $this->db->query($queryString);
+        $query = $this->db->table('ld_move a')
+        ->select('*')
+        ->join('docdetails b', 'a.diary_no = b.diary_no 
+            AND a.diary_no > 0 
+            AND b.diary_no > 0 
+            AND a.doccode = b.doccode 
+            AND a.doccode1 = b.doccode1 
+            AND a.docnum = b.docnum 
+            AND a.docyear = b.docyear 
+            AND b.display = \'Y\' 
+            AND a.rece_by = ' . $this->db->escape($usercode) . ' 
+            AND b.verified = \'R\'', 'inner')
+        ->join('main m', 'a.diary_no = m.diary_no', 'inner')
+        ->join('master.docmaster c', 'a.doccode = c.doccode AND a.doccode1 = c.doccode1', 'left')
+        ->orderBy('a.disp_dt', 'DESC')
+        ->get();
         $html = '';
-        if ($query->getNumRows() >= 1)
-        {
+        if ($query->getNumRows() >= 1) {
             $records = $query->getResultArray();
-
+            
             $html .= '<table class="c_vertical_align tbl_border">';
             $html .= '<tr><td colspan="8" align="center">RECORDS TO BE VERIFY';
             $html .= '<span id="enable-in-print">FOR ' . get_user_details($usercode) . '</span></td></tr>';
@@ -648,8 +628,7 @@ class MovementOfDocumentModel extends Model
             $html .= '<td>Dispatch By</td><td>Dispatch Date</td><td>Defect Remarks</td><td></td></tr>';
 
             $sno = 1;
-            foreach ($records as $row)
-            {
+            foreach ($records as $row) {
                 $html .= '<tr>';
                 $html .= '<td align="center">' . $sno . '</td>';
                 $html .= '<td align="left"><span style="color:blue">' . $row['kntgrp'] . '</span>- ' . $row['docnum'] . '/' . $row['docyear'] . '</td>';
@@ -673,9 +652,7 @@ class MovementOfDocumentModel extends Model
             $html .= '<input type="radio" name="vr" value="R"/>Defective ';
             $html .= '<input type="button" value="Verify" id="btnrece" onclick="verifyFunction()" /></td></tr>';
             $html .= '</table>';
-        }
-        else
-        {
+        } else {
             $html = '<div class="nofound">SORRY!!!, NO RECORD FOUND</div>';
         }
         return $html;
@@ -698,8 +675,8 @@ class MovementOfDocumentModel extends Model
             ->where('diary_no', $diaryno)
             ->whereIn('main_supp_flag', [1, 2])
             ->groupStart()
-                ->where('bench_flag IS NULL')
-                ->orWhere('bench_flag', '')
+            ->where('bench_flag IS NULL')
+            ->orWhere('bench_flag', '')
             ->groupEnd()
             ->where('clno !=', 0)
             ->where('brd_slno !=', 0)
@@ -710,19 +687,40 @@ class MovementOfDocumentModel extends Model
         return ($builder->total ?? 0) + ($builder2->total ?? 0);
     }
 
-    public function verified_defectives($diary_no, $doccode, $doccode1, $docnum, $docyear) 
+    public function verified_defectives($diary_no, $doccode, $doccode1, $docnum, $docyear)
     {
-        $sql="SELECT fil_no FROM ld_move WHERE diary_no='$diary_no' AND doccode='$doccode' AND doccode1='$doccode1' AND docnum='$docnum' AND docyear='$docyear'";
+        $sql = "SELECT fil_no FROM ld_move WHERE diary_no='$diary_no' AND doccode='$doccode' AND doccode1='$doccode1' AND docnum='$docnum' AND docyear='$docyear'";
         $query = $this->db->query($sql);
         $result = $query->getRowArray();
         return $result;
     }
 
-    public function insertDatas($new_value0, $new_value1, $new_value2, $new_value3, $new_value4, $ucode, $new_value5, $now)
+    // public function insertDatas($new_value0, $new_value1, $new_value2, $new_value3, $new_value4, $ucode, $new_value5, $now)
 
-    {
-        $sql="INSERT INTO ld_move(diary_no,doccode,doccode1,docnum,docyear,disp_by,disp_to,disp_dt) VALUES('$new_value0','$new_value1','$new_value2','$new_value3','$new_value4','$ucode','$new_value5','$now')";
-        pr($sql);$query = $this->db->query($sql);
+    // {
+    //     $sql = "INSERT INTO ld_move(diary_no,doccode,doccode1,docnum,docyear,disp_by,disp_to,disp_dt) VALUES('$new_value0','$new_value1','$new_value2','$new_value3','$new_value4','$ucode','$new_value5','$now')";
+    //     pr($sql);
+    //     $query = $this->db->query($sql);
+    // }
 
-    }
+    public function insertDatas($new_value0, $new_value1, $new_value2, $new_value3, $new_value4, $ucode, $new_value5, $now, $fil_no = null,$remarks=null,$rece_by=null,$other=null)
+{
+    $data = [
+        'diary_no'  => $new_value0,
+        'doccode'   => $new_value1,
+        'doccode1'  => $new_value2,
+        'docnum'    => $new_value3,
+        'docyear'   => $new_value4,
+        'disp_by'   => $ucode,
+        'disp_to'   => $new_value5,
+        'disp_dt'   => $now,
+        'fil_no'    => $fil_no ?? 0,  // adding because db error accer
+        'remarks'    => $remarks ?? 0, // adding because db error accer
+        'rece_by'    => $rece_by ?? 0, // adding because db error accer
+        'other'    => $other ?? 0 // adding because db error accer
+    ];
+
+    return $this->db->table('ld_move')->insert($data);
+}
+
 }

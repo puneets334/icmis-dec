@@ -6,7 +6,7 @@
             <div class="col-12">
                 <div class="card">
 
-                <div class="card-header heading">
+                    <div class="card-header heading">
 
                         <div class="row">
                             <div class="col-sm-10">
@@ -19,7 +19,7 @@
                     </div>
 
 
-                    <div class="container-fluid">                       
+                    <div class="container-fluid">
 
                         <div class="row">
                             <div class="col-12">
@@ -61,9 +61,8 @@
                                     <button type="button" id="btnGetCases" class="btn btn-info btn-block" onclick="getReceivedCasesList();" style="margin-top: 29px;">Get Cases</button>
                                 </div>
 
-                                <div id="divDisposedCasesList" class="col-12">
-                                    <!-- Content for disposed cases will be injected here -->
-                                </div>
+                                <div id="divDisposedCasesList" class="col-12"></div>
+                                <div id="divDisposedCasesList_msg" class="col-12"></div>
                             </div>
                         </form>
 
@@ -123,7 +122,7 @@
                     type: 'POST',
                     url: "<?= base_url() ?>/Record_room/FileTrap/receiveCases",
                     beforeSend: function(xhr) {
-                        $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>../images/load.gif'></div>");
+                        $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>/images/load.gif'></div>");
                     },
                     data: {
                         orderDateFrom: fromDate,
@@ -142,8 +141,6 @@
                         "bInfo": true
                     });
 
-
-
                 })
                 .fail(function() {
                     updateCSRFToken();
@@ -152,7 +149,8 @@
         }
     }
 
-    function receiveAndAutoDispatch() {
+    async function receiveAndAutoDispatch() {
+        await updateCSRFTokenSync();
         var countChecked = $("input:checkbox[name=receivedCases]:checked").length; // count the Received checked rows
         if (countChecked == 0) {
             alert("Please select any Case to Receive and Dispatch.");
@@ -164,7 +162,9 @@
         var usercode = $('#usercode').val();
         var allCheckedRceceivedCases = [];
         var consignmentRemarks = [];
-
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+     
         /*$("input:checkbox[name=receivedCases]:checked").each(function()
         {
             allCheckedRceceivedCases.push($(this).val());
@@ -173,51 +173,42 @@
         /*$("textarea#consignmentRemarks").each (function () {
             consignmentRemarks.push($(this).val() );
         });*/
-        $('#reportTable1 td input[type="checkbox"]:checked').each(function() {
+        $('#query_builder_report td input[type="checkbox"]:checked').each(function() {
             allCheckedRceceivedCases.push($(this).val());
             var this_textarea_value = $(this).closest('tr').find('textarea.consignmentRemarks').val();
             consignmentRemarks.push(this_textarea_value);
         });
 
-        //alert(consignmentRemarks);
-
         if (countChecked > 0) {
             $.ajax({
-                    type: 'POST',
-                    url: "<?= base_url() ?>/Record_room/FileTrap/receiveAndDispatchCases",
-                    beforeSend: function(xhr) {
-                        $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>../images/load.gif'></div>");
-                    },
-                    data: {
-                        dateFrom: fromDate,
-                        dateTo: toDate,
-                        usercode: usercode,
-                        allReceivedCases: allCheckedRceceivedCases,
-                        consignmentRemarks: consignmentRemarks
-                    }
-                    //allComplianceCases:allComplianceCases
-                })
-                .done(function(result) {
-                    //$("#receiveAndDispatchStatus").html(result);
-                    //alert(result);
-                    //alert('Hello\nHow are you?');
-                    var json = JSON.stringify(result);
-                    json = $.parseJSON(json);
-                    //console.log(json);
-                    alert(json);
-
-                    /*for (var i=0;i<json.length;i++)
-                    {
-                        //$('#results').append('<div class="name">'+json[i].name+'</>');
-                        alert(json[0].name);
-                    }*/
+                type: 'POST',
+                url: "<?= base_url() ?>/Record_room/FileTrap/receiveAndDispatchCases",
+                data: {
+                    dateFrom: fromDate,
+                    dateTo: toDate,
+                    usercode: usercode,
+                    allReceivedCases: allCheckedRceceivedCases,
+                    consignmentRemarks: consignmentRemarks,
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE,
+                },
+                beforeSend: function(xhr) {
+                    $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>/images/load.gif'></div>");
+                },
+                success: function(result) {
+                    console.log(result);
+                    $("#divDisposedCasesList_msg").html(result);
+                    // var json = JSON.stringify(result);
+                    // json = $.parseJSON(json);
                     getReceivedCasesList();
-
-                })
-                .fail(function() {
+                    return true;
+                    // $("#divDisposedCasesList_msg").html(result);
+                },
+                error: function() {
                     alert("ERROR, Please Contact Server Room");
-                });
+                }
+            });
         }
+
     }
 </script>
 <?php die; ?>

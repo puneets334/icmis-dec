@@ -19,18 +19,11 @@ class FileTrap_model extends Model
 
     public function checkUserCaseTypeRole($usercode = null, $userType = null)
     {
-        $builder = $this->db->table('master.rr_da_case_distribution r')
-            ->select("STRING_AGG(DISTINCT casehead, ', ') as casehead")
-            ->join('fil_trap_users u', 'r.user_code = u.usercode')
-            ->where('u.usertype', (int)$userType)
-            ->where('r.user_code', $usercode)
-            ->where('u.display', 'Y')
-            ->where('r.display', 'Y')
-            ->where('r.casetype', 0)
-            ->groupBy('u.usertype, r.user_code');
 
+        $builder = $this->db->table('master.rr_da_case_distribution r')->select("STRING_AGG(DISTINCT casehead, ', ') as casehead")
+            ->join('public.fil_trap_users u', 'r.user_code = u.usercode')->where('u.usertype', (int)$userType)
+            ->where(['r.user_code' => $usercode, 'u.display' => 'Y', 'r.display' => 'Y', 'r.casetype' => 0])->groupBy('u.usertype, r.user_code');
         $query = $builder->get();
-
         if ($query->getNumRows() >= 1) {
             return $query->getResultArray();
         } else {
@@ -39,17 +32,24 @@ class FileTrap_model extends Model
     }
 
 
+    // sql = "select case_grp from main where diary_no=$diaryNo";
+
+
+    //     $query = $this->db->query($sql);
+
+    //     if ($query->num_rows() >= 1)
+    //         return $query->result_array();
+    //     else
+    //         return false;
 
     public function getCaseType($diaryNo)
     {
-        $builder = $this->db->table('main');
-        $builder->select('case_grp')
-            ->where('diary_no', $diaryNo);
-
+        $builder = $this->db->table('public.main');
+        $builder->select('case_grp')->where('diary_no', $diaryNo);
         $query = $builder->get();
 
         if ($query->getNumRows() >= 1) {
-            return $query->getResultArray();
+            return $query->getRowArray();
         } else {
             return false;
         }
@@ -139,102 +139,88 @@ class FileTrap_model extends Model
         }
 
         if ($userType == 110) { // RecordRoom DA
-            $sql = "SELECT DISTINCT x.* FROM (
-                    SELECT 
-                        m.diary_no,
-                        COALESCE((SELECT STRING_AGG(jname, ', ') FROM master.judge WHERE POSITION(d.jud_id::text IN jcode::text) > 0), '') AS coram,
-                        CONCAT(m.reg_no_display, ' @ ', CONCAT(SUBSTR(m.diary_no, 1, LENGTH(m.diary_no) - 4), '/', SUBSTR(m.diary_no, -4))) AS case_no,
-                        m.active_fil_dt, 
-                        m.active_reg_year, 
-                        m.active_fil_no,
-                        CASE 
-                            WHEN (m.fil_no IS NULL OR m.fil_no = '') AND (m.active_fil_no IS NULL OR m.active_fil_no = '') THEN m.casetype_id 
-                            ELSE m.active_casetype_id 
-                        END AS casetype_id,
-                        CASE 
-                            WHEN (m.fil_no IS NULL OR m.fil_no = '') AND (m.active_fil_no IS NULL OR m.active_fil_no = '' OR active_reg_year = 0) THEN YEAR(m.diary_no_rec_date) 
-                            ELSE m.active_reg_year 
-                        END AS case_year,
-                        CONCAT(m.pet_name, ' Vs. ', m.res_name) AS Cause_title,
-                        DATE_FORMAT(d.ord_dt, '%d-%m-%Y') AS order_date,
-                        'SupAdmin' AS dispathBy,
-                        d.ord_dt AS dispatchDate,
-                        'Disposal -> RR-DA' AS remarks,
-                        '' AS consignment_remark       
-                    FROM 
-                        dispose d 
-                    INNER JOIN 
-                        main m ON d.diary_no = m.diary_no
-                    WHERE 
-                        d.diary_no NOT IN (
-                            SELECT r.diary_no 
-                            FROM record_keeping r 
-                            INNER JOIN main m1 ON r.diary_no = m1.diary_no 
-                            WHERE consignment_status = 'Y' AND display = 'Y' AND m1.c_status = 'D'
-                        )   
-                        AND d.diary_no NOT IN (
-                            SELECT f.diary_no 
-                            FROM fil_trap f 
-                            WHERE (d_by_empid = (SELECT empid FROM master.users WHERE usercode = :usercode:) OR remarks = 'RR-DA -> SEG-DA')
-                        )    
-                        AND ord_dt BETWEEN :fromDate: AND :toDate:
-                        AND m.c_status = 'D'
-                        
-                    UNION
-                    
-                    SELECT 
-                        m.diary_no,
-                        COALESCE((SELECT STRING_AGG(jname, ', ') FROM master.judge WHERE POSITION(d.jud_id::text IN jcode::text) > 0), '') AS coram,
-                        CONCAT(m.reg_no_display, ' @ ', CONCAT(SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4), '/', SUBSTR(m.diary_no::text, -4))) AS case_no,          
-                        m.active_fil_dt, 
-                        m.active_reg_year, 
-                        m.active_fil_no,
-                        CASE 
-                            WHEN (m.fil_no IS NULL OR m.fil_no = '') AND (m.active_fil_no IS NULL OR m.active_fil_no = '') THEN m.casetype_id 
-                            ELSE m.active_casetype_id 
-                        END AS casetype_id,
-                        CASE 
-                            WHEN (m.fil_no IS NULL OR m.fil_no = '') AND (m.active_fil_no IS NULL OR m.active_fil_no = '' OR active_reg_year = 0) THEN YEAR(m.diary_no_rec_date) 
-                            ELSE m.active_reg_year 
-                        END AS case_year,
-                        CONCAT(m.pet_name, ' Vs. ', m.res_name) AS Cause_title,                              
-                        DATE_FORMAT(d.ord_dt, '%d-%m-%Y') AS order_date,
-                        'SupAdmin' AS dispathBy,
-                        d.ord_dt AS dispatchDate,
-                        'Disposal -> RR-DA' AS remarks,
-                        f.consignment_remark     
-                    FROM 
-                        fil_trap f 
-                    INNER JOIN 
-                        main m ON f.diary_no = m.diary_no
-                    INNER JOIN 
-                        dispose d ON f.diary_no = d.diary_no
-                    WHERE
-                        d.diary_no NOT IN (
-                            SELECT f.diary_no 
-                            FROM fil_trap f 
-                            WHERE (d_by_empid = (SELECT empid FROM master.users WHERE usercode = :usercode:) OR remarks = 'RR-DA -> SEG-DA')
-                        )    
-                        AND remarks = 'Disposal -> RRDA'
-                        AND ord_dt BETWEEN :fromDate: AND :toDate:
-                        AND m.c_status = 'D'
-                ) x
-                JOIN rr_hall_case_distribution hd ON (
-                    (CASE WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) THEN SUBSTR(x.diary_no, -4) ELSE x.case_year END) BETWEEN hd.caseyear_from AND hd.caseyear_to
-                    AND hd.display = 'Y'
-                    AND (
-                        (CASE WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) THEN CAST(SUBSTR(x.diary_no, 1, LENGTH(x.diary_no) - 4) AS INTEGER) ELSE CAST(SUBSTRING(x.active_fil_no, 4, 6) AS INTEGER) END) BETWEEN hd.case_from AND hd.case_to
-                        OR 
-                        (CASE WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) THEN CAST(SUBSTR(x.diary_no, 1, LENGTH(x.diary_no) - 4) AS INTEGER) ELSE CAST(SUBSTRING(x.active_fil_no, 11, 6) AS INTEGER) END) BETWEEN hd.case_from AND hd.case_to
-                    )
-                    AND x.casetype_id = hd.casetype
-                    AND hd.hall_no IN (
-                        SELECT ref_hall_no FROM rr_user_hall_mapping WHERE usercode = :usercode: AND display = 'Y'
-                        AND (to_date = '' OR DATE(to_date) = '0000-00-00' OR to_date IS NULL)
-                    )
-                )";
+
+            $db = \Config\Database::connect();
+
+            $subquery1 = $db->table('dispose d')->select('m.diary_no,COALESCE((SELECT STRING_AGG(jname, \', \') 
+            FROM master.judge WHERE POSITION(d.jud_id::text IN jcode::text) > 0), \'\') AS coram,CONCAT(m.reg_no_display, \' @ \', 
+            CONCAT(SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4), \'/\', SUBSTR(m.diary_no::text, -4))) AS case_no,
+        m.active_fil_dt, m.active_reg_year, m.active_fil_no,CASE WHEN (m.fil_no IS NULL OR m.fil_no = \'\') 
+                AND (m.active_fil_no IS NULL OR m.active_fil_no = \'\') THEN m.casetype_id ELSE m.active_casetype_id 
+        END AS casetype_id, CASE WHEN (m.fil_no IS NULL OR m.fil_no = \'\') AND (m.active_fil_no IS NULL OR m.active_fil_no = \'\' OR m.active_reg_year = 0) 
+            THEN EXTRACT(YEAR FROM m.diary_no_rec_date) ELSE m.active_reg_year END AS case_year,CONCAT(m.pet_name, \' Vs. \', m.res_name) AS Cause_title,
+        TO_CHAR(d.ord_dt, \'DD-MM-YYYY\') AS order_date,\'SupAdmin\' AS dispathBy,d.ord_dt AS dispatchDate,\'Disposal -> RR-DA\' AS remarks,
+        \'\' AS consignment_remark')
+                ->join('main m', 'd.diary_no = m.diary_no')
+                ->whereNotIn('d.diary_no', function ($builder) use ($usercode) {
+                    $builder->select('r.diary_no')->from('record_keeping r')->join('main m1', 'r.diary_no = m1.diary_no')
+                        ->where('consignment_status', 'Y')->where('display', 'Y')->where('m1.c_status', 'D');
+                })
+                ->whereNotIn('d.diary_no', function ($builder) use ($usercode) {
+                    $builder->select('f.diary_no')
+                        ->from('fil_trap f')
+                        ->where('d_by_empid', function ($subBuilder) use ($usercode) {
+                            $subBuilder->select('empid')
+                                ->from('master.users')
+                                ->where('usercode', $usercode);
+                        })
+                        ->orWhere('remarks', 'RR-DA -> SEG-DA');
+                })
+                ->where('d.ord_dt >=', $fromDate)
+                ->where('d.ord_dt <=', $toDate)
+                ->where('m.c_status', 'D');
+
+            $subquery2 = $db->table('fil_trap f')->select('m.diary_no, COALESCE((SELECT STRING_AGG(jname, \', \') 
+            FROM master.judge 
+            WHERE POSITION(d.jud_id::text IN jcode::text) > 0), \'\') AS coram,
+        CONCAT(m.reg_no_display, \' @ \', 
+            CONCAT(SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4), \'/\', 
+            SUBSTR(m.diary_no::text, -4))) AS case_no,          
+        m.active_fil_dt, 
+        m.active_reg_year, 
+        m.active_fil_no,
+        CASE 
+            WHEN (m.fil_no IS NULL OR m.fil_no = \'\') 
+                AND (m.active_fil_no IS NULL OR m.active_fil_no = \'\') THEN m.casetype_id 
+            ELSE m.active_casetype_id 
+        END AS casetype_id,
+        CASE 
+            WHEN (m.fil_no IS NULL OR m.fil_no = \'\') 
+                AND (m.active_fil_no IS NULL OR m.active_fil_no = \'\' OR m.active_reg_year = 0) 
+            THEN EXTRACT(YEAR FROM m.diary_no_rec_date) 
+            ELSE m.active_reg_year 
+        END AS case_year,
+        CONCAT(m.pet_name, \' Vs. \', m.res_name) AS Cause_title,                              
+        TO_CHAR(d.ord_dt, \'DD-MM-YYYY\') AS order_date,
+        \'SupAdmin\' AS dispathBy,
+        d.ord_dt AS dispatchDate,
+        \'Disposal -> RR-DA\' AS remarks,
+        f.consignment_remark')
+                ->join('main m', 'f.diary_no = m.diary_no')
+                ->join('dispose d', 'f.diary_no = d.diary_no')
+                ->join('master.rr_hall_case_distribution hd', 'm.casetype_id = hd.casetype')
+                ->whereNotIn('d.diary_no', function ($builder) use ($usercode) {
+                    $builder->select('f.diary_no')
+                        ->from('fil_trap f')
+                        ->where('d_by_empid', function ($subBuilder) use ($usercode) {
+                            $subBuilder->select('empid')
+                                ->from('master.users')
+                                ->where('usercode', $usercode);
+                        })
+                        ->orWhere('remarks', 'RR-DA -> SEG-DA');
+                })
+                ->where('remarks', 'Disposal -> RRDA')
+                ->where('d.ord_dt >=', $fromDate)
+                ->where('d.ord_dt <=', $toDate)
+                ->where('m.c_status', 'D');
+
+            // Get the SQL strings for both subqueries
+            $sql1 = $subquery1->getCompiledSelect();
+            $sql2 = $subquery2->getCompiledSelect();
+
+            $query = $db->query($sql1 . ' UNION ' . $sql2);
+            return $query->getResultArray();
         } else {
-            // Query for all dispatched cases with hall case allocation mapping with role
             $sql = "
             SELECT DISTINCT x.*
             FROM (
@@ -285,7 +271,7 @@ class FileTrap_model extends Model
                     a.d_to_empid = (SELECT empid FROM master.users WHERE usercode = $usercode)
                     AND a.d_to_empid IN (SELECT empid FROM master.users WHERE usertype = '$userType')
                     AND comp_dt IS NULL
-                    AND a.disp_dt BETWEEN '".$fromDate."' AND '".$toDate."'
+                    AND a.disp_dt BETWEEN '" . $fromDate . "' AND '" . $toDate . "'
                     AND b.c_status = 'D'
                 ORDER BY a.d_by_empid, a.disp_dt
             ) x
@@ -338,53 +324,81 @@ class FileTrap_model extends Model
         }
 
 
-
         if ($userType == 110) //RecordRoom DA
         {
-            $sql = "select distinct x.* from (
-            SELECT a.uid,a.diary_no,
-            ifnull((select group_concat(jname separator ' , ') from judge where find_in_set(jcode,d.jud_id)),'') as coram,
-            concat(b.reg_no_display,' @ ',concat(SUBSTR(a.diary_no, 1, LENGTH(a.diary_no) - 4),'/',SUBSTR(a.diary_no, - 4))) as case_no,          
-          concat(b.pet_name,' Vs. ',b.res_name) as Cause_title,
-          DATE_FORMAT(d.ord_dt, '%d-%m-%Y') as order_date,
-            a.d_by_empid,a.d_to_empid,DATE_FORMAT(a.disp_dt, '%d-%m-%Y') as dispatchDate,
-            a.remarks,e.name as dispathBy,b.pet_name,b.res_name,a.rece_dt,
-            b.active_fil_dt,b.active_reg_year,b.active_fil_no,
-                        case when ((b.fil_no is null or b.fil_no ='') and (b.active_fil_no is null or b.active_fil_no ='')) 
-                            then b.casetype_id else b.active_casetype_id end as casetype_id ,
-                        case when ((b.fil_no is null or b.fil_no ='') and (b.active_fil_no is null or b.active_fil_no ='' or active_reg_year=0)) 
-                            then year(b.diary_no_rec_date) else b.active_reg_year end as case_year,
-            a.consignment_remark
-            FROM fil_trap a 
-            LEFT JOIN main b ON a.diary_no = b.diary_no
-            LEFT JOIN users e ON e.empid = a.d_by_empid
-            left join dispose d on d.diary_no=a.diary_no
-            WHERE d_to_empid = (SELECT empid FROM users where usercode=$usercode) 
-            and d_to_empid in (SELECT empid FROM users WHERE usertype=$userType)
-            and remarks='SCA -> RR-DA'
-            AND comp_dt='0000-00-00 00:00:00'
-            $condition
-            and date(a.disp_dt) between '" . $fromDate . "' and '" . $toDate . "'
-            and b.c_status='D'
-            ORDER BY d_by_empid, a.disp_dt
-            )x
-                     join rr_hall_case_distribution hd 
-                    on
-                    (
-                    if((x.active_fil_no='' or x.active_fil_no is null),SUBSTR(x.diary_no, - 4),x.case_year) between hd.caseyear_from and hd.caseyear_to
-                        AND hd.display='Y'
-                        and (
-                                if((x.active_fil_no='' or x.active_fil_no is null),(cast(SUBSTR(x.diary_no, 1, LENGTH(x.diary_no) - 4) as unsigned)),cast(substring(x.active_fil_no,4,6) as unsigned)) between hd.case_from and hd.case_to
-                                    or
-                                if((x.active_fil_no='' or x.active_fil_no is null),(cast(SUBSTR(x.diary_no, 1, LENGTH(x.diary_no) - 4) as unsigned)),cast(substring(x.active_fil_no,11,6) as unsigned)) between hd.case_from and hd.case_to
+            $sql = "SELECT DISTINCT x.*
+                        FROM (
+                        SELECT 
+                            a.uid,
+                            a.diary_no,
+                            COALESCE(
+                            (SELECT STRING_AGG(j.jname, ' , ')
+                            FROM master.judge j
+                            WHERE j.jcode::text = ANY(string_to_array(d.jud_id, ','))),
+                            ''
+                            ) AS coram,
+                            CONCAT(b.reg_no_display, ' @ ', 
+                                CONCAT(LEFT(a.diary_no::text, LENGTH(a.diary_no::text) - 4), '/', RIGHT(a.diary_no::text, 4))
+                            ) AS case_no,CONCAT(b.pet_name, ' Vs. ', b.res_name) AS Cause_title,
+                            to_char(d.ord_dt, 'DD-MM-YYYY') AS order_date,
+                            a.d_by_empid,a.d_to_empid,to_char(a.disp_dt, 'DD-MM-YYYY') AS dispatchDate,
+                            a.remarks,e.name AS dispathBy,b.pet_name,b.res_name,a.rece_dt,
+                            b.active_fil_dt,b.active_reg_year,b.active_fil_no,
+                            CASE WHEN ((b.fil_no IS NULL OR b.fil_no = '')
+                                    AND (b.active_fil_no IS NULL OR b.active_fil_no = ''))
+                            THEN b.casetype_id 
+                            ELSE b.active_casetype_id 
+                            END AS casetype_id,
+                            CASE 
+                            WHEN ((b.fil_no IS NULL OR b.fil_no = '')
+                                    AND (b.active_fil_no IS NULL OR b.active_fil_no = '' OR b.active_reg_year = 0))
+                            THEN EXTRACT(YEAR FROM b.diary_no_rec_date)::int
+                            ELSE b.active_reg_year
+                            END AS case_year,
+                            a.consignment_remark
+                        FROM fil_trap a
+                        LEFT JOIN main b ON a.diary_no = b.diary_no
+                        LEFT JOIN master.users e ON e.empid = a.d_by_empid
+                        LEFT JOIN dispose d ON d.diary_no = a.diary_no
+                        WHERE a.d_to_empid = (SELECT empid FROM master.users WHERE usercode = $usercode)
+                            AND a.d_to_empid IN (SELECT empid FROM master.users WHERE usertype = $userType)
+                            AND a.remarks = 'SCA -> RR-DA'
+                            AND a.comp_dt is null
+                            $condition
+                            AND a.disp_dt::date BETWEEN '$fromDate' AND '$toDate'
+                            AND b.c_status = 'D'
+                        ORDER BY a.d_by_empid, a.disp_dt
+                        ) x
+                        JOIN master.rr_hall_case_distribution hd
+                        ON (
+                            CASE 
+                            WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL)
+                            THEN CAST(RIGHT(x.diary_no::text, 4) AS INTEGER)
+                            ELSE x.case_year
+                            END BETWEEN hd.caseyear_from AND hd.caseyear_to
+                            AND hd.display = 'Y'
+                            AND (
+                            CASE 
+                                WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL)
+                                THEN CAST(LEFT(x.diary_no::text, LENGTH(x.diary_no::text) - 4) AS INTEGER)
+                                ELSE CAST(SUBSTRING(x.active_fil_no FROM 4 FOR 6) AS INTEGER)
+                            END BETWEEN hd.case_from AND hd.case_to
+                            OR
+                            CASE 
+                                WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL)
+                                THEN CAST(LEFT(x.diary_no::text, LENGTH(x.diary_no::text) - 4) AS INTEGER)
+                                ELSE CAST(SUBSTRING(x.active_fil_no FROM 11 FOR 6) AS INTEGER)
+                            END BETWEEN hd.case_from AND hd.case_to
                             )
-                        
-                        and x.casetype_id=hd.casetype
-                        and hd.hall_no in (SELECT ref_hall_no FROM rr_user_hall_mapping where usercode=$usercode and display='Y'
-                        AND (to_date='' OR date(to_date)='0000-00-00' OR to_date is null)
-                        )
-                    )
-            ";
+                            AND x.casetype_id = hd.casetype
+                            AND hd.hall_no::text IN (
+                                SELECT ref_hall_no 
+                                FROM master.rr_user_hall_mapping 
+                                WHERE usercode = $usercode 
+                                AND display = 'Y'
+                                AND (to_date::text = '' OR to_date IS NULL)
+                            )
+                        )";
         }
 
         $query = $this->db->query($sql);
@@ -410,31 +424,25 @@ class FileTrap_model extends Model
 
     public function get_all_users($userType, $caseGroup = null, $hallNo = null)
     {
-        $builder = $this->db->table('fil_trap_users a');
-        $builder->select('a.usercode, b.name, empid')
-            ->join('users b', 'a.usercode = b.usercode')
+        $query = $this->db->table('fil_trap_users a')
+            ->select('a.usercode, b.name, empid')
+            ->join('master.users b', 'a.usercode = b.usercode')
             ->join('master.rr_da_case_distribution cd', 'a.usercode = cd.user_code')
             ->join('master.rr_user_hall_mapping m', 'a.usercode = m.usercode')
             ->where('a.usertype', $userType)
             ->where('a.display', 'Y')
             ->where('b.display', 'Y')
             ->where('m.display', 'Y')
-            ->where('attend', 'P');
-
-        if ($hallNo !== null) {
-            $builder->where('m.ref_hall_no', $hallNo);
-        }
+            ->where('attend', 'P')
+            ->where('m.ref_hall_no', $hallNo);
 
         if ($caseGroup !== null) {
-            $builder->where('caseHead', $caseGroup);
+            $query->where('cd.casehead', $caseGroup);
         }
-
-        $builder->orderBy('empid');
-
-        $query = $builder->get();
-
-        if ($query->getNumRows() > 0) {
-            return $query->getResultArray();
+        $query->orderBy('empid');
+        $results = $query->get();
+        if ($results->getNumRows() >= 1) {
+            return $results->getResultArray();
         } else {
             return 0;
         }
@@ -445,7 +453,7 @@ class FileTrap_model extends Model
     {
         $builder = $this->db->table('fil_trap_users a');
         $builder->select('a.usercode as to_usercode, b.name as to_name, empid as to_userno, ddate, c.no as curno')
-            ->join('users b', 'a.usercode = b.usercode')
+            ->join('master.users b', 'a.usercode = b.usercode')
             ->join('fil_trap_seq c', 'c.no < empid', 'left')
             ->join('master.rr_da_case_distribution cd', 'b.usercode = cd.user_code', 'left')
             ->join('master.rr_user_hall_mapping m', 'a.usercode = m.usercode')
@@ -459,7 +467,7 @@ class FileTrap_model extends Model
             ->where('ddate', date('Y-m-d')); // Use the current date
 
         if ($caseGroup !== null) {
-            $builder->where('caseHead', $caseGroup);
+            $builder->where('casehead', $caseGroup);
         }
 
         $builder->orderBy('to_userno');
@@ -516,6 +524,7 @@ class FileTrap_model extends Model
 
     public function updateCaseFileTrap($case_count_file_trap = null, $case_diary = null, $dispatchFromEmpID = null, $dispatchToEmpID = null, $remarks = null, $hallNo = null, $consignmentRemarks = null)
     {
+
         $builder = $this->db->table('fil_trap_his');
 
         if ($case_count_file_trap <= 0) {
@@ -561,9 +570,8 @@ class FileTrap_model extends Model
         } else {
             $builder = $this->db->table('fil_trap_his');
 
-            $sql = $builder->select('diary_no, d_by_empid, d_to_empid, disp_dt, remarks, r_by_empid, rece_dt, comp_dt, disp_dt_seq, NOW() as thisdt, other, scr_lower, consignment_remark')
-                ->where('diary_no', $case_diary)
-                ->get();
+            $sql = $builder->select('diary_no, d_by_empid, d_to_empid, disp_dt, remarks, r_by_empid, rece_dt, comp_dt, 
+            disp_dt_seq, NOW() as thisdt, other, scr_lower, consignment_remark')->where('diary_no', $case_diary)->get();
 
             if ($sql->getNumRows() > 0) {
                 $result = $sql->getRowArray();
@@ -576,7 +584,7 @@ class FileTrap_model extends Model
                     'remarks' => $result['remarks'],
                     'r_by_empid' => $result['r_by_empid'],
                     'rece_dt' => $result['rece_dt'],
-                    'comp_dt' => '0000-00-00 00:00:00',
+                    'comp_dt' => NULL,
                     'disp_dt_seq' => '0000-00-00 00:00:00',
                     'other' => $hallNo,
                     'scr_lower' => 0,
@@ -584,6 +592,7 @@ class FileTrap_model extends Model
                 ];
 
                 $builder->insert($data);
+
 
                 $builder = $this->db->table('fil_trap');
                 $data = [
@@ -593,15 +602,15 @@ class FileTrap_model extends Model
                     'remarks' => $remarks,
                     'r_by_empid' => $dispatchToEmpID,
                     'rece_dt' => date('Y-m-d H:i:s'),
-                    'comp_dt' => '0000-00-00 00:00:00',
-                    'disp_dt_seq' => '0000-00-00 00:00:00',
+                    "comp_dt" => NULL,
+                    "disp_dt_seq" => NULL,
                     'other' => $hallNo,
                     'scr_lower' => 0,
                     'consignment_remark' => $consignmentRemarks
                 ];
 
-                $builder->where('diary_no', $case_diary)
-                    ->update($data);
+                $builder->where('diary_no', $case_diary)->update($data);
+                return true;
             } else {
                 return "Error while updating file trap history from file trap";
             }
@@ -617,13 +626,10 @@ class FileTrap_model extends Model
         $orderBy = "";
         $condition2 = "";
         if ($empId == 1) {
-            $condition="1=1 and (remarks='Disposal -> RRDA' or remarks='RR-DA -> SEG-DA' or remarks='SEG-DA -> SCA' or remarks='SCA -> RR-DA' or remarks='REC-DA -> Rack')";
-            $condition2="1=1";
-            $orderBy="d_by_empid,d_to_empid,dispatchDate";
-
-        }
-        else
-        {
+            $condition = "1=1 and (remarks='Disposal -> RRDA' or remarks='RR-DA -> SEG-DA' or remarks='SEG-DA -> SCA' or remarks='SCA -> RR-DA' or remarks='REC-DA -> Rack')";
+            $condition2 = "1=1";
+            $orderBy = "d_by_empid,d_to_empid,dispatchDate";
+        } else {
             if ($reportType == 1) // 1 for Receive Report
             {
                 $condition = "d_to_empid = $empId ";
@@ -636,8 +642,7 @@ class FileTrap_model extends Model
                 $condition2 = "d_by_empid in (SELECT empid FROM master.users WHERE usertype=$userType)";
             }
         }
-        $sql = "
-        SELECT * FROM
+        $sql = "SELECT * FROM
         (
             SELECT a.uid, a.diary_no,
             COALESCE((SELECT string_agg(jname, ', ') FROM master.judge WHERE jcode::text = ANY(string_to_array(d.jud_id, ','))), '') AS coram,
@@ -660,7 +665,7 @@ class FileTrap_model extends Model
             WHERE $condition 
             AND $condition2 
             AND comp_dt IS NULL
-            AND date(a.disp_dt) BETWEEN '".$fromDate."' AND '".$toDate."'
+            AND date(a.disp_dt) BETWEEN '" . $fromDate . "' AND '" . $toDate . "'
     
             UNION
     
@@ -684,10 +689,10 @@ class FileTrap_model extends Model
             WHERE $condition 
             AND $condition2 
             AND comp_dt IS NULL
-            AND date(a.disp_dt) BETWEEN '".$fromDate."' AND '".$toDate."'
+            AND date(a.disp_dt) BETWEEN '" . $fromDate . "' AND '" . $toDate . "'
         ) x            
         ORDER BY $orderBy";
-    
+
 
         $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1) {
@@ -700,45 +705,75 @@ class FileTrap_model extends Model
 
     public function getCaseTimeLineReport($case_diary)
     {
-        // Create the subquery for fil_trap
-        $subquery1 = $this->db->table('fil_trap')
-            ->select('uid, diary_no, d_by_empid, d_to_empid, disp_dt, remarks, r_by_empid, rece_dt, comp_dt, disp_dt_seq, NOW() AS thisdt, other, scr_lower, consignment_remark')
-            ->where('diary_no', $case_diary)
-            ->getCompiledSelect();
+        // Load the database connection
+        $db = \Config\Database::connect();
 
-        // Create the subquery for fil_trap_his
-        $subquery2 = $this->db->table('fil_trap_his')
-            ->select('uid, diary_no, d_by_empid, d_to_empid, disp_dt, remarks, r_by_empid, rece_dt, comp_dt, disp_dt_seq, NOW() AS thisdt, other, scr_lower, consignment_remark')
-            ->where('diary_no', $case_diary)
-            ->getCompiledSelect();
+        // Create the subquery for the UNION
+        $subquery1 = $db->table('fil_trap')
+            ->select('uid, diary_no, d_by_empid, d_to_empid, 
+                      CAST(disp_dt AS timestamp without time zone) AS disp_dt, 
+                      remarks, r_by_empid, 
+                      (CURRENT_DATE + (rece_dt::time))::timestamp with time zone AS rece_dt,
+                      (CURRENT_DATE + (comp_dt::time))::timestamp with time zone AS comp_dt,
+                      disp_dt_seq, NOW() AS thisdt, other, scr_lower, consignment_remark')
+            ->where('diary_no', $case_diary);
 
-        // Combine the subqueries using UNION
-        $combinedQuery = "($subquery1 UNION $subquery2) a";
+        $subquery2 = $db->table('fil_trap_his')
+            ->select('uid, diary_no, d_by_empid, d_to_empid, 
+                      CAST(disp_dt AS timestamp without time zone) AS disp_dt, 
+                      remarks, r_by_empid, 
+                      (CURRENT_DATE + (rece_dt::time))::timestamp with time zone AS rece_dt,
+                      (CURRENT_DATE + (comp_dt::time))::timestamp with time zone AS comp_dt,
+                      disp_dt_seq, NOW() AS thisdt, other, scr_lower, consignment_remark')
+            ->where('diary_no', $case_diary);
+
+        $subquery = $subquery1->getCompiledSelect() . ' UNION ' . $subquery2->getCompiledSelect();
 
         // Main query
-        $query = $this->db->table($combinedQuery)
-            ->select('a.uid, a.diary_no,
-            IFNULL((SELECT GROUP_CONCAT(jname SEPARATOR " , ") FROM judge WHERE FIND_IN_SET(jcode, d.jud_id)), "") AS coram,
-            CONCAT(b.reg_no_display, " @ ", CONCAT(SUBSTR(a.diary_no, 1, LENGTH(a.diary_no) - 4), "/", SUBSTR(a.diary_no, -4))) AS case_no,
-            CONCAT(b.pet_name, " Vs. ", b.res_name) AS Cause_title,
-            DATE_FORMAT(d.ord_dt, "%d-%m-%Y") AS order_date,
-            a.d_by_empid, a.d_to_empid, DATE_FORMAT(a.disp_dt, "%d-%m-%Y") AS dispatchDate,
-            a.remarks, e.name AS dispathBy, e1.name AS dispathTo,
-            b.pet_name, b.res_name, a.rece_dt,
-            u1.type_name AS roleBy, u2.type_name AS roleTo,
-            rr.Description AS hall_location, rr.hall_no AS hall_no,
-            a.consignment_remark')
-            ->join('main b', 'a.diary_no = b.diary_no', 'left')
-            ->join('users e', 'e.empid = a.d_by_empid', 'left')
-            ->join('usertype u1', 'e.usertype = u1.id', 'left')
-            ->join('users e1', 'e1.empid = a.d_to_empid', 'left')
-            ->join('usertype u2', 'e1.usertype = u2.id', 'left')
-            ->join('dispose d', 'd.diary_no = a.diary_no', 'left')
-            ->join('ref_rr_hall rr', 'a.other = rr.hall_no AND (a.other IN (SELECT hall_no FROM ref_rr_hall))', 'left')
-            ->orderBy('thisdt', 'desc');
+        $builder = $db->table("($subquery) AS a");
+
+        $builder->select([
+            'a.uid',
+            'a.diary_no',
+            'COALESCE((SELECT STRING_AGG(jname, \', \') 
+                FROM master.judge 
+                WHERE d.jud_id LIKE \'%\' || jcode || \'%\'
+            ), \'\') AS coram',
+            "CONCAT(b.reg_no_display, ' @ ', 
+                CONCAT(
+                    SUBSTRING(CAST(a.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(a.diary_no AS TEXT)) - 4), 
+                    '/', 
+                    SUBSTRING(CAST(a.diary_no AS TEXT) FROM LENGTH(CAST(a.diary_no AS TEXT)) - 3 FOR 4)
+                )
+            ) AS case_no",
+            "CONCAT(b.pet_name, ' Vs. ', b.res_name) AS Cause_title",
+            "TO_CHAR(d.ord_dt, 'DD-MM-YYYY') AS order_date",
+            'a.d_by_empid',
+            'a.d_to_empid',
+            "TO_CHAR(a.disp_dt, 'DD-MM-YYYY') AS dispatchDate",
+            'a.remarks',
+            'e.name AS dispathBy',
+            'e1.name AS dispathTo',
+            'b.pet_name',
+            'b.res_name',
+            'a.rece_dt',
+            'u1.type_name AS roleBy',
+            'u2.type_name AS roleTo',
+            'rr.description AS hall_location',
+            'rr.hall_no AS hall_no',
+            'a.consignment_remark'
+        ])
+            ->join('main b', 'a.diary_no = b.diary_no', 'LEFT')
+            ->join('master.users e', 'e.empid = a.d_by_empid', 'LEFT')
+            ->join('master.usertype u1', 'e.usertype = u1.id', 'LEFT')
+            ->join('master.users e1', 'e1.empid = a.d_to_empid', 'LEFT')
+            ->join('master.usertype u2', 'e1.usertype = u2.id', 'LEFT')
+            ->join('dispose d', 'd.diary_no = a.diary_no', 'LEFT')
+            ->join('master.ref_rr_hall rr', 'a.other = rr.hall_no AND (a.other IN (SELECT hall_no FROM master.ref_rr_hall))', 'LEFT')
+            ->orderBy('thisdt', 'DESC');
 
         // Execute the query
-        $queryResult = $query->get();
+        $queryResult = $builder->get();
 
         if ($queryResult->getNumRows() >= 1) {
             return $queryResult->getResultArray();
@@ -747,51 +782,182 @@ class FileTrap_model extends Model
         }
     }
 
-
     public function getCaseDestinationHallNo($diaryNo = null)
     {
-        // Build the first part of the query using a subquery
-        $subquery = $this->db->table('dispose d')
-            ->select('
-            d.diary_no,   
-            b.active_fil_dt,
-            b.active_reg_year,
-            b.active_fil_no,
-            CASE 
-                WHEN (b.fil_no IS NULL OR b.fil_no = "" AND (b.active_fil_no IS NULL OR b.active_fil_no = "")) 
-                THEN b.casetype_id 
-                ELSE b.active_casetype_id 
-            END AS casetype_id,
-            CASE 
-                WHEN (b.fil_no IS NULL OR b.fil_no = "" AND (b.active_fil_no IS NULL OR b.active_fil_no = "" OR b.active_reg_year = 0)) 
-                THEN YEAR(b.diary_no_rec_date) 
-                ELSE b.active_reg_year 
-            END AS case_year')
+
+        $sql1 = "SELECT 
+  * 
+FROM 
+  (
+    SELECT 
+      d.diary_no, 
+      b.active_fil_dt, 
+      b.active_reg_year, 
+      b.active_fil_no, 
+      CASE 
+        WHEN (b.fil_no IS NULL OR b.fil_no = '') 
+             AND (b.active_fil_no IS NULL OR b.active_fil_no = '') 
+        THEN b.casetype_id 
+        ELSE b.active_casetype_id 
+      END AS casetype_id, 
+      CASE 
+        WHEN (b.fil_no IS NULL OR b.fil_no = '') 
+             AND (b.active_fil_no IS NULL OR b.active_fil_no = '' OR active_reg_year = 0) 
+        THEN EXTRACT(YEAR FROM b.diary_no_rec_date) 
+        ELSE b.active_reg_year 
+      END AS case_year 
+    FROM 
+      dispose d 
+      INNER JOIN main b ON d.diary_no = b.diary_no 
+      AND b.diary_no = $diaryNo 
+      AND b.c_status = 'D'
+  ) x 
+  JOIN master.rr_hall_case_distribution hd ON (
+    CASE 
+      WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+      THEN SUBSTRING(CAST(x.diary_no AS TEXT) FROM LENGTH(CAST(x.diary_no AS TEXT)) - 3 FOR 4)::INTEGER 
+      ELSE x.case_year 
+    END BETWEEN hd.caseyear_from AND hd.caseyear_to 
+    AND hd.display = 'Y' 
+    AND (
+      CASE 
+        WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+        THEN CAST(SUBSTRING(CAST(x.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(x.diary_no AS TEXT)) - 4) AS INTEGER) 
+        ELSE CAST(SUBSTRING(x.active_fil_no FROM 4 FOR 6) AS INTEGER) 
+      END BETWEEN hd.case_from AND hd.case_to 
+      OR 
+      CASE 
+        WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+        THEN CAST(SUBSTRING(CAST(x.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(x.diary_no AS TEXT)) - 4) AS INTEGER) 
+        ELSE CAST(SUBSTRING(x.active_fil_no FROM 11 FOR 6) AS INTEGER) 
+      END BETWEEN hd.case_from AND hd.case_to
+    ) 
+    AND x.casetype_id = hd.casetype
+  )
+
+UNION ALL
+
+SELECT 
+  * 
+FROM 
+  (
+    SELECT 
+      d.diary_no, 
+      b.active_fil_dt, 
+      b.active_reg_year, 
+      b.active_fil_no, 
+      CASE 
+        WHEN (b.fil_no IS NULL OR b.fil_no = '') 
+             AND (b.active_fil_no IS NULL OR b.active_fil_no = '') 
+        THEN b.casetype_id 
+        ELSE b.active_casetype_id 
+      END AS casetype_id, 
+      CASE 
+        WHEN (b.fil_no IS NULL OR b.fil_no = '') 
+             AND (b.active_fil_no IS NULL OR b.active_fil_no = '' OR active_reg_year = 0) 
+        THEN EXTRACT(YEAR FROM b.diary_no_rec_date) 
+        ELSE b.active_reg_year 
+      END AS case_year 
+    FROM 
+      dispose d 
+      INNER JOIN main b ON d.diary_no = b.diary_no 
+      AND b.diary_no = $diaryNo 
+      AND b.c_status = 'D'
+  ) x 
+  JOIN master.rr_hall_case_distribution hd ON (
+    CASE 
+      WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+      THEN SUBSTRING(CAST(x.diary_no AS TEXT) FROM LENGTH(CAST(x.diary_no AS TEXT)) - 3 FOR 4)::INTEGER 
+      ELSE x.case_year 
+    END BETWEEN hd.caseyear_from AND hd.caseyear_to 
+    AND hd.display = 'Y' 
+    AND (
+      CASE 
+        WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+        THEN CAST(SUBSTRING(CAST(x.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(x.diary_no AS TEXT)) - 4) AS INTEGER) 
+        ELSE CAST(SUBSTRING(x.active_fil_no FROM 4 FOR 6) AS INTEGER) 
+      END BETWEEN hd.case_from AND hd.case_to 
+      OR 
+      CASE 
+        WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+        THEN CAST(SUBSTRING(CAST(x.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(x.diary_no AS TEXT)) - 4) AS INTEGER) 
+        ELSE CAST(SUBSTRING(x.active_fil_no FROM 11 FOR 6) AS INTEGER) 
+      END BETWEEN hd.case_from AND hd.case_to
+    ) 
+    AND x.casetype_id = hd.casetype);";
+        $query = $this->db->query($sql1);
+        $result = $query->getRowArray();
+        return $result;
+    }
+
+
+    public function getCaseDestinationHallNo__($diaryNo = null)
+
+    {
+        $db = \Config\Database::connect();
+        $query1 = $db->table('dispose d')
+            ->select('d.diary_no, b.active_fil_dt, b.active_reg_year, b.active_fil_no, 
+        CASE 
+            WHEN (b.fil_no IS NULL OR b.fil_no = "") 
+                 AND (b.active_fil_no IS NULL OR b.active_fil_no = "") 
+            THEN b.casetype_id 
+            ELSE b.active_casetype_id 
+        END AS casetype_id, 
+        CASE 
+            WHEN (b.fil_no IS NULL OR b.fil_no = "") 
+                 AND (b.active_fil_no IS NULL OR b.active_fil_no = "" OR active_reg_year = 0) 
+            THEN EXTRACT(YEAR FROM b.diary_no_rec_date) 
+            ELSE b.active_reg_year 
+        END AS case_year')
             ->join('main b', 'd.diary_no = b.diary_no')
             ->where('b.diary_no', $diaryNo)
             ->where('b.c_status', 'D')
             ->getCompiledSelect();
 
-        // Main query that uses the subquery
-        $query = $this->db->table("($subquery) x", false)
-            ->join('rr_hall_case_distribution hd', function ($join) {
-                $join->on("IF((x.active_fil_no = '' OR x.active_fil_no IS NULL), SUBSTR(x.diary_no, -4), x.case_year) BETWEEN hd.caseyear_from AND hd.caseyear_to")
-                    ->where('hd.display', 'Y')
-                    ->where(function ($query) {
-                        $query->where("IF((x.active_fil_no = '' OR x.active_fil_no IS NULL), (CAST(SUBSTR(x.diary_no, 1, LENGTH(x.diary_no) - 4) AS UNSIGNED)), (CAST(SUBSTRING(x.active_fil_no, 4, 6) AS UNSIGNED)) BETWEEN hd.case_from AND hd.case_to")
-                            ->orWhere("IF((x.active_fil_no = '' OR x.active_fil_no IS NULL), (CAST(SUBSTR(x.diary_no, 1, LENGTH(x.diary_no) - 4) AS UNSIGNED)), (CAST(SUBSTRING(x.active_fil_no, 11, 6) AS UNSIGNED)) BETWEEN hd.case_from AND hd.case_to")
-                            ->where('x.casetype_id', 'hd.casetype');
-                    });
-            });
+        $query2 = $db->table('dispose d')
+            ->select('d.diary_no, b.active_fil_dt, b.active_reg_year, b.active_fil_no, 
+        CASE 
+            WHEN (b.fil_no IS NULL OR b.fil_no = "") 
+                 AND (b.active_fil_no IS NULL OR b.active_fil_no = "") 
+            THEN b.casetype_id 
+            ELSE b.active_casetype_id 
+        END AS casetype_id, 
+        CASE 
+            WHEN (b.fil_no IS NULL OR b.fil_no = "") 
+                 AND (b.active_fil_no IS NULL OR b.active_fil_no = "" OR active_reg_year = 0) 
+            THEN EXTRACT(YEAR FROM b.diary_no_rec_date) 
+            ELSE b.active_reg_year 
+        END AS case_year')
+            ->join('main b', 'd.diary_no = b.diary_no')
+            ->where('b.diary_no', $diaryNo)
+            ->where('b.c_status', 'D')
+            ->getCompiledSelect();
 
-        // Execute the query
-        $queryResult = $query->get();
+        $finalQuery = $db->query("($query1) AS x 
+    JOIN master.rr_hall_case_distribution hd ON (
+        CASE 
+            WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+            THEN SUBSTRING(CAST(x.diary_no AS TEXT) FROM LENGTH(CAST(x.diary_no AS TEXT)) - 3 FOR 4)::INTEGER 
+            ELSE x.case_year 
+        END BETWEEN hd.caseyear_from AND hd.caseyear_to 
+        AND hd.display = 'Y' 
+        AND (
+            CASE 
+                WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+                THEN CAST(SUBSTRING(CAST(x.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(x.diary_no AS TEXT)) - 4) AS INTEGER) 
+                ELSE CAST(SUBSTRING(x.active_fil_no FROM 4 FOR 6) AS INTEGER) 
+            END BETWEEN hd.case_from AND hd.case_to 
+            OR 
+            CASE 
+                WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+                THEN CAST(SUBSTRING(CAST(x.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(x.diary_no AS TEXT)) - 4) AS INTEGER) 
+                ELSE CAST(SUBSTRING(x.active_fil_no FROM 11 FOR 6) AS INTEGER) 
+            END BETWEEN hd.case_from AND hd.case_to
+        ) 
+        AND x.casetype_id = hd.casetype
+    )");
 
-        if ($queryResult->getNumRows() >= 1) {
-            return $queryResult->getResultArray();
-        } else {
-            return false;
-        }
+        return $result = $finalQuery->getRowArray();
     }
 
 

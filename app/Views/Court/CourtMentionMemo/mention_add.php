@@ -103,7 +103,10 @@
                             </div>
                         </div>
                     </div>
-                    <?php if (!empty($caseInfo)):  ?>
+                    <?php if (!empty($caseInfo)): 
+                        //pr($caseInfodata);
+                       
+                        ?>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card-body">
@@ -113,7 +116,7 @@
                                     <div class="col-md-6 mt-2">
                                         <dl class="dl-horizontal">
                                             <dt>Case No.</dt>
-                                            <dd class="my_B"><?= esc($caseInfodata['reg_no_display']) ?>&nbsp;(D No.<?= esc($caseInfodata['diary_no']) ?>-<?= esc($caseInfodata['diary_year']) ?>)</dd>
+                                            <dd class="my_B"><?= esc($caseInfodata['reg_no_display']) ?>&nbsp;(D No.<?= esc($caseInfodata['diary_number']) ?>-<?= esc($caseInfodata['diary_year']) ?>)</dd>
 
                                             <dt>Petitioner</dt>
                                             <dd class="my_B"><?= esc($caseInfodata['pet_name']) ?></dd>
