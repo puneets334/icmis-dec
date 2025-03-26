@@ -135,7 +135,14 @@ if ($option == 1) {
             if (org_reg == regno) {
                 alert('New Registration number is same as old one. Updation Failed !!');
             } else {
-                var diary_no = $('#dno').val() + $('#dyr').val();
+                
+                if ($("#dno").length) {
+                    var diary_no = $('#dno').val() + $('#dyr').val();
+                }
+                else{
+                    var diary_no = dno+dyr;
+                }  
+                
                 $('#message').hide();
 
                 var update_url = "<?php echo base_url('ARDRBM/IA/regno_display_change_process'); ?>";

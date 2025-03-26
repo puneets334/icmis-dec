@@ -90,7 +90,7 @@ class Model_record extends Model
     public function getval($id)
     {
         $builder = $this->db->table('ac a');
-        $builder->select('*');
+        $builder->select("*,a.dob");
         $builder->join('master.bar b', 'b.aor_code = a.aor_code');
         $builder->where('a.id', $id); // Add the condition to filter based on id
         $query = $builder->get();
@@ -105,7 +105,8 @@ class Model_record extends Model
     public function updateAc($id, $data)
     {
         try {
-            $this->db->table('ac')->where('id', $id)->update($data);
+            $response = $this->db->table('public.ac')->where('id', $id)->update($data);
+            // var_dump($response);exit;
             return true;
         } catch (\Exception $e) {
             // Log the error message
@@ -136,7 +137,6 @@ class Model_record extends Model
         $builder->join('master.bar b', 'b.aor_code = a.aor_code');
         $builder->where('a.eino', $tvap);
         $query = $builder->get();
-
         return $query->getResultArray();
     }
 
@@ -170,53 +170,41 @@ class Model_record extends Model
 
     public function getaoroption1($tvap, $vadvc, $filters = [])
     {
-        // Create a new query builder instance for checking `eino`
         $checkBuilder = $this->builder('ac a');
         $checkBuilder->select('COUNT(*) AS total');
         $checkBuilder->where('a.eino', $tvap);
         $result = $checkBuilder->get()->getRow();
 
-        // Determine if `eino` records exist
         $einoExists = ($result && $result->total > 0);
+        $builder = $this->builder('ac a');
 
-        // Create the main query builder
-        $builder = $this->builder('ac a'); // Specify the table with alias
-
-        // Specify the columns and join
-        $builder->select("CONCAT(a.aor_code, '#', b.name, '#', a.cname, '#', a.cfname, '#', a.pa_line1, '#', a.pa_line2, '#', a.pa_district, '#', a.pa_pin, '#', a.ppa_line1, '#', a.ppa_line2, '#', a.ppa_district, '#', a.ppa_pin, '#', a.dob, '#', a.place_birth, '#', a.nationality, '#', a.cmobile, '#', a.eq_x, '#', a.eq_xii, '#', a.eq_ug, '#', a.eq_pg, '#', a.regdate, '#', a.id) AS result");
+        $builder->select("CONCAT(a.aor_code, '#', b.name, '#', a.cname, '#', a.cfname, '#', a.pa_line1, '#', a.pa_line2,
+         '#', a.pa_district, '#', a.pa_pin, '#', a.ppa_line1, '#', a.ppa_line2, '#', a.ppa_district, '#', a.ppa_pin, '#', a.dob, 
+         '#', a.place_birth, '#', a.nationality, '#', a.cmobile, '#', a.eq_x, '#', a.eq_xii, '#', a.eq_ug, '#', a.eq_pg, '#', a.regdate, 
+         '#', a.id) AS result");
         $builder->join('master.bar b', 'b.aor_code = a.aor_code', 'inner');
 
-        // Always filter by mandatory parameters
         $builder->where('a.eino', $tvap);
 
-        // Apply conditionally the `a.aor_code` filter
         if ($einoExists && $vadvc !== null) {
             $builder->where('a.aor_code', $vadvc);
         }
 
-        // Apply additional filters if provided
         foreach ($filters as $key => $value) {
             if (!empty($value)) {
-                // Dynamically apply the filter
                 $builder->where('a.' . $key, $value);
             }
         }
-
-        // Execute the query and get the result
         $query = $builder->get();
         $row = $query->getRow();
 
-        // Return the result if found
         if ($row) {
             return $row->result;
+            // print_r($this->db->getLastQuery());
         } else {
             return null;
         }
     }
-
-
-
-
 
 
     public function getAORsWithMoreClerks()
@@ -341,7 +329,8 @@ class Model_record extends Model
     public function insert1($data)
     {
         try {
-            $this->db->table('ac')->insert($data);
+            $this->db->table('public.ac')->insert($data);
+            // echo $this->db->getlastQuery();
             return true;
         } catch (\Exception $e) {
             // Log the error message
@@ -382,29 +371,38 @@ class Model_record extends Model
     }
     public function getUsersData()
     {
-        $sql = 'SELECT distinct dept_name,udept FROM master.users a LEFT JOIN master.userdept b ON a.udept=b.id WHERE b.id=3';
-        $query = $this->query($sql);
+        $query = $this->db->table('master.users a')
+            ->distinct()
+            ->select('dept_name, udept')
+            ->join('master.userdept b', 'a.udept = b.id', 'left')
+            ->where('b.id', 3)
+            ->get();
         return $query->getResultArray();
     }
 
     public function getRefHallData()
     {
-        $sql = "SELECT 
-        a.hall_no,
-        MAX(h.Description) AS Description,
-        MAX(valid_from) AS active_from,
-        CASE
-            WHEN h.display = 'Y' THEN 'A'
-            ELSE 'N'
-        END AS active_status,
-        h.display
-    FROM master.ref_rr_hall h
-        LEFT JOIN master.rr_hall_case_distribution a        
-         ON a.hall_no = h.hall_no
-    WHERE
-        h.display = 'Y'
-    GROUP BY a.hall_no, h.display
-    ORDER BY a.hall_no";
+        $builder = $this->db->table('master.ref_rr_hall h');
+        $builder->select("a.hall_no, MAX(h.description) AS Description,MAX(valid_from) AS active_from,
+        CASE WHEN h.display = 'Y' THEN 'A' ELSE 'N' END AS active_status,h.display ");
+        $builder->join('master.rr_hall_case_distribution a', 'a.hall_no = h.hall_no', 'left');
+        $builder->where('h.display', 'Y');
+        $builder->groupBy('a.hall_no, h.display');
+        $builder->orderBy('a.hall_no');
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+
+
+    public function getRefHallData_old()
+    {
+        $sql = "SELECT a.hall_no,MAX(h.description) AS Description,MAX(valid_from) AS active_from,
+        CASE WHEN h.display = 'Y' THEN 'A' ELSE 'N' END AS active_status,
+            h.display FROM master.ref_rr_hall h 
+        LEFT JOIN master.rr_hall_case_distribution a ON a.hall_no = h.hall_no
+        WHERE h.display = 'Y'
+        GROUP BY a.hall_no, h.display
+        ORDER BY a.hall_no";
         $query = $this->query($sql);
         return $query->getResultArray();
     }
@@ -414,7 +412,7 @@ class Model_record extends Model
         // Use the query builder
         $builder = $this->db->table('master.rr_hall_case_distribution a');
         $builder->distinct();
-        $builder->select('casetype, case_from, caseyear_from, case_to, caseyear_to, short_description, a.hall_no');
+        $builder->select('casetype, case_from, caseyear_from, case_to, caseyear_to, short_description, a.hall_no, a.is_diary_stage');
         $builder->join('master.casetype b', 'casetype = casecode', 'left');
         $builder->join('master.rr_user_hall_mapping m', 'CAST(a.hall_no AS VARCHAR) = m.ref_hall_no AND m.display = \'Y\'', 'left'); // Use single quotes for 'Y'
         $builder->where('a.hall_no', $hall_no); // Ensure hall_no is treated as an integer
@@ -475,12 +473,14 @@ class Model_record extends Model
     public function getCurrentUser($userid)
     {
         $builder = $this->db->table('master.users a')
-            ->select('a.usercode, a.name, empid, service, udept, section, a.usertype, log_in, jcode, attend, dept_name, section_name, type_name, a.entdt, isda, e.usertype AS fil_usertype')
-            ->join('userdept b', 'a.udept = b.id', 'left')
-            ->join('usersection c', 'a.section = c.id', 'left')
+            ->select("a.usercode, a.name, a.empid, a.service, a.udept, a.section, a.usertype, a.log_in, a.jcode, a.attend, b.dept_name,
+             c.section_name, d.type_name, a.entdt,  e.usertype AS fil_usertype")
+            ->join('master.userdept b', 'a.udept = b.id', 'left')
+            ->join('master.usersection c', 'a.section = c.id', 'left')
             ->join('master.usertype d', 'a.usertype = d.id', 'left')
-            ->join('fil_trap_users e', 'a.usercode = e.usercode AND e.display = "Y"', 'left')
+            ->join('fil_trap_users e', "a.usercode = e.usercode AND e.display = 'Y'", 'left')
             ->where('a.usercode', $userid);
+        // echo $builder->getCompiledSelect();
         return $builder->get()->getRowArray();
     }
 
@@ -495,7 +495,7 @@ class Model_record extends Model
     public function getRoomHalls()
     {
         $builder = $this->db->table('master.ref_rr_hall')
-            ->select('hall_no, Description')
+            ->select("hall_no, description as Description")
             ->where('display', 'Y')
             ->orderBy('hall_no');
         return $builder->get()->getResultArray();
@@ -504,7 +504,27 @@ class Model_record extends Model
     public function checkCase($userid)
     {
         $builder = $this->db->table('fil_trap_users a')
-            ->select('b.type_name, b.disp_flag, m.ref_hall_no, h.description, d.casehead AS for_caseGroup')
+            ->select("b.type_name, b.disp_flag, m.ref_hall_no, h.description, d.casehead AS for_caseGroup")
+            ->join('master.usertype b', 'a.usertype = b.id', 'inner')
+            ->join('master.rr_user_hall_mapping m', 'a.usercode = m.usercode', 'inner')
+            ->join('master.ref_rr_hall h', 'CAST(m.ref_hall_no AS INTEGER) = h.hall_no', 'inner')
+            ->join('master.rr_da_case_distribution d', 'a.usercode = d.user_code', 'inner')
+            ->where('a.usercode', $userid)
+            ->where('a.display', 'Y')
+            ->whereIn("b.display", ['E', 'Y']) // Corrected this line
+            ->where('m.display', 'Y')
+            ->where('d.display', 'Y')
+            ->orderBy('m.ref_hall_no')
+            ->orderBy('for_caseGroup');
+
+        // echo $builder->getCompiledSelect();
+        return $builder->get()->getResultArray();
+    }
+
+    public function checkCase_one($userid)
+    {
+        $builder = $this->db->table('fil_trap_users a')
+            ->select("m.ref_hall_no, h.description, d.casehead AS for_caseGroup")
             ->join('master.usertype b', 'a.usertype = b.id', 'inner')
             ->join('master.rr_user_hall_mapping m', 'a.usercode = m.usercode', 'inner')
             ->join('master.ref_rr_hall h', 'CAST(m.ref_hall_no AS INTEGER) = h.hall_no', 'inner')
@@ -522,14 +542,13 @@ class Model_record extends Model
     public function checkCaseDistribution($usercode)
     {
         $builder = $this->db->table('master.rr_da_case_distribution a')
-            ->select('a.casetype, a.case_from, a.caseyear_from, a.case_to, a.caseyear_to')
+            ->select('a.casetype, a.case_from, a.caseyear_from, a.case_to, a.caseyear_to, b.short_description')
             ->join('master.casetype b', 'a.casetype = b.casecode', 'left')
             ->where('a.user_code', $usercode)
             ->where('a.display', 'Y')
             ->where('a.casetype !=', 0)
             ->orderBy('a.casetype')
             ->orderBy('a.caseyear_from');
-
         return $builder->get()->getResultArray();
     }
 
@@ -654,7 +673,7 @@ class Model_record extends Model
             ->join('master.usertype b', "a.usertype = b.id AND b.display = 'E'", 'left')
             ->where('a.usercode', $usercode)
             ->where('a.display', 'Y');
-            // pr($builder->getCompiledSelect());
+        // pr($builder->getCompiledSelect());
         $query = $builder->get();
         $result = $query->getRowArray();
         return $result;
@@ -669,6 +688,7 @@ class Model_record extends Model
             ->orderBy('short_description');
         $query = $builder->get();
         $results = $query->getResultArray();
+
         return $results;
     }
 
@@ -918,8 +938,8 @@ class Model_record extends Model
     }
 
     public function getUserDetails($deptValue, $section)
-{
-    $sql = "
+    {
+        $sql = "
         SELECT usercode, a.name as username, a.name, a.empid as Emp_id 
         FROM master.users a 
         INNER JOIN users_history b ON usercode = userid 
@@ -932,9 +952,9 @@ class Model_record extends Model
         ORDER BY LENGTH(a.name), a.name
     ";
 
-    $query = $this->db->query($sql, [$deptValue, $section]);
-    return $query->getResultArray();
-}
+        $query = $this->db->query($sql, [$deptValue, $section]);
+        return $query->getResultArray();
+    }
 
 
     public function getUsersByDepartment($deptValue)
@@ -1208,14 +1228,14 @@ class Model_record extends Model
 
     public function get_current_user($hall_no)
     {
-        $builder = $this->db->table('ref_rr_hall h');
-        $builder->select('distinct a.hall_no, h.Description, h.updated_on AS active_from, 
-            CASE WHEN h.display = "Y" THEN "A" ELSE "N" END AS active_status, h.display');
-        $builder->join('rr_hall_case_distribution a', 'a.hall_no = h.hall_no', 'left');
+        $builder = $this->db->table('master.ref_rr_hall h');
+        $builder->distinct();
+        $builder->select("a.hall_no, h.description, h.updated_on AS active_from, 
+            CASE WHEN h.display = 'Y' THEN 'A' ELSE 'N' END AS active_status, h.display");
+        $builder->join('master.rr_hall_case_distribution a', 'a.hall_no = h.hall_no', 'left');
         $builder->where('h.display', 'Y');
         $builder->where('h.hall_no', $hall_no);
         $builder->orderBy('a.hall_no');
-
         $query = $builder->get();
         return $query->getRowArray();
     }
@@ -1223,7 +1243,7 @@ class Model_record extends Model
 
     public function updateDisplayToC2($hall_no, $usercode)
     {
-        return $this->db->table('rr_hall_case_distribution')->set([
+        return $this->db->table('master.rr_hall_case_distribution')->set([
             'display' => 'C',
             'updated_by' => $usercode,
             'valid_to' => date('Y-m-d H:i:s'),
@@ -1236,14 +1256,14 @@ class Model_record extends Model
 
     public function findCase2($hall_no, $value, $value_up)
     {
-        return $this->db->table('rr_hall_case_distribution')
+        return $this->db->table('master.rr_hall_case_distribution')
             ->where('hall_no', $hall_no)
             ->where('casetype', $value)
             ->where('case_from', $value_up[1])
             ->where('caseyear_from', $value_up[2])
             ->where('case_to', $value_up[3])
             ->where('caseyear_to', $value_up[4])
-            ->where('is_diary_stage', $value_up[5])
+            // ->where('is_diary_stage', $value_up[5]) // due to unbility of clearification 
             ->where('display', 'C')
             ->get()
             ->getRowArray(); // Return a single row
@@ -1251,12 +1271,12 @@ class Model_record extends Model
 
     public function insertCase2($data)
     {
-        return $this->db->table('rr_hall_case_distribution')->insert($data);
+        return $this->db->table('master.rr_hall_case_distribution')->insert($data);
     }
 
     public function updateCaseToY2($hall_no, $value, $value_up, $usercode)
     {
-        return $this->db->table('rr_hall_case_distribution')->set([
+        return $this->db->table('master.rr_hall_case_distribution')->set([
             'display' => 'Y',
             'valid_to' => null,
             'updated_by' => $usercode,
@@ -1275,7 +1295,7 @@ class Model_record extends Model
 
     public function setDisplayToN2($hall_no, $usercode)
     {
-        return $this->db->table('rr_hall_case_distribution')->set([
+        return $this->db->table('master.rr_hall_case_distribution')->set([
             'display' => 'N',
             'valid_to' => date('Y-m-d H:i:s'),
             'updated_by' => $usercode,
@@ -1289,7 +1309,7 @@ class Model_record extends Model
 
     public function updateDisplayToC3($usercode)
     {
-        return $this->db->table('rr_user_hall_mapping')->set([
+        return $this->db->table('master.rr_user_hall_mapping')->set([
             'display' => 'C',
             'to_date' => date('Y-m-d H:i:s')
         ])
@@ -1300,12 +1320,12 @@ class Model_record extends Model
 
     public function insertMapping($data)
     {
-        return $this->db->table('rr_user_hall_mapping')->insert($data);
+        return $this->db->table('master.rr_user_hall_mapping')->insert($data);
     }
 
     public function updateMappingToY($usercode, $hallNo)
     {
-        return $this->db->table('rr_user_hall_mapping')->set([
+        return $this->db->table('master.rr_user_hall_mapping')->set([
             'display' => 'Y',
             'to_date' => null
         ])
@@ -1317,7 +1337,7 @@ class Model_record extends Model
 
     public function findMapping($usercode, $hallNo)
     {
-        return $this->db->table('rr_user_hall_mapping')
+        return $this->db->table('master.rr_user_hall_mapping')
             ->where('usercode', $usercode)
             ->where('ref_hall_no', $hallNo)
             ->where('display', 'C')
@@ -1327,7 +1347,7 @@ class Model_record extends Model
 
     public function deactivateMapping($usercode)
     {
-        return $this->db->table('rr_user_hall_mapping')->set([
+        return $this->db->table('master.rr_user_hall_mapping')->set([
             'display' => 'N',
             'to_date' => date('Y-m-d H:i:s'),
             'updated_by' => $usercode,
@@ -1340,27 +1360,36 @@ class Model_record extends Model
 
     public function findCaseDistribution($da_code, $value, $value_up)
     {
-        return $this->where('dacode', $da_code)
-            ->where('case_type', $value)
-            ->where('case_from', $value_up[1])
-            ->where('case_f_yr', $value_up[2])
-            ->where('case_to', $value_up[3])
-            ->where('case_t_yr', $value_up[4])
-            ->where('state', $value_up[5])
-            ->where('type', $value_up[6])
-            ->where('display', 'C')
-            ->first();
+
+        return $this->db->table('master.da_case_distribution')
+        ->where('dacode', $da_code)
+        ->where('case_type', $value)  
+        ->where('case_from', (int)$value_up[1]) 
+        ->orderBy('id', 'ASC')
+        ->get();
+
+        // return $this->db->table('master.da_case_distribution')->where('dacode', $da_code)
+        //     ->where('case_type', $value)
+        //     ->where('case_from', $value_up[1])
+        //     // ->where('case_f_yr', $value_up[2])
+        //     // ->where('case_to', $value_up[3])
+        //     // ->where('case_t_yr', $value_up[4])
+        //     // ->where('state', $value_up[5])
+        //     // ->where('type', $value_up[6])
+        //     ->where('display', 'C')
+        //     ->orderBy('id','ASC')
+        //     ->getRows();
     }
 
     public function insertCaseDistribution($data)
     {
-        return $this->db->table('da_case_distribution')->insert($data);
+        return $this->db->table('master.da_case_distribution')->insert($data);
     }
 
     public function updateCaseToYDistribution($rkdcmpda_code, $value)
     {
-        return $this->set(['display' => 'Y'])
-            ->where('rkdcmpda', $rkdcmpda_code)
+        return $this->db->table('master.da_case_distribution')->set(['display' => 'Y'])
+            ->where('dacode', $rkdcmpda_code)
             ->where('nature', $value)
             ->where('display', 'C')
             ->update();
@@ -1368,7 +1397,7 @@ class Model_record extends Model
 
     public function deactivateCase($usercode)
     {
-        return $this->db->table('rr_da_case_distribution')->set([
+        return $this->db->table('master.rr_da_case_distribution')->set([
             'display' => 'N',
             'valid_to' => date('Y-m-d H:i:s'),
             'updated_by' => $usercode,

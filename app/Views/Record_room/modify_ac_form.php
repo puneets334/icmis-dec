@@ -1,41 +1,36 @@
 <?= view('header') ?>
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>">
-    <div class="card-header heading">
-        <div class="row">
-            <div class="col-sm-10">
-                <h3 class="card-title">Report >>&nbsp; Clerk Details</h3>
-            </div>
-            <div class="col-sm-2">
-                <div class="custom_action_menu">
-                    <button class="btn btn-success btn-sm" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-                    <button class="btn btn-primary btn-sm" type="button"><i class="fas fa-pen   " aria-hidden="true"></i>
-                    </button>
-                    <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-trash" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
+<!-- <link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>"> -->
+<div class="card-header heading">
+    <div class="row">
+        <div class="col-sm-10">
+            <h3 class="card-title">Report >>&nbsp; Clerk Details</h3>
+        </div>
+        <div class="col-sm-2">
+            <!-- <div class="custom_action_menu">
+                <button class="btn btn-success btn-sm" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                <button class="btn btn-primary btn-sm" type="button"><i class="fas fa-pen   " aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+            </div> -->
         </div>
     </div>
-    <br>
-    <div class="container">
-        <div class="panel panel-info">
-            <div class="panel-heading panel-success">
-                <h4><strong><span class="glyphicon glyphicon-list glyphicon-lg"></span>&nbsp; Report >>&nbsp;Clerk Details</strong></h4>
+</div>
+<br>
+<div class="container col-sm-12" style="width:100%;">
+
+    <?php if (empty($clerkDetails)) : ?>
+        <div class='well well-lg'>
+            <div class='col-md-12'>
+                <a class='btn btn-success btn-xs' href='#'>Results Found---<span class='badge'><?= count($clerkDetails) ?></span></a>
             </div>
         </div>
-
-        <?php if (empty($clerkDetails)) : ?>
-            <div class='well well-lg'>
-                <div class='col-md-12'>
-                    <a class='btn btn-success btn-xs' href='#'>Results Found---<span class='badge'><?= count($clerkDetails) ?></span></a>
-                </div>
-            </div>
-        <?php else : ?>
-            <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4">
-                <div id="printable">
-                    <table id="query_builder_report" class="query_builder_report table table-bordered table-striped">                <!-- <table border="1" bgcolor="#FBFFFD"  id="mydt"  class="tbl_hr" width="98%" cellspacing="0" -->
-                        <thead>
+    <?php else : ?>
+        <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4">
+            <div id="printable">
+                <table id="query_builder_report" class="query_builder_report table table-bordered table-striped">
+                    <thead>
                         <tr>
                             <th>SNo</th>
                             <th>AOR Code</th>
@@ -47,8 +42,8 @@
                             <th>Registration Date</th>
                             <th>Events</th>
                         </tr>
-                        </thead>
-                        <tbody>
+                    </thead>
+                    <tbody>
                         <?php $sno = 1; ?>
                         <?php foreach ($clerkDetails as $row) :   ?>
                             <tr>
@@ -67,39 +62,42 @@
                                 </td>
                             </tr>
                         <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
-        <?php endif; ?>
-    </div>
+        </div>
+    <?php endif; ?>
+</div>
 
-    <script>
-        $(function() {
-            $("#query_builder_report").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": [
-                    "copy", "csv", "excel", {
-                        extend: 'pdfHtml5',
-                        orientation: 'landscape',
-                        pageSize: 'LEGAL'
-                    },
-                    {
-                        extend: 'colvis',
-                        text: 'Show/Hide'
-                    }
-                ],
-                "processing": true, // Changed "bProcessing" to "processing"
-                "ordering": false, // Added to disable sorting
+<script>
+    $(function() {
+        $("#query_builder_report").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "pageLength": 13,
+            "buttons": [
+                "copy", "csv", "excel", {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL'
+                },
+                {
+                    extend: 'colvis',
+                    text: 'Show/Hide'
+                }
+            ],
+            "processing": true, // Changed "bProcessing" to "processing"
+            "ordering": false, // Added to disable sorting
 
-            }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
-        });
-    </script>
+        }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
+    });
+</script>
 
-    <div id="div_print">
-        <div id="header" style="background-color:White;"></div>
-        <div id="footer" style="background-color:White;"></div>
-    </div>
-<?=view('sci_main_footer') ?>
+<div id="div_print">
+    <div id="header" style="background-color:White;"></div>
+    <div id="footer" style="background-color:White;"></div>
+</div>
+<?php 
+view('sci_main_footer');
+ ?>

@@ -80,36 +80,34 @@ class MessageModel extends Model
     public function inbox_pro($q, $dtp)
     {
         $usercode = session()->get('login')['usercode'];
-
-        if ($q == 'all') {
-            $queryString = "SELECT m.*, ut.type_name, u.*, us.section_name
-            FROM msg m
-            LEFT JOIN master.users u ON m.from_user = u.empid::text
-            LEFT JOIN master.usertype ut ON u.usertype = ut.id
-            LEFT JOIN master.usersection us ON u.section = us.id
-            WHERE m.to_user = '$usercode'
-            AND m.display = 'Y'
-            AND m.trash = 'N'
-            ORDER BY m.seen DESC, m.time DESC";
-        } else if ($q == 'P') {
-            $queryString = "SELECT m.*, ut.type_name, u.*, us.section_name 
-            FROM msg m 
-            LEFT JOIN master.users u ON m.from_user = u.empid::text
-            LEFT JOIN master.usertype ut ON u.usertype = ut.id 
-            LEFT JOIN master.usersection us ON u.section = us.id 
-            WHERE m.to_user = '$usercode' 
-            AND m.display = 'Y' 
-            AND m.trash = 'N' 
-            AND DATE(m.time) = '$dtp' 
-            ORDER BY m.seen DESC, m.time DESC";
+    
+        $db = \Config\Database::connect();
+        $builder = $db->table('msg m')
+                      ->select('m.*, ut.type_name, u.*, us.section_name')
+                      ->join('master.users u', 'm.from_user = CAST(u.empid AS TEXT)', 'left')
+                      ->join('master.usertype ut', 'u.usertype = ut.id', 'left')
+                      ->join('master.usersection us', 'u.section = us.id', 'left')
+                      ->where('m.to_user', $usercode)
+                      ->where('m.display', 'Y')
+                      ->where('m.trash', 'N');
+    
+        if ($q == 'P') {
+            $builder->where('DATE(m.time)', $dtp);
         }
-
-        $query = $this->db->query($queryString);
+    
+        $builder->orderBy('m.seen', 'DESC')
+                ->orderBy('m.time', 'DESC');
+    
+        $query = $builder->get();
+    
         $html = '';
-        if ($query->getNumRows() < 0 || $query->getNumRows() == 0) {
+        if ($query->getNumRows() == 0) {
             $html = '<div align="center"><strong>No Record Found</strong></div>';
         } else {
             $result = $query->getResultArray();
+            // Further processing of $result if needed
+      
+    
             if ($q == 'all') {
                 $updateData =
                     [
@@ -229,72 +227,60 @@ class MessageModel extends Model
     public function trash_pro($q, $dtp)
     {
         $usercode = session()->get('login')['usercode'];
-
+        $db = \Config\Database::connect();
+    
         if ($q == 'all') {
-            $queryString = "SELECT rr.*, ur.name AS un
-            FROM (
-                SELECT m.id AS id, m.to_user AS tu, m.from_user AS fu, m.msg, m.time, u.name AS us_1
-                FROM msg m
-                JOIN master.users u ON u.empid::text = m.to_user
-                WHERE m.from_user = '$usercode'
-                AND m.display2 = 'N'
-                AND m.trash2 = 'Y'
-            ) rr
-            JOIN master.users ur ON ur.empid::text = rr.fu
-            
-            UNION
-            
-            SELECT rr.*, ur.name AS un
-            FROM (
-                SELECT m.id AS id, m.to_user AS tu, m.from_user AS fu, m.msg, m.time, u.name AS us_1
-                FROM msg m
-                JOIN master.users u ON u.empid::text = m.to_user
-                WHERE m.to_user = '$usercode'
-                AND m.display = 'N'
-                AND m.trash = 'Y'
-            ) rr
-            JOIN master.users ur ON ur.empid::text = rr.fu
-            ORDER BY time DESC";
+            $subQuery1 = $db->table('msg m')
+                ->select('m.id, m.to_user AS tu, m.from_user AS fu, m.msg, m.time, u.name AS us_1')
+                ->join('master.users u', 'CAST(u.empid AS TEXT) = m.to_user', 'inner')
+                ->where('m.from_user', $usercode)
+                ->where('m.display2', 'N')
+                ->where('m.trash2', 'Y');
+    
+            $subQuery2 = $db->table('msg m')
+                ->select('m.id, m.to_user AS tu, m.from_user AS fu, m.msg, m.time, u.name AS us_1')
+                ->join('master.users u', 'CAST(u.empid AS TEXT) = m.to_user', 'inner')
+                ->where('m.to_user', $usercode)
+                ->where('m.display', 'N')
+                ->where('m.trash', 'Y');
+    
+            $query = $db->table("({$subQuery1->getCompiledSelect()} UNION {$subQuery2->getCompiledSelect()}) as rr")
+                ->select('rr.*, ur.name AS un')
+                ->join('master.users ur', 'CAST(ur.empid AS TEXT) = rr.fu', 'inner')
+                ->orderBy('rr.time', 'DESC')
+                ->get();
         } else if ($q == 'P') {
-            $queryString = "SELECT *, ur.name AS un 
-            FROM (
-                SELECT rr.*, u.name AS us_1 
-                FROM (
-                    SELECT m.id AS id, m.to_user AS tu, m.from_user AS fu, m.msg, m.time 
-                    FROM msg m 
-                    JOIN master.users u ON u.empid::text = m.to_user 
-                    WHERE m.from_user = '$usercode' 
-                    AND m.display2 = 'N' 
-                    AND m.trash2 = 'Y'
-                ) rr 
-                JOIN master.users u ON u.empid::text = rr.fu 
-                WHERE DATE(rr.time) = '$dtp'
-                
-                UNION
-                
-                SELECT rr.*, u.name AS us_1 
-                FROM (
-                    SELECT m.id AS id, m.to_user AS tu, m.from_user AS fu, m.msg, m.time 
-                    FROM msg m 
-                    JOIN master.users u ON u.empid::text = m.to_user 
-                    WHERE m.to_user = '$usercode' 
-                    AND m.display = 'N' 
-                    AND m.trash = 'Y'
-                ) rr 
-                JOIN master.users u ON u.empid::text = rr.fu 
-                WHERE DATE(rr.time) = '$dtp'
-            ) combined
-            JOIN master.users ur ON ur.empid::text = combined.fu
-            ORDER BY combined.time DESC";
+            $subQuery1 = $db->table('msg m')
+                ->select('m.id, m.to_user AS tu, m.from_user AS fu, m.msg, m.time')
+                ->join('master.users u', 'CAST(u.empid AS TEXT) = m.to_user', 'inner')
+                ->where('m.from_user', $usercode)
+                ->where('m.display2', 'N')
+                ->where('m.trash2', 'Y');
+    
+            $subQuery2 = $db->table('msg m')
+                ->select('m.id, m.to_user AS tu, m.from_user AS fu, m.msg, m.time')
+                ->join('master.users u', 'CAST(u.empid AS TEXT) = m.to_user', 'inner')
+                ->where('m.to_user', $usercode)
+                ->where('m.display', 'N')
+                ->where('m.trash', 'Y');
+    
+            $query = $db->table("({$subQuery1->getCompiledSelect()} UNION {$subQuery2->getCompiledSelect()}) as combined")
+                ->select('combined.*, ur.name AS un, u.name AS us_1')
+                ->join('master.users ur', 'CAST(ur.empid AS TEXT) = combined.fu', 'inner')
+                ->join('master.users u', 'CAST(u.empid AS TEXT) = combined.tu', 'inner')
+                ->where('DATE(combined.time)', $dtp)
+                ->orderBy('combined.time', 'DESC')
+                ->get();
         }
-
-        $query = $this->db->query($queryString);
+    
         $html = '';
-        if ($query->getNumRows() < 0 || $query->getNumRows() == 0) {
+        if ($query->getNumRows() == 0)
+        {
             $html = '<div align="center"><strong>No Record Found</strong></div>';
-        } else {
+        }
+        else
+        {
             $result = $query->getResultArray();
-
             $html .= '<table class="table_tr_th_w_clr tbl_border table-striped table-hover myTable" align="center" style="width:100%; table-layout:fixed; border:solid thin;">';
             $html .= '<col width="5%" /><col width="20%" /><col width="20%" /><col width="55%" />';
             $html .= '<thead>';

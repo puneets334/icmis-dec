@@ -1,4 +1,6 @@
 <form>
+<?php csrf_field();
+?>
     <div id="dv_content1" class="container">
         <div class="text-center">
             <?php if (count($select_rs) > 0) { ?>

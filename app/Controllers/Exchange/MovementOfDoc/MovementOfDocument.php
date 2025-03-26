@@ -64,6 +64,7 @@ class MovementOfDocument extends BaseController
 
     public function bulk_dispatch_pro()
     {
+
         $data['ucode'] = session()->get('login')['usercode'];
         $data['model'] = $this->MovementOfDocumentModel;
         $data['select_rs'] = $this->MovementOfDocumentModel->getRecentDocuments($data['ucode']);
@@ -81,29 +82,38 @@ class MovementOfDocument extends BaseController
         $data['ucode'] = $ucode;
         $condition = " and 1=1";
         $user = $this->MovementOfDocumentModel->getUserSection($ucode);
+        
         if ($user) {
-            $officerSection = $user['section'];
-            $userType = $user['usertype'];
+           
+            foreach($user as $row)
+            {
+                $officerSection=$row['section'];
+                $userType=$row['usertype'];
+            }
+          
 
             if ($userType == 14 || $userType == 9) {
-                // Get all DA user codes
                 $allDAUsercodes = $this->MovementOfDocumentModel->getAllDAUsercodes($officerSection);
-                if ($allDAUsercodes) {
-                    $condition .= " and a.disp_to in (" . $allDAUsercodes['allDA'] . ")";
+               
+            
+                if (!empty($allDAUsercodes) && isset($allDAUsercodes['allda']) && !is_null($allDAUsercodes['allda'])) {
+                  
+                    $condition .= " and a.disp_to in (" . $allDAUsercodes['allda'] . ")";
+                    
                 }
             } else {
+               
                 $condition .= " and a.disp_to = " . $this->db->escape($ucode);
             }
+            
+            
         }
 
-        // Current date logic
         $cur_date = date('d-m-Y');
         $data['cur_date'] = date('d-m-Y');
         $data['new_date'] = date('d-m-Y', strtotime($cur_date . ' + 60 days'));
         $data['select_rs'] = $this->MovementOfDocumentModel->get_select_rs($condition);
-        $data['model']=$this->MovementOfDocumentModel;
-        
-
+        $data['model'] = $this->MovementOfDocumentModel;
         return view('Exchange/movementOfDoc/bulkReceive', $data);
     }
 
@@ -121,8 +131,34 @@ class MovementOfDocument extends BaseController
     {
         $usercode = session()->get('login')['usercode'];
         $data['output_html'] = $this->MovementOfDocumentModel->verified_defective();
+       
         return view('Exchange/movementOfDoc/verifiedDefective', $data);
     }
+
+    public function save_dispatch()
+    {
+        $session = session();
+        $ucode = $session->get('login')['usercode']; // Get user ID from session
+        $alldata = $this->request->getPost('alldata');
+
+        if (!$alldata) {
+            return $this->response->setJSON(['error' => 'No data received']);
+        }
+
+        $errors = [];
+
+        foreach ($alldata as $value) {
+            $new_value = explode('-', $value);
+            $chk_if_move_rs = $this->MovementOfDocumentModel->verified_defectives($new_value[0], $new_value[1], $new_value[2], $new_value[3], $new_value[4]);
+            if (empty($chk_if_move_r)) {
+                $insert = $this->MovementOfDocumentModel->insertDatas($new_value[0], $new_value[1], $new_value[2], $new_value[3], $new_value[4], $ucode, $new_value[5], date('Y-m-d H:i:s'));
+            }
+        }
+    }
+
+
+
+
 
 
 
@@ -170,6 +206,4 @@ class MovementOfDocument extends BaseController
         $usercode = session()->get('login')['usercode'];
         $update = $this->MovementOfDocumentModel->verify_save();
     }
-
-   
 }

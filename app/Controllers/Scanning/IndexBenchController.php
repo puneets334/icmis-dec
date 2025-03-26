@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Controllers\Scanning;
+
 use App\Controllers\BaseController;
 use CodeIgniter\Controller;
 use CodeIgniter\Model;
 use App\Models\Scanning\ScaningModel;
+
 class IndexBenchController extends BaseController
 {
     protected $ScaningModel;
@@ -14,35 +16,45 @@ class IndexBenchController extends BaseController
         $this->ScaningModel =  new ScaningModel();
         $this->db = \Config\Database::connect();
     }
- 
+
     public function fetchAgencies()
     {
 
-        $diary_no='';
+        $diary_no = '';
         $diary_no = $this->request->getVar('diary_number') . $this->request->getVar('diary_year');
         $ddl_court = $this->request->getVar('ddl_court');
         $ddl_st_agncy = $this->request->getVar('ddl_st_agncy');
         $db = \Config\Database::connect();
-        if ($ddl_court == 3)
-        {            
-        
-        $sql = "SELECT DISTINCT a.id_no AS id, a.name AS agency_name FROM public.lowerct b JOIN master.state a ON a.id_no = b.l_dist WHERE b.diary_no = ? AND b.lw_display = 'Y' AND b.ct_code = ? AND b.l_state = ? AND a.display = 'Y' AND b.Sub_Dist_code = 0 AND b.Village_code = 0 AND b.District_code != 0 ORDER BY a.name";
-        $params = [$diary_no, $ddl_court, $ddl_st_agncy];
-        $query = $db->query($sql, $params);
-        $agencies = $query->getResultArray();
+        if ($ddl_court == 3) {
 
-        }
-        else
-        {
-        if ($ddl_court == '5') 
-        {
+            $builder = $db->table('master.state a')
+                        ->distinct()
+                        ->select('a.id_no AS id, a.name AS agency_name')->join('lowerct b', 'a.id_no = b.l_dist')
+                        ->where('display', 'Y')->where('a.sub_dist_code', 0)->where('a.village_code', 0)->where('a.district_code !=', 0)
+                        ->where('b.diary_no', $diary_no)->where('b.lw_display', 'Y')->where('b.ct_code', $ddl_court)
+                        ->where("CAST(b.l_state AS integer)", $ddl_st_agncy) 
+                        ->orderBy('a.name');                
+            $query = $builder->get();
+            $agencies = $query->getResultArray();
+        } else {
+            if ($ddl_court == '5') {
                 $ddl_court = 2;
-        }        
-        $sql = "SELECT DISTINCT a.id, a.agency_name, a.short_agency_name FROM public.lowerct b JOIN master.ref_agency_code a ON b.ct_code = a.agency_or_court AND a.cmis_state_id = b.l_state WHERE b.diary_no = ? AND b.lw_display = 'Y' AND a.is_deleted = 'f' AND a.agency_or_court = ? AND a.cmis_state_id = ?";
-        $query = $db->query($sql, [$diary_no, $ddl_court, $ddl_st_agncy]);
-        $agencies = $query->getResultArray();
+            }
+            $builder = $db->table('master.ref_agency_code a')->distinct()
+                            ->select('a.id, a.agency_name, a.short_agency_name')
+                            ->join('lowerct b', 'b.ct_code = CAST(a.agency_or_court AS INTEGER) 
+                                                AND a.cmis_state_id = b.l_state 
+                                                AND a.id = b.l_dist')
+                            ->where('a.is_deleted', 'f')
+                            ->where('a.agency_or_court', $ddl_court)->where('a.cmis_state_id', $ddl_st_agncy)->where('b.diary_no', $diary_no)
+                            ->where('b.lw_display', 'Y');
+
+            $query = $builder->get();
+            $agencies = $query->getResultArray();
+                            
         }
-        
+        echo $builder->getCompiledSelect();
+        // print_r($params);exit();
         $options = '<option value="">Select</option>';
         foreach ($agencies as $row) {
             if ($ddl_court == 3) {
@@ -52,7 +64,7 @@ class IndexBenchController extends BaseController
             }
         }
         return $this->response->setBody($options);
-    } 
+    }
     public function getTotalCases()
     {
         $db = \Config\Database::connect();
@@ -62,8 +74,9 @@ class IndexBenchController extends BaseController
         $ddl_st_agncy = $this->request->getPost('ddl_st_agncy');
         $ddl_bench = $this->request->getPost('ddl_bench');
         $dairy_no = $diary_number . $diary_year;
-        $sql = "SELECT lct_casetype, lct_caseno, lct_caseyear, lower_court_id, ct_code FROM public.lowerct WHERE ct_code = ? AND l_state = ? AND l_dist = ?  AND diary_no = ? AND lw_display = 'Y'";
-        $query = $db->query($sql, [ $ddl_court,$ddl_st_agncy,$ddl_bench,$dairy_no]);
+        $sql = "SELECT lct_casetype, lct_caseno, lct_caseyear, lower_court_id, ct_code FROM public.lowerct 
+        WHERE ct_code = ? AND l_state = ? AND l_dist = ?  AND diary_no = ? AND lw_display = 'Y'";
+        $query = $db->query($sql, [$ddl_court, $ddl_st_agncy, $ddl_bench, $dairy_no]);
         $totalCaseArray = $query->getResultArray();
         if (count($totalCaseArray) > 0) {
             echo '<option value="">Select</option>';

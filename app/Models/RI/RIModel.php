@@ -874,10 +874,10 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
             $query = $builder->get();
             $result = $query->getRowArray();
 
-            if (count($result) >= 1) {
-                return $result['diary_no'];
+            if (!empty($result)) {
+                return $result['diary_no'] ?? '';
             } else {
-                return 'false';
+                return '';
             }
         } else {
             // Handle the case when $builder is not initialized (unexpected searchType)
@@ -1791,7 +1791,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
     {
 
         //  pr($data['fromDate']);die;
-        //extract($post);
+        extract($data);
 
         $builder = $this->db->table('ec_postal_dispatch epd');
 
@@ -1861,30 +1861,40 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
             if ($searchBy == 's') {
                 if ($data['fromDate'] != '' && $data['toDate'] != '') {
                     if ($dealingSection != 0) {
-                        $whereDateRange = " and date(epdt.updated_on) between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "' and epd.usersection_id=$dealingSection";
+                        $whereDateRange = "  date(epdt.updated_on) between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "' and epd.usersection_id=$dealingSection";
                     } else {
-                        $whereDateRange = " and date(epdt.updated_on)  between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "'";
+                        $whereDateRange = "  date(epdt.updated_on)  between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "'";
                     }
                 }
             } else if ($searchBy == 'c' || $searchBy == 'd') {
-                $fetchedDiaryNo = $this->RIModel->getSearchDiary($searchBy, $caseType, $caseNo, $caseYear, $diaryNumber, $diaryYear);
-                $whereDateRange = " and epd.diary_no=" . $fetchedDiaryNo;
+                $fetchedDiaryNo = $this->getSearchDiary($searchBy, $caseType, $caseNo, $caseYear, $diaryNumber, $diaryYear);
+              
+                $fetchedDiaryNo = (!empty($fetchedDiaryNo)) ? $fetchedDiaryNo : "NULL";
+                $whereDateRange =  "  epd.diary_no=" . $fetchedDiaryNo;
             } else if ($searchBy == 'p') {
-                $whereDateRange = " and epd.process_id=$processId and process_id_year=" . $processYear;
+                $whereDateRange = "   epd.process_id=$processId and process_id_year='".$processYear."'";
             }
 
             if ($dispatchMode != 0 && $dispatchMode != '') {
 
-                $whereDateRange .= " and epd.ref_postal_type_id=$dispatchMode";
+                $whereDateRange .= "  epd.ref_postal_type_id=$dispatchMode";
             }
         } else {
             if ($data['fromDate'] != '' && $data['toDate'] != '') {
 
-                $whereDateRange = " and date(epdt.updated_on)  between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "'";
+                $whereDateRange = "  date(epdt.updated_on)  between '" . date('Y-m-d', strtotime($data['fromDate'])) . "' and '" . date('Y-m-d', strtotime($data['toDate'])) . "'";
             }
         }
 
-        //        epd.ref_letter_status_id in (4,5)>> and epd.process_id=12345 and process_id_year=2024 and epd.ref_postal_type_id=
+        // Apply where conditions safely
+        if (!empty($wherePostalDispatch)) {
+            $builder->where($wherePostalDispatch);
+        }
+        if (!empty($whereDateRange)) {
+            $builder->where($whereDateRange);
+        }
+
+             //   epd.ref_letter_status_id in (4,5)>> and epd.process_id=12345 and process_id_year=2024 and epd.ref_postal_type_id=
 
         ###this need to uncomment
 
@@ -1899,6 +1909,8 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
 
         return $query->getResultArray();
     }
+
+    
 
 
     function getLetterStatus()
@@ -2605,7 +2617,7 @@ else '' end as case_no");
         $builder->update($dataForDispatch);
 
         if ($this->db->affectedRows() > 0) {
-            echo "hi";
+            
             $dataForDispatchTransactions = array(
                 'ec_postal_dispatch_id' => $id,
                 'ref_letter_status_id' => $letterStatus,

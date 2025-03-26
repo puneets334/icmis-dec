@@ -5,7 +5,7 @@ namespace App\Controllers\Scanning;
 use App\Controllers\BaseController;
 use CodeIgniter\Controller;
 use App\Models\Scanning\Scaned\ScanedModel;
-use App\Models\Scanning\Scaned\CaseModel;
+// use App\Models\Scanning\Scaned\CaseModel;
 use App\Models\Scanning\Scaned\LowerCourtModel;
 use DateTime; // Import the DateTime class
 
@@ -36,7 +36,7 @@ class ScanningController extends BaseController
 
     public function hcDcIndexing()
     {
-        return view('Scanning/scanedFile/hc_dc_indexing_view'); // Load your view
+        return view('scanning/scanedFile/hc_dc_indexing_view'); // Load your view
     }
 
     public function indexingExcelView()
@@ -55,7 +55,7 @@ class ScanningController extends BaseController
         $stateData = $this->scanedModel->getStateData();
         $data = [
             'courtData' => $courtData,
-            'stateData' => $stateData,
+            'stateData' => $stateData ?? '',
         ];
         return view('scanning/scanedFile/scan_view', $data); // Load your view
     }
@@ -65,40 +65,20 @@ class ScanningController extends BaseController
     {
         $request = service('request');
         $ddl_st_agncy = $request->getVar('ddl_st_agncy');
-        $ddl_bench = $request->getVar('ddl_bench');
+        // $ddl_bench = $request->getVar('ddl_bench');
         $ddl_court = $request->getVar('ddl_court');
 
         $bench = '';
-        if ($ddl_st_agncy == '292979') {
-            if ($ddl_bench == '17') {
-                $bench = '01';
-            } elseif ($ddl_bench == '18') {
-                $bench = '02';
-            } elseif ($ddl_bench == '19') {
-                $bench = '03';
+        $model = new ScanedModel();
+        $caseTypes = $model->getCaseTypes_branch($ddl_st_agncy, $ddl_court);
+        $response = '';
+        if ($caseTypes) {
+            $response = '<option value="">Select</option>';
+            foreach ($caseTypes as $row) {
+                $response .= '<option value="' . $row['id'] . '">' .  ucfirst($row['lccasecode']) . ' :: ' . $row['type_sname'] . '</option>';
             }
-
-            $model = new ScanedModel();
-            if ($ddl_court == '1') {
-                $caseTypes = $model->getCaseTypes($ddl_st_agncy);
-
-                if ($caseTypes) {
-                    $response = '<input type="hidden" name="hd_mn" id="hd_mn" value="' . $bench . '"/>
-                                <select name="cs_tp" id="cs_tp" class="select-box">
-                                    <option value="">Select</option>';
-                    foreach ($caseTypes as $row) {
-                        $response .= '<option value="' . $row['lccasecode'] . '">' . $row['type_sname'] . '</option>';
-                    }
-                    $response .= '</select>&nbsp;&nbsp;
-                                  <input type="text" name="txtFNo" id="txtFNo" maxlength="5" size="5" onblur="com_filingNo()"/>&nbsp;&nbsp;
-                                  <input type="text" name="txtYear" id="txtYear" maxlength="4" size="4"/>&nbsp;&nbsp;
-                                  <input type="button" name="btnSubmit" id="btnSubmit" value="Submit" onclick="getDetails();"/>';
-
-                    return $this->response->setJSON(['status' => 'success', 'html' => $response]);
-                }
-            }
+            return $this->response->setJSON(['status' => 'success', 'html' => $response]);
         }
-
         return $this->response->setJSON(['status' => 'error', 'html' => '<div style="text-align: center"><b>No Record Found</b></div>']);
     }
 
@@ -108,23 +88,25 @@ class ScanningController extends BaseController
         $ddl_st_agncy = $request->getvar('ddl_st_agncy');
         $ddl_bench = $request->getvar('ddl_bench');
         $ddl_court = $request->getvar('ddl_court');
+        
 
         $bench = '';
-        if ($ddl_st_agncy == '292979') {
-            switch ($ddl_bench) {
-                case '17':
-                    $bench = '01';
-                    break;
-                case '18':
-                    $bench = '02';
-                    break;
-                case '19':
-                    $bench = '03';
-                    break;
-            }
+        // if ($ddl_st_agncy == '292979') {
+        //     switch ($ddl_bench) {
+        //         case '17':
+        //             $bench = '01';
+        //             break;
+        //         case '18':
+        //             $bench = '02';
+        //             break;
+        //         case '19':
+        //             $bench = '03';
+        //             break;
+        //     }
 
             $caseTypes = $this->scanedModel->getCaseTypes($ddl_st_agncy);
-
+            // echo $this->db->getLastQuery();
+            // echo "<pre>";print_r($caseTypes);
             if (!empty($caseTypes)) {
                 $html = '<input type="hidden" name="hd_mn" id="hd_mn" value="' . $bench . '"/>
                         <select name="cs_tp" id="cs_tp">
@@ -143,9 +125,9 @@ class ScanningController extends BaseController
             } else {
                 return $this->response->setJSON(['status' => 'error', 'message' => 'No data found.']);
             }
-        } else {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid State Agency or Bench']);
-        }
+        // } else {
+        //     return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid State Agency or Bench']);
+        // }
     }
 
     //Indexing(Loose Document) View/Download
@@ -159,10 +141,12 @@ class ScanningController extends BaseController
         // Convert dates to proper format
         $txt_fd = DateTime::createFromFormat('d/m/Y', $txt_fd)->format('Y-m-d');
         $txt_td = DateTime::createFromFormat('d/m/Y', $txt_td)->format('Y-m-d');
-
+        
         // Get records from the model (you mentioned `scanedModel`, assuming this is correct)
         $records = $this->scanedModel->getRecordsBetweenDates($txt_fd, $txt_td);
-
+        // echo $this->db->getLastQuery();
+        // print_r($records);
+        // die;
         if (!empty($records)) {
             // Set CSV header based on the csv_type
             if ($csv_type === 'indexingExcelView') {
@@ -216,7 +200,7 @@ class ScanningController extends BaseController
 
             // Set CSV download headers
             header('Content-Type: text/csv');
-            header('Content-Disposition: attachment; filename="document_' . date('Y-m-d_H-i-s') . '.csv');
+            header('Content-Disposition: attachment; filename="' . date('Y-m-d_H-i-s') . '.csv');
 
             // Open PHP output stream for writing the CSV
             $fp = fopen('php://output', 'w');
@@ -225,6 +209,7 @@ class ScanningController extends BaseController
             fputcsv($fp, $csv_header);
 
             // Iterate through records and write rows
+            $sr_no = 1;
             foreach ($records as $record) {
                 // Prepare the CSV row data based on csv_type
                 $csv_row = [
@@ -252,7 +237,7 @@ class ScanningController extends BaseController
                 if ($csv_type !== 'indexingExcelView') {
                     $csv_row[] = $record['docnum'];
                     $csv_row[] = $record['docyear'];
-                    $csv_row[] = $record['s_no'];
+                    $csv_row[] = $sr_no++;
                 }
 
                 // Write the row to CSV
@@ -273,13 +258,16 @@ class ScanningController extends BaseController
         $request = service('request');
         $txt_frm_date = $request->getVar('txt_frm_date');
         $txt_to_date = $request->getVar('txt_to_date');
-
-        $txt_frm_date = date('Y-m-d', strtotime($txt_frm_date));
-        $txt_to_date = date('Y-m-d', strtotime($txt_to_date));
-
+        
+        $txt_frm_date = DateTime::createFromFormat('d/m/Y', $txt_frm_date)->format('Y-m-d');
+        $txt_to_date = DateTime::createFromFormat('d/m/Y', $txt_to_date)->format('Y-m-d');
+        
         // Get records using your model
         $records = $this->lowerCourtModel->getRecords($txt_frm_date, $txt_to_date);
-
+        // echo $this->db->getLastQuery();
+        // echo "<pre>";
+        // print_r($records);
+        // die;
         // Prepare CSV output
         if (!empty($records)) {
             $csv_header = [
@@ -329,7 +317,10 @@ class ScanningController extends BaseController
 
         // Fetch records based on the date range and type
         $records = $this->scanedModel->fetchDiaryDetails($txt_frm_date, $txt_to_date, $ddl_dt_type);
-
+        // echo $this->db->getLastQuery();
+        // echo "<pre>";
+        // print_r($records);
+        // die;    
         // Check if CSV download request is made (use a specific flag or parameter if needed)
         if ($request->getVar('download') == 'csv') {
             // Prepare CSV output

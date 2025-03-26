@@ -121,7 +121,7 @@
                     type: 'POST',
                     url: "<?= base_url() ?>/Record_room/FileTrap/receiveCasesFromScanning",
                     beforeSend: function(xhr) {
-                        $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>../images/load.gif'></div>");
+                        $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>/images/load.gif'></div>");
                     },
                     data: {
                         orderDateFrom: fromDate,
@@ -175,13 +175,14 @@
             var this_textarea_value = $(this).closest('tr').find('textarea.consignmentRemarks').val();
             consignmentRemarks.push(this_textarea_value);
         });
+        // alert(countChecked);exit;
 
         if (countChecked > 0) {
             $.ajax({
                     type: 'POST',
                     url: "<?= base_url() ?>index.php/FileTrap/receiveAndDispatchCasesToRC",
                     beforeSend: function(xhr) {
-                        $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>../images/load.gif'></div>");
+                        $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>/images/load.gif'></div>");
                     },
                     data: {
                         dateFrom: fromDate,

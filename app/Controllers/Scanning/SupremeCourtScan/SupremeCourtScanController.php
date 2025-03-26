@@ -34,7 +34,8 @@ class SupremeCourtScanController extends BaseController
 
     public function scanFileView()
     {
-        return view('Scanning/SupremeCourtScan/scan_file_view'); // Load your view
+        $data['diary_year'] = '';
+        return view('scanning/SupremeCourtScan/scan_file_view',$data); // Load your view
     }
 
     public function fetchDetails()
@@ -43,34 +44,26 @@ class SupremeCourtScanController extends BaseController
         $txt_frm_date = $request->getVar('txt_frm_date');
         $txt_to_date = $request->getVar('txt_to_date');
         $ddl_status = $request->getVar('ddl_status');
-
+        
         $txt_frm_date = date('Y-m-d', strtotime($txt_frm_date));
         $txt_to_date = date('Y-m-d', strtotime($txt_to_date));
         $data = $this->supremeCourt->getIndexingReport($txt_frm_date, $txt_to_date, $ddl_status);
 
+
         if (!empty($data)) {
-            $html = '<div align="center">
-                        <table class="align-items-center table table-hover table-striped"><thead class="thead-dark"><tr>
-                                <th scope="col"><strong>S.No.</strong></th>
-                                <th scope="col"><strong>Diary No.</strong></th>
-                                <th scope="col"><strong>Case No.</strong></th>
-                                <th scope="col"><strong>Status</strong></th>
-                            </tr>';
+            $html = [];
 
             $sno = 1;
             $diary_no = '';
+         
             foreach ($data as $row) {
-                $html .= '<tr>';
-                if ($diary_no != $row['diary_no']) {
-                    $html .= '<td rowspan="' . $row['rowspan'] . '">' . $sno++ . '</td>';
-                    $html .= '<td rowspan="' . $row['rowspan'] . '">' . substr($row['diary_no'], 0, -4) . '-' . substr($row['diary_no'], -4) . '</td>';
-                }
-                $html .= '<td>' . $row['type_sname'] . '-' . $row['lct_caseno'] . '-' . $row['lct_caseyear'] . '</td>';
-                $html .= '<td>' . ($row['conformation'] == '1' ? 'Completed' : 'Not Completed') . '</td>';
-                $html .= '</tr>';
+                $html[] = [
+                    'srno' => $sno++ ,
+                    'diary_no'         => ($diary_no != $row['diary_no']) ? substr($row['diary_no'], 0, -4) . '-' . substr($row['diary_no'], -4) : null,
+                    'type_sname'  => $row['type_sname'] . '-' . $row['lct_caseno'] . '-' . $row['lct_caseyear'],
+                    'conformation' => ($row['conformation'] == '1' ? 'Completed' : 'Not Completed') ,
+                ];
             }
-
-            $html .= '</table></div>';
 
             // Send the response back as JSON
             return $this->response->setJSON(['status' => '1', 'html' => $html, 'message' => 'Data found successfully']);
@@ -87,10 +80,9 @@ class SupremeCourtScanController extends BaseController
 
         $base_directory = FCPATH .'uploads' . DIRECTORY_SEPARATOR . 'scan_documents' . DIRECTORY_SEPARATOR;
         $master = $base_directory . $year . DIRECTORY_SEPARATOR . $diary_no;
-
         $html = '<div align="center">
         <table class="align-items-center table table-hover table-striped">
-            <thead class="thead-dark">
+            <thead>
                 <tr>
                     <th scope="col"><strong>S.No.</strong></th>
                     <th scope="col"><strong>Document Type</strong></th>
@@ -104,8 +96,7 @@ class SupremeCourtScanController extends BaseController
                 $files = glob($master . DIRECTORY_SEPARATOR . "*");
 
             if (!empty($files)) {
-                foreach ($files as $file) {
-           
+                foreach ($files as $file) {           
 
                     if (basename($file) == 'Thumbs.db') continue;
 
