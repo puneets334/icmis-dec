@@ -68,8 +68,8 @@
    </div>
  </div>
 
-<script src="<?php echo base_url('plugins/jquery-validation/jquery.validate.js'); ?>"></script>
-<script src="<?php echo base_url('plugins/jquery-validation/additional-methods.js'); ?>"></script>
+<!-- <script src="<?php echo base_url('plugins/jquery-validation/jquery.validate.js'); ?>"></script>
+<script src="<?php echo base_url('plugins/jquery-validation/additional-methods.js'); ?>"></script> -->
 <script>
 
 $(function () {
@@ -93,8 +93,8 @@ $(function () {
                     url: "<?php echo base_url('Reports/Court/Report/getROPNotUploaded'); ?>",
                     data: form_data,
                     beforeSend: function () {
-                        $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
-                        $('.fixed_date_matters').val('Please wait...');
+                        $("#result_data").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+                        //$('.fixed_date_matters').val('Please wait...');
                         //$('.fixed_date_matters').prop('disabled', true);
                     },
                     success: function (data) {
@@ -160,7 +160,7 @@ $(function () {
 
             var CSRF_TOKEN = 'CSRF_TOKEN';
 		    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-
+            $('#btn_submit').prop('disabled',true);
             $.ajax({
                     url: "<?php echo base_url('Reports/Court/Report/getROPNotUploaded'); ?>",                
                     data: {
@@ -170,17 +170,18 @@ $(function () {
                             pJudge:pJudge,
                           },
                     beforeSend: function () {
-                        $('#div_result').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+                        $('#result_data').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
                     },
                     type: 'POST',
                     success: function(data, status) {
                         updateCSRFToken();
                         $('#result_data').html(data);
-                        $('#btn_submit').attr('disabled',false);
+                        $('#btn_submit').prop('disabled',false);
                         
                     },
                     error: function(xhr) {
                         updateCSRFToken();
+                        $('#btn_submit').prop('disabled',false);
                         alert("Error: " + xhr.status + " " + xhr.statusText);
                     }
             });
