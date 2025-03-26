@@ -12,6 +12,8 @@ use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use App\Models\Common\Dropdown_list_model;
 use App\Controllers\Court\LIVE_URL;
+use DirectoryIterator;
+use FilesystemIterator;
 
 class CourtMasterController extends BaseController
 {
@@ -78,7 +80,7 @@ class CourtMasterController extends BaseController
         $data['app_name'] = 'Generate ROP';
         $data['judge'] = $judge;
         $data['usercode'] = $usercode;
-
+ 
         return view('Court/CourtMaster/selectDetailForROP', $data);
     }
 
@@ -270,7 +272,7 @@ class CourtMasterController extends BaseController
 
         $diary_no = $roster_id = $court_no = $item_number = "";
         $checkedCases = "";
-
+        $reg = [];
         foreach (array_keys($judge, '0') as $key) {
             unset($judge[$key]);
         }
@@ -763,38 +765,42 @@ class CourtMasterController extends BaseController
         }
 
         $zip_file = $dir . '.zip';
-        $path = $_SERVER['DOCUMENT_ROOT'] . '/supreme_court/Copying/assets/courtMaster';
+        $path = "uploaded_documents/assets/courtMaster";
         $rootPath = $path . '/' . $dir;
+        if (!file_exists($rootPath)) {
+            mkdir($rootPath, 0755, true);
+        }
         $zip = new ZipArchive();
-        $zip->open($path . '/' . $zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
-
+        $zip->open($rootPath . '/' . $zip_file, ZipArchive::CREATE | ZipArchive::OVERWRITE);
         $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($rootPath),
+            new RecursiveDirectoryIterator($rootPath, FilesystemIterator::SKIP_DOTS),
             RecursiveIteratorIterator::LEAVES_ONLY
         );
-
+        
         foreach ($files as $name => $file) {
             if (!$file->isDir()) {
                 $filePath = $file->getRealPath();
-                $relativePath = substr($filePath, strlen($rootPath) + 1);
-                $zip->addFile($filePath, $relativePath);
+                // $relativePath = substr($filePath, $rootPath);
+                $zip->addFile($filePath, $rootPath);
             }
         }
         $zip->close();
         ob_clean();
-        $data = file_get_contents($path . '/' . $zip_file);
+ 
+        $data = file_get_contents($rootPath . '/' . $zip_file);
         $name = $zip_file;
-        if (file_exists($path . '/' . $zip_file)) {
+        force_download($name, $data);
+        if (file_exists($rootPath . '/' . $zip_file)) {
             //var_dump($path . '/' . $zip_file);
             try {
                 array_map('unlink', glob($path . '/' . "$dir/*.*"));
                 rmdir($path . '/' . $dir);
-                unlink($path . '/' . $zip_file);
+                unlink($rootPath . '/' . $zip_file);
             } catch (Exception $e) {
                 echo $e . message();
             }
         }
-        force_download($name, $data);
+       
     }
 
     private function str_replace_once($str_pattern, $str_replacement, $string)

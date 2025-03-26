@@ -12,13 +12,17 @@ class NeutralCitation extends BaseController
     {
         $this->JudgesLibraryModel = new JudgesLibraryModel();
     }
-    public function change_court_order_type()
+
+    public function change_court_order_type($usercode="",$msg="")
     {
         $data['usercode'] = session()->get('login')['usercode'];
+        $data['msg'] = $msg;
         session()->set('usercode', $data['usercode']);
         $data['caseTypes'] = $this->JudgesLibraryModel->getCaseType();
         $data['diaryNumberForSearch'] = '';
+
         if (!empty($this->request->getPost('diaryNumber'))) {
+            pr($data['diaryNumberForSearch']);
             if ($this->request->getPost('optradio') == 'C') {
                 $optradio = $this->request->getPost('optradio');
                 $caseType = $this->request->getPost('caseType');
@@ -45,6 +49,7 @@ class NeutralCitation extends BaseController
         }
         return view('JudgesLibrary/NeutralCitation/change_court_order_type', $data);
     }
+
 
 
     public function getListedDetailsForJudgmentFlag()
