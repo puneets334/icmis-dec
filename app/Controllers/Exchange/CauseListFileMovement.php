@@ -35,82 +35,11 @@ class CauseListFileMovement extends BaseController
     {
         $courtNo = $this->request->getPost('courtNo');
         $date1 = $this->request->getPost('date1');
-
-        /*if (empty($courtNo) || empty($date1)) {
-            $response = [
-                'status' => 'error',
-                'message' => 'Please fill in all required fields.'
-            ];
-            return $this->response->setJSON($response);
-        }*/
-    
         $model = new Matters_Listed();
         $data['records'] = $model->getListingData($courtNo, $date1);
         return view('Exchange/matters_report', $data);
-
-        /*if (empty($data)) {
-            $response = ['status' => 'error','message' => 'No Record Found!!'];
-        } else {
-            $response = ['status' => 'success','data' => $data];
-        }*/
-    
-        //return $this->response->setJSON($response);
     }
 
-    // public function fetchData()
-    // {
-    //     $courtNo = '123'; 
-    //     $date1 = '2024-09-10'; 
-
-    //     if (empty($courtNo) || empty($date1))
-    //     {
-    //         $response = [
-    //             'status' => 'error',
-    //             'message' => 'Please fill in all required fields.'
-    //         ];
-    //         return $this->response->setJSON($response);
-    //     }
-
-       
-    //     $data = [
-    //         [
-    //             'case_number' => 'ABC123',
-    //             'court_name' => 'Supreme Court',
-    //             'hearing_date' => '2024-09-10',
-    //             'judge' => 'Judge Smith',
-    //             'status' => 'Pending'
-    //         ],
-    //         [
-    //             'case_number' => 'XYZ789',
-    //             'court_name' => 'High Court',
-    //             'hearing_date' => '2024-09-10',
-    //             'judge' => 'Judge Johnson',
-    //             'status' => 'Closed'
-    //         ]
-    //     ];
-
-    //     if (empty($data))
-    //     {
-    //         $response = [
-    //             'status' => 'no_data',
-    //             'message' => 'No records found for the selected criteria.'
-    //         ];
-    //     }
-    //     else
-    //     {
-    //         $response = [
-    //             'status' => 'success',
-    //             'data' => $data
-    //         ];
-    //     }
-    //     return $this->response->setJSON($response);
-    // }
-
-    // public function transaction()
-    // {
-    //     return view('Exchange/transaction');
-    // }
-    
     public function transaction()
     {
         $data['cases'] = $this->Transaction->getAllCaseType();
@@ -119,14 +48,6 @@ class CauseListFileMovement extends BaseController
 
     public function transactionProcess()
     {
-        //$usercode = session()->get('login')['usercode'];
-        /*$searchby = $_REQUEST['searchby'];
-        $caseType = !empty($_REQUEST['caseType']) ? $_REQUEST['caseType'] : Null;
-        $caseNo = !empty($_REQUEST['caseNo']) ? $_REQUEST['caseNo'] : Null;
-        $caseYear = !empty($_REQUEST['caseYear']) ? $_REQUEST['caseYear'] : Null;
-        $dNo = !empty($_REQUEST['dNo']) ? $_REQUEST['dNo'] : Null;
-        $dYear = !empty($_REQUEST['dYear']) ? $_REQUEST['dYear'] : Null;*/
-
         $request = \Config\Services::request();
         $searchby = $request->getPost('searchby');
         $caseType = !empty($request->getPost('caseType')) ? $request->getPost('caseType') : Null;
@@ -206,7 +127,6 @@ class CauseListFileMovement extends BaseController
         $request = \Config\Services::request();
         $usercode = session()->get('login')['usercode'];
         $selectedCases = $request->getGet('selectedCases');
-        //$selectedCases = $_REQUEST['selectedCases'];
         $result = 0;
         $action = 5; //File received by dealing assistant
         foreach($selectedCases as $index => $case)
@@ -250,9 +170,6 @@ class CauseListFileMovement extends BaseController
     {   
         $request = \Config\Services::request();
         $usercode = session()->get('login')['usercode'];
-        //$causelistDate = date('Y-m-d', strtotime($request->getPost('causelistDate')));
-        //$selectedCases = $_REQUEST['selectedCases'];
-        //$attendant = $_REQUEST['attendant'];
         $selectedCases = $request->getPost('selectedCases');
         $attendant = $request->getPost('attendant');
         $result = 0;
@@ -300,14 +217,6 @@ class CauseListFileMovement extends BaseController
     {
         $request = \Config\Services::request();
         $usercode = session()->get('login')['usercode'];
-        
-        /*$causelistDate = date('Y-m-d', strtotime($_REQUEST['causelistDate']));
-        $selectedCases = $_REQUEST['selectedCases'];
-        $dacodes = $_REQUEST['dacodes'];
-        $attendant = $_REQUEST['attendant'];
-        $cmnshusercodes = $_REQUEST['cmnshusercodes'];*/
-
-
         $causelistDate = date('Y-m-d', strtotime($request->getPost('causelistDate')));
         $selectedCases = $request->getPost('selectedCases');
         $dacodes = $request->getPost('dacodes');
@@ -344,12 +253,6 @@ class CauseListFileMovement extends BaseController
     public function sqlReport()
     {
         return view('Exchange/sql_report');
-        /*return view('Exchange/sql_report', [
-            'fromDate' => '',
-            'toDate' => '',
-            'ucode' => '',
-
-        ]);*/
     }
 
     public function processReport()
