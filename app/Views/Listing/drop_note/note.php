@@ -46,7 +46,7 @@
                                                 <legend>Listing Dates</legend>
                                                 <select class="ele" name="listing_dts" id="listing_dts">
                                                     <option value="-1" selected>SELECT</option>
-                                                    <?php if(!empty($judge_list)) { ?>
+                                                    <?php if(!empty($listing_dates)) { ?>
                                                     <?php foreach($listing_dates as $date){?>
                                                         <option value="<?php echo $date['next_dt']; ?>"><?php echo date("d-m-Y", strtotime($date['next_dt'])); ?></option>
                                                         <?php }
@@ -226,9 +226,9 @@
         var part_no = $("#part_no").val();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-        if(list_dt == "-1"){ return false; }
-        if(jud_ros == "-1"){ return false; }
-        if(part_no == "-1"){ return false; }
+        // if(list_dt == "-1"){ return false; }
+        // if(jud_ros == "-1"){ return false; }
+        // if(part_no == "-1"){ return false; }
         $.ajax({
                 url: "<?php echo base_url('Listing/CaseDrop/note_field'); ?>",
                 cache: false,
