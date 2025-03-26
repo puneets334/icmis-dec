@@ -1,10 +1,10 @@
-<?php if(session()->getFlashdata('msg')): ?>
+<?php if (session()->getFlashdata('msg')): ?>
     <?= session()->getFlashdata('msg') ?>
 <?php endif; ?>
 
 <?php
 if (is_array($disposedCasesList)) {
-    
+
 ?>
 
     <div id="printable" class="box box-danger">
@@ -46,7 +46,7 @@ if (is_array($disposedCasesList)) {
                         <tr>
                             <td><?= $s_no; ?></td>
                             <td><strong><?= $result['case_no']; ?></strong><br>
-                                <?= $result['Cause_title']; ?>
+                                <?= $result['cause_title']; ?>
                                 <br>Order Dt.:<?= $result['order_date']; ?>
                                 <br>Coram: <?= $result['coram']; ?>
 

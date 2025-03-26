@@ -524,7 +524,7 @@ class Mentioning_Model extends Model
                       ? $this->get_case_remarks($row_listing['diary_no'], $row_listing['next_dt'], $row_listing['judges'], $row_listing['brd_slno']) 
                       : "";
     
-                $ent_dt_display = ($row_listing['ent_dt'] == '0000-00-00 00:00:00' || !$row_listing['ent_dt'])
+                $ent_dt_display = ($row_listing['ent_dt'] == '' || !$row_listing['ent_dt'])
                     ? ($row_listing['section_name'] ? $row_listing['section_name'] : '')
                     : $row_listing['section_name'] . " ON " . date('d-m-Y h:i:s A', strtotime($row_listing['ent_dt']));
     
@@ -550,7 +550,7 @@ class Mentioning_Model extends Model
                       ? $this->get_case_remarks($row_listing1['diary_no'], $row_listing1['next_dt'], $row_listing1['judges'], $row_listing1['brd_slno']) 
                       : "";
                 
-                $ent_dt_display1 = ($row_listing1['ent_dt'] == '0000-00-00 00:00:00' || !$row_listing1['ent_dt'])
+                $ent_dt_display1 = ($row_listing1['ent_dt'] == '' || !$row_listing1['ent_dt'])
                     ? ($row_listing1['section_name'] ? $row_listing1['section_name'] : '')
                     : $row_listing1['section_name'] . " ON " . date('d-m-Y h:i:s A', strtotime($row_listing1['ent_dt']));
                 

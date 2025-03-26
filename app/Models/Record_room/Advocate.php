@@ -9,7 +9,7 @@ class Advocate extends Model
     protected $table = 'advocate';
     // protected $primaryKey = 'diary_no';
 
-    protected $useAutoIncrement = false; 
+    protected $useAutoIncrement = false;
 
     protected $allowedFields = [
         'diary_no',
@@ -35,17 +35,14 @@ class Advocate extends Model
         'inperson_email'
     ];
 
-
-    public function getAdvtDetails($bar_id)
+    public function getAdvtDetails_old($bar_id)
     {
         $db = \Config\Database::connect();
-        
+
         $bar_id = $db->escape($bar_id);
 
-        $sql = "SELECT cc.* 
-        FROM (
-            SELECT DISTINCT
-                concat(
+        $sql = "SELECT cc.* FROM (
+            SELECT DISTINCT concat(
                     substring(cast(a.diary_no AS text) FROM 1 FOR length(cast(a.diary_no AS text)) - 4),
                     '/',
                     substring(cast(a.diary_no AS text) FROM length(cast(a.diary_no AS text)) - 3 FOR 4)
@@ -117,7 +114,7 @@ class Advocate extends Model
                             b.advocate_id = $bar_id
                             AND b.display = 'Y'
                     ) a
-                    LEFT JOIN master.da_case_distribution b ON b.case_type = a.casetype_id
+                    LEFT JOIN master.da_case_distribution b ON CAST(b.case_type AS BIGINT) = a.casetype_id
                         AND ref_agency_state_id = state
                         AND reg_year BETWEEN b.case_f_yr AND b.case_t_yr
                     LEFT JOIN master.users u ON b.dacode = u.usercode AND u.display = 'Y'
@@ -125,15 +122,19 @@ class Advocate extends Model
                     LEFT JOIN master.usersection us ON u.section = us.id AND us.display = 'Y'
                     WHERE b.display = 'Y'
                     GROUP BY a.diary_no, us.section_name, us.id, advocate_id
+
+
+
                     UNION
+
+                    
                     SELECT
                         us.section_name,
                         us.id AS sec_id,
                         a.diary_no,
                         advocate_id
                     FROM (
-                        SELECT
-                            a.diary_no,
+                        SELECT a.diary_no,
                             COALESCE(NULLIF(active_casetype_id, 0), casetype_id) AS casetype_id,
                             COALESCE(NULLIF(active_fil_no, ''), fil_no) AS fil_no,
                             CASE
@@ -169,7 +170,9 @@ class Advocate extends Model
                     LEFT JOIN master.usersection us ON u.section = us.id AND us.display = 'Y'
                     WHERE b.display = 'Y'
                     GROUP BY a.diary_no, us.section_name, us.id, advocate_id
+
                     UNION
+
                     SELECT
                         us.section_name,
                         us.id AS sec_id,
@@ -206,8 +209,8 @@ class Advocate extends Model
                             b.advocate_id = $bar_id
                             AND b.display = 'Y'
                     ) a
-                    LEFT JOIN master.da_case_distribution_tri b ON b.case_type = a.casetype_id
-                        AND reg_year BETWEEN b.case_f_yr AND b.case_t_yr
+                   LEFT JOIN master.da_case_distribution b ON CAST(b.case_type AS BIGINT) = a.casetype_id
+                    AND reg_year BETWEEN b.case_f_yr AND b.case_t_yr
                     LEFT JOIN heardt h ON h.diary_no = a.diary_no
                     LEFT JOIN master.users u ON b.dacode = u.usercode AND u.display = 'Y'
                     LEFT JOIN master.usersection us ON u.section = us.id AND us.display = 'Y'
@@ -225,9 +228,96 @@ class Advocate extends Model
         return $query->getResultArray();
     }
 
+    public function getAdvtDetails($bar_id)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('advocate a');
 
+        $builder->select('
+            DISTINCT
+            CONCAT(
+                SUBSTRING(CAST(a.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(a.diary_no AS TEXT)) - 4),
+                \'/\',
+                SUBSTRING(CAST(a.diary_no AS TEXT) FROM LENGTH(CAST(a.diary_no AS TEXT)) - 3 FOR 4)
+            ) AS Diary_no,
+            CONCAT(
+                reg_no_display,
+                \' @ \',
+                CONCAT(
+                    SUBSTRING(CAST(a.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(a.diary_no AS TEXT)) - 4),
+                    \'/\',
+                    SUBSTRING(CAST(a.diary_no AS TEXT) FROM LENGTH(CAST(a.diary_no AS TEXT)) - 3 FOR 4)
+                )
+            ) AS No,
+            SUBSTRING(CAST(a.diary_no AS TEXT) FROM LENGTH(CAST(a.diary_no AS TEXT)) - 3 FOR 4) AS dyear,
+            CONCAT(pet_name, \' VS \', res_name) AS Causetitle,
+            CASE
+                WHEN h.conn_key = 0 THEN \'MAIN\'
+                ELSE CASE
+                    WHEN h.diary_no = h.conn_key THEN \'Main\'
+                    ELSE \'Connected\'
+                END
+            END AS Main_Connected,
+            CASE
+                WHEN c_status = \'P\' THEN \'Pending\'
+                ELSE \'Disposed\'
+            END AS status
+        ')
+            ->join('main b', 'a.diary_no = b.diary_no')
+            ->join('master.users c', 'c.usercode = b.dacode AND c.display = \'Y\'', 'left')
+            ->join('heardt h', 'h.diary_no = b.diary_no', 'left')
+            ->join('master.usersection d', 'd.id = c.section AND d.display = \'Y\'', 'left')
+            ->join('master.casetype e', 'e.casecode = CAST(SUBSTRING(CAST(b.fil_no AS TEXT) FROM 1 FOR 2) AS INTEGER) AND e.display = \'Y\'', 'left')
+            ->join('(
+            SELECT
+                us.section_name,
+                us.id AS sec_id,
+                a.diary_no,
+                advocate_id
+            FROM (
+                SELECT
+                    a.diary_no,
+                    COALESCE(NULLIF(active_casetype_id, 0), casetype_id) AS casetype_id,
+                    COALESCE(NULLIF(active_fil_no, \'\'), fil_no) AS fil_no,
+                    CASE
+                        WHEN COALESCE(NULLIF(active_reg_year, 0),
+                            CASE
+                                WHEN EXTRACT(YEAR FROM active_fil_dt) = 0 THEN EXTRACT(YEAR FROM fil_dt)
+                                ELSE EXTRACT(YEAR FROM active_fil_dt)
+                            END) = 0 THEN EXTRACT(YEAR FROM diary_no_rec_date)
+                        ELSE COALESCE(NULLIF(active_reg_year,
+                            CASE
+                                WHEN EXTRACT(YEAR FROM active_fil_dt) = 0 THEN EXTRACT(YEAR FROM fil_dt)
+                                ELSE EXTRACT(YEAR FROM active_fil_dt)
+                            END), active_reg_year)
+                    END AS reg_year,
+                    ref_agency_state_id,
+                    ref_agency_code_id,
+                    diary_no_rec_date,
+                    pet_name,
+                    res_name,
+                    advocate_id
+                FROM
+                    main a
+                    JOIN advocate b ON a.diary_no = b.diary_no
+                    LEFT JOIN heardt h ON h.diary_no = a.diary_no
+                    LEFT JOIN mul_category mc ON a.diary_no = mc.diary_no AND mc.display = \'Y\'
+                WHERE
+                    b.advocate_id = ' . $bar_id . '
+                    AND b.display = \'Y\'
+            ) a
+            LEFT JOIN master.da_case_distribution b ON CAST(b.case_type AS BIGINT) = a.casetype_id
+                AND ref_agency_state_id = state
+                AND reg_year BETWEEN b.case_f_yr AND b.case_t_yr
+            LEFT JOIN master.users u ON b.dacode = u.usercode AND u.display = \'Y\'
+            LEFT JOIN heardt h ON h.diary_no = a.diary_no
+            LEFT JOIN master.usersection us ON u.section = us.id AND us.display = \'Y\'
+            WHERE b.display = \'Y\'
+            GROUP BY a.diary_no, us.section_name, us.id, advocate_id
+        ) x', 'x.diary_no = a.diary_no AND x.advocate_id = a.advocate_id', 'left')
+            ->where('a.advocate_id', $bar_id)->where('a.display', 'Y')->orderBy('dyear')->orderBy('diary_no');
 
-    
-
-   
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
 }
