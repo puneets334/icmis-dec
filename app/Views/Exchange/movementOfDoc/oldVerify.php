@@ -267,7 +267,7 @@
 
         $.ajax({
             type: 'POST',
-            url: "<?= base_url('Exchange/MovementOfDoc/MovementOfDocument/oldVerifyProcess'); ?>", // Adjust with your actual controller and method
+            url: "<?= base_url('Exchange/MovementOfDoc/MovementOfDocument/oldVerifyProcess'); ?>", 
             beforeSend: function (xhr) {
                 $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url('images/load.gif'); ?>'></div>");
             },
@@ -282,7 +282,8 @@
                 tab: 'Case Details'
             },
             success: function(response) {
-                $("#dv_res1").html(response.data);
+               // $("#dv_res1").html(response.data);
+                $("#dv_res1").html(response);
                 // Uncomment and modify as needed
                 // initTabs('dhtmlgoodies_tabView1', Array('Case Details', 'Earlier Court Details', 'Connected Matters', 'Listing Dates', 'I.A.', 'Documents', 'Notices', 'Defaults', 'Judgement/Orders', 'Adjustments', 'Mention Memo', 'Restoration Details', 'DropNote', 'Appearance', 'Paper Book'), 0, '100%', '100%');
                 // $('#tabViewdhtmlgoodies_tabView1_0').html(msg);
@@ -296,6 +297,68 @@
             }
         });
     });
+
+    function verifyFunction(vr)
+{
+    let CSRF_TOKEN = 'CSRF_TOKEN';
+        let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    
+   var full_data = new Array();
+    var check = false; 
+    $("input[type='checkbox'][name^='chk']").each(function () {
+
+        if($(this).is(":checked")==true)
+        {
+            full_data.push($(this).val());
+            check = true;
+        }
+    })
+    $("input[type='radio'][name^='vr']").each(function () {
+        if($(this).is(":checked")==true)
+            vr = $(this).val();
+        })
+    if(check == false)
+    {
+        alert("Please select at least one IA/document");
+        return false;
+    }
+    if(vr == '')
+    {
+        alert("Please select Verify or Reject");
+        return false;
+    }
+    if(vr == 'V')
+        var vr_text='Verify';
+        if(vr == 'R')
+        var vr_text='Reject';
+    vr_text = "Are you sure to "+vr_text+" selected documents";
+     if(confirm(vr_text)){
+    
+    $(".vrbutton").prop('disabled','disabled');
+    $.ajax({
+        type:"POST",
+       // url:"./old_verify_save.php",
+
+        url: "<?= base_url('Exchange/MovementOfDoc/MovementOfDocument/verifySave'); ?>", 
+        data:{alldata:full_data, vr:vr, CSRF_TOKEN: CSRF_TOKEN_VALUE}
+    })
+    .done(function(msg){
+        updateCSRFToken();
+        $(".vrbutton").removeProp('disabled');
+       if(msg!='') alert('message from server: '+msg);
+             setTimeout(function(){// wait for 5 secs(2)
+          $("input[name=btnGetR]").click();
+      }, 1000); 
+       // $("#result").html(msg);
+    })
+    .fail(function(){
+        updateCSRFToken();
+        $(".vrbutton").removeProp('disabled');
+        alert("Error Occured, Please Contact Server Room");
+    });
+
+    }   
+}
 
 
 
