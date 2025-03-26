@@ -282,11 +282,7 @@ class MovementOfDocumentModel extends Model
 
     public function getDisplayFlag()
     {
-        pr("SELECT display_flag, always_allowed_users 
-FROM master.case_status_flag 
-WHERE (to_date IS NULL OR to_date = '1970-01-01') 
-AND flag_name = 'tentative_listing_date';
-");
+      
         return $this->db->table('master.case_status_flag')
             ->select('display_flag, always_allowed_users')
             ->where('date(to_date)', '0000-00-00')
@@ -770,7 +766,7 @@ AND flag_name = 'tentative_listing_date';
                     AND COALESCE(NULLIF(split_part(fil_no_fh, '-', 3), '')::INTEGER, 0)
                 AND EXTRACT(YEAR FROM fil_dt_fh) = $cy
             )";
-            pr($sql);
+          
         $query = $this->db->query($sql);
         $get_dno = $query->getRowArray();
         return $get_dno;
@@ -916,14 +912,17 @@ AND flag_name = 'tentative_listing_date';
 
     public function getDisplayFlag1()
     {
-        $sql = "SELECT display_flag, always_allowed_users 
-FROM master.case_status_flag 
-WHERE (to_date IS NULL OR to_date = '1970-01-01') 
-AND flag_name = 'tentative_listing_date' ";
-        $query = $this->db->query($sql);
-        $result = $query->getRowArray();
-        return $result;
+        return $this->db->table('master.case_status_flag')
+            ->select('display_flag, always_allowed_users')
+            ->where('flag_name', 'tentative_listing_date')
+            ->groupStart()
+                ->where('to_date IS NULL')
+                ->orWhere('to_date', '1970-01-01')
+            ->groupEnd()
+            ->get()
+            ->getRowArray();
     }
+    
 
 
 
