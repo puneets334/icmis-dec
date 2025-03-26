@@ -1,99 +1,102 @@
 <?= view('header') ?>
-
-
-<style>
-    #dv_content1 {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        /* Horizontal center alignment */
-        justify-content: center;
-        /* Vertical center alignment */
-       // height: 20vh;
-        /* Full viewport height for centering */
-        text-align: center;
-    }
-
-    #m {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        /* Horizontal center alignment for inputs */
-        gap: 15px;
-        /* Space between form elements */
-    }
-
-    label {
-        font-weight: bold;
-    }
-
-    input[type="text"] {
-        padding: 10px;
-        width: 200px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-
-    button {
-        padding: 10px 20px;
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-top: 15px;
-    }
-
-    button:hover {
-        background-color: #45a049;
-    }
-
-    h3 {
-        margin-bottom: 20px;
-        font-size: 24px;
-        font-weight: bold;
-    }
-</style>
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-<form method="post" action="<?= site_url('Exchange/causeListFileMovement/processReport') ?>">
-    <?= csrf_field() ?>
-    <div id="dv_content1">
-        <h3>Listed Cases File Movement</h3>
-        <div id="m">
-            <label for="from" class="text-right">Transaction Date: From</label>
-            <input type="date" id="fromDate" name="fromDate" class="" required placeholder="From Date" value="<?= esc($fromDate) ?>">
-
-            <label for="from" class="text-right">To</label>
-            <input type="date" id="toDate" name="toDate" class="" required placeholder="To Date" value="<?= esc($toDate) ?>">
-          
-
-            <button type="button" id="save" onclick="loadData()">Submit</button>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header heading">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 class="card-title">Listed Cases File Movement</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                    
+                        <?= csrf_field() ?>
+                        <div id="dv_content1">
+                            <div class="mrgB10" id="m">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="w-auto" class="text-left">Transaction Date: From</label>
+                                        <input type="text" id="fromDate" name="fromDate" class="form-control dtp" required placeholder="From Date" autocomplete="off">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="dyr" class="text-left">To</label>
+                                        <input type="text" id="toDate" name="toDate" class="form-control dtp" required placeholder="To Date" autocomplete="off">
+                                    </div>
+                                    <div class="col-md-3 pt-4">
+                                        <button type="button" class="btn btn-primary" id="save" onclick="check()">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="d1" class="mrgT20"></div>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
         </div>
-        <br><br>
-        <!-- <div class="center" id="d1"></div>
-        <div class="data" id="data"> -->
     </div>
-    <table id="table1" class="display">
-        <thead>
-            <tr>
-                <th>Sno.</th>
-                <th>Transaction Date</th>
-                <th>Sent to CM(NSH)</th>
-                <th>Received by CM(NSH)</th>
-                <th>Refused to receive by CM(NSH)</th>
-                <th>Sent Back to Dealing Assistant</th>
-                <th>Received by Dealing Assistant</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</form>
+</section>
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 <script>
+    function check() {
+
+        var fromDate = $("#fromDate").val();
+        var toDate = $("#toDate").val();
+        var dt = document.getElementById("fromDate").value;
+        var dt1 = dt.split("-");
+        var dt_new1 = dt1[2] + "-" + dt1[1] + "-" + dt1[0];
+        var dt_chk1 = dt1[0] + dt1[1] + dt1[2]; //Date check
+        var dt2 = document.getElementById("toDate").value;
+        var dt21 = dt2.split("-");
+        var dt_new2 = dt21[2] + "-" + dt21[1] + "-" + dt21[0];
+        var dt_chk2 = dt21[0] + dt21[1] + dt21[2];
+        if (fromDate == "") {
+            alert("Enter Recieved date.");
+            $("#fromDate").focus();
+            return false;
+        } else if (toDate == "") {
+            alert("Enter Completion date.");
+            $("#toDate").focus();
+            return false;
+        } else if (dt_new1 > dt_new2) {
+            alert("Re-enter date.");
+            $("#toDate").focus();
+            return false;
+        } else {
+            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            //var url = 'Sql_report1_process.php';
+            var url = "<?= site_url('Exchange/causeListFileMovement/processReport') ?>";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    FDate: fromDate,
+                    TDate: toDate,
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE
+                },
+                beforeSend: function() {
+
+                },
+                success: function(data) {
+                    $('#d1').html(data);
+                    updateCSRFToken();
+                },
+                error: function() {
+                    alert("ERROR");
+                    updateCSRFToken();
+                }
+
+            });
+        }
+    }
+
+
     function loadData(fromDate, toDate) {
 
         var CSRF_TOKEN = 'CSRF_TOKEN';
@@ -115,10 +118,10 @@
                 updateCSRFToken();
                 if (response.success) {
 
-                    
+
                     let data = response.data;
                     let tableBody = '';
-                    
+
                     data.forEach((row, index) => {
                         tableBody += `
                             <tr>
