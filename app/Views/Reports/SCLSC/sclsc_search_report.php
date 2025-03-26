@@ -15,7 +15,7 @@
                     <div class="card-header heading">
 
                         <div class="row">
-                            <div class="col-sm-10"> <h3 class="card-title">SLCSC Search</h3></div>
+                            <div class="col-sm-10"> <h3 class="card-title">SLCSC Pending Matters Search</h3></div>
                             <div class="col-sm-2"> </div>
                         </div>
                     </div>
@@ -51,8 +51,7 @@
                                                 <!--<label for="c_type" class="col-sm-5 col-form-label">Select Case Type:</label>-->
                                                 <label for="c_type">Select Case Type:</label>
                                                 <div class="col-sm-7">
-                                                    <select id="c_type" name="c_type" class="form-control">
-                                                        <option value="">Select State</option>
+                                                    <select id="c_type" name="c_type" class="form-control">                                                        n>
                                                         <option value="A">All</option>
                                                         <option value="C">Civil</option>
                                                         <option value="R">Criminal</option>
@@ -63,9 +62,11 @@
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <!--<label for="status" class="col-sm-3 col-form-label">Select Status:</label>-->
-                                                <label for="status">Select Status:</label>
+                                                
                                                 <div class="col-sm-9">
-                                                    <div class="radio">
+                                                <label for="status" style="width: 100%;">Select Status:</label>
+                                                    <div class="radio mt-3">
+                                                    
                                                         <label><input checked type="radio" name="status" value="A"/>All</label>
                                                         <label><input type="radio" name="status" value="P"/>Pending</label>
                                                         <label><input type="radio" name="status" value="D"/>Disposed of</label>
@@ -95,8 +96,8 @@
         </div>
     </div>
 </section>
-    <script src="<?php echo base_url('plugins/jquery-validation/jquery.validate.js'); ?>"></script>
-    <script src="<?php echo base_url('plugins/jquery-validation/additional-methods.min.js'); ?>"></script>
+     <script src="<?php echo base_url('plugins/jquery-validation/jquery.validate.js'); ?>"></script>
+    <script src="<?php echo base_url('plugins/jquery-validation/additional-methods.min.js'); ?>"></script>  
     <script>
         $(document).ready(function() {
             $('#sclsc_search_report').on('submit', function () {
@@ -127,7 +128,10 @@
                             url: "<?php echo base_url('Reports/SCLSC/Report/SCLSC_pending_report'); ?>",
                             data: form_data,
                             beforeSend: function () {
-                                $('.dak_submit').val('Please wait...');
+                                //$('.dak_submit').val('Please wait...');
+                                
+                                $('#report_result').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+           
                                 $('.dak_submit').prop('disabled', true);
                             },
                             success: function (data) {
