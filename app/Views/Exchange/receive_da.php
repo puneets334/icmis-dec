@@ -13,7 +13,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-md-12">
-                                <h3 class="card-title">Receive File From DA</h3>
+                                <h3 class="card-title">Receive Files From DA</h3>
                             </div>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="from" class="text-right">&nbsp;</label>
-                                    <button type="button" id="btnGetCases" class="btn btn-info" style="width: 100%" onclick="check();">View</button>
+                                    <button type="button" id="btnGetCases" class="btn btn-primary" style="width: 100%" onclick="check();">View</button>
                                 </div>
                             </div>
                             <?= form_close()?>

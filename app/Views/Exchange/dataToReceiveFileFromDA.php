@@ -29,12 +29,12 @@ if(count($caseList)>0)
         <table id="tblCasesForReceive" class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th width="5%">S.No.</th>
-                    <th width="5%">Court No</th>
-                    <th width="5%">Item No</th>
-                    <th width="20%">Case Number</th>
-                    <th width="30%">Causetitle</th>
-                    <th width="20%">Sent by (Sent On)</th>
+                    <th width="5%"><b>S.No.</b></th>
+                    <th width="5%"><b>Court No</b></th>
+                    <th width="5%"><b>Item No</b></th>
+                    <th width="20%"><b>Case Number</b></th>
+                    <th width="30%"><b>Causetitle</b></th>
+                    <th width="20%"><b>Sent by (Sent On)</b></th>
                     <th><label><input type="checkbox" id="allCheck" name="allCheck" onclick="selectallMe()">Select All</label>
                     </th>
                 </tr>

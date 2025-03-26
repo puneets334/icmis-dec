@@ -571,7 +571,8 @@ class PrintAdvanceModel extends Model
         ]);
         $builder->groupEnd();
         $builder->groupStart()
-            ->where('m.diary_no =CAST(m.conn_key AS bigint) OR CAST(m.conn_key AS bigint) IS NULL OR CAST(m.conn_key AS bigint)= 0')
+            //->where('m.diary_no =CAST(m.conn_key AS bigint) OR CAST(m.conn_key AS bigint) IS NULL OR CAST(m.conn_key AS bigint)= 0')
+            ->where('m.diary_no = CAST(NULLIF(m.conn_key, \'\') AS BIGINT) OR m.conn_key IS NULL OR m.conn_key= \'0\'')
             ->groupEnd();
 
         // Subquery Condition
