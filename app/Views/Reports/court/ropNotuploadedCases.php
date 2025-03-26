@@ -153,7 +153,7 @@ $('#tblROPNotUploaded').DataTable({
 "ordering": true,
 "info": true,
 "autoWidth": false,
-"scrollY": "50vh",
+"scrollY": "60vh",
 "scrollX": true,
 "scrollCollapse": true,
 "footerCallback":"",
