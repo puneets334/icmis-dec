@@ -61,17 +61,17 @@
                                                     $diary_num = substr($_SESSION['filing_details']['diary_no'], 0, -4);
                                                     $diary_year = substr($_SESSION['filing_details']['diary_no'], -4);
                                                     ?>
-                                                    Diary No. <?=$diary_num; ?>/<?=$diary_year; ?></br>
-                                                    <?=strtoupper($_SESSION['filing_details']['pet_name']); ?></br>
+                                                    Diary No. <?= $diary_num; ?>/<?= $diary_year; ?></br>
+                                                    <?= strtoupper($_SESSION['filing_details']['pet_name']); ?></br>
                                                     Versus</br>
-                                                    <?=strtoupper($_SESSION['filing_details']['res_name']); ?>
+                                                    <?= strtoupper($_SESSION['filing_details']['res_name']); ?>
                                                 </div>
                                             </div>
                                             <?php if (!empty($case_status) && isset($case_status[0]['c_status']) && $case_status[0]['c_status'] == 'P') { ?>
                                                 <div class="row cus-mx-none">
                                                     <div class="col-md-12">
                                                         <div class="table-responsive">
-                                                            <table id="example1" class="table table-striped custom-table">
+                                                            <table id="Dataexample" class="table table-striped custom-table">
                                                                 <thead>
                                                                     <tr>
                                                                         <th>Action</th>
@@ -153,12 +153,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Reason for delete</h4>
+                <!-- <h4 class="modal-title" style="width: 100%; text-align: center !important;">Reason for delete</h4> -->
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <label>Reason for delete</label>
                 <input type="text" name="" id="del_reason" class="form-control" placeholder="Enter Reason">
                 <input type="hidden" name="" id="del_key_jcode">
                 <input type="hidden" name="" id="del_key_diary_no">
@@ -181,13 +182,43 @@
 
 <script type="text/javascript">
     $(function() {
-        $("#example1").DataTable({
-            "responsive": true,
+        $("#Dataexample").DataTable({
+            "responsive": false,
             "lengthChange": false,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            "buttons": [{
+                    extend: "copy",
+                    title: "List before/Not Before/Coram"
+                },
+                {
+                    extend: "csv",
+                    title: "List before/Not Before/Coram"
+                },
+                {
+                    extend: "excel",
+                    title: "List before/Not Before/Coram"
+                },
+                {
+                    extend: "pdf",
+                    title: "List before/Not Before/Coram",
+                    customize: function(doc) {
+                        doc.content.splice(0, 0, {
+                            text: "List before/Not Before/Coram",
+                            fontSize: 12,
+                            alignment: "center",
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
+                },
+                {
+                    extend: "print",
+                    title: "",
+                    messageTop: "<h3 style='text-align:center;'>ADVOCATE ON RECORD NOT GO BEFORE JUDGE<br>(As on <?php echo date('d-m-Y'); ?>)</h3>"
+                }
+            ]
+        }).buttons().container().appendTo('#Dataexample_wrapper .col-md-6:eq(0)');
     });
+
 
 
     function delete_before(jcode, diary_no, notbef) {
@@ -207,7 +238,7 @@
         } else {
 
             var CSRF_TOKEN = 'CSRF_TOKEN';
-            var csrf = $("input[name='CSRF_TOKEN']").val();
+            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
             var del_key_jcode = $('#del_key_jcode').val();
             var del_key_diary_no = $('#del_key_diary_no').val();
@@ -218,14 +249,18 @@
                 url: "<?php echo base_url('Filing/Coram/delete/'); ?>",
                 type: "post",
                 data: {
-                    CSRF_TOKEN: csrf,
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE,
                     del_key_jcode: del_key_jcode,
                     del_key_diary_no: del_key_diary_no,
                     del_key_notbef: del_key_notbef,
-                    del_reason: del_reason
+                    del_reason: del_reason,
                 },
-                success: function(result) {
+                beforeSend: function() {
+                    $('#dv_res').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+                },
 
+                success: function(result) {
+                    updateCSRFToken();
                     var obj = JSON.parse(result);
 
                     if (obj.deleted) {
@@ -238,14 +273,11 @@
                         window.location.href = '';
                     }
 
-                    $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) {
-                        $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-                    });
+
                 },
                 error: function() {
-                    $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) {
-                        $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-                    });
+                    updateCSRFToken();
+                    alert("Error: " + jqXHR.status + " " + errorThrown);
                 }
             });
         }
