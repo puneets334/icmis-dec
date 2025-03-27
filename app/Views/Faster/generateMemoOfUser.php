@@ -32,8 +32,8 @@
                 <div class="col-sm-12">
                     <div  class="col-sm-6 form-group">
                         <label class="text-primary">Search Option : </label>
-                        <label class="radio-inline"><input type="radio" name="rdbtn_select" id="radioct">Case Type</label>
-                        <label class="radio-inline"><input type="radio" name="rdbtn_select" id="radiodn" checked>Diary No.</label>
+                        <label class="radio-inline"><input type="radio" name="optradio" id="radioct" value="C">Case Type</label>
+                        <label class="radio-inline"><input type="radio" name="optradio" id="radiodn" value="D" checked>Diary No.</label>
                     </div>
                 </div>
             </div>
@@ -132,6 +132,7 @@
 <script src="<?=base_url()?>/assets/plugins/datatables/vfs_fonts.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/jszip.min.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/buttons.colVis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.29.2/sweetalert2.all.js"></script>
 <script>
     $(document).ready(function(){
         $(document).on('click','#sub',function(){
@@ -202,31 +203,56 @@
     $("#dno").val('<?php echo $diary_no?>');
     fsubmit();
 <?php }?>
+
     function savepdf(){
-        //alert('Go to savepdf');
-        swal({
-                title: "Are you sure?",
-                text: "You want to save?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes, Save it!",
-                cancelButtonText: "No, Cancel!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-            function(isConfirm){
-                if (isConfirm) {
-                    // $( "#submitSavePDF" ).click();
-                    $('#pdfForm').submit();
-                    swal({title: "Success!",text: "Your PDF has been saved successfully",icon: "success",button: "success!"});
-                    setTimeout(function(){
-                        fsubmit();
-                    }, 2000);
-                } else {
-                    swal("Cancelled", "Your pdf is not save please try again :)", "error");
-                }
-            });
+        // alert('Go to savepdf');
+        // swal({
+        //         title: "Are you sure?",
+        //         text: "You want to save?",
+        //         type: "warning",
+        //         showCancelButton: true,
+        //         confirmButtonColor: "#DD6B55",
+        //         confirmButtonText: "Yes, Save it!",
+        //         cancelButtonText: "No, Cancel!",
+        //         closeOnConfirm: false,
+        //         closeOnCancel: false
+        //     },
+        //     function(isConfirm){
+        //         if (isConfirm) {
+        //             // $( "#submitSavePDF" ).click();
+        //             $('#pdfForm').submit();
+        //             swal({title: "Success!",text: "Your PDF has been saved successfully",icon: "success",button: "success!"});
+        //             setTimeout(function(){
+        //                 fsubmit();
+        //             }, 2000);
+        //         } else {
+        //             swal("Cancelled", "Your pdf is not save please try again :)", "error");
+        //         }
+        //     });
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to save?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: "Yes, Save it!",
+            cancelButtonText: 'No, Cancel!',
+            // showDenyButton: true,
+            // denyButtonText: "No, Cancel!",
+            allowOutsideClick: false,
+            allowEscapeKey: false
+        }).then((result) => {
+            if (result.value) {
+                $( "#submitSavePDF" ).click();
+                $('#pdfForm').submit();
+                swal({title: "Success!",text: "Your PDF has been saved successfully",icon: "success",button: "success!"});
+                setTimeout(function(){
+                    fsubmit();
+                }, 2000);
+            } else{
+                swal("Cancelled", "Your pdf is not save please try again :)", "error");
+            }
+        });
     }
 
     function fsubmit()
@@ -235,6 +261,7 @@
         var diaryno, diaryyear, cstype, csno, csyr;
         var regNum = new RegExp('^[0-9]+$');
         if($("#radioct").is(':checked')){
+            var optradio = $("#radioct").val();
             cstype = $("#selct").val();
             csno = $("#case_no").val();
             csyr = $("#case_yr").val();
@@ -266,6 +293,7 @@
             }
         }
         else if($("#radiodn").is(':checked')){
+            var optradio = $("#radiodn").val();
             diaryno = $("#dno").val();
             diaryyear = $("#dyr").val();
             if(!regNum.test(diaryno)){
@@ -310,7 +338,7 @@
             beforeSend: function (xhr) {
                 $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+image_url+"'></div>");
             },
-            data:{CSRF_TOKEN: CSRF_TOKEN_VALUE, d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,cy:csyr,tab:'Case Details'},
+            data:{CSRF_TOKEN: CSRF_TOKEN_VALUE, d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,optradio:optradio,cy:csyr,tab:'Case Details'},
             success: function (msg){
                 updateCSRFToken();
                 if (msg == 404) {
@@ -339,7 +367,7 @@
 <script>
     function savepdf_stope()
     { 
-        alert('savepdf akg');
+        // alert('savepdf akg');
         document.getElementById("dv_res1").innerHTML = '';
         var diaryno, diaryyear, cstype, csno, csyr;
         var regNum = new RegExp('^[0-9]+$');
