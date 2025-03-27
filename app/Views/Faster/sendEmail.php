@@ -21,6 +21,7 @@
     </div>
     <hr>
     <form id="frmAddEmail" method="post">
+        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf_token" />
         <div class="form-group col-sm-2">
             <label for="stakeholderType">Stakeholder Type</label>
             <select class="form-control" name="stakeholderType" id="stakeholderType" onchange="getStakeholderDetails(this);">

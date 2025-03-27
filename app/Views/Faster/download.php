@@ -15,13 +15,14 @@
                 </div>
             </div>
             <?php
-            $_SESSION['warning_message']="";
+            $_SESSION['warning_message'] = "";
             //unset($_SESSION['warning_message']);
         } ?>
     </div>
     <hr>
     <!-------------Result Section ------------>
-    <form id="frmDownload" method="post" enctype="multipart/form-data" action="<?= base_url() ?>index.php/FasterController/downloadAll" target="_blank">
+    <form id="frmDownload" method="post" enctype="multipart/form-data" action="<?= base_url() ?>/Faster/FasterController/downloadAll" target="_blank">
+    <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf_token" />
     <div class="form-group col-sm-6">
         <label><span >Download all attached Digitally Signed and Certified file in a ZIP file </span></label>
         <button type="button" id="btnShowPDF" class="btn btn-default form-cntrol" onclick="downloadAll();"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>  Download</button>
