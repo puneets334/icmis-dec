@@ -4,44 +4,20 @@
     $ucode = $usercode;
 
     if ($ct != '')
-    {
-       
-
-
-        //$get_dno = $model->getDiaryNumber1($ct, $cn, $cy);
-
+    {        
+        // $get_dno = $model->getDiaryNumber1($ct, $cn, $cy);
         $get_dno = $model1->get_case_details_by_case_no($ct, $cn, $cy);
        
-
-        if (!empty($get_dno))
-        {
-            $d_no = $get_dno['diary_no'];
-            $d_yr = $cy;
-        }
-        else
-        {
-           
-            
-            $d_no = '';
-            $d_yr = '';
-        }
-        
+        $d_no = $get_dno['dn'];
+        $d_yr = $get_dno['dy'];
+       
     }
-   
-
-
     $sql = $model->getDiaryDetails1($d_no, $d_yr);
-
-  
-
-
     $main_fh_fil_no = "";
     $fil_no=[];
     if (!empty($sql))
     {
         $fil_no = $sql;
-
-
         if ($fil_no['diary_no'] != $fil_no['conn_key'] and $fil_no['conn_key'] != '')
             $check_for_conn = "N";
         else
@@ -291,6 +267,7 @@
        
 
         $results_ian = $model->getIANDoccode($fil_no['diary_no']);
+        // pr($results_ian);
         
         $iancntr = 1;
         $counter = 1;
@@ -333,7 +310,14 @@
                     $vcounter++;
                     $t_check = "<input type='checkbox' name='chk" . $counter . "' id='chk" . $counter . "' value='" . $row_ian['diary_no'] . '-' . $row_ian['doccode'] . '-' . $row_ian['doccode1'] . '-' . $row_ian['docnum'] . '-' . $row_ian['docyear'] . "'/>";
                 }
-                $ian .= "<tr><td>" . $t_check . "</td><td align='center'>" . $iancntr . "</td><td align='center'><b>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</b></td><td>" . str_replace("XTRA", "", $t_part) . "</td><td>" . $row_ian["filedby"] . "</td><td align='center'>" . date("d-m-Y", strtotime($row_ian["ent_dt"])) . "</td><td align='center'>" . $verified . "</td><td align='center'><b>" . $t_ia . "</b></td></tr>";
+                $ian .= "<tr><td>" . $t_check . "</td>
+                <td align='center'>" . $iancntr . "</td>
+                <td align='center'><b>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</b></td>
+                <td>" . str_replace("XTRA", "", $t_part) . "</td>
+                <td>" . $row_ian["filedby"] . "</td>
+                <td align='center'>" . date("d-m-Y", strtotime($row_ian["ent_dt"])) . "</td>
+                <td align='center'>" . $verified . "</td>
+                <td align='center'><b>" . $t_ia . "</b></td></tr>";
 
                 $iancntr++;
                 $counter++;
