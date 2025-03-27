@@ -61,7 +61,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="from" class="text-right">&nbsp;</label>
-                                    <button type="button" id="btnGetCases" class="btn btn-info" style="width: 100%" onclick="check();">View</button>
+                                    <button type="button" id="btnGetCases" class="btn btn-primary" style="width: 100%" onclick="check();">View</button>
                                 </div>
                             </div>
                             <?= form_close()?>

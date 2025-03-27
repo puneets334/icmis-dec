@@ -500,7 +500,8 @@ class Model_IA extends Model
     {
         $builder = $this->db->table('not_before a');
         $builder->select('a.diary_no, STRING_AGG(b.jname, \', \' ORDER BY b.jname) AS jn, a.notbef');
-        $builder->join('master.judge b', 'b.jcode IN (a.j1, a.j2, a.j3, a.j4, a.j5)', 'inner');
+        //$builder->join('master.judge b', 'b.jcode IN (a.j1, a.j2, a.j3, a.j4, a.j5)', 'inner');
+        $builder->join('master.judge b', 'b.jcode IN (a.j1)', 'inner');
         $builder->where('a.diary_no', $tfil_no);
         $builder->groupBy('a.diary_no, a.notbef');
 

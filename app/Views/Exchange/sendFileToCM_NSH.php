@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="from" class="text-right">&nbsp;</label>
-                                    <button type="button" id="btnGetCases" class="btn btn-info" style="width: 100%" onclick="check();">View</button>
+                                    <button type="button" id="btnGetCases" class="btn btn-primary" style="width: 100%" onclick="check();">View</button>
                                 </div>
                             </div>
                             <?= form_close()?>
@@ -110,19 +110,12 @@
             let courtNo = $('#courtNo').val();
             $.ajax({
                 type: 'POST',
-                data: 
-                { 
-                    CSRF_TOKEN: CSRF_TOKEN_VALUE,
-                    causelistDate:causelistDate,
-                    courtNo:courtNo
-                },
+                data: { CSRF_TOKEN: CSRF_TOKEN_VALUE, causelistDate:causelistDate, courtNo:courtNo },
                 url: "<?= site_url('Exchange/causeListFileMovement/listedCases') ?>",
-                beforeSend: function ()
-                {
+                beforeSend: function () {
                     $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
                 },
-                success: function(result)
-                {
+                success: function(result) {
                     $("#loader").html('');
                     $("#printable").html(result);
                     $('#tblDispatchDak').DataTable({

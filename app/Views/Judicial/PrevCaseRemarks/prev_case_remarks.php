@@ -67,6 +67,7 @@ $t_table = '';
             } else {
                 $res_name = $temp_var;
             }
+    }
         }
     ?>
         <div class="cl_center">

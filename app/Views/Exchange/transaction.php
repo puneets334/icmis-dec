@@ -102,7 +102,7 @@
 
                                 <div class="col-md-2">
                                     <label for="from" class="text-right">&nbsp;</label>
-                                    <button type="button" id="btn" name="btn" class="btn btn-block" onclick="data_fetch()" style="width: 100%; background-color: #072d74; color: white;">View
+                                    <button type="button" id="btn" name="btn" class="btn btn-primary" onclick="data_fetch()" style="width: 100%; background-color: #072d74; color: white;">View
                                     </button>
                                 </div>
                             </div>

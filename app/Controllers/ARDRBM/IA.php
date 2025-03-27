@@ -852,6 +852,7 @@ class IA extends BaseController
             $this->Model_IA->updateRegistrationNumber($data['diary_no'],$data['regno']);
         }  
         $data['model_ia'] = $this->Model_IA;
+        
 
         return view('ARDRBM/regno_display_change_process', $data);
     }

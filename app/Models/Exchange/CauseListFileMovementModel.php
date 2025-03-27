@@ -82,7 +82,10 @@ class CauseListFileMovementModel extends Model
         $dataToUpdateMovement = [
             'ref_file_movement_status_id' => $dataForMovementTransaction['ref_file_movement_status_id'],
             'usercode' => $dataForMovementTransaction['usercode'],
-            'updated_on' => date('Y-m-d H:i:s')
+            'updated_on' => date('Y-m-d H:i:s'),
+            'updated_by_ip' => getClientIP(),
+            'updated_by' => session()->get('login')['usercode'],
+            'create_modify' => date("Y-m-d H:i:s")
         ];
 
         $this->db->table('causelist_file_movement')->where('id', $dataForMovementTransaction['causelist_file_movement_id'])->update($dataToUpdateMovement);
@@ -180,7 +183,7 @@ class CauseListFileMovementModel extends Model
             AND (m.dacode = ? OR TRUE) 
             $courtNoCondition 
         ORDER BY court_number, item_number";
-
+        //pr($queryString);    
         $query = $this->db->query($queryString,array($causelistDate,$usercode));
 
         if ($query->getNumRows() >= 1)
@@ -225,8 +228,11 @@ class CauseListFileMovementModel extends Model
             'causelist_file_movement_id' => $causelistFileMovementId,
             'ref_file_movement_status_id' => $ststusId,
             'attendant_usercode' => $attendant,
-            'usercode' => $usercode = session()->get('login')['usercode'],
-            'updated_on' => date('Y-m-d H:i:s')
+            'usercode' => session()->get('login')['usercode'],
+            'updated_on' => date('Y-m-d H:i:s'),
+            'updated_by_ip' => getClientIP(),
+            'updated_by' => session()->get('login')['usercode'],
+            'create_modify' => date("Y-m-d H:i:s")
         );
         $this->db->table('causelist_file_movement_transactions')->insert($dataForMovementTransaction);
     }
