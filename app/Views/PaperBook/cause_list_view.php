@@ -30,7 +30,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header heading">
-                        <h3 class="mb-0">Cause List Details</h3>
+                        <h3 class="card-title">Cause List Details</h3>
                     </div>
                     <div class="card-body">
                         <form id="dateForm" method="post">
@@ -141,7 +141,7 @@
         button.html('<i class="fa fa-spinner fa-spin"></i> Loading...');
 
         $.ajax({
-            url: '<?= base_url('PaperBook\PaperBookController\getCauseFinalReport') ?>',
+            url: '<?= base_url('PaperBook/PaperBookController/getCauseFinalReport') ?>',
             method: 'POST',
             data: {
                 cl_date: cl_date,
@@ -181,11 +181,11 @@
             }
         });
 
-        function updateCSRFToken() {
-            $.get('<?= site_url('Scanning/ScanningController/getCSRF'); ?>', function(data) {
-                $('input[name="<?= csrf_token() ?>"]').val(data.csrf_token);
-            }, 'json');
-        }
+        // function updateCSRFToken() {
+        //     $.get('<?//= site_url('Scanning/ScanningController/getCSRF'); ?>', function(data) {
+        //         $('input[name="<?//= csrf_token() ?>"]').val(data.csrf_token);
+        //     }, 'json');
+        // }
     });
 
     function chkdata() {

@@ -59,7 +59,7 @@
                                 
                                 <div class="col-md-1">
                                     <label for="from" class="text-right">&nbsp;</label>
-                                    <button type="button" id="showbutton" class="btn btn-info" style="width: 100%">View</button>
+                                    <button type="button" id="showbutton" class="btn btn-primary" style="width: 100%">Show</button>
                                 </div>
                             </div>
                             <?= form_close()?>

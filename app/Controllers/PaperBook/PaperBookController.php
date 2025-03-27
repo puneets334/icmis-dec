@@ -21,12 +21,12 @@ class PaperBookController extends BaseController
         $this->encryption = \Config\Services::encryption();
     }
 
-    public function getCSRF()
-    {
-        return $this->response->setJSON([
-            'csrf_token' => csrf_hash()
-        ]);
-    }
+    // public function getCSRF()
+    // {
+    //     return $this->response->setJSON([
+    //         'csrf_token' => csrf_hash()
+    //     ]);
+    // }
 
 
     public function allocationReport()
@@ -116,6 +116,12 @@ class PaperBookController extends BaseController
             'dates' => $dates
         ];
         return view('PaperBook/cause_list_view', $data);
+    }
+
+    public function getCauseFinalReport()
+    {
+        extract($_REQUEST);
+        return view('PaperBook/get_cause_final_report', $data);
     }
 
     public function draftList()

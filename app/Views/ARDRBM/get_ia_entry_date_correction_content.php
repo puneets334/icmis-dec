@@ -43,9 +43,9 @@
             </tr>
             <tr><td><b>Advocate</b></td><td><input type="text" value="<?php echo $row['aor_code'];?>" id="aor_code" size="4" onblur="getAdvocateAOR()" disabled/>
                     <span id="adv_name"><?php echo $row['advname']; ?></span></td></tr>
-            <tr><td><b>Filing Date</b></td><td><?=!empty($row['ent_dt']) ? date('d-m-Y h:i:s A',strtotime($row['ent_dt'])):''; ?>
-                    &nbsp;
-                    New Filing Date <input type="date" size="8" maxlength="10" class="dtp" id="new_filing_date" />
+            <tr><td><b>Filing Date</b></td><td><?=!empty($row['ent_dt']) ? date('d-m-Y',strtotime($row['ent_dt'])):''; ?>
+                     | 
+                    New Filing Date: <input type="input" size="8" maxlength="10" class="dtp" id="new_filing_date" value="" />
                 </td></tr>
             <tr><td><b>Taken By</b></td><td><?php echo $row['entryuser'];//.' on '.date('d-M-Y h:i:s A',  strtotime($row['ent_dt'])); ?></td></tr>
             <tr><td><b>Status</b></td>
@@ -64,4 +64,19 @@
     else{
         echo "SORRY, RECORD NOT FOUND";
     }
+?>
+<script>
+$(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
 
+        });
+
+        $('#new_filing_date').trigger('focus');
+    });
+</script>

@@ -1519,7 +1519,7 @@ class Heardt extends Model
         if($board == 'C')
             $board_type = " AND (mb.board_type_mb='C' OR mb.board_type_mb='CC') ";
         
-    $judge = "SELECT r.m_f, r.id, GROUP_CONCAT(j.jcode ORDER BY j.judge_seniority) jcd, GROUP_CONCAT(CONCAT(j.first_name,' ',j.sur_name) ORDER BY j.     judge_seniority) jnm, rb.bench_no, mb.abbr, r.tot_cases, mb.board_type_mb FROM master.roster r 
+    $judge = "SELECT r.m_f, r.id, GROUP_CONCAT(j.jcode ORDER BY j.judge_seniority) jcd, GROUP_CONCAT(CONCAT(j.first_name,' ',j.sur_name) ORDER BY j.judge_seniority) jnm, rb.bench_no, mb.abbr, r.tot_cases, mb.board_type_mb FROM master.roster r 
             LEFT JOIN master.roster_bench rb ON rb.id = r.bench_id 
             LEFT JOIN master.master_bench mb ON mb.id = rb.bench_id
             LEFT JOIN master.roster_judge rj ON rj.roster_id = r.id 

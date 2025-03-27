@@ -31,8 +31,8 @@ class Transaction extends Model
 
     public function transaction_process($searchby, $caseType = null, $caseNo = null, $caseYear = null, $dNo = null, $dYear = null)
     {
-        if($searchby == 2)
-        {
+        $return = [];
+        if($searchby == 2) {
             $diaryNumber = $dNo.$dYear;
             $queryString = "SELECT
                 cfm.next_dt AS next_dt,
@@ -72,17 +72,10 @@ class Transaction extends Model
                 cfm.next_dt DESC, DATE(cfmt.updated_on) DESC, TO_CHAR(cfmt.updated_on, 'HH24:MI:SS') DESC";
 
             $query = $this->db->query($queryString);
-            if ($query->getNumRows() >= 1)
-            {
-                return $query->getResultArray();
+            if ($query->getNumRows() >= 1) {
+                $return =  $query->getResultArray();
             }
-            else
-            {
-                return [];
-            }
-        }
-        else if($searchby == 1)
-        {
+        } else if($searchby == 1) {
             $queryString = "SELECT 
                 cfm.next_dt AS next_dt,
                 DATE(cfmt.updated_on) AS transaction_date,
@@ -128,8 +121,8 @@ class Transaction extends Model
                     WHERE CAST(SUBSTRING(active_fil_no FROM 1 FOR 2) AS INTEGER) = $caseType 
                       AND active_reg_year = $caseYear 
                       AND (CAST(SUBSTRING(active_fil_no FROM 4 FOR 6) AS INTEGER) = $caseNo 
-                        OR $caseNo BETWEEN CAST(SUBSTRING(active_fil_no FROM 4 FOR 6) AS INTEGER) 
-                        AND CAST(SUBSTRING(active_fil_no FROM 11 FOR 6) AS INTEGER)) Limit 1
+                        OR $caseNo BETWEEN CAST(NULLIF(SUBSTRING(active_fil_no FROM 4 FOR 6), '') AS INTEGER) 
+                        AND CAST(NULLIF(SUBSTRING(active_fil_no FROM 11 FOR 6), '')  AS INTEGER)) Limit 1
                 ) 
             GROUP BY 
                 cfm.next_dt, 
@@ -144,19 +137,14 @@ class Transaction extends Model
                 cfm.next_dt DESC, 
                 DATE(cfmt.updated_on) DESC, 
                 TO_CHAR(cfmt.updated_on, 'HH24:MI:SS') DESC";
-
             $query = $this->db->query($queryString);
-            if ($query->getNumRows() >= 1)
-            {
-                return $query->getResultArray();
+            if ($query->getNumRows() >= 1) {
+                $return = $query->getResultArray();
             }
-            else
-            {
-                return [];
-            }
+            
         }
-
-        $query = $this->db->query($queryString);
+        return $return;
+        /*$query = $this->db->query($queryString);
         if ($query->getNumRows() >= 1)
         {
             return $query->getResultArray();
@@ -164,7 +152,7 @@ class Transaction extends Model
         else
         {
             return [];
-        }
+        }*/
     }
 
     public function fetchTransactionData($searchby, $caseType = null, $caseNo = null, $caseYear = null, $dNo = null, $dYear = null)

@@ -9,6 +9,8 @@ use App\Models\Exchange\Transaction;
 use App\Models\Exchange\Sql_Report;
 use App\Models\Exchange\MovementOfDocumentModel;
 use App\Models\Court\CourtMasterModel;
+use App\Models\Common\Dropdown_list_model;
+
 
 class MovementOfDocument extends BaseController
 {
@@ -17,6 +19,7 @@ class MovementOfDocument extends BaseController
     public $CourtMasterModel;
     public $Transaction;
     public $MovementOfDocumentModel;
+    public $Dropdown_list_model;
 
     function __construct()
     {
@@ -25,6 +28,7 @@ class MovementOfDocument extends BaseController
         $this->CourtMasterModel = new CourtMasterModel();
         $this->Transaction = new Transaction();
         $this->MovementOfDocumentModel = new MovementOfDocumentModel();
+        $this->Dropdown_list_model = new Dropdown_list_model();
     }
 
     public function bulkDispatch()
@@ -180,17 +184,23 @@ class MovementOfDocument extends BaseController
     public function oldVerify()
     {
         $data['cases'] = $this->MovementOfDocumentModel->getOldCases();
+        
         return view('Exchange/movementOfDoc/oldVerify', $data);
     }
 
     public function oldVerifyProcess()
     {
-        $usercode = session()->get('login')['usercode'];
-        $result = $this->MovementOfDocumentModel->old_verify_process();
-        return $this->response->setJSON([
-            'status' => true,
-            'data' => $result,
-        ]);
+        $data['usercode'] = session()->get('login')['usercode'];
+        $data['d_no']= $this->request->getPost('d_no');
+        $data['d_yr'] = $this->request->getPost('d_yr');
+        $data['ct'] = $this->request->getPost('ct');
+        $data['cn'] = $this->request->getPost('cn');
+        $data['cy'] = $this->request->getPost('cy');
+        $data['tab'] = $this->request->getPost('tab');
+        $data['model'] = $this->MovementOfDocumentModel;
+        $data['model1'] = $this->Dropdown_list_model;
+        return view('Exchange/movementOfDoc/oldVerifyProcess', $data);
+        
     }
 
     public function verify()
@@ -202,7 +212,6 @@ class MovementOfDocument extends BaseController
 
     public function verifySave()
     {
-        // pr($_REQUEST);
         $usercode = session()->get('login')['usercode'];
         $update = $this->MovementOfDocumentModel->verify_save();
     }

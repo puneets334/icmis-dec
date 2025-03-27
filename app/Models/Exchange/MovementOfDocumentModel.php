@@ -92,34 +92,51 @@ class MovementOfDocumentModel extends Model
 
     public function getDiaryDetails($d_no, $d_yr)
     {
-        $query = $this->db->table('main')
-            ->select("diary_no, conn_key, fil_dt, 
-              YEAR(fil_dt) as filyr, 
-              DATE_FORMAT(fil_dt,'%d-%m-%Y %h:%i %p') as fil_dt_f, 
-              fil_no_fh, 
-              DATE_FORMAT(fil_dt_fh,'%d-%m-%Y %h:%i %p') as fil_dt_fh, 
-              actcode, 
-              pet_adv_id, 
-              res_adv_id, 
-              lastorder, 
-              c_status, 
-              IF(diary_no != '', SUBSTRING_INDEX(diary_no, '-', 1), '') as ct1, 
-              IF(diary_no != '', SUBSTRING_INDEX(SUBSTRING_INDEX(diary_no, '-', 2), '-', -1), '') as crf1, 
-              IF(diary_no != '', SUBSTRING_INDEX(diary_no, '-', -1), '') as crl1, 
-              IF(fil_no_fh != '', SUBSTRING_INDEX(fil_no_fh, '-', 1), '') as ct2, 
-              IF(fil_no_fh != '', SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no_fh, '-', 2), '-', -1), '') as crf2, 
-              IF(fil_no_fh != '', SUBSTRING_INDEX(fil_no_fh, '-', -1), '') as crl2, 
-              IF((conn_key != '' AND conn_key IS NOT NULL), 
-                  IF(conn_key = diary_no, 'N', 'Y'), 
-                  'N') AS ccdet, 
-              casetype_id, 
-              conn_key AS connto")
-            ->where("SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) = ?", $d_no)
-            ->where("SUBSTR(diary_no, -4) = ?", $d_yr)
-            ->get();
 
-        $result = $query->getRowArray();
+
+        $builder = $this->db->table('main')
+            ->select("
+                diary_no, conn_key, fil_dt, 
+                EXTRACT(YEAR FROM fil_dt) AS filyr, 
+                TO_CHAR(fil_dt, 'DD-MM-YYYY HH12:MI AM') AS fil_dt_f, 
+                fil_no_fh, 
+                TO_CHAR(fil_dt_fh, 'DD-MM-YYYY HH12:MI AM') AS fil_dt_fh, 
+                actcode, 
+                pet_adv_id, 
+                res_adv_id, 
+                lastorder, 
+                c_status, 
+                CASE WHEN diary_no IS NOT NULL AND diary_no != '' THEN split_part(diary_no, '-', 1) ELSE '' END AS ct1, 
+                CASE WHEN diary_no IS NOT NULL AND diary_no != '' THEN split_part(diary_no, '-', 2) ELSE '' END AS crf1, 
+                CASE WHEN diary_no IS NOT NULL AND diary_no != '' THEN split_part(diary_no, '-', 3) ELSE '' END AS crl1, 
+                CASE WHEN fil_no_fh IS NOT NULL AND fil_no_fh != '' THEN split_part(fil_no_fh, '-', 1) ELSE '' END AS ct2, 
+                CASE WHEN fil_no_fh IS NOT NULL AND fil_no_fh != '' THEN split_part(fil_no_fh, '-', 2) ELSE '' END AS crf2, 
+                CASE WHEN fil_no_fh IS NOT NULL AND fil_no_fh != '' THEN split_part(fil_no_fh, '-', 3) ELSE '' END AS crl2, 
+                CASE 
+                    WHEN conn_key IS NOT NULL AND conn_key != '' THEN 
+                        CASE WHEN conn_key = diary_no THEN 'N' ELSE 'Y' END
+                    ELSE 'N' 
+                END AS ccdet, 
+                casetype_id, 
+                conn_key AS connto
+            ")
+            ->where("SUBSTRING(diary_no FROM 1 FOR LENGTH(diary_no) - 4) =", $d_no)
+            ->where("SUBSTRING(diary_no FROM LENGTH(diary_no) - 3 FOR 4) =", $d_yr);
+
+        // Get the SQL query as a string (useful for debugging)
+        $sqlQuery = $builder->getCompiledSelect();
+        echo "<pre>$sqlQuery</pre>"; // Print SQL query for debugging
+        die;
+
+        // Execute the query
+        $query = $builder->get();
+        return $query->getRowArray();
     }
+
+
+
+
+
 
     public function get_fil_date_for($diaryno)
     {
@@ -150,7 +167,7 @@ class MovementOfDocumentModel extends Model
 
     public function getShortDescription($casecode)
     {
-        return $this->db->table('casetype')
+        return $this->db->table('master.casetype')
             ->select('short_description')
             ->where('casecode', $casecode)
             ->where('display', 'Y')
@@ -160,6 +177,7 @@ class MovementOfDocumentModel extends Model
 
     public function get_diary_details($diaryNo)
     {
+
         $builder = $this->db->table('party p');
         $builder->select("SUBSTR(m.diary_no, 1, LENGTH(m.diary_no) - 4) AS case_no, 
                           SUBSTR(m.diary_no, -4) AS year, 
@@ -235,7 +253,7 @@ class MovementOfDocumentModel extends Model
 
     public function getLawById($actCode)
     {
-        return $this->db->table('caselaw')
+        return $this->db->table('master.caselaw')
             ->select('law')
             ->where('id', $actCode)
             ->get()
@@ -264,7 +282,8 @@ class MovementOfDocumentModel extends Model
 
     public function getDisplayFlag()
     {
-        return $this->db->table('case_status_flag')
+
+        return $this->db->table('master.case_status_flag')
             ->select('display_flag, always_allowed_users')
             ->where('date(to_date)', '0000-00-00')
             ->where('flag_name', 'tentative_listing_date')
@@ -475,15 +494,16 @@ class MovementOfDocumentModel extends Model
     {
         $usercode = session()->get('login')['usercode'];
         $vr = $_REQUEST['vr'];
+
         foreach ($_REQUEST['alldata'] as $key => $value) {
-            $t_vr = $_REQUEST['tb'][$key];
+            //$t_vr = $_REQUEST['tb'][$key];
             $new_value = explode('-', $value);
             $updateData =
                 [
                     'verified' => $vr,
                     'verified_by' => $usercode,
                     'verified_on' => date('Y-m-d H:i:s'),
-                    'verified_remarks' => $t_vr,
+                    //'verified_remarks' => $t_vr,
                 ];
 
             $this->db->table('docdetails')->where('diary_no', $new_value[0])->where('doccode', $new_value[1])->where('doccode1', $new_value[2])->where('docnum', $new_value[3])->where('docyear', $new_value[4])->update($updateData);
@@ -601,8 +621,8 @@ class MovementOfDocumentModel extends Model
     {
         $usercode = session()->get('login')['usercode'];
         $query = $this->db->table('ld_move a')
-        ->select('*')
-        ->join('docdetails b', 'a.diary_no = b.diary_no 
+            ->select('*')
+            ->join('docdetails b', 'a.diary_no = b.diary_no 
             AND a.diary_no > 0 
             AND b.diary_no > 0 
             AND a.doccode = b.doccode 
@@ -612,14 +632,14 @@ class MovementOfDocumentModel extends Model
             AND b.display = \'Y\' 
             AND a.rece_by = ' . $this->db->escape($usercode) . ' 
             AND b.verified = \'R\'', 'inner')
-        ->join('main m', 'a.diary_no = m.diary_no', 'inner')
-        ->join('master.docmaster c', 'a.doccode = c.doccode AND a.doccode1 = c.doccode1', 'left')
-        ->orderBy('a.disp_dt', 'DESC')
-        ->get();
+            ->join('main m', 'a.diary_no = m.diary_no', 'inner')
+            ->join('master.docmaster c', 'a.doccode = c.doccode AND a.doccode1 = c.doccode1', 'left')
+            ->orderBy('a.disp_dt', 'DESC')
+            ->get();
         $html = '';
         if ($query->getNumRows() >= 1) {
             $records = $query->getResultArray();
-            
+
             $html .= '<table class="c_vertical_align tbl_border">';
             $html .= '<tr><td colspan="8" align="center">RECORDS TO BE VERIFY';
             $html .= '<span id="enable-in-print">FOR ' . get_user_details($usercode) . '</span></td></tr>';
@@ -703,24 +723,248 @@ class MovementOfDocumentModel extends Model
     //     $query = $this->db->query($sql);
     // }
 
-    public function insertDatas($new_value0, $new_value1, $new_value2, $new_value3, $new_value4, $ucode, $new_value5, $now, $fil_no = null,$remarks=null,$rece_by=null,$other=null)
-{
-    $data = [
-        'diary_no'  => $new_value0,
-        'doccode'   => $new_value1,
-        'doccode1'  => $new_value2,
-        'docnum'    => $new_value3,
-        'docyear'   => $new_value4,
-        'disp_by'   => $ucode,
-        'disp_to'   => $new_value5,
-        'disp_dt'   => $now,
-        'fil_no'    => $fil_no ?? 0,  // adding because db error accer
-        'remarks'    => $remarks ?? 0, // adding because db error accer
-        'rece_by'    => $rece_by ?? 0, // adding because db error accer
-        'other'    => $other ?? 0 // adding because db error accer
-    ];
+    public function insertDatas($new_value0, $new_value1, $new_value2, $new_value3, $new_value4, $ucode, $new_value5, $now, $fil_no = null, $remarks = null, $rece_by = null, $other = null)
+    {
+        $data = [
+            'diary_no'  => $new_value0,
+            'doccode'   => $new_value1,
+            'doccode1'  => $new_value2,
+            'docnum'    => $new_value3,
+            'docyear'   => $new_value4,
+            'disp_by'   => $ucode,
+            'disp_to'   => $new_value5,
+            'disp_dt'   => $now,
+            'fil_no'    => $fil_no ?? 0,  // adding because db error accer
+            'remarks'    => $remarks ?? 0, // adding because db error accer
+            'rece_by'    => $rece_by ?? 0, // adding because db error accer
+            'other'    => $other ?? 0 // adding because db error accer
+        ];
 
-    return $this->db->table('ld_move')->insert($data);
-}
+        return $this->db->table('ld_move')->insert($data);
+    }
 
+    public function getDiaryNumber1($ct, $cn, $cy)
+    {
+        $sql = "SELECT SUBSTRING(diary_no::TEXT FROM 1 FOR CHAR_LENGTH(diary_no::TEXT) - 4) AS dn, SUBSTRING(diary_no::TEXT FROM CHAR_LENGTH(diary_no::TEXT) - 3 FOR 4) AS dy
+                FROM main
+                WHERE   (
+                (CASE WHEN SPLIT_PART(fil_no, '-', 1) ~ '^[0-9]+$' THEN SPLIT_PART(fil_no, '-', 1)::INTEGER ELSE 0 END) = $ct
+                AND CAST($cn AS INTEGER) BETWEEN 
+                                    (CASE
+                                    WHEN SPLIT_PART(fil_no, '-', 2) ~ '^[0-9]+$'
+                                        THEN SPLIT_PART(fil_no, '-', 2)::INTEGER ELSE 0 END) 
+                                AND 
+                                    (CASE
+                                    WHEN SPLIT_PART(fil_no, '-', -1) ~ '^[0-9]+$'
+                                        THEN SPLIT_PART(fil_no, '-', -1)::INTEGER
+                                ELSE 0 END)
+                AND    (
+                reg_year_mh = 0
+                OR fil_dt > '2017-05-10'
+                )
+                AND EXTRACT(YEAR FROM fil_dt) = $cy
+                )
+                OR   (
+                (CASE WHEN SPLIT_PART(fil_no_fh, '-', 1) ~ '^[0-9]+$' THEN SPLIT_PART(fil_no_fh, '-', 1)::INTEGER ELSE 0 END) = $ct
+                AND CAST($cn AS INTEGER) BETWEEN 
+                                    (CASE
+                                    WHEN SPLIT_PART(fil_no_fh, '-', 2) ~ '^[0-9]+$'
+                                        THEN SPLIT_PART(fil_no_fh, '-', 2)::INTEGER ELSE 0 END) 
+                                AND 
+                                    (CASE
+                                    WHEN SPLIT_PART(fil_no_fh, '-', -1) ~ '^[0-9]+$'
+                                        THEN SPLIT_PART(fil_no_fh, '-', -1)::INTEGER
+                                ELSE 0 END)
+                AND reg_year_fh = 0
+                AND EXTRACT(YEAR FROM fil_dt_fh) = $cy
+                )";
+        $query = $this->db->query($sql);
+        $get_dno = $query->getRowArray();
+        return $get_dno;
+    }
+
+
+
+
+    public function getDiaryDetails1($d_no, $d_yr)
+    {
+        //$d_no = '142192009'; // remove 
+        $query = $this->db->table('main')
+            ->select([
+                'diary_no',
+                'conn_key',
+                'fil_no',
+                'fil_dt',
+                'EXTRACT(YEAR FROM fil_dt) AS filyr',
+                "TO_CHAR(fil_dt, 'DD-MM-YYYY HH12:MI AM') AS fil_dt_f",
+                'fil_no_fh',
+                "TO_CHAR(fil_dt_fh, 'DD-MM-YYYY HH12:MI AM') AS fil_dt_fh",
+                'actcode',
+                'pet_adv_id',
+                'res_adv_id',
+                'lastorder',
+                'c_status',
+                'casetype_id',
+                'bench',
+                "CASE WHEN NULLIF(fil_no, '') IS NOT NULL THEN split_part(fil_no, '-', 1) ELSE '' END AS ct1",
+                "CASE WHEN NULLIF(fil_no, '') IS NOT NULL THEN split_part(fil_no, '-', 2) ELSE '' END AS crf1",
+                "CASE WHEN NULLIF(fil_no, '') IS NOT NULL THEN split_part(fil_no, '-', 3) ELSE '' END AS crl1",
+                "CASE WHEN NULLIF(fil_no_fh, '') IS NOT NULL THEN split_part(fil_no_fh, '-', 1) ELSE '' END AS ct2",
+                "CASE WHEN NULLIF(fil_no_fh, '') IS NOT NULL THEN split_part(fil_no_fh, '-', 2) ELSE '' END AS crf2",
+                "CASE WHEN NULLIF(fil_no_fh, '') IS NOT NULL THEN split_part(fil_no_fh, '-', 3) ELSE '' END AS crl2"
+            ])
+            ->where("LEFT(CAST(diary_no AS TEXT), LENGTH(CAST(diary_no AS TEXT)) - 4) =", $d_no)
+            ->where("RIGHT(CAST(diary_no AS TEXT), 4) =", $d_yr)
+            ->get();
+
+        return $query->getRowArray();
+    }
+
+    public function getBenchName($bench)
+    {
+        $query = $this->db->table('master.master_bench')
+            ->select('bench_name')
+            ->where('display', 'Y')
+            ->where('id', $bench)
+            ->get();
+
+        return $query->getRowArray();
+    }
+
+    public function get_diary_details1($dno)
+    {
+        $query = $this->db->table('party p')
+            ->select("
+                p.sr_no, 
+                p.pet_res, 
+                p.ind_dep, 
+                p.partyname, 
+                p.sonof, 
+                p.prfhname, 
+                p.age, 
+                p.sex, 
+                p.caste, 
+                p.addr1, 
+                p.addr2, 
+                p.pin, 
+                p.state, 
+                p.city, 
+                p.email, 
+                p.contact AS mobile, 
+                p.deptcode, 
+                (SELECT deptname FROM master.deptt WHERE deptcode = p.deptcode) AS deptname, 
+                c.skey
+            ")
+            ->join('main m', 'm.diary_no = p.diary_no AND p.sr_no = 1 AND p.pflag = \'P\' AND p.pet_res IN (\'P\', \'R\')', 'inner')
+            ->join('master.casetype c', 'c.casecode = CAST(SUBSTRING(m.fil_no FROM 3 FOR 3) AS INTEGER)', 'left')
+            ->where('m.diary_no', $dno)
+            ->orderBy('p.pet_res, p.sr_no')
+            ->get();
+
+        return $query->getResultArray();
+    }
+
+
+    public function getDistrictName1($stateCode, $cityCode)
+    {
+        $builder = $this->db->table('master.state')
+            ->select('name')
+            ->where('sub_dist_code', 0)
+            ->where('village_code', 0)
+            ->where('display', 'Y');
+
+        if (!empty($stateCode)) {
+            $builder->where('state_code', $stateCode);
+        }
+        if (!empty($cityCode)) {
+            $builder->where('district_code', $cityCode);
+        }
+
+        return $builder->get()->getRowArray();
+    }
+
+
+
+    public function getActSections1($diaryNo)
+    {
+        $query = $this->db->table('act_main a')
+            ->select("a.act, STRING_AGG(b.section, ', ') AS section, c.act_name")
+            ->join('master.act_section b', 'a.id = b.act_id AND b.display = \'Y\'', 'left')
+            ->join('master.act_master c', 'c.id = a.act')
+            ->where('a.display', 'Y')
+            ->where('c.display', 'Y')
+            ->where('a.diary_no', $diaryNo)
+            ->groupBy('a.act, c.act_name')
+            ->get();
+
+        return $query->getResultArray();
+    }
+
+    public function getDisplayFlag1()
+    {
+        return $this->db->table('master.case_status_flag')
+            ->select('display_flag, always_allowed_users')
+            ->where('flag_name', 'tentative_listing_date')
+            ->groupStart()
+            ->where('to_date IS NULL')
+            ->orWhere('to_date', '1970-01-01')
+            ->groupEnd()
+            ->get()
+            ->getRowArray();
+    }
+
+
+
+
+
+
+
+    public function getIANDoccode($diary_no)
+    {
+        //$diary_no = '142192009'; // remove 
+        $builder = $this->db->table('docdetails a');
+        $builder->select('
+            a.diary_no, 
+            a.doccode, 
+            a.doccode1, 
+            a.docnum, 
+            a.docyear, 
+            a.filedby, 
+            a.docfee, 
+            a.forresp, 
+            a.feemode, 
+            a.ent_dt, 
+            a.other1, 
+            a.iastat, 
+            b.docdesc, 
+            a.verified
+        ');
+        $builder->join('master.docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1', 'inner');
+        $builder->where('a.diary_no', $diary_no);
+        $builder->where('a.doccode', 8);
+        $builder->where('a.display', 'Y');
+        $builder->where('b.display', 'Y');
+        $builder->orderBy('a.ent_dt', 'ASC');
+
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+
+
+    public function getOtherDoccode($diary_no)
+    {
+        // $diary_no = '142192009'; // remove 
+        $db = \Config\Database::connect();
+
+        return $db->table('docdetails a')
+            ->select('a.diary_no, a.doccode, a.doccode1, a.docnum, a.docyear, a.filedby, 
+                      a.docfee, a.forresp, a.feemode, a.ent_dt, a.other1, b.docdesc, a.verified')
+            ->join('master.docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1', 'inner')
+            ->where('a.diary_no', $diary_no)
+            ->where('a.doccode !=', 8)
+            ->where('a.display', 'Y')
+            ->orderBy('a.ent_dt', 'ASC')
+            ->get()
+            ->getResultArray();
+    }
 }

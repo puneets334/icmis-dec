@@ -4231,3 +4231,35 @@ function da()
 	}
 	  
 }
+
+ function get_advocates1($adv_id, $wen = '')
+{
+    $db = \Config\Database::connect();
+    $t_adv = "";
+
+    if ($adv_id != 0) {
+        $query = $db->table('master.bar')
+            ->select("name, enroll_no, YEAR(enroll_date) as eyear, isdead")
+            ->whereIn('bar_id', explode(',', $adv_id)) // Convert CSV IDs into an array for safe query execution
+            ->get();
+
+        $result = $query->getResultArray();
+
+        if (!empty($result)) {
+            foreach ($result as $row) {
+                $t_adv = $row['name'];
+
+                if ($row['isdead'] == 'Y') {
+                    $t_adv = "<font color=red>{$t_adv} (Dead / Retired / Elevated)</font>";
+                }
+
+                if ($wen == 'wen') {
+                    $t_adv .= " [{$row['enroll_no']}/{$row['eyear']}]";
+                }
+            }
+        }
+    }
+
+    return $t_adv;
+}
+

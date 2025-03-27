@@ -52,26 +52,14 @@
 
                             <div class="row">
                                 <div class="col-sm-10">
-                                    <h3 class="card-title">PIL(E) >> Pil Report</h3>
+                                    <h3 class="card-title">PIL(E) >> Add/Edit</h3>
                                 </div>
 
 
                             </div>
              
 
-                            <?php if (session()->getFlashdata('infomsg')) { ?>
-                                <div class="alert alert-success">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    <strong> <?= session()->getFlashdata('infomsg') ?></strong>
-                                </div>
-
-                            <?php } ?>
-                            <?php if (session()->getFlashdata('success_msg')) : ?>
-                                <div class="alert alert-danger alert-dismissible">
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                    <strong> <?= session()->getFlashdata('success_msg') ?></strong>
-                                </div>
-                            <?php endif; ?>
+                          
 
 
 
@@ -103,7 +91,7 @@
                             </div>
                             <div class="col-md-3" id="divDiaryNo">
                                 <label><h5 style="margin: 0;">Search by PIL Inward Number</h5></label>
-                                <input type="text" class="form-control" placeholder="Inward No" required id="diaryNo" name="diaryNo" >
+                                <input type="number" class="form-control" placeholder="Inward No" required id="diaryNo" name="diaryNo" >
 
                             </div>
 
@@ -133,7 +121,19 @@
 
 
                         <br><br>
+                        <?php if (session()->getFlashdata('infomsg')) { ?>
+                            <div class="alert alert-danger alert-dismissible">                              
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong> <?= session()->getFlashdata('infomsg') ?></strong>
+                                </div>
 
+                            <?php } ?>
+                            <?php if (session()->getFlashdata('success_msg')) : ?>
+                                <div class="alert alert-success">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong> <?= session()->getFlashdata('success_msg') ?></strong>
+                                </div>
+                            <?php endif; ?>
 
                         <br>
                         <br>
@@ -143,7 +143,7 @@
                         <div id="tabledata" >
                             <h4 align="center">PIL Received</h4>
                             <br>
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped custom-table">
                                 <thead>
                                 <tr>
                                     <th>S.No</th>

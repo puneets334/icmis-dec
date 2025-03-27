@@ -4,22 +4,22 @@
         <table id="tblCasesForReceive" class="table table-striped table-hover centerview">
             <thead>
                 <tr>
-                    <th>SNo.</th>
-                    <th>Diary No.</th>
-                    <th>Dispatch By</th>
-                    <th>Dispatch On</th>
-                    <th>Remarks</th>
-                    <th>Dispatch To</th>
-                    <th>Receive By</th>
-                    <th>Receive On</th>
-                    <th>Completed On</th>
+                    <th><b>SNo.</b></th>
+                    <th><b>Diary No.</b></th>
+                    <th><b>Dispatch By</b></th>
+                    <th><b>Dispatch On</b></th>
+                    <th><b>Remarks</b></th>
+                    <th><b>Dispatch To</b></th>
+                    <th><b>Receive By</b></th>
+                    <th><b>Receive On</b></th>
+                    <th><b>Completed On</b></th>
                 </tr>
             </thead>
             <tbody>
                 <?php $sno = 1; ?>
                     <?php foreach ($trapData as $row): ?>
                         <tr>
-                            <th><?= $sno; ?></th>
+                            <td><?= $sno; ?></td>
                             <td><?= substr($row['diary_no'], 0, -4) . '/' . substr($row['diary_no'], -4); ?></td>
                             <td><?= $row['d_by_name']; ?></td>
                             <td>
