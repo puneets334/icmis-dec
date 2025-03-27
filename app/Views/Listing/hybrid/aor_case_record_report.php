@@ -5,12 +5,11 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header heading">
-
                         <div class="row">
                             <div class="col-sm-10">
                                 <h3 class="card-title">VC Consent - Report</h3>
                             </div>
-                            <?= view('Filing/filing_filter_buttons'); ?>
+                            <?// = view('Filing/filing_filter_buttons'); ?>
                         </div>
                     </div>
                     <?php
@@ -20,35 +19,28 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label>Listing Date<span style="color:red;">*</span></label>
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-auto col-sm-4">
+                                        <label class="col-form-label">Listing Date<span style="color:red;">*</span></label>
                                         <div class="border">
-                                            <select name="listing_dts" id="listing_dts" class="form-control">
-                                                <?php
-                                                if (count($listing_date) > 0) {
-
-                                                ?>
+                                            <select name="listing_dts" id="listing_dts" class="form-control cus-form-ctrl" required>
+                                                <?php if (count($listing_date) > 0) { ?>
                                                     <option value="-1" selected>SELECT</option>
-                                                    <?php
-                                                    foreach ($listing_date as $row) {
-                                                    ?>
+                                                    <?php foreach ($listing_date as $row) { ?>
                                                         <option value="<?= $row['next_dt']; ?>"><?= date("d-m-Y", strtotime($row['next_dt'])); ?></option>
-                                                    <?php
+                                                        <?php
                                                     }
                                                 } else {
                                                     ?>
                                                     <option value="-1" selected>EMPTY</option>
-                                                <?php
-                                                }
-                                                ?>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <label>List Type</label>
+                                    <div class="col-auto col-sm-4">
+                                        <label class="col-form-label">List Type</label>
                                         <div class="border">
-                                            <select class="form-control" name="list_type" id="list_type">
+                                            <select class="form-control cus-form-ctrl" name="list_type" id="list_type">
                                                 <option value="0">ALL</option>
                                                 <option value="4">Misc.</option>
                                                 <option value="3">Regular</option>
@@ -57,50 +49,41 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <label>Source</label>
+                                    <div class="col-auto col-sm-4">
+                                        <label class="col-form-label">Source</label>
                                         <div class="border">
-                                            <select class="form-control" name="consent_source" id="consent_source">
+                                            <select class="form-control cus-form-ctrl" name="consent_source" id="consent_source">
                                                 <option value="0">All</option>
                                                 <option value="1">Email</option>
                                                 <option value="2">Portal</option>
                                             </select>
                                         </div>
                                     </div>
-
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <label>Hon'ble Judges</label>
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-auto col-sm-4">
+                                        <label class="col-form-label">Hon'ble Judges</label>
                                         <div class="border">
-                                            <select class="form-control" name="judge_code" id="judge_code">
+                                            <select class="form-control cus-form-ctrl" name="judge_code" id="judge_code">
                                                 <option value="0" selected>All</option>
                                                 <?php
-
                                                 if (count($honble_judges) > 0) {
                                                     foreach ($honble_judges as $row) {
-
-                                                ?>
-                                                        <option value="<?= $row['jcode']
-                                                                        ?>"> <?= $row['judge_name']
-                                                                                ?></option>
-                                                    <?php
+                                                        ?>
+                                                        <option value="<?= $row['jcode'] ?>"> <?= $row['judge_name'] ?></option>
+                                                        <?php
                                                     }
                                                 } else {
                                                     ?>
                                                     <option value="-1" selected>EMPTY</option>
-                                                <?php
-                                                }
-                                                ?>
-
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <label>OR Court No.</label>
+                                    <div class="col-auto col-sm-4">
+                                        <label class="col-form-label">OR Court No.</label>
                                         <div class="border">
-                                            <select class="form-control" name="court_no" id="court_no">
+                                            <select class="form-control cus-form-ctrl" name="court_no" id="court_no">
                                                 <option value="0" selected>All</option>
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
@@ -124,16 +107,11 @@
                                             </select>
                                         </div>
                                     </div>
-
-
-                                    <div class="col-sm-3">
-                                        <label>Action<span style="color:red;">*</span></label>
+                                    <div class="col-auto col-sm-4 mt-4">
+                                        <!-- <label>Action<span style="color:red;">*</span></label> -->
                                         <button id="button_search" name="button_search" type="button" class="btn btn-success btn-block">Search</button>
                                     </div>
                                 </div>
-
-
-
                             </div>
                         </div>
                     </div>
@@ -142,7 +120,7 @@
             </div>
         </div>
     </div>
-    </div>
+    <!-- </div> -->
 </section>
 <script>
     $(document).on("focus", ".dtp", function() {
@@ -154,9 +132,7 @@
             autoclose: true
         });
     });
-
     $(document).on('click', '#button_search', function() {
-
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
         var listing_dts = $("select#listing_dts option:selected").val();
@@ -214,8 +190,6 @@
             updateCSRFToken();
         }
     });
-
-
     $(document).on("click", "#prnnt1", function() {
         var divContents = $("#print_area").html();
         var a = window.open('', '', 'height=1200, width=800');

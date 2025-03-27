@@ -56,13 +56,13 @@
                                 <table id="reportTable1" class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>S.No.</th>
-                                            <th>Case No.</th>
-                                            <th>Diary No.</th>
-                                            <th>Connected With</th>
-                                            <th>Listing date</th>
-                                            <th>Hon'ble Judges</th>
-                                            <th>File Location</th>
+                                            <th><b>S.No.</b></th>
+                                            <th><b>Case No.</b></th>
+                                            <th><b>Diary No.</b></th>
+                                            <th><b>Connected With</b></th>
+                                            <th><b>Listing date</b></th>
+                                            <th><b>Hon'ble Judges</b></th>
+                                            <th><b>File Location</b></th>
                                         </tr>
                                     </thead>
                                     <tbody>
