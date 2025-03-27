@@ -180,6 +180,7 @@ class Report extends BaseController
         $ReportModel = new ReportModel();
         $data['formdata'] = $this->request->getPost();
         $data['judge'] = $this->request->getPost('judge');
+        $data['name'] = $this->request->getPost('judge_name');
         $data['report_title'] = 'Details of CAV Search';
         if ($data['judge']!=''){
             $data['dataCAV']= $ReportModel->getCAV($data);
