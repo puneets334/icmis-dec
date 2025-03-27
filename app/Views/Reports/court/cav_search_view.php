@@ -57,7 +57,8 @@
     $('#cav_search_form').on('submit', function () {
         if ($('#cav_search_form').valid()) {
             var validateFlag = true;
-            var form_data = $(this).serialize();
+            var form_data = $(this).serializeArray(); // Converts to array of objects
+            form_data.push({ name: 'judge_name', value: $('#judge  option:selected').text() });
             if(validateFlag){ //alert('readt post form');
                 var CSRF_TOKEN = 'CSRF_TOKEN';
                 var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
