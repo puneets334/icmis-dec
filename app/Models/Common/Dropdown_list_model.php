@@ -19,17 +19,19 @@ class Dropdown_list_model extends Model
         $builder->select("main.*");
         $builder->WHERE('diary_no', $diary_no);
         $query = $builder->get(1);
-        // echo $this->db->getLastQuery();die;
-        if ($query->getNumRows() >= 1) {
-            $get_main_table = $query->getRowArray();
+        $result = $query->getRowArray();
+
+        if ($result !== null && count($result) > 0) {
+            $get_main_table = $result; // use the already fetched result.
             return $get_main_table;
         } else {
             $builder2 = $this->db->table("main_a");
             $builder2->select("*");
             $builder2->WHERE('diary_no', $diary_no);
             $query2 = $builder2->get(1);
-            if ($query2->getNumRows() >= 1) {
-                $get_main_table2 = $query2->getRowArray();
+            $result2 = $query2->getRowArray(); // Corrected line: use query2
+            if ($result2 !== null && count($result2) > 0) {
+                $get_main_table2 = $result2; // use the already fetched result.
                 return $get_main_table2;
             } else {
                 return false;
