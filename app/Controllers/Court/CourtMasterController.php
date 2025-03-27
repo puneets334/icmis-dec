@@ -65,7 +65,7 @@ class CourtMasterController extends BaseController
         $usercode = session()->get('login')['usercode'];
         $data['caseTypes'] = $getCaseType;
         $data['usercode'] = $usercode;
-        
+
 
         return view('Court/CourtMaster/showEmbedQR', $data);
     }
@@ -80,7 +80,7 @@ class CourtMasterController extends BaseController
         $data['app_name'] = 'Generate ROP';
         $data['judge'] = $judge;
         $data['usercode'] = $usercode;
- 
+
         return view('Court/CourtMaster/selectDetailForROP', $data);
     }
 
@@ -776,7 +776,7 @@ class CourtMasterController extends BaseController
             new RecursiveDirectoryIterator($rootPath, FilesystemIterator::SKIP_DOTS),
             RecursiveIteratorIterator::LEAVES_ONLY
         );
-        
+
         foreach ($files as $name => $file) {
             if (!$file->isDir()) {
                 $filePath = $file->getRealPath();
@@ -786,7 +786,7 @@ class CourtMasterController extends BaseController
         }
         $zip->close();
         ob_clean();
- 
+
         $data = file_get_contents($rootPath . '/' . $zip_file);
         $name = $zip_file;
         force_download($name, $data);
@@ -800,7 +800,6 @@ class CourtMasterController extends BaseController
                 echo $e . message();
             }
         }
-       
     }
 
     private function str_replace_once($str_pattern, $str_replacement, $string)
@@ -861,7 +860,7 @@ class CourtMasterController extends BaseController
     public function generate()
     {
         $diary_no = $this->diary_no;
-
+        $number = uniqid();
         extract($this->request->getPost());
         if (isset($causelistDate) && empty($causelistDate)) {
             return $this->index();
@@ -871,9 +870,9 @@ class CourtMasterController extends BaseController
 
             $fileROPList = $this->request->getFiles('fileROPList');
 
-            // $desired_dir = /*site_url() .*/ "/reports/supremecourt/qr_assets/" /*. uniqid()*/;
+            $desired_dir = "uploaded_documents/qr_assets/" . $number;
 
-            $desired_dir = "/home/reports/supremecourt/qr_assets/" . uniqid();
+            // $desired_dir = "/home/reports/supremecourt/qr_assets/" . uniqid();
 
             foreach ($fileROPList['fileROPList'] as $key => $fileROPListVal) {
 
@@ -925,30 +924,60 @@ class CourtMasterController extends BaseController
 
 
             ////////Code for making zip file and force download
-            $rootPath = $desired_dir . "/after_qr_embed/";
-            $zip = new ZipArchive();
-            $zip->open($desired_dir . '/after_qr_embed.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
-            if (!is_dir($rootPath)) {
-                echo "Directory does not exist.";
-            }
-            $files = new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($rootPath),
-                RecursiveIteratorIterator::LEAVES_ONLY
-            );
-
-            foreach ($files as $name => $file) {
-                if (!$file->isDir()) {
-                    $filePath = $file->getRealPath();
-                    $relativePath = substr($filePath, strlen($rootPath));
-                    $zip->addFile($filePath, $relativePath);
+            if (!is_dir($desired_dir)) {
+                if (!mkdir($desired_dir, 0755, true)) {
+                    die('Failed to create directories...');
                 }
             }
-            $zip->close();
-            ob_clean();
-            $data = file_get_contents($desired_dir . '/after_qr_embed.zip'); //assuming my file is on localhost
-            $name = $causelistDate . "_withqr.zip";
+            if (is_dir($desired_dir)) {
+                // pr($desired_dir."/" . $number . ".pdf");
+                $moveFile = move_uploaded_file($file_tmp, $desired_dir . "/" . $number . ".pdf");
+                if (is_dir($desired_dir . "/after_qr_embed") == false) {
+                    mkdir($desired_dir . "/after_qr_embed", 0755, true);
+                    // pr($desired_dir."/" ."after_qr_embed/" . $number . ".pdf");
+                    move_uploaded_file($file_tmp, $desired_dir . "/" . "after_qr_embed/" . $number . ".pdf");
+                }
+
+                if (!$moveFile) {
+                    die('Failed to move uploaded file...');
+                }
+                $file_url_on_web = $desired_dir . "/" . $number . ".pdf";
+                $this->generateQR($file_url_on_web, $number, $desired_dir);
+            } else {
+                die('Failed to create directory...');
+            }
+
+            $data = file_get_contents($desired_dir . '/' . 'after_qr_embed/' . $number . '.pdf');
+            $name = $file_name;
             // $this->delete_directory($desired_dir);
             force_download($name, $data);
+
+
+            // $rootPath = $desired_dir . "/after_qr_embed/";
+            // pr($rootPath);
+            // $zip = new ZipArchive();
+            // $zip->open($desired_dir . '/after_qr_embed.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+            // if (!is_dir($rootPath)) {
+            //     echo "Directory does not exist.";
+            // }
+            // $files = new RecursiveIteratorIterator(
+            //     new RecursiveDirectoryIterator($rootPath),
+            //     RecursiveIteratorIterator::LEAVES_ONLY
+            // );
+
+            // foreach ($files as $name => $file) {
+            //     if (!$file->isDir()) {
+            //         $filePath = $file->getRealPath();
+            //         $relativePath = substr($filePath, strlen($rootPath));
+            //         $zip->addFile($filePath, $relativePath);
+            //     }
+            // }
+            // $zip->close();
+            // ob_clean();
+            // $data = file_get_contents($desired_dir . '/after_qr_embed.zip'); //assuming my file is on localhost
+            // $name = $causelistDate . "_withqr.zip";
+            // // $this->delete_directory($desired_dir);
+            // force_download($name, $data);
 
             //after that code level is not cleared
         }
@@ -1023,7 +1052,7 @@ class CourtMasterController extends BaseController
                 unlink($page_one_file_name_with_qr);
             }
         }
-        move_uploaded_file($pdf_file, $desired_dir."/" ."after_qr_embed/" . $file_name . ".pdf");
+        move_uploaded_file($pdf_file, $desired_dir . "/" . "after_qr_embed/" . $file_name . ".pdf");
     }
 
 
@@ -1177,23 +1206,23 @@ class CourtMasterController extends BaseController
             }
             if (is_dir($desired_dir)) {
                 // pr($desired_dir."/" . $number . ".pdf");
-                $moveFile = move_uploaded_file($file_tmp, $desired_dir."/" . $number . ".pdf");
+                $moveFile = move_uploaded_file($file_tmp, $desired_dir . "/" . $number . ".pdf");
                 if (is_dir($desired_dir . "/after_qr_embed") == false) {
                     mkdir($desired_dir . "/after_qr_embed", 0755, true);
                     // pr($desired_dir."/" ."after_qr_embed/" . $number . ".pdf");
-                    move_uploaded_file($file_tmp, $desired_dir."/" ."after_qr_embed/" . $number . ".pdf");
+                    move_uploaded_file($file_tmp, $desired_dir . "/" . "after_qr_embed/" . $number . ".pdf");
                 }
-                
+
                 if (!$moveFile) {
                     die('Failed to move uploaded file...');
                 }
-                $file_url_on_web = $desired_dir."/" . $number . ".pdf";
+                $file_url_on_web = $desired_dir . "/" . $number . ".pdf";
                 $this->generateQR($file_url_on_web, $number, $desired_dir);
-            }else{
+            } else {
                 die('Failed to create directory...');
             }
         }
-        $data = file_get_contents($desired_dir . '/'.'after_qr_embed/' . $number . '.pdf');
+        $data = file_get_contents($desired_dir . '/' . 'after_qr_embed/' . $number . '.pdf');
         $name = $file_name;
         // $this->delete_directory($desired_dir);
         force_download($name, $data);
@@ -1566,27 +1595,26 @@ class CourtMasterController extends BaseController
         $diary_number = $request->getPost('diaryNumber');
         $diary_year = $request->getPost('diaryYear');
         $msg = $request->getPost('msg');
-       
+
         // Initialize the variable for diary number search
         $diaryNumberForSearch = null;
 
         if (!empty($search_type) && $search_type != null) {
             if ($search_type == 'D') {
-                
+
                 $data = [
                     'search_type' => $search_type,
                     'diary_number' => $diary_number,
                     'diary_year' => $diary_year,
                 ];
             } else {
-               
+
                 $data = [
                     'search_type' => $search_type,
                     'case_type' => $case_type,
                     'case_number' => $case_number,
                     'case_year' => $case_year,
                 ];
-
             }
         } else {
             $data = [
@@ -1607,7 +1635,7 @@ class CourtMasterController extends BaseController
             }
         }
 
-        if(!empty($get_main_table)){
+        if (!empty($get_main_table)) {
             $diaryNumberForSearch = $get_main_table['diary_no'];
         }
         $data = [];
