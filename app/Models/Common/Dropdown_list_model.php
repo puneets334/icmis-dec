@@ -64,11 +64,25 @@ class Dropdown_list_model extends Model
         //     ->groupEnd();
 
         $builder = $this->db->table('main');
-
-        // Subquery for "fil_no"
+        // First condition group
         $builder->groupStart()
-            ->where("NULLIF(split_part(fil_no, '-', 1), '')::INTEGER =", $ct)
-            ->where("$cn BETWEEN NULLIF(split_part(fil_no, '-', 2), '')::INTEGER AND NULLIF(split_part(fil_no, '-', -1), '')::INTEGER")
+            ->where("(CASE 
+                WHEN SPLIT_PART(fil_no, '-', 1) ~ '^[0-9]+$' 
+                THEN SPLIT_PART(fil_no, '-', 1)::INTEGER 
+                ELSE 0 
+            END)", $ct)
+            ->where("CAST('{$cn}' AS INTEGER) BETWEEN 
+                (CASE 
+                    WHEN SPLIT_PART(fil_no, '-', 2) ~ '^[0-9]+$' 
+                    THEN SPLIT_PART(fil_no, '-', 2)::INTEGER 
+                    ELSE 0 
+                END) 
+                AND 
+                (CASE 
+                    WHEN SPLIT_PART(fil_no, '-', -1) ~ '^[0-9]+$' 
+                    THEN SPLIT_PART(fil_no, '-', -1)::INTEGER 
+                    ELSE 0 
+                END)")
             ->groupStart()
                 ->where('reg_year_mh', 0)
                 ->orWhere('fil_dt >', '2017-05-10')
@@ -76,21 +90,37 @@ class Dropdown_list_model extends Model
             ->where("EXTRACT(YEAR FROM fil_dt) =", $cy)
         ->groupEnd();
 
-        // Subquery for "fil_no_fh"
+        // Second condition group (OR condition)
         $builder->orGroupStart()
-            ->where("NULLIF(split_part(fil_no_fh, '-', 1), '')::INTEGER =", $ct)
-            ->where("$cn BETWEEN NULLIF(split_part(fil_no_fh, '-', 2), '')::INTEGER AND NULLIF(split_part(fil_no_fh, '-', -1), '')::INTEGER")
+            ->where("(CASE 
+                WHEN SPLIT_PART(fil_no_fh, '-', 1) ~ '^[0-9]+$' 
+                THEN SPLIT_PART(fil_no_fh, '-', 1)::INTEGER 
+                ELSE 0 
+            END)", $ct)
+            ->where("CAST('{$cn}' AS INTEGER) BETWEEN 
+                (CASE 
+                    WHEN SPLIT_PART(fil_no_fh, '-', 2) ~ '^[0-9]+$' 
+                    THEN SPLIT_PART(fil_no_fh, '-', 2)::INTEGER 
+                    ELSE 0 
+                END) 
+                AND 
+                (CASE 
+                    WHEN SPLIT_PART(fil_no_fh, '-', -1) ~ '^[0-9]+$' 
+                    THEN SPLIT_PART(fil_no_fh, '-', -1)::INTEGER 
+                    ELSE 0 
+                END)")
             ->where('reg_year_fh', 0)
             ->where("EXTRACT(YEAR FROM fil_dt_fh) =", $cy)
         ->groupEnd();
 
-        // Selecting columns with substring equivalent in CI4
+        // Selecting specific columns
         $builder->select([
             "SUBSTRING(diary_no::TEXT FROM 1 FOR CHAR_LENGTH(diary_no::TEXT) - 4) AS dn",
             "SUBSTRING(diary_no::TEXT FROM CHAR_LENGTH(diary_no::TEXT) - 3 FOR 4) AS dy"
         ]);
+
         // pr($builder->getCompiledSelect());die;
-         $result = $builder->get()->getRowArray(); //print_r($result); die;
+        $result = $builder->get()->getRowArray();
 
         if (!empty($result)) {
             $diary_no = $result['dn'].$result['dy'];
