@@ -52,7 +52,7 @@
 
                             <div class="row">
                                 <div class="col-sm-10">
-                                    <h3 class="card-title">PIL(E) >> Pil Entry</h3>
+                                    <h3 class="card-title">PIL(E) >> Pil Group</h3>
                                 </div>
 
 
@@ -112,19 +112,12 @@
 
                         <?php form_close(); ?>
 
-
-                        <br><br>
-
-
-                        <br>
-                        <br>
-
-
+                        <br>   
 
                         <div id="tabledata" >
 
                             <br>
-                            <table id="example1" class="table table-striped table-bordered">
+                            <table id="example1" class="table table-striped table-bordered custom-table">
                                 <thead>
                                 <tr>
                                     <th>Serial No.</th>
@@ -154,7 +147,7 @@
 
 
 
-                    </div><br><br>
+                    </div>
 
 
                 </div>
@@ -182,8 +175,7 @@
             $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                "autoWidth": false,                 
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
         });

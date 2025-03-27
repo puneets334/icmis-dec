@@ -116,7 +116,7 @@ function goBack(basePath,userid)
 {
     //window.location.href = "../" ;
     //window.history.back();
-    window.location.href = basePath+"/Pil/PilController/index" ;
+    window.location.href = basePath+"/PIL/PilController/index" ;
 
 }
 function showHide1(id)
@@ -276,7 +276,7 @@ function submitMethod(basePath,userid){
     savePilData(basePath,userid);
 }
 function addEditPilGroupDetail(ecPilGroupId, basePath){
-    window.location.href = basePath+"index.php/PilController/editPilGroupData/"+ ecPilGroupId ;
+    window.location.href = basePath+"/PIL/PilController/editPilGroupData/"+ ecPilGroupId ;
 }
 function goBackToPilGroup(){
     window.location.href = "../showPilGroup/" ;
@@ -317,7 +317,7 @@ function savePilData(basePath,userid){
 
   
     var mobile = document.getElementById("mobileno").value;
-    alert(mobile);
+    
     if(mobile.length>1 && mobile.length <10)
     {
         alert("Please enter 10 digit mobile no");
@@ -381,7 +381,7 @@ function savePilData(basePath,userid){
     $("#btnSave").text('Please wait..');
     $.ajax({
         type: 'POST',
-        url: basePath+'/Pil/PilController/savePilData',
+        url: basePath+'/PIL/PilController/savePilData',
         data: $("#frmPilAddEdit").serialize(),
         success: function (result) {
             if (result == 'Success') {

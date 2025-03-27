@@ -47,7 +47,7 @@ $uri = current_url(true); ?>
 
     <li>
         <?php
-        if ($uri->getSegment(3) == 'index') {
+        if ($uri->getSegment(3) == 'index' || $uri->getSegment(3) == 'editPilData') {
             $ColorCode = 'background-color: #01ADEF';
             $status_color = 'btn-primary';
             $url_lower_court_case_type = base_url('PIL/PilController/index');
@@ -63,7 +63,7 @@ $uri = current_url(true); ?>
 
     <li>
         <?php
-        if ($uri->getSegment(3) == 'showPilGroup') {
+        if ($uri->getSegment(3) == 'showPilGroup' || $uri->getSegment(3) == 'editPilGroupData') {
             $ColorCode = 'background-color: #01ADEF';
             $status_color = 'btn-primary';
             $url_lower_court_judge = base_url('PIL/PilController/showPilGroup');
