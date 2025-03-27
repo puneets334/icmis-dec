@@ -47,7 +47,7 @@
                         <td><?php echo $row['filedby']; ?></td>
                         <td><?php echo $row['party'] . $row['forresp']; ?></td>
                         <td><?php echo $row['advname']; ?></td>
-                        <td><?= !empty($row['ent_dt']) ? date('d-m-Y H:i:s', strtotime($row['ent_dt'])) : ''; ?></td>
+                        <td><?= !empty($row['ent_dt']) ? date('d-m-Y', strtotime($row['ent_dt'])) : ''; ?></td>
                         <td><?php echo $row['entryuser']; ?></td>
                         <td><?php if ($row['iastat'] == 'P') echo 'Pending';
                             else if ($row['iastat'] == 'D') echo 'Disposed';  ?></td>
