@@ -184,6 +184,7 @@ class MovementOfDocument extends BaseController
     public function oldVerify()
     {
         $data['cases'] = $this->MovementOfDocumentModel->getOldCases();
+        
         return view('Exchange/movementOfDoc/oldVerify', $data);
     }
 
@@ -198,12 +199,8 @@ class MovementOfDocument extends BaseController
         $data['tab'] = $this->request->getPost('tab');
         $data['model'] = $this->MovementOfDocumentModel;
         $data['model1'] = $this->Dropdown_list_model;
-
         return view('Exchange/movementOfDoc/oldVerifyProcess', $data);
-        // return $this->response->setJSON([
-        //     'status' => true,
-        //     'data' => $result,
-        // ]);
+        
     }
 
     public function verify()

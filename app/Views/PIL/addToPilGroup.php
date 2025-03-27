@@ -119,7 +119,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3" id="divDiaryNo">
-                                <input type="text" class="form-control" placeholder="Inward No"  id="diaryNo" name="diaryNo">
+                                <input type="number" class="form-control" placeholder="Inward No"  id="diaryNo" name="diaryNo">
                             </div>
 
                             <div class="col-md-3">
@@ -144,11 +144,7 @@
 
 
                         </div>
-                        <div class="row">
-                            <div class="col-sm-6 pull-right">
-                                <span style="color: red;margin-left: 65%;"><?=$msg?></span>
-                            </div>
-                        </div>
+                      
 
                         <?php form_close(); ?>
 
@@ -158,102 +154,14 @@
 
                         <br>
                         <br>
+                        
+                        <div id="div_result"></div>
 
-
-                        <?php
-//                        $casesInPilGroup='';
-                        if(!empty($casesInPilGroup))
-                        {
-//                            echo "<pre>";
-//                            print_r($casesInPilGroup);
-                        ?>
-                        <div class="row">
-                            <div class="pull-right dropdown">
-                                <button type="button" class="btn btn-primary dropdown-toggle" style="margin-left:850%"  data-toggle="dropdown">Dropdown Report
-                                </button>
-                                <?php
-                                //                                echo base_url()."PIL/PilController/downloadFormatReport/1/".$ecPilGroupId."/".$_SESSION['login']['usercode'];
-
-
-                                ?>
-                                <ul class="dropdown-menu" style="width: max-content;">
-                                    <li ><a href=" <?= base_url() ?>/PIL/PilController/downloadFormatReport?id=1&eid=<?= $ecPilGroupId?>&uid=<?php echo $_SESSION['login']['usercode']; ?>" target="_blank">Not To SCI</a></li>
-                                    <li><a href="<?= base_url() ?>/PIL/PilController/downloadFormatReport?id=2&eid=<?= $ecPilGroupId?>&uid=<?php echo $_SESSION['login']['usercode']; ?>" target="_blank">Vernacular</a></li>
-                                    <li><a href="<?= base_url() ?>/PIL/PilController/downloadFormatReport?id=3&eid=<?= $ecPilGroupId?>&uid=<?php echo $_SESSION['login']['usercode']; ?>" target="_blank">Email Unsigned</a></li>
-                                    <li><a href="<?= base_url() ?>/PIL/PilController/downloadFormatReport?id=4&eid=<?= $ecPilGroupId?>&uid=<?php echo $_SESSION['login']['usercode']; ?>" target="_blank">Unsigned</a></li>
-                                    <li><a href="<?= base_url() ?>/PIL/PilController/downloadFormatReport?id=5&eid=<?= $ecPilGroupId?>&uid=<?php echo $_SESSION['login']['usercode']; ?>" target="_blank">Anonymous letter-petitions</a></li>
-
-                                </ul>
-                            </div>
-
-                        </div>
-
-
-                        <div id="tabledata" >
-                            <h4 align="center">PILs in Group</h4>
-                            <br>
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>S.No</th>
-                                    <th>Inward No/Year</th>
-                                    <th>Received From</th>
-                                    <th>Received On</th>
-                                    <th>Petition Date</th>
-                                    <th>Remove</th>
-                                </tr>
-                                </thead>
-                                <tbody id="data_set">
-                                <tbody>
-                                <?php
-                                $i = 0;
-                                $s=1;
-                                $rowserial = "odd";
-                                foreach ($casesInPilGroup as $result){
-                                $i++;
-                                if ($i % 2 == 0)
-                                    $rowserial = "even";
-                                else {
-                                    $rowserial = "odd";
-                                }
-                                ?>
-                                <tr role="row" class="<?= $rowserial ?>">
-                                    <td><?= $s++;?></td>
-                                    <td><?=$result['pil_diary_number']?></td>
-                                    <td><?=$result['received_from']?>
-                                        <?php
-                                        if(!empty($result['address'])){
-                                            echo "<br/> Address: ".$result['address'];
-                                        }
-                                        if(!empty($result['email'])){
-                                            echo "<br/> Email: ".$result['email'];
-                                        }
-                                        if(!empty($result['mobile'])){
-                                            echo "<br/> Mobile: ".$result['mobile'];
-                                        }
-                                        ?>
-                                        </td>
-                                        <td><?= !empty($result['received_on'])?date("d-m-Y", strtotime($result['received_on'])):null?></td>
-
-                                       <td><?=!empty($result['petition_date'])?date("d-m-Y", strtotime($result['petition_date'])):null?></td>
-
-                                       <td><a href="<?=base_url()?>/PIL/PilController/removeCaseFromPilGroup/<?=$result['id']?>/<?=$ecPilGroupId?>/<?=$_SESSION['login']['usercode']?>" onclick="if (confirm('Do you really want to remove this PIL from PIL Group?')){return true;}else{event.stopPropagation(); event.preventDefault();};">
-                                               <i class="fas fa-trash" aria-hidden="true" style="color: red;"></i></td>
-                                </tr>
-                                    <?php
-                                    }
-                                    }
-                                     ?>
-
-                                </tbody>
-                            </table>
-                        </div>
+                        
 
 
 
-                    </div><br><br>
-
-
+                    </div> 
                 </div>
 
 
@@ -278,109 +186,46 @@
 
 
     <script>
-        function updateCSRFToken() {
-            $.getJSON("<?php echo base_url('Csrftoken'); ?>", function (result) {
-                $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-            });
-        }
+        // function updateCSRFToken() {
+        //     $.getJSON("<?php //echo base_url('Csrftoken'); ?>", function (result) {
+        //         $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
+        //     });
+        // }
 
         function showGroupCases(){
-            document.getElementById("frmAddToPilGroup").submit();
+            var diaryNo=document.getElementById("diaryNo").value;
+            var diaryYear=document.getElementById("diaryYear").value;
+            var ecPilGroupId=document.getElementById("ecPilGroupId").value;
+           var CSRF_TOKEN = 'CSRF_TOKEN';
+           var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+           $.ajax({
+                    type: 'POST',
+                    url: base_url+'/PIL/PilController/addToPilGroupResult',
+                    data: {
+                        CSRF_TOKEN: CSRF_TOKEN_VALUE,                         
+                        'ecPilGroupId': ecPilGroupId,
+                        'diaryNo' : diaryNo,
+                        'diaryYear' : diaryYear
+                    },
+                        beforeSend: function () {
+                            $('#div_result').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+                        },
+                       
+                        success: function(data, status) {
+                            updateCSRFToken();
+                            $('#div_result').html(data);
+                            $('#btn_submit').attr('disabled',false);
+                            
+                        },
+                        error: function(xhr) {
+                            updateCSRFToken();
+                            alert("Error: " + xhr.status + " " + xhr.statusText);
+                        }
+
+                });
         }
 
-        //function formSubmit()
-        //{
-        //    // alert("FFFF");
-        //    var CSRF_TOKEN = 'CSRF_TOKEN';
-        //    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-        //
-        //    var diaryNo=$("#diaryNo").val();
-        //    var diaryYear=$("#diaryYear").val();
-        //    var ecPilGroupId=$("#ecPilGroupId").val();
-        //    // alert("eid="+ecPilGroupId+"dno="+diaryNo+"dy="+diaryYear);
-        //    var data = new Array();
-        //    if((diaryNo !== null && diaryNo == undefined) && (diaryYear !==null && diaryYear == undefined))
-        //    {
-        //        // alert("TTTTTtt");
-        //        data= {
-        //            'dno': diaryNo,
-        //            'dy': diaryYear,
-        //            'ecid': ecPilGroupId
-        //        };
-        //    }else{
-        //        // alert('YYYYYYY');
-        //        data= {
-        //            'ecid':ecPilGroupId,
-        //            'dy': diaryYear,
-        //        };
-        //    }
-        //
-        //    $.ajax({
-        //        type:"POST",
-        //        dataType:'json',
-        //        data: {
-        //            CSRF_TOKEN: CSRF_TOKEN_VALUE,
-        //            'dt':data
-        //
-        //        },
-        //        url: "<?php //echo base_url('PIL/PilController/addToPilGroup'); ?>//",
-        //        success: function(data) {
-        //            //    alert(data);
-        //            // console.log(data.casesInPilGroups);
-        //            var dataArray=data.casesInPilGroups;
-        //            // alert(typeof (dataArray));
-        //            var html="";
-        //            if(dataArray !== undefined && dataArray !== null)
-        //            {
-        //                var i=1;
-        //                dataArray.forEach(dt=>{
-        //
-        //                    // console.log(new Date(dt['received_on']).toLocaleDateString('en-GB').replace(/\//g,'-'));
-        //
-        //                    html +='<tr>'
-        //                    html +='<td>'+ i++ +'</td>'
-        //                    html +='<td>'+ dt['pil_diary_number'] +'</td>'
-        //                    html +='<td>'+ dt['received_from']
-        //                        if(dt['address'] !== null)
-        //                        {
-        //                          + "\n Address: "+ dt['address']
-        //                        }
-        //                        if(dt['email']!== null)
-        //                        {
-        //                            + " \n Email: "+ dt['email']
-        //                        }
-        //                        if(dt['mobile']!== null)
-        //                        {
-        //                            + "\n Mobile: "+dt['mobile']
-        //                        } + '</td>'
-        //                    html +='<td>'+ (dt['received_on']?(new Date(dt['received_on']).toLocaleDateString('en-GB').replace(/\//g,'-')):null) +'</td>'
-        //                    html +='<td>'+ (dt['petition_date']?(new Date(dt['petition_date']).toLocaleDateString('en-GB').replace(/\//g,'-')):null) +'</td>'
-        //                    html +='<td><button type="button" class="btn btn-danger btn-sm" name="pil_remove" onclick="pilRemove('+ dt['id']+')"><i class="fas fa-trash" aria-hidden="true"></i></button> </td>'
-        //                    html +='</tr>';
-        //
-        //                })
-        //                console.log(html);
-        //                $('#data_set').append(html);
-        //
-        //                $('#tabledata').css("display","block");
-        //                // window.location.reload();
-        //            }else{
-        //                alert("No record Found");
-        //            }
-        //
-        //            //console.log("SSSS"+data);
-        //            //   $('.message_display').append(data);
-        //            // $('#sub_category').html(data);
-        //            updateCSRFToken();
-        //        },
-        //        error: function(data) {
-        //            alert(data);
-        //            updateCSRFToken();
-        //        }
-        //    });
-        //
-        //
-        //}
+         
 
         function checkDiarynumberToAddInGroup()
         {
@@ -400,10 +245,39 @@
             if(diaryYear==""){
                 alert("Please Enter Inward Year");
                 document.getElementById("diaryYear").focus();
-                return false;
+                return false;  alert(id);
             }
             //alert("Test");
-            document.getElementById("frmAddToPilGroup").submit();
+
+            var CSRF_TOKEN = 'CSRF_TOKEN';
+		    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
+            $.ajax({
+                    url: base_url+'/PIL/PilController/addToPilGroupResult',
+                    data: {
+                        CSRF_TOKEN: CSRF_TOKEN_VALUE,
+                        'ecPilGroupId': ecPilGroupId,
+                        'diaryNo' : diaryNo,
+                        'diaryYear' : diaryYear
+                    },
+                        beforeSend: function () {
+                            $('#div_result').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+                        },
+                        type: 'POST',
+                        success: function(data, status) {
+                            updateCSRFToken();
+                            $('#div_result').html(data);
+                            $('#msg').html();
+                            $('#btn_submit').attr('disabled',false);
+                            
+                        },
+                        error: function(xhr) {
+                            updateCSRFToken();
+                            alert("Error: " + xhr.status + " " + xhr.statusText);
+                        }
+
+                });
+           // document.getElementById("frmAddToPilGroup").submit();
         }
 
 
@@ -413,7 +287,7 @@
     <script>
         function pilRemove(id)
         {
-            alert(id);
+           
             var CSRF_TOKEN = 'CSRF_TOKEN';
             var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
             var ecPilGroupId=$("#ecPilGroupId").val();
@@ -430,10 +304,11 @@
                     url: "<?php echo base_url('/PIL/PilController/removeCaseFromPilGroup/'); ?>",
                     success: function(data) {
                         // alert(data);
-                        if(data === 1)
+                        if(data === '1')
                         {
                             alert("PIL removed from this PIL Group."+ecPilGroupId);
-                            window.location.reload();
+                            $('#remove_'+id).remove();
+                            //window.location.reload();
                         }else{
                             alert("There is some problem while removing PIL from this PIL Group");
                         }
@@ -456,8 +331,8 @@
             $("#example1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                "autoWidth": false
+                
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             // $('#example2').DataTable({
             //     "paging": true,
@@ -471,9 +346,5 @@
         });
     </script>
 
-    <script>
-        function showGroupCases(){
-            document.getElementById("frmAddToPilGroup").submit();
-        }
-    </script>
+     
 
