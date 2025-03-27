@@ -1,6 +1,6 @@
 <?php if ($editcoram != 'editcoram') { ?>
     <?= view('header'); ?>
-    
+
 <?php } ?>
 
 <style>
@@ -61,13 +61,13 @@
                                                     $diary_num = substr($_SESSION['filing_details']['diary_no'], 0, -4);
                                                     $diary_year = substr($_SESSION['filing_details']['diary_no'], -4);
                                                     ?>
-                                                    Diary No. <?=$diary_num; ?>/<?=$diary_year; ?></br>
-                                                    <?=strtoupper($_SESSION['filing_details']['pet_name']); ?></br>
+                                                    Diary No. <?= $diary_num; ?>/<?= $diary_year; ?></br>
+                                                    <?= strtoupper($_SESSION['filing_details']['pet_name']); ?></br>
                                                     Versus</br>
-                                                    <?=strtoupper($_SESSION['filing_details']['res_name']); ?>
+                                                    <?= strtoupper($_SESSION['filing_details']['res_name']); ?>
                                                 </div>
                                             </div>
-                                            <?php if (!empty($case_status) && isset($case_status[0]['c_status']) && $case_status[0]['c_status'] == 'P'){ ?>
+                                            <?php if (!empty($case_status) && isset($case_status[0]['c_status']) && $case_status[0]['c_status'] == 'P') { ?>
                                                 <div class="row ">
 
                                                     <div class="col-md-12">
@@ -75,9 +75,9 @@
                                                             <label class="col-sm-2 col-form-label">Judge :</label>
                                                             <div class="col-sm-10">
                                                                 <select name="" multiple class="custom-select rounded-0" style="height:20rem">
-                                                                    <option value="">Select Judge</option>
+                                                                    <option value="" disabled>Select Judge</option>
                                                                     <?php $sno = 1;
-                                                                    foreach ($judge_list as $judge_val){ ?>
+                                                                    foreach ($judge_list as $judge_val) { ?>
                                                                         <option id="jdg<?php echo $sno ?>" value="<?php echo $judge_val['jcode']; ?>"><?php echo $judge_val['jname']; ?></option>
                                                                     <?php $sno++;
                                                                     } ?>
@@ -138,7 +138,7 @@
                                                     <tbody>
                                                         <?php
                                                         $i = 1;
-                                                        foreach ($coram_detail as $coram_val){
+                                                        foreach ($coram_detail as $coram_val) {
                                                             if ($coram_val['notbef'] == 'N') {
                                                                 $notbef = 'Not before';
                                                             }
@@ -166,7 +166,7 @@
                                         </div>
                                     <?php } ?>
 
-                                    <?php if (!empty($case_status) && isset($case_status[0]['c_status']) && $case_status[0]['c_status'] == 'D'){ ?>
+                                    <?php if (!empty($case_status) && isset($case_status[0]['c_status']) && $case_status[0]['c_status'] == 'D') { ?>
                                         <center>
                                             <div style="color:red;">!!!The Case is Disposed!!!</div>
                                         </center>
@@ -205,8 +205,11 @@
                     CSRF_TOKEN: csrf,
                     save_as_val: save_as_val
                 },
-            success: function(result) {
-                    console.log(result);
+                beforeSend: function() {
+                    $('#dv_res').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+                },
+                success: function(result) {
+                    // console.log(result);
                     $('#show_reason').html(result);
                     $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) {
                         $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
@@ -224,10 +227,39 @@
 
     $(function() {
         $("#example1").DataTable({
-            "responsive": true,
+            "responsive": false,
             "lengthChange": false,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            "buttons": [{
+                    extend: "copy",
+                    title: "Already Entries of List before and not before\n(As on <?php echo date('d-m-Y'); ?>)"
+                },
+                {
+                    extend: "csv",
+                    title: "Already Entries of List before and not before\n(As on <?php echo date('d-m-Y'); ?>)"
+                },
+                {
+                    extend: "excel",
+                    title: "Already Entries of List before and not before\n(As on <?php echo date('d-m-Y'); ?>)"
+                },
+                {
+                    extend: "pdf",
+                    title: "Already Entries of List before and not before\n(As on <?php echo date('d-m-Y'); ?>)",
+                    customize: function(doc) {
+                        doc.content.splice(0, 0, {
+                            text: "Already Entries of List before and not before\n(As on <?php echo date('d-m-Y'); ?>)",
+                            fontSize: 12,
+                            alignment: "center",
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
+                },
+                {
+                    extend: "print",
+                    title: "",
+                    messageTop: "<h3 style='text-align:center;'>ADVOCATE ON RECORD NOT GO BEFORE JUDGE<br>(As on <?php echo date('d-m-Y'); ?>)</h3>"
+                }
+            ]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 
@@ -272,7 +304,7 @@
             var show_reason = document.getElementById('show_reason').value;
 
             $.ajax({
-                url: "<?php echo base_url('Filing/Coram/add/'); ?>",
+                url: "<?php echo base_url('Filing/Coram/add'); ?>",
                 type: "post",
                 data: {
                     CSRF_TOKEN: csrf,
@@ -281,29 +313,30 @@
                     save: select_save_as,
                     list_res: show_reason
                 },
-                success: function(result) {
-
-                    var obj = JSON.parse(result);
-
-                    if (obj.inserted) {
-                        alert(obj.inserted);
-                        window.location.href = '';
-                    }
-
-                    if (obj.delete_coram_msg) {
-                        alert(obj.delete_coram_msg);
-                        window.location.href = '';
-                    }
-
-                    //$('#part_name').html(result);
-                    $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) {
-                        $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-                    });
+                beforeSend: function() {
+                    $('#dv_res').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
                 },
-                error: function() {
-                    $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) {
-                        $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-                    });
+                success: function(result) {
+                    updateCSRFToken();
+                    alert(result);
+                    location.reload();
+                    // var obj = JSON.parse(result);
+
+                    // if (obj.inserted) {
+                    //     alert(obj.inserted);
+                    //     window.location.href = '';
+                    // }
+
+                    // if (obj.delete_coram_msg) {
+                    //     alert(obj.delete_coram_msg);
+                    //     window.location.href = '';
+                    // }
+
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    updateCSRFToken();
+                    alert("Error: " + jqXHR.status + " " + errorThrown);
                 }
             });
 

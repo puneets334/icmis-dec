@@ -223,6 +223,9 @@
                         CSRF_TOKEN: csrf,
                         dno: dno
                     },
+                    beforeSend: function() {
+                        $('#dv_res').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+                    },
                     success: function(response) {
                         if (response == 1) {
                             Swal.fire({
@@ -260,14 +263,39 @@
 
     $(function() {
         $("#example1").DataTable({
-            "responsive": true,
+            "responsive": false,
             "lengthChange": false,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            "buttons": [{
+                    extend: "copy",
+                    title: " DEPARTMENT CASES NOT GO BEFORE JUDGE\n(As on <?php echo date('d-m-Y'); ?>)"
+                },
+                {
+                    extend: "csv",
+                    title: " DEPARTMENT CASES NOT GO BEFORE JUDGE\n(As on <?php echo date('d-m-Y'); ?>)"
+                },
+                {
+                    extend: "excel",
+                    title: " DEPARTMENT CASES NOT GO BEFORE JUDGE\n(As on <?php echo date('d-m-Y'); ?>)"
+                },
+                {
+                    extend: "pdf",
+                    title: " DEPARTMENT CASES NOT GO BEFORE JUDGE\n(As on <?php echo date('d-m-Y'); ?>)",
+                    customize: function(doc) {
+                        doc.content.splice(0, 0, {
+                            text: " DEPARTMENT CASES NOT GO BEFORE JUDGE\n(As on <?php echo date('d-m-Y'); ?>)",
+                            fontSize: 12,
+                            alignment: "center",
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
+                },
+                {
+                    extend: "print",
+                    title: "",
+                    messageTop: "<h3 style='text-align:center;'>ADVOCATE ON RECORD NOT GO BEFORE JUDGE<br>(As on <?php echo date('d-m-Y'); ?>)</h3>"
+                }
+            ]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>
-
-
-<? //= view('sci_main_footer') 
-?>
