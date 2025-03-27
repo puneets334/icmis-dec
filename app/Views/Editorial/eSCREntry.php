@@ -47,8 +47,14 @@
                                            <span style="float: left;">
                                             <h5 class="box-title">Search Option : </h5>
                                         </span>&nbsp;&nbsp;&nbsp;
-                                        <label class="radio-inline"><input type="radio" name="optradio" value="1" checked>Case Type</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        <label class="radio-inline"><input type="radio" name="optradio" value="2">Diary Number</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label class="radio-inline"><input type="radio" name="optradio" value="1" <?php if(isset($_POST['optradio']) && $_POST['optradio'] === "1") {
+                                            echo 'checked';
+                                        } else {
+                                            echo 'checked';
+                                        }?> >Case Type</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <label class="radio-inline"><input type="radio" name="optradio" value="2" <?php if(isset($_POST['optradio']) && $_POST['optradio'] === "2") {
+                                            echo 'checked';
+                                        } ?>>Diary Number</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     </div>
                                 </div><br>
 
@@ -66,7 +72,12 @@
                                                             <?php
                                                             if(!empty($caseTypes)) {
                                                                 foreach ($caseTypes as $caseType) {
-                                                                    echo '<option value="' . $caseType['casecode'] . '">' . $caseType['short_description'] . '</option>';
+                                                                     if(isset($_POST['caseType']) && $_POST['caseType'] === $caseType['casecode']) {
+                                                                        echo '<option selected value="' . $caseType['casecode'] . '">' . $caseType['short_description'] . '</option>';
+                                                                      } else {
+                                                                        echo '<option value="' . $caseType['casecode'] . '">' . $caseType['short_description'] . '</option>';
+                                                                      }
+                                                                    
                                                                 }
                                                             }
                                                             ?>
@@ -78,7 +89,9 @@
                                                 <div class="form-group row">
                                                     <label for="caseNo" class="col-sm-4 col-form-label">Case Number:</label>
                                                     <div class="col-sm-7">
-                                                        <input type="number" id="caseNo" name="caseNo" class="form-control" placeholder="Case Number" value="">
+                                                        <input type="number" id="caseNo" name="caseNo" class="form-control" placeholder="Case Number" value="<?php if(isset($_POST['caseNo']) ) {
+                                            echo $_POST['caseNo'];
+                                        } ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -89,7 +102,11 @@
                                                         <select id="caseYear" name="caseYear" class="form-control">
                                                             <?php
                                                             for($i=date("Y");$i>1949;$i--){
+                                                                if(isset($_POST['caseYear']) && $_POST['caseYear'] == $i) {
+                                                                    echo "<option selected value=".$i.">$i</option>";
+                                                                  } else {
                                                                 echo "<option value=".$i.">$i</option>";
+                                                                  }
                                                             }
                                                             ?>
                                                         </select>
@@ -108,7 +125,8 @@
                                                 <div class="form-group row " >
                                                     <label for="diaryNumber" class="col-sm-4 col-form-label">Diary Number: </label>
                                                     <div class="col-sm-7">
-                                                        <input type="number" id="diaryNumber" name="diaryNumber" class="form-control" placeholder="Diary Number" value="">
+                                                        <input type="number" id="diaryNumber" name="diaryNumber" class="form-control" placeholder="Diary Number" value="<?php if(isset($_POST['diaryNumber']) ) {
+                                            echo $_POST['diaryNumber']; } ?>">
                                                     </div>
                                                 </div>
                                             </div>
@@ -119,7 +137,11 @@
                                                         <select id="diaryYear" name="diaryYear" class="form-control">
                                                             <?php
                                                             for($i=date("Y");$i>1949;$i--){
+                                                                if(isset($_POST['diaryYear']) && $_POST['diaryYear'] == $i) {
+                                                                    echo "<option selected value=".$i.">$i</option>";
+                                                                  } else {
                                                                 echo "<option value=".$i.">$i</option>";
+                                                                  }
                                                             }
                                                             ?>
                                                         </select>
@@ -127,8 +149,8 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                    </div>
+                                        </div>
+                                    
                                     <!--end 3 section-->
 
                                     <div id="judgement_dt" >
@@ -137,7 +159,8 @@
                                                 <div class="form-group row">
                                                     <label for="to_date" class="col-sm-4 col-form-label">Judgement Date:</label>
                                                     <div class="col-sm-7">
-                                                        <input type="date" id="judgmentDate"  name="judgmentDate" class="form-control"  placeholder="Judgment Date" required="required">
+                                                        <input type="date" id="judgmentDate"  name="judgmentDate" class="form-control"  value="<?php if(isset($_POST['judgmentDate']) ) {
+                                            echo $_POST['judgmentDate']; } ?>" placeholder="Judgment Date" required="required">
 
                                                     </div>
                                                 </div>
@@ -145,6 +168,7 @@
                                         </div>
 
                                     </div>
+                                   
                                     <br>
 
                                     <div style="display:flex;justify-content:center" >
@@ -158,7 +182,8 @@
 
 
                                 <?php form_close(); ?>
-           <div style="color:green;font-weight:800;" id="msssg_div"></div>
+                                <div id="dv_res1"></div>
+           <div style="color:#fff;font-weight:800;" id="msssg_div"></div>
                             </div>
                         </div>
 
@@ -167,11 +192,10 @@
                         <?php
                         if (!empty($caseInfo))
                         {
-                        //                 echo "<pre>";print_r($caseInfo);
-                        //                 die;
-
+                       
                         ?>
-                        <div class="col-12">
+                        <div id="caseInfo">
+                        <div class="col-12" >
                             <h4 class="box-title"><center>Case Details</center></h4>
                             </br>
 
@@ -231,28 +255,26 @@
                                         <div class="form-group">
                                             <label for="remark" class="col-sm-3 control-label"><strong>Gist of the case</strong></label>
                                             <div class="col-sm-6">
-                                                        <textarea class="form-control" name="remarks" id="remarks" rows="5" maxlength="1000" onkeypress="return alpha(event)" placeholder="Remarks.......">
-                                                        <?php
-                                                        // if(count($remarksInfo)>0)
-                                                        // {
-                                                        //     echo trim($remarksInfo['summary']);
-                                                        // }
-                                                        ?>
-                                                        </textarea>
+                                                        <textarea class="form-control" name="remarks" id="remarks" rows="5" maxlength="1000" onkeypress="return alpha(event)" placeholder="Remarks......."><?php
+                                                        if(count($remarksInfo)>0)
+                                                        {
+                                                            echo trim($remarksInfo['summary']);
+                                                        }
+                                                        ?></textarea>
                                                 <font color="red">[max 1000 characters allowed including space and dot only]</font>
                                                 <span style="float:right;"><a onclick="clearGist();">Clear Gist</a></span><br />
                                                 <span><span id="chars">
                                                                         <?php
                                                                         $remarksLength=0;
-                                                                        // if(!empty($remarksInfo))
-                                                                        // {
-                                                                        //     $remarksLength = strlen($remarksInfo['summary']);
-                                                                        //     echo 1000-$remarksLength;
-                                                                        // }
-                                                                        // else
-                                                                        // {
-                                                                        //     echo 1000-$remarksLength;
-                                                                        // }
+                                                                        if(!empty($remarksInfo))
+                                                                        {
+                                                                            $remarksLength = strlen($remarksInfo['summary']);
+                                                                            echo 1000-$remarksLength;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            echo 1000-$remarksLength;
+                                                                        }
                                                                         ?></span> characters remaining</span>
                                             </div>
                                         </div>
@@ -283,6 +305,7 @@
                                 <?php form_close(); ?>
                             </div><br>
                         </div><br>
+                            </div>
                         <!-- DIV FOR GIST FORM CLOSE HERE -->
                     </div>
 
@@ -303,6 +326,39 @@
     <script src="<?php echo base_url('plugins/jquery-validation/jquery.validate.js'); ?>"></script>
     <script src="<?php echo base_url('plugins/jquery-validation/additional-methods.js'); ?>"></script>
     <script>
+       
+        // document.getElementById('view').addEventListener('click', function() {
+        //     $('#dv_res1').html(
+        //                 '<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>'
+        //             ); // Show the loader
+
+        //     // Simulate form submission or your actual logic
+        //     setTimeout(function() {
+        //         //For the example without ajax, just submit the form after the timeout.
+        //         $('#dv_res1').html(''); 
+        //       //  document.forms["escr_page"].submit();
+
+        //     }, 2000); // Simulate 2 seconds of loading
+        // });
+
+        document.getElementById('view').addEventListener('click', function() {
+            const dvRes1 = document.getElementById('dv_res1');
+            dvRes1.innerHTML = '<table width="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>'; // Show loader
+
+            
+            setTimeout(function() {
+                fetch('<?php echo base_url('Editorial/ESCR'); ?>') 
+                    .then(response => response.text())
+                    .then(data => {
+                        dvRes1.innerHTML = data; 
+                    })
+                    .catch(error => {
+                        console.error('Error loading data:', error);
+                        dvRes1.innerHTML = '<p>Error loading data.</p>'; // Handle errors
+                    });
+
+            }, 2000); 
+        });
 
         function updateCSRFToken() {
             $.getJSON("<?php echo base_url('Csrftoken'); ?>", function (result) {
@@ -326,16 +382,28 @@
                     'remark':remarks,
 
                 },
+                beforeSend: function() {
+                    $('#dv_res1').html(
+                        '<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>'
+                    );
+                },
                 url: "<?php echo base_url('Editorial/ESCR/saveSummary'); ?>",
                 success: function(data) {
                     updateCSRFToken();
                     console.log("data: ", JSON.parse(data));
                     var res = JSON.parse(data);
                     if(res.status == 2){
-                       $('#msssg_div').html(res.msg);
+                        $('#msssg_div').html(res.msg).addClass([
+                            "alert",
+                            "alert-success",
+                            "alert-dismissible"
+                        ]);
+                        $('#dv_res1').hide();
                        setTimeout(function() {
-                        location.reload();
-                        console.log("This message appeared after 2 seconds.");
+                       $('#msssg_div').html('').removeClass("alert alert-success alert-dismissible");;
+                       $('#caseInfo').hide();
+                         location.reload();
+                        
                         }, 8000);
                    }
                    else{
@@ -378,9 +446,26 @@
             $('#diaryNumber').prop("disabled", 'disabled');
             $('#diaryYear').prop("disabled", 'disabled');
             $('#diaryNoWise').hide();
+            <?php if(isset($_POST['optradio']) ) { ?>
+            
+            // Get the value of the checked radio button when the page loads
+            var selectedRadioValue = '<?php echo $_POST['optradio']; ?>';
+           
+            if (selectedRadioValue === "1") {
+                    $('#diaryNoWise').hide();
+                    $('#caseTypeWise').show();
+                } else {
+                    $('#diaryNumber').removeAttr('disabled');
+                    $('#diaryYear').removeAttr('disabled');
 
-
-            $("input[name$='optradio']").click(function() {
+                    $('#caseTypeWise').hide();
+                    $('#diaryNoWise').show();
+                }
+           
+            <?php 
+        } 
+        ?>
+        $("input[name$='optradio']").click(function() {
                 var searchValue = $(this).val();
                 if (searchValue == 1) {
                     $('#caseType').removeAttr('disabled');
@@ -406,7 +491,6 @@
                 }
 
             });
-
             var userrole = '<?php print_r($userrole); ?>';
             if (userrole == 1)
                 $('#verifyButton').hide();
