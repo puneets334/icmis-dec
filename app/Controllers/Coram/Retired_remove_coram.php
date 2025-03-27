@@ -44,11 +44,11 @@ class Retired_remove_coram extends BaseController
             $conn_i_e = $this->request->getPost('conn_i_e');
 
             if($conn_i_e == 2){
-                $exclude_conn = "(m.diary_no = CAST(m.conn_key AS BIGINT) OR CAST(m.conn_key AS BIGINT)=0 OR m.conn_key = '' OR m.conn_key IS NULL) ";//only get main matters
+                $exclude_conn = " (CAST(m.diary_no AS text) = m.conn_key OR m.conn_key ='0' OR m.conn_key = '' OR m.conn_key IS NULL) ";//only get main matters
             }else{
                 $exclude_conn = '';
             }
-
+         
             $get_data = $this->model->get_data($crm_dtl,$judge,$exclude_conn);
 
             if(!empty($get_data)){
