@@ -15,7 +15,7 @@
                 </div>
             </div>
             <?php
-            $_SESSION['warning_message']="";
+            $_SESSION['warning_message'] = "";
             //unset($_SESSION['warning_message']);
         } ?>
     </div>

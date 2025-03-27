@@ -6,7 +6,7 @@
 
         <br>
         <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4 query_builder_wrapper">
-            <table  id="reportTable11" style="width: 100%" class="table table-bordered table-striped datatable_report">
+            <table  id="reportTable1" style="width: 100%" class="table table-bordered table-striped datatable_report">
                 <?php
                 if(!empty($reportType))
                 {
@@ -54,12 +54,57 @@
         </div>
 </div>
 <script>
-$(function () {
-            $(".datatable_report").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,"ordering": false,
-                "buttons": ["copy", "csv", "excel",{extend: 'pdfHtml5',orientation: 'landscape',pageSize: 'LEGAL' },
-                    { extend: 'colvis',text: 'Show/Hide'}],"processing": true,"extend": 'colvis',"text": 'Show/Hide'
-            }).buttons().container().appendTo('.query_builder_wrapper .col-md-6:eq(0)');
+ 
+
+
+        $(document).ready(function() {
+    $('#reportTable1').DataTable({
+        dom: 'Bfrtip',
+        "pageLength": 15,
+        buttons: [
+            {
+                extend: 'print',
+                text: 'Print',
+                title: 'PIL Updation Between  Between  <?php echo !empty($first_date)?date('d-m-Y',strtotime($first_date)):'';?> to <?php echo !empty($to_date)?date('d-m-Y',strtotime($to_date)):'';?>', // Ensuring no unwanted title appears
+                customize: function (win) {
+                    $(win.document.body).css('text-align', 'center'); // Align all content centrally
+                    
+                }
+            },
+            'pageLength'
+        ],
+        lengthMenu: [
+            [10, 25, 50, -1],
+            ['10 rows', '25 rows', '50 rows', 'Show all']
+        ]
+    });
+});
+
+
+
+        $(document).ready(function() {
+            // Setup - add a text input to each footer cell
+            $('#reportTable1 thead tr').clone(true).appendTo( '#reportTable1 thead' );
+            $('#reportTable1 thead tr:eq(1) th').each( function (i) {
+                var title = $(this).text();
+                var width = $(this).width();
+                if(width>260){
+                    width=width-80;
+                }
+                else if(width<100){
+                    width=width+20;
+                }
+                $(this).html( '<input type="text" style="width: '+width+'px" placeholder="'+title+'" />' );
+
+                $( 'input', this ).on( 'keyup change', function () {
+                    if ( table.column(i).search() !== this.value ) {
+                        table
+                            .column(i)
+                            .search( this.value )
+                            .draw();
+                    }
+                } );
+            } );
 
         });
 

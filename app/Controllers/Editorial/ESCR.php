@@ -85,6 +85,8 @@ class ESCR extends BaseController
         if (!empty($_POST))
         {
             $optradio = $_POST['optradio'];
+            $data['optradio']  = $_POST['optradio'];
+
 
             if ($optradio == 1)
             {
@@ -93,6 +95,9 @@ class ESCR extends BaseController
                     $caseTypeId = $_POST['caseType'];
                     $caseNo = $_POST['caseNo'];
                     $caseYear = $_POST['caseYear'];
+                    $data['caseTypeId'] = $_POST['caseType'];
+                    $data['caseNo'] = $_POST['caseNo'];
+                    $data['caseYear'] = $_POST['caseYear'];
                     $getdiarydetail = $this->escr_model->get_diary_details($optradio,$caseTypeId, $caseNo, $caseYear,$diaryNo=null,$diaryYear=null);
                     $data['diaryDetails'] = $getdiarydetail;
 
@@ -102,10 +107,13 @@ class ESCR extends BaseController
             {
                 $diaryNo = $_POST['diaryNumber'];
                 $diaryYear = $_POST['diaryYear'];
+                $data['diaryNumber'] = $_POST['diaryNumber'];
+                $data['diaryYear'] = $_POST['diaryYear'];
                 $getdiarydetail = $this->escr_model->get_diary_details($optradio,$caseTypeId=null, $caseNo=null, $caseYear=null,$diaryNo,$diaryYear);
                 $data['diaryDetails'] = $getdiarydetail;
             }
-        
+            // pr($data);
+            // die(); 
             if (!empty($data['diaryDetails']))
             {
                 ///////////////////////////////////////////////
@@ -131,7 +139,7 @@ class ESCR extends BaseController
                 }else{
                     $data['caseInfo']='';
                 }
-
+                  
                 $judgmentdetail = $this->escr_model->getJudgmentDetails( $diaryNumber,$judgmentDate);
                 if(count($judgmentdetail)>0)
                 {
@@ -161,9 +169,6 @@ class ESCR extends BaseController
                     $data['remarksInfo']='';
                     session()->setFlashdata('message_error', 'Gist for the searched Case has been verified.Updation not allowed.');
                 }
-
-                
-
             } 
             else
             {
@@ -174,7 +179,8 @@ class ESCR extends BaseController
                session()->setFlashdata('message_error', 'Case Not Found');
             }
         }
-        
+        // pr($data);
+        // die();
        
     
         return view('Editorial/eSCREntry', $data);

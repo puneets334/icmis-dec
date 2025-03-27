@@ -687,9 +687,10 @@ console.log(new Date());
                 dataType: 'JSON',
                 url: "<?php echo base_url('PIL/PilController/savePilGroupData'); ?>",
                 success: function(data) {
+                    updateCSRFToken();
                     if (data == '1') {
                         alert("Success! PIL File Group information Saved Successfully.");
-                        $('#groupFileNumber').val('');
+                       // $('#groupFileNumber').val('');
 
                         // if (data == '1') {
                         //     alert("Saved Successfully.");
@@ -706,11 +707,12 @@ console.log(new Date());
                     } else {
                         alert("There is some problem while saving data,Please Contact Computer Cell.");
                     }
-                    updateCSRFToken();
+                    
                 },
                 error: function(data) {
-                    alert(data);
                     updateCSRFToken();
+                    alert(data);
+                    
                 }
             });
 
@@ -753,8 +755,9 @@ console.log(new Date());
                 }
             },
         error: function(data) {
-            alert(data);
             updateCSRFToken();
+            alert(data);
+            
         }
         });
 

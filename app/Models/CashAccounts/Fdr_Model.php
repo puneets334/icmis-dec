@@ -96,8 +96,16 @@ class Fdr_Model extends Model
                     'tentative_section(h.diary_no) AS section_name'
                 ])
                 ->join('main m', 'm.diary_no = h.diary_no')
-                ->where("CAST(NULLIF(split_part(h.new_registration_number, '-', 1), '') AS INTEGER)", $caseType)
-                ->where("CAST('{$caseNo}' AS INTEGER) BETWEEN CAST(NULLIF(split_part(h.new_registration_number, '-', 2), '') AS INTEGER) AND CAST(NULLIF(split_part(h.new_registration_number, '-', 3), '') AS INTEGER)")
+                ->where("(CASE WHEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 1) ~ '^[0-9]+$' THEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 1)::INTEGER ELSE 0 END)", $caseType)
+                ->where("CAST('{$caseNo}' AS INTEGER) BETWEEN 
+                    (CASE
+                    WHEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 2) ~ '^[0-9]+$'
+                        THEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 2)::INTEGER ELSE 0 END) 
+                AND 
+                    (CASE
+                    WHEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', -1) ~ '^[0-9]+$'
+                        THEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', -1)::INTEGER
+                ELSE 0 END)")
                 ->where('h.new_registration_year', $caseYear)
                 ->where('h.is_deleted', 'f');
                     

@@ -282,7 +282,7 @@ class MovementOfDocumentModel extends Model
 
     public function getDisplayFlag()
     {
-      
+
         return $this->db->table('master.case_status_flag')
             ->select('display_flag, always_allowed_users')
             ->where('date(to_date)', '0000-00-00')
@@ -745,60 +745,50 @@ class MovementOfDocumentModel extends Model
 
     public function getDiaryNumber1($ct, $cn, $cy)
     {
-
-        $sql = "SELECT 
-                substr(cast(diary_no as text), 1, length(cast(diary_no as text)) - 4) as dn, 
-                substr(cast(diary_no as text), -4) as dy
-            FROM main 
-            WHERE
-            (
-                split_part(fil_no, '-', 1) = CAST($ct AS text)
-                AND CAST($cn AS INTEGER) 
-                    BETWEEN COALESCE(NULLIF(split_part(fil_no, '-', 2), '')::INTEGER, 0) 
-                    AND COALESCE(NULLIF(split_part(fil_no, '-', 3), '')::INTEGER, 0)
+        $sql = "SELECT SUBSTRING(diary_no::TEXT FROM 1 FOR CHAR_LENGTH(diary_no::TEXT) - 4) AS dn, SUBSTRING(diary_no::TEXT FROM CHAR_LENGTH(diary_no::TEXT) - 3 FOR 4) AS dy
+                FROM main
+                WHERE   (
+                (CASE WHEN SPLIT_PART(fil_no, '-', 1) ~ '^[0-9]+$' THEN SPLIT_PART(fil_no, '-', 1)::INTEGER ELSE 0 END) = $ct
+                AND CAST($cn AS INTEGER) BETWEEN 
+                                    (CASE
+                                    WHEN SPLIT_PART(fil_no, '-', 2) ~ '^[0-9]+$'
+                                        THEN SPLIT_PART(fil_no, '-', 2)::INTEGER ELSE 0 END) 
+                                AND 
+                                    (CASE
+                                    WHEN SPLIT_PART(fil_no, '-', -1) ~ '^[0-9]+$'
+                                        THEN SPLIT_PART(fil_no, '-', -1)::INTEGER
+                                ELSE 0 END)
+                AND    (
+                reg_year_mh = 0
+                OR fil_dt > '2017-05-10'
+                )
                 AND EXTRACT(YEAR FROM fil_dt) = $cy
-            )
-            OR
-            (
-                split_part(fil_no_fh, '-', 1) = CAST($ct AS text)
-                AND CAST($cn AS INTEGER) 
-                    BETWEEN COALESCE(NULLIF(split_part(fil_no_fh, '-', 2), '')::INTEGER, 0) 
-                    AND COALESCE(NULLIF(split_part(fil_no_fh, '-', 3), '')::INTEGER, 0)
+                )
+                OR   (
+                (CASE WHEN SPLIT_PART(fil_no_fh, '-', 1) ~ '^[0-9]+$' THEN SPLIT_PART(fil_no_fh, '-', 1)::INTEGER ELSE 0 END) = $ct
+                AND CAST($cn AS INTEGER) BETWEEN 
+                                    (CASE
+                                    WHEN SPLIT_PART(fil_no_fh, '-', 2) ~ '^[0-9]+$'
+                                        THEN SPLIT_PART(fil_no_fh, '-', 2)::INTEGER ELSE 0 END) 
+                                AND 
+                                    (CASE
+                                    WHEN SPLIT_PART(fil_no_fh, '-', -1) ~ '^[0-9]+$'
+                                        THEN SPLIT_PART(fil_no_fh, '-', -1)::INTEGER
+                                ELSE 0 END)
+                AND reg_year_fh = 0
                 AND EXTRACT(YEAR FROM fil_dt_fh) = $cy
-            )";
-          
+                )";
         $query = $this->db->query($sql);
         $get_dno = $query->getRowArray();
         return $get_dno;
-        // $builder = $this->db->table('main');
-        // $builder->select([
-        //     "substring(diary_no::text, 1, char_length(diary_no::text) - 4) as dn",
-        //     "substring(diary_no::text, char_length(diary_no::text) - 3, 4) as dy"
-        // ]);
-        // $builder->where("split_part(nullif(fil_no, ''), '-', 1)::INTEGER", $ct);
-        // $builder->where("$cn BETWEEN split_part(nullif(fil_no, ''), '-', 2)::INTEGER AND split_part(nullif(fil_no, ''), '-', -1)::INTEGER");
-        // $builder->groupStart()
-        //     ->groupStart()
-        //     ->where("reg_year_mh", 0)
-        //     ->orWhere("fil_dt > '2017-05-10'")
-        //     ->groupEnd()
-        //     ->where("EXTRACT(YEAR FROM fil_dt)", $cy)
-        //     ->groupEnd();
-
-        // // Open group for the second OR condition
-        // $builder->orGroupStart()
-        //     ->where("split_part(nullif(fil_no_fh, ''), '-', 1)::INTEGER", $ct)
-        //     ->where("$cn BETWEEN split_part(nullif(fil_no_fh, ''), '-', 2)::INTEGER AND split_part(nullif(fil_no_fh, ''), '-', -1)::INTEGER")
-        //     ->where("reg_year_fh", 0)
-        //     ->where("EXTRACT(YEAR FROM fil_dt_fh)", $cy)
-        //     ->groupEnd();
-        // // pr($builder->getCompiledSelect());die;
-        //  $result = $builder->get()->getRowArray(); print_r($result); die;
     }
+
+
+
 
     public function getDiaryDetails1($d_no, $d_yr)
     {
-        //$d_no = '142192009'; // remove vkg
+        //$d_no = '142192009'; // remove 
         $query = $this->db->table('main')
             ->select([
                 'diary_no',
@@ -916,13 +906,13 @@ class MovementOfDocumentModel extends Model
             ->select('display_flag, always_allowed_users')
             ->where('flag_name', 'tentative_listing_date')
             ->groupStart()
-                ->where('to_date IS NULL')
-                ->orWhere('to_date', '1970-01-01')
+            ->where('to_date IS NULL')
+            ->orWhere('to_date', '1970-01-01')
             ->groupEnd()
             ->get()
             ->getRowArray();
     }
-    
+
 
 
 
@@ -931,7 +921,7 @@ class MovementOfDocumentModel extends Model
 
     public function getIANDoccode($diary_no)
     {
-        //$diary_no = '142192009'; // remove vkg
+        //$diary_no = '142192009'; // remove 
         $builder = $this->db->table('docdetails a');
         $builder->select('
             a.diary_no, 
@@ -963,7 +953,7 @@ class MovementOfDocumentModel extends Model
 
     public function getOtherDoccode($diary_no)
     {
-       // $diary_no = '142192009'; // remove vkg
+        // $diary_no = '142192009'; // remove 
         $db = \Config\Database::connect();
 
         return $db->table('docdetails a')

@@ -19,19 +19,17 @@ class Dropdown_list_model extends Model
         $builder->select("main.*");
         $builder->WHERE('diary_no', $diary_no);
         $query = $builder->get(1);
-        $result = $query->getRowArray();
-
-        if ($result !== null && count($result) > 0) {
-            $get_main_table = $result; // use the already fetched result.
+        // echo $this->db->getLastQuery();die;
+        if ($query->getNumRows() >= 1) {
+            $get_main_table = $query->getRowArray();
             return $get_main_table;
         } else {
             $builder2 = $this->db->table("main_a");
             $builder2->select("*");
             $builder2->WHERE('diary_no', $diary_no);
             $query2 = $builder2->get(1);
-            $result2 = $query2->getRowArray(); // Corrected line: use query2
-            if ($result2 !== null && count($result2) > 0) {
-                $get_main_table2 = $result2; // use the already fetched result.
+            if ($query2->getNumRows() >= 1) {
+                $get_main_table2 = $query2->getRowArray();
                 return $get_main_table2;
             } else {
                 return false;
@@ -42,35 +40,96 @@ class Dropdown_list_model extends Model
     public function get_case_details_by_case_no($ct, $cn, $cy)
     {
 
-        $builder = $this->db->table('main');
-        $builder->select([
-            "substring(diary_no::text, 1, char_length(diary_no::text) - 4) as dn",
-            "substring(diary_no::text, char_length(diary_no::text) - 3, 4) as dy"
-        ]);
-        $builder->where("split_part(nullif(fil_no, ''), '-', 1)::INTEGER", $ct);
-        $builder->where("$cn BETWEEN split_part(nullif(fil_no, ''), '-', 2)::INTEGER AND split_part(nullif(fil_no, ''), '-', -1)::INTEGER");
-        $builder->groupStart()
-            ->groupStart()
-            ->where("reg_year_mh", 0)
-            ->orWhere("fil_dt > '2017-05-10'")
-            ->groupEnd()
-            ->where("EXTRACT(YEAR FROM fil_dt)", $cy)
-            ->groupEnd();
+        // $builder = $this->db->table('main');
+        // $builder->select([
+        //     "substring(diary_no::text, 1, char_length(diary_no::text) - 4) as dn",
+        //     "substring(diary_no::text, char_length(diary_no::text) - 3, 4) as dy"
+        // ]);
+        // $builder->where("split_part(nullif(fil_no, ''), '-', 1)::INTEGER", $ct);
+        // $builder->where("$cn BETWEEN split_part(nullif(fil_no, ''), '-', 2)::INTEGER AND split_part(nullif(fil_no, ''), '-', -1)::INTEGER");
+        // $builder->groupStart()
+        //     ->groupStart()
+        //     ->where("reg_year_mh", 0)
+        //     ->orWhere("fil_dt > '2017-05-10'")
+        //     ->groupEnd()
+        //     ->where("EXTRACT(YEAR FROM fil_dt)", $cy)
+        //     ->groupEnd();
 
-        // Open group for the second OR condition
+        // // Open group for the second OR condition
+        // $builder->orGroupStart()
+        //     ->where("split_part(nullif(fil_no_fh, ''), '-', 1)::INTEGER", $ct)
+        //     ->where("$cn BETWEEN split_part(nullif(fil_no_fh, ''), '-', 2)::INTEGER AND split_part(nullif(fil_no_fh, ''), '-', -1)::INTEGER")
+        //     ->where("reg_year_fh", 0)
+        //     ->where("EXTRACT(YEAR FROM fil_dt_fh)", $cy)
+        //     ->groupEnd();
+
+        $builder = $this->db->table('main');
+        // First condition group
+        $builder->groupStart()
+            ->where("(CASE 
+                WHEN SPLIT_PART(fil_no, '-', 1) ~ '^[0-9]+$' 
+                THEN SPLIT_PART(fil_no, '-', 1)::INTEGER 
+                ELSE 0 
+            END)", $ct)
+            ->where("CAST('{$cn}' AS INTEGER) BETWEEN 
+                (CASE 
+                    WHEN SPLIT_PART(fil_no, '-', 2) ~ '^[0-9]+$' 
+                    THEN SPLIT_PART(fil_no, '-', 2)::INTEGER 
+                    ELSE 0 
+                END) 
+                AND 
+                (CASE 
+                    WHEN SPLIT_PART(fil_no, '-', -1) ~ '^[0-9]+$' 
+                    THEN SPLIT_PART(fil_no, '-', -1)::INTEGER 
+                    ELSE 0 
+                END)")
+            ->groupStart()
+                ->where('reg_year_mh', 0)
+                ->orWhere('fil_dt >', '2017-05-10')
+            ->groupEnd()
+            ->where("EXTRACT(YEAR FROM fil_dt) =", $cy)
+        ->groupEnd();
+
+        // Second condition group (OR condition)
         $builder->orGroupStart()
-            ->where("split_part(nullif(fil_no_fh, ''), '-', 1)::INTEGER", $ct)
-            ->where("$cn BETWEEN split_part(nullif(fil_no_fh, ''), '-', 2)::INTEGER AND split_part(nullif(fil_no_fh, ''), '-', -1)::INTEGER")
-            ->where("reg_year_fh", 0)
-            ->where("EXTRACT(YEAR FROM fil_dt_fh)", $cy)
-            ->groupEnd();
+            ->where("(CASE 
+                WHEN SPLIT_PART(fil_no_fh, '-', 1) ~ '^[0-9]+$' 
+                THEN SPLIT_PART(fil_no_fh, '-', 1)::INTEGER 
+                ELSE 0 
+            END)", $ct)
+            ->where("CAST('{$cn}' AS INTEGER) BETWEEN 
+                (CASE 
+                    WHEN SPLIT_PART(fil_no_fh, '-', 2) ~ '^[0-9]+$' 
+                    THEN SPLIT_PART(fil_no_fh, '-', 2)::INTEGER 
+                    ELSE 0 
+                END) 
+                AND 
+                (CASE 
+                    WHEN SPLIT_PART(fil_no_fh, '-', -1) ~ '^[0-9]+$' 
+                    THEN SPLIT_PART(fil_no_fh, '-', -1)::INTEGER 
+                    ELSE 0 
+                END)")
+            ->where('reg_year_fh', 0)
+            ->where("EXTRACT(YEAR FROM fil_dt_fh) =", $cy)
+        ->groupEnd();
+
+        // Selecting specific columns
+        $builder->select([
+            "SUBSTRING(diary_no::TEXT FROM 1 FOR CHAR_LENGTH(diary_no::TEXT) - 4) AS dn",
+            "SUBSTRING(diary_no::TEXT FROM CHAR_LENGTH(diary_no::TEXT) - 3 FOR 4) AS dy"
+        ]);
+
         // pr($builder->getCompiledSelect());die;
-         $result = $builder->get()->getRowArray(); //print_r($result); die;
+        $result = $builder->get()->getRowArray();
 
         if (!empty($result)) {
             $diary_no = $result['dn'].$result['dy'];
 
-            return $this->get_diary_details_by_diary_no($diary_no);
+            $get_diary =  $this->get_diary_details_by_diary_no($diary_no);
+
+            $get_diary['dn'] = $result['dn'];
+            $get_diary['dy'] = $result['dy'];
+            return $get_diary;
         } else {
 
             $builder = $this->db->table('main_casetype_history h');
@@ -91,19 +150,23 @@ class Dropdown_list_model extends Model
 
                 $diary_no = $result['dn'].$result['dy'];
 
-                return $this->get_diary_details_by_diary_no($diary_no);
+                $get_diary = $this->get_diary_details_by_diary_no($diary_no);
+
+                $get_diary['dn'] = $result['dn'];
+                $get_diary['dy'] = $result['dy'];
+                return $get_diary;
 
                 // Fetch casetype description
-                $builder = $this->db->table('casetype');
-                $builder->select('short_description');
-                $builder->where('casecode', $ct);
-                $builder->where('display', 'Y');
-                $casetype = $builder->get()->getRowArray();
+                // $builder = $this->db->table('casetype');
+                // $builder->select('short_description');
+                // $builder->where('casecode', $ct);
+                // $builder->where('display', 'Y');
+                // $casetype = $builder->get()->getRowArray();
 
-                if ($casetype) {
-                    $short_description = $casetype['short_description'];
-                    $t_slpcc = "{$short_description} {$result['crf1']} - {$result['crl1']} / $cy";
-                }
+                // if ($casetype) {
+                //     $short_description = $casetype['short_description'];
+                //     $t_slpcc = "{$short_description} {$result['crf1']} - {$result['crl1']} / $cy";
+                // }
             } else {
                 return false;
             }

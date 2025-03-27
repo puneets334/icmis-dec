@@ -158,7 +158,7 @@ class Report extends BaseController
         $ReportModel = new ReportModel();
 
         $data['formdata'] = $this->request->getPost();
-        $data['listing_dts'] = $this->request->getPost('listing_dts');
+        $data['listing_dts'] = date('Y-m-d',strtotime($this->request->getPost('listing_dts')));
         $data['courtno'] = $this->request->getPost('courtno');
         $data['mainhead'] = $this->request->getPost('mainhead');
         $data['report_title'] = 'Details of Gist Module Data';
@@ -180,6 +180,7 @@ class Report extends BaseController
         $ReportModel = new ReportModel();
         $data['formdata'] = $this->request->getPost();
         $data['judge'] = $this->request->getPost('judge');
+        $data['name'] = $this->request->getPost('judge_name');
         $data['report_title'] = 'Details of CAV Search';
         if ($data['judge']!=''){
             $data['dataCAV']= $ReportModel->getCAV($data);
@@ -190,8 +191,8 @@ class Report extends BaseController
     public function matters_disposed_through_mm(){
         $ReportModel = new ReportModel();
         $data['formdata'] = $this->request->getPost();
-        $data['from_date'] = $this->request->getPost('from_date');
-        $data['to_date'] = $this->request->getPost('to_date');
+        $data['from_date'] = date('Y-m-d',strtotime($this->request->getPost('from_date')));
+        $data['to_date'] = date('Y-m-d',strtotime($this->request->getPost('to_date')));
         $data['courtno'] = $this->request->getPost('courtno');
         $data['report_title'] = 'Details of MDTM Search with Selected Filter';
       //  $data['judge'] = get_from_table_json('judge');
@@ -239,7 +240,7 @@ class Report extends BaseController
     public function cause_list_with_or(){
         $ReportModel = new ReportModel();
         $data['formdata'] = $this->request->getPost();
-        $data['listing_date'] = $this->request->getPost('listing_date');
+        $data['listing_date'] = date('Y-m-d',strtotime($this->request->getPost('listing_date')));
         $data['board_type'] = $this->request->getPost('board_type');
         $data['courtno'] = $this->request->getPost('courtno');
         $data['main_suppl'] = $this->request->getPost('main_suppl');
@@ -275,7 +276,7 @@ class Report extends BaseController
 
     public function appearance_search(){
         $ReportModel = new ReportModel();
-        $data['listing_dts'] = $this->request->getPost('listing_dts');
+        $data['listing_dts'] = date('Y-m-d',strtotime($this->request->getPost('listing_dts')));
         $data['courtno'] = $this->request->getPost('courtno');
 
         if (!empty($data['listing_dts'])){
@@ -289,8 +290,8 @@ class Report extends BaseController
 
     public function vernacular_judgments_report(){
         $ReportModel = new ReportModel();
-        $data['from_date'] = $this->request->getPost('from_date');
-        $data['to_date'] = $this->request->getPost('to_date');
+        $data['from_date'] = date('Y-m-d',strtotime($this->request->getPost('from_date')));
+        $data['to_date'] = date('Y-m-d',strtotime($this->request->getPost('to_date')));
         $judge = $this->request->getPost('judge');
         if (!empty($data['from_date'])){
             $data['vernacularjudgmentData']= $ReportModel->getvernacularJudgmentsReport($data);
@@ -306,7 +307,7 @@ class Report extends BaseController
         $data['app_name']='';
         $jcd=$this->request->getGet('jcd');
         $flag=$this->request->getGet('flag');
-        $list_dt=$this->request->getGet('list_dt');
+        $list_dt=date('Y-m-d',strtotime($this->request->getGet('list_dt')));
         $misc_nmd=$this->request->getGet('misc_nmd');
         $judge_name = is_data_from_table('master.judge',['jcode'=>$jcd],'jname','R');
 
