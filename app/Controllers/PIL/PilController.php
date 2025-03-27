@@ -13,6 +13,7 @@ use App\Libraries\Common;
 use App\Models\PIL\PilModel;
 use App\Models\Court\CourtMasterModel; 
 
+
 //use Mpdf;
 //use \setasign\Fpdi\PdfParser\StreamReader;
 ini_set('memory_limit','51200M');
@@ -55,16 +56,13 @@ class PilController extends BaseController
         $data['msg']=$msg;
         $data['app_name'] = 'PIL';
         $data['pilData'] = $this->PilModel->getPilData();
-//        echo "<pre>";
-//        print_r($data);
-//        die;
+ 
         return view('PIL/showPilData', $data);
 
     }
     public function addToPilGroupShow($msg="",$ecPilGroupId=0,$searchedYear=0)
     {
-//        echo $ecPilGroupId;
-//        die;
+ 
         $usercode = $_SESSION['login']['usercode'];
         $diaryNo='';
         $diaryYear='';
@@ -75,7 +73,7 @@ class PilController extends BaseController
         $data['msg']=$msg;
         $data['pilGroup']=array();
         $resultArray = $this->PilModel->getPilGroup();
-        //pr($resultArray);
+   
         if(!empty($resultArray))
         {
             $data['pilGroup'] = $resultArray;
@@ -86,6 +84,14 @@ class PilController extends BaseController
         
         $data['ecPilGroupId']=$ecPilGroupId;
         $data['searchedYear']=$searchedYear;
+   
+        return view('PIL/addToPilGroup', $data);
+    }
+
+
+    public function addToPilGroupResult()
+    {
+        $usercode = $_SESSION['login']['usercode'];
         if(!empty($_POST))
         {
             if (!empty($_POST['ecPilGroupId']))
@@ -93,41 +99,30 @@ class PilController extends BaseController
                 $ecPilGroupId = $_POST['ecPilGroupId'];
 
             }
-            if (!empty($_POST['diaryNo']))
-            {
-                $diaryNo = $_POST['diaryNo'];
-            }
+            
+            $diaryNo = $_POST['diaryNo'];
             $diaryYear = $_POST['diaryYear'];
             if ($diaryNo != '' && $diaryYear != '')
             {
                 $ecPilId = $this->PilModel->getPilId($diaryNo, $diaryYear);
-//                echo "<pre>";
-//                print_r($ecPilId[0]);
-//                die;
-                if ($ecPilId[0] != null) {
-//                    echo "FFFF";
-//                    die;
+                 
+                if (!empty($ecPilId) && $ecPilId[0] != null) {
+ 
                     $rowsaffected = $this->PilModel->addInPilGroup($ecPilGroupId, $ecPilId, $usercode);
-//                    echo "<pre>";
-//                    print_r($rowsaffected);
-//                    die;
+ 
 
                     if ($rowsaffected > 0) {
                         $data['msg']="Added Successfully.";
                         $data['casesInPilGroup'] = $this->PilModel->getCasesInPilGroup($ecPilGroupId);
                         $data['ecPilGroupId']=$ecPilGroupId;
-//                        echo "<pre>";
-//                        print_r($data);
-//                        die;
-//                        $this->addToPilGroupShow("Added Successfully.", $ecPilGroupId, $diaryYear);
+ 
                     }
                 } else {
-//                    echo "EEE";
-//                    die;
+ 
                     $data['msg']="No Record found.";
                     $data['casesInPilGroup'] = $this->PilModel->getCasesInPilGroup($ecPilGroupId);
                     $data['ecPilGroupId']=$ecPilGroupId;
-//                    $this->addToPilGroupShow("No Record found.", $ecPilGroupId, $diaryYear);
+ 
                 }
             } else
             {
@@ -135,15 +130,10 @@ class PilController extends BaseController
                 $data['ecPilGroupId']=$ecPilGroupId;
 
             }
-//            echo "POOOO";
-//            echo "<pre>";
-//            print_r($data);
-//            die;
-            return view('PIL/addToPilGroup', $data);
+ 
+            return view('PIL/addToPilGroupResult', $data);
 
         }
-     //pr($data);
-        return view('PIL/addToPilGroup', $data);
     }
 
 
@@ -152,8 +142,8 @@ class PilController extends BaseController
 
  // var_dump($_GET);
   //die;
-        $ecPilId = $this->request->uri->getSegment(4);
-        $ecPilGroupId = $this->request->uri->getSegment(5);
+        $ecPilId = $_POST['id'];
+        $ecPilGroupId = $_POST['pilgpid'];
         $userCode = $_SESSION['login']['usercode'];
         $client_ip = getClientIP();
 //      ECPIL TABLE SE LOG M S=DAAL RAHE HI VERNACULAR LANGUAGE DATATYPE
@@ -181,11 +171,11 @@ class PilController extends BaseController
 
         if($query>0){
           // $this->addToPilGroupShow("PIL removed from this PIL Group.",$ecPilGroupId);
-            echo "PIL removed from this PIL Group.",$ecPilGroupId;
+            return "1";
         }
         else{
-          //  echo "0";
-           echo "There is some problem while removing PIL from this PIL Group";
+            return "0";
+          // echo "There is some problem while removing PIL from this PIL Group";
         }
 
 
@@ -195,13 +185,15 @@ class PilController extends BaseController
         $ecPilId=$this->PilModel->getPilId($_POST['diaryNo'],$_POST['diaryYear']);
 
         if($ecPilId!=null)
-        return redirect()->to('PIL/PilController/editPilData/'.$ecPilId[0]['id']);
+            return redirect()->to('PIL/PilController/editPilData/'.$ecPilId[0]['id']);
         else
-            $this->index("No Record found.");
+        session()->setFlashdata('infomsg', 'No data found!');
+            return redirect()->to('PIL/PilController/index/');
     }
     public function editPilData($ecPilId=null){
-        //error_reporting(0);
+         
         $data['dcmis_user_idd']= session()->get('login')['usercode'];
+        $data['common'] =  $this->common ;
         $data['pil_id']=$ecPilId;
         $data['state'] = $this->PilModel->get_state_list();
         $data['pilCategory'] = $this->PilModel->getPilCategory();
@@ -665,7 +657,7 @@ class PilController extends BaseController
             $convertedDiaryYear = $_POST['convertedDiaryYear'];
             $otherRemedyRemark = $_POST['otherRemedyRemark'];
             $reportDate = $_POST['reportDate'];
-            $destroyOrKeepIn = $_POST['destroyOrKeepIn'];
+            $destroyOrKeepIn = $_POST['destroyOrKeepIn'] ?? '';
             $destroyOrKeepInDate = $_POST['destroyOrKeepInDate'];
             $destroyOrKeepInRemark = $_POST['destroyOrKeepInRemark'];
             $pils = $_POST['pils'];
@@ -1088,30 +1080,17 @@ class PilController extends BaseController
         $ecPilGroupId = $_REQUEST['eid'];
         $reportType = $_REQUEST['uid'];
 
-//        echo $ecPilGroupId.">>>>".$reportType.">>>".$userCode;
-//        die;
-/*        print_r(FPDF_FONTPATH);
-        die;*/
+ 
 
         $userdetail = getUserNameAndDesignation($usercode);
-/*        echo "<pre>";
-        print_r($userdetail);
-        die;*/
+ 
         $pilData=$this->PilModel->getCasesInPilGroup_asc($ecPilGroupId);
-/*        echo "<pre>";
-        print_r($pilData);
-        die;*/
-        /*print_r($this->pdf->Output());
-        die;*/
-        //$pdf=new FPDF();
-//        print_r($this->pdf);
-//        die();
+ 
         $this->pdf->AddPage();
         $this->pdf->setleftmargin(40);
         $this->pdf->setrightmargin(20);
         if($reportType==1){
-//            echo "DDDD";
-//            die;
+ 
             $this->pdf->ln(5);
             $this->pdf->SetFont('times','BU',12);
             $this->pdf->Cell(0,3,'SUPREME COURT OF INDIA',0,1,'C');
@@ -1145,14 +1124,17 @@ class PilController extends BaseController
             $this->pdf->Cell(80,0,$userdetail['type_name'],0,1,'L');
             $this->pdf->ln(15);
             $this->pdf->Cell(80,0,'BRANCH OFFICER',0,1,'L');
-            /*$pdf->Cell(80,0,'Branch Officer',0,1,'L');*/
+            
             $this->pdf->ln(15);
             $this->pdf->Cell(80,0,'DEPUTY REGISTRAR',0,1,'L');
-            /* $pdf->Cell(80,0,'Deputy Registrar',0,1,'L');*/
+         
             $this->pdf->ln(15);
-            /*$pdf->Cell(80,0,'Ld.Registrar(PIL E)',0,1,'L');*/
+            
             $this->pdf->Cell(80,0,'Ld.REGISTRAR(PIL E)',0,1,'L');
+            ob_end_clean();
             $this->pdf->Output();
+
+            exit;
 
         }
 //        elseif ($reportType==2){
