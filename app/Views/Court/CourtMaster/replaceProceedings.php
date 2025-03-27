@@ -105,11 +105,10 @@
                                                 </div>
                                                 <div id="divSearchResult"></div>
                                             </form>
+
                                             <?php
                                             $attribute = array('class' => 'form-horizontal', 'name' => 'courtMaster', 'id' => 'courtMaster', 'autocomplete' => 'off', 'enctype' => 'multipart/form-data');
-                                            echo form_open('Court/CourtMasterController/replaceROP', $attribute);
-
-                                            ?>
+                                            echo form_open('Court/CourtMasterController/replaceROP', $attribute); ?>
 
                                             <?php if (!empty($caseDetails)) { ?>
                                                 <div class="row">
@@ -204,7 +203,6 @@
         $('#diaryYear').prop("disabled", 'disabled');
         $('#diaryNoWise').hide();
 
-
         $("input[name$='optradio']").click(function() {
             var searchValue = $(this).val();
             if (searchValue == 'C') {
@@ -219,18 +217,14 @@
                 $('#caseType').prop("disabled", 'disabled');
                 $('#caseNo').prop("disabled", 'disabled');
                 $('#caseYear').prop("disabled", 'disabled');
-
                 $('#caseTypeWise').hide();
-
                 $('#diaryNumber').removeAttr('disabled');
                 $('#diaryYear').removeAttr('disabled');
-
                 $('#diaryNoWise').show();
             }
         });
 
         $("input[name$='embedType']").click(function() {
-
             var searchValue = $(this).val();
             if (searchValue == 'C') {
                 $("#divBYCase").css("display", "block");
@@ -240,11 +234,13 @@
                 $("#divBulk").css("display", "block");
             }
         });
+
         $("input[name$='btnGetCaseDetails']").click(function() {
+            var btn = $(this); // store reference to the button
+            btn.prop("disabled", true); // disable the button
+
             var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-
             var formData = $("#frmCaseWiseQR").serializeArray();
-
             formData.push({
                 name: 'CSRF_TOKEN',
                 value: CSRF_TOKEN_VALUE
@@ -255,17 +251,20 @@
                     type: "POST",
                     data: formData,
                     beforeSend: function() {
-                        $('#dv_res').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+                        $('#divSearchResult').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
                     }
                 })
                 .done(function(result) {
-                    $("#divSearchResult").html(result);
                     updateCSRFToken();
+                    $("#divSearchResult").html(result);
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
+                    updateCSRFToken();
                     console.error("Request failed: " + textStatus + ", " + errorThrown);
                     alert("An error occurred while processing your request. Please try again.");
-                    updateCSRFToken();
+                })
+                .always(function() {
+                    btn.prop("disabled", false); // re-enable the button regardless of success or failure
                 });
         });
     });

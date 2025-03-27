@@ -161,9 +161,14 @@ class Coram extends BaseController
                             'res_id'            =>      $list_res,
                             'res_add'           =>      ''
                         ];
-
+                        
+                      $checkData =  is_data_from_table('public.not_before',"diary_no =  '$diary_no' AND j1 = $judge_val","*","N");
+                      if($checkData == 0) {
                         $ins = $this->model->insert_not_before($ins_arr);
-                        echo json_encode(['inserted' => 'Record Inserted Successfully']);
+                        echo 'Record Inserted Successfully';
+                      }else{
+                        echo 'Record Already Exists';
+                      }  
                     }
                 } elseif ($save == 'C') {
                     $coramArr[] = $judge_val;
@@ -225,7 +230,7 @@ class Coram extends BaseController
                     if ($get_heardt_main) {
 
                         if ($get_heardt_main[0]['coram'] > 0) {
-                            echo json_encode(['delete_coram_msg' => 'Please use coram delete module to delete previous coram.']);
+                            echo  'Please use coram delete module to delete previous coram.';
                             die();
                         }
 
@@ -432,7 +437,7 @@ class Coram extends BaseController
 
                 if ($ins) {
                     $del = $this->model->delete_not_before($diary_no, $j1);
-                    echo json_encode(['deleted' => 'Hisotry saved and record deleted']);
+                    echo json_encode(['deleted' => 'History Saved And Record Deleted']);
                 }
             }
         } else {

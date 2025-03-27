@@ -121,7 +121,7 @@
                                             <dt>Petitioner</dt>
                                             <dd class="my_B"><?= esc($caseInfodata['pet_name']) ?></dd>
 
-                                            <dt>Respondant</dt>
+                                            <dt>Respondent</dt>
                                             <dd class="my_B"><?= esc($caseInfodata['res_name']) ?></dd>
                                             
                                             <?php 
@@ -144,7 +144,7 @@
                                                     <dt>Petitioner Advocate</dt>
                                                     <dd class="my_B"><?= esc($row['pet_adv_name']) ?>-<?= esc($row['pet_aor_code']) ?></dd>
 
-                                                    <dt>Respondant Advocate</dt>
+                                                    <dt>Respondent Advocate</dt>
                                                     <dd class="my_B"><?= esc($row['res_adv_name']) ?>-<?= esc($row['res_aor_code']) ?></dd>
 
                                                 <?php } ?>                                            

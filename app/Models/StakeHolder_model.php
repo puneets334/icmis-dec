@@ -18,148 +18,182 @@ class StakeHolder_model extends Model
         return $query->getResult();
     }
     public function getState(){
-        $builder = $this->db->table('state');
-        $builder->select('State_code,name,id_no,sci_state_id');
+        $builder = $this->db->table('master.state');
+        $builder->select('state_code,name,id_no,sci_state_id');
         $builder->where('display','Y');
         $builder->where('sci_state_id !=',0);
-        $builder->where('District_code',0);
-        $builder->where('Sub_Dist_code',0);
-        $builder->orderBy('Name','ASC');
+        $builder->where('district_code',0);
+        $builder->where('sub_dist_code',0);
+        $builder->orderBy('name','ASC');
+
         $query = $builder->get();
         return $query->getResult();
     }
     public function getDistrict($stateId){
         $output = false;
         if(isset($stateId) && !empty($stateId)){
-            $this->db->select('State_code,District_code,Name,id_no');
-            $this->db->from('state');
-            $this->db->where('display','Y');
-            $this->db->where('District_code!=',0);
-            $this->db->where('Sub_Dist_code',0);
-            $this->db->where('Village_code',0);
-            $this->db->where('State_code',(int)$stateId);
-            $this->db->order_by('Name','ASC');
-            $query = $this->db->get();
-            $output = $query->result();
+            $builder = $this->db->table('master.state');
+            $builder->select('state_code, district_code, name, id_no');
+            $builder->where('display', 'Y');
+            $builder->where('district_code !=', 0);
+            $builder->where('sub_dist_code', 0);
+            $builder->where('village_code', 0);
+            $builder->where('state_code', (int)$stateId);
+            $builder->orderBy('name', 'ASC');
+
+            $query = $builder->get();
+            $output = $query->getResult();
+
         }
         return $output;
     }
     public function getDesignation($params = array()){
         $output = false;
         if(isset($params['authtype']) && !empty($params['authtype'])){
-            $this->db->select('authcode,authdesc,authtype');
-            $this->db->from('authority');
-            $this->db->where('display','Y');
-            $this->db->where_in('authtype',$params['authtype']);
-            $this->db->order_by('authdesc','ASC');
-            $query = $this->db->get();
-            $output = $query->result();
+            $builder = $this->db->table('master.authority');
+            $builder->select('authcode, authdesc, authtype');
+            $builder->where('display', 'Y');
+            $builder->whereIn('authtype', $params['authtype']);
+            $builder->orderBy('authdesc', 'ASC');
+
+            $query = $builder->get();
+            $output = $query->getResult();
         }
         return $output;
     }
+
     public function insertData($table,$insertArr){
         $output = false;
         if(isset($table) && !empty($table) && isset($insertArr) && !empty($insertArr)){
-            $this->db->insert($table,$insertArr);
-            $output =  $this->db->insert_id();
+            $builder = $this->db->table($table);
+            $builder->insert($insertArr);
+            $output = $this->db->insertID();
         }
         return $output;
     }
-    public function updateData($table,$id,$updateArr){
+
+    public function updateData($table, $id, $updateArr){
         $output = false;
         if(isset($table) && !empty($table) && isset($id) && !empty($id) && isset($updateArr) && !empty($updateArr)){
-            $this->db->WHERE('id', (int)$id);
-            $query = $this->db->UPDATE($table, $updateArr);
+            $builder = $this->db->table($table);
+            $query = $builder->where('id', (int)$id)->update($updateArr);
             if(!empty($query)){
                 $output = true;
             }
         }
         return $output;
     }
+
     public function getBench($params = array()){
-        $this->db->select('id, agency_name, short_agency_name ,state_id');
-        $this->db->from('ref_agency_code');
-        $this->db->where('cmis_state_id',(int)$params['cmis_state_id']);
-        $this->db->where('agency_or_court',(int)$params['court_type']);
-        $this->db->where('is_deleted','f');
-        $this->db->order_by('agency_name','ASC');
-        $query = $this->db->get();
-        return $query->result();
+        $builder = $this->db->table('master.ref_agency_code')
+            ->select(['id', 'agency_name', 'short_agency_name', 'state_id'])
+            ->where('cmis_state_id', (int)$params['cmis_state_id'])
+            ->where('agency_or_court', (int)$params['court_type'])
+            ->where('is_deleted', 'f')
+            ->orderBy('agency_name', 'ASC');
+
+        $query = $builder->get();
+        return $query->getResult();
     }
+
     public function getJailStateList(){
-        $this->db->select('State_Code,Police_state,cmis_state');
-        $this->db->from('jail_master');
-        $this->db->where('Police_state !=','');
-        $this->db->where('District_Code !=',0);
-        $this->db->group_by('Police_state_code');
-        $this->db->order_by('Police_state','ASC');
-        $query = $this->db->get();
-        return $query->result();
+        $builder = $this->db->table('master.jail_master')
+            ->select(['State_Code', 'Police_state', 'cmis_state'])
+            ->where('Police_state !=', '')
+            ->where('District_Code !=', 0)
+            ->groupBy('Police_state_code')
+            ->orderBy('Police_state', 'ASC');
+
+        $query = $builder->get();
+        return $query->getResult();
+
     }
+
     public function getJailDistrictList($state_code){
         $output = false;
         if(isset($state_code) && !empty($state_code)){
-            $this->db->select('State_Code,District_Code,Police_district,cmis_district_id');
-            $this->db->from('jail_master');
-            $this->db->where('State_Code',(int)$state_code);
-            $this->db->where('police_station_name !=','');
-            $this->db->where('District_Code !=',0);
-            $this->db->group_by('Police_district_code');
-            $this->db->order_by('Police_district','ASC');
-            $query = $this->db->get();
-            $output= $query->result();
+            $builder = $this->db->table('master.jail_master');
+            $builder->select('State_Code, District_Code, Police_district, cmis_district_id');
+            $builder->where('State_Code', (int)$state_code);
+            $builder->where('police_station_name !=', '');
+            $builder->where('District_Code !=', 0);
+            $builder->groupBy('Police_district_code');
+            $builder->orderBy('Police_district', 'ASC');
+            $query = $builder->get();
+            $output = $query->getResult();
+
         }
         return $output;
     }
+
     public function getJailListByStateDistrictId($params = array()){
         $output = false;
         if(isset($params['stateId']) && !empty($params['stateId']) && isset($params['districtId']) && !empty($params['districtId'])){
-            $this->db->select('Loc_Id,Loc_Det,jail_name');
-            $this->db->from('jail_master');
-            $this->db->where('State_Code',(int)$params['stateId']);
-            $this->db->where('District_Code',(int)$params['districtId']);
-            $this->db->order_by('Loc_Det','ASC');
-            $query = $this->db->get();
-            $output= $query->result();
+            $builder = $this->db->table('master.jail_master');
+            $builder->select('Loc_Id, Loc_Det, jail_name');
+            $builder->where('State_Code', (int)$params['stateId']);
+            $builder->where('District_Code', (int)$params['districtId']);
+            $builder->orderBy('Loc_Det', 'ASC');
+            $query = $builder->get();
+            $output = $query->getResult();
+
         }
          return $output;
     }
+
     public function getTribunalData($params = array()){
         $output = false;
         if(isset($params['id_no']) && !empty($params['id_no']) && isset($params['agency_or_court']) && !empty($params['agency_or_court'])){
-            $this->db->select('id,agency_name');
-            $this->db->from('ref_agency_code');
-            $this->db->where('cmis_state_id',(int)$params['id_no']);
-            $this->db->where_in('agency_or_court',$params['agency_or_court']);
-            $this->db->where('is_deleted','f');
-            $this->db->order_by('agency_name','ASC');
-            $query = $this->db->get();
-            $output= $query->result();
+            $builder = $this->db->table('master.ref_agency_code')
+                ->select(['id', 'agency_name'])
+                ->where('cmis_state_id', (int)$params['id_no'])
+                ->whereIn('agency_or_court', $params['agency_or_court'])
+                ->where('is_deleted', 'f')
+                ->orderBy('agency_name', 'ASC');
+
+            $query = $builder->get();
+            $output = $query->getResult();
         }
         return $output;
     }
+
     public function getStakeholderData($params = array()){
-        $this->db->select('st.id,st.nodal_officer_name,st.jcn_email_id,st.official_email_id,st.mobile_number,DATE_FORMAT(st.used_from, "%d-%m-%Y") as used_from,DATE_FORMAT(st.created_on, "%d-%m-%Y") as created_on,mst.description as stakeholder_type,a.authdesc as designation');
-        $this->db->from('stakeholder_details st');
-        $this->db->join('master_stakeholder_type mst','st.stakeholder_type_id = mst.id','inner');
-        $this->db->join('authority a','st.nodal_officer_designation = a.authcode','inner');
-        if($params['stakeHolderType'] && !empty($params['stakeHolderType'])){
-            $this->db->where('st.stakeholder_type_id',(int)$params['stakeHolderType']);
+        $builder = $this->db->table('master.stakeholder_details st')
+            ->select([
+                'st.id',
+                'st.nodal_officer_name',
+                'st.jcn_email_id',
+                'st.official_email_id',
+                'st.mobile_number',
+                "TO_CHAR(st.used_from, 'DD-MM-YYYY') AS used_from",
+                "TO_CHAR(st.created_on, 'DD-MM-YYYY') AS created_on",
+                'mst.description AS stakeholder_type',
+                'a.authdesc AS designation'
+            ])
+            ->join('master.master_stakeholder_type mst', 'st.stakeholder_type_id = mst.id', 'inner')
+            ->join('master.authority a', 'st.nodal_officer_designation = a.authcode', 'inner')
+            ->where('st.is_deleted', 0)
+            ->orderBy('st.created_on', 'DESC');
+
+        if (!empty($params['stakeHolderType'])) {
+            $builder->where('st.stakeholder_type_id', (int) $params['stakeHolderType']);
         }
-        $this->db->where('st.is_deleted',0);
-        $this->db->order_by('st.created_on','DESC');
-        $query = $this->db->get();
-        return $query->result();
+
+        $query = $builder->get();
+        return $query->getResult();
+
     }
+
     public function getDataById($id){
         $output = false;
         if(isset($id) && !empty($id)){
-            $this->db->select('*');
-            $this->db->from('stakeholder_details');
-            $this->db->where('id',(int)$id);
-            $this->db->where('is_deleted',0);
-            $query = $this->db->get();
-            return $query->result_array();
+            $builder = $this->db->table('master.stakeholder_details')
+                ->select('*')
+                ->where('id', (int) $id)
+                ->where('is_deleted', 0);
+
+            $query = $builder->get();
+            return $query->getResultArray();
         }
         return $output;
     }
@@ -416,7 +450,7 @@ class StakeHolder_model extends Model
             //echo $sql; exit;
            // $result = $this->db->query($sql)->result();
            // echo '<pre>'; print_r($result); exit;
-            $result = $this->db->query($sql)->result();
+            $result = $this->db->query($sql)->getResult();
             return $result;
         }
     }
