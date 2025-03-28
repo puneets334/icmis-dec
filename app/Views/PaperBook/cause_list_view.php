@@ -55,7 +55,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="flist" class="col-form-label">Type of List</label>
-                                        <select class="form-control select-box" id="flist" name="flist" onfocus="resetval()" onchange="chkdata()">
+                                        <select class="form-control select-box_" id="flist" name="flist" onfocus="resetval()" onchange="chkdata()">
                                             <option value="">---select---</option>
                                             <option value="1">Fresh Matters </option>
                                             <option value="2">Except Fresh</option>
@@ -70,11 +70,11 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="sort" class="col-form-label">Sort By</label>
-                                        <select class="form-control select-box" name="sort" id="sort">
+                                        <select class="form-control select-box_" name="sort" id="sort">
                                             <option value="">--Select--</option>
                                             <option value="diary_no">Diary No.</option>
                                             <option value="active_fil_no">Case No.</option>
-                                            <option value="sec">Section </option>
+                                            <!-- <option value="sec">Section </option> -->
                                             <option value="docnum">IA No.</option>
                                         </select>
                                     </div>
@@ -140,52 +140,41 @@
         button.prop('disabled', true);
         button.html('<i class="fa fa-spinner fa-spin"></i> Loading...');
 
-        $.ajax({
-            url: '<?= base_url('PaperBook/PaperBookController/getCauseFinalReport') ?>',
-            method: 'POST',
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+		var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
+         $.ajax({
+            url: '<?= base_url('PaperBook/PaperBookController/getCauseFinalReport') ?>',          
             data: {
                 cl_date: cl_date,
                 list_type: list_type,
-                sorting: sorting,
-                '<?= csrf_token() ?>': csrf,
+                sort: sorting,
+                CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
-            beforeSend: function() {
-                $('#res_loader').html('<div style="position: absolute; top: 50%; left: 50%; text-align: center; transform: translate(-50%, -50%);"><img src="../../images/load.gif"/></div>');
+            beforeSend: function () {
+                $('#div_result').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
             },
-            success: function() {
-                if (response.status == '1') {
-                    $('#result').html(response.html);
-                } else {
-                    alert(response.message);
-                }
-            },
-            error: function(xhr) {
-                var errorMsg = "An error occurred. Please try again.";
-                if (xhr.status === 404) {
-                    errorMsg = "Requested resource not found.";
-                } else if (xhr.status === 500) {
-                    errorMsg = "Internal server error. Please contact support.";
-                }
-                swal({
-                    title: "Error!",
-                    text: errorMsg,
-                    icon: "error",
-                    button: "error!"
-                });
-            },
-            complete: function() {
-                updateCSRFToken();
-                $('#res_loader').html('');
+            type: 'POST',
+            success: function(response, status) {
                 button.prop('disabled', false); // Enable the button again
-                button.html('Save'); // Reset button text
+                button.html('Save'); 
+				updateCSRFToken();                
+                    $('#result').html(response);
+               },
+            error: function(xhr) {
+                button.prop('disabled', false); // Enable the button again
+                button.html('Save'); 
+				updateCSRFToken();
+                
             }
+
         });
 
-        // function updateCSRFToken() {
-        //     $.get('<?//= site_url('Scanning/ScanningController/getCSRF'); ?>', function(data) {
-        //         $('input[name="<?//= csrf_token() ?>"]').val(data.csrf_token);
-        //     }, 'json');
-        // }
+
+
+
+         
+        
     });
 
     function chkdata() {
@@ -216,6 +205,6 @@
     }
 
     function resetval() {
-        document.getElementById("sort").value = 0;
+        document.getElementById("sort").value = '';
     }
 </script>
