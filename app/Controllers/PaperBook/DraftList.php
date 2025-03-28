@@ -39,7 +39,7 @@ class DraftList extends BaseController
 
         $row_type = $this->DraftListModel->getUserType($ucode);
         $utype = $row_type ? $row_type['usertype'] : null;
-        
+       
         $data['serve_status'] = [];
         $data['title'] = '';
         if(!empty($list_type)) {

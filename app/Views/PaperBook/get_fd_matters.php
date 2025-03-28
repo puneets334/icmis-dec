@@ -2,7 +2,7 @@
     <?php if ($results) { ?>
 
         <div class="text-center my-4">
-            <span class="custom-text font-weight-bold">Fixed Date Matters</span> Ready for Listing for
+            <span class="custom-text font-weight-no">Fixed Date Matters</span> Ready for Listing for
             <span class="custom-text font-weight-bold"><?= $formated_next_date ?></span> as on
             <span class="custom-text font-weight-bold"><?= date('d-m-Y H:i:s') ?></span>
         </div>
@@ -54,8 +54,9 @@
                 extend: 'print',
                 text: 'Print',
                 className: 'btn-primary quick-btn',
+                title: 'Fixed Date Matters Ready for Listing for <?= $formated_next_date ?> as on <?= date('d-m-Y H:i:s') ?>', // Ensuring no unwanted title appears
                 customize: function(win) {
-                    $(win.document.body).find('h1').remove();
+                    $(win.document.body).css('text-align', 'center'); // Align all content centrally
                 }
             }
         ],
