@@ -1182,7 +1182,8 @@ class Model_IA extends Model
         $builder->where('diary_no', $dairy_no)
             ->where('display', 'Y')
             ->where('rm_dt', '0000-00-00 00:00:00');
-        $query = $builder->get();
+        echo $builder->getCompiledSelect();die();
+        $query = $builder->get();         
         return $query->getRowArray();
     }
 
@@ -1246,17 +1247,17 @@ class Model_IA extends Model
 
         // Build the query
         $builder = $this->db->table('lowerct a');
-        $builder->select("lct_dec_dt, l_dist, ct_code, l_state, Name,
-            CASE
+        $builder->select("lct_dec_dt, l_dist, ct_code, l_state, name,
+            CASE    
                 WHEN ct_code = 3 THEN (
                     SELECT Name
-                    FROM state s
+                    FROM master.state s
                     WHERE s.id_no = a.l_dist
                     AND display = 'Y'
                 )
                 ELSE (
                     SELECT agency_name
-                    FROM ref_agency_code c
+                    FROM master.ref_agency_code c
                     WHERE c.cmis_state_id = a.l_state
                     AND c.id = a.l_dist
                     AND is_deleted = 'f'
@@ -1266,18 +1267,18 @@ class Model_IA extends Model
             CASE
                 WHEN ct_code = 4 THEN (
                     SELECT skey
-                    FROM casetype ct
+                    FROM master.casetype ct
                     WHERE ct.display = 'Y'
                     AND ct.casecode = a.lct_casetype
                 )
                 ELSE (
                     SELECT type_sname
-                    FROM lc_hc_casetype d
+                    FROM master.lc_hc_casetype d
                     WHERE d.lccasecode = a.lct_casetype
                     AND d.display = 'Y'
                 )
             END AS type_sname, a.lower_court_id, is_order_challenged $transfer_state");
-        $builder->join('state b', 'a.l_state = b.id_no AND b.display = \'Y\'', 'left');
+        $builder->join('master.state b', 'a.l_state = b.id_no AND b.display = \'Y\'', 'left');
         $builder->join('main e', 'e.diary_no = a.diary_no');
 
         // Conditionally add the transfer petition join
@@ -1289,7 +1290,7 @@ class Model_IA extends Model
         $builder->where('lw_display', 'Y');
         $builder->where('c_status', 'P');
         $builder->where('is_order_challenged', 'Y');
-        $builder->orderBy('a.lower_court_id');
+        $builder->orderBy('a.lower_court_id');               
         $query = $builder->get();
         return $query->getResultArray();
     }

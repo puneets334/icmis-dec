@@ -201,116 +201,106 @@ FROM (
     }
 
 
-
-
-
-
-
-
-
-
-
     function get_ripe_cases_report_hallwise($from_date=null,$to_date=null,$hall_no=null)
     {
         $sql="SELECT DISTINCT x.*, hd.hall_no 
+FROM (
+    SELECT f.*, 
+        CASE 
+            WHEN f.no_of_days_since_disposal_date >= 365 THEN ' (Ripe Case)' 
+            ELSE NULL 
+        END AS case_remark
+    FROM (
+        SELECT 
+            m.reg_no_display || ' @ ' || 
+            SUBSTRING(m.diary_no::TEXT FROM 1 FOR LENGTH(m.diary_no::TEXT) - 4) || '/' || 
+            SUBSTRING(m.diary_no::TEXT FROM LENGTH(m.diary_no::TEXT) - 3 FOR 4) AS case_no,
+            
+            m.pet_name || ' Vs. ' || m.res_name AS cause_title,
+            CASE 
+                WHEN d.ord_dt != d.disp_dt THEN 
+                    'Order Date : ' || TO_CHAR(d.ord_dt, 'DD-MM-YYYY') || E' ' || 
+                    'Dispose Date : ' || TO_CHAR(d.disp_dt, 'DD-MM-YYYY') 
+                ELSE 
+                    TO_CHAR(d.disp_dt, 'DD-MM-YYYY') 
+            END AS order_date,
+            
+            m.diary_no,
+            m.active_fil_dt,
+            m.active_reg_year,
+            m.active_fil_no,
+            
+            CASE 
+                WHEN (m.fil_no IS NULL OR m.fil_no = '') AND 
+                     (m.active_fil_no IS NULL OR m.active_fil_no = '') 
+                THEN 
+                    m.casetype_id 
+                ELSE 
+                    m.active_casetype_id 
+            END AS casetype_id,
+            
+            CASE 
+                WHEN (m.fil_no IS NULL OR m.fil_no = '') AND 
+                     (m.active_fil_no IS NULL OR m.active_fil_no = '' OR m.active_reg_year = 0) 
+                THEN 
+                    EXTRACT(YEAR FROM m.diary_no_rec_date) 
+                ELSE 
+                    m.active_reg_year 
+            END AS case_year,
+            
+            COALESCE((
+                SELECT STRING_AGG(jname, ' , ') 
+                FROM MASTER.judge 
+                WHERE jcode::TEXT = ANY(string_to_array(d.jud_id, ','))
+            ), '') AS coram,
+            
+            cd.consignment_date,
+            CURRENT_DATE - d.disp_dt AS no_of_days_since_disposal_date,
+            CURRENT_DATE - cd.consignment_date AS no_of_days_since_consignment_done
         FROM (
-            SELECT f.*, 
-                CASE 
-                    WHEN f.no_of_days_since_disposal_date >= 365 THEN ' (Ripe Case)' 
-                    ELSE NULL 
-                END AS case_remark
-            FROM (
-                SELECT 
-                    m.reg_no_display || ' @ ' || 
-                    SUBSTRING(m.diary_no::TEXT FROM 1 FOR LENGTH(m.diary_no::TEXT) - 4) || '/' || 
-                    SUBSTRING(m.diary_no::TEXT FROM LENGTH(m.diary_no::TEXT) - 3 FOR 4) AS case_no,
-                    
-                    m.pet_name || ' Vs. ' || m.res_name AS cause_title,
-                    
-                    CASE 
-                        WHEN d.ord_dt != d.disp_dt THEN 
-                            'Order Date : ' || TO_CHAR(d.ord_dt, 'DD-MM-YYYY') || E'\n' || 
-                            'Dispose Date : ' || TO_CHAR(d.disp_dt, 'DD-MM-YYYY') 
-                        ELSE 
-                            TO_CHAR(d.disp_dt, 'DD-MM-YYYY') 
-                    END AS order_date,
-                    
-                    m.diary_no,
-                    m.active_fil_dt,
-                    m.active_reg_year,
-                    m.active_fil_no,
-                    
-                    CASE 
-                        WHEN (m.fil_no IS NULL OR m.fil_no = '') AND 
-                             (m.active_fil_no IS NULL OR m.active_fil_no = '') 
-                        THEN 
-                            m.casetype_id 
-                        ELSE 
-                            m.active_casetype_id 
-                    END AS casetype_id,
-                    
-                    CASE 
-                        WHEN (m.fil_no IS NULL OR m.fil_no = '') AND 
-                             (m.active_fil_no IS NULL OR m.active_fil_no = '' OR m.active_reg_year = 0) 
-                        THEN 
-                            EXTRACT(YEAR FROM m.diary_no_rec_date) 
-                        ELSE 
-                            m.active_reg_year 
-                    END AS case_year,
-                    
-                    COALESCE((
-                        SELECT STRING_AGG(jname, ' , ') 
-                        FROM MASTER.judge 
-                        WHERE jcode::TEXT = ANY(string_to_array(d.jud_id, ','))
-                    ), '') AS coram,
-                    
-                    cd.consignment_date,
-                    CURRENT_DATE - d.disp_dt AS no_of_days_since_disposal_date,
-                    CURRENT_DATE - cd.consignment_date AS no_of_days_since_consignment_done
-                FROM (
-                    SELECT r.diary_no, r.consignment_date
-                    FROM record_keeping r
-                    WHERE r.consignment_status = 'Y' AND r.display = 'Y'
-        
-                    UNION ALL
-        
-                    SELECT f.diary_no, f.rece_dt AS consignment_date
-                    FROM fil_trap f
-                    WHERE f.remarks = 'RR-DA -> SEG-DA'
-                ) cd
-                INNER JOIN main m ON cd.diary_no = m.diary_no
-                INNER JOIN dispose d ON cd.diary_no = d.diary_no
-                LEFT JOIN elimination e ON (cd.diary_no = e.fil_no AND e.display = 'Y')
-                WHERE m.c_status = 'D'       
-                  AND d.disp_dt BETWEEN '$from_date' and '$to_date'
-                  AND e.ele_dt IS NULL
-                ORDER BY d.ord_dt ASC
-            ) f
-        ) x
-        JOIN MASTER.rr_hall_case_distribution hd ON (
-            (CASE 
-                WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
-                THEN SUBSTRING(x.diary_no::TEXT FROM LENGTH(x.diary_no::TEXT) - 3 FOR 4)::TEXT 
-                ELSE x.case_year::TEXT  
-             END) BETWEEN hd.caseyear_from::TEXT AND hd.caseyear_to::TEXT
-            AND hd.display = 'Y'
-            AND (
-                (CASE 
-                    WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
-                    THEN CAST(SUBSTRING(x.diary_no::TEXT FROM 1 FOR LENGTH(x.diary_no::TEXT) - 4) AS INTEGER) 
-                    ELSE CAST(SUBSTRING(x.diary_no::TEXT FROM 4 FOR 6) AS INTEGER) 
-                 END) BETWEEN hd.case_from AND hd.case_to
-                OR
-                (CASE 
-                    WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
-                    THEN CAST(SUBSTRING(x.diary_no::TEXT FROM 1 FOR LENGTH(x.diary_no::TEXT) - 4) AS INTEGER) 
-                    ELSE CAST(SUBSTRING(x.active_fil_no FROM 11 FOR 6) AS INTEGER) 
-                 END) BETWEEN hd.case_from AND hd.case_to
-            )
-            AND x.casetype_id = hd.casetype
-            AND hd.hall_no IN ($hall_no)
-        )";
-              // pr($sql);
+            SELECT r.diary_no, r.consignment_date
+            FROM record_keeping r
+            WHERE r.consignment_status = 'Y' AND r.display = 'Y'
+
+            UNION ALL
+
+            SELECT f.diary_no, f.rece_dt AS consignment_date
+            FROM fil_trap f
+            WHERE f.remarks = 'RR-DA -> SEG-DA'
+        ) cd
+        INNER JOIN main m ON cd.diary_no = m.diary_no
+        INNER JOIN dispose d ON cd.diary_no = d.diary_no
+        LEFT JOIN elimination e ON (cd.diary_no = e.fil_no AND e.display = 'Y')
+        WHERE m.c_status = 'D'       
+          AND d.disp_dt BETWEEN '$from_date' and '$to_date'
+          AND e.ele_dt IS NULL
+        ORDER BY d.ord_dt ASC
+    ) f
+) x
+JOIN MASTER.rr_hall_case_distribution hd ON (
+    (CASE 
+        WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+        THEN SUBSTRING(x.diary_no::TEXT FROM LENGTH(x.diary_no::TEXT) - 3 FOR 4)::TEXT 
+        ELSE x.case_year::TEXT  
+    END) BETWEEN hd.caseyear_from::TEXT AND hd.caseyear_to::TEXT
+    AND hd.display = 'Y'
+    AND (
+        (CASE 
+            WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+            THEN CAST(NULLIF(SUBSTRING(x.diary_no::TEXT FROM 1 FOR LENGTH(x.diary_no::TEXT) - 4), '') AS INTEGER) 
+            ELSE CAST(SUBSTRING(x.diary_no::TEXT FROM 4 FOR 6) AS INTEGER) 
+         END) BETWEEN hd.case_from AND hd.case_to
+        OR
+        (CASE 
+            WHEN (x.active_fil_no = '' OR x.active_fil_no IS NULL) 
+            THEN CAST(NULLIF(SUBSTRING(x.diary_no::TEXT FROM 1 FOR LENGTH(x.diary_no::TEXT) - 4), '') AS INTEGER) 
+            ELSE CAST(NULLIF(SUBSTRING(x.active_fil_no FROM 11 FOR 6), '') AS INTEGER) 
+         END) BETWEEN hd.case_from AND hd.case_to
+    )
+    AND x.casetype_id = hd.casetype
+    AND hd.hall_no IN ($hall_no)
+)";
+            //   pr($sql);
         $query = $this->db->query($sql);
         return $query->getNumRows() > 0 ? $query->getResultArray() : [];
 

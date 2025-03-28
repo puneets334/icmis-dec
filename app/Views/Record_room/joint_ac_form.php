@@ -61,7 +61,7 @@
             var acn = $("#acn").val();
             var res = acn.split(" ");
             var cnf = res[0];
-            var cnm = res[2];
+            var cnm = res[1];
             var cnl = res[3];
             var cfn = $("#cfn").val();
             var cpal1 = $("#cpal1").val();
@@ -75,6 +75,7 @@
             var cdob = $("#cdob").val();
             var cdob1 = cdob.split("-");
             var cdob = cdob1[2] + "-" + cdob1[1] + "-" + cdob1[0];
+            var mobile = $('#cmobile').val();
 
             var cpob = $("#cpob").val();
             var cn = $("#cn").val();
@@ -86,7 +87,9 @@
             var crd = $("#crd1").val(); // Ensure crd is defined here
             var tvap = '';
 
-            tvap = aorc + ";" + aorn + ";" + cnf + ";" + cnm + ";" + cnl + ";" + cfn + ";" + cpal1 + ";" + cpal2 + ";" + cpad + ";" + cpapin + ";" + cppal1 + ";" + cppal2 + ";" + cppad + ";" + cppapin + ";" + cdob + ";" + cpob + ";" + cn + ";" + cx + ";" + cxii + ";" + cug + ";" + cpg + ";" + cein + ";" + crd;
+            tvap = aorc + ";" + aorn + ";" + cnf + ";" + cnm + ";" + cnl + ";" + cfn + ";" + cpal1 + ";" + cpal2 + ";" +
+             cpad + ";" + cpapin + ";" + cppal1 + ";" + cppal2 + ";" + cppad + ";" + cppapin + ";" + cdob + ";" + cpob + 
+             ";" + cn + ";" + cx + ";" + cxii + ";" + cug + ";" + cpg + ";" + cein + ";" + crd + ";" + mobile;
 
             if (!aorc && !cnf && !cpal1 && !cpapin && !cppal1 && !cppapin && !cdob && !cpob && !crd) {
                 alert("Please Enter Mandatory Values");
@@ -148,6 +151,7 @@
                         $('#cug').val(rres[18]);
                         $('#cpg').val(rres[19]);
                         $('#crd').val(rres[20]);
+                        
                         $('#aorc1').focus();
                         $('#rslt').html("<h4> </h4>");
                     }
@@ -167,7 +171,7 @@
 
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Joint Registration >> Advocate Clerk (Joint)</h3>
+                                <h3 class="card-title">Record Room >> Advocate Clerk >> Joint Registration</h3>
                             </div>
                         </div>
                     </div>

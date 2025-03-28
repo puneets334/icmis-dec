@@ -24,8 +24,8 @@
                     <form id="frmUploadRop" enctype="multipart/form-data" action="" method="post">
                         <input type="hidden" name="usercode" id="usercode" value="<?= session()->get('login')['usercode']; ?>">
                         <?= csrf_field(); ?>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
+                        <div class="form-row mt-3">
+                            <div class="form-group col-md-4 ml-3">
                                 <?php
                                 $dateLabel1 = '';
                                 $dateLabel2 = '';
@@ -45,7 +45,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4  ml-3">
                                 <label for="orderDateTo"><?= $dateLabel2; ?></label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3 mt-3">
                                 <label>&nbsp;</label>
                                 <button type="button" id="btnGetCases" class="btn btn-info btn-block" onclick="getReceivedCasesFromScanningList();" style="margin-top: 10px;">Get Cases</button>
                             </div>

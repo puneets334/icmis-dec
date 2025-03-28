@@ -15,7 +15,6 @@ use App\Models\Record_room\registration_new_aor;
 class Advt_on_record extends BaseController
 {
     public $Model_Ac;
-
     public $model;
 
     function __construct()
@@ -41,8 +40,6 @@ class Advt_on_record extends BaseController
     public function getRecord()
     {
         $aor = $this->request->getPost('aor');
-       
-
         $model = new Bar();
         $modelA = new Advocate;
         $dd = $model->GetAorCode($aor);

@@ -9,7 +9,7 @@
                     <div class="card-header heading">
     <div class="row">
         <div class="col-sm-10">
-            <h3 class="card-title">Report >>&nbsp; Ripe Cases</h3>
+            <h3 class="card-title">Record Room >> Report >>&nbsp; Ripe Cases</h3>
         </div>
 
     </div>
@@ -41,15 +41,15 @@
                         </div>
                     </div>
               
-                    <div class="col-sm-5">
-                    <div class="row">
+                    <div class="col-sm-4 ml-3">
+                    <div class="row ">
 
                         <label class="col-sm-12 radio-label">Report Type</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-3 mt-3">
                             <input type="radio" class="form-check-input"  name="report_type" value="1" checked onchange="func_hall()">
                             &nbsp;&nbsp;&nbsp;&nbsp;Consolidated
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-9  mt-3">
                             <input type="radio" class="form-check-input"  name="report_type" value="2" onchange="func_hall()">
                             &nbsp;&nbsp;&nbsp;&nbsp;Hall wise
 
@@ -77,7 +77,7 @@
                        
                     </div>
                
-                    <div  class="col-sm-3">
+                    <div  class="col-sm-3  mt-3">
                         <button type="button" style="width:25%;float:left; margin-top: 24px;" id="view" name="view"  class="form-control btn btn-block btn-primary">View</button>
                     </div>
                 </div>

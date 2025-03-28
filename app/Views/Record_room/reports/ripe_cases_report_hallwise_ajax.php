@@ -50,7 +50,7 @@ if(is_array($ripeCasesReports))
         if($app_name=='ripeCasesHallwise')
         {
             ?>
-            <table id="reportTable1" class="table table-striped table-hover">
+            <table id="reportTable1" class="table table-striped table-hover table-bordered">
                 <thead>
                 <tr>
                     <th style="width:4%;">S.No.</th>

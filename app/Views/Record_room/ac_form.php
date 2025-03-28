@@ -163,27 +163,26 @@
               <div class="card-header heading">
                 <div class="row">
                   <div class="col-sm-10">
-                    <h3 class="card-title">Registration >>&nbsp; Advocate Clerk</h3>
+                    <h3 class="card-title">Registration >> Advocate Clerk >> Fresh Registration</h3>
                   </div>
                   <div class="col-sm-2">
-                    <div class="custom_action_menu">
+                    <!-- <div class="custom_action_menu">
                       <button class="btn btn-success btn-sm" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
                       <button class="btn btn-primary btn-sm" type="button"><i class="fas fa-pen   " aria-hidden="true"></i>
                       </button>
                       <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-trash" aria-hidden="true"></i>
                       </button>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
               <br><br>
               <div class="row">
                 <div class="col-md-12">
-                  <div class="container">
                     <div class="panel panel-info">
                       <div class="panel-heading">
 
-                        <h4><strong><span class="fas fa-search "></span>&nbsp; Registration >>&nbsp; Advocate Clerk</strong></h4>
+                        <!-- <h4><strong><span class="fas fa-search "></span>&nbsp; Registration >>&nbsp; Advocate Clerk</strong></h4> -->
 
                       </div>
                       <div class="panel-body" id="frm">
@@ -224,10 +223,10 @@
 
                           <div class="form-group row">
                             <label class="control-label col-sm-2" for="anumber">Date of Birth</label>
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                               <input class="form-control" name="cdob" type="text" id="cdob">
                             </div>
-                            <label class="control-label col-sm-2" for="anumber">Age</label>
+                            <label class="control-label col-sm-2 mt-3" for="anumber">Age</label>
                             <div class="col-sm-2">
                               <input class="form-control" name="cage" type="number" maxlength="3" id="cage" placeholder="Age">
                             </div>
@@ -236,10 +235,10 @@
                           <div class="form-group row">
                             <label class="control-label col-sm-2" for="anumber">Place of Birth</label>
                             <div class="col-sm-3"> <input class="form-control " name="cpob" type="text" id="cpob" placeholder="Birth Place"> </div>
-                          </div>
+                          <!-- </div>
 
-                          <div class="form-group row">
-                            <label class="control-label col-sm-2" for="anumber">Nationality</label>
+                          <div class="form-group row"> -->
+                            <label class="control-label col-sm-2 mt-3" for="anumber">Nationality</label>
                             <div class="col-sm-2">
                               <input class="form-control " name="cn" type="text" id="cn" placeholder="Nationality" value="INDIAN" disabled>
                             </div>
@@ -262,13 +261,13 @@
 
                           <div class="form-group row">
                             <label class="control-label col-sm-2" for="anumber">New Icard No. *</label>
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                               <input class="form-control " name="cein" type="number" id="cein" placeholder="ICard Number">
                             </div>
-                          </div>
+                          <!-- </div>
 
-                          <div class="form-group row">
-                            <label class="control-label col-sm-2" for="anumber">Registration Date:</label>
+                          <div class="form-group row"> -->
+                            <label class="control-label col-sm-2 mt-3" for="anumber">Registration Date:</label>
                             <div class="col-sm-2">
                               <input class="form-control" name="crd" type="text" id="crd">
                             </div>
@@ -285,7 +284,6 @@
                         </form>
                       </div>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -302,4 +300,3 @@
 
   }
   ?>
-  <?= view('sci_main_footer') ?>
