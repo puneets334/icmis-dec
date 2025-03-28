@@ -82,12 +82,14 @@ class Report extends BaseController
         return  view('Listing/Report/daily_court_remarks_process', $data);
     }
 
-  public function spl_case()
-  {
-    $data['getCaseTpe'] =  $this->ReportModel->getCaseType();
-    $data['reportSplCase'] =  $this->ReportModel->getSplCase();
-    return view('Listing/Report/spl_case', $data);
-  }
+    public function spl_case()
+    {
+      $data['getCaseTpe'] =  $this->ReportModel->getCaseType();
+      $data['reportSplCase'] =  $this->ReportModel->getSplCase();
+      return view('Listing/Report/spl_case', $data);
+    }
+
+ 
   public function get_spl_case()
   {
     $data['list_dt']  = $this->request->getPost('list_dt');
@@ -132,6 +134,29 @@ class Report extends BaseController
     $data['getlist'] = $this->ReportModel->getDateSelect($data['list_dt'], $mainhead, $lp_str, $board_type, $case_type_id_str, $act_ros);
 
     return view('Listing/Report/spl_case_report', $data);
+  }
+
+  public function eleminationTransfer()
+  {
+    $data['section_name'] = $this->ReportModel->section_name();
+    return view('Listing/Report/elemination_transfer',$data);
+  }
+  public function get_elemination_transfer()
+  {
+    $list_dt = date('Y-m-d', strtotime($this->request->getPost('list_dt')));    
+    $board_type = $this->request->getPost('board_type');  
+    $sec_id = $this->request->getPost('sec_id'); 
+    $list_year = date('Y', strtotime($this->request->getPost('list_dt')));
+    $data['list_dt'] = $this->request->getPost('list_dt');
+    $data['mainhead'] = "M";
+
+    $ucode = session()->get('login')['usercode'];
+    $usertype=session()->get('login')['usertype'];
+    $section1=session()->get('login')['section'];
+    
+    $data['elemination_transfer'] = $this->ReportModel->get_elemination_transfer($list_dt,$sec_id); 
+
+    return view('Listing/Report/get_elemination_transfer',$data);
   }
   
   public function lst_spl_cases(){
