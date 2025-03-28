@@ -54,8 +54,8 @@ class RetiredRemoveCoramModel extends Model
 
             $subquery = $this->db->table("public." . $tbl_heardt . " h");
             $subquery->select("m.reg_no_display, CAST(RIGHT(m.diary_no::TEXT, 4) AS INTEGER) AS dyr, CAST(LEFT(m.diary_no::TEXT,LENGTH(m.diary_no::TEXT)-4) AS INTEGER) AS dno,h.diary_no, m.lastorder, m.conn_key");
-            $subquery->join("public." . $tbl_main . " m", "m.diary_no = h.diary_no", "INNER");
-            $subquery->join("public.not_before n", "m.diary_no = n.diary_no", "INNER");
+            $subquery->join("public." . $tbl_main . " m", "m.diary_no = CAST(h.diary_no as BIGINT)", "INNER");
+            $subquery->join("public.not_before n", "m.diary_no = CAST(n.diary_no as BIGINT)", "INNER");
             $subquery->where("c_status", "P");
             if ($exclude_conn != '') {
                 $subquery->where($exclude_conn);
@@ -70,7 +70,7 @@ class RetiredRemoveCoramModel extends Model
             $subquery->where("n.j1", $judge);
 
             $builder  = $this->db->newQuery()->select("u.name, u.empid, n.ent_dt, m.*, STRING_AGG(n.j1::TEXT, ',') AS coram, TRIM(BOTH ',' FROM REPLACE(REPLACE(STRING_AGG(n.j1::TEXT, ','), '" . $judge . "', ''), ',,', ',')) AS new_coram")->fromSubquery($subquery, "m")
-                ->join("public.not_before n", "m.diary_no = n.diary_no", "INNER")
+                ->join("public.not_before n", "m.diary_no =  CAST(n.diary_no as BIGINT)", "INNER")
                 ->join("master.users u", "u.usercode = n.usercode", "LEFT")
                 ->groupBY("m.diary_no,u.name ,u.empid,n.ent_dt,m.reg_no_display,m.dyr ,m.dno,m.lastorder,m.conn_key")
                 ->orderBy("CAST(RIGHT(m.diary_no::TEXT, 4) AS INTEGER) ASC, CAST(LEFT(m.diary_no::TEXT,LENGTH(m.diary_no::TEXT)-4) AS INTEGER) ASC");
@@ -94,7 +94,7 @@ class RetiredRemoveCoramModel extends Model
             $builder->select("m.reg_no_display, CAST(RIGHT(m.diary_no::TEXT, 4) AS INTEGER) AS dyr, CAST(LEFT(m.diary_no::TEXT,LENGTH(m.diary_no::TEXT)-4) AS INTEGER) AS dno, h.diary_no, h.coram, TRIM(BOTH ',' FROM REPLACE(REPLACE(h.coram, CAST(" . $judge . " AS TEXT), ''),',,',',')) new_coram, m.lastorder, m.conn_key");
             $builder->join("public." . $tbl_main . " m", "m.diary_no = h.diary_no", "INNER");
             $builder->join("public." . $tbl_mul_category . " mc", "mc.diary_no = m.diary_no AND mc.display = 'Y'", "LEFT");
-            $builder->join("public.not_before n", "n.diary_no = m.diary_no AND n.notbef = 'B' AND n.j1 = " . $judge . "", "LEFT");
+            $builder->join("public.not_before n", "n.diary_no = CAST(m.diary_no as text) AND n.notbef = 'B' AND n.j1 = " . $judge . "", "LEFT");
             $builder->where("n.j1 IS NULL");
             $builder->where("c_status", "P");
             if ($exclude_conn != '') {
@@ -117,7 +117,7 @@ class RetiredRemoveCoramModel extends Model
             $builder->where("coram LIKE '%" . $judge . "%'");
             $builder->orderBy("CAST(RIGHT(m.diary_no::TEXT,4) AS INTEGER) ASC, CAST(LEFT(m.diary_no::TEXT,LENGTH(m.diary_no::TEXT) - 4) AS INTEGER) ASC");
         }
-
+        // pr($builder->getCompiledSelect());
         $query = $builder->get();
 
         if ($query->getNumRows() >= 1) {
