@@ -621,6 +621,8 @@ class IA extends BaseController
                         unset($docdetails['create_modify']);
                         unset($docdetails['updated_on']);
                         unset($docdetails['updated_by']);
+                        unset($docdetails['trial320']);
+
                         $final_array = array_merge($docdetails, $data_addon);
 
                         $query_ia_log = insert('docdetails_history', $final_array);
