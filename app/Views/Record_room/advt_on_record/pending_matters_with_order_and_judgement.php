@@ -1,6 +1,12 @@
 <?= view('header') ?>
 
-
+<style>
+  table.dataTable>thead .sorting_disabled,
+  table.dataTable>thead {
+    background-color: #0d48be !important;
+    color: #fff !important;
+  }
+</style>
 <section class="content">
   <div class="container-fluid">
     <div class="row">
@@ -21,7 +27,7 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-12">
-                      <div class=""  style="width:100%">
+                      <div class="" style="width:100%">
                         <div class="panel panel-info">
                           <div class="panel-body" id="frm">
                             <form class="form-horizontal" role="form" name="form1" autocomplete="off" id="fid">

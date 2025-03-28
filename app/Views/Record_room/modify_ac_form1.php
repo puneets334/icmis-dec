@@ -115,7 +115,8 @@
 <body>
     <?php {
 
-    ?><section class="content">
+    ?>
+    <section class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
@@ -123,29 +124,22 @@
                             <div class="card-header heading">
                                 <div class="row">
                                     <div class="col-sm-10">
-                                        <h3 class="card-title">Modification >>&nbsp; Advocate Clerk Details</h3>
+                                        <h3 class="card-title">Record Room >>  Advocate Clerk >> Modification</h3>
                                     </div>
-                                    <div class="col-sm-2">
-                                        <div class="custom_action_menu">
-                                            <button class="btn btn-success btn-sm" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-                                            <button class="btn btn-primary btn-sm" type="button"><i class="fas fa-pen   " aria-hidden="true"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-trash" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+                                    <div class="col-sm-2"></div>
                                 </div>
                             </div>
                             <br><br>
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="container">
+                                    <div class="">
                                         <div class="panel panel-info">
+                                            
                                             <div class="panel-heading">
 
                                                 <input name="cid" type="hidden" id="cid" value="<?php echo !empty($val['id']) ? $val['id'] : ''; ?>">
 
-                                                <h4><strong><span class="fas fa-search "></span>&nbsp; Modification >>&nbsp; Advocate Clerk Details</strong></h4>
+                                                <!-- <h4><strong><span class="fas fa-search "></span>&nbsp; Modification >>&nbsp; Advocate Clerk Details</strong></h4> -->
 
                                             </div>
                                             <div class="panel-body" id="frm">
@@ -164,7 +158,7 @@
 
                                                     <div class="form-group row">
                                                         <label class="control-label col-sm-2" for="anumber">Name *</label>
-                                                        <div class="col-sm-2">
+                                                        <div class="col-sm-10">
                                                             <input class="form-control" name="acn"
                                                                 value="<?php echo !empty($val['cname']) ? $val['cname'] : ''; ?>"
                                                                 type="text" id="acn"
@@ -175,7 +169,7 @@
 
                                                     <div class="form-group row">
                                                         <label class="control-label col-sm-2" for="anumber">Father Name *</label>
-                                                        <div class="col-sm-6"> <input class="form-control " name="cfn" value="<?php echo !empty($val['cfname']) ? $val['cfname'] : ''; ?>" type="text" id="cfn" placeholder="Father Name"> </div>
+                                                        <div class="col-sm-10"> <input class="form-control " name="cfn" value="<?php echo !empty($val['cfname']) ? $val['cfname'] : ''; ?>" type="text" id="cfn" placeholder="Father Name"> </div>
                                                     </div>
 
                                                     <div class="form-group row">
@@ -196,27 +190,27 @@
 
                                                     <div class="form-group row">
                                                         <label class="control-label col-sm-2" for="anumber">Date of Birth</label>
-                                                        <div class="col-sm-2">
+                                                        <div class="col-sm-3">
                                                             <input class="form-control" name="cdob" type="text" value="<?php echo !empty($val['dob']) ? date('d/m/Y', strtotime($val['dob'])) : ''; ?>" id="cdob">
                                                         </div>
 
-                                                    </div>
+                                                    <!-- </div>
 
-                                                    <div class="form-group row">
-                                                        <label class="control-label col-sm-2" for="anumber">Place of Birth</label>
+                                                    <div class="form-group row"> -->
+                                                        <label class="control-label col-sm-2 mt-3" for="anumber">Place of Birth</label>
                                                         <div class="col-sm-3"> <input class="form-control " name="cpob" value="<?php echo !empty($val['place_birth']) ? $val['place_birth'] : ''; ?>" type="text" id="cpob" placeholder="Birth Place"> </div>
                                                     </div>
 
                                                     <div class="form-group row">
                                                         <label class="control-label col-sm-2" for="anumber">Nationality</label>
-                                                        <div class="col-sm-2">
+                                                        <div class="col-sm-3">
                                                             <input class="form-control " name="cn" type="text" id="cn" placeholder="Nationality" value="INDIAN" disabled>
                                                         </div>
-                                                    </div>
+                                                    <!-- </div>
 
-                                                    <div class="form-group row">
-                                                        <label class="control-label col-sm-2" for="anumber">Mobile Number</label>
-                                                        <div class="col-sm-2">
+                                                    <div class="form-group row"> -->
+                                                        <label class="control-label col-sm-2 mt-3" for="anumber">Mobile Number</label>
+                                                        <div class="col-sm-3">
                                                             <input class="form-control " name="cmobile" value="<?php echo !empty($val['cmobile']) ? $val['cmobile'] : ''; ?>" type="number" maxlength="10" id="cmobile" placeholder="mobile" oninput="validateMobileLength(this)">
                                                         </div>
                                                     </div>
@@ -249,6 +243,7 @@
 
                                                 </form>
                                             </div>
+                                       
                                         </div>
                                     </div>
                                 </div>

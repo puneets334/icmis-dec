@@ -22,17 +22,21 @@
         text-align: center;
         /* text-decoration: underline; */
     }
+
     @media print {
-            table thead tr th {
-                font-weight: bold;
-                color: black;  /* Set header color to black for print */
-                background-color: #f1f1f1; /* Optionally set background color */
-            }
-            /* You can also hide unnecessary elements like pagination buttons during print */
-            .dataTables_paginate {
-                display: none;
-            }
+        table thead tr th {
+            font-weight: bold;
+            color: black;
+            /* Set header color to black for print */
+            background-color: #f1f1f1;
+            /* Optionally set background color */
         }
+
+        /* You can also hide unnecessary elements like pagination buttons during print */
+        .dataTables_paginate {
+            display: none;
+        }
+    }
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -145,29 +149,30 @@
 <script>
     $(document).ready(function() {
         $("#reportTable1").DataTable({
+
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
             "dom": 'Bfrtip',
             "bProcessing": true,
-           "pageLength": 25,     
+            "pageLength": 25,
             "buttons": [{
                     extend: 'excelHtml5',
                     text: 'Export to Excel',
-                    title: '<?= $title ?? 'Freshly-filed-verified-cases'?>',
-                    filename: '<?= $title ?? 'Freshly-filed-verified-cases'?>'
+                    title: '<?= $title ?? 'Freshly-filed-verified-cases' ?>',
+                    filename: '<?= $title ?? 'Freshly-filed-verified-cases' ?>'
                 },
                 {
                     extend: 'pdfHtml5',
                     text: 'Save as PDF',
-                    title: '<?= $title ?? 'Freshly-filed-verified-cases'?>',
-                    filename: '<?= $title ?? 'Freshly-filed-verified-cases'?>'
+                    title: '<?= $title ?? 'Freshly-filed-verified-cases' ?>',
+                    filename: '<?= $title ?? 'Freshly-filed-verified-cases' ?>'
                 },
                 {
                     extend: 'print',
                     text: 'Print',
-                    title: '<?= $title ?? 'Freshly-filed-verified-cases'?>',
-                    filename: '<?= $title ?? 'Freshly-filed-verified-cases'?>'
+                    title: '<?= $title ?? 'Freshly-filed-verified-cases' ?>',
+                    filename: '<?= $title ?? 'Freshly-filed-verified-cases' ?>'
                 }
             ]
         });

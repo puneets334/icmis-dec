@@ -136,7 +136,6 @@
             });
         }
 
-
         $("#register_rc").click(async function() {
             await updateCSRFTokenSync();
             var action = $("#action").val();
@@ -156,18 +155,26 @@
                     },
 
                     cache: false,
+                    beforeSend: function() {
+                        $('#rs_loader').html('<div style="position: absolute; top: 50%; left: 50%; text-align: center; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);"><img src="<?= base_url(); ?>/images/load.gif"/></div>');
+                    },
                     success: function(result) {
-                        // console.log(result);
-                        $('#rslt1').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
-                        $('#rslt1').html(result);
-                        $('#cein').val("");
+                        $('#rs_loader').html('');
+                        if (result.success) {
+                            $('#rslt1').html("<div style='text-align: center; font-weight: bold; color: green;'>" + result.success + "</div>");
+                        } else if (result.error) {
+                            $('#rslt1').html("<div style='text-align: center; font-weight: bold; color: red;'>" + result.error + "</div>");
+                        }
+                        $('#crd1').val("");
+                        $('#action').val(0);
+                        $('#accr').val("");
                         $('#cein').focus();
                         $('#register_rc').hide();
-                        $('#sbtn').show();
                         fetchtds();
                     },
                     error: function() {
-                        $('#rslt1').html("<h4>An error occurred while processing your request.</h4>");
+                        $('#rs_loader').html('');
+                        $('#rslt1').html("<div style='text-align: center; font-weight: bold; color: red;'>" + result.error + "</div>");
                     }
                 });
             } else {
@@ -188,7 +195,7 @@
 
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title"> RENEW / CANCEL >> Advocate Clerk Registration</h3>
+                                <h3 class="card-title"> Record Room >> Advocate Clerk >> Renewal/Cancellation </h3>
                             </div>
                         </div>
                     </div>
@@ -275,11 +282,11 @@
                                                     <div class="col-sm-2"><input class="form-control " name="cdob" type="text" id="cdob" placeholder="DOB"
                                                             disabled></div>
 
-                                                    <label class="control-label col-sm-2 mt-2" for="anumber">Place of Birth</label>
+                                                    <label class="control-label col-sm-2 mt-3" for="anumber">Place of Birth</label>
                                                     <div class="col-sm-2"> <input class="form-control " name="cpob" type="text" id="cpob"
                                                             placeholder="Birth Place" disabled> </div>
-                                                
-                                                    <label class="control-label col-sm-2 mt-2" for="anumber">Nationality</label>
+
+                                                    <label class="control-label col-sm-2 mt-3" for="anumber">Nationality</label>
                                                     <div class="col-sm-2">
                                                         <input class="form-control " name="cn" type="text" id="cn" placeholder="Nationality" disabled>
                                                     </div>
@@ -300,7 +307,7 @@
 
                                             <div class="form-group">
                                                 <label class="control-label col-sm-2" style="padding-left: 20px;" for="anumber">History</label>
-                                                <div class="col-sm-10" id="history"> </div>
+                                                <div class="col-sm-10 ml-3 text-bold" id="history"> </div>
                                             </div>
 
                                             <div class="row form-group">
@@ -314,10 +321,10 @@
                                                         <option value=4>Deletion</option>
                                                     </select>
                                                 </div>
-                                                <label class="control-label col-sm-2" for="anumber">Dated: </label>
-                                                <div class="col-sm-2"><input class="form-control " name="crd1" type="text" id="crd1" placeholder="Dated">
+                                                <label class="control-label col-sm-2 mt-3" for="anumber">Dated: </label>
+                                                <div class="col-sm-2"><input class="form-control datepicker" name="crd1" type="text" id="crd1" placeholder="Dated">
                                                 </div>
-                                                <label class="control-label col-sm-1" for="atitle">Remarks</label>
+                                                <label class="control-label col-sm-1  mt-3 mt-3" for="atitle">Remarks</label>
                                                 <div class="col-sm-3 "><input class="form-control" name="accr" type="text" id="accr"
                                                         placeholder="Remarks"></div>
                                             </div>
@@ -331,8 +338,10 @@
                                             </div>
 
                                         </div>
-                                    </form>
 
+                                        <div id="rslt1"></div>
+                                        <div id="rs_loader"></div>
+                                    </form>
 
                                 </div>
                             </div>
@@ -343,3 +352,11 @@
         </div>
     </div>
 </section>
+<script>
+    $('.datepicker').datepicker({
+        format: 'dd-mm-yyyy',
+        changeMonth: true,
+        changeYear: true,
+        yearRange: '1950:2050'
+    });
+</script>

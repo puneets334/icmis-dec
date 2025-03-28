@@ -25,7 +25,7 @@
                         <input type="hidden" name="usercode" id="usercode" value="<?= session()->get('login')['usercode']; ?>">
                         <?= csrf_field(); ?>
 
-                        <div class="form-row">
+                        <div class="form-row mt-4 ml-4">
                             <div class="form-group col-md-4">
                                 <label for="orderDateFrom">Order Date From:</label>
                                 <input type="text" id="orderDateFrom" name="orderDateFrom" class="form-control datepick" placeholder="From Date">
@@ -34,7 +34,7 @@
                                 <label for="orderDateTo">Order Date To:</label>
                                 <input type="text" id="orderDateTo" name="orderDateTo" class="form-control datepick" placeholder="To Date">
                             </div>
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4 mt-4">
                                 <label>&nbsp;</label>
                                 <button type="submit" id="btnGetCases" class="btn btn-info btn-block">Get Cases</button>
                             </div>
@@ -53,59 +53,59 @@
                             </h4>
                         </caption>
                         <div class="table-responsive">
-                        <table id="reportTable1" class="table table-striped table-hover box box-danger">
-                            <thead>
-                                <tr>
-                                    <th style="width:5%;">S.No.</th>
-                                    <th style="width:40%;">Case No.</th>
-                                    <th>Dispatch By</th>
-                                    <th>Dispatch To</th>
-                                    <th>Dispatch Date</th>
-                                    <th>Remarks</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $s_no = 1; ?>
-                                <?php foreach ($alreadyConsignedRestoredCasesList as $result): ?>
+                            <table id="reportTable1" class="table table-striped table-hover box box-danger">
+                                <thead>
                                     <tr>
-                                        <td><?= $s_no; ?></td>
-                                        <td>
-                                            <a href="#" class="btn" data-toggle="modal" data-target="#myModal" id="<?= $result['diary_no']; ?>">
-                                                <strong><?= $result['case_no']; ?></strong>
-                                            </a>
-                                            <br>
-                                            <?= @$result['Cause_title']; ?>
-                                            <br>Order Dt.: <?= $result['order_date']; ?>
-                                            <br>Coram: <?= $result['coram']; ?>
-                                            <?php if (!empty($result['consignment_remark'])): ?>
-                                                <br><span style="color: darkred;">Consignment Remark: <?= $result['consignment_remark']; ?></span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <?= @$result['dispathBy']; ?><br>
-                                            Role: <?= @$result['roleBy']; ?><br>
-                                            EmpId: <?= @$result['d_by_empid']; ?>
-                                        </td>
-                                        <td>
-                                            <?= @$result['dispathTo']; ?><br>
-                                            Role: <?= @$result['roleTo']; ?><br>
-                                            EmpId: <?= @$result['d_to_empid']; ?>
-                                        </td>
-                                        <td>
-                                            <p style="cursor: pointer; color: #026D9F;" id="<?= @$result['diary_no']; ?>">
-                                                <?php if (!empty($result['dispatchDate'])): ?>
-                                                    <?= date('d-m-Y', strtotime($result['dispatchDate'])); ?>
-                                                <?php else: ?>
-                                                    N/A
-                                                <?php endif; ?>
-                                            </p>
-                                        </td>
-                                        <td><?= @$result['remarks']; ?></td>
+                                        <th style="width:5%;">S.No.</th>
+                                        <th style="width:40%;">Case No.</th>
+                                        <th>Dispatch By</th>
+                                        <th>Dispatch To</th>
+                                        <th>Dispatch Date</th>
+                                        <th>Remarks</th>
                                     </tr>
-                                    <?php $s_no++; ?>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php $s_no = 1; ?>
+                                    <?php foreach ($alreadyConsignedRestoredCasesList as $result): ?>
+                                        <tr>
+                                            <td><?= $s_no; ?></td>
+                                            <td>
+                                                <a href="#" class="" onclick="showModale(<?= $result['diary_no']; ?>)" id="<?= $result['diary_no']; ?>">
+                                                    <strong><?= $result['case_no']; ?></strong>
+                                                </a>
+                                                <br>
+                                                <?= $result['cause_title']; ?>
+                                                <br>Order Dt.: <?= $result['order_date']; ?>
+                                                <br>Coram: <?= $result['coram']; ?>
+                                                <?php if (!empty($result['consignment_remark'])): ?>
+                                                    <br><span style="color: darkred;">Consignment Remark: <?= $result['consignment_remark']; ?></span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td>
+                                                <?= $result['dispathby']; ?><br>
+                                                Role: <?= $result['roleby']; ?><br>
+                                                EmpId: <?= $result['d_by_empid']; ?>
+                                            </td>
+                                            <td>
+                                                <?= $result['dispathto']; ?><br>
+                                                Role: <?= $result['roleto']; ?><br>
+                                                EmpId: <?= $result['d_to_empid']; ?>
+                                            </td>
+                                            <td>
+                                                <p style="cursor: pointer; color: #026D9F;" id="<?= $result['diary_no']; ?>">
+                                                    <?php if (!empty($result['dispatchdate'])): ?>
+                                                        <?= date('d-m-Y', strtotime($result['dispatchdate'])); ?>
+                                                    <?php else: ?>
+                                                        N/A
+                                                    <?php endif; ?>
+                                                </p>
+                                            </td>
+                                            <td><?= $result['remarks']; ?></td>
+                                        </tr>
+                                        <?php $s_no++; ?>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
                         </div>
 
                         <!-- Modal -->
@@ -114,7 +114,7 @@
                                 <!-- Modal content -->
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">File Trap Timeline</h5>
+                                        <span class="modal-title">File Trap Timelines</span>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
@@ -125,7 +125,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
                             </div>
@@ -169,8 +169,8 @@
                 var id = $(this).attr('id');
 
                 $.ajax({
-                        type: 'POST',
-                        url: "<?= base_url() ?>index.php/FileTrap/updateConsignmentDate",
+                        type: 'GET',
+                        url: "<?= base_url() ?>/Record_room/FileTrap/updateConsignmentDate",
                         beforeSend: function(xhr) {
                             $("#divCaseTimeline").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>../images/load.gif'></div>");
                         },
@@ -189,30 +189,8 @@
                     });
             }
 
-        });
-
-        $('a').click(function() {
-            var id = $(this).attr('id');
-
-            $.ajax({
-                    type: 'POST',
-                    url: "<?= base_url() ?>index.php/FileTrap/caseTimeline",
-                    beforeSend: function(xhr) {
-                        $("#divCaseTimeline").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>../images/load.gif'></div>");
-                    },
-                    data: {
-                        diaryNo: id
-                    }
-                })
-                .done(function(result) {
-
-                    $("#divCaseTimeline").html(result);
-
-                })
-                .fail(function() {
-                    alert("ERROR, Please Contact Server Room");
-                });
-        });
+        });       
+       
         $('#reportTable1').DataTable({
             /* dom: 'Bfrtip',
              buttons: [
@@ -245,6 +223,24 @@
 
         });
     });
+    
+    function showModale(id) {
+        $.ajax({
+                type: 'GET',
+                url: '<?= base_url() ?>/Record_room/FileTrap/caseTimeline',
+                data: {
+                    diaryNo: id
+                }
+            })
+            .done(function(result) {
+                $('#myModal').modal('show');
+                $("#divCaseTimeline").html(result);
+
+            })
+            .fail(function() {
+                alert("ERROR, Please Contact Server Room");
+            });
+    }
 </script>
 
-<?php die; ?>
+<?php //die; ?>

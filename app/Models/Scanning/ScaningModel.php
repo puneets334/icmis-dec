@@ -57,8 +57,7 @@ class ScaningModel extends Model
         $builder = $this->db->table('master.roster_judge rj');
         $builder->distinct();
         $builder->select("rj.roster_id, mb.board_type_mb, 
-                  CASE 
-                      WHEN mb.board_type_mb = 'J' THEN 1 
+                  CASE WHEN mb.board_type_mb = 'J' THEN 1 
                       WHEN mb.board_type_mb = 'C' THEN 2 
                       WHEN mb.board_type_mb = 'CC' THEN 3 
                       WHEN mb.board_type_mb = 'R' THEN 4 
@@ -98,7 +97,7 @@ class ScaningModel extends Model
         }
     }
 
-    public function getCaseDetails($list_date, $mainhead, $roster_ids, $where_condition)
+    public function getCaseDetails($list_date, $mainhead, $roster_ids, $where_condition = '')
     {
         $sql = "SELECT sm.entry_date_time, sm.list_dt AS move_next_dt, 
        sm.movement_flag, CONCAT(m.reg_no_display, ' @ ', m.diary_no) AS Case_Number, 
@@ -161,10 +160,7 @@ class ScaningModel extends Model
             AND cl.roster_id = h.roster_id
             AND cl.display = 'Y')
             LEFT JOIN scan_movement sm ON h.diary_no::text = sm.dairy_no    
-            ORDER BY h.judges, CASE WHEN cl.next_dt IS NULL THEN 2 ELSE 1 END, h.brd_slno;";
-
-        // print_r($sql);
-        // exit;
+            ORDER BY h.judges, CASE WHEN cl.next_dt IS NULL THEN 2 ELSE 1 END, h.brd_slno ;";
 
         $query = $this->db->query($sql);
         return $query->getResultArray();

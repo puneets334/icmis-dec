@@ -200,6 +200,7 @@
                 $("#result").html('<h4 class="text-center text-danger mb-0">Error: ' + error + '</h4>');
             },
             complete: function() {
+                updateCSRFToken();
                 $("#submitPrtD").attr("disabled", false);
             }
         });
