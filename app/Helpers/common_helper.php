@@ -824,7 +824,7 @@ function get_report_limit($rd, $mf, $rur, $ct, $fdt, $tdt, $fst, $inc_val)
             $sn = $_REQUEST['inc_tot_pg'];
         }
         $output .= "<br><p align=center><b>CASES/PAPER BOOK " . $rdt . " BY " . $ucode1 . "</b></p>";
-        $output .= "<table class='table_tr_th_w_clr c_vertical_align' border=1><tr><th>S.No.</th><th>Diary and Case No.</th><th>Set</th><th>Dispatch by</th><th>Dispatch on</th><th>Received By</th><th>Received on</th></tr>";
+        $output .= "<table class='table_tr_th_w_clr c_vertical_align' border=1><tr><th><b>S.No.</b></th><th><b>Diary and Case No.</b></th><th><b>Set</b></th><th><b>Dispatch by</b></th><th><b>Dispatch on</b></th><th><b>Received By</b></th><th><b>Received on</b></th></tr>";
         foreach ($result as $key => $row) {
             $dn = get_real_diaryno($row['diary_no']);
             $dn .= "<br>" . get_casenos_comma($row['diary_no']);
@@ -834,7 +834,8 @@ function get_report_limit($rd, $mf, $rur, $ct, $fdt, $tdt, $fst, $inc_val)
                 $dby = get_user_details1($row['disp_by']);
             }
             $don = "";
-            if ($row['disp_dt'] != '0000-00-00 00:00:00') {
+            //if ($row['disp_dt'] != '0000-00-00 00:00:00') {
+            if (!empty($row['disp_dt'])) {
                 $don = date("d-m-Y h:i:s A", strtotime($row['disp_dt']));
             }
             $rby = "";
@@ -842,7 +843,8 @@ function get_report_limit($rd, $mf, $rur, $ct, $fdt, $tdt, $fst, $inc_val)
                 $rby = get_user_details1($row['rece_by']);
             }
             $ron = "";
-            if ($row['rece_dt'] != '0000-00-00 00:00:00') {
+            //if ($row['rece_dt'] != '0000-00-00 00:00:00') {
+            if (!empty($row['rece_dt'])) {
                 $ron = date("d-m-Y h:i:s A", strtotime($row['rece_dt']));
             }
             $output .= "<tr><td>" . ++$sn . "</td><td>" . $dn . "</td><td>" . $row['copy_set'] . "</td><td>" . $dby . "</td><td>" . $don . "</td><td>" . $rby . "</td><td>" . $ron . "</th></tr>";

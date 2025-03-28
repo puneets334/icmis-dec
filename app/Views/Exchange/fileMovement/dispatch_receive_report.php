@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="col-md-1">
                                     <label for="from" class="text-right">&nbsp;</label>
-                                    <button type="button" class="pdbutton" name="bt11" value="Submit" style="width: 100%" onclick="get_data();">View</button>
+                                    <button type="button" class="btn btn-primary" name="bt11" value="Submit" style="width: 100%" onclick="get_data();">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -222,6 +222,9 @@
             {
                 $("#loader").html('');
                 $("#r_box").html(response);
+                if($('#inc_count').val() == 1) {
+                    $('#btn_left').attr('disabled',true);
+                }
                 updateCSRFToken();
             },
             error: function(xhr, status, error)
