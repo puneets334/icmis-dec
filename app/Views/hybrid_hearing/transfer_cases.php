@@ -14,7 +14,7 @@
                                 <div class="col-auto">
                                     <label class="col-form-label">Listing Date <span style="color: red;">*</span></label>
                                 </div>
-                                <div class="col-sm-4 col-auto border">
+                                <div class="col-sm-4 col-auto">
                                     <select name="listing_dts" id="listing_dts" class="form-control cus-form-ctrl">
                                         <option value="-1">SELECT</option>
                                         <?php if (!empty($dates)): ?>
