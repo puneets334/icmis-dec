@@ -923,7 +923,12 @@ class AllocationTp extends Model
                                     $main_supp_falg_sbqry 
                                     $from_part_sbqry    
                                     $from_tran_rs_id    
-                                    AND (m.diary_no = m.conn_key:: BIGINT OR m.conn_key:: BIGINT=0 OR m.conn_key = '' OR m.conn_key IS NULL) AND h.mainhead = '" . $data['mainhead'] . "' 
+                                    AND (
+                                    --m.diary_no = m.conn_key:: BIGINT 
+                                    --OR m.conn_key:: BIGINT=0 
+                                    m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT)
+                                    OR m.conn_key = '0'
+                                    OR m.conn_key = '' OR m.conn_key IS NULL) AND h.mainhead = '" . $data['mainhead'] . "' 
                                     GROUP BY h.diary_no,c.short_description,m.fil_no,m.fil_dt,m.lastorder,m.diary_no_rec_date,l.purpose,m.diary_no ORDER BY  $order_by LIMIT $noc 
                                     ";
                             $query = $this->db->query($qry);
@@ -964,7 +969,12 @@ class AllocationTp extends Model
                                                     $section_selected    
                                                     $case_to_trans1
                                                     $main_supp_falg_sbqry    
-                                                        AND (m.diary_no = m.conn_key:: BIGINT OR m.conn_key:: BIGINT=0 OR m.conn_key = '' OR m.conn_key IS NULL) AND h.mainhead = '" . $data['mainhead'] . "'
+                                                        AND (
+                                                        --m.diary_no = m.conn_key:: BIGINT 
+                                                        --OR m.conn_key:: BIGINT=0 
+                                                        m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT)
+                                                        OR m.conn_key = '0'
+                                                        OR m.conn_key = '' OR m.conn_key IS NULL) AND h.mainhead = '" . $data['mainhead'] . "'
                                                     GROUP BY h.diary_no,m.lastorder,m.diary_no ORDER BY  $order_by LIMIT $noc ) j                
                                                     LEFT JOIN last_heardt l ON j.diary_no = l.diary_no AND l.next_dt = j.next_dt AND l.listorder = j.listorder AND l.mainhead = j.mainhead 
                                                     AND l.subhead = j.subhead AND l.judges = j.judges AND l.roster_id = j.roster_id AND l.clno = j.clno 
