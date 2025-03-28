@@ -22,7 +22,7 @@
                                 <div class="row g-3 align-items-center">
                                     <div class="col-auto col-sm-4">
                                         <label class="col-form-label">Listing Date<span style="color:red;">*</span></label>
-                                        <div class="border">
+                                        <div >
                                             <select name="listing_dts" id="listing_dts" class="form-control cus-form-ctrl" required>
                                                 <?php if (count($listing_date) > 0) { ?>
                                                     <option value="-1" selected>SELECT</option>
@@ -39,7 +39,7 @@
                                     </div>
                                     <div class="col-auto col-sm-4">
                                         <label class="col-form-label">List Type</label>
-                                        <div class="border">
+                                        <div >
                                             <select class="form-control cus-form-ctrl" name="list_type" id="list_type">
                                                 <option value="0">ALL</option>
                                                 <option value="4">Misc.</option>
@@ -51,7 +51,7 @@
                                     </div>
                                     <div class="col-auto col-sm-4">
                                         <label class="col-form-label">Source</label>
-                                        <div class="border">
+                                        <div >
                                             <select class="form-control cus-form-ctrl" name="consent_source" id="consent_source">
                                                 <option value="0">All</option>
                                                 <option value="1">Email</option>
@@ -63,7 +63,7 @@
                                 <div class="row g-3 align-items-center">
                                     <div class="col-auto col-sm-4">
                                         <label class="col-form-label">Hon'ble Judges</label>
-                                        <div class="border">
+                                        <div >
                                             <select class="form-control cus-form-ctrl" name="judge_code" id="judge_code">
                                                 <option value="0" selected>All</option>
                                                 <?php
@@ -82,7 +82,7 @@
                                     </div>
                                     <div class="col-auto col-sm-4">
                                         <label class="col-form-label">OR Court No.</label>
-                                        <div class="border">
+                                        <div >
                                             <select class="form-control cus-form-ctrl" name="court_no" id="court_no">
                                                 <option value="0" selected>All</option>
                                                 <option value="1">1</option>
@@ -115,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row col-md-12 m-0 p-0" id="result"></div>
+                    <div class="m-3 p-1 alert alert-warning" id="result"></div>
                 </div>
             </div>
         </div>
@@ -140,19 +140,26 @@
         var judge_code = $("select#judge_code option:selected").val();
         var consent_source = $("select#consent_source option:selected").val();
         var court_no = $("select#court_no option:selected").val();
-        if (listing_dts == '-1') {
-            $('#show_error').html('');
-            $('#result').html('');
-            $('#show_error').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Please select listing date</strong></div>');
+        if(listing_dts == '-1') {
+            swal({
+                title: "Alert!",
+                text: "Please select a listing date",
+                icon: "warning",
+                icon: "error",
+                button: "error!",
+            })
             $("#listing_dts").focus();
-            // return false;
-        }
-        if (judge_code.length < 0 && court_no.length < 0) {
-            $('#show_error').html('');
-            $('#result').html('');
-            $('#show_error').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Please select either Honble Judge Name or Court No.</strong></div>');
+            return false;
+        } else if(judge_code > 0 && court_no > 0) {
+            swal({
+                title: "Alert!",
+                text: "Please select either Honble Judge Name or Court No.",
+                icon: "warning",
+                icon: "error",
+                button: "error!",
+            })
             $("#listing_dts").focus();
-            // return false;
+            return false;
         } else {
             $("#result").html('');
             var postData = {};

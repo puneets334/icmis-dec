@@ -1346,7 +1346,7 @@ class Model_IA extends Model
         $builder->where('c_status', 'P');
         $builder->where('is_order_challenged', 'Y');
         $builder->orderBy('a.lower_court_id');
-        echo $builder->getCompiledSelect();die;
+        //echo $builder->getCompiledSelect();die;
         $query = $builder->get();
         return $query->getResultArray();
     }
