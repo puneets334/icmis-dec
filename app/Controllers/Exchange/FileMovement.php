@@ -9,6 +9,7 @@ use App\Models\Exchange\Transaction;
 use App\Models\Exchange\Sql_Report;
 use App\Models\Court\CourtMasterModel;
 use App\Models\Exchange\FileMovementModel;
+use App\Models\Common\Dropdown_list_model;
 
 class FileMovement extends BaseController
 {
@@ -17,6 +18,7 @@ class FileMovement extends BaseController
     public $CourtMasterModel;
     public $Transaction;
     public $FileMovementModel;
+    public $Dropdown_list_model;
 
     function __construct()
     {   
@@ -25,6 +27,7 @@ class FileMovement extends BaseController
         $this->CourtMasterModel = new CourtMasterModel();
         $this->Transaction = new Transaction();
         $this->FileMovementModel = new FileMovementModel();
+        $this->Dropdown_list_model = new Dropdown_list_model();
     }
 
     public function dispatchReceiveReport()
@@ -75,13 +78,13 @@ class FileMovement extends BaseController
 
     public function getSFileRec()
     {
+        $request = \Config\Services::request();
         $ucode = session()->get('login')['usercode'];
-        $module = $_REQUEST['module'];
-
-        $result = $this->FileMovementModel->get_s_file_rec($ucode,$module);
-        // echo "result"."<br>";
-        // pr($result);
-        // return view('Exchange/fileMovement/dispatch', $result);
+        $module = $request->getPost('module');
+        $caseType = $request->getPost('ct');
+        $caseNumber = $request->getPost('cn');
+        $caseYear = $request->getPost('cy');
+        $result = $this->FileMovementModel->get_s_file_rec1($ucode,$module);
         return $this->response->setJSON([
             'status' => true,
             'data' => $result,
@@ -134,7 +137,6 @@ class FileMovement extends BaseController
 
     public function receive()
     {
-
         $data['cases'] = $this->FileMovementModel->getCasesForDispatch();
         return view('Exchange/fileMovement/receive', $data);
     }
