@@ -1,25 +1,31 @@
 <?= view('header') ?>
+<style>
 
-<!-- <link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>"> -->
-<div class="card-header heading">
-    <div class="row">
-        <div class="col-sm-10">
-            <h3 class="card-title">Report >>&nbsp; Clerk Details</h3>
-        </div>
-        <div class="col-sm-2">
-            <!-- <div class="custom_action_menu">
-                <button class="btn btn-success btn-sm" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
-                <button class="btn btn-primary btn-sm" type="button"><i class="fas fa-pen   " aria-hidden="true"></i>
-                </button>
-                <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-trash" aria-hidden="true"></i>
-                </button>
-            </div> -->
-        </div>
-    </div>
-</div>
-<br>
-<div class="container col-sm-12" style="width:100%;">
+table.dataTable>thead .sorting_disabled,
+table.dataTable>thead {
+    background-color: #0d48be !important;
+    color: #fff !important;
+}
 
+
+</style>
+<section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 mt-2">
+                        <div class="card">
+                            <div class="card-header heading">
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <h3 class="card-title">Record Room >> Advocate Clerk >> Modification</h3>
+                                    </div>
+                                    <div class="col-sm-2"></div>
+                                </div>
+                            </div>
+                            <br>
+                                <div class="col-md-12">
+                                        <div class="panel panel-info">
+                                            
     <?php if (empty($clerkDetails)) : ?>
         <div class='well well-lg'>
             <div class='col-md-12'>
@@ -27,9 +33,9 @@
             </div>
         </div>
     <?php else : ?>
-        <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4">
+        <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4 mb-5">
             <div id="printable">
-                <table id="query_builder_report" class="query_builder_report table table-bordered table-striped">
+                <table id="query_builder_report" class="query_builder_report table table-striped">
                     <thead>
                         <tr>
                             <th>SNo</th>
@@ -67,15 +73,22 @@
             </div>
         </div>
     <?php endif; ?>
-</div>
+    </div>
+                                    
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+            </div>
+        </section>
 <script>
     $(function() {
         $("#query_builder_report").DataTable({
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
-            "pageLength": 13,
+            "pageLength": 25,
             "buttons": [
                 "copy", "csv", "excel", {
                     extend: 'pdfHtml5',

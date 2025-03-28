@@ -35,25 +35,28 @@ class Elimination extends BaseController
 
     public function searchCaseForElimination()
     {
-        $casetype = $this->request->getPost('casetype');
-        $caseno = $this->request->getPost('caseno');
-        $caseyear = $this->request->getPost('caseyear');
-        $diary_number = $this->request->getPost('diary_number');
-        $diary_year = $this->request->getPost('diary_year');
-
+        
+        $casetype = $this->request->getVar('casetype');
+        $caseno = $this->request->getVar('caseno');
+        $caseyear = $this->request->getVar('caseyear');
+        $diary_number = $this->request->getVar('diary_number');
+        $diary_year = $this->request->getVar('diary_year');
+        
         $data['eliminationData'] = $this->EliminationModel->eliminationdatatoshow($casetype, $caseno, $caseyear, $diary_number, $diary_year);
         $data['caseRemarksHead'] = $this->EliminationModel->getCaseRemarksHead();
         $data['weededBy'] = $this->EliminationModel->getWeededBy();
         $data['judge'] = $this->EliminationModel->getJudge();
-
+    
         return view('Record_room/Elimination/viewEliminationData', $data);
     }
 
-    function updateElimination(){
-        
+    function updateElimination()
+    {
+        echo "<pre>";
          $result="ERROR";
          $actionRequired = $this->request->getPost('actionRequired');
          $diary_no = $this->request->getPost('diary_no');
+       
          if($actionRequired=='I'){
              $dataArray = array(
                  'fil_no' => $this->request->getPost('diary_no'),
@@ -64,6 +67,7 @@ class Elimination extends BaseController
                  'remark'  => $this->request->getPost('remark'),
                  'weeded_by'  => $this->request->getPost('weededby')
              );
+             
             // echo $dataArray;
              $result = $this->EliminationModel->insertElimination($dataArray);
              $result="SUCCESS";

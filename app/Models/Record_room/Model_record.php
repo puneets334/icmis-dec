@@ -257,9 +257,8 @@ class Model_record extends Model
         $builder = $this->db->table('ac a');
         $builder->select('eino, aor_code, COUNT(*) as count');
         $builder->groupBy('eino, aor_code');
-        $builder->having('COUNT(*) > 2');
+        $builder->having('COUNT(*) > 1');
         $builder->orderBy('eino', 'desc');
-
         return $builder->get()->getResultArray();
     }
 

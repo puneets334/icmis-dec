@@ -9,7 +9,7 @@
     <div class="card-header heading">
         <div class="row">
             <div class="col-sm-10">
-                <h3 class="card-title">Report >>&nbsp; AORs having Clerks more than 2</h3>
+                <h3 class="card-title">Record Room >> Report >> AORs having Clerks more than 2</h3>
             </div>
 
         </div>
@@ -32,9 +32,9 @@
             <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4">
                 <div id="printable">
                     <table id="query_builder_report" class="query_builder_report table table-bordered table-striped">
-                        <thead>
+                        <thead class="blue-theme">
                         <tr>
-                            <th class="{sorter: false}">SNo</th>
+                            <th>SNo</th>
                             <th>AOR Code</th>
                             <th>AOR Name</th>
                             <th>Clerk Name</th>

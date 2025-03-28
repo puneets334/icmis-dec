@@ -8,7 +8,7 @@ use App\Models\Record_room\Model_record;
 use App\Models\Record_room\TransactionModel;
 use App\Models\Record_room\Record_keeping_model;
 use App\Models\Entities\Model_Ac;
-
+use DateTimeZone;
 
 class Record extends BaseController
 {
@@ -32,13 +32,10 @@ class Record extends BaseController
 
     public function ac_form()
     {
-
         $sessionData = $this->session->get();
         $usercode = $sessionData['login']['usercode'];
         return view('Record_room/ac_form');
     }
-
-
 
     public function AorInsert()
     {
@@ -140,8 +137,6 @@ class Record extends BaseController
         }
     }
 
-
-    // modification -------------
     public function modify_details()
     {
         $Model = new Model_record();
@@ -150,7 +145,6 @@ class Record extends BaseController
     }
 
 
-    // modification details page -----------------
     public function modify()
     {
         $Model = new Model_record();
@@ -232,11 +226,9 @@ class Record extends BaseController
         }
     }
 
-
-    //  renewal view -------------
     public function renewal()
     {
-        $Model = new Model_record();
+        // $Model = new Model_record();
         return view('Record_room/renewal_cancel_ac_form');
     }
 
@@ -285,18 +277,19 @@ class Record extends BaseController
 
     public function getAORsWithMoreClerks()
     {
-        error_reporting(0);
+        // error_reporting(0);
         $model = new Model_record();
         $data['model'] = $model;
-
         $data['records'] = $model->getAORsWithMoreClerks();
 
         foreach ($data['records'] as $record) {
             $data['clerks'][$record['aor_code']] = $model->getAORClerks($record['aor_code']);
         }
-        $mergedData = array_merge_recursive($data['records'], $data['clerks']);
 
-        $data['mergedData'] = $mergedData;
+        $data['mergedData'] = array_map(function($record) use ($data) {
+            $record['clerks'] = $data['clerks'][$record['aor_code']] ?? []; 
+            return $record;
+        }, $data['records']);
         return view('Record_room/reports/lst_aor_rep1', $data);
     }
 
@@ -322,6 +315,8 @@ class Record extends BaseController
         }
         $mergedData = array_merge_recursive($data['records'], $data['clerks']);
         $data['mergedData'] = $mergedData;
+        // echo $this->db->getLastQuery();
+        // print_r($data['mergedData']);die;
         return view('Record_room/reports/lst_dup_rec', $data);
     }
 
@@ -601,7 +596,6 @@ class Record extends BaseController
         $tvap = $this->request->getGet('tvap');
         $wordChunks = explode(";", $tvap);
         $vform = array_map(fn($chunk) => str_replace("undefined", "", $chunk), $wordChunks);
-
         $sessionData = session()->get();
         $ucode = $sessionData['login']['usercode'];
 
@@ -637,10 +631,10 @@ class Record extends BaseController
             'eq_ug' => $vform[19],
             'eq_pg' => $vform[20],
             'eino' => $vform[21],
+            'cmobile' => $vform[23],
             'regdate' => date('Y-m-d', strtotime($vform[22]))
         ];
-        $acModel->getInsertData($data);
-        // print_r($acModel);die;
+        $acModel->getInsertData($data);        
 
         $db = \Config\Database::connect();
         $transactionModel = $db->table('transactions');
@@ -663,7 +657,7 @@ class Record extends BaseController
 
         try {
             $result = $model->getTransactionDetails($tid);
-
+            
             if ($result) {
                 foreach ($result as $row) {
                     echo $row['temp'] . "<br>";
@@ -684,7 +678,7 @@ class Record extends BaseController
 
         $sessionData = session()->get();
         $ucode = $sessionData['login']['usercode'];
-        // $tvap= "1;03/11/2025;test;5350";
+        // $tvap= "2;19-03-2025;Renew SKD_257 19-03-2025;6033";
         $tvap = $this->request->getPost('tvap');
         $wordChunks = explode(';', $tvap);
         $vform = array_map(
@@ -693,6 +687,7 @@ class Record extends BaseController
             },
             $wordChunks
         );
+       
 
         if (!$vform[0] || !$vform[1] || !$vform[3]) {
             return $this->response->setJSON(['error' => 'Please Enter Mandatory * Values']);
@@ -710,17 +705,19 @@ class Record extends BaseController
             $data = [
                 'acid' => $vform[3],
                 'event_code' => $vform[0],
-                'event_date' => date('d-m-Y', strtotime($vform[1])),
+                'event_date' => date('Y-m-d', strtotime($vform[1])),
                 'remarks' => $vform[2],
                 'updated_by' => $ucode,
                 'updated_by_ip' => getClientIP(),
             ];
-
-            $model->insert($data);
-
-            return $this->response->setJSON(['success' => 'Transaction Registered Successfully !!']);
-        } catch (\Exception $e) {
+       
+            $query_ia_log = insert('transactions', $data);
+            if ($query_ia_log) 
+                return $this->response->setJSON(['success' => 'Transaction Registered Successfully !!']);
+            else
             return $this->response->setJSON(['error' => 'Error! Contact Administrator !!']);
+        } catch (\Exception $e) {
+            return $this->response->setJSON(['error' => $e->getMessage()]);
         }
     }
 
@@ -765,9 +762,11 @@ class Record extends BaseController
         $diff = date_diff(date_create($from_date), date_create($to_date));
         return (intval($diff->format("%R%a days")) <= 365 && intval($diff->format("%R%a days")) >= 0) ? true : false;
     }
+
+
     public function RipeCasesReportAjax($fromDate = null, $toDate = null, $reportType = null, $hall_no = null, $noOfDays = null, $offset = null)
     {
-        error_reporting(0);
+        // error_reporting(0);
         if (!empty($fromDate) && !empty($toDate) && !empty($reportType)) {
 
             /* var_dump($this->data['ripeCasesReports']);*/

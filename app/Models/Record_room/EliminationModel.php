@@ -11,6 +11,7 @@ class EliminationModel extends Model
 
     public function eliminationdatatoshow($casetype = 0, $caseno = 0, $caseyear = 0, $diary_number = 0, $diary_year = 0)
     {
+       
         $db = \Config\Database::connect();
         $builder = $db->table('main m');
 
@@ -56,7 +57,7 @@ class EliminationModel extends Model
         $builder->join('dispose dis', 'dis.diary_no = m.diary_no', 'LEFT');
 
         // Add debugging output
-        log_message('info', "Casetype: $casetype, Caseno: $caseno, Caseyear: $caseyear, Diary Number: $diary_number, Diary Year: $diary_year");
+        // log_message('info', "Casetype: $casetype, Caseno: $caseno, Caseyear: $caseyear, Diary Number: $diary_number, Diary Year: $diary_year");
 
         if ($casetype != 0 && $caseno != 0) {
             $builder->where('CAST(SUBSTRING(m.active_fil_no FROM 1 FOR 2) AS INTEGER)', $casetype)
@@ -117,6 +118,7 @@ class EliminationModel extends Model
     public function getJudge()
     {
         $builder = $this->db->table('master.judge');
+        $builder->select('jcode, jname');
         $query = $builder->where('display', 'Y')->get();
 
         return $query->getResultArray();
