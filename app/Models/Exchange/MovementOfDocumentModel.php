@@ -528,7 +528,7 @@ class MovementOfDocumentModel extends Model
 
     public function old_verify_process()
     {
-        // pr($_REQUEST['d_no']);
+    
         if (isset($_REQUEST['ct']) && $_REQUEST['ct'] != '') {
             $get_dno = "SELECT 
             substr(cast(diary_no as text), 1, length(cast(diary_no as text)) - 4) as dn, 
@@ -602,11 +602,11 @@ class MovementOfDocumentModel extends Model
                 SUBSTR(diary_no::text, 1, LENGTH(diary_no::text) - 4) = '" . $_REQUEST['d_no'] . "'
                 AND SUBSTR(diary_no::text, -4) = '" . $_REQUEST['d_yr'] . "'";
 
-            // pr($queryString);
+          
 
             $query = $this->db->query($queryString);
             if ($query->getNumRows() >= 1) {
-                // pr($queryString);
+           
                 // return $query->getResultArray();
                 $html = '<div class="cl_center"><b>No Record Found</b></div>';
                 return $html;
@@ -715,13 +715,7 @@ class MovementOfDocumentModel extends Model
         return $result;
     }
 
-    // public function insertDatas($new_value0, $new_value1, $new_value2, $new_value3, $new_value4, $ucode, $new_value5, $now)
 
-    // {
-    //     $sql = "INSERT INTO ld_move(diary_no,doccode,doccode1,docnum,docyear,disp_by,disp_to,disp_dt) VALUES('$new_value0','$new_value1','$new_value2','$new_value3','$new_value4','$ucode','$new_value5','$now')";
-    //     pr($sql);
-    //     $query = $this->db->query($sql);
-    // }
 
     public function insertDatas($new_value0, $new_value1, $new_value2, $new_value3, $new_value4, $ucode, $new_value5, $now, $fil_no = null, $remarks = null, $rece_by = null, $other = null)
     {

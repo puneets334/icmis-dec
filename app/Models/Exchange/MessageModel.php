@@ -37,11 +37,8 @@ class MessageModel extends Model
 
         $query = $this->db->query($sql_string);
         $results = $query->getResultArray();
-        // pr($results);
-
         $arr = [];
         foreach ($results as $obj) {
-            // pr($obj['name']);
             if (!empty($obj['id']) && !empty($obj['name'])) {
                 $arr[] = $obj;
             }
@@ -315,7 +312,6 @@ class MessageModel extends Model
     public function sentbox_pro_old($q, $dtp)
     {
         $usercode = session()->get('login')['usercode'];
-        // pr($dtp);
         $sp = 1;
 
         if ($q == 'all') {
