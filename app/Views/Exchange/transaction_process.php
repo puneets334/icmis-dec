@@ -6,9 +6,9 @@ if(count($transactionData)>0)
         <table id="reportTable1" class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th style="width: 8%;">Listed On</th>
-                    <th style="width: 20%;">Info</th>
-                    <th style="width: 8%;">Transaction Date</th>
+                    <th style="width: 8%;"><b>Listed On</b></th>
+                    <th style="width: 20%;"><b>Info</th></b>
+                    <th style="width: 8%;"><b>Transaction Date</b></th>
                 </tr>
             </thead>
             <tbody>

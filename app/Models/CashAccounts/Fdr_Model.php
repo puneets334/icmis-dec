@@ -96,10 +96,20 @@ class Fdr_Model extends Model
                     'tentative_section(h.diary_no) AS section_name'
                 ])
                 ->join('main m', 'm.diary_no = h.diary_no')
-                ->where('split_part(h.new_registration_number, \'-\', 1)', $caseType)
-                ->where("CAST('{$caseNo}' AS INTEGER) BETWEEN CAST(split_part(h.new_registration_number, '-', 2) AS INTEGER) AND CAST(split_part(h.new_registration_number, '-', 3) AS INTEGER)")
+                ->where("(CASE WHEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 1) ~ '^[0-9]+$' THEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 1)::INTEGER ELSE 0 END)", $caseType)
+                ->where("CAST('{$caseNo}' AS INTEGER) BETWEEN 
+                    (CASE
+                    WHEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 2) ~ '^[0-9]+$'
+                        THEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 2)::INTEGER ELSE 0 END) 
+                AND 
+                    (CASE
+                    WHEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', -1) ~ '^[0-9]+$'
+                        THEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', -1)::INTEGER
+                ELSE 0 END)")
                 ->where('h.new_registration_year', $caseYear)
                 ->where('h.is_deleted', 'f');
+                    
+                // echo $builder->getCompiledSelect();die;
 
             $query = $builder->get();
         } else {
@@ -111,10 +121,12 @@ class Fdr_Model extends Model
                         FROM main 
                         WHERE diary_no = $ecCaseId";
 
+            // echo $sql;
+
             $query = $this->db->query($sql);
         }
 
-       // echo $this->db->getLastQuery();die;
+    //    echo $this->db->getLastQuery();die;
 
         // Check for results
         if ($query == false) {
@@ -135,9 +147,10 @@ class Fdr_Model extends Model
     function get_fdrRecords($ecCaseId)
     {
         $builder = $this->db->table('fdr_records');
-       // $builder->where(['ec_case_id' => $ecCaseId, 'is_deleted' => '0']);
+        $builder->where(['ec_case_id' => $ecCaseId, 'is_deleted' => '0']);
         $builder->where(['is_deleted' => '0']);
         $builder->orderBy('maturity_date', 'DESC');
+        // echo $builder->getCompiledSelect();die;
         $query = $builder->get();
         return $query->getResultArray();
     }

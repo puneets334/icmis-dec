@@ -1005,7 +1005,7 @@ else{
                     else{
                         $updateArr = array();
                         $updateWhere = array();
-                        $updateArr['is_active'] = true;
+                        $updateArr['is_active'] = 1;
                         $updateArr['deleted_by'] = 0;
                         $updateArr['deleted_date'] = NULL;
                         $updateArr['deleted_ip'] =  NULL;
@@ -1064,7 +1064,7 @@ else{
                     if(!empty($diaryNoExistInFasterCases)){
                         $updateArr = array();
                         $updateWhere = array();
-                        $updateArr['is_active'] = false;
+                        $updateArr['is_active'] = 0;
                         $updateArr['deleted_by'] = !empty($_SESSION['dcmis_user_idd']) ? $_SESSION['dcmis_user_idd'] : NULL;
                         $updateArr['deleted_date'] =date('Y-m-d H:i:s');
                         $updateArr['deleted_ip'] =  $_SERVER['REMOTE_ADDR'];

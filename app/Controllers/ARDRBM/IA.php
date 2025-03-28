@@ -235,6 +235,8 @@ class IA extends BaseController
                 unset($docdetails2[0]['updated_on']);
                 unset($docdetails2[0]['updated_by']);
                 unset($docdetails2[0]['ia']);
+                unset($docdetails2[0]['trial320']);
+
                 $final_array = array_merge($docdetails2[0], $data_addon);
 
                 $query_ia_log = insert('docdetails_history', $final_array);
@@ -328,7 +330,10 @@ class IA extends BaseController
                 unset($docdetails[0]['updated_on']);
                 unset($docdetails[0]['updated_by']);
                 unset($docdetails[0]['ia']);
+                unset($docdetails[0]['trial320']);
                 $final_array = array_merge($docdetails[0], $data_addon);
+
+                // pr($final_array);
 
                 $query_ia_log = insert('docdetails_history', $final_array);
                 if ($query_ia_log) {
@@ -616,6 +621,8 @@ class IA extends BaseController
                         unset($docdetails['create_modify']);
                         unset($docdetails['updated_on']);
                         unset($docdetails['updated_by']);
+                        unset($docdetails['trial320']);
+
                         $final_array = array_merge($docdetails, $data_addon);
 
                         $query_ia_log = insert('docdetails_history', $final_array);
@@ -852,6 +859,7 @@ class IA extends BaseController
             $this->Model_IA->updateRegistrationNumber($data['diary_no'],$data['regno']);
         }  
         $data['model_ia'] = $this->Model_IA;
+        
 
         return view('ARDRBM/regno_display_change_process', $data);
     }
@@ -897,7 +905,8 @@ class IA extends BaseController
         $cn = $this->request->getVar('cn');
         $cy = $this->request->getVar('cy');
         if ($ct != '') {
-            $get_dno = $this->Model_IA->getDiaryInfo($ct, $cn, $cy);
+            //$get_dno = $this->Model_IA->getDiaryInfo($ct, $cn, $cy);
+            $get_dno = $this->Model_IA->getDiaryInfo_builder($ct, $cn, $cy);            
             if ($get_dno) {
                 $this->session->set([
                     'd_no' => $get_dno['dn'],
@@ -920,6 +929,9 @@ class IA extends BaseController
         $dno = $this->request->getVar('d_no');
         $dyr = $this->request->getVar('d_yr');
         $diaryno = $dno . $dyr;
+        if(empty($diaryno) && !empty($get_dno) && is_array($get_dno) ){
+            $diaryno = $get_dno['dn'] . $get_dno['dy'];
+        }
         $jud1 = 0;
         $jud2 = 0;
         $jud3 = 0;

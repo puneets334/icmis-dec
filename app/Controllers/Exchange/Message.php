@@ -44,10 +44,11 @@ class Message extends BaseController
 
     public function sendMsg()
     {
-        $mess_to_arr = explode(',', $this->request->getGet('msg_to'));
-        $msg_frm = $this->request->getGet('msg_frm');
-        $msg = $this->request->getGet('msg');
-        $hd_ipadd = !empty($this->request->getGet('hd_ipadd')) ? $this->request->getGet('hd_ipadd') : '';
+        $request = \Config\Services::request();
+        $mess_to_arr = explode(',', $request->getGet('msg_to'));
+        $msg_frm = $request->getGet('msg_frm');
+        $msg = $request->getGet('msg');
+        $hd_ipadd = !empty($request->getGet('hd_ipadd')) ? $request->getGet('hd_ipadd') : '';
 
 
 
@@ -61,8 +62,10 @@ class Message extends BaseController
 
     public function inboxPro()
     {
-        $dtp = date('Y-m-d',strtotime($_REQUEST['dtp']));
-        $q = $_REQUEST['q'];
+        
+        $request = \Config\Services::request();
+        $dtp = date('Y-m-d',strtotime($request->getPost('dtp')));
+        $q = $request->getPost('q');
         $result = $this->MessageModel->inbox_pro($q, $dtp);
         return $this->response->setJSON([
             'status' => true,
@@ -72,13 +75,15 @@ class Message extends BaseController
 
     public function markAsSeen()
     {
-        $id = $_REQUEST['id'];
+        $request = \Config\Services::request();
+        $id = $request->getGet('id');
         $result = $this->MessageModel->seen($id);
     }
 
     public function deleteMessage()
     {
-        $id = $_REQUEST['id'];
+        $request = \Config\Services::request();
+        $id = $request->getGet('id');
         $result = $this->MessageModel->savethis($id);
     }
 
@@ -98,8 +103,10 @@ class Message extends BaseController
 
     public function trashPro()
     {
-        $dtp = date('Y-m-d',strtotime($_REQUEST['dtp']));
-        $q = $_REQUEST['q'];
+        
+        $request = \Config\Services::request();
+        $dtp = date('Y-m-d',strtotime($request->getGet('dtp')));
+        $q = $request->getGet('q');
         $result = $this->MessageModel->trash_pro($q, $dtp);
         return $this->response->setJSON([
             'status' => true,
@@ -114,10 +121,9 @@ class Message extends BaseController
 
     public function sentboxPro()
     {
-        // $dtp = date('Y-m-d',strtotime($_REQUEST['dtp']));
-        // $q = $_REQUEST['q'];
-        $dtp = date('Y-m-d', strtotime($this->request->getGet('dtp')));
-         $q = $this->request->getGet('q'); 
+        $request = \Config\Services::request();
+        $dtp = date('Y-m-d', strtotime($request->getGet('dtp')));
+         $q = $request->getGet('q'); 
 
         $result = $this->MessageModel->sentbox_pro($q, $dtp);
         return $this->response->setJSON([
@@ -128,7 +134,8 @@ class Message extends BaseController
 
     public function sentSave()
     {
-        $id = $_REQUEST['id'];
+        $request = \Config\Services::request();
+        $id = $request->getGet('id');
         $result = $this->MessageModel->sent_save($id);
     }
 }

@@ -143,7 +143,7 @@ $(document).ready(function() {
             var fromDate = document.getElementById('from_date').value;
             var toDate = document.getElementById('to_date').value;
 
-            if((fromDate == '') && (toDate == ''))
+            if((fromDate == '') || (toDate == ''))
             {
                 alert("Please select the from date and to date !!!!");
                 document.getElementById('from_date').focus();
@@ -187,7 +187,7 @@ $(document).ready(function() {
         $(function () {
             $(".datatable_report").DataTable({
                 "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel",{extend: 'pdfHtml5',orientation: 'landscape',pageSize: 'LEGAL' },
+                "buttons": ["print", "csv", "excel",{extend: 'pdfHtml5',orientation: 'landscape',pageSize: 'LEGAL' },
                     { extend: 'colvis',text: 'Show/Hide'}],"bProcessing": true,"extend": 'colvis',"text": 'Show/Hide'
             }).buttons().container().appendTo('.query_builder_wrapper .col-md-6:eq(0)');
 

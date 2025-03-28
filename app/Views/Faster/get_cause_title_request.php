@@ -6,74 +6,80 @@
         <div class="card" >
         <div class="card-body" >
 <?php
-if (!empty($_REQUEST['ct'])) {
-    $db = \Config\Database::connect();
-    $builder = $db->table('main');
+// if (!empty($_REQUEST['ct'])) {
+//     $db = \Config\Database::connect();
+//     $builder = $db->table('main');
 
-    // First query
-    $builder->select("SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) AS dn, SUBSTR(diary_no, -4) AS dy")
-        ->where("SUBSTRING_INDEX(fil_no, '-', 1)", $_REQUEST['ct'])
-        ->where("CAST($_REQUEST[cn] AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no, '-', 2), '-', -1) AND SUBSTRING_INDEX(fil_no, '-', -1)");
+//     // First query
+//     $builder->select("SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) AS dn, SUBSTR(diary_no, -4) AS dy")
+//         ->where("SUBSTRING_INDEX(fil_no, '-', 1)", $_REQUEST['ct'])
+//         ->where("CAST($_REQUEST[cn] AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no, '-', 2), '-', -1) AND SUBSTRING_INDEX(fil_no, '-', -1)");
 
-    $builder->groupStart()
-        ->where("reg_year_mh", 0)
-        ->orWhere("DATE(fil_dt) >", '2017-05-10')
-        ->groupEnd()
-        ->where("YEAR(fil_dt)", $_REQUEST['cy'])
-        ->orWhere("reg_year_mh", $_REQUEST['cy']);
+//     $builder->groupStart()
+//         ->where("reg_year_mh", 0)
+//         ->orWhere("DATE(fil_dt) >", '2017-05-10')
+//         ->groupEnd()
+//         ->where("YEAR(fil_dt)", $_REQUEST['cy'])
+//         ->orWhere("reg_year_mh", $_REQUEST['cy']);
 
-    // Execute first query
-    $query = $builder->get();
+//     // Execute first query
+//     $query = $builder->get();
     
-    if ($query->getNumRows() > 0) {
-        $get_dno = $query->getRowArray();
-        $_REQUEST['d_no'] = $get_dno['dn'];
-        $_REQUEST['d_yr'] = $get_dno['dy'];
-    } else {
-        // Second query
-        $builder = $db->table('main_casetype_history');
+//     if ($query->getNumRows() > 0) {
+//         $get_dno = $query->getRowArray();
+//         $_REQUEST['d_no'] = $get_dno['dn'];
+//         $_REQUEST['d_yr'] = $get_dno['dy'];
+//     } else {
+//         // Second query
+//         $builder = $db->table('main_casetype_history');
         
-        $builder->select("SUBSTR(h.diary_no, 1, LENGTH(h.diary_no) - 4) AS dn, 
-            SUBSTR(h.diary_no, -4) AS dy, 
-            IF(h.new_registration_number != '', SUBSTRING_INDEX(h.new_registration_number, '-', 1), '') AS ct1, 
-            IF(h.new_registration_number != '', SUBSTRING_INDEX(SUBSTRING_INDEX(h.new_registration_number, '-', 2), '-', -1), '') AS crf1, 
-            IF(h.new_registration_number != '', SUBSTRING_INDEX(h.new_registration_number, '-', -1), '') AS crl1")
-            ->where("h.is_deleted", 'f')
-            ->groupStart()
-                ->where("SUBSTRING_INDEX(h.new_registration_number, '-', 1)", $_REQUEST['ct'])
-                ->where("CAST($_REQUEST[cn] AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(h.new_registration_number, '-', 2), '-', -1) AND SUBSTRING_INDEX(h.new_registration_number, '-', -1)")
-                ->where("h.new_registration_year", $_REQUEST['cy'])
-            ->groupEnd()
-            ->orGroupStart()
-                ->where("SUBSTRING_INDEX(h.old_registration_number, '-', 1)", $_REQUEST['ct'])
-                ->where("CAST($_REQUEST[cn] AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(h.old_registration_number, '-', 2), '-', -1) AND SUBSTRING_INDEX(h.old_registration_number, '-', -1)")
-                ->where("h.old_registration_year", $_REQUEST['cy'])
-            ->groupEnd();
+//         $builder->select("SUBSTR(h.diary_no, 1, LENGTH(h.diary_no) - 4) AS dn, 
+//             SUBSTR(h.diary_no, -4) AS dy, 
+//             IF(h.new_registration_number != '', SUBSTRING_INDEX(h.new_registration_number, '-', 1), '') AS ct1, 
+//             IF(h.new_registration_number != '', SUBSTRING_INDEX(SUBSTRING_INDEX(h.new_registration_number, '-', 2), '-', -1), '') AS crf1, 
+//             IF(h.new_registration_number != '', SUBSTRING_INDEX(h.new_registration_number, '-', -1), '') AS crl1")
+//             ->where("h.is_deleted", 'f')
+//             ->groupStart()
+//                 ->where("SUBSTRING_INDEX(h.new_registration_number, '-', 1)", $_REQUEST['ct'])
+//                 ->where("CAST($_REQUEST[cn] AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(h.new_registration_number, '-', 2), '-', -1) AND SUBSTRING_INDEX(h.new_registration_number, '-', -1)")
+//                 ->where("h.new_registration_year", $_REQUEST['cy'])
+//             ->groupEnd()
+//             ->orGroupStart()
+//                 ->where("SUBSTRING_INDEX(h.old_registration_number, '-', 1)", $_REQUEST['ct'])
+//                 ->where("CAST($_REQUEST[cn] AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(h.old_registration_number, '-', 2), '-', -1) AND SUBSTRING_INDEX(h.old_registration_number, '-', -1)")
+//                 ->where("h.old_registration_year", $_REQUEST['cy'])
+//             ->groupEnd();
 
-        // Execute second query
-        $query = $builder->get();
+//         // Execute second query
+//         $query = $builder->get();
         
-        if ($query->getNumRows() > 0) {
-            $get_dno = $query->getRowArray();
-            $_REQUEST['d_no'] = $get_dno['dn'];
-            $_REQUEST['d_yr'] = $get_dno['dy'];
+//         if ($query->getNumRows() > 0) {
+//             $get_dno = $query->getRowArray();
+//             $_REQUEST['d_no'] = $get_dno['dn'];
+//             $_REQUEST['d_yr'] = $get_dno['dy'];
 
-            // Fetch case type description
-            $caseTypeBuilder = $db->table('casetype');
-            $caseTypeBuilder->select('short_description')
-                ->where('casecode', $_REQUEST['ct'])
-                ->where('display', 'Y');
+//             // Fetch case type description
+//             $caseTypeBuilder = $db->table('casetype');
+//             $caseTypeBuilder->select('short_description')
+//                 ->where('casecode', $_REQUEST['ct'])
+//                 ->where('display', 'Y');
                 
-            $caseTypeQuery = $caseTypeBuilder->get();
-            $res_ct_typ = $caseTypeQuery->getRow()->short_description;
+//             $caseTypeQuery = $caseTypeBuilder->get();
+//             $res_ct_typ = $caseTypeQuery->getRow()->short_description;
 
-            $t_slpcc = $res_ct_typ . " " . $get_dno['crf1'] . " - " . $get_dno['crl1'] . " / " . $_REQUEST['cy'];
-        } else {
-            echo $msg_404 = 404;
-            exit();
-        }
-    }
-}
+//             $t_slpcc = $res_ct_typ . " " . $get_dno['crf1'] . " - " . $get_dno['crl1'] . " / " . $_REQUEST['cy'];
+//         } else {
+//             echo $msg_404 = 404;
+//             exit();
+//         }
+//     }
+// }
+
+// pr($_REQUEST);
+
+
+
+// pr($_REQUEST);
 
 $dno = $_REQUEST["d_no"];
 $dyr = $_REQUEST["d_yr"];
@@ -144,9 +150,9 @@ $db = \Config\Database::connect();
 
 if ($r_get_da_sec['dacode'] != 0) {
     // Query for users and their sections
-    $builder = $db->table('users a');
+    $builder = $db->table('master.users a');
     $builder->select('b.section_name');
-    $builder->join('usersection b', 'a.section = b.id');
+    $builder->join('master.usersection b', 'a.section = b.id');
     $builder->where('usercode', $r_get_da_sec['dacode']);
     $builder->where('b.display', 'Y');
     $get_sec = $builder->get();
@@ -239,12 +245,13 @@ $builder->where('m.diary_no', $diary_no);
 $c_type = $builder->get();
 
 $r_c_type = $c_type->getRowArray();
-
+// print_r($r_c_type);
 if (empty($r_c_type['active_fil_no'])) {
     $active_fil_no = ' D.no.' . $_REQUEST['d_no'] . '/' . $_REQUEST['d_yr'];
 } else {
     $a = explode('-', substr($r_c_type['active_fil_no'], 3));
-    $reg_no = ($a[0] == $a[1]) ? $a[0] : substr($r_c_type['active_fil_no'], 3);
+    // pr($a);
+    $reg_no = ((isset($a[1])) && ($a[0] == $a[1])) ? $a[0] : substr($r_c_type['active_fil_no'], 3);
     $active_fil_no = ' NO. ' . $reg_no . '/' . $r_c_type['active_reg_year'];
 }
 
@@ -314,22 +321,42 @@ echo $r_c_type['casename'] . $active_fil_no;
             <table cellpadding="10" cellspacing="10" style="width: 100%">
 
                 <?php // Load the database
-$db = \Config\Database::connect();
+    $db = \Config\Database::connect();
 
-$builder = $db->table('party');
-$builder->select('sr_no_show, partyname, prfhname, addr1, addr2, state, city, dstname, pet_res, remark_del, remark_lrs, pflag, partysuff, deptname, ind_dep')
-         ->join('master.deptt b', 'state_in_name = b.deptcode', 'left')
-         ->where('diary_no', $diary_no)
-         ->whereNotIn('pflag', ['T', 'Z'])
-         ->where('pet_res', 'P')
-         ->orderBy('pet_res')
-         ->orderBy('CAST(SUBSTRING(sr_no_show, 1, POSITION(\'.\' IN sr_no_show) - 1) AS INTEGER)') // Adjusted for PostgreSQL
-         ->orderBy('CAST(SUBSTRING(sr_no_show FROM POSITION(\'.\' IN sr_no_show) + 1 FOR POSITION(\'.\' IN sr_no_show || \'.0\') - POSITION(\'.\' IN sr_no_show) - 1) AS INTEGER)') // Adjusted for PostgreSQL
-         ->orderBy('CAST(SUBSTRING(sr_no_show FROM POSITION(\'.\' IN sr_no_show || \'.0.0\') + 1 FOR POSITION(\'.\' IN sr_no_show || \'.0.0.0\') - POSITION(\'.\' IN sr_no_show || \'.0.0\') - 1) AS INTEGER)') // Adjusted for PostgreSQL
-         ->orderBy('CAST(SUBSTRING(sr_no_show FROM POSITION(\'.\' IN sr_no_show || \'.0.0.0\') + 1 FOR POSITION(\'.\' IN sr_no_show || \'.0.0.0.0\') - POSITION(\'.\' IN sr_no_show || \'.0.0.0\') - 1) AS INTEGER)'); // Adjusted for PostgreSQL
+    $builder = $db->table('party');
+    // $builder->select('sr_no_show, partyname, prfhname, addr1, addr2, state, city, dstname, pet_res, remark_del, remark_lrs, pflag, partysuff, deptname, ind_dep')
+    //         ->join('master.deptt b', 'state_in_name = b.deptcode', 'left')
+    //         ->where('diary_no', $diary_no)
+    //         ->whereNotIn('pflag', ['T', 'Z'])
+    //         ->where('pet_res', 'P')
+    //         ->orderBy('pet_res')
+    //         ->orderBy('CAST(SUBSTRING(sr_no_show, 1, POSITION(\'.\' IN sr_no_show) - 1) AS INTEGER)') // Adjusted for PostgreSQL
+    //         ->orderBy('CAST(SUBSTRING(sr_no_show FROM POSITION(\'.\' IN sr_no_show) + 1 FOR POSITION(\'.\' IN sr_no_show || \'.0\') - POSITION(\'.\' IN sr_no_show) - 1) AS INTEGER)') // Adjusted for PostgreSQL
+    //         ->orderBy('CAST(SUBSTRING(sr_no_show FROM POSITION(\'.\' IN sr_no_show || \'.0.0\') + 1 FOR POSITION(\'.\' IN sr_no_show || \'.0.0.0\') - POSITION(\'.\' IN sr_no_show || \'.0.0\') - 1) AS INTEGER)') // Adjusted for PostgreSQL
+    //         ->orderBy('CAST(SUBSTRING(sr_no_show FROM POSITION(\'.\' IN sr_no_show || \'.0.0.0\') + 1 FOR POSITION(\'.\' IN sr_no_show || \'.0.0.0.0\') - POSITION(\'.\' IN sr_no_show || \'.0.0.0\') - 1) AS INTEGER)'); // Adjusted for PostgreSQL
 
-$query = $builder->get();
-$results = $query->getResultArray();
+    $builder->select([
+        'sr_no_show', 'partyname', 'prfhname', 'addr1', 'addr2', 'state', 
+        'city', 'dstname', 'pet_res', 'remark_del', 'remark_lrs', 'pflag', 
+        'partysuff', 'deptname', 'ind_dep'
+    ]);
+    $builder->join('master.deptt b', 'state_in_name = b.deptcode', 'left');
+    $builder->where('diary_no', $diary_no);
+    $builder->whereNotIn('pflag', ['T', 'Z']);
+    $builder->where('pet_res', 'P');
+    
+    // Handling ORDER BY with PostgreSQL substring and position functions
+    $orderByExpression = "CAST(
+        SUBSTRING(sr_no_show FROM 1 FOR COALESCE(NULLIF(POSITION('.' IN sr_no_show) - 1, -1), LENGTH(sr_no_show))) 
+        AS INTEGER
+    )";
+    
+    $builder->orderBy('pet_res');
+    $builder->orderBy($orderByExpression);
+
+    // pr($builder->getCompiledSelect());
+    $query = $builder->get();
+    $results = $query->getResultArray();
 
 // Process results
 foreach ($results as $row) {
@@ -357,8 +384,8 @@ foreach ($results as $row) {
     if ($row['addr1'] != "") {
         $tmp_addr .= $row['addr1'] . ', ';
     }
-    if ($row['ind_dep'] != 'I' && trim(str_replace($row['deptname'], '', $row['partysuff'])) != '') {
-        $tmp_addr .= " " . trim(str_replace($row['deptname'], '', $row['partysuff'])) . ', ';
+    if ($row['ind_dep'] != 'I' && trim(str_replace($row['deptname'] ?? '', '', $row['partysuff'])) != '') {
+        $tmp_addr .= " " . trim(str_replace($row['deptname'] ?? '', '', $row['partysuff'])) . ', ';
     }
     if ($row['addr2'] != "") {
         $tmp_addr .= $row['addr2'] . ' ';
@@ -417,16 +444,24 @@ foreach ($results as $row) {
                 $db = \Config\Database::connect();
 
                 $builder = $db->table('party');
-                $builder->select('sr_no_show, partyname, prfhname, addr1, addr2, state, city, dstname, pet_res, remark_del, remark_lrs, pflag, partysuff, deptname, ind_dep')
-                        ->join('master.deptt b', 'state_in_name = b.deptcode', 'left')
-                        ->where('diary_no', $diary_no)
-                        ->whereNotIn('pflag', ['T', 'Z'])
-                        ->where('pet_res', 'R')
-                        ->orderBy('pet_res')
-                        ->orderBy('CAST(SUBSTRING(sr_no_show FROM 1 FOR POSITION(\'.\' IN sr_no_show) - 1) AS INTEGER)') // First part
-                        ->orderBy('CAST(SUBSTRING(sr_no_show FROM POSITION(\'.\' IN sr_no_show) + 1 FOR POSITION(\'.\' IN sr_no_show || \'.0\') - POSITION(\'.\' IN sr_no_show) - 1) AS INTEGER)') // Second part
-                        ->orderBy('CAST(SUBSTRING(sr_no_show FROM POSITION(\'.\' IN sr_no_show || \'.0\') + 1 FOR POSITION(\'.\' IN sr_no_show || \'.0.0\') - POSITION(\'.\' IN sr_no_show || \'.0\') - 1) AS INTEGER)') // Third part
-                        ->orderBy('CAST(SUBSTRING(sr_no_show FROM POSITION(\'.\' IN sr_no_show || \'.0.0\') + 1 FOR POSITION(\'.\' IN sr_no_show || \'.0.0.0\') - POSITION(\'.\' IN sr_no_show || \'.0.0\') - 1) AS INTEGER)'); // Fourth part
+                $builder->select([
+                    'sr_no_show', 'partyname', 'prfhname', 'addr1', 'addr2', 'state', 
+                    'city', 'dstname', 'pet_res', 'remark_del', 'remark_lrs', 'pflag', 
+                    'partysuff', 'deptname', 'ind_dep'
+                ]);
+                $builder->join('master.deptt b', 'state_in_name = b.deptcode', 'left');
+                $builder->where('diary_no', $diary_no);
+                $builder->whereNotIn('pflag', ['T', 'Z']);
+                $builder->where('pet_res', 'R');
+                
+                // Handling ORDER BY with PostgreSQL substring and position functions
+                $orderByExpression = "CAST(
+                    SUBSTRING(sr_no_show FROM 1 FOR COALESCE(NULLIF(POSITION('.' IN sr_no_show) - 1, -1), LENGTH(sr_no_show))) 
+                    AS INTEGER
+                )";
+                
+                $builder->orderBy('pet_res');
+                $builder->orderBy($orderByExpression);
 
                 $query = $builder->get();
                 $results = $query->getResultArray();
@@ -456,8 +491,8 @@ foreach ($results as $row) {
     if ($row['addr1'] != "") {
         $tmp_addr .= $row['addr1'] . ', ';
     }
-    if ($row['ind_dep'] != 'I' && trim(str_replace($row['deptname'], '', $row['partysuff'])) != '') {
-        $tmp_addr .= " " . trim(str_replace($row['deptname'], '', $row['partysuff'])) . ', ';
+    if ($row['ind_dep'] != 'I' && trim(str_replace($row['deptname'] ?? '', '', $row['partysuff'])) != '') {
+        $tmp_addr .= " " . trim(str_replace($row['deptname'] ?? '', '', $row['partysuff'])) . ', ';
     }
     if ($row['addr2'] != "") {
         $tmp_addr .= $row['addr2'] . ' ';

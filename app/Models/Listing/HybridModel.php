@@ -411,7 +411,6 @@ class HybridModel extends Model
         $builder->whereIn('c.main_supp_flag', ['1', '2']);
         $builder->groupBy('c.next_dt');
         $builder->orderBy('c.next_dt', 'DESC');
-        $sql = $builder->getCompiledSelect();
         $query = $builder->get();
         $result = $query->getResultArray();
         return $result;

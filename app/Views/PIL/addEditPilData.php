@@ -111,9 +111,9 @@
                                 <input type="hidden" name="usercode" id="usercode" value="<?php echo $dcmis_user_idd; ?>" />
                                 <?php
 
-                                use App\Libraries\Common;
+                                //use App\Libraries\Common;
 
-                                $this->common = new Common();
+                                //$common = new Common();
 
                                 $diaryNumber = null;
                                 $diaryYear = null;
@@ -150,7 +150,7 @@
                                 $destroyOrKeepInDate = null;
                                 $destroyOrKeepInRemark = "";
                                 $actionTakenText = "";
-                                if (sizeof($pilCompleteDetail) > 0) {
+                                if (!empty($pilCompleteDetail)) {
                                     $pilCompleteDetail = $pilCompleteDetail[0];
                                     $diaryNumber = $pilCompleteDetail['diary_number'];
                                     $diaryYear = $pilCompleteDetail['diary_year'];
@@ -160,8 +160,8 @@
                                     $emailid = $pilCompleteDetail['email'];
                                     $mobileno = $pilCompleteDetail['mobile'];
                                     $stateCode = $pilCompleteDetail['ref_state_id'];
-                                    $receivedOn = $this->common->date_formatter($pilCompleteDetail['received_on'], 'd-m-Y');
-                                    $petitionDate =  $this->common->date_formatter($pilCompleteDetail['petition_date'], 'd-m-Y');
+                                    $receivedOn = $common->date_formatter($pilCompleteDetail['received_on'], 'd-m-Y');
+                                    $petitionDate =  $common->date_formatter($pilCompleteDetail['petition_date'], 'd-m-Y');
                                     $pilCategoryCode = $pilCompleteDetail['ref_pil_category_id'];
                                     $pilGroupCode = $pilCompleteDetail['group_file_number'];
                                     $otherGroup = $pilCompleteDetail['other_text'];
@@ -169,63 +169,67 @@
                                     $actionTakenCode = $pilCompleteDetail['action_taken'];
                                     $lodgementDate = $pilCompleteDetail['lodgment_date'];
                                     $actionReasonCode = $pilCompleteDetail['ref_action_taken_id'];
-                                    $writtenOn = $this->common->date_formatter($pilCompleteDetail['written_on'], 'd-m-Y');
+                                    $writtenOn = $common->date_formatter($pilCompleteDetail['written_on'], 'd-m-Y');
                                     $writtenFor = $pilCompleteDetail['written_for'];
                                     $writtenTo = $pilCompleteDetail['written_to'];
-                                    $returnDate = $this->common->date_formatter($pilCompleteDetail['return_date'], 'd-m-Y');
+                                    $returnDate = $common->date_formatter($pilCompleteDetail['return_date'], 'd-m-Y');
                                     $returnRemark = $pilCompleteDetail['returned_to_sender_remarks'];
                                     $sentTo = $pilCompleteDetail['sent_to'];
-                                    $sentOn = $this->common->date_formatter($pilCompleteDetail['sent_on'], 'd-m-Y');
+                                    $sentOn = $common->date_formatter($pilCompleteDetail['sent_on'], 'd-m-Y');
                                     $transferredTo = $pilCompleteDetail['transfered_to'];
-                                    $transferredOn = $this->common->date_formatter($pilCompleteDetail['transfered_on'], 'd-m-Y');
+                                    $transferredOn = $common->date_formatter($pilCompleteDetail['transfered_on'], 'd-m-Y');
                                     $convertedDiaryNumber = $pilCompleteDetail['ec_case_id'];
                                     $convertedDiaryYear = null;
                                     $otherRemedyRemark = $pilCompleteDetail['other_text'];
-                                    $otherActionTakenOn = $this->common->date_formatter($pilCompleteDetail['other_action_taken_on'], 'd-m-Y');
+                                    $otherActionTakenOn = $common->date_formatter($pilCompleteDetail['other_action_taken_on'], 'd-m-Y') ?? '';
                                     $reportReceived = $pilCompleteDetail['report_received'];
-                                    $reportDate = $this->common->date_formatter($pilCompleteDetail['report_received_date'], 'd-m-Y');
+                                    $reportDate = $common->date_formatter($pilCompleteDetail['report_received_date'], 'd-m-Y');
                                     if ($pilCompleteDetail['destroy_on'] != null && $pilCompleteDetail['destroy_on'] != "" && $pilCompleteDetail['is_deleted'] == 't') {
                                         $destroyOrKeepIn = 'Y';
-                                        $destroyOrKeepInDate = $this->common->date_formatter($pilCompleteDetail['destroy_on'], 'd-m-Y');
+                                        $destroyOrKeepInDate = $common->date_formatter($pilCompleteDetail['destroy_on'], 'd-m-Y');
                                     } else if ($pilCompleteDetail['in_record_on'] != null && $pilCompleteDetail['in_record_on'] != "") {
-                                        $destroyOrKeepInDate = $this->common->date_formatter($pilCompleteDetail['in_record_on'], 'd-m-Y');
+                                        $destroyOrKeepInDate = $common->date_formatter($pilCompleteDetail['in_record_on'], 'd-m-Y');
                                         $destroyOrKeepIn = 'N';
                                     }
                                     $destroyOrKeepInRemark = $pilCompleteDetail['remarks'];
-
-                                    switch (trim($pilCompleteDetail['action_taken'])) {
-                                        case "L": {
-                                                $actionTakenText = "No Action Required";
-                                                break;
-                                            }
-                                        case "W": {
-                                                $actionTakenText = "Written Letter to " . $pilCompleteDetail['written_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['written_on']));
-                                                break;
-                                            }
-                                        case "R": {
-                                                $actionTakenText = "Letter Returned to Sender on " . date('d-m-Y', strtotime($pilCompleteDetail['return_date']));
-                                                break;
-                                            }
-                                        case "S": {
-                                                $actionTakenText = "Letter Sent To " . $pilCompleteDetail['sent_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['sent_on']));
-                                                break;
-                                            }
-                                        case "T": {
-                                                $actionTakenText = "Letter Transferred To " . $pilCompleteDetail['transfered_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['transfered_on']));
-                                                break;
-                                            }
-                                        case "I": {
-                                                $actionTakenText = "Letter Converted To Writ";
-                                                break;
-                                            }
-                                        case "O": {
-                                                $actionTakenText = "Other Remedy";
-                                                break;
-                                            }
-                                        default: {
-                                                $actionTakenText = "UNDER PROCESS";
-                                                break;
-                                            }
+                                    if(!empty($pilCompleteDetail['action_taken']))
+                                    {
+                                        switch (trim($pilCompleteDetail['action_taken'])) {
+                                            case "L": {
+                                                    $actionTakenText = "No Action Required";
+                                                    break;
+                                                }
+                                            case "W": {
+                                                    $actionTakenText = "Written Letter to " . $pilCompleteDetail['written_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['written_on']));
+                                                    break;
+                                                }
+                                            case "R": {
+                                                    $actionTakenText = "Letter Returned to Sender on " . date('d-m-Y', strtotime($pilCompleteDetail['return_date']));
+                                                    break;
+                                                }
+                                            case "S": {
+                                                    $actionTakenText = "Letter Sent To " . $pilCompleteDetail['sent_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['sent_on']));
+                                                    break;
+                                                }
+                                            case "T": {
+                                                    $actionTakenText = "Letter Transferred To " . $pilCompleteDetail['transfered_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['transfered_on']));
+                                                    break;
+                                                }
+                                            case "I": {
+                                                    $actionTakenText = "Letter Converted To Writ";
+                                                    break;
+                                                }
+                                            case "O": {
+                                                    $actionTakenText = "Other Remedy";
+                                                    break;
+                                                }
+                                            default: {
+                                                    $actionTakenText = "UNDER PROCESS";
+                                                    break;
+                                                }
+                                        }
+                                    }else{
+                                        $actionTakenText = "UNDER PROCESS";
                                     }
                                 }
                                 ?>
@@ -244,7 +248,7 @@
                                                 <input type="hidden" name="diaryyear" id="diaryyear" value="<?= $diaryYear ?>">
                                                 <label for="addressedto" class="col-sm-3 control-label">Inward Number : <?= $diaryNumber ?>/<?= $diaryYear ?></label>
 
-                                                <label for="addressedto" class="col-sm-6 control-label pull-right">Action Taken : <?= $this->common->convertToTitleCase($actionTakenText) ?></label>
+                                                <label for="addressedto" class="col-sm-6 control-label pull-right">Action Taken : <?= $common->convertToTitleCase($actionTakenText) ?></label>
                                             </div>
                                         <?php } ?>
 
@@ -302,9 +306,7 @@
                                                     <label for="petitionDate" class="control-label">Petition Date</label>
                                                     <div class="">
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
+                                                           
                                                             <!-- input type="text" style="font-weight: bold!important;" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" class="form-control" name="petitionDate" id="petitionDate" placeholder="Petition Date" value="<?= ($petitionDate != '') ? $petitionDate : '' ?>" -->
                                                             <input type="text" style="font-weight: bold!important;" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" class="form-control" name="petitionDate" id="petitionDate" placeholder="Petition Date" value="<?= ($petitionDate != '' && $petitionDate != '30-11--0001') ? $petitionDate : '' ?>">
                                                         </div>
@@ -314,9 +316,7 @@
                                                     <label for="receivedOn" class="control-label">Received On</label>
                                                     <div class="">
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
+                                                           
                                                             <input type="text" style="font-weight: bold!important;" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" class="form-control" name="receivedOn" id="receivedOn" placeholder="Received On" value="<?= ($receivedOn != '') ? $receivedOn : date('d-m-Y') ?>">
                                                         </div>
                                                     </div>
@@ -426,9 +426,7 @@
                                                     <label for="lodgementDate" class="control-label">Lodgement Date</label>
                                                     <div class="">
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
+                                                           
                                                             <input type="text" style="font-weight: bold!important;" class="form-control" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" name="lodgementDate" id="lodgementDate" placeholder="Lodgement Date" value="<?= ($lodgementDate != null) ? date("d-m-Y", strtotime($lodgementDate)) : null ?>">
                                                         </div>
                                                     </div>
@@ -452,9 +450,7 @@
                                                     <label for="writtenOn" class="control-label">Written On</label>
                                                     <div class="">
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
+                                                           
                                                             <input type="text" style="font-weight: bold!important;" class="form-control" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" name="writtenOn" id="writtenOn" placeholder="Written On" value="<?= $writtenOn ?>">
                                                         </div>
                                                     </div>
@@ -489,9 +485,7 @@
                                                     <label for="returnDate" class="control-label">Return Date</label>
                                                     <div class="">
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
+                                                           
                                                             <input type="text" style="font-weight: bold!important;" class="form-control" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" name="returnDate" id="returnDate" placeholder="Return Date" value="<?= $returnDate ?>">
                                                         </div>
                                                     </div>
@@ -541,9 +535,7 @@
                                                     <label for="sentOn" class="control-label">Sent On</label>
                                                     <div class="">
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
+                                                           
                                                             <input type="text" style="font-weight: bold!important;" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" class="form-control" name="sentOn" id="sentOn" placeholder="Sent On" value="<?= $sentOn ?>">
                                                         </div>
                                                     </div>
@@ -572,9 +564,7 @@
                                                     <label for="transferredOn" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" class="control-label">Transferred On</label>
                                                     <div class="">
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
+                                                           
 
                                                             <input type="text" style="font-weight: bold!important;" class="form-control" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" name="transferredOn" id="transferredOn" placeholder="Transferred On" value="<?= $transferredOn ?>">
                                                         </div>
@@ -608,10 +598,8 @@
                                                     <label for="otherActionTakenOn" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" class="control-label">Other Action Taken On</label>
                                                     <div class="">
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
-                                                            <input type="text" style="font-weight: bold!important;" class="form-control" name="otherActionTakenOn" id="otherActionTakenOn" placeholder="Other Action date" value="<?= $otherActionTakenOn ?>">
+                                                           
+                                                            <input type="text" style="font-weight: bold!important;" class="form-control" name="otherActionTakenOn" id="otherActionTakenOn" placeholder="Other Action date" value="<?= $otherActionTakenOn ?? '' ?>">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -647,9 +635,7 @@
                                                     <label for="reportDate" class="control-label">Report Received Date</label>
                                                     <div class="">
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
+                                                           
                                                             <input type="text" style="font-weight: bold!important;" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" class="form-control" name="reportDate" id="reportDate" placeholder="Report Date" value="<?= $reportDate ?>">
                                                         </div>
                                                     </div>
@@ -698,9 +684,7 @@
                                                 <label for="destroyOrKeepInDate" class="control-label">Destroy/Keep in Record Date</label>
                                             <div class="">
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
+                                                     
                                                     <?php if ($checkedY == "" && $checkedN == "") { ?>
                                                         <input type="text" style="font-weight: bold!important;" onKeyDown="javascript:return dFilter(event.which, this, '##-##-####');" class="form-control" name="destroyOrKeepInDate" id="destroyOrKeepInDate" placeholder="Date">
                                                     <?php
@@ -720,7 +704,7 @@
                                         </div>
                                     </div>
                                     <div class="box-footer">
-                                        <button type="submit" id="btnSave" class="btn btn-success col-sm-4" onclick="savePilData('<?= base_url() ?>',<?= $dcmis_user_idd ?>);">SAVE</button>
+                                        <button type="button" id="btnSave" class="btn btn-success col-sm-4" onclick="savePilData('<?= base_url() ?>',<?= $dcmis_user_idd ?>);">SAVE</button>
                                         <!--<button type="submit" id="btnSave" class="btn btn-success col-sm-4">SAVE</button>-->
                                         <button type="button" class="btn btn-danger pull-right col-sm-4" onclick="goBack('<?= base_url() ?>',<?= $dcmis_user_idd ?>);">Cancel</button>
                                     </div>

@@ -1,7 +1,4 @@
-<?php
-if(count($caseList)>0)
-{
-    ?>
+<?php if(count($caseList)>0) { ?>
     <input type="hidden" id="causelistDate" value="<?=$causelistDate?>">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12">
         <div class="form-group row">
@@ -117,10 +114,9 @@ else
         $('.search-box').select2();
     });
 
-    function doDispatch()
-    {
+    function doDispatch() {
         updateCSRFToken();
-        var attendant=0;
+        var attendant = 0;
         var selectedCases = [];
         var cmnshusercodes= [];
         var dacodes=[];
@@ -210,4 +206,21 @@ else
             }
         });
     }
+
+    function selectallMe() {
+    var checkBoxList=$('[name="proceeding[]"]');
+
+    if ($('#allCheck').is(':checked'))
+    {
+
+        for (var i1 = 0; i1<checkBoxList.length; i1++){
+            checkBoxList[i1].checked=true;
+        }
+
+    }else{
+        for (var i1 = 0; i1<checkBoxList.length; i1++){
+            checkBoxList[i1].checked=false;
+        }
+    }
+}
 </script>

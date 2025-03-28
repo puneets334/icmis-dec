@@ -1,6 +1,6 @@
 <?php
 if ($option == 1) {
-
+    
     if ($radio == 2) {
         $get_dno = $model_ia->searchDiary($ctype, $cno, $cyr);
         if ($get_dno) {
@@ -11,13 +11,24 @@ if ($option == 1) {
                 $diary_no = $get_dno['dn'] . $get_dno['dy'];
             }
         }
+    }
+    elseif($radio == 'C' && !empty($ctype) && !empty($cno) && !empty($cyr) ){
+        $get_dno = $model_ia->searchDiary($ctype, $cno, $cyr);
+        if ($get_dno) {
+            $diary_no = $get_dno['dn'] . $get_dno['dy'];
+        } else {
+            $get_dno = $model_ia->getSearchDiary($ctype, $cno, $cyr);
+            if ($get_dno) {
+                $diary_no = $get_dno['dn'] . $get_dno['dy'];
+            }
+        }   
     } else {
         $diary_no = $dno . $dyr;
         $get_dno['dn'] = $dno;
         $get_dno['dy'] = $dyr;
     }
 
-
+    
     if ($diary_no) {
         $dno_data = $model_ia->getDiaryData($diary_no);
         $reg_no = $dno_data['reg_no_display'];
