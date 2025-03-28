@@ -55,9 +55,7 @@
                                                                 $menu_id = $menu['sml1_id'];
                                                             }
                                                              ?>
-                                                            <li class="nav-item"><a onclick="get_search_view(<?= $menu['sml1_id']; ?>)" class="nav-link <?php if ($menu['url'] == $url) {
-                                                                                                                                                            echo 'active';
-                                                                                                                                                        } ?>" href="#ARDRBM" data-toggle="tab"><?= $menu['menu_nm']; ?> </a></li>
+                                                            <li class="nav-item"><a onclick="get_search_view(<?= $menu['sml1_id']; ?>)" class="nav-link <?php if ('/'.$menu['url'] == $url) { echo ' ia-tab-active active'; } ?>" data-test="<?php echo $menu['url']." | ".$url; ?>" href="#ARDRBM" data-toggle="tab"><?= $menu['menu_nm']; ?> </a></li>
                                                     <?php }
                                                     }
                                                 } else { ?>
@@ -81,6 +79,11 @@
 </section>
 
 <script>
+
+    $(document).ready(function() {
+        $(".ia-tab-active").trigger('click');
+    });
+
     <?php if (!empty($menu_id)) { ?>
         get_search_view(<?= $menu_id; ?>);
     <?php } ?>
