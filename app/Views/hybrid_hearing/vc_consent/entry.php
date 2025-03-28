@@ -34,9 +34,10 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="listing_dts" class="form-label">Listing Date</label>
+                                        <label class="form-label">Listing Date</label>
                                         <select class="form-control cus-form-ctrl select-box" name="listing_dts" id="listing_dts">
-                                            <option value="">Select Listing Date</option>
+                                            <!-- <option value="">Select Listing Date</option> -->
+                                            <option value="-1" selected>SELECT</option>
                                             <?php if (!empty($listing_dates)): ?>
                                                 <?php foreach ($listing_dates as $row): ?>
                                                     <option value="<?= $row['next_dt']; ?>"><?= date("d-m-Y", strtotime($row['next_dt'])); ?></option>
@@ -49,9 +50,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="list_type" class="form-label">Listing Date</label>
+                                        <label class="form-label">Listing Date</label>
                                         <select class="form-control cus-form-ctrl select-box" name="list_type" id="list_type">
-                                            <option value="">List Type</option>
+                                            <!-- <option value="">List Type</option> -->
                                             <option value="0">ALL</option>
                                             <option value="4">Misc.</option>
                                             <option value="3">Regular</option>
@@ -64,7 +65,8 @@
                                     <div class="form-group">
                                         <label for="judge_code" class="form-label">Hon'ble Judges</label>
                                         <select class="form-control cus-form-ctrl select-box" name="judge_code" id="judge_code">
-                                            <option value="">Select Hon'ble Judges</option>
+                                            <!-- <option value="">Select Hon'ble Judges</option> -->
+                                            <option value="0" selected>All</option>
                                             <?php if (!empty($judges)): ?>
                                                 <?php foreach ($judges as $row): ?>
                                                     <option value="<?= $row['jcode']; ?>"><?= $row['judge_name']; ?></option>
@@ -131,7 +133,7 @@
             var judge_code = $("select#judge_code option:selected").val();
             var court_no = $("select#court_no option:selected").val();
             var csrf = $('input[name="<?= csrf_token() ?>"]').val();
-            if (!listing_dts) {
+            if(listing_dts == '-1') {
                 swal({
                     title: "Alert!",
                     text: "Please select a listing date",
@@ -139,9 +141,9 @@
                     icon: "error",
                     button: "error!",
                 })
-                return;
-            }
-            if (!list_type) {
+                $("#listing_dts").focus();
+                return false;
+            } else if(judge_code > 0 && court_no > 0) {
                 swal({
                     title: "Alert!",
                     text: "Please select either Honble Judge Name or Court No.",
@@ -149,7 +151,8 @@
                     icon: "error",
                     button: "error!",
                 })
-                return;
+                $("#listing_dts").focus();
+                return false;
             }
             button.prop('disabled', true); // Disable the button
             button.html('<i class="fa fa-spinner fa-spin"></i> Loading...');
