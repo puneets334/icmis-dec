@@ -901,7 +901,8 @@ class IA extends BaseController
         $cn = $this->request->getVar('cn');
         $cy = $this->request->getVar('cy');
         if ($ct != '') {
-            $get_dno = $this->Model_IA->getDiaryInfo($ct, $cn, $cy);
+            //$get_dno = $this->Model_IA->getDiaryInfo($ct, $cn, $cy);
+            $get_dno = $this->Model_IA->getDiaryInfo_builder($ct, $cn, $cy);            
             if ($get_dno) {
                 $this->session->set([
                     'd_no' => $get_dno['dn'],
@@ -924,6 +925,9 @@ class IA extends BaseController
         $dno = $this->request->getVar('d_no');
         $dyr = $this->request->getVar('d_yr');
         $diaryno = $dno . $dyr;
+        if(empty($diaryno) && !empty($get_dno) && is_array($get_dno) ){
+            $diaryno = $get_dno['dn'] . $get_dno['dy'];
+        }
         $jud1 = 0;
         $jud2 = 0;
         $jud3 = 0;
