@@ -129,7 +129,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label for="from" class="text-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                    <input type="button" name="btnGetR" value="GET DETAILS"/>
+                                    <input type="button" name="btnGetR" value="GET DETAILS" class="btn btn-primary"/>
                                 </div>
                             </div>
                             <?= form_close()?>
@@ -299,7 +299,7 @@
                     }
                     get_user();
                 }
-                updateCSRFToken();
+                //updateCSRFToken();
             },
             error: function(xhr, status, error)
             {
@@ -453,8 +453,9 @@
         }
     }
 
-    function get_user()
+    async function get_user()
     {
+        await updateCSRFTokenSync();
         let CSRF_TOKEN = 'CSRF_TOKEN';
         let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var dept = $("#department").val();
@@ -462,13 +463,12 @@
         var desig = $("#designation").val();
 
         $.ajax({
-            type: 'GET',
-            data: 
-            {
-                CSRF_TOKEN: CSRF_TOKEN_VALUE,
+            type: 'POST',
+            data: {
                 dept:dept,
                 sec:sec,
-                desig:desig
+                desig:desig,
+                CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             url: "<?= site_url('Exchange/FileMovement/getUserOptions') ?>",
             beforeSend: function ()

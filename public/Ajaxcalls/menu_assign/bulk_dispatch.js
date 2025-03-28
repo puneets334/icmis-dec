@@ -22,6 +22,7 @@ $(document).ready(function(){
 
     $("input[name=btnGetR]").click(function()
     {
+        
         var diaryno, diaryyear, cstype, csno, csyr;
         var regNum = new RegExp('^[0-9]+$');
          
@@ -208,8 +209,7 @@ $(document).on("change","#department",function(){
     
      $("#btnGetR").click(function ()
         {
-           
-            $("#dv_res1").html('<center><img src="../images/load.gif"/></center>');
+            $('#dv_res1').html('<table width="100%" style="margin: 0 auto;"><tr><td style="text-align: center;"><img src="../../../images/load.gif"/></td></tr></table>');
             $.ajax
                     ({
                         url: base_url + "/Exchange/MovementOfDoc/MovementOfDocument/bulk_dispatch_pro",

@@ -1051,6 +1051,91 @@ class ReportModel extends Model
     $result = $query->getResultArray();
     return $result;
   }
+  public function get_elemination_transfer($list_dt,$sec_id)
+  {
+    if($sec_id == "0"){
+      $sec_id = "";
+      $sec_id2 = "";
+      $section = "";
+    }        
+    else
+    {     
+      $sql_sec_name = $this->section_name_by_id($sec_id); 
+      $sec_name= $sql_sec_name[0]['section_name'];
+      $sec_id = " and (us.id ='".$sec_id."'  or tentative_section(m.diary_no) = '$sec_name' )";
+      $sec_id2 = "AND us.id is not null";
+      $section= " where section_name='$sec_name' ";         
+    }
+    $sql = "SELECT *
+            FROM (
+                SELECT DISTINCT
+                    m.diary_no,
+                tt.next_dt_old,
+                    tt.listorder_new,
+                    tt.next_dt_new,
+                    u.name,
+                    CASE
+                        WHEN us.section_name IS NOT NULL THEN us.section_name
+                        ELSE tentative_section(m.diary_no)
+                    END AS section_name,
+                    m.conn_key AS main_key,
+                    c1.short_description,
+                    active_fil_no,
+                    m.active_reg_year,
+                    m.casetype_id,
+                    m.active_casetype_id,
+                    m.ref_agency_state_id,
+                    m.reg_no_display,
+                    EXTRACT(YEAR FROM m.fil_dt) AS fil_year,
+                    m.fil_no,
+                    m.fil_dt,
+                    m.fil_no_fh,
+                    m.reg_year_fh AS fil_year_f,
+                    m.mf_active,
+                    m.pet_name,
+                    m.res_name,
+                    pno,
+                    rno,
+                    m.diary_no_rec_date,
+                    CASE
+                        WHEN (tt.diary_no = tt.conn_key OR tt.conn_key = 0 OR tt.conn_key IS NULL) THEN 0
+                        ELSE 1
+                    END AS main_or_connected,
+                    (SELECT CASE WHEN diary_no IS NOT NULL THEN 1 ELSE 0 END FROM conct WHERE diary_no = m.diary_no AND list = 'Y') AS listed
+                FROM main m
+                INNER JOIN transfer_old_com_gen_cases tt ON tt.diary_no = m.diary_no
+                LEFT JOIN master.casetype c1 ON active_casetype_id = c1.casecode
+                LEFT JOIN master.users u ON u.usercode = m.dacode AND u.display = 'Y'
+                LEFT JOIN master.usersection us ON us.id = u.section
+                LEFT JOIN mul_category c2 ON c2.diary_no = m.diary_no AND c2.display = 'Y'
+                WHERE 
+                tt.next_dt_old = '$list_dt' AND 
+                  tt.next_dt_new > CURRENT_DATE
+                  AND c2.diary_no IS NOT NULL
+                  AND (
+                      TRIM(LEADING '0' FROM SPLIT_PART(m.fil_no, '-', 1)) IN ('3', '15', '19', '31', '23', '24', '40', '32', '34', '22', '39', '11', '17', '13', '1', '7', '37', '9999', '38', '5', '21', '27', '4', '16', '20', '18', '33', '41', '35', '36', '28', '12', '14', '2', '8', '6')
+                      OR (m.active_fil_no = '' OR m.active_fil_no IS NULL)
+                  )
+                  AND CASE
+                      WHEN (tt.diary_no = tt.conn_key OR tt.conn_key = 0 OR tt.conn_key IS NULL) THEN TRUE
+                      ELSE (
+                          (SELECT DISTINCT conn_key FROM conct WHERE diary_no = m.diary_no) IN (SELECT diary_no FROM transfer_old_com_gen_cases t1 WHERE t1.next_dt_new = tt.next_dt_new AND t1.next_dt_new > CURRENT_DATE)
+                      )
+                  END
+                GROUP BY m.diary_no, tt.next_dt_old,tt.listorder_new, tt.next_dt_new, u.name, us.section_name, m.conn_key, c1.short_description, active_fil_no, m.active_reg_year, m.casetype_id, m.active_casetype_id, m.ref_agency_state_id, m.reg_no_display, fil_year, m.fil_no, m.fil_dt, m.fil_no_fh, m.reg_year_fh, m.mf_active, m.pet_name, m.res_name, pno, rno, m.diary_no_rec_date, main_or_connected, listed
+            ) AS aa 
+            $section 
+            ORDER BY 
+                CASE WHEN main_key != '' THEN SUBSTRING(main_key::text, LENGTH(main_key::text) - 3) ELSE SUBSTRING(diary_no::text, LENGTH(diary_no::text) - 3) END,
+                CASE WHEN main_key != '' THEN main_key::text ELSE diary_no::text END,
+                CASE WHEN main_key::TEXT = diary_no::TEXT THEN 0 ELSE 1 END,
+                main_or_connected ASC";
+                // echo $sql;
+                // die();
+    $query = $this->db->query($sql);
+    $result = $query->getResultArray();
+    return $result;
+  }
   public function tentative_listing_date()
   {
         $cur_ddt = date('Y-m-d', strtotime(' +1 day'));
@@ -1075,6 +1160,18 @@ class ReportModel extends Model
     $query = $builder->select('*')
       ->where('display', 'Y')
       ->where('isda', 'Y')
+      ->orderBy('section_name');
+    $query = $builder->get();
+    $result = $query->getResultArray();
+    return $result;
+  }
+  public function section_name_by_id($id)
+  {
+    $builder = $this->db->table('master.usersection');
+    $query = $builder->select('*')
+      ->where('display', 'Y')
+      ->where('isda', 'Y')
+      ->where('id', $id)
       ->orderBy('section_name');
     $query = $builder->get();
     $result = $query->getResultArray();

@@ -569,8 +569,64 @@ class Model_IA extends Model
                 AND (SUBSTRING_INDEX(fil_no_fh, '-', -1)) 
                 AND IF(reg_year_fh = 0, YEAR(fil_dt_fh) = $cy, reg_year_fh = $cy)
             ");
-
+        // echo $builder->getCompiledSelect();die;
         $result = $builder->get()->getRowArray();
+        return $result;
+    }
+
+    public function getDiaryInfo_builder($ct, $cn, $cy)
+    {
+        $builder = $this->db->table('main')
+                ->select([
+                    'DN' => 'SUBSTRING(DIARY_NO::TEXT FROM 1 FOR LENGTH(DIARY_NO::TEXT) - 4) as dn',
+                    'DY' => 'RIGHT(DIARY_NO::TEXT, 4) as dy'
+                ])
+                ->where("CASE WHEN SPLIT_PART(FIL_NO, '-', $ct) ~ '^[0-9]+$' 
+                        THEN SPLIT_PART(FIL_NO, '-', $ct)::INTEGER 
+                        ELSE NULL END = 1")
+                ->where("$cn BETWEEN COALESCE(
+                        CASE WHEN SPLIT_PART(FIL_NO, '-', 2) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(FIL_NO, '-', 2)::INTEGER 
+                            ELSE NULL END, 0
+                    ) AND COALESCE(
+                        CASE WHEN SPLIT_PART(FIL_NO, '-', -1) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(FIL_NO, '-', -1)::INTEGER 
+                            ELSE NULL END, 0
+                    )")
+                ->groupStart()
+                    ->groupStart()
+                        ->where('reg_year_mh', 0)
+                        ->orWhere('fil_dt >', '2017-05-10')
+                    ->groupEnd()
+                    ->where('EXTRACT(YEAR FROM fil_dt)', $cy)
+                ->groupEnd()
+                ->orGroupStart()
+                    ->where("CASE WHEN SPLIT_PART(fil_no_fh, '-', 1) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(fil_no_fh, '-', 1)::INTEGER 
+                            ELSE NULL END = 1")
+                    ->where("$cn BETWEEN COALESCE(
+                            CASE WHEN SPLIT_PART(fil_no_fh, '-', 2) ~ '^[0-9]+$' 
+                                THEN SPLIT_PART(fil_no_fh, '-', 2)::INTEGER 
+                                ELSE NULL END, 0
+                        ) AND COALESCE(
+                            CASE WHEN SPLIT_PART(fil_no_fh, '-', -1) ~ '^[0-9]+$' 
+                                THEN SPLIT_PART(fil_no_fh, '-', -1)::INTEGER 
+                                ELSE NULL END, 0
+                        )")
+                    ->groupStart()
+                        ->groupStart()
+                            ->where('reg_year_fh', 0)
+                            ->where('EXTRACT(YEAR FROM fil_dt_fh)', $cy)
+                        ->groupEnd()
+                        ->orWhere('reg_year_fh', $cy)
+                    ->groupEnd()
+                ->groupEnd();
+            
+            //echo $builder->getCompiledSelect();die;
+            $result = $builder->get()->getRowArray();
+            
+
+
         return $result;
     }
 
@@ -674,8 +730,7 @@ class Model_IA extends Model
             $builder->where('m.diary_no', (int)$diaryno); // assuming diary_no is bigint
         } else {
             $builder->where('m.diary_no', (string)$diaryno); // assuming diary_no is varchar
-        }
-
+        }        
         return $builder->get()->getRowArray();
     }
 
@@ -1291,6 +1346,7 @@ class Model_IA extends Model
         $builder->where('c_status', 'P');
         $builder->where('is_order_challenged', 'Y');
         $builder->orderBy('a.lower_court_id');
+        //echo $builder->getCompiledSelect();die;
         $query = $builder->get();
         return $query->getResultArray();
     }

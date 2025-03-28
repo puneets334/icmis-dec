@@ -856,6 +856,7 @@ function fsubmit()
         url: base_url+"/ARDRBM/IA/prevRegularRegistrationProcess",
         beforeSend: function (xhr) {
             //$("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>");
+            $('#search').prop('disabled',true);            
             $('#dv_res1').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
         },
         data:{d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,cy:csyr,tab:'Case Details',CSRF_TOKEN: CSRF_TOKEN_VALUE}
@@ -863,10 +864,12 @@ function fsubmit()
         .done(function(msg){
             updateCSRFToken();
             $("#dv_res1").html(msg);
+            $('#search').prop('disabled',false);
         })
         .fail(function(){
             updateCSRFToken();
             alert("ERROR, Please Contact Server Room");
+            $('#search').prop('disabled',false);
         });
 //
 //    document.getElementById("dv_res1").innerHTML = '';
@@ -1028,11 +1031,18 @@ function generate_case(){
 
     var reg_for_year=0;
 
+    // $("input[type='checkbox'][name^='ccchk']").each(function(){
+    //     var isChecked = document.getElementById($(this).attr('id')).checked;
+    //     if(isChecked)
+    //     {
+    //         cn+=$('#cn'+$(this).val()).html()+", ";
+    //         qte_array.push($(this).val());
+    //     }
+    // });
+        
     $("input[type='checkbox'][name^='ccchk']").each(function(){
-        var isChecked = document.getElementById($(this).attr('id')).checked;
-        if(isChecked)
-        {
-            cn+=$('#cn'+$(this).val()).html()+", ";
+        if ($(this).prop('checked')) { // Use .prop('checked') instead of document.getElementById
+            cn += $('#cn' + $(this).val()).html() + ", ";
             qte_array.push($(this).val());
         }
     });

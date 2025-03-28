@@ -5,50 +5,27 @@
 
     if ($ct != '')
     {
-       
-
-
         //$get_dno = $model->getDiaryNumber1($ct, $cn, $cy);
-
+        
         $get_dno = $model1->get_case_details_by_case_no($ct, $cn, $cy);
-       
-
         if (!empty($get_dno))
         {
-            $d_no = $get_dno['diary_no'];
-            $d_yr = $cy;
+            $d_no = $get_dno['dn'];
+            $d_yr = $get_dno['dy'];
         }
-        else
-        {
-           
-            
-            $d_no = '';
-            $d_yr = '';
-        }
-        
     }
-   
-
-
     $sql = $model->getDiaryDetails1($d_no, $d_yr);
-
-  
-
-
     $main_fh_fil_no = "";
-    $fil_no=[];
-    if (!empty($sql))
-    {
+    $fil_no = [];
+    if (!empty($sql)) {
         $fil_no = $sql;
-
-
         if ($fil_no['diary_no'] != $fil_no['conn_key'] and $fil_no['conn_key'] != '')
             $check_for_conn = "N";
         else
             $check_for_conn = "Y";
         if ($fil_no['fil_no_fh'] != '')
             $main_fh_fil_no = "EXIST";
-        ?>
+?>
         <h4 align="center">
             Supreme Court of India
         </h4>
@@ -58,7 +35,7 @@
 
         <?php
         $d_no_yr = $d_no . $d_yr;
-    
+
 
         navigate_diary($d_no_yr);
         $t_res_ct_typ = $model->getShortDescription($fil_no['casetype_id']);
@@ -91,12 +68,12 @@
                     $temp_var .= $row['addr1'] . ', ' . $row['addr2'];
 
 
-                    $t_var = $model->getDistrictName1($row['state'], $row['city']);
+                $t_var = $model->getDistrictName1($row['state'], $row['city']);
 
-                    if (!empty($t_var) && isset($t_var['name'])) {
-                        $temp_var .= ", District : " . $t_var['name'];
-                    }
-                    
+                if (!empty($t_var) && isset($t_var['name'])) {
+                    $temp_var .= ", District : " . $t_var['name'];
+                }
+
 
                 if ($row['pet_res'] == 'P') {
                     $pet_name = $temp_var;
@@ -171,7 +148,7 @@
                     </td>
                     <td>
                         <?php
-                       
+
 
                         $act = $model->getActSections1($fil_no['diary_no']);
                         $act_section = '';
@@ -228,30 +205,29 @@
                     </td>
                 </tr>
                 <?php
-           
+
                 if ($fil_no['c_status'] == 'P') {
 
                     $ttv = $model->getTentativeClDt($fil_no['diary_no']);
                     $r_ttv = $ttv;
-                   
+
 
                     $result_sql_display = $model->getDisplayFlag1();
-                   
+
                     $result_array = $result_sql_display;
-                    if ($result_array['display_flag'] == 1 || in_array($ucode, explode(',', $result_array['always_allowed_users'])))
-                    {
-                        
+                    if ($result_array['display_flag'] == 1 || in_array($ucode, explode(',', $result_array['always_allowed_users']))) {
+
                 ?>
-                
+
                         <tr>
                             <td>
                                 Tentative Date
                             </td>
                             <td>
                                 <?php
-                               
-                               $tentativeDate = $r_ttv['tentative_cl_dt'] ?? null;
-                               if ($tentativeDate && get_display_status_with_date_differnces($tentativeDate) == 'T') {
+
+                                $tentativeDate = $r_ttv['tentative_cl_dt'] ?? null;
+                                if ($tentativeDate && get_display_status_with_date_differnces($tentativeDate) == 'T') {
                                     $tentative_date = $r_ttv['tentative_cl_dt'];
                                     echo change_date_format($tentative_date);
                                 }
@@ -288,15 +264,16 @@
 
 
         //IAN
-       
+
 
         $results_ian = $model->getIANDoccode($fil_no['diary_no']);
-        
+
+
         $iancntr = 1;
         $counter = 1;
         $vcounter = 0;
-        $ian='';
-        $ian_p='';
+        $ian = '';
+        $ian_p = '';
         if (!empty($results_ian)) {
         ?>
             <div class="cl_center">
@@ -306,7 +283,7 @@
 
             foreach ($results_ian as $row_ian) {
                 $verified = '';
-                $ian_p ='';
+                $ian_p = '';
                 if ($row_ian['verified'] == 'V')
                     $verified = "Verified";
                 if ($row_ian['verified'] == 'R')
@@ -333,7 +310,14 @@
                     $vcounter++;
                     $t_check = "<input type='checkbox' name='chk" . $counter . "' id='chk" . $counter . "' value='" . $row_ian['diary_no'] . '-' . $row_ian['doccode'] . '-' . $row_ian['doccode1'] . '-' . $row_ian['docnum'] . '-' . $row_ian['docyear'] . "'/>";
                 }
-                $ian .= "<tr><td>" . $t_check . "</td><td align='center'>" . $iancntr . "</td><td align='center'><b>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</b></td><td>" . str_replace("XTRA", "", $t_part) . "</td><td>" . $row_ian["filedby"] . "</td><td align='center'>" . date("d-m-Y", strtotime($row_ian["ent_dt"])) . "</td><td align='center'>" . $verified . "</td><td align='center'><b>" . $t_ia . "</b></td></tr>";
+                $ian .= "<tr><td>" . $t_check . "</td>
+                <td align='center'>" . $iancntr . "</td>
+                <td align='center'><b>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</b></td>
+                <td>" . str_replace("XTRA", "", $t_part) . "</td>
+                <td>" . $row_ian["filedby"] . "</td>
+                <td align='center'>" . date("d-m-Y", strtotime($row_ian["ent_dt"])) . "</td>
+                <td align='center'>" . $verified . "</td>
+                <td align='center'><b>" . $t_ia . "</b></td></tr>";
 
                 $iancntr++;
                 $counter++;
@@ -348,9 +332,9 @@
         //OTHER DOCUMENTS
 
         $results_od = $model->getOtherDoccode($fil_no['diary_no']);
-       
+
         $odcntr = 1;
-        $oth_doc ='';
+        $oth_doc = '';
         if (!empty($results_od)) {
             ?>
             <div class="cl_center">
@@ -392,16 +376,17 @@
         if ($vcounter > 0) {
             ?>
             <p align="center"><input type="button" class="vrbutton" value="Registration of I.A./Doc." onclick="verifyFunction('V');">&nbsp;
-            <input type="button" class="vrbutton" value="Reject" onclick="verifyFunction('R');"></p>
-        <?php
+                <input type="button" class="vrbutton" value="Reject" onclick="verifyFunction('R');">
+            </p>
+<?php
         }
     }
 }
 ?>
-<input type="hidden" name="dn" id="dn" 
-       value="<?php echo isset($fil_no['diary_no']) ? $fil_no['diary_no'] : ''; ?>" />
+<input type="hidden" name="dn" id="dn"
+    value="<?php echo isset($fil_no['diary_no']) ? $fil_no['diary_no'] : ''; ?>" />
 
-<input type="hidden" name="sh" id="sh" value="<?php /* print $subhead; */ ?>" />   
+<input type="hidden" name="sh" id="sh" value="<?php /* print $subhead; */ ?>" />
 <input type="hidden" name="da_hidden" id="da_hidden" value="<?php echo ''; ?>" />
 <input type="hidden" name="ucode" id="ucode" value="<?php echo $ucode; ?>" />
 <input type="hidden" name="check_for_regular_case" id="check_for_regular_case" value="<?php echo $check_for_regular_case; ?>" />
