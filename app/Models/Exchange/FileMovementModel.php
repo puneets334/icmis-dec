@@ -43,18 +43,6 @@ class FileMovementModel extends Model
 
     public function dispatch_receive_report_process($usercode, $rd, $mf, $rur, $ct, $fdt, $tdt)
     {
-        //$usercode = session()->get('login')['usercode'];
-
-        // $rd = $_REQUEST['rd'];
-        // $mf = $_REQUEST['mf'];
-        // $rur = $_REQUEST['rur'];
-        // $ct = $_REQUEST['ct'];
-        // $fdt = $_REQUEST['dt1'];
-        // $tdt = $_REQUEST['dt2'];
-
-        // $fdt = date('Y-m-d', strtotime($fdt));
-        // $tdt = date('Y-m-d', strtotime($tdt));
-        // pr($tdt);
         $criteria = "";
 
         if ($rd == 'R')
@@ -1022,10 +1010,7 @@ class FileMovementModel extends Model
         $module = $request->getPost('module');
         $user = !empty($request->getPost('user')) ? $request->getPost('user') : '';
         $chk_arr = $request->getPost('chk1');
-        //pr($chk_arr);
-        //$module = $_REQUEST['module'];
-        //$user = isset($_REQUEST['user']) ? $_REQUEST['user'] : '';
-        //$chk_arr = $_REQUEST['chk1'];
+        
         if($ucode != "" && $module != "") {
             foreach ($chk_arr as $value) {
                 $t_data = explode("-", $value);
@@ -1239,8 +1224,7 @@ class FileMovementModel extends Model
             ]);
             
             $result = $builder->get()->getRowArray();
-            //pr($result);
-            //$result = [];
+            
             if (!empty($result)) {
                 $d_no = $result['dn'];
                 $d_yr = $result['dy'];
