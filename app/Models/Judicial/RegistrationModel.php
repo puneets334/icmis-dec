@@ -300,8 +300,8 @@ class RegistrationModel extends Model
             'is_deleted' => $data['is_deleted'],
             'ec_case_id' => $data['ec_case_id'],
         ];
-        $sql = $builder->set($add_data)->getCompiledInsert();        
-        echo $sql;die;
+        // $sql = $builder->set($add_data)->getCompiledInsert();        
+        // echo $sql;die;
         return $builder->insert($add_data);
     }
 
