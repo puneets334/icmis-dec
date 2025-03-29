@@ -1225,7 +1225,10 @@ class IA extends BaseController
             echo '<div style="text-align: center;color: red;font-weight: bold"><b>Cannot Register matter as Matter is Disposed</b></div>';
             exit();
         }
+
+        // $order_dt = "";
         $order_dt = $this->Model_IA->getOrderDetails($dairy_no);
+
         if ($order_dt) {
             $order_date = $order_dt['next_dt'];
         } else {
@@ -1247,14 +1250,42 @@ class IA extends BaseController
             echo '<div style="text-align: center"><b>Category not updated!!!</b></div>';
             exit();
         }
+        
+        
+
         $casetype_added = $this->Model_IA->caseTypeResult($res_p_r['casetype_id']);
         $res_casetype_added = $casetype_added['short_description'];
         $data = [
             'res_casetype_added' => $res_casetype_added,
             'dairy_no' => $dairy_no,
             'res_p_r' => $res_p_r,
-            'modelIA' => $this->Model_IA
+            'order_date' => $order_date,
+            'is_old_registration' => $is_old_registration
         ];
+        
+        $data['res_ck_def'] = $this->Model_IA->checkDefects($dairy_no);
+        
+        $data['check_ia'] = $this->Model_IA->getPendingIADetails($dairy_no);
+        $data['hd_casetype_id'] = $this->Model_IA->get_causetitle($dairy_no);
+        $lowerCourtDetails = $this->Model_IA->getLowerCourtDetails($dairy_no, $res_p_r);
+        
+        foreach ($lowerCourtDetails as $rowKey => $row) {
+            // pr($row);
+            if ($res_p_r['casetype_id'] == '7' || $res_p_r['casetype_id'] == '8') {
+                if ($row['transfer_court'] != 0) {
+                    $lowerCourtDetails[$rowKey]['r_court'] = $this->Model_IA->getCourtName($row['transfer_court']);
+                    $lowerCourtDetails[$rowKey]['r_state'] = $this->Model_IA->getStateName($row['transfer_state']);
+                    $lowerCourtDetails[$rowKey]['r_district'] = $this->Model_IA->getStateName($row['transfer_court'], $row['transfer_district']);
+                    // $lowerCourtDetails[$rowKey]['case_type'] = $modelIA->get_case_type($row['transfer_court'], $row['transfer_case_type']);
+                }
+            }
+        }
+
+        $data['lowerCourtDetails'] = $lowerCourtDetails;
+        $data['check_ia'] = $this->Model_IA->checkIA($dairy_no, $res_p_r['casetype_id']);
+        
+        // pr($data);
+
         echo view('ARDRBM/lower_report_details', $data);
     }
     /*end IA UP-DATION*/

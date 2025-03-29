@@ -1237,8 +1237,8 @@ class Model_IA extends Model
         $builder = $this->db->table('obj_save');
         $builder->where('diary_no', $dairy_no)
             ->where('display', 'Y')
-            ->where('rm_dt', '0000-00-00 00:00:00');
-        echo $builder->getCompiledSelect();die();
+            ->where('rm_dt', null);
+        // echo $builder->getCompiledSelect();die();
         $query = $builder->get();         
         return $query->getRowArray();
     }
@@ -1246,13 +1246,14 @@ class Model_IA extends Model
     public function getPendingIADetails($dairy_no)
     {
         $builder = $this->db->table('docdetails a');
-        $builder->select('a.docnum, a.docyear, a.docdesc, a.other1');
-        $builder->join('docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1');
+        $builder->select('a.docnum, a.docyear, b.docdesc, a.other1');
+        $builder->join('master.docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1');
         $builder->where('a.diary_no', $dairy_no);
         $builder->where('a.iastat', 'P');
         $builder->where('a.display', 'Y');
         $builder->where('b.display', 'Y');
         $builder->where('b.not_reg_if_pen', 1);
+        // echo $builder->getCompiledSelect();die;
         $query = $builder->get();
         return $query->getResultArray();
     }
@@ -1424,7 +1425,7 @@ class Model_IA extends Model
         }
         return $this->db->table('docdetails a')
             ->select('docnum, docyear, docdesc, other1')
-            ->join('docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1')
+            ->join('master.docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1')
             ->where('diary_no', $diary_no)
             ->where('iastat', 'P')
             ->where('a.display', 'Y')

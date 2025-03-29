@@ -41,56 +41,44 @@
                                             <?php
                                             $attribute = array('class' => 'form-horizontal', 'method'=>'POST', 'name' => 'both_form', 'id' => 'both_form', 'autocomplete' => 'off');
                                             echo form_open(base_url('#'), $attribute);
-
-
                                             ?>
 
-                                            <div class="mt-2">
-
-                                                <ul class="nav nav-pills ">
-
-                                                    <li class="nav-item" ><label class="radio-inline"><input type="radio" name="optradio"   value="1" checked>Date Wise</label></li> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <li class="nav-item" ><label class="radio-inline"><input type="radio" name="optradio"  value="2" >User Wise</label></li>
+                                            <div class="mt-3">
+                                                <ul class="nav nav-pills">
+                                                    <li class="nav-item mr-3">
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="optradio" value="1" checked> Date Wise
+                                                        </label>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="optradio" value="2"> User Wise
+                                                        </label>
+                                                    </li>
                                                 </ul>
                                             </div>
 
-                                            <br><br>
-
-
-                                            <div class="row">
-                                                <div class="col-sm-3">
-                                                    <div class="form-group row">
-                                                        <label for="from" class="col-sm-6">From Date</label>
-                                                        <div class="col-sm-6">
-                                                            <input type="date" id="fromDate" name="fromDate" class="form-control datepick" required placeholder="From Date">
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-sm-3">
-
-                                                    <div class="form-group row">
-                                                        <label for="from" class="col-sm-6">To Date</label>
-                                                        <div class="col-sm-6">
-                                                            <input type="date" id="toDate" name="toDate" class="form-control datepick" required placeholder="To Date">
-                                                        </div>
+                                            <div class="row mt-4">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="fromDate">From Date</label>
+                                                        <input type="input" id="fromDate" name="fromDate" class="form-control dtp" placeholder="From Date" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-3">
-
-                                                    <div class="form-group row">
-
-                                                        <div class="col-sm-7">
-                                                            <button type="submit" id="view" name="view" value="date_wise" class="btn btn-block btn-primary" >View</button>
-
-
-                                                        </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="toDate">To Date</label>
+                                                        <input type="input" id="toDate" name="toDate" class="form-control dtp" placeholder="To Date" required>
                                                     </div>
                                                 </div>
-
+                                                <div class="col-md-3 d-flex align-items-end">
+                                                    <button type="submit" id="view" name="view" value="date_wise" class="btn btn-primary btn-block mb-3">View</button>
+                                                </div>
                                             </div>
+
                                             <?php form_close(); ?>
                                         </div>
+
                                         <!-- /.tab-pane -->
                                         <br><br>
 

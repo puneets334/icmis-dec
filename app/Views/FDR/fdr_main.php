@@ -75,7 +75,7 @@
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <label for="amount">Amount</label>
-                                                                    <input type="text" class="form-control form-control-sm" id="amount" ng-model="amount">
+                                                                    <input type="text" class="form-control form-control-sm" id="amount" ng-model="amount" format>
                                                                 </div>
                                                                 <div class="col-md-3">
                                                                     <label for="bank">Bank</label>
@@ -513,34 +513,7 @@
                     display_success("Record added successfully.");
                     $scope.clearForm();
                     $scope.getAll();
-
-                    // clear modal content
-                    // $scope.clearForm();
-                    // // tell the user new fdr was created
-                    // sweetAlert({
-                    //         title: "Success!",
-                    //         text: "Record added successfully.",
-                    //         type: "success"
-                    //     },
-                    //     function () {
-                    //         // refresh the product list
-                    //         $scope.getAll();
-                    //     });
                 });
-            } else {
-                
-                display_error("Please enter some value.");
-                // $scope.getAll();
-
-                // sweetAlert({
-                //         title: "Error!",
-                //         text: "Please enter some value.",
-                //         type: "error"
-                //     },
-                //     function () {
-                //         // refresh the product list
-                //         $scope.getAll();
-                //     });
             }
         }
 
