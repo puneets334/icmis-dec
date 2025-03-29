@@ -33,8 +33,9 @@ class CauseListFileMovement extends BaseController
 
     public function fetchData()
     {
-        $courtNo = $this->request->getPost('courtNo');
-        $date1 = $this->request->getPost('date1');
+        $request = \Config\Services::request();
+        $courtNo = $request->getPost('courtNo');
+        $date1 = $request->getPost('date1');
         $model = new Matters_Listed();
         $data['records'] = $model->getListingData($courtNo, $date1);
         return view('Exchange/matters_report', $data);
@@ -204,8 +205,9 @@ class CauseListFileMovement extends BaseController
     {
         $request = \Config\Services::request();
         $usercode = session()->get('login')['usercode'];
-        $causelistDate = date('Y-m-d', strtotime($_REQUEST['causelistDate']));
         $courtNo = $request->getPost('courtNo');
+        $causelistDate = $request->getPost('causelistDate');
+        $causelistDate = date('Y-m-d', strtotime($causelistDate));
         $data['causelistDate'] = $causelistDate;
         $data['caseList'] = $this->CauseListFileMovementModel->getListedCases($causelistDate, $courtNo, $usercode);
         $data['cmnsh'] = $this->CourtMasterModel->getCmNsh();
