@@ -39,11 +39,17 @@ class MonitoringTeam extends BaseController
         
         $rs_check_already_disposed = $this->MonitoringTeam_Model->checkAlreadyDisposed($diary_no);
         
-        foreach ($rs_check_already_disposed as $rw_already_disposed) {
-            if ($rw_already_disposed['ttl'] > 0) {
-                echo "Diary Numbers - " . $rw_already_disposed['existing'] . " are already disposed off. Please remove the numbers from list and retry.  ";
-                exit();
+        $existing_disposed_diary_nos = '';
+        if(is_array($rs_check_already_disposed) && count($rs_check_already_disposed) > 0)
+        {
+            $diary_nos = [];
+            foreach ($rs_check_already_disposed as $rw_already_disposed) {  
+                $diary_nos[] = $rw_already_disposed['existing'];              
+                $existing_disposed_diary_nos = $rw_already_disposed['existing'].","; 
             }
+            $existing_disposed_diary_nos = implode(',', $diary_nos);
+            echo "<div class='col-md-12'> Diary Numbers - " . $existing_disposed_diary_nos . " are already disposed off. Please remove the numbers from list and retry.</div>";
+            exit();
         }
 
         $rs_next_dt = $this->MonitoringTeam_Model->checkFutureDates($diary_no);
