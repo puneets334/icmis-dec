@@ -18,6 +18,7 @@ class DocumentDashboard extends BaseController
         $data['stepWisetotal'] = !empty($countStepWise) ? $countStepWise[0] : NULL;
         return view('DocumentDashboard/documentReport',$data);
     }
+    
     public function getStatusTypeData(){
          $output= array();
          $type = null;
@@ -30,14 +31,17 @@ class DocumentDashboard extends BaseController
          echo json_encode($output);
          exit(0);
     }
+
     public function getDocumentTimelineData(){
         $timeline ='';
         if(isset($_REQUEST['rowId']) && !empty($_REQUEST['rowId']) && isset($_REQUEST['type']) && !empty($_REQUEST['type'])){
             $rowId = trim($_REQUEST['rowId']);
             $type = $_REQUEST['type'];
             $result = $this->DocumentDashboard_model->getDocumentTimelineDataById($type,$rowId);
+            
             if(isset($result) && !empty($result)){
-                foreach ($result as $k=>$v){
+                foreach ($result as $k=>$v)
+                {
                     $stage = !empty($v->current_stage) ? $v->current_stage  : 'Add Documents';
                     $ref_faster_steps_id = !empty($v->ref_faster_steps_id) ? $v->ref_faster_steps_id  : NULL;
                     $created_on = !empty($v->created_on) ? date("j F , Y H:i:s",strtotime($v->created_on))  : '';
@@ -50,14 +54,22 @@ class DocumentDashboard extends BaseController
                     $fs_deleted = !empty($v->fs_deleted) ? explode(',',$v->fs_deleted)  : NULL;
                     $groupData ='';
                     $pdf_url='';
+                    
                     if(isset($document_name) && !empty($document_name) && isset($file_path) && !empty($file_path)){
                         foreach ($document_name as $key=>$value){
                             $pdf_url='';
-                            if($fs_deleted[$key] == '0'){
-                                $pdf_url = !empty($file_path[$key]) ? 'target="_blank" href="'.base_url($file_path[$key]).'"' : '';
+                           
+                            if(empty($fs_deleted) || $fs_deleted[$key] == '0'){
+                                $pdf_url = !empty($file_path[$key]) ? 'target="_blank" href="'.base_url($file_path[$key]).'"' : '';                                
                             }
+                            
                             if(isset($ref_faster_steps_id) && !empty($ref_faster_steps_id) && ($ref_faster_steps_id == 1 || $ref_faster_steps_id == 2 || $ref_faster_steps_id ==3 )){
-                                    $fs_dated = date("d-m-Y",strtotime($dated[$key]));
+                                    if(isset($dated[$key]) && !empty($dated)){
+                                        $fs_dated = date("d-m-Y",strtotime($dated[$key]));
+                                    }else{
+                                        $fs_dated = '';
+                                    }
+                                    
                                     $groupData .='<a '.$pdf_url.'  title="'.$document_name[$key].'">  '.$document_name[$key].'  ( '.$fs_dated.' )'.'</a>';
                                     if(isset($dated[$key]) && !empty($dated[$key])){
                                         $shareCreatedDate = date("j F , Y H:i:s",strtotime($fs_created_on[$key]));
@@ -69,8 +81,8 @@ class DocumentDashboard extends BaseController
 
                             }
                             else{
-                                 $shareCreatedDate = date("j F , Y H:i:s",strtotime($transaction_created_on[0]));
-                                 $groupData .= ' <a style="color: blueviolet; float:right;" class="" title="'.$shareCreatedDate.'">'.$shareCreatedDate.'</a>';
+                                $shareCreatedDate = date("j F , Y H:i:s",strtotime($transaction_created_on[0]));
+                                $groupData .= ' <a style="color: blueviolet; float:right;" class="" title="'.$shareCreatedDate.'">'.$shareCreatedDate.'</a>';
                             }
                         }
                     }
@@ -91,9 +103,9 @@ class DocumentDashboard extends BaseController
                                 $groupData .= ' <a  style="color: blueviolet; float:right;" class="" title="'.$shareCreatedDate.'">'.$shareCreatedDate.'</a></br>';
                             }
 
-                       }
+                    }
                         else{
-                             $groupData .= ' <a  style="color: blueviolet; float:right;" class="" title="'.$created_on.'">'.$created_on.'</a></br>';
+                            $groupData .= ' <a  style="color: blueviolet; float:right;" class="" title="'.$created_on.'">'.$created_on.'</a></br>';
                         }
 
                     $timeline .='<li>
