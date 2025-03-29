@@ -365,7 +365,7 @@ class Report extends BaseController
     {
         $id = $this->request->getGet('id');
         $num = $this->request->getGet('num');
-        if (isset($id)) {
+        if(isset($id)) {
             $trap_result = $this->ReportModel->trap($id);
             $data['trap'] = $trap_result;
             $data['number'] = $num;
