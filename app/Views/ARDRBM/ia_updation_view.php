@@ -1,5 +1,3 @@
-
-<center><h5>Loose Documents - Modification</h5></center>
 <?php
 $attribute = array('class' => 'form-horizontal','name' => 'component_search', 'id' => 'component_search', 'autocomplete' => 'off');
 echo form_open(base_url('#'), $attribute);
