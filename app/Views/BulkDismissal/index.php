@@ -101,8 +101,8 @@
 
                                             </div> <!--END div main-->
 
-                                            <b>
-                                                <div id="txtHint" align="center" color="blue" style="font-size:180%"><b></b></div>
+                                            
+                                                <div id="txtHint" align="center" color="blue" style="font-size:180%"></div>
 
                                     </form>
 
