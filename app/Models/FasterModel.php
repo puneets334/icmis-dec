@@ -256,7 +256,7 @@ class FasterModel extends Model
     {
         $builder = $this->db->table('faster_shared_document_details fsdt');
         $builder->select('fsdt.*, tn.name');
-        $builder->join('tw_notice tn', 'fsdt.tw_notice_id = tn.id');
+        $builder->join('master.tw_notice tn', 'fsdt.tw_notice_id = tn.id');
         $builder->where('fsdt.id', $id);
         $builder->where('fsdt.is_deleted', 0);
         $query = $builder->get();
@@ -408,16 +408,19 @@ class FasterModel extends Model
             "CONCAT(m.pet_name, ' Vs. ', m.res_name) AS causetitle",
             "STRING_AGG(DISTINCT CONCAT(o.type, '$$', o.pdfname), '----') AS rop_pdf",
             "ct.path AS causetitle_pdf",
-            "STRING_AGG(DISTINCT CONCAT(ttd.name, '$$', 
-                SUBSTRING(ttd.diary_no FROM LENGTH(ttd.diary_no) - 3), '/', 
-                SUBSTRING(ttd.diary_no FROM 1 FOR LENGTH(ttd.diary_no) - 4), '/', 
-                ttd.id, '_', ttd.nt_type, '_', tor.del_type, '.pdf'), '----') AS notice_pdf",
+            "STRING_AGG(DISTINCT CONCAT(
+                ttd.name, '$$', 
+                SUBSTRING(ttd.diary_no::TEXT FROM LENGTH(ttd.diary_no::TEXT) - 3), '/', 
+                SUBSTRING(ttd.diary_no::TEXT FROM 1 FOR LENGTH(ttd.diary_no::TEXT) - 4), '/', 
+                ttd.id, '_', ttd.nt_type, '_', tor.del_type, '.pdf'
+            ), '----') AS notice_pdf",
             "fc.id AS faster_cases_id",
             "fc.next_dt AS faster_dated",
             "rfs.description AS faster_status",
             "TO_CHAR(ft.created_on, 'DD-MM-YYYY HH24:MI:SS') AS transaction_status_date_time"
         ]);
 
+        // Join statements
         $builder->join('main m', 'fo.diary_no = m.diary_no AND fo.is_active = 1');
         $builder->join('ordernet o', 'fo.diary_no = o.diary_no AND fo.next_dt = o.orderdate AND o.display = \'Y\'', 'left');
         $builder->join('cause_title ct', 'fo.diary_no = ct.diary_no AND ct.is_active = 1', 'left');
@@ -428,13 +431,22 @@ class FasterModel extends Model
         $builder->join('faster_transactions ft', 'ft.faster_cases_id = fc.id', 'left');
 
         $builder->where('fo.next_dt', $listingDate);
-        $builder->groupBy('fo.diary_no');
-        $builder->orderBy('fo.court_no, fo.item_number');
+
+        $builder->groupBy([
+            'fo.id', 'fo.diary_no', 'fo.entry_date', 'm.reg_no_display',
+            'm.pet_name', 'm.res_name', 'ct.path', 'fc.id', 
+            'fc.next_dt', 'rfs.description', 'ft.created_on', 
+            'fo.court_no', 'fo.item_number'
+        ]);
+
+        $builder->orderBy('fo.court_no');
+        $builder->orderBy('fo.item_number');
 
         $query = $builder->get();
         return $query->getResultArray();
 
     }
+
     function getAvailableDocumetsInICMIS($diaryNo, $orderDate)
     {
         $sql = "SELECT 
@@ -930,7 +942,7 @@ class FasterModel extends Model
         if (isset($data) && !empty($data)) {
             $builder = $this->db->table('master.ref_agency_code');
             $builder->select('id, agency_name');
-            $builder->where('agency_or_court', 1);
+            $builder->where('CAST(agency_or_court AS BIGINT)', 1);
             $builder->where('is_deleted', 'f');
             $builder->where('main_branch', 1);
             $builder->where('id', 14);

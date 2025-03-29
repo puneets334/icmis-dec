@@ -2527,8 +2527,71 @@ function da()
     function getParties($diary_no, $date)
     {
         $db = \Config\Database::connect();
-        $finalQuery = 'select * from (SELECT NULL AS id, partyname, addr1, addr2, CAST(sr_no_show AS bigint) AS sr_no, pet_res, sonof, prfhname, NULL AS nt_type, NULL AS amount, state, city, NULL AS enrol_no, NULL AS enrol_yr FROM "party" WHERE "diary_no" = \'' . $diary_no . '\' AND "pflag" = \'P\' AND "partyname" IS NOT NULL AND "partyname" != \'\' UNION ALL SELECT CAST("id" AS bigint), "name" AS "partyname", "address" AS "addr1", NULL AS addr2, CAST(sr_no AS bigint), pet_res, NULL AS sonof, NULL AS prfhname, nt_type, amount, tal_state::char AS state, tal_district::char  AS city, enrol_no, enrol_yr FROM  "tw_tal_del" WHERE  "diary_no" = \'' . $diary_no . '\' AND "rec_dt" = \'' . $date . '\' AND "display" = \'Y\' AND "sr_no" = \'0\' AND "print" = 0    )  p ORDER BY CASE WHEN sr_no = 1 THEN -1 WHEN sr_no > 1 AND pet_res = \'P\' THEN 0 WHEN sr_no > 1 AND pet_res = \'R\' THEN 1 WHEN sr_no = 0 THEN 2 ELSE sr_no END,  CAST(split_part(sr_no::text, \'.\', 1) AS INTEGER), COALESCE(CAST(split_part(sr_no::text, \'.\', 2) AS INTEGER), 0), COALESCE(CAST(split_part(sr_no::text, \'.\', 3) AS INTEGER), 0), COALESCE(CAST(split_part(sr_no::text, \'.\', 4) AS INTEGER), 0)';
-        $result = $db->query($finalQuery)->getResultArray();
+        $builder = $db->table('party')
+            ->select("NULL AS id, 
+                partyname, 
+                addr1, 
+                addr2, 
+                CAST(sr_no_show AS BIGINT) AS sr_no, 
+                pet_res, 
+                sonof, 
+                prfhname, 
+                NULL AS nt_type, 
+                NULL AS amount, 
+                state, 
+                city, 
+                NULL AS enrol_no, 
+                NULL AS enrol_yr
+            ")
+            ->where('diary_no', '722022')
+            ->where('pflag', 'P')
+            ->where('partyname IS NOT NULL')
+            ->where("partyname != ''")
+            ->getCompiledSelect();
+
+        // Subquery for tw_tal_del table
+        $builder2 = $db->table('tw_tal_del')
+            ->select("CAST(id AS BIGINT) AS id, 
+                name AS partyname, 
+                address AS addr1, 
+                NULL AS addr2, 
+                CAST(sr_no AS BIGINT) AS sr_no, 
+                pet_res, 
+                NULL AS sonof, 
+                NULL AS prfhname, 
+                nt_type, 
+                amount, 
+                tal_state::CHAR AS state, 
+                tal_district::CHAR AS city, 
+                enrol_no, 
+                enrol_yr
+            ")
+            ->where('diary_no', '722022')
+            ->where('rec_dt', '2025-03-28')
+            ->where('display', 'Y')
+            ->where('sr_no', '0')
+            ->where('print', 0)
+            ->getCompiledSelect();
+
+        // Combining queries with UNION
+        $query = $db->query("SELECT * FROM ($builder UNION ALL $builder2) AS p 
+            ORDER BY 
+                CASE 
+                    WHEN sr_no = 1 THEN -1 
+                    WHEN sr_no > 1 AND pet_res = 'P' THEN 0 
+                    WHEN sr_no > 1 AND pet_res = 'R' THEN 1 
+                    WHEN sr_no = 0 THEN 2 
+                    ELSE sr_no 
+                END,  
+                CAST(split_part(sr_no::TEXT, '.', 1) AS INTEGER), 
+                COALESCE(CAST(NULLIF(split_part(sr_no::TEXT, '.', 2), '') AS INTEGER), 0), 
+                COALESCE(CAST(NULLIF(split_part(sr_no::TEXT, '.', 3), '') AS INTEGER), 0), 
+                COALESCE(CAST(NULLIF(split_part(sr_no::TEXT, '.', 4), '') AS INTEGER), 0)
+        ");
+
+        $result = $query->getResultArray(); // Fetch the results
+
+        // $result = $db->query($finalQuery)->getResultArray();
 
         return $result;
     }
@@ -2538,7 +2601,7 @@ function da()
         $db = \Config\Database::connect();
         $builder = $db->table('master.state');
         $subQuery = $db->table('master.state')
-            ->select('State_code')
+            ->select('state_code')
             ->where('id_no', $state)
             ->where('display', 'Y')
             ->getCompiledSelect();

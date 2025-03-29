@@ -8,7 +8,7 @@
         <div class="card-body" >
 <form class="form-horizontal" id="push-form"  method="post" action = "<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" >
     <?=csrf_field(); ?>
-<div class="table table-striped table-bordered dt-bootstrap4">
+
 <div id="diaryNoWise" class="col-sm-12">
 <div class="row">
     <div class="col-sm-2">
@@ -27,6 +27,7 @@
     </div>
 </div>
 </div>
+</form>
 <!-- Modal -->
 <div class="modal fade" id="dataModal" >
  <div class="modal-dialog">
@@ -34,8 +35,10 @@
   <div class="modal-content">
   </div>
  </div>
-</div>         
+</div>  
 
+<div id="tableData">
+<div class="table table-striped table-bordered dt-bootstrap4">
 <table id="example" class="table table-striped table-bordered dt-bootstrap4" style="width:90%">
 <thead>
     <?php
@@ -74,7 +77,8 @@
         <?php }  else  {    echo "<div class='col-sm-12' class='error-messages' align='center'>No Records Found</div>";   }
         }  ?>
 </div>
-</form>
+</div>
+
         </div>
         </div>
     </div>
@@ -83,18 +87,31 @@
 </section>
 <script>
 
- 
-    $(document).ready(function(){
+async function updateCSRFTokenSyncN() {
+        try {
+            const response = await $.ajax({
+                url: "<?php echo base_url('Csrftoken'); ?>",
+                dataType: 'json'
+            });
 
-        $('.infodata').click(function(){
+            return response.CSRF_TOKEN_VALUE; // Correctly extracting CSRF token
+        } catch (error) {
+            console.error("Error fetching CSRF token:", error);
+            return null;
+        }
+    }
+ 
+    $(document).ready(function(){        
+
+        $('.infodata').click(async function(){
             var dataid = $(this).data('id');
             var session_user = '<?php //echo $uri->segment(3, 0) ?>';
-       
-         //   alert(dataid);
+            var CSRF_TOKEN_VALUE = await updateCSRFTokenSyncN();
+            //   alert(dataid);
             $.ajax({
                 url: '<?=base_url()?>/Faster/FasterController/startsendtoFasterWithId',
                 type: 'post',
-                data: {dataid: dataid,session_user: session_user},
+                data: {CSRF_TOKEN: CSRF_TOKEN_VALUE,dataid: dataid,session_user: session_user},
                 beforeSend: function(){
                     /* Show image container */
                     $("#loader").show();
