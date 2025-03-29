@@ -880,7 +880,7 @@ class RegistrationModel extends Model
                                     ->orWhere('state', 0)
                                 ->groupEnd()
                                 ->where('display', 'Y');
-                        echo $builder->getCompiledSelect();die;
+                        //echo $builder->getCompiledSelect();die;
                         $query = $builder->get();
 
                         if ($query->getNumRows() <= 0) {
