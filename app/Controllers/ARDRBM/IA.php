@@ -1044,7 +1044,7 @@ class IA extends BaseController
 
             if ($conncases != "") {
                 $conncases .= "</table><br>";
-                echo $conncases;
+                 $conncases;
             }
             $isconn = $row_m["ccdet"];
             $connto = $row_m["connto"];

@@ -52,15 +52,49 @@ function getClientMAC()
     $mac = substr($macfull, ($pmac + 18), 17);
     return $mac;
 }
+function send_mail_JIO($to_email,$subject,$message,$files=array())
+{
+    if (isset($to_email) && isset($subject) && isset($message)){
+        if (!is_array($to_email)){ $to_email=[$to_email]; }
+        $metadata = json_encode(array("providerCode" => "email","recipients" => array("emailAddresses" => array("to" =>$to_email)),"body" =>$message,"scheduledAt" => null,"purpose" => $subject,"subject" => $subject, "sender" => array("name" => "SC-eFM","emailAddress" => "icmis@sci.nic.in"),"createdByUser" => array("id" => LIVE_EMAIL_KEY,"name" => "SC-eFM","employeeCode" => LIVE_EMAIL_KEY,"organizationName" => "SC-eFM"),"module" => "SC-eFM","project" => "SC-eFM","files" => $files));
+        $curl = curl_init();
+        curl_setopt_array($curl,array(
+            CURLOPT_URL => NEW_MAIL_SERVER_HOST_JIO_URL,
+            CURLOPT_RETURNTRANSFER => true,CURLOPT_ENCODING => '',CURLOPT_MAXREDIRS => 10,CURLOPT_TIMEOUT => 0,CURLOPT_FOLLOWLOCATION => true,CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,CURLOPT_HEADER => 0,CURLOPT_SSL_VERIFYHOST => FALSE,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>"$metadata",
+            CURLOPT_HTTPHEADER => array('Content-Type: application/json','Accept: application/json','Authorization: Bearer '.LIVE_EMAIL_KEY_JIO_CLOUD),
+        ));
+        $response = curl_exec($curl);
+        if ($response){
+            $json2 = json_decode($response);
+            if (isset($json2->data) && !empty($json2->data) && !empty($json2->data->job_batch_id)){
+                $json2=$json2->data->job_batch_id;
+            }else{ $json2=false;}
+        }else{ $json2 = $response; }
+        curl_close($curl);
+        if ($json2!=false) { $json2 = 'success';} else { $json2 = 'failed'; }
+    }else{
+        $json2 = 'failed';
+    }
+    return $json2;
+}
 function sendSMS($mobile_no, $smsmsg, $template_id)
 {
-    return true;
-    die;
+    
+   
     if (empty($template_id)) {
         $template_id = 1107165900749762632;
     }
+    
     $url = "http://10.25.78.5/eAdminSCI/a-push-sms-gw?mobileNos=" . $mobile_no . "&message=" . rawurlencode($smsmsg) . "&typeId=29&myUserId=NIC001001&myAccessId=root&templateId=" . $template_id;
     $result = (array)json_decode(file_get_contents($url));
+    if($result['responseFlag']=='success'){
+        return true;   
+    }else{
+        return false;
+    }
+    
 }
 
 
