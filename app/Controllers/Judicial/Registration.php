@@ -201,29 +201,31 @@ class Registration extends BaseController
                             $old_fil_dt = 0;
                         }
 
-                        $ucode = session()->get('dcmis_user_idd');
+                        //$ucode = session()->get('dcmis_user_idd');
+                        $ucode = session()->get('login')['usercode'];                        
                         
-                        $result = $RegistrationModel->addCaseHistory([
-                            'diary_no' => $diary_no,
-                            'old_registration_number' => $old_fil_no,
-                            'old_registration_year' => $old_fil_dt,
-                            'new_registration_number' => $t_fil_no_fh,
-                            'new_registration_year' => $year,
-                            'order_date' => date('Y-m-d', strtotime($dtd)), // Ensure the date is formatted correctly
-                            'ref_old_case_type_id' => $old_fil_ct,
-                            'ref_new_case_type_id' => $newcc,
-                            'adm_updated_by' => $ucode,
-                            'updated_on' => date('Y-m-d H:i:s'), // Use current date and time
-                            'is_deleted' => 'f',
-                            'ec_case_id' => 1
-                        ]);
+                        // hold
+                        // $result = $RegistrationModel->addCaseHistory([
+                        //     'diary_no' => $diary_no,
+                        //     'old_registration_number' => $old_fil_no,
+                        //     'old_registration_year' => $old_fil_dt,
+                        //     'new_registration_number' => $t_fil_no_fh,
+                        //     'new_registration_year' => $year,
+                        //     'order_date' => date('Y-m-d', strtotime($dtd)), // Ensure the date is formatted correctly
+                        //     'ref_old_case_type_id' => $old_fil_ct,
+                        //     'ref_new_case_type_id' => $newcc,
+                        //     'adm_updated_by' => $ucode,
+                        //     'updated_on' => date('Y-m-d H:i:s'), // Use current date and time
+                        //     'is_deleted' => 'f',
+                        //     'ec_case_id' => 1
+                        // ]);
 
                         $output[$diary_no]['success'] = 1;
                         $output[$diary_no]['message'] = "Registered No. is : " . $regNoDisplay . "\n\r";
 
                         if ($request->getPost('reg_for_year') != '' && $request->getPost('reg_for_year') != '0') 
                         {
-                            $RegistrationModel->generate_da_code($diary_no);
+                            //$RegistrationModel->generate_da_code($diary_no); //hold
 
                             $result = $RegistrationModel->addRegistrationTrack([
                                 'diary_no' => $diary_no,
