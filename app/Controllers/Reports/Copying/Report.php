@@ -119,7 +119,7 @@ class Report extends BaseController
         $query = $this->db->table('master.users');
         $query->select('*');
         $query->where('display', 'Y');
-        $query->where('section', $sectionId);
+        $query->where('section',$sectionId);
         $result = $query->get();
 
         if ($result->getNumRows() >= 1) {
@@ -190,17 +190,21 @@ class Report extends BaseController
         if (!empty($data)){
             $data['dataEpay']= $this->ReportModel->getEpay($data);
         }
-
+        $orderCodes=''; 
         foreach ($data['dataEpay'] as $item) {
             $orderCodes = $item->order_code;
         }
-
-        $data['ordertype']= $this->ReportModel->ordertype($orderCodes);
+        if(!empty($data['dataEpay'])){
+            $data['ordertype']= $this->ReportModel->ordertype($orderCodes);
+        }else{
+            $data['ordertype']=[];
+        }
+        
 
         // echo "<pre>"; print_r($data['ordertype']); exit;
         $data['formdata'] = $this->request->getPost();
         $data['report_title'] = 'Details of ePay Report';
-        return view('Reports/copying/get_content_epay',$data);exit;
+        return view('Reports/copying/get_content_epay',$data);
 
     }
     public function received_by_ri_search(){

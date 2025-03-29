@@ -259,8 +259,72 @@ class ReportModel extends Model
 
 
 
+    public function getEpay($data){
+        $from_date = $data['from_date'];
+        $to_date = $data['to_date'];
+        $payhead1 = $data['pay_heads'];
+        $crn1 = $data['rdbtn_select'];
+        $crn = $data['crn'];
+        $title = "eCopying Payment Report : ";
 
-    function getEpay($data)
+        /*if ($payhead1 != '') {
+            $pay_head = " and b.payment_type_id = " . $payhead1;
+        } else {
+            $pay_head = "";
+        }*/
+        /*if ($crn1 == 'CRN') {
+            $title .= " Received against CRN - " . $crn;
+
+            $flag_qry = " and b.order_batch_merchant_batch_code = '" . $crn . "' ";
+        } else {
+            $title .= " received date between " . $from_date . " and " . $to_date;
+
+            $flag_qry = " and date(s.entry_time) between '$from_date' and '$to_date' ";
+        }*/
+        $builder = $this->eservices->table('bharat_kosh_status s');
+
+        // Select the required fields
+        $builder->select('r.order_code, s.entry_time, r.shipping_first_name, r.shipping_last_name, 
+            STRING_AGG(b.cart_description || \' - Rs. \' || b.amount, \', \') AS description, 
+            SUM(b.amount::numeric) AS total_sum, 
+            r.order_batch_total_amount')->distinct();
+        
+        // Join with bharat_kosh_request
+        $builder->join('bharat_kosh_request r', 's.order_code = r.order_code', 'INNER');
+        
+        // Left join with bharat_kosh_request_batch
+        $builder->join('bharat_kosh_request_batch b', 'b.order_batch_merchant_batch_code = r.order_code', 'LEFT');
+        
+        // Add where conditions
+        $builder->where('s.response_status', 'SUCCESS');
+        if ($payhead1 != '') {
+        $builder->where('b.payment_type_id',$payhead1);
+            //$pay_head = " and b.payment_type_id = " . $payhead1;
+        }
+        if ($crn1 == 'CRN') {
+            //$title .= " Received against CRN - " . $crn;
+            $builder->where('b.order_batch_merchant_batch_code',$crn);
+            //$flag_qry = " and b.order_batch_merchant_batch_code = '" . $crn . "' ";
+        }
+        //$builder->where('s.order_code NOT LIKE', 'DF%');
+        $builder->notLike('s.order_code', 'DF%');
+        //$builder->where('DATE(s.entry_time) BETWEEN', [$from_date,$to_date]);
+        $builder->where('DATE(s.entry_time) >=',$from_date);
+        $builder->where('DATE(s.entry_time) <=',$to_date);
+        // Group by the required fields
+        $builder->groupBy('r.order_code, s.entry_time, r.shipping_first_name, r.shipping_last_name, r.order_batch_total_amount');
+        // Order by entry_time
+        $builder->orderBy('s.entry_time');
+        //echo $builder->getCompiledSelect();
+        //die;
+        // Execute the query and get the results
+        $query = $builder->get();
+        $results = $query->getResultArray();
+        
+        // Return or process the results as needed
+        return $results;
+    }
+    function getEpayold($data)
     {
 
         // print_r($data);
@@ -288,7 +352,7 @@ class ReportModel extends Model
         }
         // print_r($flag_qry);
         // exit;
-        $query = $this->db->query("SELECT DISTINCT
+        $query = $this->eservices->query("SELECT DISTINCT
             r.order_code, 
             s.entry_time, 
             r.shipping_first_name, 
@@ -297,11 +361,11 @@ class ReportModel extends Model
             SUM(b.amount::numeric) AS total_sum,
             r.order_batch_total_amount 
         FROM
-            dblink('host=10.18.1.35 user=postgres password=postgres dbname=e_services_06_08 port = 5432', 'SELECT order_code, response_status, entry_time FROM bharat_kosh_status') AS s(order_code TEXT, response_status TEXT, entry_time TIMESTAMP)
+            dblink('host=10.25.78.68 user=postgres password=postgres dbname=e_services port=5432', 'SELECT order_code, response_status, entry_time FROM bharat_kosh_status') AS s(order_code TEXT, response_status TEXT, entry_time TIMESTAMP)
         INNER JOIN 
-            dblink('host=10.18.1.35 user=postgres password=postgres dbname=e_services_06_08 port = 5432', 'SELECT order_code, shipping_first_name, shipping_last_name, order_batch_total_amount FROM bharat_kosh_request') AS r(order_code TEXT, shipping_first_name TEXT, shipping_last_name TEXT, order_batch_total_amount NUMERIC) ON s.order_code = r.order_code 
+            dblink('host=10.25.78.68 user=postgres password=postgres dbname=e_services port=5432', 'SELECT order_code, shipping_first_name, shipping_last_name, order_batch_total_amount FROM bharat_kosh_request') AS r(order_code TEXT, shipping_first_name TEXT, shipping_last_name TEXT, order_batch_total_amount NUMERIC) ON s.order_code = r.order_code 
         LEFT JOIN 
-            dblink('host=10.18.1.35 user=postgres password=postgres dbname=e_services_06_08 port = 5432', 'SELECT cart_description, amount, order_batch_merchant_batch_code FROM bharat_kosh_request_batch') AS b(cart_description TEXT, amount TEXT, order_batch_merchant_batch_code TEXT) ON b.order_batch_merchant_batch_code = r.order_code
+            dblink('host=10.25.78.68 user=postgres password=postgres dbname=e_services port=5432', 'SELECT cart_description, amount, order_batch_merchant_batch_code FROM bharat_kosh_request_batch') AS b(cart_description TEXT, amount TEXT, order_batch_merchant_batch_code TEXT) ON b.order_batch_merchant_batch_code = r.order_code
         WHERE 
             s.response_status = 'SUCCESS' 
             AND s.order_code NOT LIKE 'DF%'

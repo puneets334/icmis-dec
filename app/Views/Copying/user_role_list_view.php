@@ -100,17 +100,27 @@
                 type: 'POST',
                 success: function(data) {
                     if(data==1){
-                        swal({title:"Role Assigned Deleted Successfully!", text:"You clicked the button!", type:"success"},
-                            function(){
-                                location.reload();
-                            });
+                            Swal.fire({
+                          title: "Role",
+                          text: "Role Assigned Deleted Successfully!",
+                          icon: "success"
+                          }).then((result) => {
+                           if (result.isConfirmed) {
+                               location.reload();
+                           }
+                          });
 
                     }else{
-                        swal({title:"Role Assign Not Deleted Successfully!", text:"You clicked the button!", type:"error"},
-                            function(){
-                                location.reload();
-                            }
-                        );
+                        
+                        Swal.fire({
+                          title: "Role",
+                          text: "Role Assign Not Deleted Successfully!",
+                          icon: "error"
+                          }).then((result) => {
+                           if (result.isConfirmed) {
+                               location.reload();
+                           }
+                          });
                     }
                     updateCSRFToken();
                 }
