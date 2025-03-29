@@ -863,8 +863,8 @@ class RegistrationModel extends Model
                     if (in_array($row_main['section_id'], $sec_da_upto_disposal)) {
                         $builder->select('dacode')
                                 ->where('case_type', $row_main['casetype_id'])
-                                ->where('$current_no BETWEEN case_from AND case_to', null, false)
-                                ->where('$row_main[fildate] BETWEEN case_f_yr AND case_t_yr', null, false)
+                                ->where("$current_no BETWEEN case_from AND case_to", null, false)
+                                ->where("$row_main[fildate] BETWEEN case_f_yr AND case_t_yr", null, false)
                                 ->groupStart()
                                     ->where('state', $row_main['ref_agency_state_id'])
                                     ->orWhere('state', 0)
@@ -873,8 +873,8 @@ class RegistrationModel extends Model
                     } else {
                         $builder->select('dacode')
                                 ->where('case_type', $row_main['casetype_id'])
-                                ->where('$current_no BETWEEN case_from AND case_to', null, false)
-                                ->where('$row_main[filregdate] BETWEEN case_f_yr AND case_t_yr', null, false)
+                                ->where("$current_no BETWEEN case_from AND case_to", null, false)
+                                ->where("$row_main[filregdate] BETWEEN case_f_yr AND case_t_yr", null, false)
                                 ->groupStart()
                                     ->where('state', $row_main['ref_agency_state_id'])
                                     ->orWhere('state', 0)
@@ -888,8 +888,8 @@ class RegistrationModel extends Model
                             
                             $builder->select('dacode')
                                     ->where('case_type', $row_main['casetype_id'])
-                                    ->where('$current_no BETWEEN case_from AND case_to', null, false)
-                                    ->where('$row_main[regyear] BETWEEN case_f_yr AND case_t_yr', null, false)
+                                    ->where("$current_no BETWEEN case_from AND case_to", null, false)
+                                    ->where("$row_main[regyear] BETWEEN case_f_yr AND case_t_yr", null, false)
                                     ->groupStart()
                                         ->where('state', $row_main['ref_agency_state_id'])
                                         ->orWhere('state', 0)
