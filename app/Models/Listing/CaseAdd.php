@@ -1314,7 +1314,12 @@ class CaseAdd extends Model
             $section_selected    
              $advance_allocated_qry 
              $advance_drop_note_qry
-             AND (m.diary_no = m.conn_key:: BIGINT OR m.conn_key:: BIGINT=0 OR m.conn_key = '' OR m.conn_key IS NULL) $qry_part_list_ornot AND h.mainhead = '" . $params['mainhead'] . "'             
+             AND (
+             --m.diary_no = m.conn_key:: BIGINT 
+             --OR m.conn_key:: BIGINT=0 
+             m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT)
+             OR m.conn_key = '0'
+             OR m.conn_key = '' OR m.conn_key IS NULL) $qry_part_list_ornot AND h.mainhead = '" . $params['mainhead'] . "'             
              $groupBy ) m
             $sql_field2";
         //pr($qry);

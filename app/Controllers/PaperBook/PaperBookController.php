@@ -21,11 +21,17 @@ class PaperBookController extends BaseController
         $this->encryption = \Config\Services::encryption();
     }
 
-    public function getCSRF()
+    // public function getCSRF()
+    // {
+    //     return $this->response->setJSON([
+    //         'csrf_token' => csrf_hash()
+    //     ]);
+    // }
+
+
+    public function daAllocation()
     {
-        return $this->response->setJSON([
-            'csrf_token' => csrf_hash()
-        ]);
+        return view('PaperBook/da_allocation');
     }
 
 
@@ -82,13 +88,22 @@ class PaperBookController extends BaseController
             $case_from = $parts[2] ?? '0'; // default to '0' if not provided
             $case_to = $parts[3] ?? '0'; // default to '0' if not provided
 
+            if (is_numeric($caseGroup)) {
+                $rw_ctype =  is_data_from_table('master.casetype', "casecode=$caseGroup", "casename", "");           
+                $data['des']=$rw_ctype['casename'];
+            }else{
+                $data['des']= $caseGroup;
+            }
+
             // Fetch the data based on the case parameters
             $resultData  = $this->paperModal->getUserInformation($perPage, ($currentPage - 1) * $perPage, [
                 'caseGroup' => $caseGroup,
                 'year' => $year,
                 'case_from' => $case_from,
-                'case_to' => $case_to
-            ]); //print_r($resultData); die;
+                'case_to' => $case_to,
+                'currentPage' =>$currentPage
+            ]); 
+           // print_r($resultData); die;
             // Extract the results and total record count from the result data
             $data['results'] = $resultData['results'];
 
@@ -99,9 +114,9 @@ class PaperBookController extends BaseController
                 $user['sectionName'] = $this->paperModal->getSectionName($user['dno']);
                 $user['tentativeDA'] = $this->paperModal->getTentativeDA($user['dno']);
             }
-
+            $data['currentPage'] = ($currentPage -1) * $perPage ;
             $data['pager'] = $pager->makeLinks($currentPage, $perPage, $totalRecords);
-
+            $data['case_year'] = $year;
             return view('PaperBook/view_user_information', $data);
         } else {
             return redirect()->to('/error')->with('message', 'No parameter provided!');
@@ -111,11 +126,19 @@ class PaperBookController extends BaseController
 
     public function causeList()
     {
-        $dates = $this->paperModal->getNextDates();
-        $data = [
-            'dates' => $dates
-        ];
+
+        $sql = $this->db->query("SELECT c.next_dt FROM heardt c WHERE mainhead = 'M' AND c.next_dt >= CURRENT_DATE AND (c.main_supp_flag = '1' OR c.main_supp_flag = '2') GROUP BY next_dt");
+        //$dates = $this->paperModal->getNextDates();
+        $dates = $sql->getResultArray();
+        $data['dates'] = $dates;
         return view('PaperBook/cause_list_view', $data);
+    }
+
+    public function getCauseFinalReport()
+    {
+        $data['_REQUEST'] = $_REQUEST;
+        $data['paperModal'] = $this->paperModal;
+        return view('PaperBook/get_cause_final_report', $data);
     }
 
     public function draftList()

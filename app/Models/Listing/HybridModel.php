@@ -94,7 +94,7 @@ class HybridModel extends Model
             LEFT JOIN conct ct ON m.diary_no = ct.diary_no AND ct.list = 'Y'
             LEFT JOIN hybrid_physical_hearing_consent hy ON hy.diary_no = m.diary_no AND hy.to_dt >= CURRENT_DATE
             WHERE m.c_status = 'P' 
-            AND (m.diary_no = CAST(m.conn_key AS bigint) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+            AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS bigint) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
             GROUP BY 
                 m.diary_no, 
                 hy.consent, 
@@ -160,16 +160,16 @@ class HybridModel extends Model
             $queryBuilder3 = "INSERT INTO public.hybrid_physical_hearing_consent 
                 (diary_no, conn_key, consent, hearing_from_time, hearing_to_time, from_dt, to_dt, list_type_id, list_number, 
                 list_year, mainhead, board_type, court_no, user_id, user_ip)
-            SELECT m.diary_no, m.conn_key, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            SELECT m.diary_no, m.conn_key::BIGINT conn_key, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
             FROM (
                 SELECT m.* 
                 FROM main m 
-                WHERE m.conn_key = ? AND m.c_status = 'P'
+                WHERE m.conn_key::TEXT = ? AND m.c_status = 'P'
                 UNION
                 SELECT m.* 
                 FROM main m
-                INNER JOIN conct ct ON ct.conn_key = m.conn_key
-                WHERE m.conn_key = ? AND ct.list = 'Y' AND m.c_status = 'P'
+                INNER JOIN conct ct ON ct.conn_key::bigint = m.conn_key::bigint
+                WHERE m.conn_key::TEXT = ? AND ct.list = 'Y' AND m.c_status = 'P'
             ) m
             INNER JOIN heardt h ON h.diary_no = m.diary_no
             WHERE h.clno > 0 AND h.next_dt = ?";
@@ -397,6 +397,9 @@ class HybridModel extends Model
             ->orderBy('CAST(RIGHT(m.diary_no::TEXT, 4) AS INTEGER)', 'ASC', false)
             ->orderBy('CAST(LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 4) AS INTEGER)', 'ASC', false);
 
+        echo $builder->getCompiledSelect();
+        die;
+
         $query = $builder->get();
         return $query->getResultArray();
     }
@@ -408,7 +411,6 @@ class HybridModel extends Model
         $builder->whereIn('c.main_supp_flag', ['1', '2']);
         $builder->groupBy('c.next_dt');
         $builder->orderBy('c.next_dt', 'DESC');
-        $sql = $builder->getCompiledSelect();
         $query = $builder->get();
         $result = $query->getResultArray();
         return $result;

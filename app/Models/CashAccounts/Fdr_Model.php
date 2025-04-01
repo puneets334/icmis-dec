@@ -96,10 +96,20 @@ class Fdr_Model extends Model
                     'tentative_section(h.diary_no) AS section_name'
                 ])
                 ->join('main m', 'm.diary_no = h.diary_no')
-                ->where('split_part(h.new_registration_number, \'-\', 1)', $caseType)
-                ->where("CAST('{$caseNo}' AS INTEGER) BETWEEN CAST(split_part(h.new_registration_number, '-', 2) AS INTEGER) AND CAST(split_part(h.new_registration_number, '-', 3) AS INTEGER)")
+                ->where("(CASE WHEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 1) ~ '^[0-9]+$' THEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 1)::INTEGER ELSE 0 END)", $caseType)
+                ->where("CAST('{$caseNo}' AS INTEGER) BETWEEN 
+                    (CASE
+                    WHEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 2) ~ '^[0-9]+$'
+                        THEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', 2)::INTEGER ELSE 0 END) 
+                AND 
+                    (CASE
+                    WHEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', -1) ~ '^[0-9]+$'
+                        THEN SPLIT_PART(H.NEW_REGISTRATION_NUMBER, '-', -1)::INTEGER
+                ELSE 0 END)")
                 ->where('h.new_registration_year', $caseYear)
                 ->where('h.is_deleted', 'f');
+                    
+                // echo $builder->getCompiledSelect();die;
 
             $query = $builder->get();
         } else {
@@ -111,10 +121,12 @@ class Fdr_Model extends Model
                         FROM main 
                         WHERE diary_no = $ecCaseId";
 
+            // echo $sql;
+
             $query = $this->db->query($sql);
         }
 
-       // echo $this->db->getLastQuery();die;
+    //    echo $this->db->getLastQuery();die;
 
         // Check for results
         if ($query == false) {
@@ -135,9 +147,10 @@ class Fdr_Model extends Model
     function get_fdrRecords($ecCaseId)
     {
         $builder = $this->db->table('fdr_records');
-       // $builder->where(['ec_case_id' => $ecCaseId, 'is_deleted' => '0']);
+        $builder->where(['ec_case_id' => $ecCaseId, 'is_deleted' => '0']);
         $builder->where(['is_deleted' => '0']);
         $builder->orderBy('maturity_date', 'DESC');
+        // echo $builder->getCompiledSelect();die;
         $query = $builder->get();
         return $query->getResultArray();
     }
@@ -166,15 +179,21 @@ class Fdr_Model extends Model
     function search_result($data, $spl_condition)
     {
         $builder = $this->db->table('fdr_records');
+        $builder->select('fdr_records.*'); 
         $builder->join('master.usersection', 'ref_section_code = usersection.id', 'left');
         $builder->join('master.master_banks', 'ref_bank_id = master_banks.id', 'left');
-        $builder->join('master_fdstatus', 'ref_status_id = master_fdstatus.id', 'left');
+        $builder->join('master.master_fdstatus', 'fdr_records.ref_status_id = master_fdstatus.id', 'left');
         $builder->join('main', 'ec_case_id = main.diary_no', 'left');
         $builder->where($data);
-        $builder->where('fdr_records.is_deleted', '0');
+        $builder->where('fdr_records.is_deleted', '0');         
         $builder->where($spl_condition);
-        $query = $builder->get();
-        return $query->getResultArray();
+        $builder->limit(100);        
+        return $results = $builder->get()->getResultArray();                      
+        // if (!$results) {
+        //     die("Query failed: " . $this->db->error());
+        // }
+        // return $result = $query->getResultArray();
+        
     }
 
     /************************ Bank Master ************************/
@@ -231,7 +250,6 @@ class Fdr_Model extends Model
     public function disposedReport($case_number)
     {
         $builder = $this->db->table('fdr_records fd');
-
         // Select the required fields
         $builder->select('fd.case_number_display, 
                       fd.document_number, 
@@ -246,24 +264,20 @@ class Fdr_Model extends Model
                       fd.petitioner_name, 
                       fd.respondent_name, 
                       fd.roi, 
-                      tentative_da(fd.ec_case_id) AS da');
-
+                      tentative_da(fd.ec_case_id::INTEGER) AS da');
         // Join with other tables
         $builder->join('master.master_banks bank', 'bank.id = fd.ref_bank_id', 'left');
         $builder->join('master.usersection sec', 'sec.id = fd.ref_section_code', 'left');
-        $builder->join('master_fdstatus fds', 'fd.ref_status_id = fds.id', 'left');
+        $builder->join('master.master_fdstatus fds', 'fd.ref_status_id = fds.id', 'left');
         $builder->join('main m', 'fd.ec_case_id = m.diary_no', 'left');
-
         // Apply conditions
         $builder->where('fd.is_deleted', '0');
         $builder->whereIn('m.diary_no', function ($query) {
             $query->select('ec_case_id')->from('fdr_records');
         });
         $builder->where('m.diary_no', $case_number);
-
         // Execute the query
-        $query = $builder->get();
-
+        $query = $builder->get();          
         // Return the results as an array
         if ($query->getNumRows() >= 1) {
             return $query->getResultArray();
@@ -291,7 +305,7 @@ class Fdr_Model extends Model
                           fd.petitioner_name, 
                           fd.respondent_name, 
                           fd.roi, 
-                          tentative_da(fd.ec_case_id) AS da');
+                          tentative_da(fd.ec_case_id::INTEGER) AS da');
 
         // Join with other tables
         $builder->join('master.master_banks bank', 'bank.id = fd.ref_bank_id', 'left');
@@ -310,15 +324,15 @@ class Fdr_Model extends Model
                         ->join('main m', 'm.diary_no = h.diary_no', 'left')
                      //  ->where('SUBSTRING_INDEX(h.new_registration_number, '-', 1)', $caseType)
                         ->where("CAST($caseNo AS INTEGER) BETWEEN 
-                                 (CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(h.new_registration_number, '-', 2), '-', -1) AS INTEGER)) 
-                                  AND (CAST(SUBSTRING_INDEX(h.new_registration_number, '-', -1) AS INTEGER))")
+                                 (CAST(SPLIT_PART(SPLIT_PART(h.new_registration_number, '-', 2), '-', -1) AS INTEGER)) 
+                                  AND (CAST(SPLIT_PART(h.new_registration_number, '-', -1) AS INTEGER))")
                         ->where('h.new_registration_year', $caseYear)
                         ->where('h.is_deleted', 'f');
                 });
         });
 
         // Execute the query
-        $query = $builder->get();
+        $query = $builder->get();        
        // if ($query === false) {
            // log_message('error', $this->db->getLastQuery());
          
@@ -335,6 +349,7 @@ class Fdr_Model extends Model
 
     public function TenureWiseReport($days, $month, $year)
     {
+        
         $builder = $this->db->table('fdr_records fd');
         $builder->select('fd.case_number_display, 
                           fd.document_number, 
@@ -349,12 +364,12 @@ class Fdr_Model extends Model
                           fd.petitioner_name, 
                           fd.respondent_name, 
                           fd.roi, 
-                          tentative_da(fd.ec_case_id) AS da');
+                          tentative_da(fd.ec_case_id::INTEGER) AS da');
 
         // Join with other tables
         $builder->join('master.master_banks bank', 'bank.id = fd.ref_bank_id', 'left');
         $builder->join('master.usersection sec', 'sec.id = fd.ref_section_code', 'left');
-        $builder->join('master_fdstatus fds', 'fd.ref_status_id = fds.id', 'left');
+        $builder->join('master.master_fdstatus fds', 'fd.ref_status_id = fds.id', 'left');
 
         // Apply conditions
         $builder->where('fd.is_deleted', '0');
@@ -370,6 +385,7 @@ class Fdr_Model extends Model
         }
 
         $query = $builder->get();
+        echo $this->db->getLastQuery();die;
         if ($query->getNumRows() >= 1) {
             return $query->getResultArray();
         } else {

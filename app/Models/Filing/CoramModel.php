@@ -37,7 +37,6 @@ class CoramModel extends Model
     public function insert_not_before($ins_arr){
         
         $builder = $this->db->table('public.not_before');
-
         $query = $builder->insert($ins_arr);
 
         if($query) {

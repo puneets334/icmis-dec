@@ -73,7 +73,7 @@
                                                                 <option value="0">Disposed Cases</option>
                                                                 <?php if (is_array($DiscaseTypes) && !empty($DiscaseTypes)): ?>
                                                                     <?php foreach ($DiscaseTypes as $DiscaseType): ?>
-                                                                        <option value="<?= htmlspecialchars($DiscaseType['diary_no'], ENT_QUOTES) ?>"><?= htmlspecialchars($DiscaseType['reg_No'], ENT_QUOTES) ?></option>
+                                                                        <option value="<?= htmlspecialchars($DiscaseType['diary_no'], ENT_QUOTES) ?>"><?= htmlspecialchars(@$DiscaseType['reg_no'], ENT_QUOTES) ?></option>
                                                                     <?php endforeach; ?>
                                                                 <?php endif; ?>
                                                             </select>
@@ -100,7 +100,7 @@
                                                     <fieldset class="fieldset">
                                                         <legend class="legend">Deposit Date wise Search</legend>
                                                         <div class="input-group">
-                                                            <input class="form-control datepicker" id="depositDate" name="depositDate" placeholder="Deposit Date" type="text">
+                                                            <input class="form-control datepicker" id="depositDate" name="depositDate" placeholder="Deposit Date" type="date">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text"><i class="glyphicon glyphicon-calendar"></i></span>
                                                             </div>
@@ -111,7 +111,7 @@
                                                     <fieldset class="fieldset">
                                                         <legend class="legend">Maturity Date wise Search</legend>
                                                         <div class="input-group">
-                                                            <input class="form-control datepicker" id="maturityDate" name="maturityDate" placeholder="Maturity/Expiry Date" type="text">
+                                                            <input class="form-control datepicker" id="maturityDate" name="maturityDate" placeholder="Maturity/Expiry Date" type="date">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text"><i class="glyphicon glyphicon-calendar"></i></span>
                                                             </div>
@@ -127,7 +127,7 @@
                                                         <legend class="legend">Case wise Search</legend>
                                                         <div class="input-group">
                                                             <select class="form-control" id="caseType" name="caseType">
-                                                                <option>Select Case Type</option>
+                                                                <option value="0">Select Case Type</option>
                                                                 <?php foreach ($caseTypes as $caseType): ?>
                                                                     <option value="<?= htmlspecialchars($caseType['id'], ENT_QUOTES) ?>"><?= htmlspecialchars($caseType['description'], ENT_QUOTES) ?></option>
                                                                 <?php endforeach; ?>
@@ -140,7 +140,7 @@
                                                         <br />
                                                         <div class="input-group">
                                                             <select class="form-control" id="caseYear" name="caseYear">
-                                                                <option>Year</option>
+                                                                <option value="0">Year</option>
                                                                 <?php for ($i = date("Y"); $i >= 1950; $i--): ?>
                                                                     <option value="<?= $i ?>"><?= $i ?></option>
                                                                 <?php endfor; ?>

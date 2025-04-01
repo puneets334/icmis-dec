@@ -82,7 +82,7 @@
     
         <div class="row">
             <div class="col-sm-10">
-                <h3 class="card-title">Search >>&nbsp; A.O.R. Details</h3>
+                <h3 class="card-title">Record Room >> Search >>View Aor Clerks</h3>
             </div>
             
         </div>

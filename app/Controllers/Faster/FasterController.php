@@ -10,36 +10,42 @@ use RecursiveIteratorIterator;
 use UnexpectedValueException;
 use ZipArchive;
 use Mpdf\Mpdf;
+use App\Models\Common\Dropdown_list_model;
 
 class FasterController extends BaseController
 {
     protected $CourtMasterModel;
     protected $FasterModel;
     protected $StakeHolder_model;
+    public $Dropdown_list_model;
+
     public function __construct()
     {
         // parent::__construct();
+        $this->session = \Config\Services::session();
+        $this->session->start();
         $this->CourtMasterModel = new CourtMasterModel();
         $this->FasterModel = new FasterModel();
         $this->StakeHolder_model = new StakeHolder_model();
+        $this->Dropdown_list_model = new Dropdown_list_model();
     }
+
     public function index(){
-    //public function index(){
-      //  echo "Hello";
-      $usercode = $_SESSION['login']['usercode'];
-        $msg='';
+        $usercode = $_SESSION['login']['usercode'];
+        $msg = '';
         $this->session->set('dcmis_user_idd', $usercode);
-        $data['msg']=$msg;
+        $data['msg'] = $msg;
         $data['caseTypes'] = $this->CourtMasterModel->getCaseType();
         $data['usercode'] = $usercode;
         $this->clearFasterSession();
-        //var_dump($data['caseDetails']);
         return view('Faster/caseSearch', $data);
     }
+
     public function startFasterWithId($diaryNumber,$nextDate=""){
         $this->clearFasterSession();
         $this->goToCurrentStage($diaryNumber,$nextDate);
     }
+
     public function fasterProcess($usercode,$msg=""){
         $this->session->set_userdata('dcmis_user_idd', $usercode);
         $data['msg']=$msg;
@@ -48,14 +54,25 @@ class FasterController extends BaseController
         //var_dump($data['caseDetails']);
         return view('Faster/caseSearch', $data);
     }
-    public function getFasterCaseDetails(){
+
+    public function getFasterCaseDetails()
+    {
         extract($_POST);
         $diaryNumberForSearch = null;
+        // if ($optradio == 'C') {
+        //     $diaryNumberForSearch = $this->FasterModel->getSearchDiary($optradio, $caseType, $caseNo, $caseYear, null, null);
+        // } else if ($optradio == 'D') {
+        //     $diaryNumberForSearch = $this->FasterModel->getSearchDiary($optradio, null, null, null, $diaryNumber, $diaryYear);
+        // }
+
         if ($optradio == 'C') {
-            $diaryNumberForSearch = $this->CourtMasterModel->getSearchDiary($optradio, $caseType, $caseNo, $caseYear, null, null);
+            $diaryNumberForSearch = $this->Dropdown_list_model->get_case_details_by_case_no($caseType, $caseNo, $caseYear);
         } else if ($optradio == 'D') {
-            $diaryNumberForSearch = $this->CourtMasterModel->getSearchDiary($optradio, null, null, null, $diaryNumber, $diaryYear);
+            $diary_no = $diaryNumber . $diaryYear;
+            $diaryNumberForSearch = $this->Dropdown_list_model->get_diary_details_by_diary_no($diary_no);
         }
+        // pr($diaryNumberForSearch);
+        
         if ($diaryNumberForSearch != null) {
             $userDetails=$this->FasterModel->getUserDetail($_SESSION['dcmis_user_idd']);
 
@@ -63,7 +80,7 @@ class FasterController extends BaseController
             $_SESSION['sessionUserSection']=$userDetails[0]['section_name'];
             $_SESSION['sessionUserDesignation']=$userDetails[0]['type_name'];
             $_SESSION['sessionUserEmployeeCode']=$userDetails[0]['empid'];
-            $this->goToCurrentStage($diaryNumberForSearch,$causelistDateSingle);
+            return $this->goToCurrentStage($diaryNumberForSearch['diary_no'], $causelistDateSingle);
 
         } else {
             $data['msg'] = "No record found!!";
@@ -75,12 +92,13 @@ class FasterController extends BaseController
             return view('Faster/caseSearch', $data);
         }
     }
-    private function goToCurrentStage($diaryNumberForSearch,$nextDate=""){
+
+    private function goToCurrentStage($diaryNumberForSearch, $nextDate=""){
         $_SESSION['diaryNumberForSearch']=$diaryNumberForSearch;
         if(!empty($nextDate)){
             $_SESSION['nextDate']=convertToYmd($nextDate);
         }
-        $caseDetails=$this->getCaseDetails($diaryNumberForSearch,$nextDate);
+        $caseDetails=$this->getCaseDetails($diaryNumberForSearch, $nextDate);
         
         
         $data['caseDetails']=$caseDetails;
@@ -110,8 +128,10 @@ class FasterController extends BaseController
             $data['documentsInICMIS']=$this->FasterModel->getAvailableDocumetsInICMIS($diaryNumberForSearch,$_SESSION['nextDate']);
             $data['multiStepFlag']='AddDocuments';
         }
-        return view('Faster/multiStep',$data);
+        // pr($data);
+        return view('Faster/multiStep', $data);
     }
+
     public function getFasterCaseDetailsDNo(){
         //getAvailableDocumetsInICMIS
         $diaryNumberForSearch = $_SESSION['diaryNumberForSearch'];
@@ -132,17 +152,21 @@ class FasterController extends BaseController
         $data['multiStepFlag']='AddDocuments';
         return view('Faster/multiStep',$data);
     }
+
     private function getCaseDetails($diaryNo,$nextDate=""){
         $caseDetails=$this->FasterModel->caseDetails($diaryNo,$nextDate);
-        if(count($caseDetails)>0){
+        
+        if(count($caseDetails) > 0){
             $_SESSION['caseNumber']="Case No.: ".$caseDetails[0]['reg_no_display']."(".substr($caseDetails[0]['diary_no'], 0, -4)."/".substr($caseDetails[0]['diary_no'], -4).")";
             $_SESSION['causetitle']="Causetitle :".$caseDetails[0]['pet_name']. "Vs. ".$caseDetails[0]['res_name'];
             $_SESSION['main_case_dno']=$caseDetails[0]['conn_key'];
             if(!empty($caseDetails[0]['faster_cases_id'])){
-                $_SESSION['fasterCasesId']=$caseDetails[0]['faster_cases_id'];
+                // $_SESSION['fasterCasesId'] = $caseDetails[0]['faster_cases_id'];
+                $this->session->set('fasterCasesId', $caseDetails[0]['faster_cases_id']);
             }
             else{
-                $_SESSION['fasterCasesId']=NULL;
+                // $_SESSION['fasterCasesId'] = NULL;
+                $this->session->set('fasterCasesId', NULL);
             }
             return $caseDetails;
         }
@@ -159,6 +183,7 @@ class FasterController extends BaseController
             return view('Faster/multiStep',$data);
         }
     }
+
     public function getFasterDigitalCertification(){
         //$result=$this->checkStageBeforeProceed($_SESSION['fasterCasesId'],DIGITAL_CERTIFICATION);
         $result=1;
@@ -169,6 +194,7 @@ class FasterController extends BaseController
             return view('Faster/multiStep',$data);
         }
     }
+
     public function getFasterDownload(){
         //$result=$this->checkStageBeforeProceed($_SESSION['fasterCasesId'],DOWNLOAD);
         $result=1;
@@ -177,6 +203,7 @@ class FasterController extends BaseController
             return view('Faster/multiStep',$data);
         }
     }
+
     public function getStakeholderDetails(){
         $output = false;
         if(isset($_POST) && !empty($_POST) && count($_POST) >0){
@@ -192,22 +219,25 @@ class FasterController extends BaseController
         echo $output;
         exit(0);
     }
+
     public function getFasterSendEmail(){
         $data['stakeholderType'] = $this->StakeHolder_model->getStakeHolderType();
         $data['states']=$this->StakeHolder_model->getState();
         $data['multiStepFlag']='sendEmail';
         return view('Faster/multiStep',$data);
     }
+
     public function getDocumentsDates(){
-        extract($_POST); 
-        echo $docType; // 162. 165, 163
+        // pr($_GET);
+        extract($_GET); 
+        // echo $docType; // 162. 165, 163
         
-if($_SESSION['main_case_dno'] != $_SESSION['diaryNumberForSearch'] && $_SESSION['main_case_dno'] != null && $_SESSION['main_case_dno'] != 0 && ($docType == 162 || $docType == 163 || $docType == 165)){
-    $docDates=$this->FasterModel->documentsDates($_SESSION['main_case_dno'],$docType);
-}
-else{
-    $docDates=$this->FasterModel->documentsDates($_SESSION['diaryNumberForSearch'],$docType);
-}       
+        if($_SESSION['main_case_dno'] != $_SESSION['diaryNumberForSearch'] && $_SESSION['main_case_dno'] != null && $_SESSION['main_case_dno'] != 0 && ($docType == 162 || $docType == 163 || $docType == 165)){
+            $docDates=$this->FasterModel->documentsDates($_SESSION['main_case_dno'],$docType);
+        }
+        else{
+            $docDates=$this->FasterModel->documentsDates($_SESSION['diaryNumberForSearch'],$docType);
+        }       
         //var_dump($docDates);
         $htmlStr="";
         foreach($docDates as $date){
@@ -215,8 +245,9 @@ else{
         }
         echo $htmlStr;
     }
+
     public function showPDF(){
-        extract($_POST);
+        extract($_GET);
         //pdf_notices/2021/5166/1473709_68_R.pdf
         if($docType==DOCUMENT_MEMO_OF_PARTY){
             $docDates=$this->FasterModel->documentsDates($_SESSION['diaryNumberForSearch'],DOCUMENT_MEMO_OF_PARTY);
@@ -232,7 +263,8 @@ else{
         else{
             $completeFilePath.="pdf_notices/".$path;
         }
-//echo $completeFilePath;
+        
+        //echo $completeFilePath;
         $headers = @get_headers($completeFilePath);
         if($headers && strpos( $headers[0], '200')) {
             echo '<input type="hidden" id="completeFilePath" name="completeFilePath" value="'.$completeFilePath.'">';
@@ -242,6 +274,7 @@ else{
             echo $status = "<div class=\"alert alert-danger\" role=\"alert\"> File not Exists!</div>";
         }
     }
+
     public function showAttachedFile(){
         extract($_POST);
 
@@ -253,33 +286,35 @@ else{
             $id=$documentId;
         }
 
-        $documentDetails=$this->FasterModel->attachedDocumentById($id);
-        //print_r($documentDetails);
+        $documentDetails = $this->FasterModel->attachedDocumentById($id);
+        // pr($documentDetails);
 
         //$showDigitallyCertifiedFile
         if($showDigitallyCertifiedFile=='true'){
             if($documentDetails[0]['is_digitally_certified']==1){
                 $filename = pathinfo($documentDetails[0]['file_name'], PATHINFO_FILENAME);
-                $filename=$filename."_Certified.pdf";
-                $completeFilePath=WEB_ROOT."/supreme_court/jud_ord_html_pdf/".$documentDetails[0]['file_path'].$filename;
-                //$completeFilePath=WEB_ROOT."/supreme_court/".$documentDetails[0]['file_path'].$filename;
+                $filename = $filename."_Certified.pdf";
+                $completeFilePath = WEB_ROOT."/jud_ord_html_pdf".$documentDetails[0]['file_path'].$filename;
+                // $completeFilePath = WEB_ROOT."/supreme_court/".$documentDetails[0]['file_path'].$filename;
             }
         }
         else if($showDigitallySignedFile=='true' && $documentDetails[0]['is_digitally_signed']==1 && !in_array($documentDetails[0]['tw_notice_id'],array(DOCUMENT_ROP,DOCUMENT_JUDGMENT,DOCUMENT_SIGNED_ORDER,DOCUMENT_MEMO_OF_PARTY))){
             $filename = pathinfo($documentDetails[0]['file_name'], PATHINFO_FILENAME);
             $filename=$filename."_Signed.pdf";
-            $completeFilePath=WEB_ROOT."/supreme_court/jud_ord_html_pdf/".$documentDetails[0]['file_path'].$filename;
-            //$completeFilePath=WEB_ROOT."/supreme_court/".$documentDetails[0]['file_path'].$filename;
+            $completeFilePath = WEB_ROOT."/jud_ord_html_pdf".$documentDetails[0]['file_path'].$filename;
+            //$completeFilePath = WEB_ROOT."/supreme_court/".$documentDetails[0]['file_path'].$filename;
         }
         else{
-            $completeFilePath=WEB_ROOT."/supreme_court/jud_ord_html_pdf/".$documentDetails[0]['file_path'].$documentDetails[0]['file_name'];
+            $completeFilePath = WEB_ROOT."/jud_ord_html_pdf".$documentDetails[0]['file_path'].$documentDetails[0]['file_name'];
             //$completeFilePath=WEB_ROOT."/supreme_court/".$documentDetails[0]['file_path'].$documentDetails[0]['file_name'];
         }
-        //echo $completeFilePath;
-        $headers = @get_headers($completeFilePath);
-        if($headers && strpos( $headers[0], '200')) {
+        // pr($completeFilePath);
+
+        // $headers = @get_headers($completeFilePath);
+        // if($headers && strpos( $headers[0], '200')) {
+        if($completeFilePath){
             $document_date_check = "";
-            if($documentDetails[0]['dated'] == '0000-00-00'){
+            if($documentDetails[0]['dated'] == NULL){
                 $document_date_check = "";
             }
             else{
@@ -293,6 +328,7 @@ else{
             echo $status = "<div class=\"alert alert-danger\" role=\"alert\"> File not Exists!</div>";
         }
     }
+
     public function deleteAttachedFile(){
         extract($_POST);
         if (strpos($documentId, '_') !== false) {
@@ -324,6 +360,7 @@ else{
         }
 
     }
+
     public function attachDocument(){
         extract($_POST);
         $usercode=1;
@@ -391,6 +428,7 @@ else{
         }
         echo json_encode($data);
     }
+
     public function getSharedDocuments(){
         /*extract($_POST);
         if(!empty($fasterCasesId)){
@@ -401,8 +439,9 @@ else{
         echo json_encode($sharedDocuments);
         return $sharedDocuments;
     }
+
     public function getTransactions(){
-        extract($_POST);
+        extract($_GET);
         $transactions=$this->FasterModel->transationList($_SESSION['fasterCasesId'],$step);
         echo json_encode($transactions);
     }
@@ -414,6 +453,7 @@ else{
         $data['faster_shared_doc_id'] = $faster_shared_doc_id;
         return view('Faster/get_token_certificates', $data);
     }
+
     public function getDigitalCertificateInput(){
         extract($_POST);
         $data['faster_case_id'] = $faster_case_id;
@@ -427,7 +467,7 @@ else{
         date_default_timezone_set("Asia/Kolkata");
             $doc_id = $_POST['doc_id'];
             $documentDetails=$this->FasterModel->attachedDocumentById($doc_id);
-        //supremecourt/faster_assets/2019/43/1/43_2019_Order_09-Apr-2019.pdf
+            // supremecourt/faster_assets/2019/43/1/43_2019_Order_09-Apr-2019.pdf
             $uploadedFileName= explode(".",$documentDetails[0]['file_name']);
             //$sign_str = "Signed By : ".$_SESSION['sessionUserName']."\n".$_SESSION['sessionUserDesignation']."\n".$_SESSION['sessionUserSection'][0]."\nSupreme Court of India\n".date('jS \of F Y h:i:s A');
         $sign_str = "Signed By : ".$_SESSION['sessionUserName']."\n".$_SESSION['sessionUserDesignation']."\nSupreme Court of India\n".date('jS \of F Y h:i:s A');
@@ -464,7 +504,7 @@ else{
             $context  = stream_context_create( $options );
 
             $token_sign = "http://".get_client_ip().":8100/api/v1/tokensigner";
-        //$token_sign = "http://".get_client_ip().":8000/api/v2/tokensigner/pdf";
+            //$token_sign = "http://".get_client_ip().":8000/api/v2/tokensigner/pdf";
             $result = file_get_contents( $token_sign, false, $context );
             //var_dump($result);
             $json_result = json_decode($result);
@@ -489,7 +529,7 @@ else{
                     echo "failed";
                 }
                 else {
-                    $this->db->trans_start();
+                    $this->db->transBegin();
                     $fastreTransactionData=array('ref_faster_steps_id'=>DIGITAL_SIGNATURE,'faster_cases_id'=>$_POST['faster_case_id'],'faster_shared_document_details_id'=>$_POST['doc_id'],'created_by'=>$_SESSION['dcmis_user_idd'],'created_by_ip'=>get_client_ip());
                     $this->FasterModel->insertInDB('faster_transactions',$fastreTransactionData);
 
@@ -501,7 +541,7 @@ else{
                     $dataToUpdateInDocuments=array('is_digitally_signed'=>1,'digitally_signed_on'=>date('Y-m-d H:i:s'));
                     $conditionsInDocuments=array('id'=>$_POST['doc_id'],'is_deleted'=>0);
                     $updateRowsInDocuments=$this->FasterModel->updateInDB('faster_shared_document_details',$dataToUpdateInDocuments,$conditionsInDocuments);
-                    $this->db->trans_complete();
+                    $this->db->transCommit();
                     echo '<object data="'.WEB_ROOT.'/supreme_court/jud_ord_html_pdf/'.$destination_path2.'" type="application/pdf" id="fileDoc" name="fileDoc" width="100%" height="900px" internalinstanceid="9" ></object>';
                 }
             }
@@ -510,6 +550,7 @@ else{
                 //exit();
             }
     }
+
     public function setTokenCertificate(){
         date_default_timezone_set("Asia/Kolkata");
         $doc_id = $_POST['doc_id'];
@@ -605,24 +646,35 @@ else{
             echo "Error:There is some problen while generating Certificate Number.";
         }
     }
+
     public function downloadAll(){
         extract($_SESSION);
         $sharedDocuments=$this->FasterModel->fasterSharedDocuments(0,$fasterCasesId);
-        $folderLocation=FILE_ROOT_PATH.$sharedDocuments[0]['file_path'];
+        // $folderLocation=FILE_ROOT_PATH.$sharedDocuments[0]['file_path'];
+        $folderLocation=getBasePath().'reports'.$sharedDocuments[0]['file_path'];
         $zipFileDirectory=$folderLocation."complete_file/";
+        
+        $pathDir = getBasePath().'reports';
+
+        // pr($zipFileDirectory);
+
         if(is_dir($zipFileDirectory)){
             rmdir($zipFileDirectory);
         }
         else{
-            mkdir($zipFileDirectory,'0755',true);
+            mkdir($zipFileDirectory, 0777, true);
         }
+        exec("chmod -R 0777 ".$pathDir);
+        // pr($sharedDocuments);
+
         foreach($sharedDocuments as $index=>$document){
-            $fileNameArray=explode(".",$document['file_name']);
-            $fileName=$fileNameArray[0]."_Certified.pdf";
-            $fileToAttach=FILE_ROOT_PATH.$document['file_path'].$fileNameArray[0]."_Certified.pdf";
-            copy($fileToAttach,$zipFileDirectory.$fileName);
+            $fileNameArray  = explode(".",$document['file_name']);
+            $fileName       = $fileNameArray[0]."_Certified.pdf";
+            $fileToAttach   = getBasePath().'reports'.$document['file_path'].$fileNameArray[0]."_Certified.pdf";
+
+            copy($fileToAttach, $zipFileDirectory.$fileName);
         }
-        exec("chmod -R 0755 ".$zipFileDirectory);
+        exec("chmod -R 0777 ".$zipFileDirectory);
 
 
         $zip = new ZipArchive();
@@ -652,19 +704,18 @@ else{
         $this->delete_directory($zipFileDirectory);
 
 
-
-
-
-        $this->db->trans_start();
+        // $this->db->trans_start();
+        // $this->db->transBegin();
         $fastreTransactionData=array('ref_faster_steps_id'=>DOWNLOAD,'faster_cases_id'=>$_SESSION['fasterCasesId'],'created_by'=>$_SESSION['dcmis_user_idd'],'created_by_ip'=>get_client_ip());
         $this->FasterModel->insertInDB('faster_transactions',$fastreTransactionData);
 
-        $dataToUpdate=array('last_step_id'=>DOWNLOAD);
-        $conditions=array('id'=>$_SESSION['fasterCasesId'],'is_deleted'=>0);
+        $dataToUpdate = array('last_step_id'=>DOWNLOAD);
+        $conditions = array('id'=>$_SESSION['fasterCasesId'],'is_deleted'=>0);
 
-        $updateRows=$this->FasterModel->updateInDB('faster_cases',$dataToUpdate,$conditions);
+        $updateRows = $this->FasterModel->updateInDB('faster_cases',$dataToUpdate,$conditions);
 
-        $this->db->trans_complete();
+        // $this->db->trans_complete();
+        // $this->db->transCommit();
 
 
 
@@ -676,6 +727,7 @@ else{
 
         force_download($name, $data);
     }
+
     private function delete_directory($folderName)
     {
         if(is_dir($folderName))
@@ -792,11 +844,13 @@ else{
             }
         }
     }
-    public function addEmailId(){
+
+    public function addEmailId()
+    {
         extract($_POST);
         if(!empty($_SESSION['fasterCasesId'])){
-            $details=$this->StakeHolder_model->getDataById($stakeholderDetails);
-            $data=array('faster_cases_id'=>$_SESSION['fasterCasesId'],'stakeholder_details_id'=>$stakeholderDetails,'email_id'=>$details[0]['jcn_email_id'],'mobile_number'=>$details[0]['mobile_number'],'created_by'=>$_SESSION['dcmis_user_idd'],'created_by_ip'=>get_client_ip());
+            $details = $this->StakeHolder_model->getDataById($stakeholderDetails);
+            $data = array('faster_cases_id'=>$_SESSION['fasterCasesId'],'stakeholder_details_id'=>$stakeholderDetails,'email_id'=>$details[0]['jcn_email_id'],'mobile_number'=>$details[0]['mobile_number'],'created_by'=>$_SESSION['dcmis_user_idd'],'created_by_ip'=>get_client_ip());
             $insertedRows=$this->FasterModel->insertInDB('faster_communication_details',$data);
             if($insertedRows>0){
                 echo "SUCCESS";
@@ -809,10 +863,12 @@ else{
             echo "ERROR";
         }
     }
+
     public function getRecipientDetails(){
         $details=$this->FasterModel->recipientDetails($_SESSION['fasterCasesId']);
         echo json_encode($details);
     }
+
     public function doDeleteContact(){
         extract($_POST);
         $id=$fasterCommunicationDetailsId;
@@ -835,13 +891,16 @@ else{
             echo "ERROR";
         }
     }
+
     public function sendSMSNotification(){
         $smsText="";
     }
+
     public function sendEmail(){
         $file_type_name = unserialize(DOCUMENT_EXEMPTED_FROM_SIGNING);
         var_dump($file_type_name);
     }
+
     public function getCasesMarkedForFaster(){
         extract($_POST);
         if(empty($causelistDate)){
@@ -851,10 +910,12 @@ else{
         $markedCases=$this->FasterModel->casesMarkedForFaster($causelistDate);
         echo json_encode($markedCases);
     }
+
     private function clearFasterSession(){
         unset($_SESSION['diaryNumberForSearch']);
         unset($_SESSION['nextDate']);
     }
+
     public function generateImage($number="000000",$year=NULL){
         if(!isset($year)){
             $year=date('y');
@@ -881,6 +942,7 @@ else{
             echo $this->image_lib->display_errors();
         }
     }
+
     private function generateCertificateNumber($fasterSharedDocumentDetailsId){
         
 		if(empty($_SESSION['fasterCasesId'])){
@@ -898,7 +960,6 @@ else{
         return false;
     }
 
-
     public function getListedInfo()
     {
         extract($_POST);
@@ -906,6 +967,7 @@ else{
         $data['caseListedInfo']=$this->FasterModel->ListedInfo($courtNo,$causelistDate);
         return view('Faster/sendForFaster', $data);
     }
+
     public function addCaseForFaster(){
         $output = array();
         if(isset($_POST['diaryArr']) && !empty($_POST['diaryArr'])){
@@ -980,6 +1042,7 @@ else{
         echo json_encode($output);
         exit(0);
     }
+
     public function checkDiaryAndNextDtInTable($table_name,$diary_no,$next_dt){
         $output = true;
         if(isset($diary_no) && !empty($diary_no) && isset($next_dt) && !empty($next_dt) && isset($table_name) && !empty($table_name)){
@@ -987,6 +1050,7 @@ else{
         }
         return $output;
     }
+
     public function modifyCaseForFaster(){
         $output = array();
         if(isset($_POST['diaryArr']) && !empty($_POST['diaryArr'])) {
@@ -1049,10 +1113,12 @@ else{
         echo json_encode($output);
         exit(0);
     }
+
     public function report(){
         $data = array();
         return view('Faster/reportCaseFaster', $data);
     }
+
     public function getReport(){
         $output = array();
         if($_POST['causelistDate'] && !empty($_POST['causelistDate'])){
@@ -1070,6 +1136,7 @@ else{
         echo json_encode($output);
         exit(0);
     }
+
     function getJudgeName($judgesid){
         $judgeName ='';
         if(isset($judgesid) && !empty($judgesid)){
@@ -1087,6 +1154,7 @@ else{
         }
         return $judgeName;
     }
+
     public function sendForFaster($usercode){
         //$usercode = $_SESSION['dcmis_user_idd'];
         $this->getSessionDetail($usercode);
@@ -1118,19 +1186,32 @@ else{
         if(isset($orderDate) && !empty($orderDate)){
             $orderDate=date("Y-m-d", strtotime($orderDate) );
             $data['orderDateResult'] =$this->FasterModel->orderSendToFaster($orderDate);
-            $data['orderDate'] = $orderDate;
+            $data['orderDate'] = $orderDate;            
         }
+        // pr($data);
         return view('Faster/send_to_faster', $data);
     }
+
+    public function get_send_to_faster(){
+        $orderDate= isset($_GET['orderDate']) ? $_GET['orderDate'] : '';
+        if(isset($orderDate) && !empty($orderDate)){
+            $orderDate=date("Y-m-d", strtotime($orderDate) );
+            $data['orderDateResult'] =$this->FasterModel->orderSendToFaster($orderDate);
+            $data['orderDate'] = $orderDate;
+            return view('Faster/get_sent_to_faster', $data);
+        }
+        
+    }
+
     public function startsendtoFasterWithId(){
 
         $_SESSION['sessionUserEmployeeCode']=$_POST['session_user'];
-        $highCourtID = $_POST['highCourtID'];
-        $buttonID = $_POST['buttonID'];
-        $session_user = $_POST['session_user'];
-        $faster_id = $_POST['faster_id'];
-        $agency_or_court = $_POST['agency_or_court'];
-        $dataid = $_POST['dataid'];
+        $highCourtID = isset($_POST['highCourtID']) ? $_POST['highCourtID'] : '';
+        $buttonID = isset($_POST['buttonID']) ? $_POST['buttonID'] : '';
+        $session_user = $ucode = session()->get('login')['usercode'];
+        $faster_id = isset($_POST['faster_id']) ? $_POST['faster_id'] : '';
+        // $agency_or_court = $_POST['agency_or_court'];
+        $dataid = isset($_POST['dataid']) ? $_POST['dataid'] : '';
         $data['app_name']='Send to Faster Popup';
         $data['dataid']=$dataid;
         $data['agency_or_court']=1;
@@ -1151,11 +1232,45 @@ else{
         return view('Faster/generateMemoOfUser');
     }
     
-    public function get_cause_title_request(){
+    public function get_cause_title_request()
+    {
+        // pr($_REQUEST);
+        $renderer = service('renderer');
+        $data = [];
+        if (!empty($_REQUEST['optradio'] == 'C')) {
+            // $diaryNumberForSearch = $this->Dropdown_list_model->get_case_details_by_case_no($caseType, $caseNo, $caseYear);
+            $data = $this->Dropdown_list_model->get_case_details_by_case_no($_REQUEST['ct'], $_REQUEST['cn'], $_REQUEST['cy']);
+            if($data){
+                $_REQUEST['d_no'] = $data['dn'];
+                $_REQUEST['d_yr'] = $data['dy'];
+            }
+            else {
+                echo $msg_404 = 404;
+                exit();
+            }
+        }
+        else if (!empty($_REQUEST['optradio'] == 'D')) {
+            $dno = $_REQUEST["d_no"];
+            $dyr = $_REQUEST["d_yr"];
+            $diary_no = $dno . $dyr;
+        }
+        else{
+            echo $msg_404 = 404;
+            exit();
+        }
+
         return view('Faster/get_cause_title_request');
     }
     
     public function get_cause_title_request_save(){
+        // pr($_POST['ct']);
+        if (!empty($_POST['optradio'] == 'C')) {
+            $data = $this->Dropdown_list_model->get_case_details_by_case_no($_POST['ct'], $_POST['cn'], $_POST['cy']);
+            if($data){
+                $_POST['d_no'] = $data['dn'];
+                $_POST['d_yr'] = $data['dy'];
+            }
+        }
         $pdfContent = $_POST['pdfcontent'] ?? '';
         $dNo = $_POST['d_no'] ?? '';
         $dYr = $_POST['d_yr'] ?? '';
@@ -1171,8 +1286,10 @@ else{
         $fileFolder = "supremecourt/party_details/$year/$diaryNo/";
         $pdfFile = $date."_".$postDiary.".pdf";
         // $pathDir = "/home/reports/$fileFolder";
-        $pathDir = getBasePath()."/reports/$fileFolder";
-
+        // pr(FCPATH);
+        $fileDir = "/reports/$fileFolder";
+        $pathDir = getBasePath().$fileDir;
+        // pr($pathDir);
         if (!is_dir($pathDir)) {
             mkdir($pathDir, 0777, true);
         }
@@ -1189,6 +1306,7 @@ else{
         $mpdf = new \Mpdf\Mpdf();
         $mpdf->WriteHTML($pdfContent);
         $pdfFilePath = $pathDir . $pdfFile;
+        $pdfFileUrl = $fileDir . $pdfFile;
         $mpdf->Output($pdfFilePath, 'F');
         // pr($mpdf);
         // Direct database connection
@@ -1214,7 +1332,8 @@ else{
         // Insert new cause title
         $newData = [
             'diary_no' => $postDiary,
-            'path' => $pdfFilePath,
+            // 'path' => $pdfFilePath,
+            'path' => $pdfFileUrl,
             'created_on' => $createdOn ? $createdOn : null,
             'created_by' => $createdBy ? $createdBy : null,
             'created_ip' => $ip,
@@ -1222,31 +1341,51 @@ else{
         ];
 
         if ($db->table('cause_title')->insert($newData)) {
-            session()->setFlashdata('success', "Cause Title PDF uploaded successfully.");
-            return redirect()->to(base_url()."/Faster/FasterController/generateMemoOfUser?diaryno=$postDiary&statusCheck=1")
-                             ->with('message', 'Cause Title PDF uploaded successfully.');
+            $message = '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                Cause Title PDF uploaded successfully.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>';
+            // session()->setFlashdata('success', "Cause Title PDF uploaded successfully.");
+            // return redirect()->to(base_url()."/Faster/FasterController/generateMemoOfUser?diaryno=$postDiary&statusCheck=1")
+                            //  ->with('message', 'Cause Title PDF uploaded successfully.');
             
         } else {
-            session()->setFlashdata('fail', "Error: Something went wrong.");
-            return redirect()->to(base_url()."/Faster/FasterController/generateMemoOfUser?diaryno=$postDiary&statusCheck=0")
-                             ->with('error', 'Error: Something went wrong.');
-            
+            $message = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Error: Something went wrong.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>';
+            // session()->setFlashdata('fail', "Error: Something went wrong.");
+            // return redirect()->to(base_url()."/Faster/FasterController/generateMemoOfUser?diaryno=$postDiary&statusCheck=0")
+                            //  ->with('error', 'Error: Something went wrong.');            
         }
+        return $message;
     }
 
     public function generate_notice(){
         return view('Faster/generate_notice');
     }
     
-    public function get_notice(){
-        $data['chk_status'] = $this->request->getGet('chk_status');
-        $data['ct'] = $this->request->getGet('ct');
-        $data['cn'] = $this->request->getGet('cn');
-        $data['cy'] = $this->request->getGet('cy');
-        $data['d_no'] = $this->request->getGet('d_no');
-        $data['d_yr'] = $this->request->getGet('d_yr');
+    public function get_notice()
+    {
+        $chk_status = $this->request->getGet('chk_status');
+        $ct = $this->request->getGet('ct');
+        $cn = $this->request->getGet('cn');
+        $cy = $this->request->getGet('cy');
+        $d_no = $this->request->getGet('d_no');
+        $d_yr = $this->request->getGet('d_yr');
 
-        return view('Faster/get_notice',$data);
+        if ($chk_status == 1) {
+            $data['diary_no'] = $this->Dropdown_list_model->get_case_details_by_case_no($ct, $cn, $cy)['diary_no'];
+        } else {
+            
+            $data['diary_no'] = $d_no . $d_yr;
+        }
+
+        return view('Faster/get_notice', $data);
     }
     
     public function add_additional_data(){
@@ -1400,12 +1539,26 @@ else{
     }
 
     public function add_additional_data_hc(){
-        $data['chk_status'] = $this->request->getPost('chk_status');
-        $data['ct'] = $this->request->getPost('ct');
-        $data['cn'] = $this->request->getPost('cn');
-        $data['cy'] = $this->request->getPost('cy');
-        $data['d_no'] = $this->request->getPost('d_no');
-        $data['d_yr'] = $this->request->getPost('d_yr');
+        // $data['chk_status'] = $this->request->getPost('chk_status');
+        // $data['ct'] = $this->request->getPost('ct');
+        // $data['cn'] = $this->request->getPost('cn');
+        // $data['cy'] = $this->request->getPost('cy');
+        // $data['d_no'] = $this->request->getPost('d_no');
+        // $data['d_yr'] = $this->request->getPost('d_yr');
+
+        $chk_status = $this->request->getGet('chk_status');
+        $ct = $this->request->getGet('ct');
+        $cn = $this->request->getGet('cn');
+        $cy = $this->request->getGet('cy');
+        $d_no = $this->request->getGet('d_no');
+        $d_yr = $this->request->getGet('d_yr');
+
+        if ($chk_status == 1) {
+            $data['diary_no'] = $this->Dropdown_list_model->get_case_details_by_case_no($ct, $cn, $cy)['diary_no'];
+        } else {
+            
+            $data['diary_no'] = $d_no . $d_yr;
+        }
 
         return view('Faster/add_additional_data_hc', $data);
     }

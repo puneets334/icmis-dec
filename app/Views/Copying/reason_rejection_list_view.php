@@ -97,16 +97,25 @@
                 success: function(data) {
 
                     if(data==1){
-                        swal({title:"Reasons Rejection Deleted Successfully!", text:"You clicked the button!", type:"success"},
-                            function(){
-                                location.reload();
-                            });
+                          Swal.fire({
+                          title: "Reasons Rejection Deleted Successfully!",
+                          text: "You clicked the button!",
+                          icon: "success"
+                          }).then((result) => {
+                           if (result.isConfirmed) {
+                               location.reload();
+                           }
+                          });
                     }else{
-                        swal({title:"Reasons Rejection Not Deleted Successfully!", text:"You clicked the button!", type:"error"},
-                            function(){
-                                location.reload();
-                            }
-                        );
+                        Swal.fire({
+                          title: "Reasons Rejection Not Deleted Successfully!",
+                          text: "You clicked the button!",
+                          icon: "error"
+                          }).then((result) => {
+                           if (result.isConfirmed) {
+                               location.reload();
+                           }
+                          });
                     }
                     $(window).scrollTop(0);
                     updateCSRFToken();

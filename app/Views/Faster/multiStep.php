@@ -1,36 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="expires" content="Sun, 01 Jan 2014 00:00:00 GMT"/>
     <meta http-equiv="pragma" content="no-cache" />
-    <title>Faster</title>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="<?=base_url()?>assets/css/bootstrap.min.css">
-<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">-->
-    <link rel="stylesheet" href="<?=base_url()?>assets/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="<?=base_url()?>assets/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" href="<?= base_url() ?>assets/plugins/datatables/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="<?=base_url()?>assets/jsAlert/dist/sweetalert.css">
-    <link rel="stylesheet" href="<?=base_url()?>assets/plugins/select2/select2.min.css">
+    <title>Faster</title>-->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"> 
+    <link rel="stylesheet" href="<?=base_url()?>/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="<?=base_url()?>/assets/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="<?=base_url()?>/assets/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="<?= base_url() ?>/assets/plugins/datatables/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="<?=base_url()?>/assets/jsAlert/dist/sweetalert.css">
+    <link rel="stylesheet" href="<?=base_url()?>/assets/plugins/select2/select2.min.css">
 
-    <link href="<?=base_url()?>/assets/css/googlefontcss.css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"  type="text/css">
+    <link href="<?=base_url()?>/assets/css/googlefontcss.css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" >
     <link href="<?=base_url()?>/assets/css/multi_form_steps.css" rel="stylesheet"  type="text/css">
 
+    <style>
+        .container {
+            padding-right: 15px;
+            padding-left: 35px;
+        }
+    </style>
+    <script>
+
+        async function updateCSRFTokenSyncr() {
+            const response = await $.ajax({
+                url: "<?php echo base_url('Csrftoken'); ?>",
+                dataType: 'json',
+                success: function(data) {
+                    $('[name="CSRF_TOKEN"]').val(data.CSRF_TOKEN_VALUE);
+                }
+            });
+
+            return response;
+        }
+    </script>
 
 </head>
 <body  class="hold-transition skin-blue layout-top-nav">
 <?php
-header("Cache-Control: no-store");
+// header("Cache-Control: no-store");
 ?>
 <section>
     <div class="container" style="width: 100%">
         <div class="row">
             <div class="col-sm-12">
                 <p class="text-right" style="padding: 0 !important; margin: 0 !important;">
-                    <a href="<?=base_url()?>index.php/FasterController" target="_self"> Search New Case <i class="glyphicon glyphicon-search"></i></a>
+                    <a href="<?=base_url()?>/Faster/FasterController" target="_self"> Search New Case <i class="glyphicon glyphicon-search"></i></a>
                 </p>
             </div>
             <div class="board">
@@ -78,23 +99,23 @@ header("Cache-Control: no-store");
 
                 <div class="tab-content">
                     <div class="tab-pane fade <?= $multiStepFlag == 'AddDocuments' ? 'in active' : '' ?>" id="AddDocuments">
-                        <!-- Main content -->
+                        <!-- Main content $usercode -->
                         <?php
                         if($multiStepFlag == 'AddDocuments'){
-                            $this->load->view("Faster/addDocument");
+                            echo view("Faster/addDocument");
                         } ?>
                     </div>
                     <div class="tab-pane fade <?= $multiStepFlag == 'DigitalSign' ? 'in active' : '' ?>" id="DigitalSign">
                         <?php
                         if($multiStepFlag == 'DigitalSign'){
-                            $this->load->view("Faster/digitalSign");
+                            echo view("Faster/digitalSign");
                         }
                         ?>
                     </div>
                     <div class="tab-pane fade <?= $multiStepFlag == 'DigitalCertification' ? 'in active' : '' ?>" id="DigitalCertification">
                         <?php
                         if($multiStepFlag == 'DigitalCertification'){
-                            $this->load->view("Faster/digitalCertification");
+                            echo view("Faster/digitalCertification");
                         } ?>
                     </div>
                     <div class="tab-pane fade <?= $multiStepFlag == 'Download' ? 'in active' : '' ?>" id="Download">
@@ -104,13 +125,14 @@ header("Cache-Control: no-store");
                             $data['transactions']=$transactions;
                         }
                         if($multiStepFlag == 'Download'){
-                            $this->load->view("Faster/download",$data);
+                            
+                            echo view("Faster/download", $data);                            
                         } ?>
                     </div>
                     <div class="tab-pane fade <?= $multiStepFlag == 'sendEmail' ? 'in active' : '' ?>" id="sendEmail">
                         <?php
                         if($multiStepFlag == 'sendEmail'){
-                            $this->load->view("Faster/sendEmail");
+                            echo view("Faster/sendEmail");
                         } ?>
                     </div>
                     <div class="clearfix"></div>
@@ -123,13 +145,12 @@ header("Cache-Control: no-store");
 
 <div class="content-fluid">
 
-</div>
 
-<script type="text/javascript" src="<?=base_url()?>assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/plugins/select2/select2.full.min.js"></script>
-<script type="text/javascript" src="<?=base_url()?>assets/js/app.min.js"></script>
-<script type="text/javascript" src="<?= base_url() ?>assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<?=base_url()?>/assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="<?=base_url()?>/assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<?=base_url()?>/assets/plugins/select2/select2.full.min.js"></script>
+<script type="text/javascript" src="<?=base_url()?>/assets/js/app.min.js"></script>
+<script type="text/javascript" src="<?= base_url() ?>/assets/plugins/datatables/jquery.dataTables.min.js"></script>
 
 <script>
     $(function(){
@@ -141,15 +162,15 @@ header("Cache-Control: no-store");
     $(document).on('click', '.step_select', function () {
         var stepFlag = $(this).data('step_flag');
         if(stepFlag == 'AddDocuments')
-            window.location = "<?=base_url()?>index.php/FasterController/getFasterCaseDetailsDNo";
+            window.location = "<?=base_url()?>/Faster/FasterController/getFasterCaseDetailsDNo";
         else if(stepFlag == 'DigitalSign')
-            window.location = "<?=base_url()?>index.php/FasterController/getFasterDigitalSign";
+            window.location = "<?=base_url()?>/Faster/FasterController/getFasterDigitalSign";
         else if(stepFlag == 'DigitalCertification')
-            window.location = "<?=base_url()?>index.php/FasterController/getFasterDigitalCertification";
+            window.location = "<?=base_url()?>/Faster/FasterController/getFasterDigitalCertification";
         else if(stepFlag == 'Download')
-            window.location = "<?=base_url()?>index.php/FasterController/getFasterDownload";
+            window.location = "<?=base_url()?>/Faster/FasterController/getFasterDownload";
         else if(stepFlag == 'sendEmail')
-            window.location = "<?=base_url()?>index.php/FasterController/getFasterSendEmail";
+            window.location = "<?=base_url()?>/Faster/FasterController/getFasterSendEmail";
         else{
             alert("Wrong Way!");
             return false;
@@ -165,11 +186,17 @@ header("Cache-Control: no-store");
     });*/
 
     function getDates(id){
+        // var CSRF_TOKEN = 'CSRF_TOKEN';
+        // var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         $("#divDocDated").show();
-        $.post("<?=base_url()?>index.php/FasterController/getDocumentsDates", {docType: id.value},function(result){
+        $.get("<?=base_url()?>/Faster/FasterController/getDocumentsDates", {
+            docType: id.value
+        },function(result){
             $("#docDate").html(result);
+            updateCSRFTokenSync();
         });
     }
+
     function showPDF(docType="",path="",dated=""){
         if(docType==""){
             docType=$("#docType").val();
@@ -191,7 +218,7 @@ header("Cache-Control: no-store");
         var path=$("#docDate").val();*/
 
         $("#divShowPdf").show();
-        $.post("<?=base_url()?>index.php/FasterController/showPDF", {docType: docType,'path': path},function(result){
+        $.get("<?=base_url()?>/Faster/FasterController/showPDF", {docType: docType,'path': path},function(result){
             if(result.indexOf("alert alert-danger") != -1){
                 $("#divBtnAttachPdf").css("display", "none");
             }
@@ -206,8 +233,7 @@ header("Cache-Control: no-store");
     function confirmBeforeAdd() {
         var choice = confirm('Do you really want to attach this file?');
         if(choice === true) {
-
-            $.post("<?=base_url()?>index.php/FasterController/attachDocument", $("#frmAddDocument").serialize(),function(result){
+            $.post("<?=base_url()?>/Faster/FasterController/attachDocument", $("#frmAddDocument").serialize(),function(result){
                 response = $.parseJSON(result);
                 //alert(response.message.msg);
                 if(response.message.code=="SUCCESS"){
@@ -228,7 +254,7 @@ header("Cache-Control: no-store");
         return false;
     }
     function showAttachedDocumentsList(){
-        $.post("<?=base_url()?>index.php/FasterController/getSharedDocuments",function(result){
+        $.get("<?=base_url()?>/Faster/FasterController/getSharedDocuments",function(result){
             //alert(result);
             response = $.parseJSON(result);
             $('#tblSharedDocuments tbody').empty();
@@ -249,8 +275,13 @@ header("Cache-Control: no-store");
 
         });
     }
-    function showAttachedFile(id,hideBtn=true,showDigitallySignedFile=false,showDigitallyCertifiedFile=false){
-        $.post("<?=base_url()?>index.php/FasterController/showAttachedFile",{'documentId':id,'showDigitallySignedFile':showDigitallySignedFile,'showDigitallyCertifiedFile':showDigitallyCertifiedFile},function(result){
+
+    async function showAttachedFile(id,hideBtn=true,showDigitallySignedFile=false,showDigitallyCertifiedFile=false){
+        $("#divShowPdf").html('<table widht="100%" align="center"><tr><td><img src="<?=base_url()?>/assets/images/load.gif"/></td></tr></table>');
+        $("#divShowPdf").show();
+        var res = await updateCSRFTokenSyncr();
+        var CSRF_TOKEN_VALUE = res.CSRF_TOKEN_VALUE
+        $.post("<?=base_url()?>/Faster/FasterController/showAttachedFile",{CSRF_TOKEN: CSRF_TOKEN_VALUE,'documentId':id,'showDigitallySignedFile':showDigitallySignedFile,'showDigitallyCertifiedFile':showDigitallyCertifiedFile},function(result){
             $("#divShowPdf").show();
             if(hideBtn){
                 $("#divBtnAttachPdf").css("display", "none");
@@ -261,7 +292,7 @@ header("Cache-Control: no-store");
     function dodelete(id){
         var choice = confirm('Do you really want to delete this file?');
         if(choice === true) {
-            $.post("<?=base_url()?>index.php/FasterController/deleteAttachedFile",{'documentId':id},function(result){
+            $.post("<?=base_url()?>/Faster/FasterController/deleteAttachedFile",{'documentId':id},function(result){
                 if(result=="SUCCESS"){
                     $("#divMessage").html("<div class=\"alert alert-success\" role=\"alert\"> Record deleted!</div>");
                     $("#divMessage").show();
@@ -280,7 +311,7 @@ header("Cache-Control: no-store");
     }
 
     $(document).on("click", ".doActionDigiSign", function () {
-        $("#actionDigiSign").html('<table widht="100%" align="center"><tr><td><img src="<?=base_url()?>assets/images/load.gif"/></td></tr></table>');
+        $("#actionDigiSign").html('<table widht="100%" align="center"><tr><td><img src="<?=base_url()?>/assets/images/load.gif"/></td></tr></table>');
 
         var file_path = $(this).data('file_path');
         var faster_shared_doc_id = $(this).data('faster_shared_doc_id');
@@ -288,7 +319,7 @@ header("Cache-Control: no-store");
         showAttachedFile(faster_shared_doc_id,false);
         $.ajax({
             type: "POST",
-            url: "<?=base_url()?>index.php/FasterController/getDigitalSignInput",
+            url: "<?=base_url()?>/Faster/FasterController/getDigitalSignInput",
             data: {faster_case_id:faster_case_id, file_path:file_path,faster_shared_doc_id:faster_shared_doc_id},
             cache: false,
             dataType: "text",
@@ -304,7 +335,7 @@ header("Cache-Control: no-store");
     });
 
     $(document).on("click", ".doActionDigiCertify", function () {
-        $("#actionDigitalCertify").html('<table widht="100%" align="center"><tr><td><img src="<?=base_url()?>assets/images/load.gif"/></td></tr></table>');
+        $("#actionDigitalCertify").html('<table widht="100%" align="center"><tr><td><img src="<?=base_url()?>/assets/images/load.gif"/></td></tr></table>');
 
         var file_path = $(this).data('file_path');
         var faster_shared_doc_id = $(this).data('faster_shared_doc_id');
@@ -312,7 +343,7 @@ header("Cache-Control: no-store");
         showAttachedFile(faster_shared_doc_id,true,true);
         $.ajax({
             type: "POST",
-            url: "<?=base_url()?>index.php/FasterController/getDigitalCertificateInput",
+            url: "<?=base_url()?>/Faster/FasterController/getDigitalCertificateInput",
             data: {faster_case_id:faster_case_id, file_path:file_path,faster_shared_doc_id:faster_shared_doc_id},
             cache: false,
             dataType: "text",
@@ -328,23 +359,25 @@ header("Cache-Control: no-store");
     });
 
     $(document).on("click", ".btn_token_pdf_sign", function () {
-        $.post("<?=base_url()?>index.php/FasterController/setTokenTask", $("#token_certificate_form").serialize(),function(result){
+        $.post("<?=base_url()?>/Faster/FasterController/setTokenTask", $("#token_certificate_form").serialize(),function(result){
             $("#divShowPdf").show();
             $("#divShowPdf").html(result);
             showDocumentsList();
         });
         return true;
     });
+
     $(document).on("click", ".btn_token_pdf_certify", function () {
-        $.post("<?=base_url()?>index.php/FasterController/setTokenCertificate", $("#token_certification_form").serialize(),function(result){
+        $.post("<?=base_url()?>/Faster/FasterController/setTokenCertificate", $("#token_certification_form").serialize(),function(result){
             $("#divShowPdf").show();
             $("#divShowPdf").html(result);
             showDocumentsListForCertification();
         });
         return true;
     });
+
     function showDocumentsList(){
-        $.post("<?=base_url()?>index.php/FasterController/getSharedDocuments",function(result){
+        $.get("<?=base_url()?>/Faster/FasterController/getSharedDocuments",function(result){
             //alert(result);
             response = $.parseJSON(result);
             $('#tblDigiSign tbody').empty();
@@ -374,7 +407,7 @@ header("Cache-Control: no-store");
         });
     }
     function showDocumentsListForCertification(){
-        $.post("<?=base_url()?>index.php/FasterController/getSharedDocuments",function(result){
+        $.get("<?=base_url()?>/Faster/FasterController/getSharedDocuments",function(result){
             response = $.parseJSON(result);
             $('#tblDigiCertify tbody').empty();
             $.each(response, function(i, item) {
@@ -410,7 +443,7 @@ header("Cache-Control: no-store");
         });
     }
     function showtransactions(step){
-        $.post("<?=base_url()?>index.php/FasterController/getTransactions",{step:step},function(result){
+        $.get("<?=base_url()?>/Faster/FasterController/getTransactions",{step:step},function(result){
             //alert(result);
             response = $.parseJSON(result);
             $('#tbl_history tbody').empty();
@@ -426,18 +459,22 @@ header("Cache-Control: no-store");
 
         });
     }
+
     function downloadAll(){
         $("#frmDownload").submit();
         setTimeout(function(){ showtransactions(<?=DOWNLOAD?>); }, 1000);
     }
-    function recipientDetails(){
+
+    async function recipientDetails(){
         $("#hiddenEmailIds").empty();
         emailIds="";
-        $.post("<?=base_url()?>index.php/FasterController/getRecipientDetails",function(result){
+        var res = await updateCSRFTokenSyncr();
+        var CSRF_TOKEN_VALUE = res.CSRF_TOKEN_VALUE
+        $.post("<?=base_url()?>/Faster/FasterController/getRecipientDetails",{CSRF_TOKEN: CSRF_TOKEN_VALUE},function(result){
 
             response = $.parseJSON(result);
             $('#tbl_communications tbody').empty();
-
+            updateCSRFTokenSyncr();
             $.each(response, function(i, item) {
                 emailIds=emailIds+item.email_id+",";
                 $('<tr>').append(
@@ -456,31 +493,37 @@ header("Cache-Control: no-store");
 
         });
     }
+
     function addEmailid(id) {
         if($("#stakeholderDetails").val()==0){
             alert("Please select Stakeholder detail!");
             return false;
         }
-        $.post("<?=base_url()?>index.php/FasterController/addEmailId", $("#frmAddEmail").serialize(),function(result){
+        updateCSRFTokenSyncr();
+        $.post("<?=base_url()?>/Faster/FasterController/addEmailId", $("#frmAddEmail").serialize(),function(result){
             if(result=="SUCCESS"){
                 $("#divMessage").html("<div class=\"alert alert-success\" role=\"alert\"> Record Added Successfully!</div>");
                 $("#divMessage").show();
                 setTimeout(function() { $("#divMessage").hide(); }, 5000);
+                updateCSRFTokenSyncr();
                 recipientDetails();
             }
             else if(result=="ERROR"){
                 $("#divMessage").html("<div class=\"alert alert-danger\" role=\"alert\"> Unable to add Record!</div>");
                 $("#divMessage").show();
+                updateCSRFTokenSyncr();
                 setTimeout(function() { $("#divMessage").hide(); }, 5000);
             }
             return true;
         });
         return false;
     }
+
     function dodeleteEmail(id){
         var choice = confirm('Do you really want to remove this email?');
         if(choice === true) {
-            $.post("<?=base_url()?>index.php/FasterController/doDeleteContact",{'fasterCommunicationDetailsId':id.id},function(result){
+            updateCSRFTokenSync();
+            $.post("<?=base_url()?>/Faster/FasterController/doDeleteContact",{'fasterCommunicationDetailsId':id.id},function(result){
                 if(result=="SUCCESS"){
                     $("#divMessage").html("<div class=\"alert alert-success\" role=\"alert\"> Record deleted!</div>");
                     $("#divMessage").show();
@@ -497,6 +540,7 @@ header("Cache-Control: no-store");
         }
         return false;
     }
+
     function setClipboard() {
         //alert("Hi"+$("#hiddenEmailIds").val());
         var tempInput = document.createElement("input");
@@ -510,10 +554,11 @@ header("Cache-Control: no-store");
         $("#divMessage").show();
         setTimeout(function() { $("#divMessage").hide(); }, 5000);
     }
+
     function sendSMS(){
         var choice = confirm('Do you really want to send SMS notification to recipient(s)?');
         if(choice === true) {
-            $.post("<?=base_url()?>index.php/FasterController/sendSMSNotification",function(result){
+            $.post("<?=base_url()?>/Faster/FasterController/sendSMSNotification",function(result){
                 if(result=="SUCCESS"){
                     $("#divMessage").html("<div class=\"alert alert-success\" role=\"alert\"> SMS Notification sent successfully.</div>");
                     $("#divMessage").show();
@@ -529,10 +574,11 @@ header("Cache-Control: no-store");
         }
         return false;
     }
+
     function sendEmail(){
         var choice = confirm('Do you really want to send Email with attched document(s) to recipient(s)?');
         if(choice === true) {
-            $.post("<?=base_url()?>index.php/FasterController/sendEmail",function(result){
+            $.post("<?=base_url()?>/Faster/FasterController/sendEmail",function(result){
                 if(result=="SUCCESS"){
                     $("#divMessage").html("<div class=\"alert alert-success\" role=\"alert\"> SMS Notification sent successfully.</div>");
                     $("#divMessage").show();
@@ -549,6 +595,9 @@ header("Cache-Control: no-store");
         return false;
     }
 </script>
-
+</div>
+<?php
+// pr($multiStepFlag);
+?>
 </body>
 </html>

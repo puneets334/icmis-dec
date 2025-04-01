@@ -6,11 +6,14 @@
     $actionRequired = "";
     $disp_weededby = "";
     $judgeinitial = array_fill(0, 5, '0');
+    // echo "<pre>";
+    // print_r($judgeinitial);die;
     $disposaljudge = 0;
 
     if ($eliminationData[0]['c_status'] == 'D') {
         $status = "Disposed";
-        $actionButton = '<button type="button" id="btn-save-elimination" class="btn btn-block bg-olive btn-flat" onclick="saveElimination()"><i class="fa fa-save"></i> SAVE </button>';
+        $actionButton = '<button type="button" id="btn-save-elimination" class="btn btn-block bg-olive btn-flat" 
+        onclick="saveElimination()"><i class="fa fa-save"></i> SAVE </button>';
         $disposaljudge = $eliminationData[0]['dispjud'];
         $disp_weededby = $eliminationData[0]['weeded_by'];
         $judgedetail = explode(",", $eliminationData[0]['jud_id']);
@@ -68,23 +71,30 @@
                         <td><label>Disposal/Hearing Date </label></td>
                         <td><input type="text" class="form-control" name="disposalDate" id="disposalDate" placeholder="Disposal Date" value="<?= esc(date("d-m-Y", strtotime($eliminationData[0]['disp_dt']))) ?>"></td>
                     </tr>
-
-                    <?php for ($i = 1; $i <= 5; $i++): ?>
-                        <tr>
-                            <td><label>Judge <?= $i ?></label></td>
+                        
+                    <?php 
+                    for ($i = 1; $i <= 5; $i++): ?>
+                        <?php if ($i % 2 != 0): // Start a new row for odd judges ?>
+                            <tr>
+                        <?php endif; ?>
+                            <td><label class="mt-3">Judge <?= $i ?></label></td>
                             <td>
                                 <select class="form-control" id="judge<?= $i ?>" name="judge<?= $i ?>">
                                     <option value="0">Select Judge</option>
                                     <?php foreach ($judge as $j): ?>
-                                        <option value="<?= esc($j['jcode']) ?>" <?= $judgeinitial[$i - 1] == $j['jcode'] ? 'selected' : '' ?>>
+                                        <option value="<?= esc($j['jcode']) ?>" 
+                                            <?= isset($judgeinitial[$i - 1]) && $judgeinitial[$i - 1] == $j['jcode'] ? 'selected' : '' ?>>
                                             <?= esc($j['jcode']) ?> - <?= esc($j['jname']) ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
                             </td>
-                        </tr>
+                        <?php if ($i % 2 == 0 || $i == 5): // Close the row for even judges or the last judge ?>
+                            </tr>
+                        <?php endif; ?>
                     <?php endfor; ?>
 
+                                        
                     <tr>
                         <td><label>Disposal Judge </label></td>
                         <td>
@@ -107,15 +117,19 @@
                     <tr>
                         <td colspan="4">
                             <table>
-                                <?php foreach ($caseRemarksHead as $caseRemark): ?>
-                                    <tr>
+                                <?php foreach ($caseRemarksHead as $index => $caseRemark): ?>
+                                    <?php if ($index % 3 == 0): // Start a new row after every three items ?>
+                                        <tr>
+                                    <?php endif; ?>
                                         <td style="width: 33%">
                                             <label style="cursor: pointer;">
                                                 <input class="myCheckbox" type="checkbox" name="caseRemarksHead[]" value="<?= esc($caseRemark['cis_disp_code']) ?>" <?= $caseRemark['cis_disp_code'] == $eliminationData[0]['disp_type'] ? 'checked' : '' ?> />
                                                 <?= esc($caseRemark['head']) ?>
                                             </label>
                                         </td>
-                                    </tr>
+                                    <?php if (($index + 1) % 3 == 0 || $index + 1 == count($caseRemarksHead)): // Close the row after three items or at the end ?>
+                                        </tr>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                             </table>
                         </td>

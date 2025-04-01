@@ -310,13 +310,15 @@
                     }
                 })
                 .done(function(result) {
-                    $("#divSearchResult").html(result);
                     updateCSRFToken();
+                    $("#divSearchResult").html(result);
+                   
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
+                    updateCSRFToken();
                     console.error("Request failed: " + textStatus + ", " + errorThrown);
                     alert("An error occurred while processing your request. Please try again.");
-                    updateCSRFToken();
+                   
                 });
         });
     });

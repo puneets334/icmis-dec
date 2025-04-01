@@ -99,7 +99,11 @@ class IA_restore extends BaseController
                     'updated_on' => date("Y-m-d H:i:s"),
                     'updated_by' => session()->get('login')['usercode'],
                 ];
-                unset($docdetails2[0]['updated_on']);unset($docdetails2[0]['updated_by']);unset($docdetails2[0]['ia']);
+                unset($docdetails2[0]['updated_on']);
+                unset($docdetails2[0]['updated_by']);
+                unset($docdetails2[0]['ia']);
+                unset($docdetails2[0]['trial320']);
+
                 $final_array = array_merge($docdetails2[0],$data_addon);
 
                 $query_ia_log = insert('docdetails_history', $final_array);

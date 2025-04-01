@@ -24,8 +24,8 @@
                     <form id="frmUploadRop" enctype="multipart/form-data" action="" method="post">
                         <input type="hidden" name="usercode" id="usercode" value="<?= session()->get('login')['usercode']; ?>">
                         <?= csrf_field(); ?>
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
+                        <div class="form-row mt-3">
+                            <div class="form-group col-md-4 ml-3">
                                 <?php
                                 $dateLabel1 = '';
                                 $dateLabel2 = '';
@@ -45,7 +45,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-4  ml-3">
                                 <label for="orderDateTo"><?= $dateLabel2; ?></label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -57,7 +57,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3 mt-3">
                                 <label>&nbsp;</label>
                                 <button type="button" id="btnGetCases" class="btn btn-info btn-block" onclick="getReceivedCasesFromScanningList();" style="margin-top: 10px;">Get Cases</button>
                             </div>
@@ -121,7 +121,7 @@
                     type: 'POST',
                     url: "<?= base_url() ?>/Record_room/FileTrap/receiveCasesFromScanning",
                     beforeSend: function(xhr) {
-                        $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>../images/load.gif'></div>");
+                        $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>/images/load.gif'></div>");
                     },
                     data: {
                         orderDateFrom: fromDate,
@@ -175,13 +175,14 @@
             var this_textarea_value = $(this).closest('tr').find('textarea.consignmentRemarks').val();
             consignmentRemarks.push(this_textarea_value);
         });
+        // alert(countChecked);exit;
 
         if (countChecked > 0) {
             $.ajax({
                     type: 'POST',
                     url: "<?= base_url() ?>index.php/FileTrap/receiveAndDispatchCasesToRC",
                     beforeSend: function(xhr) {
-                        $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>../images/load.gif'></div>");
+                        $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>/images/load.gif'></div>");
                     },
                     data: {
                         dateFrom: fromDate,

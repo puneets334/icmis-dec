@@ -51,6 +51,7 @@ class DraftListModel extends Model
 
                 $query = $builder->get();
                 $row_matters = $query->getRow();
+                pr($row_matters);
                 $ct = $row_matters ? $row_matters->ct : null;
                 if($ct == null) {
                     echo " NO Fresh  Matters  ";
@@ -147,7 +148,7 @@ class DraftListModel extends Model
                 casecode,
                 r.courtno, 
                 us.id, 
-                COALESCE(u.name, tentative_da(m.diary_no)) as name, 
+                COALESCE(u.name, tentative_da(m.diary_no::INTEGER)) as name, 
                 m.casetype_id, 
                 COALESCE(us.section_name, tentative_section(m.diary_no)) as section_name, 
                 l.purpose, 

@@ -11,6 +11,8 @@ use App\Models\Entities\Model_ref_state;
 use App\Libraries\Fpdf;
 use App\Libraries\Common;
 use App\Models\PIL\PilModel;
+use App\Models\Court\CourtMasterModel; 
+
 
 //use Mpdf;
 //use \setasign\Fpdi\PdfParser\StreamReader;
@@ -26,6 +28,7 @@ class PilController extends BaseController
     public $commonHelper;
     public $masterRefState;
     public $PilModel;
+    protected $CourtMasterModel;
 
     public function __construct()
     {
@@ -39,6 +42,7 @@ class PilController extends BaseController
         $this->masterRefState = new Model_ref_state();
         $this->pdf = new Fpdf();
         $this->common = new Common();
+        $this->CourtMasterModel = new CourtMasterModel();
 
         $this->PilModel = new PilModel();
         ini_set('memory_limit','51200M');
@@ -52,16 +56,13 @@ class PilController extends BaseController
         $data['msg']=$msg;
         $data['app_name'] = 'PIL';
         $data['pilData'] = $this->PilModel->getPilData();
-//        echo "<pre>";
-//        print_r($data);
-//        die;
+ 
         return view('PIL/showPilData', $data);
 
     }
     public function addToPilGroupShow($msg="",$ecPilGroupId=0,$searchedYear=0)
     {
-//        echo $ecPilGroupId;
-//        die;
+ 
         $usercode = $_SESSION['login']['usercode'];
         $diaryNo='';
         $diaryYear='';
@@ -72,7 +73,7 @@ class PilController extends BaseController
         $data['msg']=$msg;
         $data['pilGroup']=array();
         $resultArray = $this->PilModel->getPilGroup();
-        //pr($resultArray);
+   
         if(!empty($resultArray))
         {
             $data['pilGroup'] = $resultArray;
@@ -83,6 +84,14 @@ class PilController extends BaseController
         
         $data['ecPilGroupId']=$ecPilGroupId;
         $data['searchedYear']=$searchedYear;
+   
+        return view('PIL/addToPilGroup', $data);
+    }
+
+
+    public function addToPilGroupResult()
+    {
+        $usercode = $_SESSION['login']['usercode'];
         if(!empty($_POST))
         {
             if (!empty($_POST['ecPilGroupId']))
@@ -90,41 +99,30 @@ class PilController extends BaseController
                 $ecPilGroupId = $_POST['ecPilGroupId'];
 
             }
-            if (!empty($_POST['diaryNo']))
-            {
-                $diaryNo = $_POST['diaryNo'];
-            }
+            
+            $diaryNo = $_POST['diaryNo'];
             $diaryYear = $_POST['diaryYear'];
             if ($diaryNo != '' && $diaryYear != '')
             {
                 $ecPilId = $this->PilModel->getPilId($diaryNo, $diaryYear);
-//                echo "<pre>";
-//                print_r($ecPilId[0]);
-//                die;
-                if ($ecPilId[0] != null) {
-//                    echo "FFFF";
-//                    die;
+                 
+                if (!empty($ecPilId) && $ecPilId[0] != null) {
+ 
                     $rowsaffected = $this->PilModel->addInPilGroup($ecPilGroupId, $ecPilId, $usercode);
-//                    echo "<pre>";
-//                    print_r($rowsaffected);
-//                    die;
+ 
 
                     if ($rowsaffected > 0) {
                         $data['msg']="Added Successfully.";
                         $data['casesInPilGroup'] = $this->PilModel->getCasesInPilGroup($ecPilGroupId);
                         $data['ecPilGroupId']=$ecPilGroupId;
-//                        echo "<pre>";
-//                        print_r($data);
-//                        die;
-//                        $this->addToPilGroupShow("Added Successfully.", $ecPilGroupId, $diaryYear);
+ 
                     }
                 } else {
-//                    echo "EEE";
-//                    die;
+ 
                     $data['msg']="No Record found.";
                     $data['casesInPilGroup'] = $this->PilModel->getCasesInPilGroup($ecPilGroupId);
                     $data['ecPilGroupId']=$ecPilGroupId;
-//                    $this->addToPilGroupShow("No Record found.", $ecPilGroupId, $diaryYear);
+ 
                 }
             } else
             {
@@ -132,15 +130,10 @@ class PilController extends BaseController
                 $data['ecPilGroupId']=$ecPilGroupId;
 
             }
-//            echo "POOOO";
-//            echo "<pre>";
-//            print_r($data);
-//            die;
-            return view('PIL/addToPilGroup', $data);
+ 
+            return view('PIL/addToPilGroupResult', $data);
 
         }
-     //pr($data);
-        return view('PIL/addToPilGroup', $data);
     }
 
 
@@ -149,8 +142,8 @@ class PilController extends BaseController
 
  // var_dump($_GET);
   //die;
-        $ecPilId = $this->request->uri->getSegment(4);
-        $ecPilGroupId = $this->request->uri->getSegment(5);
+        $ecPilId = $_POST['id'];
+        $ecPilGroupId = $_POST['pilgpid'];
         $userCode = $_SESSION['login']['usercode'];
         $client_ip = getClientIP();
 //      ECPIL TABLE SE LOG M S=DAAL RAHE HI VERNACULAR LANGUAGE DATATYPE
@@ -178,11 +171,11 @@ class PilController extends BaseController
 
         if($query>0){
           // $this->addToPilGroupShow("PIL removed from this PIL Group.",$ecPilGroupId);
-            echo "PIL removed from this PIL Group.",$ecPilGroupId;
+            return "1";
         }
         else{
-          //  echo "0";
-           echo "There is some problem while removing PIL from this PIL Group";
+            return "0";
+          // echo "There is some problem while removing PIL from this PIL Group";
         }
 
 
@@ -192,13 +185,15 @@ class PilController extends BaseController
         $ecPilId=$this->PilModel->getPilId($_POST['diaryNo'],$_POST['diaryYear']);
 
         if($ecPilId!=null)
-        return redirect()->to('PIL/PilController/editPilData/'.$ecPilId[0]['id']);
+            return redirect()->to('PIL/PilController/editPilData/'.$ecPilId[0]['id']);
         else
-            $this->index("No Record found.");
+        session()->setFlashdata('infomsg', 'No data found!');
+            return redirect()->to('PIL/PilController/index/');
     }
     public function editPilData($ecPilId=null){
-        error_reporting(0);
+         
         $data['dcmis_user_idd']= session()->get('login')['usercode'];
+        $data['common'] =  $this->common ;
         $data['pil_id']=$ecPilId;
         $data['state'] = $this->PilModel->get_state_list();
         $data['pilCategory'] = $this->PilModel->getPilCategory();
@@ -662,7 +657,7 @@ class PilController extends BaseController
             $convertedDiaryYear = $_POST['convertedDiaryYear'];
             $otherRemedyRemark = $_POST['otherRemedyRemark'];
             $reportDate = $_POST['reportDate'];
-            $destroyOrKeepIn = $_POST['destroyOrKeepIn'];
+            $destroyOrKeepIn = $_POST['destroyOrKeepIn'] ?? '';
             $destroyOrKeepInDate = $_POST['destroyOrKeepInDate'];
             $destroyOrKeepInRemark = $_POST['destroyOrKeepInRemark'];
             $pils = $_POST['pils'];
@@ -1085,30 +1080,17 @@ class PilController extends BaseController
         $ecPilGroupId = $_REQUEST['eid'];
         $reportType = $_REQUEST['uid'];
 
-//        echo $ecPilGroupId.">>>>".$reportType.">>>".$userCode;
-//        die;
-/*        print_r(FPDF_FONTPATH);
-        die;*/
+ 
 
         $userdetail = getUserNameAndDesignation($usercode);
-/*        echo "<pre>";
-        print_r($userdetail);
-        die;*/
+ 
         $pilData=$this->PilModel->getCasesInPilGroup_asc($ecPilGroupId);
-/*        echo "<pre>";
-        print_r($pilData);
-        die;*/
-        /*print_r($this->pdf->Output());
-        die;*/
-        //$pdf=new FPDF();
-//        print_r($this->pdf);
-//        die();
+ 
         $this->pdf->AddPage();
         $this->pdf->setleftmargin(40);
         $this->pdf->setrightmargin(20);
         if($reportType==1){
-//            echo "DDDD";
-//            die;
+ 
             $this->pdf->ln(5);
             $this->pdf->SetFont('times','BU',12);
             $this->pdf->Cell(0,3,'SUPREME COURT OF INDIA',0,1,'C');
@@ -1142,14 +1124,17 @@ class PilController extends BaseController
             $this->pdf->Cell(80,0,$userdetail['type_name'],0,1,'L');
             $this->pdf->ln(15);
             $this->pdf->Cell(80,0,'BRANCH OFFICER',0,1,'L');
-            /*$pdf->Cell(80,0,'Branch Officer',0,1,'L');*/
+            
             $this->pdf->ln(15);
             $this->pdf->Cell(80,0,'DEPUTY REGISTRAR',0,1,'L');
-            /* $pdf->Cell(80,0,'Deputy Registrar',0,1,'L');*/
+         
             $this->pdf->ln(15);
-            /*$pdf->Cell(80,0,'Ld.Registrar(PIL E)',0,1,'L');*/
+            
             $this->pdf->Cell(80,0,'Ld.REGISTRAR(PIL E)',0,1,'L');
+            ob_end_clean();
             $this->pdf->Output();
+
+            exit;
 
         }
 //        elseif ($reportType==2){
@@ -1345,25 +1330,20 @@ class PilController extends BaseController
     {
         $data=[];
         if(!empty($_POST))
-        {
-//            echo "<pre>";
-//            print_r($_POST);die;
+        { 
             $columnName = $_POST['columnName'];
             $qryText = $_POST['qryText'];
 
             if(!empty($columnName) && !empty($qryText))
             {
                 $result_array = $this->PilModel->getQueryPilData($columnName, $qryText);
-//                echo "<pre>";
-//                print_r($result_array);die;
+
                 if(!empty($result_array)) {
                     $data['pil_result'] = $result_array;
                 }
                 $data['column_name'] = $columnName;
                 $data['text'] = $qryText;
-    //            echo "<pre>";
-    //            print_r($data);
-    //            die;
+ 
             }
             echo view('PIL/queryPilReportData',$data);
             exit();
@@ -1373,8 +1353,7 @@ class PilController extends BaseController
 
 
     public function rptPilCompleteData($ecPilId=null){
-//        echo ">>".$ecPilId;
-//        die;
+ 
         $data['pil_id']=$ecPilId;
         $data['state'] = $this->PilModel->get_state_list();
         $data['pilCategory'] = $this->PilModel->getPilCategory();
@@ -1490,12 +1469,64 @@ class PilController extends BaseController
     public function getPilReport(){
 //        echo "<pre>";
 //        print_r($_POST);  die;
-        $from_date=$to_date=$reportType='';
+        
         if(!empty($_POST)) {
             $from_date = $_POST['from_date'];
             $to_date = $_POST['to_date'];
             $reportType = $_POST['reportType'];
         }
+       
+        return view('PIL/pilReport');
+
+    }
+
+   /* public function getpilReportResult()
+{
+    $request = service('request');
+
+    // 🔹 Get Pagination Parameters
+    $page = (int) ($request->getGet('page') ?? 1); // Default to 1
+    $perPage = 10; // Number of records per page
+    $offset = ($page - 1) * $perPage;
+
+    // 🔹 Get Filter Parameters
+    $from_date = date('Y-m-d', strtotime($request->getGet('from_date')));
+    $to_date = date('Y-m-d', strtotime($request->getGet('to_date')));
+    $reportType = $request->getGet('reportType');
+
+    // 🔹 Load Model
+    $pilModel = new PilModel();
+
+    // 🔹 Fetch Data & Total Count in One Query (Efficient!)
+    $pilData = $pilModel->getPilReportData($from_date, $to_date, $reportType, $perPage, $offset);
+    
+    // 🔹 Load Pagination Library
+    $pager = \Config\Services::pager();
+    
+    $pager->setPath('/PIL/PilController/getpilReportResult');
+
+    $data = [
+        'pil_result'   => $pilData['data'],   // Paginated results
+        'pager'        => $pager->makeLinks($page, $perPage, $pilData['total']),  // Generate pagination links
+        'total'        => $pilData['total'],  // Total records
+        'perPage'      => $perPage,           // Per page count
+        'currentPage'  => $page,              // Current page
+        'first_date'   => $from_date,         // Start date
+        'to_date'      => $to_date,           // End date
+        'reportType'   => $reportType         // Report type
+    ];
+
+    return view('PIL/pilReportResult', $data);
+} */
+
+
+    public function getpilReportResult()
+    {
+        $from_date=$to_date=$reportType='';
+        $from_date = date('Y-m-d', strtotime($this->request->getGet('from_date')));
+        $to_date = date('Y-m-d', strtotime($this->request->getGet('to_date')));
+        $reportType = $this->request->getGet('reportType');
+    
         if(!empty($from_date) && !empty($to_date)) {
             $first_date = date('Y-m-d', strtotime($from_date));
             $to_date = date('Y-m-d', strtotime($to_date));
@@ -1503,15 +1534,14 @@ class PilController extends BaseController
             if (!empty($reportType)) {
                 $reportTypeData = $reportType;
             }
-            $result_array=$this->PilModel->getPilReportData($first_date,$to_date,$reportTypeData);
+            $result_array = $this->PilModel->getPilReportData($first_date,$to_date,$reportTypeData);
+           
             $data['pil_result']=$result_array;
             $data['first_date']=$first_date;
             $data['to_date']=$to_date;
             $data['reportType']=$reportTypeData;
-            return view('PIL/pilReport',$data);
+            return view('PIL/pilReportResult',$data);
         }
-        return view('PIL/pilReport');
-
     }
 
     public function getPilUserWise()
@@ -1525,8 +1555,7 @@ class PilController extends BaseController
             $to_date = date('Y-m-d', strtotime($to_date));
             $reportTypeData = 'C';
             $result_array = $this->PilModel->getUserWorkDone($first_date, $to_date, $reportTypeData);
-//        echo "<pre>";
-//        print_r($result_array);
+ 
             if ($result_array === 'false') {
                 $data['pil_result'] = '';
             } else {
@@ -1535,9 +1564,7 @@ class PilController extends BaseController
             $data['first_date'] = $first_date;
             $data['to_date'] = $to_date;
             $data['reportType'] = $reportTypeData;
-//        echo"<pre>";
-//        print_r($data);
-//        die;
+ 
             echo view('PIL/pilReportUserWiseDetail', $data);
             exit();
         }else{
@@ -1563,17 +1590,18 @@ class PilController extends BaseController
     public function downloadGeneratedReport($reportType, $ecPilId, $ecPilGroupId)
     {
 
- error_reporting(0);
+        error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
         // Load necessary models
-        $this->CourtMasterModel = new \App\Models\Court\CourtMasterModel();
+        //$this->CourtMasterModel = new \App\Models\Court\CourtMasterModel();
     
         // Fetch user details and report data
         $userdetail = $this->CourtMasterModel->getUserNameAndDesignation($_SESSION['login']['usercode']);
         $pilGroupData = $this->PilModel->getCasesInPilGroup_asc($ecPilGroupId);
         $pilData = $this->PilModel->getPilDataById($ecPilId);
 
-     
+    // pr($userdetail);
 
         // Load FPDF
         $pdf = new FPDF();
@@ -1615,7 +1643,7 @@ class PilController extends BaseController
             $pdf->Cell(0, 8, 'Yours faithfully,', 0, 1, 'R');
             $pdf->Ln(10);
             $pdf->Cell(0, 8, 'Deputy Registrar', 0, 1, 'R');
-            $pdf->Output();
+            //$pdf->Output();
     
         } elseif ($reportType == 2) {
             // Report Type 2 Content
@@ -1647,7 +1675,7 @@ class PilController extends BaseController
             $pdf->Cell(0, 8, 'Yours faithfully,', 0, 1, 'R');
             $pdf->Ln(10);
             $pdf->Cell(0, 8, 'Deputy Registrar', 0, 1, 'R');
-            $pdf->Output();
+            //$pdf->Output();
     
         } elseif ($reportType == 3) {
             // Report Type 3 Content
@@ -1679,11 +1707,11 @@ class PilController extends BaseController
             $pdf->Write(5, 'Thanking you,');
             $pdf->Ln(5);
             $pdf->Cell(0, 8, 'Branch Officer', 0, 1, 'R');
-            $pdf->Output();
+            //$pdf->Output();
     
         }elseif ($reportType=='With_Brief_History'){
 
-            error_reporting(0);
+           // error_reporting(0);
            // pr($pilData);
             /*var_dump($pilGroupData);
             exit(0);*/
@@ -1748,11 +1776,13 @@ class PilController extends BaseController
                     $pdf->ln(15);
                     /*$pdf->Cell(80,0,'Ld.Registrar(PIL E)',0,1,'L');*/
                     $pdf->Cell(80,0,'Ld.REGISTRAR(PIL E)',0,1,'L');
-        
-                    $pdf->Output();
+                    
+                   // $pdf->Output();
                 }
     
-                $pdf->Output();
+                if (ob_get_length()) ob_end_clean();
+                    $pdf->Output();
+                    exit();
     }
 
 
@@ -1774,9 +1804,9 @@ class PilController extends BaseController
             $data['pilDetails']=$this->PilModel->getPilDataById($ecPilId[0]['id']);
         else
             $data['message']="No record found!!";
-        //var_dump($data);
+       // pr($data);
        /* $data['dataForADToDispatch'] = $this->PilModel->enteredDakToDispatchInRIWithProcessId($_POST);*/
-        return view('PIl/downloadLetters',$data);
+        return view('PIL/downloadLetters',$data);
       }
 
 }

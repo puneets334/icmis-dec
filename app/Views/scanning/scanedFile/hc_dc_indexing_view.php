@@ -28,9 +28,15 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header heading">
-                        <h3 class="mb-0">HC DC Indexing View/Download</h3>
+                    <div class="card-header heading ">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h3 class="card-title">Scanning >> Scaned File >>HC DC Indexing</h3>
+                            </div>
+                            <div class="col-sm-2"></div>
+                        </div>
                     </div>
+
                     <div class="card-body">
                         <form id="dateForm" method="post">
                             <?= csrf_field() ?>
@@ -54,12 +60,14 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-4 mt-4 card-footer">
+                        <button type="button" id="submitHdcIForm" class="btn btn-primary">SUBMIT</button>
+                    </div>
                             </div>
                         </form>
                     </div>
-                    <div class="card-footer">
-                        <button type="button" id="submitHdcIForm" class="btn btn-primary w-25">SUBMIT</button>
-                    </div>
+                    
                 </div>
 
                 <div class="card">
@@ -78,7 +86,7 @@
 <div id="res_loader"></div>
 <script>
     $('.datepicker').datepicker({
-        format: 'dd/mm/yy',
+        format: 'dd/mm/yyyy',
         changeMonth: true,
         changeYear: true,
         yearRange: '1950:2050'
@@ -87,7 +95,6 @@
         e.preventDefault();
         var txt_frm_date = $("#txt_frm_date").val();
         var txt_to_date = $("#txt_to_date").val();
-
         if (!txt_frm_date) {
             // Swal.fire({
             //     icon: 'error',
@@ -122,11 +129,12 @@
             },
             beforeSend: function() {
                 // Show loader before sending the request
-                $('#res_loader').html('<div style="position: absolute;top: 50%;left: 50%;text-align: center;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);"><img src="../../images/load.gif"/></div>');
+                $('#res_loader').html('<div style="position: absolute;top: 50%;left: 50%;text-align: center;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);"><img src="<?= base_url();?>/images/load.gif"/></div>');
             },
             success: function(blob, status, xhr) {
+                updateCSRFToken();
                 $('#res_loader').html(''); 
-
+                $("#result").html('');
                 var contentDisposition = xhr.getResponseHeader('Content-Disposition');
 
                     var filename = "download.csv";
@@ -142,40 +150,41 @@
                 var downloadLink = `<a href="${downloadUrl}" download="${filename}" style="text-decoration: underline;">Download CSV</a>`;
                 $('#message').html(`<h3 class="mb-0 text-success">CSV generated successfully! ${downloadLink}</h3>`);
 
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    var text = e.target.result;
-                    var lines = text.trim().split('\n'); 
-                    let table = '<table class="table table-striped table-hover"><thead class="thead-dark"><tr>';
+                // var reader = new FileReader();
+                // reader.onload = function(e) {
+                //     var text = e.target.result;
+                //     var lines = text.trim().split('\n'); 
+                //     let table = '<table class="table table-striped table-hover"><thead class="thead-dark"><tr>';
 
-                    const headers = lines[0].split(',');
-                    headers.forEach(header => {
-                        table += `<th><strong>${header.replace(/["]+/g, '').trim()}</strong></th>`;
-                    });
-                    table += '</tr></thead><tbody>';
+                //     const headers = lines[0].split(',');
+                //     headers.forEach(header => {
+                //         table += `<th><strong>${header.replace(/["]+/g, '').trim()}</strong></th>`;
+                //     });
+                //     table += '</tr></thead><tbody>';
 
-                    for (let i = 1; i < lines.length; i++) {
-                        const cells = lines[i].split(',');
-                        table += '<tr>';
-                        cells.forEach(cell => {
-                            let cleanedCell = cell.trim();
-                            if (/^-\d+-\d+$/.test(cleanedCell)) {
-                                cleanedCell = `<strong>${cleanedCell}</strong>`; // Make the negative number bold
-                            }
-                            table += `<td>${cleanedCell}</td>`;
-                        });
-                        table += '</tr>';
-                    }
-                    table += '</tbody></table>';
+                //     for (let i = 1; i < lines.length; i++) {
+                //         const cells = lines[i].split(',');
+                //         table += '<tr>';
+                //         cells.forEach(cell => {
+                //             let cleanedCell = cell.trim();
+                //             if (/^-\d+-\d+$/.test(cleanedCell)) {
+                //                 cleanedCell = `<strong>${cleanedCell}</strong>`; // Make the negative number bold
+                //             }
+                //             table += `<td>${cleanedCell}</td>`;
+                //         });
+                //         table += '</tr>';
+                //     }
+                //     table += '</tbody></table>';
 
-                    $("#result").html(table);
-                };
+                //     $("#result").html(table);
+                // };
 
-                reader.readAsText(blob);
+                // reader.readAsText(blob);
             },
             error: function(xhr, status, error) {
-                $('#res_loader').html('');
                 updateCSRFToken();
+                $('#res_loader').html('');
+                $('#message').html(``);
                 $("#result").html('<h4 class="text-center text-danger mb-0">Error: ' + error + '</h4>');
             },
             complete: function() {

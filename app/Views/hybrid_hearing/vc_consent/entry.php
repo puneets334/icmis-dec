@@ -7,16 +7,12 @@
         align-items: stretch;
         width: 100%;
     }
-
-    .input-group>.form-control,
-    .input-group>.form-floating,
-    .input-group>.form-select {
+    .input-group>.form-control, .input-group>.form-floating, .input-group>.form-select {
         position: relative;
         flex: 1 1 auto;
         width: 1% !important;
         min-width: 0;
     }
-
     .input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
         margin-left: calc(var(--bs-border-width)* -1);
         border-top-left-radius: 0;
@@ -30,7 +26,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header heading">
-                        <h3 class="mb-0">VC Consent - Entry Module</h3>
+                        <h3 class="col-sm-12 card-title">VC Consent - Entry Module</h3>
                     </div>
                     <form id="dateForm" method="post">
                         <?= csrf_field() ?>
@@ -38,9 +34,10 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="listing_dts" class="form-label">Listing Date</label>
-                                        <select class="form-control select-box" name="listing_dts" id="listing_dts">
-                                            <option value="">Select Listing Date</option>
+                                        <label class="form-label">Listing Date</label>
+                                        <select class="form-control cus-form-ctrl select-box" name="listing_dts" id="listing_dts">
+                                            <!-- <option value="">Select Listing Date</option> -->
+                                            <option value="-1" selected>SELECT</option>
                                             <?php if (!empty($listing_dates)): ?>
                                                 <?php foreach ($listing_dates as $row): ?>
                                                     <option value="<?= $row['next_dt']; ?>"><?= date("d-m-Y", strtotime($row['next_dt'])); ?></option>
@@ -50,13 +47,12 @@
                                             <?php endif; ?>
                                         </select>
                                     </div>
-
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="list_type" class="form-label">Listing Date</label>
-                                        <select class="form-control select-box" name="list_type" id="list_type">
-                                            <option value="">List Type</option>
+                                        <label class="form-label">Listing Date</label>
+                                        <select class="form-control cus-form-ctrl select-box" name="list_type" id="list_type">
+                                            <!-- <option value="">List Type</option> -->
                                             <option value="0">ALL</option>
                                             <option value="4">Misc.</option>
                                             <option value="3">Regular</option>
@@ -68,8 +64,9 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="judge_code" class="form-label">Hon'ble Judges</label>
-                                        <select class="form-control select-box" name="judge_code" id="judge_code">
-                                            <option value="">Select Hon'ble Judges</option>
+                                        <select class="form-control cus-form-ctrl select-box" name="judge_code" id="judge_code">
+                                            <!-- <option value="">Select Hon'ble Judges</option> -->
+                                            <option value="0" selected>All</option>
                                             <?php if (!empty($judges)): ?>
                                                 <?php foreach ($judges as $row): ?>
                                                     <option value="<?= $row['jcode']; ?>"><?= $row['judge_name']; ?></option>
@@ -83,7 +80,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="court_no" class="form-label">OR Court No.</label>
-                                        <select class="form-control select-box" name="court_no" id="court_no">
+                                        <select class="form-control cus-form-ctrl select-box" name="court_no" id="court_no">
                                             <option value="0" selected>All</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -123,13 +120,11 @@
         </div>
     </div>
 </section>
-
 <script>
     $(document).ready(function() {
         $('.select-box').select2({
             selectOnClose: true
         });
-
         $('#button_search').on('click', function(e) {
             e.preventDefault();
             var button = $(this);
@@ -138,9 +133,7 @@
             var judge_code = $("select#judge_code option:selected").val();
             var court_no = $("select#court_no option:selected").val();
             var csrf = $('input[name="<?= csrf_token() ?>"]').val();
-
-
-            if (!listing_dts) {
+            if(listing_dts == '-1') {
                 swal({
                     title: "Alert!",
                     text: "Please select a listing date",
@@ -148,9 +141,9 @@
                     icon: "error",
                     button: "error!",
                 })
-                return;
-            }
-            if (!list_type) {
+                $("#listing_dts").focus();
+                return false;
+            } else if(judge_code > 0 && court_no > 0) {
                 swal({
                     title: "Alert!",
                     text: "Please select either Honble Judge Name or Court No.",
@@ -158,12 +151,11 @@
                     icon: "error",
                     button: "error!",
                 })
-                return;
+                $("#listing_dts").focus();
+                return false;
             }
-
             button.prop('disabled', true); // Disable the button
             button.html('<i class="fa fa-spinner fa-spin"></i> Loading...');
-
             $.ajax({
                 url: '<?= base_url('HybridHearing/VcConsent/getAorCaseData') ?>',
                 method: 'POST',
@@ -193,14 +185,12 @@
                     button.prop('disabled', false); // Enable the button again
                     button.html('Save'); // Reset button text
                 }
-
             });
         });
         $(document).on("click", ".save_modify", function() {
             var updation_method = $(this).data('updation_method');
             var action = $(this).data('action');
             var button = $(this);
-
             if (updation_method === 'single') {
                 var diary_no = $(this).data('diary_no');
                 var conn_key = $(this).data('conn_key');
@@ -209,11 +199,9 @@
                 var main_supp_flag = $(this).data('main_supp_flag');
                 var clno = $(this).data('clno');
                 var id = $(this).attr('id');
-
                 var userArr = [];
                 var chk_count = 0;
                 var actionSuccess = action === 'save' ? "saved" : "modified";
-
                 // Collect selected applicants
                 $('input[name=' + diary_no + ']:checked').each(function() {
                     chk_count++;
@@ -222,7 +210,6 @@
                         applicant_id: $(this).data('applicant_id')
                     });
                 });
-
                 // Check for at least one selected record
                 if (chk_count === 0) {
                     swal({
@@ -233,7 +220,6 @@
                     });
                     return false;
                 }
-
                 // Confirmation dialog
                 swal({
                     title: "Are you sure?",
@@ -255,11 +241,9 @@
                             updation_method: updation_method,
                             action: action
                         };
-
                         // Disable the button and show loading state
                         button.prop('disabled', true);
                         button.html('<i class="fa fa-spinner fa-spin"></i> Loading...');
-
                         // AJAX request
                         $.ajax({
                             url: '<?= base_url('HybridHearing/VcConsent/saveAorCaseData') ?>',
@@ -317,7 +301,6 @@
                 $('input[type=checkbox][name=' + diary_no + ']:checked').each(function() {
                     selectedDiaryNumbers.push($(this).data('diary_no'));
                 });
-
                 if (selectedDiaryNumbers.length === 0) {
                     swal({
                         title: "Error!",
@@ -327,7 +310,6 @@
                     });
                     return false;
                 }
-
                 // Proceed with bulk action confirmation
                 swal({
                     title: "Are you sure?",
@@ -343,7 +325,6 @@
                             action: action
                             // Add any additional parameters you need
                         };
-
                         $.ajax({
                             url: '<?= base_url('HybridHearing/VcConsent/saveAorCaseDataBulk') ?>',
                             method: 'POST',
@@ -388,8 +369,6 @@
                 });
             }
         });
-
-
         // Select/Deselect All Checkboxes
         $(document).on("click", ".aorCheckboxAll", function() {
             var diary_no = $(this).attr("data-diaryid");
@@ -399,8 +378,6 @@
                 $('input[type=checkbox][name=' + diary_no + ']').prop('checked', isChecked);
             }
         });
-
-
         function updateCSRFToken() {
             $.get('<?= site_url('HybridHearing/VcConsent/getCSRF'); ?>', function(data) {
                 $('input[name="<?= csrf_token() ?>"]').val(data.csrf_token);

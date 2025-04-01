@@ -52,15 +52,49 @@ function getClientMAC()
     $mac = substr($macfull, ($pmac + 18), 17);
     return $mac;
 }
+function send_mail_JIO($to_email,$subject,$message,$files=array())
+{
+    if (isset($to_email) && isset($subject) && isset($message)){
+        if (!is_array($to_email)){ $to_email=[$to_email]; }
+        $metadata = json_encode(array("providerCode" => "email","recipients" => array("emailAddresses" => array("to" =>$to_email)),"body" =>$message,"scheduledAt" => null,"purpose" => $subject,"subject" => $subject, "sender" => array("name" => "SC-eFM","emailAddress" => "icmis@sci.nic.in"),"createdByUser" => array("id" => LIVE_EMAIL_KEY,"name" => "SC-eFM","employeeCode" => LIVE_EMAIL_KEY,"organizationName" => "SC-eFM"),"module" => "SC-eFM","project" => "SC-eFM","files" => $files));
+        $curl = curl_init();
+        curl_setopt_array($curl,array(
+            CURLOPT_URL => NEW_MAIL_SERVER_HOST_JIO_URL,
+            CURLOPT_RETURNTRANSFER => true,CURLOPT_ENCODING => '',CURLOPT_MAXREDIRS => 10,CURLOPT_TIMEOUT => 0,CURLOPT_FOLLOWLOCATION => true,CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,CURLOPT_HEADER => 0,CURLOPT_SSL_VERIFYHOST => FALSE,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>"$metadata",
+            CURLOPT_HTTPHEADER => array('Content-Type: application/json','Accept: application/json','Authorization: Bearer '.LIVE_EMAIL_KEY_JIO_CLOUD),
+        ));
+        $response = curl_exec($curl);
+        if ($response){
+            $json2 = json_decode($response);
+            if (isset($json2->data) && !empty($json2->data) && !empty($json2->data->job_batch_id)){
+                $json2=$json2->data->job_batch_id;
+            }else{ $json2=false;}
+        }else{ $json2 = $response; }
+        curl_close($curl);
+        if ($json2!=false) { $json2 = 'success';} else { $json2 = 'failed'; }
+    }else{
+        $json2 = 'failed';
+    }
+    return $json2;
+}
 function sendSMS($mobile_no, $smsmsg, $template_id)
 {
-    return true;
-    die;
+    
+   
     if (empty($template_id)) {
         $template_id = 1107165900749762632;
     }
+    
     $url = "http://10.25.78.5/eAdminSCI/a-push-sms-gw?mobileNos=" . $mobile_no . "&message=" . rawurlencode($smsmsg) . "&typeId=29&myUserId=NIC001001&myAccessId=root&templateId=" . $template_id;
     $result = (array)json_decode(file_get_contents($url));
+    if($result['responseFlag']=='success'){
+        return true;   
+    }else{
+        return false;
+    }
+    
 }
 
 
@@ -1180,10 +1214,11 @@ function f_connected_case_count_listed($conn_key, $next_dt)
         (select m.diary_no, m.conn_key from main m where m.conn_key = '$conn_key' and c_status = 'P'
         union
         select m.diary_no, m.conn_key from main m
-        inner join conct ct on ct.conn_key = m.conn_key
+        inner join conct ct on ct.conn_key::bigint = m.conn_key::bigint
         where m.conn_key = '$conn_key' and ct.list = 'Y' and m.c_status = 'P') m
         inner join heardt h on h.diary_no = m.diary_no 
-        where m.diary_no != m.conn_key and h.clno > 0 and h.next_dt = '$next_dt' ";
+        where m.diary_no::bigint != m.conn_key::bigint and h.clno > 0 and h.next_dt = '$next_dt' ";
+
     $result = $db->query($sql);
     $value = $result->getRowObject();
     return $value->total_connected;
@@ -2492,8 +2527,71 @@ function da()
     function getParties($diary_no, $date)
     {
         $db = \Config\Database::connect();
-        $finalQuery = 'select * from (SELECT NULL AS id, partyname, addr1, addr2, CAST(sr_no_show AS bigint) AS sr_no, pet_res, sonof, prfhname, NULL AS nt_type, NULL AS amount, state, city, NULL AS enrol_no, NULL AS enrol_yr FROM "party" WHERE "diary_no" = \'' . $diary_no . '\' AND "pflag" = \'P\' AND "partyname" IS NOT NULL AND "partyname" != \'\' UNION ALL SELECT CAST("id" AS bigint), "name" AS "partyname", "address" AS "addr1", NULL AS addr2, CAST(sr_no AS bigint), pet_res, NULL AS sonof, NULL AS prfhname, nt_type, amount, tal_state::char AS state, tal_district::char  AS city, enrol_no, enrol_yr FROM  "tw_tal_del" WHERE  "diary_no" = \'' . $diary_no . '\' AND "rec_dt" = \'' . $date . '\' AND "display" = \'Y\' AND "sr_no" = \'0\' AND "print" = 0    )  p ORDER BY CASE WHEN sr_no = 1 THEN -1 WHEN sr_no > 1 AND pet_res = \'P\' THEN 0 WHEN sr_no > 1 AND pet_res = \'R\' THEN 1 WHEN sr_no = 0 THEN 2 ELSE sr_no END,  CAST(split_part(sr_no::text, \'.\', 1) AS INTEGER), COALESCE(CAST(split_part(sr_no::text, \'.\', 2) AS INTEGER), 0), COALESCE(CAST(split_part(sr_no::text, \'.\', 3) AS INTEGER), 0), COALESCE(CAST(split_part(sr_no::text, \'.\', 4) AS INTEGER), 0)';
-        $result = $db->query($finalQuery)->getResultArray();
+        $builder = $db->table('party')
+            ->select("NULL AS id, 
+                partyname, 
+                addr1, 
+                addr2, 
+                CAST(sr_no_show AS BIGINT) AS sr_no, 
+                pet_res, 
+                sonof, 
+                prfhname, 
+                NULL AS nt_type, 
+                NULL AS amount, 
+                state, 
+                city, 
+                NULL AS enrol_no, 
+                NULL AS enrol_yr
+            ")
+            ->where('diary_no', '722022')
+            ->where('pflag', 'P')
+            ->where('partyname IS NOT NULL')
+            ->where("partyname != ''")
+            ->getCompiledSelect();
+
+        // Subquery for tw_tal_del table
+        $builder2 = $db->table('tw_tal_del')
+            ->select("CAST(id AS BIGINT) AS id, 
+                name AS partyname, 
+                address AS addr1, 
+                NULL AS addr2, 
+                CAST(sr_no AS BIGINT) AS sr_no, 
+                pet_res, 
+                NULL AS sonof, 
+                NULL AS prfhname, 
+                nt_type, 
+                amount, 
+                tal_state::CHAR AS state, 
+                tal_district::CHAR AS city, 
+                enrol_no, 
+                enrol_yr
+            ")
+            ->where('diary_no', '722022')
+            ->where('rec_dt', '2025-03-28')
+            ->where('display', 'Y')
+            ->where('sr_no', '0')
+            ->where('print', 0)
+            ->getCompiledSelect();
+
+        // Combining queries with UNION
+        $query = $db->query("SELECT * FROM ($builder UNION ALL $builder2) AS p 
+            ORDER BY 
+                CASE 
+                    WHEN sr_no = 1 THEN -1 
+                    WHEN sr_no > 1 AND pet_res = 'P' THEN 0 
+                    WHEN sr_no > 1 AND pet_res = 'R' THEN 1 
+                    WHEN sr_no = 0 THEN 2 
+                    ELSE sr_no 
+                END,  
+                CAST(split_part(sr_no::TEXT, '.', 1) AS INTEGER), 
+                COALESCE(CAST(NULLIF(split_part(sr_no::TEXT, '.', 2), '') AS INTEGER), 0), 
+                COALESCE(CAST(NULLIF(split_part(sr_no::TEXT, '.', 3), '') AS INTEGER), 0), 
+                COALESCE(CAST(NULLIF(split_part(sr_no::TEXT, '.', 4), '') AS INTEGER), 0)
+        ");
+
+        $result = $query->getResultArray(); // Fetch the results
+
+        // $result = $db->query($finalQuery)->getResultArray();
 
         return $result;
     }
@@ -2503,7 +2601,7 @@ function da()
         $db = \Config\Database::connect();
         $builder = $db->table('master.state');
         $subQuery = $db->table('master.state')
-            ->select('State_code')
+            ->select('state_code')
             ->where('id_no', $state)
             ->where('display', 'Y')
             ->getCompiledSelect();
@@ -4199,9 +4297,9 @@ function da()
 			->get();
 
 		if ($query->getNumRows() > 0) {
-			return $query->getRow()->coram; 
+			$r_get_b_c = $query->getRow()->coram; 
 		} else {
-			return null; 
+			$r_get_b_c = null; 
 		}
 }
 
@@ -4224,85 +4322,41 @@ function da()
 			->get();
 
 	if ($query->getNumRows() > 0) {
-		return $query->getRowArray(); 
+		$case_pages = $query->getRow()->case_pages; 
 	} else {
-		return  null; 
+		$case_pages = null; 
 	}
 	  
 }
 
-function case_verification_report_popup_inside_details($id){
-	
-		$db = \Config\Database::connect();
+ function get_advocates1($adv_id, $wen = '')
+{
+    $db = \Config\Database::connect();
+    $t_adv = "";
 
-		$builder = $db->table('tempo o');
-		$builder->select("o.diary_no, o.jm AS pdfname, DATE(o.dated) AS orderdate, 
-			CASE 
-				WHEN o.jt = 'rop' THEN 'ROP'
-				WHEN o.jt = 'judgment' THEN 'Judgement'
-				WHEN o.jt = 'or' THEN 'Office Report'
-			END AS jo");
-		$builder->where('o.diary_no', $id);
-		$tempo = $builder->get()->getResultArray();
+    if ($adv_id != 0) {
+        $query = $db->table('master.bar')
+            ->select("name, enroll_no, YEAR(enroll_date) as eyear, isdead")
+            ->whereIn('bar_id', explode(',', $adv_id)) // Convert CSV IDs into an array for safe query execution
+            ->get();
 
-	
-		$builder = $db->table('ordernet o');
-		$builder->select("o.diary_no, o.pdfname AS pdfname, DATE(o.orderdate) AS orderdate, 
-			CASE 
-				WHEN o.type = 'O' THEN 'ROP'
-				WHEN o.type = 'J' THEN 'Judgement'
-			END AS jo");
-		$builder->where('o.diary_no', $id);
-		$ordernet = $builder->get()->getResultArray();
+        $result = $query->getResultArray();
 
-	
-		$builder = $db->table('rop_text_web.old_rop o');
-		$builder->select("o.dn AS diary_no, CONCAT('ropor/rop/all/', o.pno, '.pdf') AS pdfname, DATE(o.orderDate) AS orderdate, 'ROP' AS jo");
-		$builder->where('o.dn', $id);
-		$old_rop = $builder->get()->getResultArray();
+        if (!empty($result)) {
+            foreach ($result as $row) {
+                $t_adv = $row['name'];
 
-	
-		$builder = $db->table('scordermain o');
-		$builder->select("o.dn AS diary_no, CONCAT('judis/', o.filename, '.pdf') AS pdfname, DATE(o.juddate) AS orderdate, 'Judgment' AS jo");
-		$builder->where('o.dn', $id);
-		$scordermain = $builder->get()->getResultArray();
+                if ($row['isdead'] == 'Y') {
+                    $t_adv = "<font color=red>{$t_adv} (Dead / Retired / Elevated)</font>";
+                }
 
-	
-		$builder = $db->table('rop_text_web.ordertext o');
-		$builder->select("o.dn AS diary_no, CONCAT('bosir/orderpdf/', o.pno, '.pdf') AS pdfname, DATE(o.orderdate) AS orderdate, 'ROP' AS jo");
-		$builder->where('o.dn', $id);
-		$builder->where('o.display', 'Y');
-		$ordertext = $builder->get()->getResultArray();
+                if ($wen == 'wen') {
+                    $t_adv .= " [{$row['enroll_no']}/{$row['eyear']}]";
+                }
+            }
+        }
+    }
 
-	
-		$builder = $db->table('rop_text_web.oldordtext o');
-		$builder->select("o.dn AS diary_no, CONCAT('bosir/orderpdfold/', o.pno, '.pdf') AS pdfname, DATE(o.orderdate) AS orderdate, 'ROP' AS jo");
-		$builder->where('o.dn', $id);
-		$oldordtext = $builder->get()->getResultArray();
-
-	
-		$results = array_merge($tempo, $ordernet, $old_rop, $scordermain, $ordertext, $oldordtext);
-
-	
-		$results = array_filter($results, function ($row) {
-			return $row['jo'] === 'ROP';
-		});
-
-	
-		usort($results, function ($a, $b) {
-			return strtotime($b['orderdate']) - strtotime($a['orderdate']);
-		});
-
-		return $results;
-	 
-	 
- }
-
-
-
-    
-
-    
-    
-
+    return $t_adv;
+}
 

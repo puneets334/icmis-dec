@@ -29,7 +29,7 @@
 <?php
 $url_district_master = '#';
 $uri = current_url(true);
-
+ 
 //var_dump(current_url());
 //die;  string(55) "http://10.40.186.38:93/PIL/PilController/reportsSection"
 
@@ -68,13 +68,13 @@ $uri = current_url(true);
 
     <li>
         <?php
-        if ($uri->getSegment(5) == 'reportPilGroup') {
+        if ($uri->getPath() == '/PIL/PilController/reportPilGroup') {
             $ColorCode = 'background-color: #01ADEF';
             $status_color = 'btn-primary';
             $url_lower_court_case_type = base_url('PIL/PilController/reportPilGroup');
         } else{
             $ColorCode = 'background-color: #169F85;color:#ffffff;';
-            $status_color = 'btn-outline-primary';
+            $status_color = 'btn-info';
             $url_lower_court_case_type = base_url('PIL/PilController/reportPilGroup');
         }
         ?>
@@ -84,13 +84,13 @@ $uri = current_url(true);
 
     <li>
         <?php
-        if ($uri->getSegment(5) == 'getPilDetailByDiaryNumberForLetterGeneration') {
+        if ($uri->getPath() == '/PIL/PilController/getPilDetailByDiaryNumberForLetterGeneration') {
             $ColorCode = 'background-color: #01ADEF';
             $status_color = 'btn-primary';
             $url_lower_court_case_type = base_url('PIL/PilController/getPilDetailByDiaryNumberForLetterGeneration');
         } else{
             $ColorCode = 'background-color: #169F85;color:#ffffff;';
-            $status_color = 'btn-outline-primary';
+            $status_color = 'btn-info';
             $url_lower_court_case_type = base_url('PIL/PilController/getPilDetailByDiaryNumberForLetterGeneration');
         }
         ?>
@@ -100,13 +100,13 @@ $uri = current_url(true);
 
     <li>
         <?php
-        if ($uri->getSegment(5) == 'queryPilData'){
+        if ($uri->getPath() == '/PIL/PilController/queryPilData'){
             $ColorCode = 'background-color: #01ADEF';
             $status_color = 'btn-primary';
             $url_district_master = base_url('PIL/PilController/queryPilData');
         }else{
             $ColorCode = 'background-color: #169F85;color:#ffffff;';
-            $status_color = 'btn-outline-primary';
+            $status_color = 'btn-info';
             $url_district_master = base_url('PIL/PilController/queryPilData');
         }
         ?>
@@ -114,13 +114,13 @@ $uri = current_url(true);
     </li>
     <li>
         <?php
-        if ($uri->getSegment(5) == 'getPilReport') {
+        if ($uri->getPath() == '/PIL/PilController/getPilReport') {
             $ColorCode = 'background-color: #01ADEF';
             $status_color = 'btn-primary';
             $url_lower_court_case_type = base_url('PIL/PilController/getPilReport');
         } else{
             $ColorCode = 'background-color: #169F85;color:#ffffff;';
-            $status_color = 'btn-outline-primary';
+            $status_color = 'btn-info';
             $url_lower_court_case_type = base_url('PIL/PilController/getPilReport');
         }
         ?>
@@ -131,13 +131,13 @@ $uri = current_url(true);
 
     <li>
         <?php
-        if ($uri->getSegment(5) == 'getPilUserWise') {
+        if ($uri->getPath() == '/PIL/PilController/getPilUserWise') {
             $ColorCode = 'background-color: #01ADEF';
             $status_color = 'btn-primary';
             $url_lower_court_judge = base_url('PIL/PilController/getPilUserWise');
         } else{
             $ColorCode = 'background-color: #169F85;color:#ffffff;';
-            $status_color = 'btn-outline-primary';
+            $status_color = 'btn-info';
             $url_lower_court_judge = base_url('PIL/PilController/getPilUserWise');
         }
         ?>

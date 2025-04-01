@@ -554,141 +554,45 @@ class ReceiptController extends BaseController
 
     public function getDataForServeUnserve()
     {
-        //        var_dump($_POST);
-        //        die;
-        //        array(12) { ["searchBy"]=> string(1) "p" ["status"]=> string(4) "8888" ["fromDate"]=> string(0) "" ["toDate"]=> string(0) ""
-        //        ["dealingSection"]=> string(1) "0" ["caseType"]=> string(1) "0" ["caseNo"]=> string(0) "" ["caseYear"]=> string(4) "2024"
-        //        ["diaryNumber"]=> string(0) "" ["diaryYear"]=> string(4) "2024" ["processId"]=> string(3) "123" ["processYear"]=> string(4) "2024" }
-
-        //        extract($_POST);
-
-        if (!empty($_POST)) {
-            $searchBy = $_POST['searchBy'];
-            $fromDate = $_POST['fromDate'];
-            $toDate = $_POST['toDate'];
-            $dealingSection = $_POST['dealingSection'];
-            $caseType = $_POST['caseType'];
-            $caseNo = $_POST['caseNo'];
-            $caseYear = $_POST['caseYear'];
-            $diaryNumber = $_POST['diaryNumber'];
-            $diaryYear = $_POST['diaryYear'];
-            $processId = $_POST['processId'];
-            $processYear = $_POST['processYear'];
-            $status = $_POST['status'];
-        }
-        $data = [
-
-            'searchBy' => $searchBy,
-            'fromDate' => $fromDate,
-            'toDate' => $toDate,
-            'dealingSection' => $dealingSection,
-            'caseType' => $caseType,
-            'caseNo' => $caseNo,
-            'caseYear' => $caseYear,
-            'diaryNumber' => $diaryNumber,
-            'diaryYear' => $diaryYear,
-            'processId' => $processId,
-            'processYear' => $processYear,
-            'status' => $status,
-
-        ];
-        //        echo $status."OOO";
-
-        if (!empty($_POST['dispatchMode']))
-            $dispatchMode = $_POST['dispatchMode'];
-        else $dispatchMode = "";
-        $wherePostalDispatch = "";
-        $whereDateRange = "";
-        if ($status == 0) {
-            $wherePostalDispatch = " epd.id is null";
-        } elseif ($status == 8888) { //For Dispatched or Re-dispatched
-            $wherePostalDispatch = " epd.ref_letter_status_id in (3,6)";
-        } elseif ($status == 9999) {
-            $wherePostalDispatch = " epd.ref_letter_status_id in (4,5)";
-        } else {
-            $wherePostalDispatch = " epd.ref_letter_status_id=" . $status;
-        }
-        if (isset($searchBy)) {
-            if ($searchBy == 's') {
-                if ($fromDate != '' && $toDate != '') {
-                    if ($dealingSection != 0) {
-                        $whereDateRange = " and date(epdt.updated_on) between '" . date('Y-m-d', strtotime($fromDate)) . "' and '" . date('Y-m-d', strtotime($toDate)) . "' and epd.usersection_id=$dealingSection";
-                    } else {
-                        $whereDateRange = " and date(epdt.updated_on)  between '" . date('Y-m-d', strtotime($fromDate)) . "' and '" . date('Y-m-d', strtotime($toDate)) . "'";
-                    }
-                }
-            } else if ($searchBy == 'c' || $searchBy == 'd') {
-                $fetchedDiaryNo = $this->RIModel->getSearchDiary($caseType, $caseNo, $caseYear, $diaryNumber, $diaryYear, $searchBy);
-                $whereDateRange = " and epd.diary_no=" . $fetchedDiaryNo;
-            } else if ($searchBy == 'p') {
-                $whereDateRange = " and epd.process_id=$processId and process_id_year=" . $processYear;
-            }
-
-            if ($dispatchMode != 0 && $dispatchMode != '') {
-
-                $whereDateRange .= " and epd.ref_postal_type_id=$dispatchMode";
-            }
-        } else {
-            if ($fromDate != '' && $toDate != '') {
-                if ($dealingSection != 0) {
-                    $whereDateRange = " and date(epdt.updated_on) between '" . date('Y-m-d', strtotime($fromDate)) . "' and '" . date('Y-m-d', strtotime($toDate)) . "' and epd.usersection_id=$dealingSection";
-                } else {
-                    $whereDateRange = " and date(epdt.updated_on)  between '" . date('Y-m-d', strtotime($fromDate)) . "' and '" . date('Y-m-d', strtotime($toDate)) . "'";
-                }
-            }
-            if ($dispatchMode != 0 && $dispatchMode != '') {
-                $whereDateRange .= " and epd.ref_postal_type_id=$dispatchMode";
-            }
-        }
-
-        //        epd.ref_letter_status_id in (4,5)>> and epd.process_id=12345 and process_id_year=2024 and epd.ref_postal_type_id=
-
-        //        $getDakToDispatch = $this->RIModel->enteredDakToDispatchInRIWithProcessId($wherePostalDispatch, $whereDateRange);
-        //        epd.ref_letter_status_id in (3,6)>> and epd.process_id=134 and process_id_year=2024
+        
         $serveStage = $this->RIModel->getServeType(1);
         if ($serveStage) {
             $data['serveStage'] = $serveStage;
         } else {
             $data['serveStage'] = '';
         }
-        $dataToUpdateServeStatus = $this->RIModel->enteredDakToDispatchInRIWithProcessId22($data);
+        $dataToUpdateServeStatus = $this->RIModel->enteredDakToDispatchInRIWithProcessId22($_POST);
 
         if ($dataToUpdateServeStatus) {
             $data['dataToUpdateServeStatus'] = $dataToUpdateServeStatus;
         } else {
             $data['dataToUpdateServeStatus'] = '';
-        }
-        //        echo "<pre>";
-        //        print_r($dataToUpdateServeStatus);
-        //        die;
+        } 
 
         echo view('RI/Receipt/dataToUpdateServeUnserve', $data);
     }
 
     public function getServeType()
-    {
-        //        extract($_GET);
-        //pr($_POST);
-        //exit;
-        $stage = $_POST['stage'];
-        $id = $_POST['id'];
+    {       
+        $stage = $_GET['stage'];
+        $id = $_GET['id'];
         $serveType = $this->RIModel->getServeType($id, $stage);
-        echo "<select id=\"serveType_$id\" class=\"form-control\">";
-        echo "<option value=0>Select Serve Type </option>";
+        $option =  '<select id="serveType_'.$id.'" class="form-control">';
+        $option .= "<option value=0>Select Serve Type </option>";
         foreach ($serveType as $type) {
-            echo "<option value=$type[id]>$type[name] </option>";
+            $option .= "<option value=$type[id]>$type[name] </option>";
         }
-        echo "</select>";
+        $option .= "</select>";
+        return $option;
     }
 
     public function doUpdateServeUnServe()
     {
-        //        extract($_POST);
-        // pr($_POST);exit; 
-        $selectedCases = $_POST['selectedCases'];
-        $serveStage = $_POST['serveStage'];
-        $serveType = $_POST['serveType'];
-        $remarks = $_POST['remarks'];
+        
+        $selectedCases = $_GET['selectedCases'];
+        $serveStage = $_GET['serveStage'];
+        $serveType = $_GET['serveType'];
+        $remarks = $_GET['remarks'];
         $usercode = session()->get('login')['usercode'];
         $letterStatus = 0;
         $serveUnserve = 0;
@@ -845,7 +749,7 @@ class ReceiptController extends BaseController
         $usercode = session()->get('login')['usercode'];
         foreach ($selectedCases as $dak) {
             $id = explode('#', $dak);
-            //            echo "<pre>";  print_r($id);    die;
+            //            echo "<pre>";  print_r($id);    die;                                                                                                  
             $ecPostalTransaction_id = $id[1];
             $dakTransactionData['dakTransactionFullData'] = $this->RIModel->getDakTransactionDetails($ecPostalTransaction_id);
             //            echo "<pre>";
@@ -868,10 +772,9 @@ class ReceiptController extends BaseController
         $data['receivedBySectionDetails'] = $this->RIModel->getReceivedBySectionDak($selectedCases);
         $data['initiatedReceivedBySectionDetails'] = $this->RIModel->getInitiatedReceivedBySectionDak($selectedCases);
         $this->db->transComplete();
-        //        echo "<pre>";
-        //        print_r($data);die;
-        echo view('RI/Receipt/receivedBySectionReport', $data);
-        exit();
+
+        return view('RI/Receipt/receivedBySectionReport', $data);
+        
     }
 
 

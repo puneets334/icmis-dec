@@ -118,7 +118,7 @@ class CaseDrop extends BaseController
     {
         $data = [];
         $heardtModel = new Heardt();
-        $data['listing_dates'] = $heardtModel->getListingDates();
+        $data['listing_dates_dt'] = $heardtModel->getListingDates();
         $data['judge_list'] = $this->DropRequestModel->field_sel_ros_jgs();
         $data['listing_dates'] = $this->DropRequestModel->field_sel_roster_dts();
         return  view('Listing/drop_note/note', $data);
@@ -169,7 +169,8 @@ class CaseDrop extends BaseController
         $drop_notes = $this->DropRequestModel->get_drop_note_print($list_dt, $mainhead, $roster_id);
         $advocate =[];
         $shifted_to = $courtno =  '';
-        //pr($drop_notes);
+        // pr($data);
+        // die();
         foreach($drop_notes as $key => $note){
             $advocate = $this->DropRequestModel->get_advocate($note['diary_no']);
             $radvname=  isset($advocate["r_n"]) ? $advocate["r_n"] : '';

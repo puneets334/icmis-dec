@@ -19,31 +19,43 @@ class FasterModel extends Model
         $this->db = db_connect();
     }
 
+
     function caseDetails($diaryNo, $nextDate = "", $ifCompleted = false)
     {
-        $this->db->select('m.diary_no,m.conn_key,m.reg_no_display,m.pet_name,m.res_name,m.active_casetype_id,m.casetype_id,ct.nature,
-        (select id from usersection where section_name=tentative_section(m.diary_no) and display=\'Y\') as section_id,m.c_status,fc.id as faster_cases_id,fc.last_step_id', false);
-        $this->db->where('m.diary_no', $diaryNo);
-        $this->db->from('main m');
-        $this->db->join('casetype ct', 'm.casetype_id=ct.casecode');
+        $builder = $this->db->table('main m')
+            ->select("m.diary_no, 
+                m.conn_key, 
+                m.reg_no_display, 
+                m.pet_name, 
+                m.res_name, 
+                m.active_casetype_id, 
+                m.casetype_id, 
+                ct.nature,
+                (SELECT id FROM master.usersection WHERE section_name = tentative_section(m.diary_no) AND display = 'Y') AS section_id,
+                m.c_status, 
+                fc.id AS faster_cases_id, 
+                fc.last_step_id
+            ", false) // false to prevent escaping
+            ->join('master.casetype ct', 'm.casetype_id = ct.casecode')
+            ->where('m.diary_no', $diaryNo);
+
         if ($ifCompleted) {
-            $this->db->join('faster_cases fc', 'm.diary_no=fc.diary_no and fc.last_step_id=' . COMPLETE, 'left');
-        } else {
-            //if(!empty($nextDate) && 1==2){
+            $builder->join('faster_cases fc', 'm.diary_no = fc.diary_no AND fc.last_step_id = ' . COMPLETE, 'left');
+        } 
+        else {
             if (!empty($nextDate)) {
-                $this->db->join('faster_cases fc', "m.diary_no=fc.diary_no and fc.next_dt='" . $nextDate . "' and fc.last_step_id!=" . COMPLETE, 'left');
+                $formattedDate = date('Y-m-d', strtotime($nextDate)); 
+                $builder->join('faster_cases fc', "m.diary_no = fc.diary_no AND fc.next_dt = '" . $formattedDate . "' AND fc.last_step_id != " . COMPLETE, 'left');
             } else {
-                $this->db->join('faster_cases fc', 'm.diary_no=fc.diary_no and fc.last_step_id!=' . COMPLETE, 'left');
+                $builder->join('faster_cases fc', 'm.diary_no = fc.diary_no AND fc.last_step_id != ' . COMPLETE, 'left');
             }
         }
 
-        $query = $this->db->get();
+        $query = $builder->get();
 
-        //var_dump($query->result_array());
-        //   echo $this->db->last_query();
-        //  exit;
-        return $query->result_array();
+        return $query->getResultArray();
     }
+
     function documentsDates($diaryNo, $docType)
     {
         if (in_array($docType, unserialize(DOCUMENT_EXEMPTED_FROM_SIGNING))) {
@@ -53,184 +65,276 @@ class FasterModel extends Model
             } elseif ($docType == DOCUMENT_SIGNED_ORDER) {
                 $ordertype = "S";
             }
-            $this->db->select('orderdate,pdfname');
-            $this->db->where('o.diary_no', $diaryNo);
-            $this->db->where('o.type', $ordertype);
-            $this->db->order_by('orderdate', 'desc');
-            $this->db->from('ordernet o');
-            $query = $this->db->get();
-            /*echo $this->db->last_query();
-            exit;*/
-            return $query->result_array();
+            $builder = $this->db->table('ordernet o')
+                ->select(['o.orderdate', 'o.pdfname'])
+                ->where('o.diary_no', $diaryNo)
+                ->where('o.type', $ordertype)
+                ->orderBy('o.orderdate', 'DESC');
+
+            // Execute Query
+            $query = $builder->get();
+            return $query->getResultArray();
         } else if ($docType == DOCUMENT_MEMO_OF_PARTY) {
-            $this->db->select('created_on as orderdate,path as pdfname');
-            $this->db->where('c.diary_no', $diaryNo);
-            $this->db->where('c.is_active', 1);
-            $this->db->from('cause_title c');
-            $query = $this->db->get();
-            return $query->result_array();
+            $builder = $this->db->table('cause_title c')
+                ->select(['c.created_on AS orderdate', 'c.path AS pdfname'])
+                ->where('c.diary_no', $diaryNo)
+                ->where('c.is_active', 1);
+
+            // Execute Query
+            $query = $builder->get();
+            return $query->getResultArray();
         } else {
             //diaryyear/diary_number/t.id,"_",t.nt_type,"_",to.del_type
             //select * from tw_tal_del where diary_no=22018 and print=1 and display='Y' order by rec_dt desc ;
             //$this->db->select('concat(rec_dt," PID-",t.process_id) as orderdate,concat(SUBSTR(t.diary_no, - 4),"/",SUBSTR(t.diary_no, 1, LENGTH(t.diary_no) - 4),"/",t.id,"_",t.nt_type,"_",to.del_type,".pdf") as pdfname',false);
-            $this->db->select('concat(order_dt," PID-",t.process_id) as orderdate,concat(SUBSTR(t.diary_no, - 4),"/",SUBSTR(t.diary_no, 1, LENGTH(t.diary_no) - 4),"/",t.id,"_",t.nt_type,"_",to.del_type,".pdf") as pdfname', false);
-            $this->db->where('t.diary_no', $diaryNo);
-            $this->db->where('t.print', 1);
-            $this->db->where('t.display', 'Y');
-            $this->db->order_by('order_dt', 'desc');
-            //$this->db->from('tw_tal_del t');
-            $this->db->from('tw_tal_del t');
-            $this->db->join('tw_o_r to', 't.id=to.tw_org_id and to.display=\'Y\'');
-            $query = $this->db->get();
-            //echo $this->db->last_query();
+
+            // Initialize Query Builder
+            $builder = $this->db->table('tw_tal_del t')
+            ->select([
+                "CONCAT(t.order_dt, ' PID-', t.process_id) AS orderdate",
+                "CONCAT(SUBSTRING(t.diary_no::TEXT FROM LENGTH(t.diary_no::TEXT) - 3), '/', " .
+                "SUBSTRING(t.diary_no::TEXT FROM 1 FOR LENGTH(t.diary_no::TEXT) - 4), '/', " .
+                "t.id, '_', t.nt_type, '_', tor.del_type, '.pdf') AS pdfname"
+            ])
+            ->where('t.diary_no', $diaryNo)
+            ->where('t.print', 1)
+            ->where('t.display', 'Y')
+            ->join('tw_o_r tor', 't.id = tor.tw_org_id AND tor.display = \'Y\'')
+            ->orderBy('t.order_dt', 'DESC');
+            
+            // pr($builder->getCompiledSelect());
+            // Execute Query
+            $query = $builder->get();
             return $query->getResultArray();
+
+
         }
     }
     function getNoticeType($caseNature, $sectionId, $caseStatus, $casetypeId)
     {
-        $this->db->select('t.id,t.name');
-        $this->db->where_in('t.display', array('Y', 'Z'));
+        $builder = $this->db->table('master.tw_notice t')
+            ->select('t.id, t.name')
+            ->whereIn('t.display', ['Y', 'Z']);
+
         $nature = "";
         if ($caseNature == 'C') {
             $nature = 'Y';
         } elseif ($caseNature == 'R') {
             $nature = 'Z';
         }
+
         if ($casetypeId != 39) {
-            $this->db->group_start()->where('t.nature', $caseNature)->or_where('t.nature', '')->or_where('t.nature', $nature)->group_end();
+            $builder->groupStart()
+                ->where('t.nature', $caseNature)
+                ->orWhere('t.nature', '')
+                ->orWhere('t.nature', $nature)
+                ->groupEnd();
         }
-        $this->db->group_start()->where('t.section', $sectionId)->or_where('t.section', 0)->group_end();
-        $this->db->group_start()->where('t.notice_status', $caseStatus)->or_where('t.notice_status', '')->group_end();
-        $this->db->order_by('t.name', 'asc');
-        $this->db->from('tw_notice t');
-        $query = $this->db->get();
+
+        $builder->groupStart()
+            ->where('t.section', $sectionId)
+            ->orWhere('t.section', 0)
+            ->groupEnd();
+
+        $builder->groupStart()
+            ->where('t.notice_status', $caseStatus)
+            ->orWhere('t.notice_status', '')
+            ->groupEnd();
+
+        $builder->orderBy('t.name', 'ASC');
+        // pr($builder->getCompiledSelect());
+        $query = $builder->get();
         return $query->getResultArray();
     }
+
     function insertInDB($tablename, $data)
     {
         $this->db->table($tablename)->insert($data);
         return $this->db->affectedRows();
     }
+
     function insertInDBwithInsertedId($tablename, $data)
     {
         $this->db->table($tablename)->insert($data);
         $insertId = $this->db->insertID();
         return  $insertId;
     }
+
     function batchInsertInDB($tablename, $data)
     {
-        $this->db->insert_batch($tablename, $data);
+        $builder = $this->db->table($tablename);
+        $builder->insertBatch($data);
         return $this->db->affectedRows();
     }
+
     function updateInDB($tablename, $data, $wherecondition)
     {
-        $db = \Config\Database::connect();
-        $builder = $db->table($tablename);
+        $builder = $this->db->table($tablename);
         $builder->where($wherecondition);
         $builder->update($data);
         return $this->db->affectedRows();
     }
+
     function fasterCases($diaryNo = "", $nextDate = "", $stage = "")
     {
-        $this->db->select('*');
+        $builder = $this->db->table('faster_cases fc');
+        $builder->select('*');
+
         if ($stage == 'P') {
-            $this->db->where('fc.last_step_id !=', COMPLETE);
+            $builder->where('fc.last_step_id !=', COMPLETE);
         } elseif ($stage == 'C') {
-            $this->db->where('fc.last_step_id', COMPLETE);
+            $builder->where('fc.last_step_id', COMPLETE);
         }
+
         if (!empty($diaryNo)) {
-            $this->db->where('fc.diary_no', $diaryNo);
+            $builder->where('fc.diary_no', $diaryNo);
         }
+
         if (!empty($nextDate)) {
-            $this->db->where('fc.next_dt', $nextDate);
+            $builder->where('fc.next_dt', $nextDate);
         }
-        $this->db->where('fc.is_deleted', 0);
-        $this->db->from('faster_cases fc');
-        $query = $this->db->get();
-        return $query->result_array();
+
+        $builder->where('fc.is_deleted', 0);
+        $query = $builder->get();
+
+        return $query->getResultArray();
     }
+
     function fasterSharedDocuments($diaryNo = "", $fasterCasesId = "", $noticeId = "", $processId = "", $dated = "", $stage = "")
     {
 
-        $this->db->select('fsdd.*,DATE_FORMAT(fsdd.dated,\'%d-%m-%Y\') as document_date, DATE_FORMAT(fsdd.created_on,\'%d-%m-%Y %h:%i:%s %p\') as created_date,fc.diary_no,tn.name', false);
-        //DATE_FORMAT(NOW(),'%d-%m-%Y %H:%i:%s')
+        $builder = $this->db->table('faster_cases fc')
+            ->select([
+                'fsdd.*',
+                "TO_CHAR(fsdd.dated, 'DD-MM-YYYY') AS document_date",
+                "TO_CHAR(fsdd.created_on, 'DD-MM-YYYY HH12:MI:SS AM') AS created_date",
+                'fc.diary_no',
+                'tn.name'
+            ])
+            ->join('faster_shared_document_details fsdd', 'fc.id = fsdd.faster_cases_id', 'inner')
+            ->join('master.tw_notice tn', 'tn.id = fsdd.tw_notice_id', 'inner')
+            ->where('fc.is_deleted', 0)
+            ->where('fsdd.is_deleted', 0);
+
+        // Apply Conditions Based on Variables
         if ($stage == 'C') {
-            $this->db->where('fc.last_step_id', COMPLETE);
+            $builder->where('fc.last_step_id', COMPLETE);
         } else {
-            $this->db->where('fc.last_step_id !=', COMPLETE);
+            $builder->where('fc.last_step_id !=', COMPLETE);
         }
+
         if (!empty($processId)) {
-            $this->db->where('fsdd.process_id', $processId);
+            $builder->where('fsdd.process_id', $processId);
         }
+
         if (!empty($diaryNo)) {
-            $this->db->where('fc.diary_no', $diaryNo);
+            $builder->where('fc.diary_no', $diaryNo);
             if (!empty($dated)) {
-                $this->db->where('fc.next_dt', $dated);
+                $builder->where('fc.next_dt', $dated);
             }
         }
+
         if (!empty($fasterCasesId)) {
-            $this->db->where('fsdd.faster_cases_id', $fasterCasesId);
+            $builder->where('fsdd.faster_cases_id', $fasterCasesId);
             if (!empty($dated)) {
-                $this->db->where('fc.next_dt', $dated);
+                $builder->where('fc.next_dt', $dated);
             }
         }
+
         if (!empty($noticeId)) {
-            $this->db->where('fsdd.tw_notice_id', $noticeId);
+            $builder->where('fsdd.tw_notice_id', $noticeId);
         }
-        /*        if(!empty($dated)){
-            $this->db->where('fsdd.dated' , $dated);
-        }*/
-        $this->db->where('fc.is_deleted', 0)->where('fsdd.is_deleted', 0);
-        $this->db->from('faster_cases fc')->join('faster_shared_document_details fsdd', 'fc.id=fsdd.faster_cases_id')->join('tw_notice tn', 'tn.id=fsdd.tw_notice_id');
-        $query = $this->db->get();
-        //echo $this->db->last_query();
-        //exit;
-        return $query->result_array();
+
+        // pr($builder->getCompiledSelect());
+
+        // Execute Query
+        $query = $builder->get();
+        return $query->getResultArray();
     }
+
     function attachedDocumentById($id)
     {
-        $this->db->select('fsdt.*,tn.name');
-        $this->db->where('fsdt.id', $id);
-        $this->db->where('fsdt.is_deleted', 0);
-        $this->db->from('faster_shared_document_details fsdt')->join('tw_notice tn', 'fsdt.tw_notice_id=tn.id');
-        $query = $this->db->get();
-        return $query->result_array();
+        $builder = $this->db->table('faster_shared_document_details fsdt');
+        $builder->select('fsdt.*, tn.name');
+        $builder->join('master.tw_notice tn', 'fsdt.tw_notice_id = tn.id');
+        $builder->where('fsdt.id', $id);
+        $builder->where('fsdt.is_deleted', 0);
+        $query = $builder->get();
+
+        return $query->getResultArray();
+
     }
+
     function attachedDocumentByFasterCasesId($id)
     {
-        $this->db->select('fsdt.*,tn.name');
-        $this->db->where('fc.id', $id);
-        $this->db->where('fsdt.is_deleted', 0);
-        $this->db->from('faster_cases fc')->join('faster_shared_document_details fsdt', 'fc.id=fsdt.faster_cases_id')->join('tw_notice tn', 'fsdt.tw_notice_id=tn.id');
-        $query = $this->db->get();
-        return $query->result_array();
+        $builder = $this->db->table('faster_cases fc')
+            ->select('fsdt.*, tn.name')
+            ->where('fc.id', $id)
+            ->where('fsdt.is_deleted', 0)
+            ->join('faster_shared_document_details fsdt', 'fc.id = fsdt.faster_cases_id')
+            ->join('master.tw_notice tn', 'fsdt.tw_notice_id = tn.id');
+
+        // Execute Query
+        $query = $builder->get();
+        return $query->getResultArray();
+
     }
+
     function getUserDetail($usercode)
     {
-        $this->db->select('u.name, u.empid, us.section_name, ut.type_name');
-        $this->db->where('usercode', $usercode);
-        $this->db->where('u.display', 'Y');
-        $this->db->from('users u')->join('usersection us', 'u.section = us.id')->join('usertype ut', 'u.usertype = ut.id');
-        $query = $this->db->get();
-        return $query->result_array();
+        // $this->db->select('u.name, u.empid, us.section_name, ut.type_name');
+        // $this->db->where('usercode', $usercode);
+        // $this->db->where('u.display', 'Y');
+        // $this->db->from('users u')->join('usersection us', 'u.section = us.id')->join('usertype ut', 'u.usertype = ut.id');
+        // $query = $this->db->get();
+        // return $query->result_array();
+
+        $query = $this->db->table('master.users u')
+            ->select('u.name, u.empid, us.section_name, ut.type_name')
+            ->join('master.usersection us', 'u.section = us.id')
+            ->join('master.usertype ut', 'u.usertype = ut.id')
+            ->where('u.usercode', $usercode)
+            ->where('u.display', 'Y')
+            ->get();
+        // pr($query->getCompiledSelect());
+
+        return $query->getResultArray();
     }
+    
     function transationList($fasterCasesId, $step = NULL)
     {
+        $builder = $this->db->table('faster_transactions ft');
+        $builder->select([
+            'ft.*',
+            "TO_CHAR(ft.created_on, 'DD-MM-YYYY HH12:MI:SS AM') AS created_on_formatted",
+            'rfs.description',
+            "CONCAT(u.name, '(', u.empid, ')') AS userdetail"
+        ]);
+
+        $builder->join('master.ref_faster_steps rfs', 'ft.ref_faster_steps_id = rfs.id');
+        $builder->join('master.users u', 'ft.created_by = u.usercode', 'left');
+        $builder->where('ft.faster_cases_id', $fasterCasesId);
+
         if (!empty($step)) {
-            $this->db->where('ft.ref_faster_steps_id', $step);
+            $builder->where('ft.ref_faster_steps_id', $step);
         }
-        $this->db->select("ft.*,DATE_FORMAT(ft.created_on, '%d-%m-%Y %h:%i:%s %p') as created_on_formatted,rfs.description,concat(u.name,'(',u.empid,')') as userdetail", false)->where('ft.faster_cases_id', $fasterCasesId);
-        $this->db->from('faster_transactions ft')->join('ref_faster_steps rfs', 'ft.ref_faster_steps_id=rfs.id')->join('users u', 'ft.created_by=u.usercode', 'left')->order_by('ft.created_on', 'desc');
-        $query = $this->db->get();
-        //echo $this->db->last_query();
-        return $query->result_array();
+
+        $builder->orderBy('ft.created_on', 'DESC');
+        $query = $builder->get();
+        return $query->getResultArray();
+
     }
+
     function getCurrentStage($fasterCasesId)
     {
-        $this->db->from('faster_cases')->where('id', $fasterCasesId);
-        $query = $this->db->get();
-        return $query->result_array();
+        $builder = $this->db->table('faster_cases');
+        $builder->where('id', $fasterCasesId);
+        $query = $builder->get();
+
+        return $query->getResultArray();
+
     }
+
     function recipientDetails($fasterCasesId)
     {
         /* $sql="SELECT
@@ -264,99 +368,167 @@ class FasterModel extends Model
         LEFT JOIN `ref_agency_code` `rac` ON `sd`.`tribunal_id` = `rac`.`id`
         LEFT JOIN `ref_agency_code` `highcourt` ON `sd`.`bench_id` = `highcourt`.`id`  
         where fcd.faster_cases_id=13;";*/
-        $this->db->select('fcd.*,`sd`.`id` AS `stakeholder_details_id`,
-        `sd`.`stakeholder_type_id` AS `stakeholder_type_id`,
-        `mst`.`description` AS `stakeholder_type`,
-        `jm`.`jail_name` AS `jail_name`,
-        (SELECT 
-                `state`.`Name`
-            FROM
-                `state`
-            WHERE
-                ((`state`.`State_code` = `s`.`State_code`)
-                    AND (`state`.`District_code` = 0)
-                    AND (`state`.`Village_code` = 0))) AS `state_name`,
-        (CASE
-            WHEN (`s`.`District_code` <> 0) THEN `s`.`Name`
-            ELSE \'\'
-        END) AS `district_name`,
-        `highcourt`.`agency_name` AS `highcourtname`,
-        `rac`.`agency_name` AS `agency_name`,
-        `a`.`authdesc` AS `designation`,
-        `sd`.`nodal_officer_name` AS `nodal_officer_name`', false);
-        $this->db->from('faster_communication_details fcd')->join('`stakeholder_details` `sd`', 'fcd.stakeholder_details_id=sd.id')->where('fcd.faster_cases_id', $fasterCasesId)->where('fcd.is_deleted', 0);
-        $this->db->join('`state` `s`', ' `s`.`id_no` = `sd`.`cmis_state_id`', 'left')->join('`master_stakeholder_type` `mst`', ' `sd`.`stakeholder_type_id` = `mst`.`id`', 'left')->join('`jail_master` `jm` ', '`sd`.`jail_id` = `jm`.`Loc_Id`', 'left');
-        $this->db->join('authority` `a`', '`sd`.`nodal_officer_designation` = `a`.`authcode`', 'left')->join('`ref_agency_code` `rac`', '`sd`.`tribunal_id` = `rac`.`id`', 'left')->join('`ref_agency_code` `highcourt`', '`sd`.`bench_id` = `highcourt`.`id`', 'left');
-        $this->db->order_by('fcd.created_on', 'DESC');
-        $query = $this->db->get();
-        //echo $this->db->last_query();
-        return $query->result_array();
+        $builder = $this->db->table('faster_communication_details fcd');
+        $builder->select([
+            'fcd.*',
+            'sd.id AS stakeholder_details_id',
+            'sd.stakeholder_type_id AS stakeholder_type_id',
+            'mst.description AS stakeholder_type',
+            'jm.jail_name AS jail_name',
+            '(SELECT state.Name FROM master.state WHERE state.State_code = s.State_code AND state.District_code = 0 AND state.Village_code = 0) AS state_name',
+            '(CASE WHEN s.District_code <> 0 THEN s.Name ELSE \'\' END) AS district_name',
+            'highcourt.agency_name AS highcourtname',
+            'rac.agency_name AS agency_name',
+            'a.authdesc AS designation',
+            'sd.nodal_officer_name AS nodal_officer_name'
+        ]);
+
+        $builder->join('master.stakeholder_details sd', 'fcd.stakeholder_details_id = sd.id');
+        $builder->where('fcd.faster_cases_id', $fasterCasesId);
+        $builder->where('fcd.is_deleted', 0);
+        $builder->join('master.state s', 's.id_no = sd.cmis_state_id', 'left');
+        $builder->join('master.master_stakeholder_type mst', 'sd.stakeholder_type_id = mst.id', 'left');
+        $builder->join('master.jail_master jm', 'sd.jail_id = jm.loc_id', 'left');
+        $builder->join('master.authority a', 'cast(sd.nodal_officer_designation AS BIGINT) = CAST(a.authcode AS BIGINT)', 'left');
+        $builder->join('master.ref_agency_code rac', 'sd.tribunal_id = rac.id', 'left');
+        $builder->join('master.ref_agency_code highcourt', 'sd.bench_id = highcourt.id', 'left');
+        $builder->orderBy('fcd.created_on', 'DESC');
+        $query = $builder->get();
+
+        return $query->getResultArray();
     }
+
     function casesMarkedForFaster($listingDate)
     {
-        $query = "select date_format(entry_date, '%d-%m-%Y %H:%i:%s') sent_to_faster_time, fo.*,m.reg_no_display,concat(m.pet_name,' Vs. ',m.res_name) as causetitle,group_concat(distinct concat(o.type,'$$',o.pdfname) SEPARATOR '----') as rop_pdf,ct.path as causetitle_pdf,
-                group_concat(distinct concat(ttd.name,'$$',concat(SUBSTR(ttd.diary_no, - 4),\"/\",SUBSTR(ttd.diary_no, 1, LENGTH(ttd.diary_no) - 4),\"/\",ttd.id,\"_\",ttd.nt_type,\"_\",tor.del_type,\".pdf\")) SEPARATOR '----') as notice_pdf,
-                fc.id as faster_cases_id,fc.next_dt as faster_dated,rfs.description as faster_status,
-                date_format(ft.created_on, '%d-%m-%Y %H:%i:%s') as transaction_status_date_time
-                from faster_opted fo inner join main m on fo.diary_no=m.diary_no and fo.is_active=1
-                left join ordernet o on fo.diary_no=o.diary_no and fo.next_dt=o.orderdate and o.display='Y'
-                left join cause_title ct on fo.diary_no=ct.diary_no and ct.is_active=1
-                left join tw_tal_del ttd on fo.diary_no=ttd.diary_no and fo.next_dt=ttd.order_dt and ttd.display='Y' and ttd.print=1
-                left join tw_o_r tor on ttd.id=tor.tw_org_id and tor.display='Y'
-                left join faster_cases fc on fo.diary_no=fc.diary_no and fo.next_dt=fc.next_dt
-                left join ref_faster_steps rfs on fc.last_step_id=rfs.id
-                left join faster_transactions ft on ft.faster_cases_id = fc.id
-                where fo.next_dt=? group by fo.diary_no order by fo.court_no,fo.item_number";
-        $query = $this->db->query($query, array($listingDate));
-        return $query->result_array();
+        $builder = $this->db->table('faster_opted fo');
+        $builder->select([
+            "TO_CHAR(entry_date, 'DD-MM-YYYY HH24:MI:SS') AS sent_to_faster_time",
+            "fo.*",
+            "m.reg_no_display",
+            "CONCAT(m.pet_name, ' Vs. ', m.res_name) AS causetitle",
+            "STRING_AGG(DISTINCT CONCAT(o.type, '$$', o.pdfname), '----') AS rop_pdf",
+            "ct.path AS causetitle_pdf",
+            "STRING_AGG(DISTINCT CONCAT(
+                ttd.name, '$$', 
+                SUBSTRING(ttd.diary_no::TEXT FROM LENGTH(ttd.diary_no::TEXT) - 3), '/', 
+                SUBSTRING(ttd.diary_no::TEXT FROM 1 FOR LENGTH(ttd.diary_no::TEXT) - 4), '/', 
+                ttd.id, '_', ttd.nt_type, '_', tor.del_type, '.pdf'
+            ), '----') AS notice_pdf",
+            "fc.id AS faster_cases_id",
+            "fc.next_dt AS faster_dated",
+            "rfs.description AS faster_status",
+            "TO_CHAR(ft.created_on, 'DD-MM-YYYY HH24:MI:SS') AS transaction_status_date_time"
+        ]);
+
+        // Join statements
+        $builder->join('main m', 'fo.diary_no = m.diary_no AND fo.is_active = 1');
+        $builder->join('ordernet o', 'fo.diary_no = o.diary_no AND fo.next_dt = o.orderdate AND o.display = \'Y\'', 'left');
+        $builder->join('cause_title ct', 'fo.diary_no = ct.diary_no AND ct.is_active = 1', 'left');
+        $builder->join('tw_tal_del ttd', 'fo.diary_no = ttd.diary_no AND fo.next_dt = ttd.order_dt AND ttd.display = \'Y\' AND ttd.print = 1', 'left');
+        $builder->join('tw_o_r tor', 'ttd.id = tor.tw_org_id AND tor.display = \'Y\'', 'left');
+        $builder->join('faster_cases fc', 'fo.diary_no = fc.diary_no AND fo.next_dt = fc.next_dt', 'left');
+        $builder->join('master.ref_faster_steps rfs', 'fc.last_step_id = rfs.id', 'left');
+        $builder->join('faster_transactions ft', 'ft.faster_cases_id = fc.id', 'left');
+
+        $builder->where('fo.next_dt', $listingDate);
+
+        $builder->groupBy([
+            'fo.id', 'fo.diary_no', 'fo.entry_date', 'm.reg_no_display',
+            'm.pet_name', 'm.res_name', 'ct.path', 'fc.id', 
+            'fc.next_dt', 'rfs.description', 'ft.created_on', 
+            'fo.court_no', 'fo.item_number'
+        ]);
+
+        $builder->orderBy('fo.court_no');
+        $builder->orderBy('fo.item_number');
+
+        $query = $builder->get();
+        return $query->getResultArray();
+
     }
+
     function getAvailableDocumetsInICMIS($diaryNo, $orderDate)
     {
-        /*select ttd.*,m.reg_no_display,concat(m.pet_name,' Vs. ',m.res_name) as causetitle,group_concat(distinct concat(o.type,'$$',o.pdfname) SEPARATOR '----') as rop_pdf,ct.path as causetitle_pdf,
-                group_concat(distinct concat(ttd.nt_type,'$$',ttd.name,'$$',concat(SUBSTR(ttd.diary_no, - 4),"/",SUBSTR(ttd.diary_no, 1, LENGTH(ttd.diary_no) - 4),"/",ttd.id,"_",ttd.nt_type,"_",tor.del_type,".pdf")) SEPARATOR '----') as notice_pdf,
-                fc.id as faster_cases_id,fc.next_dt as faster_dated,rfs.description as faster_status
-                from main m
-                left join ordernet o on m.diary_no=o.diary_no and o.orderdate='2018-01-22' and o.display='Y'
-                left join cause_title ct on m.diary_no=ct.diary_no and ct.is_active=1
-                left join tw_tal_del_bck ttd on m.diary_no=ttd.diary_no and ttd.order_dt='2018-01-22' and ttd.display='Y' and ttd.print=1
-                left join tw_o_r tor on ttd.id=tor.tw_org_id and tor.display='Y'
-                left join faster_cases fc on m.diary_no=fc.diary_no and fc.next_dt='2018-01-22'
-                left join ref_faster_steps rfs on fc.last_step_id=rfs.id
-                where m.diary_no=1232018 group by m.diary_no;*/
-        $sql = "select diary_no,cause_title_id as id,path,NULL as dated, 164 as doctype,'Schedule memo of Party' as docname from cause_title 
-              where diary_no=$diaryNo and is_active=1
-                union 
-                select diary_no,id,pdfname as path,orderdate as dated,
-                case when type='O' then 162 else case when type='J' then 163 else case when type='S' then 165 end end end as doctype,
-                case when type='O' then 'Record of Proceedings' else case when type='J' then 'Judgment' else case when type='S' then 'Signed Order' end end end as docname
-                from ordernet where diary_no=$diaryNo and orderdate='$orderDate' and display='Y'
-                union 
-                select diary_no,t.id,concat(SUBSTR(t.diary_no, - 4),\"/\",SUBSTR(t.diary_no, 1, LENGTH(t.diary_no) - 4),\"/\",t.id,\"_\",t.nt_type,\"_\",tor.del_type,\".pdf\") as path,order_dt as dated,nt_type as doctype,tn.name as docname 
-                from tw_tal_del t inner join tw_o_r tor on t.id=tor.tw_org_id and tor.display='Y' and t.print=1 and t.display='Y' and t.diary_no=$diaryNo and t.order_dt='$orderDate'
-                inner join tw_notice tn on t.nt_type=tn.id";
-        $query = $this->db->query($sql);
-        return $query->result_array();
+        $sql = "SELECT 
+                diary_no, 
+                cause_title_id AS id, 
+                path, 
+                NULL AS dated, 
+                164 AS doctype, 
+                'Schedule memo of Party' AS docname 
+            FROM cause_title 
+            WHERE diary_no = ? AND is_active = 1 
+
+            UNION 
+
+            SELECT 
+                diary_no, 
+                id, 
+                pdfname AS path, 
+                orderdate AS dated, 
+                CASE 
+                    WHEN type = 'O' THEN 162 
+                    WHEN type = 'J' THEN 163 
+                    WHEN type = 'S' THEN 165 
+                END AS doctype, 
+                CASE 
+                    WHEN type = 'O' THEN 'Record of Proceedings' 
+                    WHEN type = 'J' THEN 'Judgment' 
+                    WHEN type = 'S' THEN 'Signed Order' 
+                END AS docname 
+            FROM ordernet 
+            WHERE diary_no = ? AND orderdate = ? AND display = 'Y' 
+
+            UNION 
+
+            SELECT 
+                t.diary_no, 
+                t.id, 
+                CONCAT(
+                    RIGHT(CAST(t.diary_no AS TEXT), 4), '/', 
+                    LEFT(CAST(t.diary_no AS TEXT), LENGTH(CAST(t.diary_no AS TEXT)) - 4), '/', 
+                    t.id, '_', t.nt_type, '_', tor.del_type, '.pdf'
+                ) AS path, 
+                order_dt AS dated, 
+                nt_type::int AS doctype, 
+                tn.name AS docname 
+            FROM tw_tal_del t 
+            INNER JOIN tw_o_r tor 
+                ON t.id = tor.tw_org_id 
+                AND tor.display = 'Y' 
+                AND t.print = 1 
+                AND t.display = 'Y' 
+                AND t.diary_no = ? 
+                AND t.order_dt = ? 
+            INNER JOIN master.tw_notice tn 
+                ON t.nt_type::int = tn.id::int";
+            
+            $query = $this->db->query($sql, [$diaryNo, $diaryNo, $orderDate, $diaryNo, $orderDate]);
+
+            // echo $this->db->getLastQuery();
+            // die;
+            return $query->getResultArray();
     }
+    
     function getNextCertificateNumber()
     {
         $current_year = date('Y');
-        $this->db->select_max('certificate_number');
-        $this->db->where('certificate_year', $current_year);
-        $result = $this->db->get('digital_certification_details')->row();
-        if (!empty($result->certificate_number)) {
-            return $result->certificate_number + 1;
-        } else {
-            return 1;
-        }
+        $builder = $this->db->table('digital_certification_details');
+        $builder->selectMax('certificate_number');
+        $builder->where('certificate_year', $current_year);
+        $query = $builder->get();
+        $result = $query->getRow();
+
+        return !empty($result->certificate_number) ? $result->certificate_number + 1 : 1;
+
     }
+
     public function existDiaryNextDt($table_name, $diary_no, $next_dt)
     {
         $output = false;
 
         if (!empty($diary_no) && !empty($next_dt) && !empty($table_name)) {
-            $db = \Config\Database::connect(); // Connect to DB
-
-            $query = $db->table($table_name)
+            $query = $this->db->table($table_name)
                 ->select('diary_no,next_dt')
                 ->where('diary_no', $diary_no)
                 ->where('CAST(next_dt AS DATE) =', $next_dt) // PGSQL Date Conversion
@@ -371,22 +543,48 @@ class FasterModel extends Model
     {
         $output = false;
         if (isset($causelistDate) && !empty($causelistDate)) {
-            $this->db->select('m.reg_no_display,m.diary_no, concat(m.res_name," Vs. ", m.pet_name) as cause_title,
-                (case when fo.board_type= "J" then "Court" when fo.board_type= "R" then "Registrar"  when fo.board_type= "C" then "Chamber"   else "" end) as board_type,
-                (case when fo.mainhead="M" then "Miscellaneous" when fo.mainhead="F" then "Regular" else "" end	) as mainhead,
-                (case when fo.main_supp_flag=1 then "Main List" when fo.main_supp_flag=2 then "Supplementery List" else "" end) as main_supp_flag,
-                fo.judges,date_format(fo.next_dt,"%m-%d-%Y") as next_dt,date_format(fo.entry_date,"%m-%d-%Y") as entry_date ,fo.is_active,fo.user_ip,u.name,fo.court_no');
-            $this->db->from('faster_opted fo', 'fo.diary_no = m.diary_no');
-            $this->db->join('main m', 'm.diary_no = fo.diary_no');
-            $this->db->join('users u', 'fo.user_id=u.usercode');
-            $this->db->order_by('');
-            $this->db->where('date(fo.next_dt)', $causelistDate);
-            $this->db->where('is_active', 1);
-            if (isset($courtNo) && !empty($courtNo)) {
-                $this->db->where('fo.court_no', $courtNo);
+            $builder = $this->db->table('faster_opted fo');
+            $builder->select([
+                'm.reg_no_display',
+                'm.diary_no',
+                'CONCAT(m.res_name, \' Vs. \', m.pet_name) AS cause_title',
+                "CASE 
+                    WHEN fo.board_type = 'J' THEN 'Court' 
+                    WHEN fo.board_type = 'R' THEN 'Registrar' 
+                    WHEN fo.board_type = 'C' THEN 'Chamber' 
+                    ELSE '' 
+                END AS board_type",
+                "CASE 
+                    WHEN fo.mainhead = 'M' THEN 'Miscellaneous' 
+                    WHEN fo.mainhead = 'F' THEN 'Regular' 
+                    ELSE '' 
+                END AS mainhead",
+                "CASE 
+                    WHEN fo.main_supp_flag = 1 THEN 'Main List' 
+                    WHEN fo.main_supp_flag = 2 THEN 'Supplementary List' 
+                    ELSE '' 
+                END AS main_supp_flag",
+                "fo.judges",
+                "TO_CHAR(fo.next_dt, 'MM-DD-YYYY') AS next_dt",
+                "TO_CHAR(fo.entry_date, 'MM-DD-YYYY') AS entry_date",
+                "fo.is_active",
+                "fo.user_ip",
+                "u.name",
+                "fo.court_no"
+            ]);
+
+            $builder->join('main m', 'm.diary_no = fo.diary_no', 'inner');
+            $builder->join('master.users u', 'fo.user_id = u.usercode', 'inner');
+            $builder->where('DATE(fo.next_dt)', $causelistDate);
+            $builder->where('fo.is_active', 1);
+
+            if (!empty($courtNo)) {
+                $builder->where('fo.court_no', $courtNo);
             }
-            $query = $this->db->get();
-            $output = $query->result_array();
+
+            $query = $builder->get();
+            $output = $query->getResultArray();
+
         }
         return $output;
     }
@@ -394,81 +592,140 @@ class FasterModel extends Model
     {
         $output = false;
         if (isset($judgeId) && !empty($judgeId)) {
-            $this->db->select('abbreviation');
-            $this->db->from('judge');
-            $this->db->where('jcode', $judgeId);
-            $query = $this->db->get();
-            $output = $query->result_array();
+            $builder = $this->db->table('master.judge');
+            $builder->select('abbreviation');
+            $builder->where('jcode', $judgeId);
+            $query = $builder->get();
+            $output = $query->getResultArray();
+
         }
         return $output;
     }
 
     function ListedInfo_OLD($courtNo, $causelistDate)
     {
-        $this->db->select('m.diary_no, m.conn_key, ct.ent_dt, m.reg_no_display, m.res_name, m.pet_name, h.brd_slno, r.courtno, group_concat(j.jname) as judge_name,group_concat(j.jcode) as judges,
-        h.next_dt,h.mainhead,h.roster_id,h.main_supp_flag,h.board_type,
-         (case when (fo.is_active=1)  then \'Added\' when (fo.is_active=0)  then \'Modify\' else \'\' end) as \'actionStatus\',
-         (case when fc.diary_no is not null OR fc.diary_no !=0  OR fc.diary_no !=\'\' then \'1\' else 0 end) as \'exist_faster_cases\' ', false);
-        $this->db->from('main m');
-        $this->db->join('heardt h', 'h.diary_no = m.diary_no');
-        $this->db->join('roster r', 'r.id = h.roster_id');
-        $this->db->join('roster_judge rj', 'rj.roster_id = r.id');
-        $this->db->join('judge j', 'j.jcode = rj.judge_id');
-        $this->db->join('cl_printed cp', 'cp.next_dt = h.next_dt and cp.roster_id = h.roster_id and cp.display = "Y"', 'left');
-        $this->db->join('conct ct', 'm.diary_no=ct.diary_no and ct.list="Y"', 'left');
-        $this->db->join('faster_opted fo', 'h.diary_no=fo.diary_no and h.next_dt= fo.next_dt', 'left');
-        $this->db->join('faster_cases fc', 'h.diary_no=fc.diary_no and h.next_dt= fc.next_dt', 'left');
+        $builder = $this->db->table('main m');
+        $builder->select("
+            m.diary_no, 
+            m.conn_key, 
+            ct.ent_dt, 
+            m.reg_no_display, 
+            m.res_name, 
+            m.pet_name, 
+            h.brd_slno, 
+            r.courtno, 
+            STRING_AGG(j.jname, ', ') AS judge_name, 
+            STRING_AGG(j.jcode::TEXT, ', ') AS judges,
+            h.next_dt, 
+            h.mainhead, 
+            h.roster_id, 
+            h.main_supp_flag, 
+            h.board_type,
+            CASE WHEN fo.is_active = 1 THEN 'Added' 
+                WHEN fo.is_active = 0 THEN 'Modify' 
+                ELSE '' END AS actionStatus,
+            CASE WHEN fc.diary_no IS NOT NULL THEN '1' ELSE '0' END AS exist_faster_cases
+        ", false);
 
-        $this->db->where('h.next_dt', $causelistDate);
-        $this->db->where('r.display', 'Y');
-        $this->db->where('cp.next_dt is not null');
+        $builder->join('heardt h', 'h.diary_no = m.diary_no');
+        $builder->join('master.roster r', 'r.id = h.roster_id');
+        $builder->join('master.roster_judge rj', 'rj.roster_id = r.id');
+        $builder->join('master.judge j', 'j.jcode = rj.judge_id');
+        $builder->join('cl_printed cp', 'cp.next_dt = h.next_dt AND cp.roster_id = h.roster_id AND cp.display = \'Y\'', 'left');
+        $builder->join('conct ct', 'm.diary_no = ct.diary_no AND ct.list = \'Y\'', 'left');
+        $builder->join('faster_opted fo', 'h.diary_no = fo.diary_no AND h.next_dt = fo.next_dt', 'left');
+        $builder->join('faster_cases fc', 'h.diary_no = fc.diary_no AND h.next_dt = fc.next_dt', 'left');
+
+        $builder->where('h.next_dt', $causelistDate);
+        $builder->where('r.display', 'Y');
+        $builder->where('cp.next_dt IS NOT NULL');
+
+        // Handling court number conditions
         if ($courtNo == 21) {
-            $where = "(r.courtno =$courtNo or r.courtno = 61)";
-        } else if ($courtNo == 22) {
-            $where = "(r.courtno =$courtNo or r.courtno = 62)";
+            $builder->where("(r.courtno = $courtNo OR r.courtno = 61)");
+        } elseif ($courtNo == 22) {
+            $builder->where("(r.courtno = $courtNo OR r.courtno = 62)");
         } else {
             $courtNoVC = $courtNo + 30;
-            $where = "(r.courtno =$courtNo or r.courtno = $courtNoVC)";
+            $builder->where("(r.courtno = $courtNo OR r.courtno = $courtNoVC)");
         }
-        $this->db->where($where);
-        $this->db->group_by('m.diary_no');
-        $query1 = $this->db->get_compiled_select();
 
-        $this->db->select('m.diary_no, m.conn_key, ct.ent_dt, m.reg_no_display, m.res_name, m.pet_name, h.brd_slno, r.courtno, group_concat(j.jname) as judge_name,group_concat(j.jcode) as judges,
-        h.next_dt,h.mainhead,h.roster_id,h.main_supp_flag,h.board_type,
-        (case when (fo.is_active=1)  then \'Added\' when (fo.is_active=0)  then \'Modify\' else \'\' end) as \'actionStatus\',
-        (case when fc.diary_no is not null OR fc.diary_no !=0  OR fc.diary_no !=\'\' then \'1\' else 0 end) as \'exist_faster_cases\' ', false);
-        $this->db->from('main m');
-        $this->db->join('last_heardt h', 'h.diary_no = m.diary_no');
-        $this->db->join('roster r', 'r.id = h.roster_id');
-        $this->db->join('roster_judge rj', 'rj.roster_id = r.id');
-        $this->db->join('judge j', 'j.jcode = rj.judge_id');
-        $this->db->join('cl_printed cp', 'cp.next_dt = h.next_dt and cp.roster_id = h.roster_id and cp.display = "Y"', 'left');
-        $this->db->join('conct ct', 'm.diary_no=ct.diary_no and ct.list="Y"', 'left');
-        $this->db->join('faster_opted fo', 'h.diary_no=fo.diary_no and h.next_dt= fo.next_dt', 'left');
-        $this->db->join('faster_cases fc', 'h.diary_no=fc.diary_no and h.next_dt= fc.next_dt', 'left');
+        $builder->groupBy('m.diary_no');
+        $query1 = $builder->getCompiledSelect();
 
-        $this->db->where('h.next_dt', $causelistDate);
-        $this->db->where('r.display', 'Y');
-        $this->db->where('cp.next_dt is not null');
+
+        $builder1 = $this->db->table('main m');
+
+        $builder1->select("
+            m.diary_no, 
+            m.conn_key, 
+            ct.ent_dt, 
+            m.reg_no_display, 
+            m.res_name, 
+            m.pet_name, 
+            h.brd_slno, 
+            r.courtno, 
+            STRING_AGG(j.jname, ', ') AS judge_name, 
+            STRING_AGG(j.jcode::TEXT, ', ') AS judges,
+            h.next_dt, 
+            h.mainhead, 
+            h.roster_id, 
+            h.main_supp_flag, 
+            h.board_type,
+            CASE 
+                WHEN fo.is_active = 1 THEN 'Added' 
+                WHEN fo.is_active = 0 THEN 'Modify' 
+                ELSE '' 
+            END AS actionStatus,
+            CASE 
+                WHEN fc.diary_no IS NOT NULL THEN '1' 
+                ELSE '0' 
+            END AS exist_faster_cases
+        ", false);
+
+        $builder1->join('last_heardt h', 'h.diary_no = m.diary_no');
+        $builder1->join('master.roster r', 'r.id = h.roster_id');
+        $builder1->join('master.roster_judge rj', 'rj.roster_id = r.id');
+        $builder1->join('master.judge j', 'j.jcode = rj.judge_id');
+        $builder1->join('cl_printed cp', 'cp.next_dt = h.next_dt AND cp.roster_id = h.roster_id AND cp.display = \'Y\'', 'left');
+        $builder1->join('conct ct', 'm.diary_no = ct.diary_no AND ct.list = \'Y\'', 'left');
+        $builder1->join('faster_opted fo', 'h.diary_no = fo.diary_no AND h.next_dt = fo.next_dt', 'left');
+        $builder1->join('faster_cases fc', 'h.diary_no = fc.diary_no AND h.next_dt = fc.next_dt', 'left');
+
+        $builder1->where('h.next_dt', $causelistDate);
+        $builder1->where('r.display', 'Y');
+        $builder1->where('cp.next_dt IS NOT NULL');
+
+        // Handling court number conditions
         if ($courtNo == 21) {
-            $where = "(r.courtno =$courtNo or r.courtno = 61)";
-        } else if ($courtNo == 22) {
-            $where = "(r.courtno =$courtNo or r.courtno = 62)";
+            $builder1->where("(r.courtno = $courtNo OR r.courtno = 61)");
+        } elseif ($courtNo == 22) {
+            $builder1->where("(r.courtno = $courtNo OR r.courtno = 62)");
         } else {
             $courtNoVC = $courtNo + 30;
-            $where = "(r.courtno =$courtNo or r.courtno = $courtNoVC)";
+            $builder1->where("(r.courtno = $courtNo OR r.courtno = $courtNoVC)");
         }
-        $where2 = "(h.bench_flag is null or h.bench_flag = '')";
-        $this->db->where($where);
-        $this->db->where($where2);
-        $this->db->group_by('m.diary_no');
-        //$this->db->order_by('brd_slno, if(conn_key=diary_no,"0000-00-00",99) ASC, if(ent_dt is not null,ent_dt,999) ASC, CAST(SUBSTRING(diary_no, - 4) AS SIGNED) ASC , CAST(LEFT(diary_no, LENGTH(diary_no) - 4) AS SIGNED) ASC');
-        $query2 = $this->db->get_compiled_select();
-        $result = $this->db->query('select * from (' . $query1 . ' UNION ' . $query2 . ') a GROUP BY diary_no ORDER BY brd_slno, if(conn_key=diary_no,"0000-00-00",99) ASC, if(ent_dt is not null,ent_dt,999) ASC, CAST(SUBSTRING(diary_no, - 4) AS SIGNED) ASC , CAST(LEFT(diary_no, LENGTH(diary_no) - 4) AS SIGNED) ASC');
-        //echo $query1.' UNION '.$query2.' GROUP BY diary_no ORDER BY brd_slno, if(conn_key=diary_no,"0000-00-00",99) ASC, if(ent_dt is not null,ent_dt,999) ASC, CAST(SUBSTRING(diary_no, - 4) AS SIGNED) ASC , CAST(LEFT(diary_no, LENGTH(diary_no) - 4) AS SIGNED) ASC';
 
-        return $result->result_array();
+        // Additional condition for bench_flag
+        $builder1->where("(h.bench_flag IS NULL OR h.bench_flag = '')");
+
+        // Grouping by diary_no
+        $builder1->groupBy('m.diary_no');
+
+        // Compiling the query
+        $query2 = $builder1->getCompiledSelect();
+
+        $sql = "SELECT * FROM ({$query1} UNION {$query2}) a 
+                GROUP BY diary_no 
+                ORDER BY 
+                    brd_slno, 
+                    CASE WHEN conn_key = diary_no THEN '0000-00-00' ELSE '99' END ASC, 
+                    COALESCE(ent_dt, '999') ASC, 
+                    CAST(RIGHT(diary_no, 4) AS INTEGER) ASC, 
+                    CAST(LEFT(diary_no, LENGTH(diary_no) - 4) AS INTEGER) ASC";
+
+        $result = $this->db->query($sql);
+        return $result->getResultArray();
     }
 
     //........... New added 02-09-2024........//
@@ -683,14 +940,16 @@ class FasterModel extends Model
     {
         $output = false;
         if (isset($data) && !empty($data)) {
-            $this->db->select('id,agency_name');
-            $this->db->from('ref_agency_code');
-            $this->db->where('agency_or_court', 1);
-            $this->db->where('is_deleted', 'f');
-            $this->db->where('main_branch', 1);
-            $this->db->where('id', 14);
-            $query = $this->db->get();
-            $output = $query->result_array();
+            $builder = $this->db->table('master.ref_agency_code');
+            $builder->select('id, agency_name');
+            $builder->where('CAST(agency_or_court AS BIGINT)', 1);
+            $builder->where('is_deleted', 'f');
+            $builder->where('main_branch', 1);
+            $builder->where('id', 14);
+
+            $query = $builder->get();
+            $output = $query->getResultArray();
+
         }
         return $output;
     }

@@ -3,26 +3,16 @@
 namespace App\Controllers\Listing;
 
 use App\Controllers\BaseController;
-
 use App\Models\Listing\HybridModel;
-// use CodeIgniter\Controller;
-// use CodeIgniter\Model;
-// use App\Models\Filing\AdvocateModel;
-// use App\Models\Casetype;
-//use App\Models\Entities\Main;
-// use App\Models\Listing\CaseAdd;
 
 class Hybrid extends BaseController
 {
 
     protected $hybrid_model;
-    // public $Casetype;
-    // public $CaseAdd;
 
     function __construct()
     {
         $this->hybrid_model = new HybridModel();
-        // $this->CaseAdd = new CaseAdd();     
     }
 
     function get_client_ip()
@@ -53,8 +43,7 @@ class Hybrid extends BaseController
         if (($userType[0] != 1 && $userType[0] != 57 && $userType[0] != 3 && $userType[0] != 4) && ($userType[6] != 450)) {
             echo "YOU ARE NOT AUTHORISED";
             exit();
-        }
-        
+        }        
         $data = [
             'masterList' => $this->hybrid_model->getMasterList(),
             'clientIP' => $this->get_client_ip(),
@@ -71,23 +60,20 @@ class Hybrid extends BaseController
             echo "YOU ARE NOT AUTHORISED";
             exit();
         }
-
         $this->session->set('courtno', $_POST['courtno']);
-        $this->session->set('list_type', $_POST['list_type']);
-        
+        $this->session->set('list_type', $_POST['list_type']);        
         $data = [
             'freezeData' => $this->hybrid_model->getfreezeData($_POST['courtno'], $_POST['list_type']),
             'weekelyList' => $this->hybrid_model->getweekelyList($_POST['courtno']),
             'clientIP' => $this->get_client_ip(),
         ];
-
         return view('Listing/hybrid/registry_consent_process', $data);
     }
 
     public function registry_consent_save()
     {
-        $_REQUEST['from_time'] = ($_REQUEST['from_time']) ? $_REQUEST['from_time'] : "00:00:00";
-        $_REQUEST['to_time'] = ($_REQUEST['to_time']) ? $_REQUEST['to_time'] : "00:00:00";
+        $_REQUEST['from_time'] = (isset($_REQUEST['from_time']) && !empty($_REQUEST['from_time'])) ? $_REQUEST['from_time'] : "00:00:00";
+        $_REQUEST['to_time'] = (isset($_REQUEST['to_time'])  && !empty($_REQUEST['to_time'])) ? $_REQUEST['to_time'] : "00:00:00";
         if (isset($_REQUEST['diary_no'])) {
             $return_arr = $this->hybrid_model->saveConsentRegistry($_REQUEST);
         } else {
@@ -134,8 +120,7 @@ class Hybrid extends BaseController
 
     public function freeze_save()
     {
-        if(isset($_POST['courtno'])) {
-       
+        if(isset($_POST['courtno'])) {       
             $usercode = session()->get('login')['usercode'];
             $data = [
                 'list_type_id' => $_POST['list_type_id'],
@@ -146,15 +131,13 @@ class Hybrid extends BaseController
                 'to_date'      => $_POST['max_to_dt'],
                 'court_no'     => $_POST['courtno']
             ];
-            $this->db->table('hybrid_physical_hearing_consent_freeze')->insert($data);
-        
+            $this->db->table('hybrid_physical_hearing_consent_freeze')->insert($data);        
             if ($this->db->affectedRows() > 0) {
                 $return_arr = array("status" => "success");
             } else {
                 $return_arr = array("status" => "Error:Not Saved");
             }
-        }
-        else{
+        } else {
             $return_arr = array("status" => "Error");
         }
         echo json_encode($return_arr);
@@ -202,17 +185,17 @@ class Hybrid extends BaseController
             // 'listDetails' => $this->hybrid_model->getListDetails(),
             'clientIP' => $this->get_client_ip(),
         ];
-
         return view('Listing/hybrid/consent_report_process', $data);
     }
 
     // public function add_case_info()
-    // {    
-    //     $ct = $this->request->getPost('case_type');
-    //     $cn = $this->request->getPost('case_number');
-    //     $cy = $this->request->getPost('case_year');
-    //     $dyr = $this->request->getPost('diary_year');
-    //     $dn = $this->request->getPost('diary_number');
+    // {
+    //     $request = \Config\Services::request();            
+    //     $ct = $request->getPost('case_type');
+    //     $cn = $request->getPost('case_number');
+    //     $cy = $request->getPost('case_year');
+    //     $dyr = $request->getPost('diary_year');
+    //     $dn = $request->getPost('diary_number');
     //     $dno = '';
     //     if (!empty($ct) && !empty($cn) && !empty($cy))
     //     {
@@ -412,16 +395,18 @@ class Hybrid extends BaseController
         $data['honble_judges'] = $this->hybrid_model->honble_judges();
         return view('/Listing/hybrid/aor_case_record_report', $data);
     }
+    
     public function get_aor_case_record_report_1()
     {
-        $date = date('Y-m-d', strtotime($this->request->getPost('listing_dts') ?? 'now'));
+        $request = \Config\Services::request();
+        $date = date('Y-m-d', strtotime($request->getPost('listing_dts') ?? 'now'));
         $data['listing_dts'] = $date;
-        $data['list_type'] =  $this->request->getPost('list_type');
-        $data['judge_code'] = $this->request->getPost('judge_code');
-        $data['consent_source'] =  $this->request->getPost('consent_source');
-        $data['court_no'] = $this->request->getPost('court_no');
-        $data['result_array'] = $this->hybrid_model->get_aor_case_record_report($data['listing_dts'],$data['list_type'],$data['judge_code'],$data['consent_source'],$data['court_no']);
-        // pr($data['result_array']);
-        return view('/Listing/hybrid/get_aor_case_record_report',$data);
+        $data['list_type'] =  $request->getPost('list_type');
+        $data['judge_code'] = $request->getPost('judge_code');
+        $data['consent_source'] =  $request->getPost('consent_source');
+        $data['court_no'] = $request->getPost('court_no');
+        $data['result_array'] = $this->hybrid_model->get_aor_case_record_report($data['listing_dts'], $data['list_type'], $data['judge_code'], $data['consent_source'], $data['court_no']);
+        return view('/Listing/hybrid/get_aor_case_record_report', $data);
     }
+
 }

@@ -500,7 +500,8 @@ class Model_IA extends Model
     {
         $builder = $this->db->table('not_before a');
         $builder->select('a.diary_no, STRING_AGG(b.jname, \', \' ORDER BY b.jname) AS jn, a.notbef');
-        $builder->join('master.judge b', 'b.jcode IN (a.j1, a.j2, a.j3, a.j4, a.j5)', 'inner');
+        //$builder->join('master.judge b', 'b.jcode IN (a.j1, a.j2, a.j3, a.j4, a.j5)', 'inner');
+        $builder->join('master.judge b', 'b.jcode IN (a.j1)', 'inner');
         $builder->where('a.diary_no', $tfil_no);
         $builder->groupBy('a.diary_no, a.notbef');
 
@@ -568,8 +569,64 @@ class Model_IA extends Model
                 AND (SUBSTRING_INDEX(fil_no_fh, '-', -1)) 
                 AND IF(reg_year_fh = 0, YEAR(fil_dt_fh) = $cy, reg_year_fh = $cy)
             ");
-
+        // echo $builder->getCompiledSelect();die;
         $result = $builder->get()->getRowArray();
+        return $result;
+    }
+
+    public function getDiaryInfo_builder($ct, $cn, $cy)
+    {
+        $builder = $this->db->table('main')
+                ->select([
+                    'DN' => 'SUBSTRING(DIARY_NO::TEXT FROM 1 FOR LENGTH(DIARY_NO::TEXT) - 4) as dn',
+                    'DY' => 'RIGHT(DIARY_NO::TEXT, 4) as dy'
+                ])
+                ->where("CASE WHEN SPLIT_PART(FIL_NO, '-', $ct) ~ '^[0-9]+$' 
+                        THEN SPLIT_PART(FIL_NO, '-', $ct)::INTEGER 
+                        ELSE NULL END = 1")
+                ->where("$cn BETWEEN COALESCE(
+                        CASE WHEN SPLIT_PART(FIL_NO, '-', 2) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(FIL_NO, '-', 2)::INTEGER 
+                            ELSE NULL END, 0
+                    ) AND COALESCE(
+                        CASE WHEN SPLIT_PART(FIL_NO, '-', -1) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(FIL_NO, '-', -1)::INTEGER 
+                            ELSE NULL END, 0
+                    )")
+                ->groupStart()
+                    ->groupStart()
+                        ->where('reg_year_mh', 0)
+                        ->orWhere('fil_dt >', '2017-05-10')
+                    ->groupEnd()
+                    ->where('EXTRACT(YEAR FROM fil_dt)', $cy)
+                ->groupEnd()
+                ->orGroupStart()
+                    ->where("CASE WHEN SPLIT_PART(fil_no_fh, '-', 1) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(fil_no_fh, '-', 1)::INTEGER 
+                            ELSE NULL END = 1")
+                    ->where("$cn BETWEEN COALESCE(
+                            CASE WHEN SPLIT_PART(fil_no_fh, '-', 2) ~ '^[0-9]+$' 
+                                THEN SPLIT_PART(fil_no_fh, '-', 2)::INTEGER 
+                                ELSE NULL END, 0
+                        ) AND COALESCE(
+                            CASE WHEN SPLIT_PART(fil_no_fh, '-', -1) ~ '^[0-9]+$' 
+                                THEN SPLIT_PART(fil_no_fh, '-', -1)::INTEGER 
+                                ELSE NULL END, 0
+                        )")
+                    ->groupStart()
+                        ->groupStart()
+                            ->where('reg_year_fh', 0)
+                            ->where('EXTRACT(YEAR FROM fil_dt_fh)', $cy)
+                        ->groupEnd()
+                        ->orWhere('reg_year_fh', $cy)
+                    ->groupEnd()
+                ->groupEnd();
+            
+            //echo $builder->getCompiledSelect();die;
+            $result = $builder->get()->getRowArray();
+            
+
+
         return $result;
     }
 
@@ -673,8 +730,7 @@ class Model_IA extends Model
             $builder->where('m.diary_no', (int)$diaryno); // assuming diary_no is bigint
         } else {
             $builder->where('m.diary_no', (string)$diaryno); // assuming diary_no is varchar
-        }
-
+        }        
         return $builder->get()->getRowArray();
     }
 
@@ -1181,21 +1237,23 @@ class Model_IA extends Model
         $builder = $this->db->table('obj_save');
         $builder->where('diary_no', $dairy_no)
             ->where('display', 'Y')
-            ->where('rm_dt', '0000-00-00 00:00:00');
-        $query = $builder->get();
+            ->where('rm_dt', null);
+        // echo $builder->getCompiledSelect();die();
+        $query = $builder->get();         
         return $query->getRowArray();
     }
 
     public function getPendingIADetails($dairy_no)
     {
         $builder = $this->db->table('docdetails a');
-        $builder->select('a.docnum, a.docyear, a.docdesc, a.other1');
-        $builder->join('docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1');
+        $builder->select('a.docnum, a.docyear, b.docdesc, a.other1');
+        $builder->join('master.docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1');
         $builder->where('a.diary_no', $dairy_no);
         $builder->where('a.iastat', 'P');
         $builder->where('a.display', 'Y');
         $builder->where('b.display', 'Y');
         $builder->where('b.not_reg_if_pen', 1);
+        // echo $builder->getCompiledSelect();die;
         $query = $builder->get();
         return $query->getResultArray();
     }
@@ -1246,17 +1304,17 @@ class Model_IA extends Model
 
         // Build the query
         $builder = $this->db->table('lowerct a');
-        $builder->select("lct_dec_dt, l_dist, ct_code, l_state, Name,
-            CASE
+        $builder->select("lct_dec_dt, l_dist, ct_code, l_state, name,
+            CASE    
                 WHEN ct_code = 3 THEN (
                     SELECT Name
-                    FROM state s
+                    FROM master.state s
                     WHERE s.id_no = a.l_dist
                     AND display = 'Y'
                 )
                 ELSE (
                     SELECT agency_name
-                    FROM ref_agency_code c
+                    FROM master.ref_agency_code c
                     WHERE c.cmis_state_id = a.l_state
                     AND c.id = a.l_dist
                     AND is_deleted = 'f'
@@ -1266,18 +1324,18 @@ class Model_IA extends Model
             CASE
                 WHEN ct_code = 4 THEN (
                     SELECT skey
-                    FROM casetype ct
+                    FROM master.casetype ct
                     WHERE ct.display = 'Y'
                     AND ct.casecode = a.lct_casetype
                 )
                 ELSE (
                     SELECT type_sname
-                    FROM lc_hc_casetype d
+                    FROM master.lc_hc_casetype d
                     WHERE d.lccasecode = a.lct_casetype
                     AND d.display = 'Y'
                 )
             END AS type_sname, a.lower_court_id, is_order_challenged $transfer_state");
-        $builder->join('state b', 'a.l_state = b.id_no AND b.display = \'Y\'', 'left');
+        $builder->join('master.state b', 'a.l_state = b.id_no AND b.display = \'Y\'', 'left');
         $builder->join('main e', 'e.diary_no = a.diary_no');
 
         // Conditionally add the transfer petition join
@@ -1289,7 +1347,9 @@ class Model_IA extends Model
         $builder->where('lw_display', 'Y');
         $builder->where('c_status', 'P');
         $builder->where('is_order_challenged', 'Y');
+
         $builder->orderBy('a.lower_court_id');
+        //echo $builder->getCompiledSelect();die;
         $query = $builder->get();
         return $query->getResultArray();
     }
@@ -1365,7 +1425,7 @@ class Model_IA extends Model
         }
         return $this->db->table('docdetails a')
             ->select('docnum, docyear, docdesc, other1')
-            ->join('docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1')
+            ->join('master.docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1')
             ->where('diary_no', $diary_no)
             ->where('iastat', 'P')
             ->where('a.display', 'Y')

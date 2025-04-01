@@ -5,18 +5,42 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header heading row align-items-center">
-                        <h3 class="mb-0">Godown User Allocation Report</h3>
+                <div class="card-header heading">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h3 class="card-title"> GODOWN USER ALLOCATION REPORT </h3>
+                            </div>
+                        </div>
                     </div>
                  
                     <div class="card-body">
+
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <form name="alocatefrm" id="alocatefrm" method="post" action="<?= site_url('PaperBook/PaperBookController/allocationReport') ?>">
+                                    <?= csrf_field() ?>                            
+                                    <div id="dv_content1"   >                                     
+                                        <TABLE align= center width=50% >
+                                        <tr></tr>
+                                        <tr><INPUT TYPE="submit" name='show'  id = 'show' value = "SHOW REPORT"> <td></TR>
+                                        <hr>
+                                        </TABLE>
+
+                                        </div>
+
+                                </form>
+                                <div id="loader"></div>
+                            </div>
+                        </div>
+
+
                         <table class="align-items-center table table-hover table-striped">
                             <thead class="thead-light">
                                 <th scope="col">#</th>
                                 <th scope="col"><strong>Employee Code</strong></th>
                                 <th scope="col"><strong>Usercode</strong></th>
                                 <th scope="col"><strong>Name</strong></th>
-                                <th scope="col"><strong>Cases Allotted</strong></th>
+                                <th scope="col" colspan="2"><strong>Cases Allotted</strong></th>
                                 <th scope="col"><strong>Total Cases</strong></th>
                             </thead>
                             <tbody>
@@ -40,6 +64,7 @@
                                                     <span>UNALLOCATED DIARY MATTERS</span>
                                                 <?php endif; ?>
                                             </td>
+                                            <td></td>
                                             <td>
                                                 <?php if (!empty($user['totalCases'])): ?>
                                                     <?php foreach ($user['totalCases'] as $totalCase): 
@@ -83,3 +108,11 @@
         </div>
     </div>
 </section>
+
+
+<script>
+        document.getElementById("alocatefrm").addEventListener("submit", function() {
+            //document.getElementById("loader").style.display = "block";  
+            $('#loader').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+        });
+    </script>

@@ -235,6 +235,8 @@ class IA extends BaseController
                 unset($docdetails2[0]['updated_on']);
                 unset($docdetails2[0]['updated_by']);
                 unset($docdetails2[0]['ia']);
+                unset($docdetails2[0]['trial320']);
+
                 $final_array = array_merge($docdetails2[0], $data_addon);
 
                 $query_ia_log = insert('docdetails_history', $final_array);
@@ -328,7 +330,10 @@ class IA extends BaseController
                 unset($docdetails[0]['updated_on']);
                 unset($docdetails[0]['updated_by']);
                 unset($docdetails[0]['ia']);
+                unset($docdetails[0]['trial320']);
                 $final_array = array_merge($docdetails[0], $data_addon);
+
+                // pr($final_array);
 
                 $query_ia_log = insert('docdetails_history', $final_array);
                 if ($query_ia_log) {
@@ -616,6 +621,8 @@ class IA extends BaseController
                         unset($docdetails['create_modify']);
                         unset($docdetails['updated_on']);
                         unset($docdetails['updated_by']);
+                        unset($docdetails['trial320']);
+
                         $final_array = array_merge($docdetails, $data_addon);
 
                         $query_ia_log = insert('docdetails_history', $final_array);
@@ -835,7 +842,7 @@ class IA extends BaseController
     }
 
     public function regno_display_change_process()
-    {
+    {        
         $data['option'] = $this->request->getPost('option');
         $data['radio'] = $this->request->getPost('radio');
         $data['dno'] = $this->request->getPost('dno');
@@ -845,8 +852,14 @@ class IA extends BaseController
         $data['cyr'] = $this->request->getPost('cyr');
         // $data['dno_2'] = $this->request->getPost('diary_no');
         $data['regno'] = $this->request->getPost('regno');
-
+        $data['diary_no'] = $this->request->getPost('diary_no');
+        if( isset($data['diary_no']) && !empty($data['diary_no']) &&
+         isset($data['regno']) && !empty($data['regno']) && $data['option'] == 2)
+        {
+            $this->Model_IA->updateRegistrationNumber($data['diary_no'],$data['regno']);
+        }  
         $data['model_ia'] = $this->Model_IA;
+        
 
         return view('ARDRBM/regno_display_change_process', $data);
     }
@@ -892,7 +905,8 @@ class IA extends BaseController
         $cn = $this->request->getVar('cn');
         $cy = $this->request->getVar('cy');
         if ($ct != '') {
-            $get_dno = $this->Model_IA->getDiaryInfo($ct, $cn, $cy);
+            //$get_dno = $this->Model_IA->getDiaryInfo($ct, $cn, $cy);
+            $get_dno = $this->Model_IA->getDiaryInfo_builder($ct, $cn, $cy);            
             if ($get_dno) {
                 $this->session->set([
                     'd_no' => $get_dno['dn'],
@@ -915,6 +929,9 @@ class IA extends BaseController
         $dno = $this->request->getVar('d_no');
         $dyr = $this->request->getVar('d_yr');
         $diaryno = $dno . $dyr;
+        if(empty($diaryno) && !empty($get_dno) && is_array($get_dno) ){
+            $diaryno = $get_dno['dn'] . $get_dno['dy'];
+        }
         $jud1 = 0;
         $jud2 = 0;
         $jud3 = 0;
@@ -1027,7 +1044,7 @@ class IA extends BaseController
 
             if ($conncases != "") {
                 $conncases .= "</table><br>";
-                echo $conncases;
+                 $conncases;
             }
             $isconn = $row_m["ccdet"];
             $connto = $row_m["connto"];
@@ -1208,7 +1225,10 @@ class IA extends BaseController
             echo '<div style="text-align: center;color: red;font-weight: bold"><b>Cannot Register matter as Matter is Disposed</b></div>';
             exit();
         }
+
+        // $order_dt = "";
         $order_dt = $this->Model_IA->getOrderDetails($dairy_no);
+
         if ($order_dt) {
             $order_date = $order_dt['next_dt'];
         } else {
@@ -1230,14 +1250,42 @@ class IA extends BaseController
             echo '<div style="text-align: center"><b>Category not updated!!!</b></div>';
             exit();
         }
+        
+        
+
         $casetype_added = $this->Model_IA->caseTypeResult($res_p_r['casetype_id']);
         $res_casetype_added = $casetype_added['short_description'];
         $data = [
             'res_casetype_added' => $res_casetype_added,
             'dairy_no' => $dairy_no,
             'res_p_r' => $res_p_r,
-            'modelIA' => $this->Model_IA
+            'order_date' => $order_date,
+            'is_old_registration' => $is_old_registration
         ];
+        
+        $data['res_ck_def'] = $this->Model_IA->checkDefects($dairy_no);
+        
+        $data['check_ia'] = $this->Model_IA->getPendingIADetails($dairy_no);
+        $data['hd_casetype_id'] = $this->Model_IA->get_causetitle($dairy_no);
+        $lowerCourtDetails = $this->Model_IA->getLowerCourtDetails($dairy_no, $res_p_r);
+        
+        foreach ($lowerCourtDetails as $rowKey => $row) {
+            // pr($row);
+            if ($res_p_r['casetype_id'] == '7' || $res_p_r['casetype_id'] == '8') {
+                if ($row['transfer_court'] != 0) {
+                    $lowerCourtDetails[$rowKey]['r_court'] = $this->Model_IA->getCourtName($row['transfer_court']);
+                    $lowerCourtDetails[$rowKey]['r_state'] = $this->Model_IA->getStateName($row['transfer_state']);
+                    $lowerCourtDetails[$rowKey]['r_district'] = $this->Model_IA->getStateName($row['transfer_court'], $row['transfer_district']);
+                    // $lowerCourtDetails[$rowKey]['case_type'] = $modelIA->get_case_type($row['transfer_court'], $row['transfer_case_type']);
+                }
+            }
+        }
+
+        $data['lowerCourtDetails'] = $lowerCourtDetails;
+        $data['check_ia'] = $this->Model_IA->checkIA($dairy_no, $res_p_r['casetype_id']);
+        
+        // pr($data);
+
         echo view('ARDRBM/lower_report_details', $data);
     }
     /*end IA UP-DATION*/

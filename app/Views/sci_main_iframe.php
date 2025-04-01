@@ -12,7 +12,7 @@
         top: -8px;
         left: -8px;
         width: 100%;
-        height: calc(100% - 530px);
+        height: calc(100vh - 100px);
         border: 0;
     }
 </style>

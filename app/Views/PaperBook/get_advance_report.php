@@ -53,9 +53,10 @@
             {
                 extend: 'print',
                 text: 'Print',
-                className: 'btn-primary quick-btn',
+                //className: 'btn-primary quick-btn',
+                title: '<?php echo $title ?>',
                 customize: function(win) {
-                    $(win.document.body).find('h1').remove();
+                    $(win.document.body).css('text-align', 'center');
                 }
             }
         ],

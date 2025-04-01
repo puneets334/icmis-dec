@@ -1,7 +1,4 @@
-<?php
-if(count($caseList)>0)
-{
-    ?>
+<?php if(count($caseList)>0) { ?>
     <input type="hidden" id="causelistDate" value="<?=$causelistDate?>">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12">
         <div class="form-group row">
@@ -18,7 +15,7 @@ if(count($caseList)>0)
             </div>
             <div class="col-md-3">
                 <label>&nbsp;</label>
-                <button type="submit" id="btnDownloadROPTop" name="btnDownloadROP" class="btn btn-success btn-block  generateROP" onclick="return doDispatch();">&nbsp;Dispatch Files
+                <button type="submit" id="btnDownloadROPTop" name="btnDownloadROP" class="btn btn-success generateROP mrgT20" onclick="return doDispatch();">&nbsp;Dispatch Files
                 </button>
             </div>
         </div>
@@ -33,12 +30,12 @@ if(count($caseList)>0)
         <table id="tblCasesForDispatch" class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th width="5%">S.No.</th>
-                    <th width="5%">Court No</th>
-                    <th width="5%">Item No</th>
-                    <th width="25%">Case Number</th>
-                    <th width="25%">Causetitle</th>
-                    <th width="20%">Court Master(NSH)</th>
+                    <th width="5%"><b>S.No.</b></th>
+                    <th width="5%"><b>Court No</b></th>
+                    <th width="5%"><b>Item No</b></th>
+                    <th width="25%"><b>Case Number</b></th>
+                    <th width="25%"><b>Causetitle</b></th>
+                    <th width="20%"><b>Court Master(NSH)</b></th>
                     <th width="15%">
                         <label>
                             <input type="checkbox" id="allCheck" name="allCheck" onclick="selectallMe()">Select All
@@ -117,10 +114,9 @@ else
         $('.search-box').select2();
     });
 
-    function doDispatch()
-    {
+    function doDispatch() {
         updateCSRFToken();
-        var attendant=0;
+        var attendant = 0;
         var selectedCases = [];
         var cmnshusercodes= [];
         var dacodes=[];
@@ -210,4 +206,21 @@ else
             }
         });
     }
+
+    function selectallMe() {
+    var checkBoxList=$('[name="proceeding[]"]');
+
+    if ($('#allCheck').is(':checked'))
+    {
+
+        for (var i1 = 0; i1<checkBoxList.length; i1++){
+            checkBoxList[i1].checked=true;
+        }
+
+    }else{
+        for (var i1 = 0; i1<checkBoxList.length; i1++){
+            checkBoxList[i1].checked=false;
+        }
+    }
+}
 </script>

@@ -23,10 +23,12 @@
     <hr>
     <!-------------Result Section ------------>
     <?php
+    $usercode = $_SESSION['login']['usercode'];
     if(is_array($caseDetails) ) {
 
         ?>
-        <form id="frmAddDocument" enctype="multipart/form-data" action="<?= base_url() ?>index.php/FasterController/attachDocument" method="post">
+        <form id="frmAddDocument" enctype="multipart/form-data" action="<?= base_url() ?>/Faster/FasterController/attachDocument" method="post">
+        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf_token" />
             <input type="hidden" name="usercode" id="usercode" value="<?=$usercode?>"/>
 
             <div class="col-sm-6">
@@ -65,7 +67,7 @@
                         <option value="0">Select Document Type</option>
                         <?php
                         foreach ($noticeTypes as $noticeType){
-                            echo '<option value="'.$noticeType[id].'">'.$noticeType[name].'</option>';
+                            echo '<option value="'.$noticeType['id'].'">'.$noticeType['name'].'</option>';
                         }
                         ?>
                     </select>

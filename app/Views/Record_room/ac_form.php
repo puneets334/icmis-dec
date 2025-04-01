@@ -1,5 +1,5 @@
 <?= view('header') ?>
- 
+
 <link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>">
 
 <script>
@@ -59,7 +59,7 @@
       var cpal1 = $("#cpal1").val();
       var cpal2 = $("#cpal2").val();
       var cpad = $("#cpad").val();
-      var cpapin = $("#cppapin").val();
+      var cpapin = $("#cpapin").val();
       var cppal1 = $("#cppal1").val();
       var cppal2 = $("#cppal2").val();
       var cppad = $("#cppad").val();
@@ -78,9 +78,7 @@
       var flag = 0;
 
       tvap = aorc + ";" + aorn + ";" + cnf + ";" + cnm + ";" + cnl + ";" + cfn + ";" + cpal1 + ";" + cpal2 + ";" + cpad + ";" + cpapin + ";" + cppal1 + ";" + cppal2 + ";" + cppad + ";" + cppapin + ";" + cdob + ";" + cpob + ";" + cn + ";" + cmobile + ";" + cx + ";" + cxii + ";" + cug + ";" + cpg + ";" + cein + ";" + crd;
-
-      // Returns successful data submission message when the entered information is stored in database.
-      if (!aorc && !cnf && !cpal1 && !cpapin && !cppal1 && !cppapin && !cdob && !cpob & !crd) {
+      if ((!aorc && !cnf && !cpal1 && !cpapin && !cppal1 && !cppapin && !cdob && !cpob) && !crd) {
         alert("Please Enter Mandatory Values");
         return false;
       }
@@ -90,7 +88,7 @@
         var dataString = 'tvap=' + tvap;
         // alert(dataString);
         // AJAX Code To Submit Form.
-        $('#rslt').html("<img src='img/loading.gif' width='50px' hight='50px' />");
+        $('#rslt').html("<img src='<?php echo base_url('images/load.gif'); ?>' width='50px' hight='50px' />");
         $.ajax({
           type: "get",
           url: "<?php echo base_url('Record_room/Record/AorInsert'); ?>",
@@ -98,7 +96,7 @@
           data: dataString,
           cache: false,
           success: function(result) {
-            $('#rslt').html("<img src='img/loading.gif' width='50px' hight='50px' />");
+            $('#rslt').html("<img src='<?php echo base_url('images/load.gif'); ?>' width='50px' hight='50px' />");
             alert(result);
             tvap = result;
             flag = tvap.length;
@@ -112,7 +110,7 @@
               $("#cpal1").val("");
               $("#cpal2").val("");
               $("#cpad").val("");
-              $("#cppapin").val("");
+              $("#cpapin").val("");
               $("#cppal1").val("");
               $("#cppal2").val("");
               $("#cppad").val("");
@@ -144,6 +142,14 @@
       input.value = input.value.slice(0, maxLength);
     }
   }
+
+
+  function validatePincodeLength(input) {
+    const maxLength = 6;
+    if (input.value.length > maxLength) {
+      input.value = input.value.slice(0, maxLength);
+    }
+  }
 </script>
 </head>
 
@@ -157,27 +163,26 @@
               <div class="card-header heading">
                 <div class="row">
                   <div class="col-sm-10">
-                    <h3 class="card-title">Registration >>&nbsp; Advocate Clerk</h3>
+                    <h3 class="card-title">Registration >> Advocate Clerk >> Fresh Registration</h3>
                   </div>
                   <div class="col-sm-2">
-                    <div class="custom_action_menu">
+                    <!-- <div class="custom_action_menu">
                       <button class="btn btn-success btn-sm" type="button"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
                       <button class="btn btn-primary btn-sm" type="button"><i class="fas fa-pen   " aria-hidden="true"></i>
                       </button>
                       <button class="btn btn-danger btn-sm" type="button"><i class="fa fa-trash" aria-hidden="true"></i>
                       </button>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
               <br><br>
               <div class="row">
                 <div class="col-md-12">
-                  <div class="container">
                     <div class="panel panel-info">
                       <div class="panel-heading">
 
-                        <h4><strong><span class="fas fa-search "></span>&nbsp; Registration >>&nbsp; Advocate Clerk</strong></h4>
+                        <!-- <h4><strong><span class="fas fa-search "></span>&nbsp; Registration >>&nbsp; Advocate Clerk</strong></h4> -->
 
                       </div>
                       <div class="panel-body" id="frm">
@@ -205,7 +210,7 @@
                             <div class="col-sm-3"><input class="form-control " name="cpal1" type="text" id="cpal1" placeholder="Address Line1"></div>
                             <div class="col-sm-3"><input class="form-control " name="cpal2" type="text" id="cpal2" placeholder="Address Line2"></div>
                             <div class="col-sm-2"><input class="form-control " name="cpad" type="text" id="cpad" placeholder="District"></div>
-                            <div class="col-sm-2"><input class="form-control " name="cpapin" type="number" maxlength="6" id="cpapin" placeholder="Pincode"></div>
+                            <div class="col-sm-2"><input class="form-control " name="cpapin" type="number" maxlength="6" id="cpapin" placeholder="Pincode" oninput="validatePincodeLength(this)"></div>
                           </div>
 
                           <div class="form-group row">
@@ -213,15 +218,15 @@
                             <div class="col-sm-3"><input class="form-control " name="cppal1" type="text" id="cppal1" placeholder="Address Line1"></div>
                             <div class="col-sm-3"><input class="form-control " name="cppal2" type="text" id="cppal2" placeholder="Address Line2"></div>
                             <div class="col-sm-2"><input class="form-control " name="cppad" type="text" id="cppad" placeholder="District"></div>
-                            <div class="col-sm-2"><input class="form-control " name="cppapin" type="number" maxlength="6" id="cppapin" placeholder="Pincode"></div>
+                            <div class="col-sm-2"><input class="form-control " name="cppapin" type="number" maxlength="6" id="cppapin" placeholder="Pincode" oninput="validatePincodeLength(this)"></div>
                           </div>
 
                           <div class="form-group row">
                             <label class="control-label col-sm-2" for="anumber">Date of Birth</label>
-                            <div class="col-sm-2">
-                              <input class="form-control" name="cdob" type="date" id="cdob">
+                            <div class="col-sm-3">
+                              <input class="form-control" name="cdob" type="text" id="cdob">
                             </div>
-                            <label class="control-label col-sm-2" for="anumber">Age</label>
+                            <label class="control-label col-sm-2 mt-3" for="anumber">Age</label>
                             <div class="col-sm-2">
                               <input class="form-control" name="cage" type="number" maxlength="3" id="cage" placeholder="Age">
                             </div>
@@ -230,10 +235,10 @@
                           <div class="form-group row">
                             <label class="control-label col-sm-2" for="anumber">Place of Birth</label>
                             <div class="col-sm-3"> <input class="form-control " name="cpob" type="text" id="cpob" placeholder="Birth Place"> </div>
-                          </div>
+                          <!-- </div>
 
-                          <div class="form-group row">
-                            <label class="control-label col-sm-2" for="anumber">Nationality</label>
+                          <div class="form-group row"> -->
+                            <label class="control-label col-sm-2 mt-3" for="anumber">Nationality</label>
                             <div class="col-sm-2">
                               <input class="form-control " name="cn" type="text" id="cn" placeholder="Nationality" value="INDIAN" disabled>
                             </div>
@@ -248,23 +253,23 @@
 
                           <div class="form-group row">
                             <label class="control-label col-sm-2" for="anumber">Educational Qualifications</label>
-                            <div class="col-sm-2"><input class="form-control " name="cx" type="text" id="cx" placeholder="X"></div>
-                            <div class="col-sm-2"><input class="form-control " name="cxii" type="text" id="cxii" placeholder="XII"></div>
-                            <div class="col-sm-2"><input class="form-control " name="cug" type="text" id="cug" placeholder="UG"></div>
-                            <div class="col-sm-2"><input class="form-control " name="cpg" type="text" id="cpg" placeholder="PG"></div>
+                            <div class="col-sm-2"><input class="form-control " name="cx" type="text" id="cx" placeholder="X" maxlength="1"></div>
+                            <div class="col-sm-2"><input class="form-control " name="cxii" type="text" id="cxii" placeholder="XII" maxlength="3"></div>
+                            <div class="col-sm-2"><input class="form-control " name="cug" type="text" id="cug" placeholder="UG" maxlength="10"></div>
+                            <div class="col-sm-2"><input class="form-control " name="cpg" type="text" id="cpg" placeholder="PG" maxlength="10"></div>
                           </div>
 
                           <div class="form-group row">
                             <label class="control-label col-sm-2" for="anumber">New Icard No. *</label>
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                               <input class="form-control " name="cein" type="number" id="cein" placeholder="ICard Number">
                             </div>
-                          </div>
+                          <!-- </div>
 
-                          <div class="form-group row">
-                            <label class="control-label col-sm-2" for="anumber">Registration Date:</label>
+                          <div class="form-group row"> -->
+                            <label class="control-label col-sm-2 mt-3" for="anumber">Registration Date:</label>
                             <div class="col-sm-2">
-                              <input class="form-control" name="crd" type="date" id="crd">
+                              <input class="form-control" name="crd" type="text" id="crd">
                             </div>
                           </div>
 
@@ -279,7 +284,6 @@
                         </form>
                       </div>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -296,4 +300,3 @@
 
   }
   ?>
-   <?=view('sci_main_footer') ?>

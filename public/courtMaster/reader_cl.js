@@ -645,6 +645,7 @@ check_NMD_var='yes';
             },
             error: function () {
                 updateCSRFToken();
+                $("input.pdbutton").attr("disabled", false);
                 alert("ERROR");
             }
         });

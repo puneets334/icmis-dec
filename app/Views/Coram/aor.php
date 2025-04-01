@@ -42,9 +42,8 @@
                                 <div class="card-header p-2" style="background-color: #fff;">
                                     <?php
                                     $attribute = array('class' => 'form-horizontal', 'name' => 'coram', 'id' => 'coram', 'autocomplete' => 'off');
-                                    echo form_open('#', $attribute);
-
-                                    ?>
+                                    echo form_open('#', $attribute); ?>
+                                    <?= csrf_field() ?>
                                 </div><!-- /.card-header -->
                                 <div class="card-body">
                                     <div class="tab-content">
@@ -149,7 +148,7 @@
 <script type="text/javascript">
     $(document).on("click", "#btngetr", function() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
-        var csrf = $("input[name='CSRF_TOKEN']").val();
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
         var judge = $("#judge").val();
         var aor = $("#aor").val();
@@ -169,11 +168,12 @@
             url: "<?php echo base_url('Coram/Aor/insert_aor/'); ?>",
             type: "post",
             data: {
-                CSRF_TOKEN: csrf,
+                CSRF_TOKEN: CSRF_TOKEN_VALUE,
                 judge: judge,
                 aor: aor
             },
             success: function(result) {
+                updateCSRFToken();
                 Swal.fire({
                     text: result,
                     icon: "success",
@@ -182,11 +182,11 @@
                         window.location.reload();
                     }
                 });
-                updateCSRFToken();
+
             },
             error: function() {
-                alert('Error while saving data.');
                 updateCSRFToken();
+                alert('Error while saving data.');
             }
         });
     });
@@ -253,7 +253,36 @@
             "responsive": false,
             "lengthChange": false,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            "buttons": [{
+                    extend: "copy",
+                    title: "ADVOCATE ON RECORD NOT GO BEFORE JUDGE\n(As on <?php echo date('d-m-Y'); ?>)"
+                },
+                {
+                    extend: "csv",
+                    title: "ADVOCATE ON RECORD NOT GO BEFORE JUDGE\n(As on <?php echo date('d-m-Y'); ?>)"
+                },
+                {
+                    extend: "excel",
+                    title: "ADVOCATE ON RECORD NOT GO BEFORE JUDGE\n(As on <?php echo date('d-m-Y'); ?>)"
+                },
+                {
+                    extend: "pdf",
+                    title: "ADVOCATE ON RECORD NOT GO BEFORE JUDGE\n(As on <?php echo date('d-m-Y'); ?>)",
+                    customize: function(doc) {
+                        doc.content.splice(0, 0, {
+                            text: "ADVOCATE ON RECORD NOT GO BEFORE JUDGE\n(As on <?php echo date('d-m-Y'); ?>)",
+                            fontSize: 12,
+                            alignment: "center",
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
+                },
+                {
+                    extend: "print",
+                    title: "",
+                    messageTop: "<h3 style='text-align:center;'>ADVOCATE ON RECORD NOT GO BEFORE JUDGE<br>(As on <?php echo date('d-m-Y'); ?>)</h3>"
+                }
+            ]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
 </script>

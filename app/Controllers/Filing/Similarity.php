@@ -404,6 +404,7 @@ class Similarity extends BaseController
     }
 
     public function case_details(){
+        ini_set('memory_limit', '1024M');
         $diary_no = $this->request->getPost('diary_no');
         $diary_info = get_diary_numyear($diary_no);
         $main_diary_number = array('dn' => $diary_info[0] , 'dy' => $diary_info[1]);

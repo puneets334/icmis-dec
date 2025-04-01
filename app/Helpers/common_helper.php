@@ -824,7 +824,7 @@ function get_report_limit($rd, $mf, $rur, $ct, $fdt, $tdt, $fst, $inc_val)
             $sn = $_REQUEST['inc_tot_pg'];
         }
         $output .= "<br><p align=center><b>CASES/PAPER BOOK " . $rdt . " BY " . $ucode1 . "</b></p>";
-        $output .= "<table class='table_tr_th_w_clr c_vertical_align' border=1><tr><th>S.No.</th><th>Diary and Case No.</th><th>Set</th><th>Dispatch by</th><th>Dispatch on</th><th>Received By</th><th>Received on</th></tr>";
+        $output .= "<table class='table_tr_th_w_clr c_vertical_align' border=1><tr><th><b>S.No.</b></th><th><b>Diary and Case No.</b></th><th><b>Set</b></th><th><b>Dispatch by</b></th><th><b>Dispatch on</b></th><th><b>Received By</b></th><th><b>Received on</b></th></tr>";
         foreach ($result as $key => $row) {
             $dn = get_real_diaryno($row['diary_no']);
             $dn .= "<br>" . get_casenos_comma($row['diary_no']);
@@ -834,7 +834,8 @@ function get_report_limit($rd, $mf, $rur, $ct, $fdt, $tdt, $fst, $inc_val)
                 $dby = get_user_details1($row['disp_by']);
             }
             $don = "";
-            if ($row['disp_dt'] != '0000-00-00 00:00:00') {
+            //if ($row['disp_dt'] != '0000-00-00 00:00:00') {
+            if (!empty($row['disp_dt'])) {
                 $don = date("d-m-Y h:i:s A", strtotime($row['disp_dt']));
             }
             $rby = "";
@@ -842,7 +843,8 @@ function get_report_limit($rd, $mf, $rur, $ct, $fdt, $tdt, $fst, $inc_val)
                 $rby = get_user_details1($row['rece_by']);
             }
             $ron = "";
-            if ($row['rece_dt'] != '0000-00-00 00:00:00') {
+            //if ($row['rece_dt'] != '0000-00-00 00:00:00') {
+            if (!empty($row['rece_dt'])) {
                 $ron = date("d-m-Y h:i:s A", strtotime($row['rece_dt']));
             }
             $output .= "<tr><td>" . ++$sn . "</td><td>" . $dn . "</td><td>" . $row['copy_set'] . "</td><td>" . $dby . "</td><td>" . $don . "</td><td>" . $rby . "</td><td>" . $ron . "</th></tr>";
@@ -1674,6 +1676,24 @@ function getCaseDetails($diarySearchDetails)
         }
         //}
     }
+
+    // if (!empty($data['heardt_case'])) {
+    //     foreach ($data['heardt_case'] as $row1) {
+    //         if ($row1['tbl'] == 'H') {
+    //             $tentative_cl_dt = $row1['tentative_cl_dt'];
+    //         }
+    //         $mc = $row1["filno"];
+    //         if (!empty($mc)) {
+    //             $main_case = get_main_case($mc, $flag);
+    //             $data['main_case'] = $main_case;
+    //         }
+    //         $chk_next_dt = $row1["next_dt"];
+    //         if ($row1["porl"] == "L" and $last_listed_on == "") {
+    //             $next_dt = date("Y-m-d", strtotime($row1["next_dt"]));
+    //             $cl_printed = $model->get_cl_printed_data($next_dt, $row1['mainhead'], $row1["clno"], $row1["roster_id"]);
+    //         }
+    //     }
+    // }
     //pr($data['heardt_case']);
     $data['case_type_history'] = json_decode($model->get_case_type_history($main_diary_number, $flag), true);
     $data['fill_dt_case'] = json_decode($model->get_fill_dt_case($main_diary_number, $flag), true);
@@ -2829,8 +2849,18 @@ if (!function_exists('get_casenos_comma')) {
                         // $sql_ct_type = mysql_query("Select short_description,cs_m_f from casetype where casecode='" . $t_m1 . "' and display='Y'") or die("Error" . __LINE__ . mysql_error());
                         // $row = mysql_fetch_array($sql_ct_type);
 
-                        $res_ct_typ = $row['short_description'];
-                        $res_ct_typ_mf = $row['cs_m_f'];
+                        if ($row && isset($row['short_description'])) {
+                            $res_ct_typ = $row['short_description'];
+                        } else {
+                            $res_ct_typ = ''; 
+                        }
+
+                        if ($row && isset($row['cs_m_f'])) {
+                            $res_ct_typ_mf = $row['cs_m_f'];
+                        } else {
+                            $res_ct_typ_mf = ''; 
+                        }
+                        
                         if (trim($t_fil_no) != '')
                             $t_fil_no .= ",<br>";
                         if ($t_m2 == $t_m21)
@@ -4736,7 +4766,7 @@ function send_to_name($id_val, $tw_sn_to)
 
 
     if (!empty($r_sql))
-        return $r_sql['desg'] ?? '';
+        return $r_sql['desg'];
     else
         return '';
 }
@@ -4752,7 +4782,7 @@ function send_to_address($send_to_type, $tw_sn_to)
     }
     $query = $db->query($sql);
     $r_sql = $query->getRowArray();
-    return $r_sql['ag_adrss'] ?? '';
+    return $r_sql['ag_adrss'];
 }
 
 function get_section($dairy_no)
@@ -4766,7 +4796,7 @@ function get_section($dairy_no)
                 AND b.display = 'Y'
                 AND c.display = 'Y'";
     $query =  $db->query($section);
-    $res_section = $query->getRowArray()['section_name'] ?? '';
+    $res_section = $query->getRowArray()['section_name'];
     return $res_section;
 }
 
@@ -4775,7 +4805,7 @@ function get_advocate_address($tw_sn_to)
     $db = \Config\Database::connect();
     $get_address = "Select caddress from master.bar where bar_id='$tw_sn_to'";
     $query =  $db->query($get_address);
-    $r_get_address = $query->getRowArray()['caddress'] ?? '';
+    $r_get_address = $query->getRowArray()['caddress'];
     return $r_get_address;
 }
 
@@ -4790,19 +4820,17 @@ function get_state($state)
 function get_tehsil_frm_district($district)
 {
     $get_state_dis = is_data_from_table('master.state', " id_no='$district' and display='Y' ", 'state_code,district_code', '');
-   
-    $s_det = is_data_from_table('master.state', " state_code='$get_state_dis[state_code]' and district_code='$get_state_dis[district_code]' and village_code=0 and display='Y'", 'name,id_no', 'A');
-   
+
+    $s_det = is_data_from_table('master.state', " state_code='$get_state_dis[state_code]' and district_code='$get_state_dis[district_code]' and village_code=0 and display='Y'", 'name,id_no', '');
+
     $o_array = array();
-    //pr($s_det);
+
     foreach ($s_det as $row) {
-        
         $i_array = array();
-        $i_array[0] = $row['id_no'] ?? '';
-        $i_array[1] = $row['name'] ?? '';
+        $i_array[0] = $row['id_no'];
+        $i_array[1] = $row['name'];
         $o_array[] = $i_array;
     }
-    
     return $o_array;
 }
 
@@ -6517,7 +6545,7 @@ function get_allocation_judge_m_alc_b($p1, $cldt, $board_type)
             ->where('lw_display', 'Y');
         $query = $builder->get();
 
-        $results = $query->getResult();
+        $results = $query->getResultArray();
         $outer_array = array();
         foreach ($results as $row) {
             $inner_array = array();

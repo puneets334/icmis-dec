@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\CashAccounts\Fdr_Model;
 
 
-class FDR extends BaseController
+class Fdr extends BaseController
 {
     public $fdr_model;
     protected $db;
@@ -23,22 +23,56 @@ class FDR extends BaseController
         return view('FDR/caseSearch', $data);
     }
 
+    public function reload()
+    {
+        $request = \Config\Services::request();
+
+        $post_data = [
+            'caseType' => $request->getGet('caseType'),
+            'caseNo' => $request->getGet('caseNo'),
+            'caseYear' => $request->getGet('caseYear'),
+        ];
+
+        $request->setGlobal('post', $post_data);
+        
+        return $this->continueFdr();
+    }
+
     /*
     Created for:- Used to bind bank,fd status in order to add in fd in part
     */
     public function continueFdr($ecCaseId = null)
     {
-        error_reporting(0);
 
+        $request = \Config\Services::request();
+
+        // echo $request->getPost('caseType');
         // pr($_POST);
-        $data['caseInfo'] = $this->fdr_model->get_caseInfo($this->request->getPost('caseType'), $this->request->getPost('caseNo'), $this->request->getPost('caseYear'), $ecCaseId);
 
-       //  pr($data['caseInfo'] );
+        $data['caseInfo'] = $this->fdr_model->get_caseInfo($request->getPost('caseType'), $request->getPost('caseNo'), $request->getPost('caseYear'), $ecCaseId);
+
+        // pr($data['caseInfo'] );
 
         if (isset($data['caseInfo']) && is_array($data['caseInfo']) && count($data['caseInfo']) === 1) {
             $data['banks'] = $this->fdr_model->get_Banks();
             $data['status'] = $this->fdr_model->get_fdStatus();
-            $data['result'] = $this->fdr_model->get_fdrRecords($data['caseInfo'][0]['id']);
+            $result = $this->fdr_model->get_fdrRecords($data['caseInfo'][0]['id']);
+            
+            // echo "<pre>";
+            // print_r($result);
+            // array_walk($result, function($value, $key) {
+            //     if(!isset($key['ref_status_id'])) {
+            //         $value = 0;
+            //     }
+            // });
+            // pr($result);
+
+            $data['caseType'] = $request->getPost('caseType');
+            $data['caseNo'] = $request->getPost('caseNo');
+            $data['caseYear'] = $request->getPost('caseYear');
+
+            $data['result'] = $result;
+            
             return view('FDR/fdr_main', $data);
         } else {
             $data['caseTypes'] = $this->fdr_model->get_caseType();
@@ -62,6 +96,7 @@ class FDR extends BaseController
 
         $data = json_decode(file_get_contents("php://input"));
    
+        // print_r($data);
 
         $insertData = array(
             'type'                  => $data->type,
@@ -82,8 +117,8 @@ class FDR extends BaseController
             'remarks'               => $data->remarks,
            // 'case_number_display'   => $data->caseNoDisplay,
            //  'updated_by_id'         => $this->session->login['username'],
-            // 'updated_by_name'       => $this->session->login['name'],
-            'ip_address'            => $_SERVER['REMOTE_ADDR'],
+            // 'updated_by_name'       => session()->get('login')['name'],
+            'ip_address'            => getClientIP(),
             'is_deleted'            => 0,
             'roi'                   => $data->roi,
             'days'                  => $data->days,
@@ -93,7 +128,9 @@ class FDR extends BaseController
         
         // Insert data into the database
         $builder = $this->db->table('fdr_records');
-        $inserted = $builder->insert($insertData);
+        $builder->set($insertData);
+        // echo $builder->getCompiledInsert();die;
+        $inserted = $builder->insert();
 
         // Check if insertion was successful
         if ($inserted) {
@@ -109,6 +146,7 @@ class FDR extends BaseController
     {
         $data = json_decode(file_get_contents("php://input"));
         $id = $data->id;
+        // pr($id);
 
         $fdr_arr = $this->fdr_model->get_OneRecord($id);
         $fdr_arr[0]['deposit_date'] = date('d-m-Y', strtotime($fdr_arr[0]['deposit_date']));
@@ -116,16 +154,18 @@ class FDR extends BaseController
         $fdr_arr[0]['order_date'] = date('d-m-Y', strtotime($fdr_arr[0]['order_date']));
 
         // make it json format
-        print_r(json_encode($fdr_arr));
+        return $this->response->setJSON($fdr_arr);
+        // print_r(json_encode($fdr_arr));
     }
 
     public function deleteFdr()
     {
         $data = json_decode(file_get_contents("php://input"));
         $id = $data->id;
+
         $updateData = array(
-            'updated_by_id'         => $this->session->login['username'],
-            'updated_by_name'       => $this->session->login['name'],
+            'updated_by_id'         => session()->get('login')['usercode'],
+            'updated_by_name'       => session()->get('login')['name'],
             'updated_datetime'      => date('Y-m-d h:i:s'),
             'ip_address'            => $_SERVER['REMOTE_ADDR'],
             'is_deleted'            => 1
@@ -135,6 +175,8 @@ class FDR extends BaseController
 
     public function updateFdr()
     {
+        // pr(session()->get('login'));
+
         $data = json_decode(file_get_contents("php://input"));
         $id = $data->id;
 
@@ -155,10 +197,10 @@ class FDR extends BaseController
             'month'                 => $data->month,
             'year'                  => $data->year,
             'remarks'               => $data->remarks,
-            'updated_by_id'         => $this->session->login['username'],
-            'updated_by_name'       => $this->session->login['name'],
+            'updated_by_id'         => session()->get('login')['usercode'],
+            'updated_by_name'       => session()->get('login')['name'],
             'updated_datetime'      => date('Y-m-d h:i:s'),
-            'ip_address'            => $_SERVER['REMOTE_ADDR']
+            'ip_address'            => getClientIP()
         );
         $this->fdr_model->form_update($updateData, $id);
     }
@@ -181,6 +223,7 @@ class FDR extends BaseController
         $data['banks'] = $this->fdr_model->get_Banks();
 
         $request = \Config\Services::request();
+        
 
         if (
             $request->getPost('type') != 0 ||
@@ -196,6 +239,7 @@ class FDR extends BaseController
             $request->getPost('month') != 0 ||
             $request->getPost('year') != 0
         ) {
+            
             $condition_array = [];
             $spl_condition = "1=1";
 
@@ -211,41 +255,47 @@ class FDR extends BaseController
 
             if (!empty($request->getPost('depositDate'))) {
                 $dates = explode(" - ", $request->getPost('depositDate'));
-                $spl_condition .= " AND (deposit_date BETWEEN '" . date('Y-m-d', strtotime($dates[0])) . "' AND '" . date('Y-m-d', strtotime($dates[1])) . "')";
+                //$spl_condition .= " AND (deposit_date BETWEEN '" . date('Y-m-d', strtotime($dates[0])) . "' AND '" . date('Y-m-d', strtotime($dates[1])) . "')";
+                $spl_condition .= " AND (deposit_date BETWEEN '" . date('Y-m-d', strtotime($dates[1])) . "' AND '" . date('Y-m-d', strtotime($dates[0])) . "')"; 
             }
 
             if (!empty($request->getPost('maturityDate'))) {
                 $dates = explode(" - ", $request->getPost('maturityDate'));
-                $spl_condition .= " AND (maturity_date BETWEEN '" . date('Y-m-d', strtotime($dates[0])) . "' AND '" . date('Y-m-d', strtotime($dates[1])) . "')";
+                //$spl_condition .= " AND (maturity_date BETWEEN '" . date('Y-m-d', strtotime($dates[0])) . "' AND '" . date('Y-m-d', strtotime($dates[1])) . "')";
+                $spl_condition .= " AND (maturity_date BETWEEN '" . date('Y-m-d', strtotime($dates[1])) . "' AND '" . date('Y-m-d', strtotime($dates[0])) . "')";
             }
 
             if ($request->getPost('disposedCase') != 0) {
+                                                
                 $data['searchResult'] = $this->fdr_model->disposedReport($request->getPost('disposedCase'));
             } elseif (
                 $request->getPost('caseType') != 0 &&
                 $request->getPost('caseNo') != 0 &&
                 $request->getPost('caseYear') != 0
-            ) {
+            ) {  
+                              
                 $caseNo = $request->getPost('caseNo');
                 $caseType = $request->getPost('caseType');
                 $caseYear = $request->getPost('caseYear');
-
                 $data['searchResult'] = $this->fdr_model->caseTypeReport($caseNo, $caseType, $caseYear);
                 // pr($data['searchResult']);
             } elseif (
-                $request->getPost('days') != 0 ||
-                $request->getPost('month') != 0 ||
-                $request->getPost('year') != 0
+                (!empty($request->getPost('days')) && $request->getPost('days') != 0  ) || 
+                (!empty($request->getPost('month')) && $request->getPost('month') != 0 ) ||
+                (!empty($request->getPost('year')) &&  $request->getPost('year') != 0 )
             ) {
+                
                 $days = $request->getPost('days');
                 $month = $request->getPost('month');
                 $year = $request->getPost('year');
 
                 $data['searchResult'] = $this->fdr_model->tenureWiseReport($days, $month, $year);
-            } else {
-                $data['searchResult'] = $this->fdr_model->searchResult($condition_array, $spl_condition);
+            } else { 
+                                                  
+                $data['searchResult'] = $this->fdr_model->search_result($condition_array, $spl_condition);                
             }
-
+            
+            
             return view('FDR/search_result', $data);
         } else {
             return "Please select some input.";
@@ -273,7 +323,7 @@ class FDR extends BaseController
         $data = json_decode(file_get_contents("php://input"));
         $insertData = array(
             'bank_name'        => $data->bank_name,
-            'updated_by'       => $this->session->login['name'],
+            'updated_by'       => session()->get('login')['name'],
             'updated_datetime' => date('Y-m-d h:i:s'),
             'Contact_Person'        => $data->Contact_Person,
             'Email_ID'        => $data->Email_ID,
@@ -290,7 +340,7 @@ class FDR extends BaseController
 
         $updateData = array(
             'bank_name'        => $data->bank_name,
-            'updated_by'       => $this->session->login['name'],
+            'updated_by'       => session()->get('login')['name'],
             'updated_datetime' => date('Y-m-d h:i:s'),
             'Contact_Person'    => $data->Contact_Person,
             'Email_ID'        => $data->Email_ID,

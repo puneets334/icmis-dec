@@ -5,56 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title><h2 align="center">PIL Updation on <?=date('d-m-Y',strtotime($dated))?></h2></title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/googlefonticon.css'); ?>">
-    <!-- BS Stepper -->
-    <!-- DataTables -->
-    <link rel="stylesheet" href="<?php echo base_url('assets/vendor/datatables-bs4/css/dataTables.bootstrap4.min.css'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/vendor/datatables-responsive/css/responsive.bootstrap4.min.css'); ?>">
-    <link rel="stylesheet" href="<?php echo base_url('assets/vendor/datatables-buttons/css/buttons.bootstrap4.min.css'); ?>">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="<?php echo base_url('assets/libs/css/admin.min.css'); ?>">
-
-
-    <!-- <link rel="stylesheet" href="<?php echo base_url('assets/libs/css/style.css'); ?>"> -->
-    <link rel="stylesheet" href="<?php echo base_url('assets/libs/css/mystyle.css'); ?>">
-    <script src="<?php echo base_url('assets/vendor/jquery/jquery.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
-
-
-    <script src="<?php echo base_url('assets/vendor/moment/moment.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/inputmask/jquery.inputmask.min.js'); ?>"></script>
-    <!-- date-range-picker -->
-
-    <!-- bootstrap color picker -->
-    <script src="<?php echo base_url('assets/vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js'); ?>"></script>
-    <!-- Bootstrap Switch -->
-    <script src="<?php echo base_url('assets/vendor/bootstrap-switch/js/bootstrap-switch.min.js'); ?>"></script>
-    <!-- BS-Stepper -->
-    <script src="<?php echo base_url('assets/vendor/bs-stepper/js/bs-stepper.min.js'); ?>"></script>
-    <!-- dropzonejs -->
-    <script src="<?php echo base_url('assets/vendor/dropzone/min/dropzone.min.js'); ?>"></script>
-    <script src="<?php echo base_url('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'); ?>"></script>
-
-    <script src="<?=base_url('js/app.min.js')?>"></script>
-
-    <script src="<?=base_url('js/angular.min.js')?>"></script>
-    <script src="<?php echo base_url('assets/vendor/datatables/jquery.dataTables.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/datatables-bs4/js/dataTables.bootstrap4.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/datatables-responsive/js/dataTables.responsive.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/datatables-responsive/js/responsive.bootstrap4.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/datatables-buttons/js/dataTables.buttons.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/datatables-buttons/js/buttons.bootstrap4.min.js'); ?>"></script>
-
-    <script src="<?php echo base_url('assets/vendor/datatables-buttons/js/buttons.html5.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/datatables-buttons/js/buttons.print.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/datatables-buttons/js/buttons.colVis.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/datatables-buttons/js/buttons.colVis.min.js'); ?>"></script>
-    <script src="<?php echo base_url('assets/vendor/datatables-buttons/js/buttons.colVis.min.js'); ?>"></script>
-    <script src="<?php echo base_url('js/nav_link.js'); ?>"></script>
-    <script src="<?php echo base_url('js/customize_style.js'); ?>"></script>
-    <!--<script src="--><?php //echo base_url('js/adminlte.min.js'); ?><!--"></script>-->
-
+    
+    <?= view('header') ?>
+     
 
 
     <style>
@@ -82,7 +35,7 @@
     <section class="content">
         <div id="printable" class="box box-danger">
 
-            <h2 align="center">PIL Updation on <?=date('d-m-Y',strtotime($dated))?></h2>
+            <h3 align="center">PIL Updation on <?=date('d-m-Y',strtotime($dated))?></h3>
             <?php
             if(isset($pil_result) && sizeof($pil_result)>0 ) {
                 ?>
@@ -189,7 +142,7 @@
 
 <script>
 
-    $(function() {
+    //$(function() {
         //     $("#example1").DataTable({
         //         "responsive": true,
         //         "lengthChange": false,
@@ -200,18 +153,29 @@
         // });
 
         $(document).ready(function() {
-            $('#reportTable1').DataTable( {
-                dom: 'Bfrtip',
-                "pageLength":15,
-                buttons: [
-                    'print','pageLength'
-                ],
-                lengthMenu: [
-                    [ 10, 25, 50, -1 ],
-                    [ '10 rows', '25 rows', '50 rows', 'Show all' ]
-                ]
-            } );
-        } );
+    $('#reportTable1').DataTable({
+        dom: 'Bfrtip',
+        "pageLength": 15,
+        buttons: [
+            {
+                extend: 'print',
+                text: 'Print',
+                title: 'PIL Updation on <?= date("d-m-Y", strtotime($dated)) ?>', // Ensuring no unwanted title appears
+                customize: function (win) {
+                    $(win.document.body).css('text-align', 'center'); // Align all content centrally
+                    //$(win.document.body).prepend('<h2>PIL Updation on <?= date("d-m-Y", strtotime($dated)) ?></h2>'); // Insert title manually
+                }
+            },
+            'pageLength'
+        ],
+        lengthMenu: [
+            [10, 25, 50, -1],
+            ['10 rows', '25 rows', '50 rows', 'Show all']
+        ]
+    });
+});
+
+
 
         $(document).ready(function() {
             // Setup - add a text input to each footer cell
