@@ -53,49 +53,103 @@
                             </div>
                         <?php endif; ?>
 
-                        <form method="post" name="frmusrLogin" id="frmusrLogin">
-                            <?= csrf_field() ?>
-                            <div class="form-group">
-                                <label for="role_id">Select Role</label>
-                                <select class="form-control" name="role_id" id="role_id">
-                                    <option value="">Select Role</option>
-                                    <?php if (!empty($listRole)) : ?>
-                                        <?php foreach ($listRole as $role) : ?>
-                                            <option value="<?= esc($role['role_id']); ?>">
-                                                <?= esc($role['role_name']); ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </select>
-                            </div>
-
-                            <div id="role_courtAssistant" style="display:none;">
-                                <div class="form-group"> 
-                                    <label for="court_number">Select Court</label>
-                                    <select id="court_number" name="court_number" class="form-control">
-                                        <option value="">Select Court</option> 
-                                        
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="court_bench">Select Bench</label>
-                                    <select id="court_bench" name="court_bench" class="form-control" style="visibility: hidden;">
-                                        <option value="">Select Bench</option> 
+                        <form  method="post" name="frmusrLogin" id="frmusrLogin">
+                                <input type="hidden" name="mode" id="mode" value="login">
+                                <input type="hidden" name="token" id="token" value="<?php echo session()->get('token'); ?>">
+                        <div class="input-group mb-3">
                                        
-                                    </select>
+                                        <select class="form-control" name="role_id" id="role_id" >
+                                        <option value=""> Select Role</option>
+                                        <?php
+                                        foreach ($listRole as $result) { ?> 
+                                           
+                                            <option value="<?php echo $result['role_id']; ?>" <?php if(session()->get('role_id') == $result['role_id'])echo "selected"; ?> > <?php echo $result['role_name'] ?></option>
+
+                                        <?php } ?>
+                                        </select> 
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                    <span class="fas fa-lock"></span>
+                                    </div>
+                                </div>
                                 </div>
 
-                                <div class="form-group" id="other_user_div" style="display:none">
-                                    <label for="user_name_other">User Name</label>
-                                    <input type="text" class="form-control" placeholder="User Name" name="user_name_other" id="user_name_other">
-                                </div>
-                            </div>
 
-                            <div class="text-center">
-                            <button   onclick="validateForm();return false;" class="btn btn-primary btn-block">Click</button>
-                            </div>
-                        </form>
+                                <div id="role_admin" style="display:none;">
+
+                                         
+                                        
+
+                                </div> 
+
+
+                                <div id="role_librarian" style="display:none;">
+
+                                         
+                                        
+
+                                </div> 
+
+                                <div id="role_Advocate" style="display:none;">
+
+                                         
+                                        
+
+                                </div> 
+
+
+
+
+                                    <div id="role_courtAssitant"  style="display:none;">
+
+                                        <div class="input-group mb-3"> 
+                                        <select id="court_number" name="court_number" class="form-control" >
+                                        <option value="">Select Court</option> 
+                                        <?php foreach($requisitions as $result) {?> 
+                                            <option value="<?php echo $result['requisition_dep_name'];?>" <?= (session()->get('court_number') == $result['requisition_dep_name']) ? "selected" : '' ?>  ><?php echo $result['requisition_dep_name'];?></option>
+                                        <?php }?>
+                                        </select>
+                                        </div>
+
+
+                                        <div class="input-group mb-3">
+                                        <select id="court_bench" name="court_bench" class="form-control" style="visibility: hidden;" >
+                                        <option value="">Select Bench</option> 
+                                        <?php
+
+                                        for($i=1;$i<=15;$i++){					
+                                        ?> 			
+                                        <option value="<?php echo $i;?>" <?= $i == 2 ? 'selected' : '' ?> ><?php echo $i;?></option> 
+                                        <?php }?>
+                                        </select>
+                                        </div>
+
+
+                                         
+
+
+				<div class="input-group mb-3" id="other_user_div" style="display:none">
+				<input type="text" class="form-control" placeholder="User Name" name="user_name_other" id="user_name_other" >
+				<div class="input-group-append">
+				<div class="input-group-text">
+				<span class="fas fa-envelope"></span>
+				</div>
+				</div>
+				</div>
+
+
+			</div> 
+
+			 
+   
+          
+          <div class="col-4">
+              <button   onclick="validateForm();" class="btn btn-primary btn-block">Click</button>
+            <br>
+          </div>
+           
+    
+      </form>
                     </div> <!-- end card-body -->
                 </div> <!-- end card -->
             </div> <!-- end col-md-6 -->
@@ -103,125 +157,15 @@
     </div> <!-- end container-fluid -->
 </section>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="<?php echo base_url();?>/requisition/requistion.js">   </script>
+ 
 <script>
-$(document).ready(function() {
-    
-});
-
-
-function validateForm() {
-    var role = $("#role_id").val();
-
-    if (role === '') {
-        alert("Please select a role");
-        $("#role_id").focus();
-        return false;
-    }
-
-    var user_name, pass, court_number, user_name_a, user_name_other;
-
-    // // Gather the necessary input based on the selected role
-    // if (role === '5') { // LIBRARIAN
-    //     user_name = $("#user_name").val();
-    //     pass = $("#user_password").val();
-    // } else if (role === '6') { // ADMIN
-    //     user_name = $("#user_name_admin").val();
-    //     pass = $("#user_password").val();
-    // } else if (role === '7') { // ADVOCATE
-    //     user_name = $("#user_name_adv").val();
-    //     pass = $("#user_password").val();
-    // } else if (role === '4') { // COURT ASSISTANT
-    //     court_number = $("#court_number").val();
-    //     user_name_a = $("#user_name_a").val();
-    //     user_name_other = $("#user_name_other").val();
-
-    //     if (court_number === '') {
-    //         alert("Please enter court Number");
-    //         $("#court_number").focus();
-    //         return false;
-    //     }
-    //     if (user_name_a === '') {
-    //         alert("Please enter username");
-    //         $("#user_name_a").focus();
-    //         return false;
-    //     }
-    //     if (user_name_a === "Other" && user_name_other === '') {
-    //         alert("Please enter Other user Name");
-    //         $("#user_name_other").focus();
-    //         return false;
-    //     }
-    // } else {
-    //     alert("Invalid role selected");
-    //     return false;
-    // }
-
-    // // Ensure username and password are entered for roles 5, 6, and 7
-    // if ((role === '5' || role === '6' || role === '7') && (!user_name || !pass)) {
-    //     alert(!user_name ? "Please enter username" : "Please enter password");
-    //     return false;
-    // }
-
-    var CSRF_TOKEN = 'CSRF_TOKEN';
-    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val(); // Get the current CSRF token
-
-    // Prepare data for AJAX call
-    var data = {
-        role_id: role,
-        user_name: user_name,
-        user_password: pass,
-        court_number: court_number,
-        user_name_a: user_name_a,
-        user_name_other: user_name_other,
-        CSRF_TOKEN: CSRF_TOKEN_VALUE 
-    };
-
-    $.ajax({
-        url: '<?php echo base_url('Library/Requisition/frmusrLogin');?>',
-        type: 'POST',
-        dataType: "json",
-        data: data,
-        success: function (response) {
-            if (response.status === 'Success') {
-                switch (role) {
-                    case '5':
-                    case '6':
-                        window.location.href = 'view_court_requisition.php';
-                        break;
-                    case '4':
-                        window.location.href = '<?=base_url('Library/Requisition/court_dashboard');?>';
-                        break;
-                    case '7':
-                        window.location.href = 'advocate_dashboard.php';
-                        break;
-                }
-            } else {
-                alert(response.msg);
-                if (response.new_csrf_token) {
-                    // Update CSRF token if the server responds with a new one
-                    $('[name="CSRF_TOKEN"]').val(response.new_csrf_token);
-                }
-            }
-        },
-        error: function () {
-            alert("Failure");
-        }
-    });
-
-    return false; // Prevent default form submission
-}
-
-
-
-
-
-</script>
-<script>
-show_role_div('')
+show_role_div('<?= session()->get('role_id') ?>')
 	$('#role_id').children('option:not(:selected)').prop('disabled', true);
 
-	if('' == '4'){
-		$("#court_number").val('').trigger("change");
+	if('<?= session()->get('role_id') ?>' == '4'){
+		$("#court_number").val('<?= session()->get('court_number') ?>').trigger("change");
 		$('#court_number').children('option:not(:selected)').prop('disabled', true);
 	}
 

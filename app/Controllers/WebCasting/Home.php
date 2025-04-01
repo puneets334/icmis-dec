@@ -29,44 +29,25 @@ class Home extends BaseController
         $today = date("Y-m-d");
         $time = date("h:i:s");
         $data=[];
-
-        // echo $today.">>".$time;
-        // COURT LIST ********************************
-
-        $getDataWithCourtNo = $this->vc_webcast_details->select('*')->findAll();
-
-        // echo "<pre>";
-        // print_r($getDataWithCourtNo);
-        // die;
+ 
+        $getDataWithCourtNo = $this->vc_webcast_details->select('*')->orderBy('id','ASC')->findAll(); 
         if(!empty($getDataWithCourtNo))
         {
-
-            // echo "<pre>";
-            //  print_r($getDataWithCourtNo);
+ 
             $data['court'] = $getDataWithCourtNo;
-
 
         }else{
             $data['msg']='No record Found';
         }
-
-        // echo "<pre>";
-        // print_r($data);
-        // die;
-
+ 
 
         // JOURNALIST LIST ********************************
 
-        $getData = $this->master_mediapersions->select('*')->where('media_name !=','Test Media')->findAll();
-//         echo "<pre>";
-//         print_r($getData);
-//         die;
+        $getData = $this->master_mediapersions->select('*')->where('media_name !=','Test Media')->findAll(); 
 
         if(!empty($getData[0]))
         {
 
-//              echo "<pre>";
-//              print_r($getDataWithCourtNo);
             $data['fuel'] = $getData;
 
 
@@ -124,21 +105,24 @@ class Home extends BaseController
             'updated_on' => date("Y-m-d H:i:s"),
             'updated_by_ip'=>$client_ip
         );
-        // echo "<pre>";
-        // print_r($columnInsert);
-        // die;
+        
+        $datacheck_num = is_data_from_table('master.media_persions'," mobile = '$mobile' ", '*', 'N');
+        
+        if($datacheck_num == 0)
+        {
+            $result = $this->master_mediapersions->insert($columnInsert);
+            if ($result) {
+                session()->setFlashdata("infomsg", 'Record Inserted Successfully!!!!');
+                return redirect()->to('WebCasting/Home');
+               
+            } else{
+                session()->setFlashdata("infomsg", 'Already Exists.');
+                return redirect()->to('WebCasting/Home');   
 
-
-        $result = $this->master_mediapersions->insert($columnInsert);
-        if ($result) {
-            session()->setFlashdata("infomsg", 'Record Inserted Successfully!!!!');
+            }
+        }else{
+            session()->setFlashdata("infomsg", 'Mobile number already Exists.');
             return redirect()->to('WebCasting/Home');
-//            redirect(base_url('WebCasting/Home'));
-        } else{
-            session()->setFlashdata("infomsg", 'Already Exit .');
-            return redirect()->to('WebCasting/Home');
-//            redirect(base_url('WebCasting/Home'));
-
         }
 
     }
@@ -149,10 +133,7 @@ class Home extends BaseController
        $id = $_POST['id'];
 
         $getJournalist = $this->master_mediapersions->select('*')->where('id',$id)->findAll();
-
-        // echo "<pre>";
-        // print_r($getJournalist);
-        // die;
+ 
 
         if(!empty($getJournalist[0]))
         {
@@ -184,27 +165,27 @@ class Home extends BaseController
             'updated_on'=>'NOW()',
             'updated_by_ip'=>$client_ip,
         );
-//        echo "<pre>";
-//        print_r($columnUpdate);
-//        die;
+ 
+        $datacheck_num = is_data_from_table('master.media_persions'," mobile = '$mobile' ", '*', 'N');
+        
+        if($datacheck_num == 0)
+        {
+            $result = $this->master_mediapersions->update($id,$columnUpdate);
 
+            if ($result) {
+    
+                session()->setFlashdata("infomsg", 'Record Updated Successfully!!!!!!');
+                return redirect()->to('WebCasting/Home');
+    
+            } else{
 
-        $result = $this->master_mediapersions->update($id,$columnUpdate);
+                session()->setFlashdata("infomsg", 'Mobile number already Exists.');
+                return redirect()->to('WebCasting/Home');    
 
-        if ($result) {
-//            echo "SDGDSF";
-//            die;
-            session()->setFlashdata("infomsg", 'Record Updated Successfully!!!!!!');
-            return redirect()->to('WebCasting/Home');
-
-//            redirect(base_url('WebCasting/Home'));
-        } else{
-
-            session()->setFlashdata("infomsg", 'Already Exit');
-            return redirect()->to('WebCasting/Home');
-
-//            redirect(base_url('WebCasting/Home'));
-
+            }
+        }else{
+                session()->setFlashdata("infomsg", 'Mobile number already Exists.');
+                return redirect()->to('WebCasting/Home');
         }
 
     }
