@@ -187,7 +187,7 @@ class Registration extends BaseController
     
     
                         //echo ' section '.$section;
-                        //$result = $RegistrationModel->updateMain(['active_casetype_id' => $newcc, 'case_grp' => $newcn, 'fil_no_fh' => $t_fil_no_fh, 'active_fil_no' => $t_fil_no_fh, 'fil_dt_fh' => $registration_date, 'active_fil_dt' => $registration_date, 'reg_year_fh' => $year, 'active_reg_year' => $year, 'reg_no_display' => $regNoDisplay, 'mf_active' => 'F', 'section_id' => $section_id, 'diary_no' => $diary_no]);
+                        $result = $RegistrationModel->updateMain(['active_casetype_id' => $newcc, 'case_grp' => $newcn, 'fil_no_fh' => $t_fil_no_fh, 'active_fil_no' => $t_fil_no_fh, 'fil_dt_fh' => $registration_date, 'active_fil_dt' => $registration_date, 'reg_year_fh' => $year, 'active_reg_year' => $year, 'reg_no_display' => $regNoDisplay, 'mf_active' => 'F', 'section_id' => $section_id, 'diary_no' => $diary_no]);
 
                         $row_m_h = $RegistrationModel->getCaseHistory($diary_no);
 
