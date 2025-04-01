@@ -13,7 +13,7 @@ if ($row['case_status'] == 'P') {
     $case_status = 'Disposed';
 }
 
-echo ">>".$row['id'].'>>'.$row['email'].'>>>'.$row['mobile'];
+//echo ">>".$row['id'].'>>'.$row['email'].'>>>'.$row['mobile'];
 
 ?>
     <div class="card mt-2">

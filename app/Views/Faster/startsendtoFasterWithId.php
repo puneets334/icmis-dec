@@ -1,4 +1,4 @@
-<?php $did = explode('_',$dataid);?>
+<?php $did = explode('_', $dataid);?>
 <div class="modal-header">
  <h4 class="modal-title ">Send to Faster 2.0</h4>
 </div>
@@ -10,10 +10,10 @@
         <?php
         $selected="";
         foreach ($getHighCourt as $rows){
-        if($rows['id']==$did[1]) $selected= "selected"; else $selected="";  
+            if(isset($did[1]) && ($rows['id'] == $did[1])) $selected= "selected"; else $selected="";  
         ?>
 
-        <option <?php echo $selected ?> value=<?php echo $rows[id] ?>><?php echo $rows[agency_name] ?></option>;
+        <option <?php echo $selected ?> value=<?php echo $rows['id'] ?>><?php echo $rows['agency_name'] ?></option>;
         <?php  }   ?>
         </select></td>
         </tr>
@@ -26,7 +26,7 @@
         <input type="hidden" name="session_user"  id = "session_user"  value="<?php echo $session_user;?>">    
 
         <?php 
-         if($did[0]=='r'){
+         if(isset($did[0]) && ($did[0] == 'r')){
         ?> <button type="button" class="infodatastate btn btn-info" id="delete" >Delete</button>
         <button type="button" class="infodatastate btn btn-info" id="save" >Update</button></td>
         <?php }else { ?>
@@ -44,23 +44,40 @@
  
     $(document).ready(function(){
 
-        $('.infodatastate').click(function(){
+        $('.infodatastate').click(async function(){
            var buttonID =  $(this).attr('id');
            var highCourtID =  $("#highcourt option:selected").val();
            var faster_id = $('#faster_id').val();
            var agency_or_court = $('#agency_or_court').val();
            var session_user = $('#session_user').val();
+           var CSRF_TOKEN_VALUE = await updateCSRFTokenSyncN();
           // alert('hig'+highCourtID+'fid'+faster_id+'agency'+agency_or_court);
              $.ajax({
-                url: '<?=base_url()?>index.php/FasterController/startsendtoFasterWithId',
+                url: '<?=base_url()?>/Faster/FasterController/startsendtoFasterWithId',
                 type: 'post',
-                data: {highCourtID: highCourtID,faster_id: faster_id,agency_or_court: agency_or_court,buttonID: buttonID,session_user: session_user},
+                data: {CSRF_TOKEN: CSRF_TOKEN_VALUE,highCourtID: highCourtID,faster_id: faster_id,agency_or_court: agency_or_court,buttonID: buttonID,session_user: session_user},
                 beforeSend: function(){
                     /* Show image container */
                     $("#loader").show();
                 },
                 success: function(response){
-                 window.location.reload();
+                    // var orderDate = $('#orderDate').val();
+                    // var orderDate = $('#orderDate').val();
+                    // $.get("<?=base_url()?>/Faster/FasterController/get_send_to_faster",{orderDate:orderDate},function(result){
+                    //     // response = $.parseJSON(result);
+                    //     $('#tableData').html(result);
+
+                    // });
+                    // updateCSRFTokenSync();
+                //  window.location.reload();
+                    // $('#btnFetchRecords').click();
+                    // var orderDate = $('#orderDate').val();
+                    // $('#orderDate').val(orderDate);
+                    // $('#btnFetchRecords').click();
+                    // $('#push-form')[0].reset();
+                    // alert(orderDate);
+                    window.location.reload();
+                    // $('#push-form').submit();
                 },
                 complete:function(data){
                     /* Hide image container */

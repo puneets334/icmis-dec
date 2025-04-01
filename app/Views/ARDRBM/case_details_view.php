@@ -74,7 +74,7 @@ Registration Order date:<input class="dtp" type="text" name="dtd" id="dtd" size=
 
 <br><br>
 
-<div id="newb">
+<div id="newb" style="display:none">
     <div id="newb123">
         <table width="100%" border="1" style="border-collapse: collapse">
             <tr>

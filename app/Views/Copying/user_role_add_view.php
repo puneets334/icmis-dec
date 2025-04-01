@@ -159,32 +159,57 @@
                 type: 'POST',
                 success: function(data) {
                     if(data==1){
-                        swal({title:"Role Assign Successfully!", text:"You clicked the button!", type:"success"},
-                            function(){
-                                location.reload();
-                            });
+                          Swal.fire({
+                          title: "Role",
+                          text: "Role Assign Successfully!",
+                          icon: "success"
+                          }).then((result) => {
+                           if (result.isConfirmed) {
+                               location.reload();
+                           }
+                          });
                     }else if(data==0){
-                        swal({title:"Role Assign Not Successfully!", text:"You clicked the button!", type:"error"},
-                            function(){
-                                location.reload();
-                            });
-
+                          Swal.fire({
+                          title: "Role",
+                          text: "Role Assign Not Successfully!",
+                          icon: "error"
+                          }).then((result) => {
+                           if (result.isConfirmed) {
+                               location.reload();
+                           }
+                          });
                     }else if(data==2){
-                        swal({title:"User Role Already Assigned !", text:"You clicked the button!", type:"error"},
-                            function(){
-                                location.reload();
-                            });
+                          Swal.fire({
+                          title: "Role",
+                          text: "User Role Already Assigned !",
+                          icon: "error"
+                          }).then((result) => {
+                           if (result.isConfirmed) {
+                               location.reload();
+                           }
+                          });
                     }else if(data==3){
-                        swal({title:"Full Fill All Input ApplicantType and RoleAssign Mandatory *", text:"You clicked the button!", type:"danger"},
-                            function(){
-                                location.reload();
-                            });
+                        
+                        Swal.fire({
+                          title: "Role",
+                          text: "ull Fill All Input ApplicantType and RoleAssign Mandatory *",
+                          icon: "error"
+                          }).then((result) => {
+                           if (result.isConfirmed) {
+                               location.reload();
+                           }
+                          });
                     }
                     else{
-                        swal({title:"User Not Found !", text:"You clicked the button!", type:"error"},
-                            function(){
-                                location.reload();
-                            });
+                          Swal.fire({
+                          title: "Role",
+                          text: "User Not Found !",
+                          icon: "error"
+                          }).then((result) => {
+                           if (result.isConfirmed) {
+                               location.reload();
+                           }
+                          });
                     }
                      updateCSRFToken();
                 }

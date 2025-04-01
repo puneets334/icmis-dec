@@ -240,7 +240,7 @@ function get_send_to_type(idd, id_val, sta, type, d_ta, zx, ddlSendTo_zx) {
         cache: false,
         async: true,
         data: { CSRF_TOKEN: CSRF_TOKEN_VALUE, id_val: id_val, d_no: d_no, d_yr: d_yr },
-        type: 'POST',
+        type: 'get',
         success: function (data, status) {
             updateCSRFToken();
             if (sta == '1')

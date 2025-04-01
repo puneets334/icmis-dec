@@ -59,14 +59,15 @@ class FileMovement extends BaseController
 
     public function dispatchReceiveReportProcess()
     {
-        $data['rd'] = $_REQUEST['rd'];
-        $data['mf'] = $_REQUEST['mf'];
-        $data['rur'] = $_REQUEST['rur'];
-        $data['ct'] = $_REQUEST['ct'];
-        $data['fdt'] = date('Y-m-d', strtotime($_REQUEST['dt1']));
-        $data['tdt'] = date('Y-m-d', strtotime($_REQUEST['dt2']));
-
-        $data['res_sq'] = $this->FileMovementModel->dispatch_receive_report_process();
+        $request = \Config\Services::request();
+        $usercode = session()->get('login')['usercode'];
+        $data['rd'] = $request->getVar('rd');
+        $data['mf'] = $request->getVar('mf');
+        $data['rur'] = $request->getVar('rur');
+        $data['ct'] = $request->getVar('ct');
+        $data['fdt'] = date('Y-m-d', strtotime($request->getVar('dt1')));
+        $data['tdt'] = date('Y-m-d', strtotime($request->getVar('dt2')));
+        $data['res_sq'] = $this->FileMovementModel->dispatch_receive_report_process($usercode, $data['rd'], $data['mf'], $data['rur'], $data['ct'], $data['fdt'], $data['tdt']);
         return view('Exchange/fileMovement/dispatch_receive_report_process',$data);
     }
 
@@ -84,7 +85,7 @@ class FileMovement extends BaseController
         $caseType = $request->getPost('ct');
         $caseNumber = $request->getPost('cn');
         $caseYear = $request->getPost('cy');
-        $result = $this->FileMovementModel->get_s_file_rec1($ucode,$module);
+        $result = $this->FileMovementModel->get_s_file_rec1($ucode, $module);
         return $this->response->setJSON([
             'status' => true,
             'data' => $result,
@@ -93,12 +94,13 @@ class FileMovement extends BaseController
 
     public function getUserOptions()
     {
+        $request = \Config\Services::request();
         $ucode = session()->get('login')['usercode'];
-        $dept = !empty($_REQUEST['dept']) ? $_REQUEST['dept'] : '';
-        $sec = !empty($_REQUEST['sec']) ? $_REQUEST['sec'] : '';
-        $desig = !empty($_REQUEST['desig']) ? $_REQUEST['desig'] : '';
+        $dept = !empty($request->getPost('dept')) ? $request->getPost('dept') : '';
+        $sec = !empty($request->getPost('sec')) ? $request->getPost('sec') : '';
+        $desig = !empty($request->getPost('desig')) ? $request->getPost('desig') : '';
 
-        $result = $this->FileMovementModel->user_options();
+        $result = $this->FileMovementModel->user_options($ucode, $dept, $sec, $desig);
         return $this->response->setJSON([
             'status' => true,
             'data' => $result,
@@ -107,26 +109,29 @@ class FileMovement extends BaseController
 
     public function userMgmtMultiple()
     {
-        $result = $this->FileMovementModel->user_mgmt_multiple();
-        return $this->response->setJSON([
-            'status' => true,
-            'data' => $result,
-        ]);
+        $request = \Config\Services::request();
+        $requestKey = $request->getVar('key');
+        $setter = !empty($request->getPost('setter')) ? $request->getPost('setter') : '';
+        $deptname = !empty($request->getPost('deptname')) ? $request->getPost('deptname') : '';
+        $cur_user_type = !empty($request->getPost('cur_user_type')) ? $request->getPost('cur_user_type') : '';
+        $section = !empty($request->getPost('section')) ? $request->getPost('section') : '';
+
+        return $result = $this->FileMovementModel->user_mgmt_multiple($requestKey, $setter, $deptname, $cur_user_type, $section);
+        //return $this->response->setJSON(['status' => true,'data' => $result,]);
     }
 
     public function saveDispatchedRecord()
     {
+        $request = \Config\Services::request();
         $result = $this->FileMovementModel->save_record();
-        if($_REQUEST['module'] == 'dispatch')
-        {
+        $module = $request->getPost('module');
+        if($module == 'dispatch') {
             return $this->response->setJSON([
                 'status' => true,
                 'data' => $result,
                 'message' => 'Successfully Dispatched'
             ]);
-        }
-        else
-        {
+        } else {
             return $this->response->setJSON([
                 'status' => true,
                 'data' => $result,

@@ -55,41 +55,36 @@ class ESCR extends BaseController
         $this->bar = new Model_bar();
         $this->dispose = new Model_dispose();
         $this->ordernet = new Model_ordernet();
-
     }
 
     public function index()
     {
-        $data['caseInfo']=null;
-        $data['listingInfo']=null;
+        $data['caseInfo'] = null;
+        $data['listingInfo'] = null;
         unset($_SESSION['diaryDetails']);
         $userCode = $_SESSION['login']['usercode'];
         $diaryNumber = '';
         $data['listingInfo'] = null;
         $casetypes = $this->escr_model->get_case_type_list();
-        if(!empty($casetypes))
-        {
-            $data['caseTypes']=$casetypes;
-        }else{
-            $data['caseTypes']='';
+        if (!empty($casetypes)) {
+            $data['caseTypes'] = $casetypes;
+        } else {
+            $data['caseTypes'] = '';
         }
 
         $getRole = $this->escr_model->get_role($userCode);
 
-        if(!empty($getRole))
-        {
-            $data['userrole']=$getRole[0]['role'];
-        }else{
-            $data['userrole']='';
+        if (!empty($getRole)) {
+            $data['userrole'] = $getRole[0]['role'];
+        } else {
+            $data['userrole'] = '';
         }
-        if (!empty($_POST))
-        {
+        if (!empty($_POST)) {
             $optradio = $_POST['optradio'];
             $data['optradio']  = $_POST['optradio'];
 
 
-            if ($optradio == 1)
-            {
+            if ($optradio == 1) {
                 if (((isset($_POST['caseType']))) || (!empty($_POST['caseType'])) && (((isset($_POST['caseNo']))) || (!empty($_POST['caseNo'])))) {
 
                     $caseTypeId = $_POST['caseType'];
@@ -98,29 +93,25 @@ class ESCR extends BaseController
                     $data['caseTypeId'] = $_POST['caseType'];
                     $data['caseNo'] = $_POST['caseNo'];
                     $data['caseYear'] = $_POST['caseYear'];
-                    $getdiarydetail = $this->escr_model->get_diary_details($optradio,$caseTypeId, $caseNo, $caseYear,$diaryNo=null,$diaryYear=null);
+                    $getdiarydetail = $this->escr_model->get_diary_details($optradio, $caseTypeId, $caseNo, $caseYear, $diaryNo = null, $diaryYear = null);
                     $data['diaryDetails'] = $getdiarydetail;
-
                 }
             }
-            if ($optradio == 2)
-            {
+            if ($optradio == 2) {
                 $diaryNo = $_POST['diaryNumber'];
                 $diaryYear = $_POST['diaryYear'];
                 $data['diaryNumber'] = $_POST['diaryNumber'];
                 $data['diaryYear'] = $_POST['diaryYear'];
-                $getdiarydetail = $this->escr_model->get_diary_details($optradio,$caseTypeId=null, $caseNo=null, $caseYear=null,$diaryNo,$diaryYear);
+                $getdiarydetail = $this->escr_model->get_diary_details($optradio, $caseTypeId = null, $caseNo = null, $caseYear = null, $diaryNo, $diaryYear);
                 $data['diaryDetails'] = $getdiarydetail;
             }
             // pr($data);
             // die(); 
-            if (!empty($data['diaryDetails']))
-            {
+            if (!empty($data['diaryDetails'])) {
                 ///////////////////////////////////////////////
-                foreach ($data['diaryDetails'] as $row)
-                {
+                foreach ($data['diaryDetails'] as $row) {
                     // diary No for All further process
-                    $diaryNumber=$row['diary_no'];
+                    $diaryNumber = $row['diary_no'];
                     session()->set(array('diaryNo' => $row['dn']));
                     session()->set(array('diaryYear' => $row['dy']));
                     session()->set(array('diaryNumber' => $row['diary_no']));
@@ -133,56 +124,48 @@ class ESCR extends BaseController
 
                 session()->set(array('judgmentDate' => $_POST['judgmentDate']));
                 $caseInfo = $this->escr_model->getCaseDetails($diaryNumber);
-                if(count($caseInfo)>0)
-                {
-                    $data['caseInfo']=$caseInfo[0];
-                }else{
-                    $data['caseInfo']='';
-                }
-                  
-                $judgmentdetail = $this->escr_model->getJudgmentDetails( $diaryNumber,$judgmentDate);
-                if(count($judgmentdetail)>0)
-                {
-                    $data['judgmentInfo']=$judgmentdetail;
-                }else{
-                    $data['judgmentInfo']='';
+                if (count($caseInfo) > 0) {
+                    $data['caseInfo'] = $caseInfo[0];
+                } else {
+                    $data['caseInfo'] = '';
                 }
 
-                $remarks = $this->escr_model->getRemarkFunction( $diaryNumber,$judgmentDate);
-                if(count($remarks)>0)
-                {
-                    $data['remarksInfo']= $remarks[0];
-                }else{
-                    $data['remarksInfo']='';
+                $judgmentdetail = $this->escr_model->getJudgmentDetails($diaryNumber, $judgmentDate);
+                if (count($judgmentdetail) > 0) {
+                    $data['judgmentInfo'] = $judgmentdetail;
+                } else {
+                    $data['judgmentInfo'] = '';
                 }
-                if(empty($data['judgmentInfo'] ) )
-                {
+
+                $remarks = $this->escr_model->getRemarkFunction($diaryNumber, $judgmentDate);
+                if (count($remarks) > 0) {
+                    $data['remarksInfo'] = $remarks[0];
+                } else {
+                    $data['remarksInfo'] = '';
+                }
+                if (empty($data['judgmentInfo'])) {
                     $data['caseInfo'] = '';
                     $data['judgmentInfo'] = '';
-                    $data['remarksInfo']='';
+                    $data['remarksInfo'] = '';
                     session()->setFlashdata("message_error", 'Judgment has not been uploaded yet');
-                }
-                else if(!empty($data['remarksInfo'])&&($data['remarksInfo']['is_verified']=='t'))
-                {
+                } else if (!empty($data['remarksInfo']) && ($data['remarksInfo']['is_verified'] == 't')) {
                     $data['caseInfo'] = '';
                     $data['judgmentInfo'] = '';
-                    $data['remarksInfo']='';
+                    $data['remarksInfo'] = '';
                     session()->setFlashdata('message_error', 'Gist for the searched Case has been verified.Updation not allowed.');
                 }
-            } 
-            else
-            {
-                $data['save']='saveMentionMemo';
+            } else {
+                $data['save'] = 'saveMentionMemo';
                 $data['caseInfo'] = '';
                 $data['judgmentInfo'] = '';
-                $data['remarksInfo']='';
-               session()->setFlashdata('message_error', 'Case Not Found');
+                $data['remarksInfo'] = '';
+                session()->setFlashdata('message_error', 'Case Not Found');
             }
         }
         // pr($data);
         // die();
-       
-    
+
+
         return view('Editorial/eSCREntry', $data);
     }
 
@@ -190,17 +173,16 @@ class ESCR extends BaseController
 
     public function saveSummary()
     {
-       $remarks=$this->request->getPost('remark');
-       $result = $this->escr_model->saveSummary($_SESSION['diaryno'],$remarks,date('Y-m-d',strtotime($_SESSION['judgmentDate'])));
-       return $result;
-  
+        $remarks = $this->request->getPost('remark');
+        $result = $this->escr_model->saveSummary($_SESSION['diaryno'], $remarks, date('Y-m-d', strtotime($_SESSION['judgmentDate'])));
+        return $result;
     }
 
-//         MADE 3 FUNCTION DEFINITION OF CASE DETAILS,JUDGMENT INFO AND REMARKS
+    //         MADE 3 FUNCTION DEFINITION OF CASE DETAILS,JUDGMENT INFO AND REMARKS
 
     public function get_caseinfo_function($diaryNumber)
     {
-        $query1 =$this->main_a->select("s.section_name AS user_section,
+        $query1 = $this->main_a->select("s.section_name AS user_section,
                                             s.id,
                                             SUBSTRING(CAST(main_a.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(main_a.diary_no AS TEXT))-4) AS diary_no,
                                             SUBSTRING(CAST(main_a.diary_no AS TEXT) FROM -4) AS diary_year,
@@ -239,9 +221,9 @@ class ESCR extends BaseController
             ->join('master.bar br1', 'main_a.pet_adv_id = br1.bar_id', 'left')
             ->join('master.bar br2', 'main_a.res_adv_id = br2.bar_id', 'left')
             ->join('mul_category_a mc', 'a.diary_no = mc.diary_no AND mc.display = \'Y\'', 'left')
-            ->where('main_a.diary_no',$diaryNumber)->get()->getResultArray();
+            ->where('main_a.diary_no', $diaryNumber)->get()->getResultArray();
 
-        $query2 =$this->main->select(" s.section_name AS user_section,
+        $query2 = $this->main->select(" s.section_name AS user_section,
                                                 s.id,
                                                 SUBSTRING(CAST(main.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(main.diary_no AS TEXT))-4) AS diary_no,
                                                 SUBSTRING(CAST(main.diary_no AS TEXT) FROM -4) AS diary_year,
@@ -280,37 +262,34 @@ class ESCR extends BaseController
             ->join('master.bar br1', 'main.pet_adv_id = br1.bar_id', 'left')
             ->join('master.bar br2', 'main.res_adv_id = br2.bar_id', 'left')
             ->join('mul_category mc', 'a.diary_no = mc.diary_no AND mc.display = \'Y\'', 'left')
-            ->where('main.diary_no',$diaryNumber)->get()->getResultArray();
+            ->where('main.diary_no', $diaryNumber)->get()->getResultArray();
 
         $combinedResults = array_merge($query1, $query2);
 
         return $combinedResults;
-
-
     }
 
-    public function get_judgmentdetail_function($diaryNumber ,$judgmentDate)
+    public function get_judgmentdetail_function($diaryNumber, $judgmentDate)
     {
-        $detail = $this->escr_model->judgment_detail($diaryNumber ,$judgmentDate);
+        $detail = $this->escr_model->judgment_detail($diaryNumber, $judgmentDate);
         return $detail;
-   }
+    }
 
-   
+
     public function report()
     {
         $fromDate = $this->request->getGet('fromDate');
         $toDate = $this->request->getGet('toDate');
-        
+
         // echo $sql="select j.diary_no,reg_no_display,m.pet_name,m.res_name,j.summary,j.updated_on,j.updated_by_ip,u.name,u.empid,j.orderdate,u1.name as ver_name,
         // u1.empid as ver_id,j.is_verified,j.verified_on,j.verified_by_ip from judgment_summary j left join main m on j.diary_no=m.diary_no left join 
         // users u on j.updated_by=u.usercode left join users u1 on j.verified_by=u1.usercode
         //       where is_deleted='f' and date(updated_on) between '$fromDate' and '$toDate'";
-        $userReport = $this->escr_model->show_user_report($fromDate,$toDate);
+        $userReport = $this->escr_model->show_user_report($fromDate, $toDate);
         $data['from_date'] = $fromDate;
         $data['to_date'] = $toDate;
         $data['list'] = $userReport;
         return view('Editorial/report', $data);
-
     }
 
     public function report_data()
@@ -322,7 +301,7 @@ class ESCR extends BaseController
         // $to_date=$this->input->get('toDate');
         // var_dump($_REQUEST);
         // die;
-        $sql="select j.diary_no,reg_no_display,m.pet_name,m.res_name,j.summary,j.updated_on,j.updated_by_ip,u.name,u.empid,j.orderdate,u1.name as ver_name,
+        $sql = "select j.diary_no,reg_no_display,m.pet_name,m.res_name,j.summary,j.updated_on,j.updated_by_ip,u.name,u.empid,j.orderdate,u1.name as ver_name,
         u1.empid as ver_id,j.is_verified,j.verified_on,j.verified_by_ip from judgment_summary j left join main m on j.diary_no=m.diary_no left join 
         users u on j.updated_by=u.usercode left join users u1 on j.verified_by=u1.usercode
               where is_deleted='f' and date(updated_on) between '$from_date' and '$to_date'";
@@ -378,25 +357,22 @@ class ESCR extends BaseController
     public function show_count()
     {
 
-     
+
         if (!empty($_POST)) {
 
-            $from_date = $_POST['fromDate'];
-            $to_date = $_POST['toDate'];
+            $from_date = date("Y-m-d", strtotime($_POST['fromDate']));
+            $to_date = date("Y-m-d", strtotime($_POST['toDate']));
             $radio_id = $_POST['optradio'];
-//            var_dump($_POST);     die;
-//          DATE WISE FUNCTIONALITY ***********************************
-            if ($radio_id == 1)
-            {
-                if (isset($from_date) && $from_date != '' && $from_date != '1970-01-01' && isset($to_date) && $to_date != '' && $to_date != '1970-01-01')
-                {
-                    $datewiseData = $this->escr_model->datewise_report($from_date,$to_date);
-//                     echo "<pre>";
-//                     print_r($datewiseData);   die;
-                    if(!empty($datewiseData))
-                    {
+            //            var_dump($_POST);     die;
+            //          DATE WISE FUNCTIONALITY ***********************************
+            if ($radio_id == 1) {
+                if (isset($from_date) && $from_date != '' && $from_date != '1970-01-01' && isset($to_date) && $to_date != '' && $to_date != '1970-01-01') {
+                    $datewiseData = $this->escr_model->datewise_report($from_date, $to_date);
+                    //                     echo "<pre>";
+                    //                     print_r($datewiseData);   die;
+                    if (!empty($datewiseData)) {
                         $data['list_stats'] = $datewiseData;
-                    }else{
+                    } else {
                         $data['list_stats'] = '';
                     }
 
@@ -408,63 +384,55 @@ class ESCR extends BaseController
                 $data['to_date'] = $to_date;
                 echo view('Editorial/datewise_report', $data);
                 exit();
-
-
             } elseif ($radio_id == 2)               //        USER WISE FUNCTIONALITY ************************************
             {
-                $loggedInUserRol ='';
+                $loggedInUserRol = '';
                 $userCode = $_SESSION['login']['usercode'];
-                
+
                 $loggedInUserRole = $this->escr_model->escr_user_role($userCode);
-                
-                if(!empty($loggedInUserRole))
-                {
-                    $loggedInUserRol=$loggedInUserRole[0]['role'];
+
+                if (!empty($loggedInUserRole)) {
+                    $loggedInUserRol = $loggedInUserRole[0]['role'];
                 }
-                
-                $userwiseData = $this->escr_model->userwise_report($from_date,$to_date,$loggedInUserRol,$userCode);
-                if(!empty($userwiseData))
-                {
+
+                $userwiseData = $this->escr_model->userwise_report($from_date, $to_date, $loggedInUserRol, $userCode);
+                if (!empty($userwiseData)) {
                     $data['list_stats'] = $userwiseData;
-                }else{
+                } else {
                     $data['list_stats'] = '';
                 }
-                $data['from_date']=$from_date;
-                $data['to_date']=$to_date;
+                $data['from_date'] = $from_date;
+                $data['to_date'] = $to_date;
                 $data['userrole'] = $loggedInUserRol;
                 echo view('Editorial/show_user_stats', $data);
                 exit();
             }
-        }else{
+        } else {
             return view('Editorial/show_stats');                         // WHEN NO RADIO BUTTON IS CLICKED SHOW PAGE FOR DATES
         }
-
-
     }
 
 
 
-    public function user_report_details($emp_id='',$role='')
+    public function user_report_details($emp_id = '', $role = '')
     {
-        $from_date='';
-        $to_date='';
-        if(!empty($_GET))
-        {
-        $from_date = $this->request->getGet('from_date');
-        $to_date = $this->request->getGet('to_date');
-        $empid = $this->request->getGet('empid');
-        $userrole = $this->request->getGet('userrole');
-        }else{
+        $from_date = '';
+        $to_date = '';
+        if (!empty($_GET)) {
+            $from_date = $this->request->getGet('from_date');
+            $to_date = $this->request->getGet('to_date');
+            $empid = $this->request->getGet('empid');
+            $userrole = $this->request->getGet('userrole');
+        } else {
             $empid = $emp_id;
             $userrole = $role;
         }
 
 
-        $userDetails = $this->escr_model->show_user_details($from_date,$to_date,$empid);
-        if(!empty($userDetails))
-        {
+        $userDetails = $this->escr_model->show_user_details($from_date, $to_date, $empid);
+        if (!empty($userDetails)) {
             $data['uploaded_details'] = $userDetails;
-        }else{
+        } else {
             $data['uploaded_details'] = '';
         }
         $data['userrole'] = $userrole;
@@ -477,50 +445,40 @@ class ESCR extends BaseController
 
     public function delete_gist()
     {
-        if(!empty($_POST))
-        {
+        if (!empty($_POST)) {
             $id = $_POST['id'];
         }
         $userCode = $_SESSION['login']['usercode'];
-        $delete_gist = $this->escr_model->delete_gist($id,$userCode);
+        $delete_gist = $this->escr_model->delete_gist($id, $userCode);
 
 
-        if($delete_gist == 0)
-        {
+        if ($delete_gist == 0) {
             echo "There is some problem. Please contact Computer Cell";
-        }else{
+        } else {
             echo "Record Deleted Successfully";
         }
-
-
-
-
     }
 
     public function verify_gist()
     {
         $userCode = $_SESSION['login']['usercode'];
         $client_ip = getClientIP();
-        $id=$_POST['id'];
+        $id = $_POST['id'];
 
         $columnsUpdate = array(
-            'is_verified'=>'t',
-            'verified_on'=> 'NOW()',
-            'verified_by'=>$userCode,
-            'verified_by_ip'=>$client_ip
+            'is_verified' => 't',
+            'verified_on' => 'NOW()',
+            'verified_by' => $userCode,
+            'verified_by_ip' => $client_ip
         );
 
-        $query = $this->judgmentSummary->update($id,$columnsUpdate);
+        $query = $this->judgmentSummary->update($id, $columnsUpdate);
 
-        if($query)
-        {
+        if ($query) {
             echo "Record Verified Successfully";
-        }
-        else
-        {
+        } else {
             echo "There is some problem. Please contact Computer Cell";
         }
-
     }
 
     public function edit_gist()
@@ -529,51 +487,38 @@ class ESCR extends BaseController
         $diaryNumber = $_REQUEST['diary_no'];
         $judgmentDate = $_REQUEST['judgment_date'];
         $casetypes = $this->escr_model->get_case_type_list();
-        if(!empty($casetypes))
-        {
-            $data['caseTypes']=$casetypes;
-        }else{
-            $data['caseTypes']='';
+        if (!empty($casetypes)) {
+            $data['caseTypes'] = $casetypes;
+        } else {
+            $data['caseTypes'] = '';
         }
         $getRole = $this->escr_model->get_role($userCode);
-        if(!empty($getRole))
-        {
-            $data['userrole']=$getRole[0]['role'];
-        }else{
-            $data['userrole']='';
+        if (!empty($getRole)) {
+            $data['userrole'] = $getRole[0]['role'];
+        } else {
+            $data['userrole'] = '';
         }
 
         $caseInfo = $this->get_caseinfo_function($diaryNumber);
-        if(!empty($caseInfo))
-        {
-            $data['caseInfo']=$caseInfo[0];
-
-
-        }else{
-            $data['caseInfo']='';
+        if (!empty($caseInfo)) {
+            $data['caseInfo'] = $caseInfo[0];
+        } else {
+            $data['caseInfo'] = '';
         }
 
-        $judgmentdetail = $this->get_judgmentdetail_function( $diaryNumber,$judgmentDate);
-        if(count($judgmentdetail)>0)
-        {
-            $data['judgmentInfo']=$judgmentdetail;
-
-
-        }else{
-            $data['judgmentInfo']='';
+        $judgmentdetail = $this->get_judgmentdetail_function($diaryNumber, $judgmentDate);
+        if (count($judgmentdetail) > 0) {
+            $data['judgmentInfo'] = $judgmentdetail;
+        } else {
+            $data['judgmentInfo'] = '';
         }
 
-        $remarks = $this->get_remark_function( $diaryNumber,$judgmentDate);
-        if(!empty($remarks))
-        {
-            $data['remarksInfo']= $remarks;
-        }else{
-            $data['remarksInfo']='';
+        $remarks = $this->get_remark_function($diaryNumber, $judgmentDate);
+        if (!empty($remarks)) {
+            $data['remarksInfo'] = $remarks;
+        } else {
+            $data['remarksInfo'] = '';
         }
         echo view('Editorial/eSCREntry', $data);
-
     }
-
-
-
 }

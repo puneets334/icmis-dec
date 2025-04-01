@@ -12,7 +12,7 @@
                     ?>
 
 
-               <div><button type="button" id="print" name="print" style="width:10%" onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button></div>
+               <div><button type="button" id="print" name="print" onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button></div>
               <div id="printable" class="dataTables_wrapper dt-bootstrap4 query_builder_wrapper">
                  <br> <div style="text-align:center; font-weight:bold; font-size:24px;">  <?php echo $heading; ?> </div><br>
                      <table id="datewisereport" class="table table-bordered table-striped datatable_report">

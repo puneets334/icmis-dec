@@ -41,20 +41,8 @@ class FileMovementModel extends Model
         }
     }
 
-    public function dispatch_receive_report_process()
+    public function dispatch_receive_report_process($usercode, $rd, $mf, $rur, $ct, $fdt, $tdt)
     {
-        $usercode = session()->get('login')['usercode'];
-
-        $rd = $_REQUEST['rd'];
-        $mf = $_REQUEST['mf'];
-        $rur = $_REQUEST['rur'];
-        $ct = $_REQUEST['ct'];
-        $fdt = $_REQUEST['dt1'];
-        $tdt = $_REQUEST['dt2'];
-
-        $fdt = date('Y-m-d', strtotime($fdt));
-        $tdt = date('Y-m-d', strtotime($tdt));
-
         $criteria = "";
 
         if ($rd == 'R')
@@ -746,7 +734,7 @@ class FileMovementModel extends Model
                         if ( $sql_display["display_flag"] == 1 || in_array($ucode, explode(",", $sql_display["always_allowed_users"])) )
                         {
                             $tentative_date = '';
-                            if ( get_display_status_with_date_differnces( $r_ttv["tentative_cl_dt"] ) == "T" )
+                            if ( !empty($r_ttv["tentative_cl_dt"]) && get_display_status_with_date_differnces( $r_ttv["tentative_cl_dt"] ) == "T" )
                             {
                                 $tentative_date = date('d-m-Y', strtotime($r_ttv["tentative_cl_dt"]));
                             }
@@ -907,15 +895,9 @@ class FileMovementModel extends Model
         }
     }
 
-    public function user_options()
+    public function user_options($ucode, $dept, $sec, $desig)
     {
-        $ucode = session()->get('login')['usercode'];
-        $dept = !empty($_REQUEST['dept']) ? $_REQUEST['dept'] : '';
-        $sec = !empty($_REQUEST['sec']) ? $_REQUEST['sec'] : '';
-        $desig = !empty($_REQUEST['desig']) ? $_REQUEST['desig'] : '';
-
         $builder = $this->db->table('master.users');
-
         $builder->where('usercode !=', $ucode);
         $builder->where('display', 'Y');
         $builder->where('attend', 'P');
@@ -949,121 +931,111 @@ class FileMovementModel extends Model
         return $option;
     }
 
-    public function user_mgmt_multiple()
+    public function user_mgmt_multiple($requestKey, $setter, $deptname, $cur_user_type, $section)
     {
-        // pr($_REQUEST);
-        $dynamic_option = '';
-        if($_REQUEST['key']==1)
-        {
-            if(isset($_REQUEST['setter']) && $_REQUEST['setter'] != 'L')
-            {
-                if($_REQUEST['cur_user_type']==1 /*|| $_REQUEST['cur_user_type']==16*/)
-                {
-                    // $section = "SELECT DISTINCT section,section_name FROM users a LEFT JOIN usersection b ON section=b.id WHERE udept='$_REQUEST[deptname]' ORDER BY section";
-                    $section_query = "SELECT DISTINCT section, section_name FROM master.users a LEFT JOIN master.usersection b ON section = b.id WHERE udept = '".$_REQUEST['deptname']."' ORDER BY section";
-                    echo 'if';
-                    pr($section_query);
-                }
-                else
-                {
-                    // $section = "SELECT DISTINCT section,section_name FROM users a LEFT JOIN usersection b ON section=b.id WHERE udept='$_REQUEST[deptname]' AND usertype != 2 ORDER BY section";
-                    $section_query = "SELECT DISTINCT section,section_name FROM master.users a LEFT JOIN master.usersection b ON section=b.id WHERE udept = '".$_REQUEST['deptname']."' AND usertype != 2 ORDER BY section";
-                }
+        $request = \Config\Services::request();
+        $requestKey = $request->getVar('key');
 
+        $dynamic_option = '';
+        if($requestKey==1) {
+            
+            if(isset($setter) && $setter == 'L') {
+                // $section = "SELECT utype FROM user_d_t_map WHERE udept = '$_REQUEST[deptname]' ORDER BY utype";
+                $section_query = "SELECT utype FROM user_d_t_map WHERE udept = '".$deptname."' ORDER BY utype";
                 $section = $this->db()->query($section_query);
                 if($section->getNumRows() > 0)
                 {
                     $section_result = $section->getResultArray();
+
+                    $dynamic_option .= '<option value="0">SELECT</option>';
+                    foreach ($section_result as $key => $row_sec) {
+                        $dynamic_option .= '<option value="' . esc($row_sec['utype']) . '">' . esc(displayUsertype($row_sec['utype'])) . '</option>';
+                    }
+                } else {
+                    $dynamic_option .= '<option value="0">SELECT</option>';
+                }
+                return $dynamic_option;
+            }else {
+                if($cur_user_type==1 /*|| $_REQUEST['cur_user_type']==16*/) {
+                    // $section = "SELECT DISTINCT section,section_name FROM users a LEFT JOIN usersection b ON section=b.id WHERE udept='$_REQUEST[deptname]' ORDER BY section";
+                    $section_query = "SELECT DISTINCT section, section_name FROM master.users a LEFT JOIN master.usersection b ON section = b.id WHERE udept = '".$deptname."' ORDER BY section";
+                } else {
+                    // $section = "SELECT DISTINCT section,section_name FROM users a LEFT JOIN usersection b ON section=b.id WHERE udept='$_REQUEST[deptname]' AND usertype != 2 ORDER BY section";
+                    $section_query = "SELECT DISTINCT section,section_name FROM master.users a LEFT JOIN master.usersection b ON section=b.id WHERE udept = '".$deptname."' AND usertype != 2 ORDER BY section";
+                }
+                //pr($section_query);
+                $section = $this->db->query($section_query);
+                if($section->getNumRows() > 0) {
+                    $section_result = $section->getResultArray();
                     $dynamic_option .= '<option value="ALL">ALL</option>';
-
-                    /*foreach ($section_result as $key => $row_sec)
-                    {
-                        $dynamic_option .= '<option value = "'.$row_sec['section']).'">"'.$row_sec['section_name'].'"</option>';
-                    }*/
-
-                    foreach ($section_result as $key => $row_sec)
-                    {
+                    foreach ($section_result as $key => $row_sec) {
                         $dynamic_option .= '<option value="' . esc($row_sec['section']) . '">' . esc($row_sec['section_name']) . '</option>';
                     }
-                }
-                else
-                {
+                } else {
                     echo "RESET";
-                    if($_REQUEST['cur_user_type']==1)
-                    {
+                    if($cur_user_type==1) {
                         $dynamic_option .= '<option value="ALL">ALL</option>';
-                    }
-                    else
-                    {
+                    } else {
                         $dynamic_option .= '<option value="0">SELECT</option>';
                     }
                 }
                 return $dynamic_option;
             }
-            else if(isset($_REQUEST['setter']) && $_REQUEST['setter'] == 'L')
-            {
-                // $section = "SELECT utype FROM user_d_t_map WHERE udept = '$_REQUEST[deptname]' ORDER BY utype";
-                $section_query = "SELECT utype FROM user_d_t_map WHERE udept = '".$_REQUEST['deptname']."' ORDER BY utype";
-                $section = $this->db()->query($section_query);
-                if($section->getNumRows() > 0)
-                {
-                    $section_result = $section->getResultArray();
-
-                    $dynamic_option .= '<option value="0">SELECT</option>';
-
-                    /*foreach ($section_result as $key => $row_sec)
-                    {
-                        $dynamic_option .= '<option value = "'.$row_sec['utype']).'">"'.displayUsertype($row_sec['utype']).'"</option>';
-                    }*/
-
-                    foreach ($section_result as $key => $row_sec)
-                    {
-                        $dynamic_option .= '<option value="' . esc($row_sec['utype']) . '">' . esc(displayUsertype($row_sec['utype'])) . '</option>';
-                    }
-                }
-                else
-                {
-                    $dynamic_option .= '<option value="0">SELECT</option>';
-                }
-                return $dynamic_option;
+            
+        } else if($requestKey==2) {
+            if($cur_user_type==1 || $cur_user_type==16) {
+                $section = "SELECT DISTINCT usertype,type_name FROM master.users a LEFT JOIN master.usertype b ON usertype=b.id WHERE udept='$deptname' AND section = '$section' ORDER BY usertype";
+            } else {
+                $section = "SELECT DISTINCT usertype,type_name FROM master.users a LEFT JOIN master.usertype b ON usertype=b.id WHERE udept='$deptname' AND section = '$section'
+                        AND usertype != 2 ORDER BY usertype";
             }
+            $section = $this->db->query($section);
+            if($section->getNumRows() > 0) {
+                $section_result = $section->getResultArray();
+                $dynamic_option .= '<option value="ALL">ALL</option>';
+                    foreach ($section_result as $key => $row_sec) {
+                        $dynamic_option .= '<option value="' . esc($row_sec['usertype']) . '">' . esc($row_sec['type_name']) . '</option>';
+                    }
+
+            }  
+            
+            return $dynamic_option;      
         }
     }
 
     public function save_record()
     {
+        $request = \Config\Services::request();
         $ucode = session()->get('login')['usercode'];
-        $module = $_REQUEST['module'];
-        $user = isset($_REQUEST['user']) ? $_REQUEST['user'] : '';
-        $chk_arr = $_REQUEST['chk1'];
-        if($ucode != "" && $module != "")
-        {
-            foreach ($chk_arr as $value)
-            {
+        $module = $request->getPost('module');
+        $user = !empty($request->getPost('user')) ? $request->getPost('user') : '';
+        $chk_arr = $request->getPost('chk1');
+        
+        if($ucode != "" && $module != "") {
+            foreach ($chk_arr as $value) {
                 $t_data = explode("-", $value);
-                if ($module == 'dispatch')
-                {
-                    if ($user != "")
-                    {
-                        if ($t_data[1] == 1)
-                        {
+                if ($module == 'dispatch') {
+                    if ($user != "") {
+                        if ($t_data[1] == 1) {
                             $data =
                             [
                                 'diary_copy_set' => $t_data[0],
                                 'disp_by' => $ucode,
                                 'disp_to' => $user,
-                                'disp_dt' => date('Y-m-d H:i:s'), // Use current date and time
+                                'disp_dt' => date('Y-m-d H:i:s'),
                                 'rece_by' => '0',
                                 'rece_dt' => Null,
                                 'c_l' => $t_data[2],
                                 'remark' => $t_data[3],
                                 'flag' => '0',
+                                'updated_by_ip' => getClientIP(),
+                                'updated_by' => session()->get('login')['usercode'],
+                                'create_modify' => date("Y-m-d H:i:s")
                             ];
 
                             $this->db->table('diary_movement')->insert($data);
                         }
-                        if ($t_data[1] == 4)
-                        {
+                        if ($t_data[1] == 4) {
                             // $this->db->query("INSERT INTO diary_movement_history SELECT *, NOW() FROM diary_movement WHERE diary_copy_set = ?", [$t_data[0]]);
                            
                              $this->db->query("INSERT INTO diary_movement_history (
@@ -1104,43 +1076,43 @@ class FileMovementModel extends Model
                                 'diary_copy_set' => $t_data[0],
                                 'disp_by' => $ucode,
                                 'disp_to' => $user,
-                                'disp_dt' => date('Y-m-d H:i:s'), // Use current date and time
+                                'disp_dt' => date('Y-m-d H:i:s'),
                                 'rece_by' => '0',
                                 'rece_dt' => Null,
                                 'c_l' => $t_data[2],
                                 'remark' => $t_data[3],
                                 'flag' => '0',
+                                'updated_by_ip' => getClientIP(),
+                                'updated_by' => session()->get('login')['usercode'],
+                                'create_modify' => date("Y-m-d H:i:s")
                             ];
 
                             $this->db->table('diary_movement')->insert($data);
                         }
                     }
                 }
-
-                if ($module == 'receive')
-                {
-                    if ($t_data[1] == 1)
-                    {
-                        // Insert into diary_movement
+                
+                if ($module == 'receive') {
+                    if ($t_data[1] == 1) {
                         $data = [
                             'diary_copy_set' => $t_data[0],
                             'disp_by' => '0',
                             'disp_to' => '0',
                             'disp_dt' => Null,
                             'rece_by' => $ucode,
-                            'rece_dt' => date('Y-m-d H:i:s'), // Set current date and time
+                            'rece_dt' => date('Y-m-d H:i:s'),
                             'c_l' => $t_data[2],
                             'flag' => '0',
+                            'updated_by_ip' => getClientIP(),
+                            'updated_by' => session()->get('login')['usercode'],
+                            'create_modify' => date("Y-m-d H:i:s")
                         ];
 
                         $this->db->table('diary_movement')->insert($data);
-                    }
-                    elseif ($t_data[1] == 4)
-                    {
-                        // Update diary_movement
+                    } elseif ($t_data[1] == 4) {
                         $this->db->table('diary_movement')->where('diary_copy_set', $t_data[0])->update([
                             'rece_by' => $ucode,
-                            'rece_dt' => date('Y-m-d H:i:s'), // Set current date and time
+                            'rece_dt' => date('Y-m-d H:i:s'),
                             'c_l' => '',
                             'flag' => '0',
                         ]);
@@ -1205,133 +1177,87 @@ class FileMovementModel extends Model
         return $return;
     }
 
-    public function get_s_file_rec1($ucode,$module)
+    public function get_s_file_rec1($ucode, $module)
     {
-        $mul_category = "";
-        $act_section = "";
-        $main_case = "";
-        $t_slpcc = "";
-        $t_spl = "";
-        $html = '';
-        if(isset($_REQUEST['ct']) && $_REQUEST['ct'] != '')
-        {
-            $ct = $_REQUEST['ct'];
-            $cn = $_REQUEST['cn'];
-            $cy = $_REQUEST['cy'];
+        $mul_category = $act_section = $main_case = $t_slpcc = $t_spl = $html = '';
+        $request = \Config\Services::request();
+        $searchby = $request->getPost('searchby');
+        if($searchby == 1){
+            $caseType = $request->getPost('ct');
+            $caseNumber = $request->getPost('cn');
+            $caseYear = $request->getPost('cy');
+        }
+        
+        if($searchby == 2){
+            $d_no = $request->getPost('d_no');
+            $d_yr = $request->getPost('d_yr');
+        }
+        if(isset($caseType) && $caseType != '') {
+            $ct = $caseType;
+            $cn = $caseNumber;
+            $cy = $caseYear;
 
-            $queryString= "SELECT 
-                SUBSTR(diary_no::TEXT, 1, LENGTH(diary_no::TEXT) - 4) AS dn, 
-                SUBSTR(diary_no::TEXT, -4) AS dy
-            FROM main 
-            WHERE (
-                    SPLIT_PART(fil_no, '-', 1) <> '' AND
-                    SPLIT_PART(fil_no, '-', 1)::INTEGER = $ct
-                    AND SPLIT_PART(fil_no, '-', 2) <> '' AND 
-                    SPLIT_PART(fil_no, '-', 3) <> '' AND
-                    CAST('$cn' AS INTEGER) BETWEEN 
-                        CAST(SPLIT_PART(fil_no, '-', 2) AS INTEGER) AND 
-                        CAST(SPLIT_PART(fil_no, '-', 3) AS INTEGER)
-                    AND (
-                        (reg_year_mh = 0 OR fil_dt > DATE '2017-05-10' AND EXTRACT(YEAR FROM fil_dt) = $cy) 
-                        OR reg_year_mh = $cy
-                    )
-            ) 
-            OR (
-                    SPLIT_PART(fil_no_fh, '-', 1) <> '' AND
-                    SPLIT_PART(fil_no_fh, '-', 1)::INTEGER = $ct
-                    AND SPLIT_PART(fil_no_fh, '-', 2) <> '' AND 
-                    SPLIT_PART(fil_no_fh, '-', 3) <> '' AND
-                    CAST('$cn' AS INTEGER) BETWEEN 
-                        CAST(SPLIT_PART(fil_no_fh, '-', 2) AS INTEGER) AND 
-                        CAST(SPLIT_PART(fil_no_fh, '-', 3) AS INTEGER)
-                    AND (reg_year_fh = 0 AND EXTRACT(YEAR FROM fil_dt_fh) = $cy OR reg_year_fh = $cy)
-            )";
+            $builder = $this->db->table('main');
+            $builder->groupStart()
+                ->where("(CASE WHEN SPLIT_PART(fil_no, '-', 1) ~ '^[0-9]+$' THEN SPLIT_PART(fil_no, '-', 1)::INTEGER ELSE 0 END)", $ct)
+                ->where("CAST('{$cn}' AS INTEGER) BETWEEN 
+                    (CASE WHEN SPLIT_PART(fil_no, '-', 2) ~ '^[0-9]+$' THEN SPLIT_PART(fil_no, '-', 2)::INTEGER ELSE 0 END) 
+                    AND 
+                    (CASE WHEN SPLIT_PART(fil_no, '-', -1) ~ '^[0-9]+$' THEN SPLIT_PART(fil_no, '-', -1)::INTEGER ELSE 0 END)")
+                ->groupStart()->where('reg_year_mh', 0)->orWhere('fil_dt >', '2017-05-10')->groupEnd()
+                ->where("EXTRACT(YEAR FROM fil_dt) =", $cy)
+            ->groupEnd();
             
-            $query = $this->db->query($queryString);
+            $builder->orGroupStart()
+                ->where("(CASE WHEN SPLIT_PART(fil_no_fh, '-', 1) ~ '^[0-9]+$' THEN SPLIT_PART(fil_no_fh, '-', 1)::INTEGER ELSE 0 END)", $ct)
+                ->where("CAST('{$cn}' AS INTEGER) BETWEEN 
+                    (CASE WHEN SPLIT_PART(fil_no_fh, '-', 2) ~ '^[0-9]+$' THEN SPLIT_PART(fil_no_fh, '-', 2)::INTEGER ELSE 0 END) 
+                    AND 
+                    (CASE WHEN SPLIT_PART(fil_no_fh, '-', -1) ~ '^[0-9]+$' THEN SPLIT_PART(fil_no_fh, '-', -1)::INTEGER ELSE 0 END)")
+                ->where('reg_year_fh', 0)
+                ->where("EXTRACT(YEAR FROM fil_dt_fh) =", $cy)
+            ->groupEnd();
             
-            if ($query->getNumRows() > 0)
-            {
-                $get_dno = $query->getRowArray();
-                $_REQUEST['d_no'] = $get_dno['dn'];
-                $_REQUEST['d_yr'] = $get_dno['dy'];
-            }
-            else
-            {
-                $queryString2 = "SELECT 
-                    SUBSTR(h.diary_no::TEXT, 1, LENGTH(h.diary_no::TEXT) - 4) AS dn, 
-                    SUBSTR(h.diary_no::TEXT, -4) AS dy,
-                    CASE 
-                        WHEN h.new_registration_number != '' THEN SPLIT_PART(h.new_registration_number, '-', 1)
-                        ELSE ''
-                    END AS ct1, 
-                    CASE 
-                        WHEN h.new_registration_number != '' THEN SPLIT_PART(h.new_registration_number, '-', 2)
-                        ELSE ''
-                    END AS crf1, 
-                    CASE 
-                        WHEN h.new_registration_number != '' THEN SPLIT_PART(h.new_registration_number, '-', 3)
-                        ELSE ''
-                    END AS crl1 
-                FROM 
-                    main_casetype_history h 
-                WHERE 
-                    (
-                        (
-                            SPLIT_PART(h.new_registration_number, '-', 1) <> ''
-                            AND SPLIT_PART(h.new_registration_number, '-', 1)::INTEGER = $ct
-                            AND SPLIT_PART(h.new_registration_number, '-', 2) <> '' 
-                            AND SPLIT_PART(h.new_registration_number, '-', 3) <> '' 
-                            AND CAST('$cn' AS INTEGER) BETWEEN 
-                            (CAST(SPLIT_PART(h.new_registration_number, '-', 2) AS INTEGER)) 
-                            AND (CAST(SPLIT_PART(h.new_registration_number, '-', 3) AS INTEGER)) 
-                            AND h.new_registration_year = '$cy'
-                        )
-                    OR 
-                        (
-                            SPLIT_PART(h.old_registration_number, '-', 1) <> ''
-                            AND SPLIT_PART(h.old_registration_number, '-', 1)::INTEGER = $ct
-                            AND SPLIT_PART(h.old_registration_number, '-', 2) <> '' 
-                            AND SPLIT_PART(h.old_registration_number, '-', 3) <> '' 
-                            AND CAST('$cn' AS INTEGER) BETWEEN 
-                            (CAST(SPLIT_PART(h.old_registration_number, '-', 2) AS INTEGER)) 
-                            AND (CAST(SPLIT_PART(h.old_registration_number, '-', 3) AS INTEGER)) 
-                            AND h.old_registration_year = '$cy' 
-                        )
-                    )
-                    AND h.is_deleted = 'f'";
+            $builder->select([
+                "SUBSTRING(diary_no::TEXT FROM 1 FOR CHAR_LENGTH(diary_no::TEXT) - 4) AS dn",
+                "SUBSTRING(diary_no::TEXT FROM CHAR_LENGTH(diary_no::TEXT) - 3 FOR 4) AS dy"
+            ]);
+            
+            $result = $builder->get()->getRowArray();
+            
+            if (!empty($result)) {
+                $d_no = $result['dn'];
+                $d_yr = $result['dy'];
+            } else {
+                
+                $builder = $this->db->table('main_casetype_history h');
+                $builder->select([
+                    "substring(h.diary_no::text, 1, char_length(h.diary_no::text) - 4) as dn",
+                    "substring(h.diary_no::text, char_length(h.diary_no::text) - 3, 4) as dy",
+                    "CASE WHEN h.new_registration_number != '' THEN split_part(h.new_registration_number, '-', 1) ELSE '' END as ct1",
+                    "CASE WHEN h.new_registration_number != '' THEN split_part(h.new_registration_number, '-', 2) ELSE '' END as crf1",
+                    "CASE WHEN h.new_registration_number != '' THEN split_part(h.new_registration_number, '-', -1) ELSE '' END as crl1"
+                ]);
+                $builder->where("((split_part(nullif(h.new_registration_number, ''), '-', 1)::int = $ct AND $cn BETWEEN split_part(nullif(h.new_registration_number, ''), '-', 2)::INTEGER AND split_part(nullif(h.new_registration_number, ''), '-', -1)::INTEGER AND h.new_registration_year = $cy) OR (split_part(nullif(h.old_registration_number, ''), '-', 1) = '$ct' AND $cn BETWEEN split_part(nullif(h.old_registration_number, ''), '-', 2)::INTEGER AND split_part(nullif(h.old_registration_number, ''), '-', -1)::INTEGER AND h.old_registration_year = $cy)) AND h.is_deleted = 'f'");
+                
+                $result = $builder->get()->getRowArray();
+                if (!empty($result)) {
+                    $d_no = $result['dn'];
+                    $d_yr = $result['dy'];
 
-                $query2 = $this->db->query($queryString2);
+                    $sql_ct_type = $this->db->query("SELECT short_description FROM master.casetype WHERE casecode = $ct AND display = 'Y'");
 
-
-                if ($query2->getNumRows() > 0)
-                {
-                    $get_dno = $query2->getRowArray();
-                    $_REQUEST['d_no'] = $get_dno['dn'];
-                    $_REQUEST['d_yr'] = $get_dno['dy'];
-
-                    $sql_ct_type = $this->db->query("
-                        SELECT short_description 
-                        FROM master.casetype 
-                        WHERE casecode = 3 AND display = 'Y'
-                    ");
-
-                    if ($sql_ct_type->getNumRows() > 0)
-                    {
+                    if ($sql_ct_type->getNumRows() > 0) {
                         $res_ct_typ = $sql_ct_type->getRow()->short_description;
-                        $t_slpcc = $res_ct_typ . " " . $get_dno['crf1'] . " - " . $get_dno['crl1'] . " / " . $cy;
+                        $t_slpcc = $res_ct_typ . " " . $result['crf1'] . " - " . $result['crl1'] . " / " . $cy;
                     }
-                }
-                else
-                {
+                } else {
                     $html .= '<p align=center><font color=red>Case Not Found</font></p>';
                     return $html;
                 }
             }
         }
-        if($_REQUEST['d_no']!='' && $_REQUEST['d_yr']!='')
-        {
-            $d_no = $_REQUEST['d_no'];
-            $d_yr = $_REQUEST['d_yr'];
+        if($d_no !='' && $d_yr !='') {
             $diaryNo = strval($d_no).''.strval($d_yr);
 
             $sql = "SELECT 
@@ -1408,7 +1334,7 @@ class FileMovementModel extends Model
                 }
 
                 $conn_type = "";
-                $diary_no = $_REQUEST["d_no"] . "/" . $_REQUEST["d_yr"];
+                //$diary_no = $_REQUEST["d_no"] . "/" . $_REQUEST["d_yr"];
 
                 if ($fil_no["conn_key"] != "") {
                     if ($fil_no["conn_key"] == $fil_no["diary_no"]) {
@@ -1418,7 +1344,7 @@ class FileMovementModel extends Model
                     }
                 }
 
-                $html .= '<div style="text-align: center"><strong>Diary No.- '.$_REQUEST["d_no"].' - '.$_REQUEST["d_yr"].'</strong></div>';
+                $html .= '<div style="text-align: center"><strong>Diary No.- '.$d_no.' - '.$d_yr.'</strong></div>';
 
                 $query4 = "SELECT 
                     fil_dt, 
@@ -1744,11 +1670,9 @@ class FileMovementModel extends Model
                         $sql_display = $this->db->query("SELECT display_flag, always_allowed_users FROM master.case_status_flag WHERE to_date IS null AND flag_name = 'tentative_listing_date'")->getRowArray();
                         
 
-                        if ( $sql_display["display_flag"] == 1 || in_array($ucode, explode(",", $sql_display["always_allowed_users"])) )
-                        {
+                        if ( $sql_display["display_flag"] == 1 || in_array($ucode, explode(",", $sql_display["always_allowed_users"]))) {
                             $tentative_date = '';
-                            if ( get_display_status_with_date_differnces( $r_ttv["tentative_cl_dt"] ) == "T" )
-                            {
+                            if ( !empty($r_ttv["tentative_cl_dt"]) && get_display_status_with_date_differnces( $r_ttv["tentative_cl_dt"] ) == "T" ) {
                                 $tentative_date = date('d-m-Y', strtotime($r_ttv["tentative_cl_dt"]));
                             }
 
@@ -1758,8 +1682,7 @@ class FileMovementModel extends Model
                             </tr>";
                         }
 
-                        if ($isconn == "Y")
-                        {
+                        if ($isconn == "Y") {
                             $sql_oth_conn_query = "SELECT 
                                 m.diary_no,
                                 (SELECT list FROM conct cc WHERE cc.diary_no = m.diary_no LIMIT 1) AS llist
@@ -1774,20 +1697,16 @@ class FileMovementModel extends Model
                             $connto = "<font color='red'>" . $connto . " </font>(Main Case)";
                             $sql_oth_conn = $this->db->query($sql_oth_conn_query);
 
-                            if($sql_oth_conn->getNumRows() > 0)
-                            {
+                            if($sql_oth_conn->getNumRows() > 0) {
                                 $results_oc = $sql_oth_conn->getResultArray();
-                                foreach ($results_oc as $key => $row_oc)
-                                {
+                                foreach ($results_oc as $key => $row_oc) {
                                     $connto .= "<br><font color='blue'>" . $row_oc["diary_no"] . " </font>(Connected Case)";
                                 }
                             }
 
                             $html .= "<tr valign='top'><td bgcolor='#F4F5F5'>Connected To </td><td><b>" . $connto . "</b></td></tr>";
                         }
-                    }
-                    else
-                    {
+                    } else {
                         $html .= '<tr>
                             <td>Case Status </td>
                             <td><font color=red>Case is Disposed</font></td>
@@ -1796,28 +1715,20 @@ class FileMovementModel extends Model
                     $html .= '</table>';
                 }
 
-                if ($conn_type == "")
-                {
+                if ($conn_type == "") {
                     $html .= get_diary_set_fm($fil_no["diary_no"], $module, $conn_type);
-                }
-                else
-                {
+                } else {
                     $conncases = get_conn_cases($fil_no["diary_no"]);
 
-                    foreach ($conncases as $row => $link)
-                    {
-                        if ($link["c_type"] != "")
-                        {
-                            if ($link["c_type"] == "M")
-                            {
+                    foreach ($conncases as $row => $link) {
+                        if ($link["c_type"] != "") {
+                            if ($link["c_type"] == "M") {
                                $html .= "<b>Main Case</b>";
-                            }
-                            if ($link["c_type"] == "C")
-                            {
+                            } 
+                            if ($link["c_type"] == "C") {
                                $html .= "<b>Connected Case</b>";
                             }
-                            if ($link["c_type"] == "L")
-                            {
+                            if ($link["c_type"] == "L") {
                                $html .= "<b>Linked Cases</b>";
                             }
                             $html .= get_diary_set_fm($link["diary_no"], $module, $link["c_type"]);
@@ -1825,17 +1736,14 @@ class FileMovementModel extends Model
                     }
                 }
 
-                if ($module == "receive")
-                {
+                if ($module == "receive") {
                     $html .= '<p align="center"><input type="button" name="receive" id="receive" value="Receive File" class="btn btn-primary"/></p>';
                 }
-                if ($module == "dispatch")
-                {
+                if ($module == "dispatch") {
                     $usercode = session()->get('login')['usercode'];
                     $usertype_query = $this->db->table('master.users')->select('usertype, udept')->where('usercode', $usercode)->get()->getRowArray();
 
-                    if ($usertype_query)
-                    {
+                    if ($usertype_query) {
                         /*$dept_query = $this->db->table('master.users')->select('DISTINCT udept, dept_name')->join('master.userdept', 'udept = userdept.id', 'left')->orderBy('udept')->get()->getResultArray();*/
 
                         $dept_query = $this->db->table('master.users')->distinct()->select('udept, dept_name')->join('master.userdept', 'users.udept = userdept.id', 'left')->orderBy('udept')->get()->getResultArray();
@@ -1849,18 +1757,14 @@ class FileMovementModel extends Model
                                     <select class="form-control" id="department">';
 
                     // Add options based on user type
-                    if ($usertype_query['usertype'] == 1)
-                    {
+                    if ($usertype_query['usertype'] == 1) {
                         $html .= '<option value="ALL">ALL</option>';
-                    }
-                    else
-                    {
+                    } else {
                         $html .= '<option value="">SELECT</option>';
                     }
 
                     // Populate department options
-                    foreach ($dept_query as $dept_row)
-                    {
+                    foreach ($dept_query as $dept_row) {
                         $html .= '<option value="' . esc($dept_row['udept']) . '">' . esc($dept_row['dept_name']) . '</option>';
                     }
 
@@ -1871,12 +1775,9 @@ class FileMovementModel extends Model
                         <label class="cl_wh">SECTION</label>
                         <select class="form-control" id="section">';
 
-                    if ($usertype_query['usertype'] == 1)
-                    {
+                    if ($usertype_query['usertype'] == 1) {
                         $html .= '<option value="ALL">ALL</option>';
-                    }
-                    else
-                    {
+                    } else {
                         $html .= '<option value="0">SELECT</option>';
                     }
 

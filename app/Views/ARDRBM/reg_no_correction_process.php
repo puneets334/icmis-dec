@@ -1,7 +1,7 @@
 <?php
 if ($option == 1) {
 
-    if ($radio == 2) {
+    if ($radio == 2 || $radio == 'C') {
 
         $get_dno = $model_ia->searchDiary2($ctype, $cno, $cyr);
         if ($get_dno) {
@@ -337,7 +337,7 @@ if ($option == 1) {
         }
     }
 
-    function update_data() {
+        function update_data() {
         var radio = $("input[type='radio'][name='rad']:checked").val();
         var regno = $('#regno').val();
         var is_lct;
