@@ -4,7 +4,7 @@
     <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4">
     <div style="align:center;">
         <h2><?php  if(!empty($title)) print_r($title);else echo '';?></h2>
-        <table id="tab" class="table table-bordered table-striped">
+        <table id="tab" class="table table-striped table-hover custom-table">
             <thead><tr style="background-color:darkgrey;">
                 <th >SNo</th>
                 <th>Application Details</th>

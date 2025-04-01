@@ -26,8 +26,8 @@
     margin-bottom: 10px;
 }
 
-.modal {
-    padding: 0 !important; /* override inline padding-right added from js */
+/* .modal {
+    padding: 0 !important;  
 }
 .modal .modal-dialog {
     width: 100%;
@@ -42,7 +42,7 @@
 }
 .modal .modal-body {
     overflow-y: auto;
-}
+} */
 </style>
 
 <section class="content">
@@ -54,21 +54,20 @@
                         <h3 class="card-title">Library Resources List</h3>
                     </div>
                     <div class="card-body">
-                        <p id="show_error"></p>
-                        <form>
+                    <p id="show_error"></p>
+                        <form id="dateForm" method="post">
                             <?= csrf_field() ?>
-                            <div class="form-row col-12">
-                                <div class="input-group col-3 mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="list_date_addon">List Date</span>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="cause_date" class="col-form-label">List Date</label>
+                                        <input type="text" class="form-control bg-white list_date" value="" aria-describedby="list_date_addon" placeholder="Date..." readonly>
                                     </div>
-                                    <input type="text" class="form-control bg-white list_date" value="<?= date('d-m-Y') ?>" aria-describedby="list_date_addon" placeholder="Date..." readonly>
                                 </div>
-                                <div class="input-group col-3 mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="courtno_addon">Court No.<span style="color:red;">*</span></span>
-                                    </div>
-                                    <select class="form-control courtno" aria-describedby="courtno_addon">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="flist" class="col-form-label">Court No.<span style="color:red;">*</span></label>
+                                        <select class="form-control courtno" aria-describedby="courtno_addon">
                                         <option value="0">-All-</option>
                                         <?php for ($i = 1; $i <= 22; $i++): ?>
                                             <option value="<?= $i ?>"><?= $i ?></option>
@@ -76,49 +75,65 @@
                                         <option value="21">21 (Registrar)</option>
                                         <option value="22">22 (Registrar)</option>
                                     </select>
-                                </div>
-                                <div class="input-group col-3 mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="status_addon">Status<span style="color:red;">*</span></span>
                                     </div>
-                                    <select class="form-control status" aria-describedby="status_addon">
-                                        <option value="0">-All-</option>
-                                        <option value="Pending">Pending</option>
-                                        <option value="Completed">Completed</option>
-                                    </select>
                                 </div>
-                                <div class="col-2 pl-4 mb-3">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="sort" class="col-form-label">Status<span style="color:red;">*</span></label>
+                                        <select class="form-control status" aria-describedby="status_addon">
+                                            <option value="0">-All-</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Completed">Completed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-2 pl-4 mt-4">
                                     <input id="btn_search" name="btn_search" type="button" class="btn btn-success btn-block" value="Search">
                                 </div>
                             </div>
+                            
+
                         </form>
 
-                        <div class="row col-md-12 m-0 p-0" id="result"></div>
-
-                        <div class="modal" id="myModal">
-                            <div class="modal-dialog modal-xl">
-                                <div class="modal-content" style="height:100%;">
-                                    <div class="modal-body" id="modal_body_section" style="height:100%;">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
+ 
+                        
+                        <hr>                   
+                        <div class="row " >
+                            <div class="col-md-12" id="result"></div>
+                            <div class="panel-footer" id="rslt"></div>               
                         </div>
+
+                        
 
                     </div>
                 </div>
             </div>
-            <div class="panel-footer" id="rslt"></div>
+            
         </div>
     </div>
 </section>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+ 
+
+<div class="modal" id="myModal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="height:100%;">
+                <div class="modal-body" id="modal_body_section" style="height:100%;">
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> -->
 <script>
-$(".list_date").datepicker();
+$(".list_date").datepicker({
+    format:'dd-mm-yyyy'
+});
 
 $("#btn_search").click(function() {
     $("#result").html("");
@@ -148,15 +163,17 @@ $("#btn_search").click(function() {
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             beforeSend: function() {
-                $('#result').html('<table width="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                $('#result').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
             },
             type: 'POST',
             success: function(data) {
                 updateCSRFToken();
+                $('#rslt').text('');
                 $("#result").html(data);
             },
             error: function(xhr) {
                 updateCSRFToken();
+                $('#rslt').text('');
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
@@ -176,7 +193,7 @@ $(document).on("click", '.btn_upload_modal', function () {
     var CSRF_TOKEN = 'CSRF_TOKEN';
     var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
-    $("#modal_body_section").html('<table width="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+    $("#modal_body_section").html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
 
     $.ajax({
         url: '<?php echo base_url('Library/ResourcesList/UploadModel'); ?>',
@@ -206,6 +223,64 @@ $(document).on("click", '.btn_upload_modal', function () {
 
 
 
+$(document).on("click", '.btn_upload_save', function () {
+        var data1 = new FormData($(this).parents('form')[0]);
+        var document_retain = '';
+        if($('#document_retain_option_yes').prop('checked') === true){
+            document_retain = "Yes";
+        }else{
+            document_retain = "No";
+        }
+         
+        $.ajax({
+            url:'<?= base_url('Library/ResourcesList/upload_modal_save'); ?>',
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: 'text',
+            //data: {form_data:form_data,list_date:list_date,diary_no:diary_no,document_retain:document_retain},
+            data: data1,
+            beforeSend:function(){
+                //$('#modal_body_section').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+            },
+            xhr: function() {
+                var myXhr = $.ajaxSettings.xhr();
+                return myXhr;
+            },
+            type: 'POST',
+            success: function(data, status) {
+                updateCSRFToken();
+                if(data == 'Uploaded successfully'){
+                    $("#myModal .close").click();
+                    swal({title: "Success!",text: data,icon: "success",button: "success!"});
+                    btn_search();
+                }
+                else{
+                    swal({
+                        title: "Error!",
+                        text: data,
+                        icon: "error",
+                        button: "Try Again!"
+                    });
+                }
+                ////
+                //$('#modal_body_section').html(data);
+            },
+            error: function(xhr) {
+                updateCSRFToken();
+                alert("Error: " + xhr.status + " " + xhr.statusText);
+            }
+        });
 
+
+    });
+
+
+   async function btn_search()
+    {
+        await updateCSRFTokenSync();
+        $("#btn_search").click();
+
+    }
 
 </script>

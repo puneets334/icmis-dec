@@ -1125,8 +1125,10 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
                 }
             } elseif ($searchBy == 'c' || $searchBy == 'd') {
                 $fetchedDiaryNo = $this->getSearchDiary($searchBy, $caseType ?? '', $caseNo ?? '', $caseYear ?? '', $diaryNumber ?? '', $diaryYear ?? '');
-
-                $whereDateRange = " AND epd.diary_no = " . $fetchedDiaryNo;
+               if($fetchedDiaryNo != '')
+                    $whereDateRange = " AND epd.diary_no = " . $fetchedDiaryNo;
+                    else
+                    $whereDateRange = " AND epd.diary_no is NULL ";
             } elseif ($searchBy == 'p') {
                 $whereDateRange = " AND epd.process_id = $processId AND epd.process_id_year = " . $processYear;
             }
@@ -1147,7 +1149,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
             }
         }
 
-        $sql = "SELECT 
+         $sql = "SELECT 
                 epd.is_case, epd.is_with_process_id, epd.reference_number, 
                 epd.id AS ec_postal_dispatch_id, epd.process_id, epd.process_id_year,
                 CASE 
@@ -1177,7 +1179,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
             LEFT JOIN master.state d ON d.id_no = epd.tal_district     
             WHERE $wherePostalDispatch $whereDateRange 
             ORDER BY epd.ref_postal_type_id, epd.serial_number";
-
+ 
         $query = $this->db->query($sql);
         return $query->getResultArray();
     }
@@ -1976,7 +1978,16 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
 
     public function getNoticeAdLtrDetails($txt_frmdate, $txt_todate, $ddlOR, $ucode, $u_cond)
     {
-        $sql = "SELECT d.id,a.diary_no, process_id, a.name, case when (send_to_type='' or send_to_type::integer IN (2, 3)) then address when (send_to_type::integer = 1) then bb.caddress else '' END AS address, b.name nt_typ, del_type, 
+        $sql = "SELECT d.id,a.diary_no, process_id, a.name, 
+        CASE
+        WHEN (send_to_type = '' OR CAST(NULLIF(REGEXP_REPLACE(send_to_type, '[^0-9]', '', 'g'), '') AS INTEGER) IN (2, 3)) 
+        THEN address
+        WHEN (CAST(NULLIF(REGEXP_REPLACE(send_to_type, '[^0-9]', '', 'g'), '') AS INTEGER) = 1) 
+        THEN bb.caddress
+        ELSE ''
+    END AS address, 
+        
+        b.name nt_typ, del_type, 
       tw_sn_to, copy_type, send_to_type, fixed_for, rec_dt, office_notice_rpt,reg_no_display,
       sendto_district,sendto_state,nt_type,tal_state,tal_district,dispatch_id,dispatch_dt,station,weight,stamp,
       barcode,dis_remark,dispatch_user_id
@@ -3927,4 +3938,77 @@ else '' end as case_no");
 
         return $query->getResultArray();
     }
+
+
+    public function getRICompleteDetail($id)
+    {
+        $sql = "SELECT 
+                    rls.description AS current_status,
+                    epd.is_case,
+                    epd.is_with_process_id,
+                    epd.reference_number,
+                    epd.id AS ec_postal_dispatch_id,
+                    epd.process_id,
+                    epd.process_id_year,
+                    COALESCE(m.reg_no_display, CONCAT(LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT)-4), '/', RIGHT(m.diary_no::TEXT, 4))) AS case_no,
+                    epd.diary_no,
+                    epd.send_to_name,
+                    epd.send_to_address,
+                    tn.name AS doc_type,
+                    s.name AS state_name,
+                    d.name AS district_name,
+                    epd.pincode,
+                    epd.tal_state,
+                    epd.tal_district,
+                    (SELECT name || '(' || empid || ')' FROM master.users WHERE usercode = epd.usercode) AS last_updated_by,
+                    epd.updated_on AS last_updated_on,
+                    us.section_name,
+                    epd.serial_number,
+                    epd.ref_postal_type_id,
+                    epd.postal_charges,
+                    epd.weight,
+                    epd.waybill_number,
+                    epd.usersection_id,
+                    (SELECT section_name FROM master.usersection WHERE id = epd.usersection_id) AS send_to_section,
+                    (SELECT name FROM master.tw_serve WHERE serve_stage = epd.serve_stage AND serve_type = 0) AS serve_stage,
+                    (SELECT name FROM master.tw_serve WHERE id = epd.tw_serve_id) AS serve_type,
+                    epd.serve_remarks,
+                    rpt.postal_type_description             
+                FROM ec_postal_dispatch epd 
+                LEFT JOIN main m ON epd.diary_no = m.diary_no
+                LEFT JOIN master.tw_notice tn ON epd.tw_notice_id = tn.id
+                LEFT JOIN master.usersection us ON epd.usersection_id = us.id
+                LEFT JOIN master.ref_letter_status rls ON epd.ref_letter_status_id = rls.id
+                LEFT JOIN master.ref_postal_type rpt ON epd.ref_postal_type_id = rpt.id
+                LEFT JOIN master.state s ON s.id_no = epd.tal_state 
+                LEFT JOIN master.state d ON d.id_no = epd.tal_district     
+                WHERE epd.id = ?";
+
+        $query = $this->db->query($sql, array($id));
+        return $query->getRow();
+    }
+
+    public function getDispatchTransactions($id)
+    {
+        $sql = "SELECT 
+                    rls.description AS letter_stage,
+                    u.name,
+                    u.empid,
+                    epdt.updated_on,
+                    us.section_name,
+                    epdt.remarks
+                FROM ec_postal_dispatch_transactions epdt 
+                INNER JOIN master.ref_letter_status rls ON epdt.ref_letter_status_id = rls.id
+                INNER JOIN master.users u ON epdt.usercode = u.usercode
+                LEFT JOIN master.usersection us ON u.section = us.id
+                WHERE epdt.ec_postal_dispatch_id = ?
+                ORDER BY epdt.ref_letter_status_id";
+
+        $query = $this->db->query($sql, array($id));
+        return $query->getResultArray();
+    }
+
+
+
+
 }

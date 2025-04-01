@@ -576,7 +576,7 @@ class FasterController extends BaseController
                 'pdf_path'=> urldecode($_POST['url_pdf_embed_path']),
                 'pin'=>$_POST['token_pin'],
                 'signature'=> $sign_str,
-                'image_url'=>WEB_ROOT.'/supreme_court/Copying/index.php/FasterController/generateImage/'.$certificateNumber, //TODO::Change icmis to supreme_court when going live
+                'image_url'=>WEB_ROOT.'/asterController/generateImage/'.$certificateNumber, //TODO::Change icmis to supreme_court when going live
                 'sign_location'=>array('x'=>275,'y'=>770,'x1'=>310,'y1'=>820)
             );
             //production
@@ -1283,11 +1283,12 @@ class FasterController extends BaseController
         $year = substr($postDiary, -4);
         $diaryNo = substr($postDiary, 0, strlen($dNo) - 4);
 
-        $fileFolder = "supremecourt/party_details/$year/$diaryNo/";
+        // $fileFolder = "supremecourt/party_details/$year/$diaryNo/";
         $pdfFile = $date."_".$postDiary.".pdf";
         // $pathDir = "/home/reports/$fileFolder";
         // pr(FCPATH);
-        $fileDir = "/reports/$fileFolder";
+        $fileDir = FASTER_STORAGE_PARTY."$year/$diaryNo/";
+        // $fileDir = "/reports/$fileFolder";
         $pathDir = getBasePath().$fileDir;
         // pr($pathDir);
         if (!is_dir($pathDir)) {

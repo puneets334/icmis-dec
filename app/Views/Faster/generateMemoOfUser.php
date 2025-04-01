@@ -227,7 +227,7 @@
                 $( "#submitSavePDF" ).click();
                 $('#pdfForm').submit();
                 $("#viewpdf_load").remove();
-                swal({title: "Success!",text: "Your PDF has been saved successfully",icon: "success",button: "success!"});
+                swal({title: "Success!",type: 'success',text: "Your PDF has been saved successfully",icon: "success",button: "success!"});
                 setTimeout(function(){                    
                     fsubmit();
                 }, 2000);
@@ -237,8 +237,8 @@
         });
     }
 
-    $(document).ready(function(){
-        $('#pdfForm').on('submit', function(e){
+    $(document).ready(function () {
+        $('#pdfForm').on('submit', function (e) {
             e.preventDefault();
             var url = $(this).attr('action');
             $.ajax({
@@ -252,6 +252,8 @@
             })
         });
     });
+
+    
 
     function fsubmit()
     { //alert('fsubmit akg');

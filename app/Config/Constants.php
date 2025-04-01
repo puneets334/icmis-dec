@@ -110,8 +110,9 @@ $documents_exempted_from_signing = array(DOCUMENT_ROP,DOCUMENT_JUDGMENT,DOCUMENT
 define('DOCUMENT_EXEMPTED_FROM_SIGNING',serialize($documents_exempted_from_signing));
 define('TEST',array(DOCUMENT_ROP,DOCUMENT_JUDGMENT,DOCUMENT_SIGNED_ORDER));
 
-define('FASTER_STORAGE','/home/reports/supremecourt/faster_assets/');// - /home/reports/supremecourt/faster_assets/
-define('FASTER_STORAGE_FOR_DB','/supremecourt/faster_assets/'); // -  /supremecourt/faster_assets/
+define('FASTER_STORAGE','/home/reports/supremecourt/faster_assets/');   // - /home/reports/supremecourt/faster_assets/
+define('FASTER_STORAGE_PARTY','/reports/supremecourt/party_details/');  // - /reports/supremecourt/party_details/
+define('FASTER_STORAGE_FOR_DB','/supremecourt/faster_assets/');         // -  /supremecourt/faster_assets/
 define('WEB_ROOT', "http://".$_SERVER['HTTP_HOST']);
 define('WEB_ROOT_URL', "http://".$_SERVER['HTTP_HOST']);
 define('FILE_ROOT_PATH','/reports');

@@ -356,7 +356,7 @@
         // dataToSend.append('CSRF_TOKEN', csrfToken);
         // alert(dataToSend);
 
-        var dynamicUrl = "<?php echo  base_url() ?>/RI/DispatchController/doDispatchFromSectionToRIWithoutProcessId/'";
+        var dynamicUrl = "<?php echo  base_url() ?>/RI/DispatchController/doDispatchFromSectionToRIWithoutProcessId'";
         $.ajax({
         url: dynamicUrl, 
         type: "POST",

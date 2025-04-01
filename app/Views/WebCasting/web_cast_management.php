@@ -1,3 +1,9 @@
+<style>
+    .modal-body{
+            padding: 0 !important;
+            text-align: left !important; 
+        }
+</style>
 <?= view('header') ?>
  
     <style>
@@ -34,6 +40,15 @@
         .row {
             margin-right: 15px;
             margin-left: 15px;
+        }
+        .modal-header{
+            position: relative !important;
+            border-bottom: 1px solid #ccc !important;
+        }
+        .modal-body{
+            padding: 0 !important;
+    
+ 
         }
     </style>
 
@@ -92,7 +107,7 @@
                                         <div class="tab-content">
                                             <div class="active tab-pane" id="court_tab_panel">
 
-                                                <table id="example1" class="table table-striped table-bordered">
+                                                <table id="example1" class="table table-striped table-bordered custom-table">
                                                     <thead>
                                                     <tr>
 
@@ -370,7 +385,7 @@
                             <div class="form-group">
                                 <label for="name3" class="col-sm-3 control-label">Mobile : </label>
                                 <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="mobile" placeholder="Enter Mobile" pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$" required>
+                                    <input type="text" maxlength="10" min="10" max="10" class="form-control numbersonly" name="mobile" placeholder="Enter Mobile" pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$" required>
                                 </div>
                             </div>
 
@@ -447,7 +462,7 @@
                             <div class="form-group">
                                 <label for="name3" class="col-sm-3 control-label">Mobile : </label>
                                 <div class="col-sm-9">
-                                    <input type="number" class="form-control" name="mobile_editj" id="mobile_editj"  pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$" required>
+                                    <input type="text" max="10" min="10" maxlength="10" class="form-control numbersonly" name="mobile_editj" id="mobile_editj"  pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$" required>
                                 </div>
                             </div>
 
@@ -643,18 +658,13 @@
         var webex = $('#webex').val();
         var btime = $('#bench_timing').val();
         var remark = $('#remarks').val();
-        // alert(CSRF_TOKEN_VALUE);
-        // var myform = document.getElementById("vcform");
-        //  console.log(myform);
-        // var fd = new FormData(myform);
-        // alert(fd);
+         
 
         if($('#issb').is(':checked'))
         {
             var spl = $('#speclink').val();
         }
-        //alert(courtdate+">>"+courtno+">>"+linksb+">>"+webex+">>"+btime+">>"+remark+">>"+spl);
-
+         
         let dat = {            
             'cd': courtdate,
             'cn': courtno,
@@ -870,15 +880,16 @@
 
 
     <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+         $(function() {
+              $("#example1").DataTable({
+                  "responsive": true,
+                  "lengthChange": false,
+                  "autoWidth": false,
+                 // "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+              }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
         });
+        
     </script>
 
 
