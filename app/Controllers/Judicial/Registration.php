@@ -205,20 +205,21 @@ class Registration extends BaseController
                         $ucode = session()->get('login')['usercode'];                        
                         
                         // hold
-                        // $result = $RegistrationModel->addCaseHistory([
-                        //     'diary_no' => $diary_no,
-                        //     'old_registration_number' => $old_fil_no,
-                        //     'old_registration_year' => $old_fil_dt,
-                        //     'new_registration_number' => $t_fil_no_fh,
-                        //     'new_registration_year' => $year,
-                        //     'order_date' => date('Y-m-d', strtotime($dtd)), // Ensure the date is formatted correctly
-                        //     'ref_old_case_type_id' => $old_fil_ct,
-                        //     'ref_new_case_type_id' => $newcc,
-                        //     'adm_updated_by' => $ucode,
-                        //     'updated_on' => date('Y-m-d H:i:s'), // Use current date and time
-                        //     'is_deleted' => 'f',
-                        //     'ec_case_id' => 1
-                        // ]);
+                        $result = $RegistrationModel->addCaseHistory([
+                            'diary_no' => $diary_no,
+                            'old_registration_number' => $old_fil_no,
+                            'old_registration_year' => $old_fil_dt,
+                            'new_registration_number' => $t_fil_no_fh,
+                            'new_registration_year' => $year,
+                            'order_date' => date('Y-m-d', strtotime($dtd)), // Ensure the date is formatted correctly
+                            'ref_old_case_type_id' => $old_fil_ct,
+                            'ref_new_case_type_id' => $newcc,
+                            'adm_updated_by' => $ucode,
+                            'updated_on' => date('Y-m-d H:i:s'), // Use current date and time
+                            'is_deleted' => 'f',
+                            'ec_case_id' => 1
+                        ]);
+                        
 
                         $output[$diary_no]['success'] = 1;
                         $output[$diary_no]['message'] = "Registered No. is : " . $regNoDisplay . "\n\r";
