@@ -309,7 +309,8 @@ class DispatchController extends BaseController
             } elseif ($optradio == 2) {
                 $searchBy = 'd';
             }
-            $fetchedDiaryNo = $this->RIModel->getSearchDiary($caseType, $caseNo, $caseYear, $diaryNumber, $diaryYear, $searchBy);
+            $fetchedDiaryNo = $this->RIModel->getSearchDiary($searchBy,$caseType, $caseNo, $caseYear, $diaryNumber, $diaryYear);
+           
             $dataToInsert = array(
                 'is_with_process_id' => 0,
                 'is_case' => 1,
@@ -325,7 +326,7 @@ class DispatchController extends BaseController
                 'updated_on' => date('Y-m-d H:i:s')
             );
         }
-        // pr('Hi');
+ 
         $affectedRow = $this->RIModel->saveLetterData($dataToInsert);
         if ($affectedRow > 0) {
             echo '<center><h4 style="color:red;">Letter dispatched to R&I Successfully</h4></center>';
@@ -457,6 +458,7 @@ class DispatchController extends BaseController
         $data['dispatchModes'] = $this->RIModel->getReceiptMode();
         $data['dataToReciveInRI'] = $this->RIModel->enteredDakToDispatchInRIWithProcessId($_POST);
         //pr($data['dataToReciveInRI']);
+        //pr($data['dataToReciveInRI']);
         return view('RI/Dispatch/dataToReceive', $data);
     }
     ### menu 777
@@ -567,8 +569,9 @@ class DispatchController extends BaseController
     }
 
     public function getCompleteDispatchTransaction($ecPostalDispatchId){
-        $data['RICompleteDetail']=$this->RIModel->getRICompleteDetail($ecPostalDispatchId);
+        $data['RICompleteDetail']=$this->RIModel->getRICompleteDetail($ecPostalDispatchId);       
         $data['dispatchTransactions']=$this->RIModel->getDispatchTransactions($ecPostalDispatchId);
+        //pr($data['dispatchTransactions']);
         return view('RI/dispatch_report/riCompleteDetails',$data);
     }
 

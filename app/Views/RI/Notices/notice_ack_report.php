@@ -39,12 +39,12 @@
 
                                                     <div class="col-sm-12 col-md-3 mb-3">
                                                         <label for="txtFromDate">From</label>
-                                                        <input type="text" name="txtFromDate" id="txtFromDate" size="7" class="dtp form-control" value="<?php echo date('d-m-Y'); ?>" readonly />
+                                                        <input type="text" name="txtFromDate" id="txtFromDate" size="7" class="dtp form-control" value="<?php echo date('d-m-Y'); ?>"  />
                                                     </div>
 
                                                     <div class="col-sm-12 col-md-3 mb-3">
                                                         <label for="txtToDate">To</label>
-                                                        <input type="text" size="7" name="txtToDate" id="txtToDate" class="dtp form-control" value="<?php echo date('d-m-Y'); ?>" readonly />
+                                                        <input type="text" size="7" name="txtToDate" id="txtToDate" class="dtp form-control" value="<?php echo date('d-m-Y'); ?>"  />
                                                     </div>
 
                                                     <div class="col-sm-12 col-md-3 mb-3">
@@ -120,7 +120,7 @@
         $('.dtp').datepicker({
             dateFormat: 'dd-mm-yy',
             changeMonth: true,
-            changeYear: true,
+            changeYear: true,notice_ack_report
             yearRange: '1950:2050'
         });
     });
