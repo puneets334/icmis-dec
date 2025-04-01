@@ -4254,13 +4254,12 @@ function da()
 	 $db = \Config\Database::connect();
 	 $builder =  $db->table('mul_category a')
 			->select('b.sub_name1, b.sub_name4, b.category_sc_old')
-			->join('e_filing.submaster b', 'a.submaster_id = b.id', 'inner')
+			->join('master.submaster b', 'a.submaster_id = b.id', 'inner')
 			->where('a.diary_no', $diary_no)
 			->where('a.display', 'Y')
 			->where('b.display', 'Y');
-
-		$query = $builder->get();
-		return $query->getResultArray();
+       $query = $builder->get();
+	   return $query->getResultArray();
  }
 
  function get_not_before_details($diary_no){
@@ -4269,14 +4268,14 @@ function da()
 			->select('notbef, j1')
 			->where('diary_no', $diary_no)
 			->orderBy('notbef', 'ASC'); // Change 'ASC' to 'DESC' if needed
-
+  // echo $builder->getCompiledSelect(); die; 
 		$query = $builder->get(); 
 		return $query->getResultArray();
  }
  
  function get_judge_nm($jud_id){
 	  $db = \Config\Database::connect();
-	  $query = $db->table("e_filing.judge")
+	  $query = $db->table("master.judge")
                         ->select("jname")
                         ->where("jcode", $jud_id)
                         ->get();
@@ -4320,8 +4319,8 @@ function da()
 	  $query = $db->table('main')
 			->select('case_pages')
 			->where('diary_no', $diary_no)
-			->get();
-
+		    ->get();
+        
 	if ($query->getNumRows() > 0) {
 		return $query->getRowArray(); 
 	} else {

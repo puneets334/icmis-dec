@@ -332,8 +332,7 @@ class CaseRemarksVerification extends Model
 		
 		$builder->orderBy('h.ent_dt', 'ASC');
 		//pr($builder->getCompiledSelect()); die;
-		$builder->limit(2);
-        $query = $builder->get();
+		$query = $builder->get();
 		return $query->getResultArray(); 
     }
 	
