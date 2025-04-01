@@ -11,6 +11,11 @@
 	border: 1px solid #8080805e;
     text-align: center;
 }
+
+span {
+    color: #0d48be;
+    cursor: pointer;
+}
 </style>
 
 <?php 
@@ -223,31 +228,31 @@ $sno++;
     </tr>
  <?php }} ?>		
       <tr>
-         <td colspan="2" style="text-align: center; border: 1px solid #8080805e;">Total</td>
-         <td><span id="spallot_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_alloted; ?></span></td>
-         <td><span id="spcomp_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_comp; ?></span></td>
-         <td><span id="spnotcomp_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_rem; ?></span></td>
+         <td colspan="2" style="text-align: center; border: 1px solid #8080805e; font-weight: bold !important;">Total</td>
+         <td style="font-weight: bold !important;"><span id="spallot_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_alloted; ?></span></td>
+         <td style="font-weight: bold !important;"><span id="spcomp_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_comp; ?></span></td>
+         <td style="font-weight: bold !important;"><span id="spnotcomp_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_rem; ?></span></td>
            <?php if($ddl_users=='103' || $ddl_users=='108'){  ?>
-			<td><span id="spallotr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_allotedr; ?></span></td>
-			<td> <span id="spcompr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_compr; ?></span></td>
-            <td> <span id="spnotcompr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_remr; ?></span></td>
-			<td> <span id="sptotpen_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_s; ?></span></td>
-			<td> <span id="sptotref_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ref; ?></span></td>
-			<td>
+			<td style="font-weight: bold !important;"><span id="spallotr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_allotedr; ?></span></td>
+			<td style="font-weight: bold !important;"> <span id="spcompr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_compr; ?></span></td>
+            <td style="font-weight: bold !important;"> <span id="spnotcompr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_remr; ?></span></td>
+			<td style="font-weight: bold !important;"> <span id="sptotpen_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_s; ?></span></td>
+			<td style="font-weight: bold !important;"> <span id="sptotref_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ref; ?></span></td>
+			<td style="font-weight: bold !important;">
 				<span id="sptotpenr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ssrs; ?></span>
 			</td>
-			<td>
+			<td style="font-weight: bold !important;">
 				<span id="sptwd_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ss; ?></span>
 			</td>
-			<td>
+			<td style="font-weight: bold !important;">
 				<span id="sptwdr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_sss; ?></span>
 			</td>
-			 <td>
+			 <td style="font-weight: bold !important;">
 				<span id="sptwdd_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ssr; ?></span>
 			</td>
         <?php } else if($ddl_users!='101' && $ddl_users!='109'){ ?>
-			<td> <span id="sptotpen_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_s; ?></span></td>
-			<td><span id="sptotpenr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ssrs; ?></span></td>
+			<td style="font-weight: bold !important;"> <span id="sptotpen_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_s; ?></span></td>
+			<td style="font-weight: bold !important;"><span id="sptotpenr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ssrs; ?></span></td>
            <td>
              <span id="sptwd_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ss; ?></span>
 			</td>

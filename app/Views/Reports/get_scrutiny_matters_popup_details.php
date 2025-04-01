@@ -35,7 +35,7 @@ if ($case == 'spallot') {
 	   <?php echo $temp;?>
 	   <?php
 		if($empid!='total') {
-			 echo  get_user_name_info($empid) . ' [' . $empid . ']' . ' between ' . $frm_dt . ' and ' . $to_dt;
+			 echo  get_user_name_info($empid) . ' [' . $empid . ']' . ' between ' . date('d-m-Y', strtotime($frm_dt)) . ' and ' . date('d-m-Y', strtotime ($to_dt));
 		} else {
 			echo ' between ' . $frm_dt . ' and ' . $to_dt;
 		} ?>
