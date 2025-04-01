@@ -1,3 +1,10 @@
+<style>
+span {
+    color: #0d48be;
+    cursor: pointer;
+}
+</style>
+
 <div class="table-responsive">
     <?php
     if (count($data) > 0) {
@@ -62,7 +69,7 @@
                     <tr>
                         <th><?php echo $sno; ?></th>
                         <td><?php echo $row['section_name']; ?></td>
-                        <td><?php echo "<span id='name_$row[usercode]'>" . $row['name'] . '/' . $row['empid'] . "</span>"; ?></td>
+                        <td><?php echo "<span id='name_$row[usercode]' style='color:#000; cursor:none;'>" . $row['name'] . '/' . $row['empid'] . "</span>"; ?></td>
                         <td><?php echo $row['type_name']; ?></td>
                         <td><?php echo "<span style='cursor:pointer' id='dacase_$row[usercode]_1'>" . $row['da_case'] . "</span>"; ?></td>
                         <?php
@@ -116,12 +123,12 @@
     </div>
 </div>
 <script>
-    $("#example1").DataTable({
+    /* $("#example1").DataTable({
         "responsive": true,
         "lengthChange": false,
         "autoWidth": false,
         "dom": 'Bfrtip',
         "bProcessing": true,
         "buttons": ["excel", "pdf"]
-    });
+    }); */
 </script>

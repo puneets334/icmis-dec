@@ -856,9 +856,10 @@ async function fsubmit()
         type: 'POST',
         url: base_url+"/ARDRBM/IA/prevRegularRegistrationProcess",
         beforeSend: function (xhr) {
-            //$("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>");
+            
             $('#search').prop('disabled',true);            
-            $('#dv_res1').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+            $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../../images/load.gif'></div>");
+            //$('#dv_res1').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
         },
         data:{d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,cy:csyr,tab:'Case Details',CSRF_TOKEN: CSRF_TOKEN_VALUE}
     })
@@ -1098,7 +1099,7 @@ async function generate_case() {
                         CSRF_TOKEN: CSRF_TOKEN_VALUE },
                 dataType: "json",        
                 beforeSend: function () {
-                    $('#dv_load').html('<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
+                    $('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
                 },
                 success : function(msg){
                     

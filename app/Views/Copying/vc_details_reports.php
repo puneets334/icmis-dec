@@ -7,7 +7,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Case Alloted</h3>
+                                <h3 class="card-title">Stastistical Data of Hearing by Courts through Video Conferencing</h3>
                             </div>
                         </div>
                     </div>
@@ -17,32 +17,15 @@
                         csrf_token();
                         ?>
                         <div class="row">
-                            <div class="col-md-1 mt-4">
-                                <label for=""><b>User Type </b></label>
-                            </div>
-						    <div class="col-md-2">
-                                  <select class='form-control' name='ddl_users' id="ddl_users">
-                                  <?php if($usercode=='1' || $r_section=='30' ||  $r_usertype=='4'){ ?>
-                                         <option value="">Select</option>
-                                     <?php } foreach($user_type as $vals){ ?>
-                                        <option value="<?php echo $vals['id'] ?>"><?php echo $vals['type_name'] ?></option>
-                                    <?php } if($usercode=='1' || $r_section=='30' ||  $r_usertype=='4' || $r_section=='20'){ ?>
-                                        <option value="9796">Scaning</option>
-                                    <?php }elseif($usercode=='9796'){?>
-                                        <option value="9796">Scaning</option>
-                                    <?php }else if($r_user_type=='107') {?>
-                                        <option value="107">IB-Extention</option>
-                                    <?php }?>
-                                   </select>  
-                            </div>
-						    <div class="col-md-1 mt-4">
+                           
+						    <div class="col-md-2 mt-4">
                                 <label for=""><b>From Date :</b></label>
                             </div>
                             <div class="col-md-2">
                                 <input type="text" name="from_dt1" id="from_dt1" class="form-control dtp" maxsize="10" value="<?= date('d-m-Y')?>"  autocomplete="on" size="9">
                                 <input type="hidden" name="hd_from_dt1" id="hd_from_dt1" value="1" />
                             </div>
-                            <div class="col-md-1 mt-4">
+                            <div class="col-md-2 mt-4">
                                 <label for=""><b>To Date :</b></label>
                             </div>
                             <div class="col-md-2">
@@ -82,10 +65,6 @@
         var dateFrom = $('#from_dt1').val();
         var dateTo = $('#from_dt2').val();
 		var ddl_users = $('#ddl_users').val();
-		if(ddl_users==''){
-			alert('Pleas Select User Type');
-			return false;
-		}
 		$("#dv_res1").html('');
         //$("#dv_res1").html('<center><img src="../images/load.gif"/></center>');
         $.ajax({

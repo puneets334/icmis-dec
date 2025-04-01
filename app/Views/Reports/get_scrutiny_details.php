@@ -1,3 +1,10 @@
+<style>
+span {
+    color: #0d48be;
+    cursor: pointer;
+}
+</style>
+
 <div align="right"><input name="print1" type="button" id="print1" value="Print"></div>
 <div id="dv_sh_hd" style="display: none;position: fixed;top: 0;width: 100%;height: 100%;background-color: black;opacity: 0.6;left: 0;overflow: hidden;z-index: 103">
     &nbsp;
@@ -21,7 +28,7 @@
     $total_pending = 0;
     ?>
 
-    <h2 style="text-align: center;text-transform: capitalize;color: blue;"> Fresh Scrutiny Matters between <?php echo $dateFrom ?> and <?php echo $dateTo ?><br>
+    <h2 style="text-align: center;text-transform: capitalize;color: blue;"> Fresh Scrutiny Matters between <?php echo date('d-m-Y', strtotime($dateFrom)) ?> and <?php echo date('d-m-Y', strtotime($dateTo)) ?><br>
 
     </h2>
 

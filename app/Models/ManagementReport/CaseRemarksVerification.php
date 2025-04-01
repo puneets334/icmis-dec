@@ -281,27 +281,27 @@ class CaseRemarksVerification extends Model
 			switch ($flag) {
 				case 2:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "tt.bo_ent_dt != '0000-00-00 00:00:00'";
+					$cs_v_leftjoin_sq = "tt.bo_ent_dt != '0001-01-01 00:00:00'";
 					break;
 				case 3:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "(tt.bo_ent_dt = '0000-00-00 00:00:00' OR tt.bo_ent_dt IS NULL)";
+					$cs_v_leftjoin_sq = "(tt.bo_ent_dt = '0001-01-01 00:00:00' OR tt.bo_ent_dt IS NULL)";
 					break;
 				case 4:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "tt.ar_ent_dt != '0000-00-00 00:00:00'";
+					$cs_v_leftjoin_sq = "tt.ar_ent_dt != '0001-01-01 00:00:00'";
 					break;
 				case 5:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "tt.bo_ent_dt != '0000-00-00 00:00:00' AND tt.ar_ent_dt = '0000-00-00 00:00:00'";
+					$cs_v_leftjoin_sq = "tt.bo_ent_dt != '0001-01-01 00:00:00' AND tt.ar_ent_dt = '0001-01-01 00:00:00'";
 					break;
 				case 6:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "tt.dy_ent_dt != '0000-00-00 00:00:00'";
+					$cs_v_leftjoin_sq = "tt.dy_ent_dt != '0001-01-01 00:00:00'";
 					break;
 				case 7:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "tt.ar_ent_dt != '0000-00-00 00:00:00' AND tt.dy_ent_dt = '0000-00-00 00:00:00'";
+					$cs_v_leftjoin_sq = "tt.ar_ent_dt != '0001-01-01 00:00:00' AND tt.dy_ent_dt = '0001-01-01 00:00:00'";
 					break;
 			}
 		}
@@ -315,7 +315,7 @@ class CaseRemarksVerification extends Model
 					->join('brdrem b', 'b.diary_no = h.diary_no', 'left')
 					->join('master.users u', 'u.usercode = h.usercode', 'left');
 		if ($cs_v_leftjoin) {
-			$builder->join('case_verify_by_sec tt', 'tt.diary_no = h.diary_no AND tt.bo_ent_dt > h.ent_dt AND tt.display = "Y"', 'left');
+			$builder->join('case_verify_by_sec tt', "tt.diary_no = h.diary_no AND tt.bo_ent_dt > h.ent_dt AND tt.display = 'Y'", 'left');
 		}
 
 		$whereConditions = [
@@ -331,9 +331,8 @@ class CaseRemarksVerification extends Model
 		$builder->where($whereConditions);
 		
 		$builder->orderBy('h.ent_dt', 'ASC');
-		//pr($builder->getCompiledSelect());
-		$builder->limit(2);
-        $query = $builder->get();
+		//pr($builder->getCompiledSelect()); die;
+		$query = $builder->get();
 		return $query->getResultArray(); 
     }
 	

@@ -82,8 +82,8 @@ if(!empty($result_array)){ ?>
             <td>
                 <?php   echo substr( $row['diary_no'], 0, strlen( $row['diary_no'] ) -4 ) ; ?>-<?php echo substr( $row['diary_no'] , -4 ); ?>
             </td>
-            <td><?php if (array_key_exists('d_to_empid', $row)) {
-			                echo get_user_name_info($row['d_to_empid']);
+            <td><?php if (array_key_exists('d_by_empid', $row)) {
+			                echo get_user_name_info($row['d_by_empid']);
 			          }else{
 						  echo '-';
 					  }
@@ -145,7 +145,7 @@ if(!empty($result_array)){ ?>
                     <?php echo $row['remarks']; ?>
                 </td>
             <?php }?>
-            <td>
+            <td style="text-aligin:left;">
                 <?php  $category_details = get_mul_category_details($row['diary_no']);
 				     if(!empty($category_details)){
 						 foreach($category_details as $row1){
@@ -265,9 +265,9 @@ if(!empty($result_array)){ ?>
 		   
            <?php  $rs_query =  case_pages($row['diary_no']); 
 		          if(!empty($rs_query)){
-                  foreach($rs_query as $row_query){
-				      $pages=$row_query[0];
-                      $total_pages=(int)$total_pages+(int)$pages; ?>
+					foreach($rs_query as $row_query){
+				      $pages= $row_query;
+					  $total_pages= $total_pages+$pages; ?>
                <td><?php echo $pages; ?></td>
 			<?php }}else{ ?>
                <td>0</td>
