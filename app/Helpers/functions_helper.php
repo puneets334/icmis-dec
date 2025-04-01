@@ -4297,9 +4297,9 @@ function da()
 			->get();
 
 		if ($query->getNumRows() > 0) {
-			$r_get_b_c = $query->getRow()->coram; 
+			return $query->getRow()->coram; 
 		} else {
-			$r_get_b_c = null; 
+			return ''; 
 		}
 }
 
@@ -4314,6 +4314,7 @@ function da()
  }
  
  
+ 
  function case_pages($diary_no){
 	  $db = \Config\Database::connect();
 	  $query = $db->table('main')
@@ -4322,12 +4323,79 @@ function da()
 			->get();
 
 	if ($query->getNumRows() > 0) {
-		$case_pages = $query->getRow()->case_pages; 
+		return $query->getRowArray(); 
 	} else {
-		$case_pages = null; 
+		return  null; 
 	}
 	  
 }
+
+function case_verification_report_popup_inside_details($id){
+	
+		$db = \Config\Database::connect();
+
+		$builder = $db->table('tempo o');
+		$builder->select("o.diary_no, o.jm AS pdfname, DATE(o.dated) AS orderdate, 
+			CASE 
+				WHEN o.jt = 'rop' THEN 'ROP'
+				WHEN o.jt = 'judgment' THEN 'Judgement'
+				WHEN o.jt = 'or' THEN 'Office Report'
+			END AS jo");
+		$builder->where('o.diary_no', $id);
+		$tempo = $builder->get()->getResultArray();
+
+	
+		$builder = $db->table('ordernet o');
+		$builder->select("o.diary_no, o.pdfname AS pdfname, DATE(o.orderdate) AS orderdate, 
+			CASE 
+				WHEN o.type = 'O' THEN 'ROP'
+				WHEN o.type = 'J' THEN 'Judgement'
+			END AS jo");
+		$builder->where('o.diary_no', $id);
+		$ordernet = $builder->get()->getResultArray();
+
+	
+		$builder = $db->table('rop_text_web.old_rop o');
+		$builder->select("o.dn AS diary_no, CONCAT('ropor/rop/all/', o.pno, '.pdf') AS pdfname, DATE(o.orderDate) AS orderdate, 'ROP' AS jo");
+		$builder->where('o.dn', $id);
+		$old_rop = $builder->get()->getResultArray();
+
+	
+		$builder = $db->table('scordermain o');
+		$builder->select("o.dn AS diary_no, CONCAT('judis/', o.filename, '.pdf') AS pdfname, DATE(o.juddate) AS orderdate, 'Judgment' AS jo");
+		$builder->where('o.dn', $id);
+		$scordermain = $builder->get()->getResultArray();
+
+	
+		$builder = $db->table('rop_text_web.ordertext o');
+		$builder->select("o.dn AS diary_no, CONCAT('bosir/orderpdf/', o.pno, '.pdf') AS pdfname, DATE(o.orderdate) AS orderdate, 'ROP' AS jo");
+		$builder->where('o.dn', $id);
+		$builder->where('o.display', 'Y');
+		$ordertext = $builder->get()->getResultArray();
+
+	
+		$builder = $db->table('rop_text_web.oldordtext o');
+		$builder->select("o.dn AS diary_no, CONCAT('bosir/orderpdfold/', o.pno, '.pdf') AS pdfname, DATE(o.orderdate) AS orderdate, 'ROP' AS jo");
+		$builder->where('o.dn', $id);
+		$oldordtext = $builder->get()->getResultArray();
+
+	
+		$results = array_merge($tempo, $ordernet, $old_rop, $scordermain, $ordertext, $oldordtext);
+
+	
+		$results = array_filter($results, function ($row) {
+			return $row['jo'] === 'ROP';
+		});
+
+	
+		usort($results, function ($a, $b) {
+			return strtotime($b['orderdate']) - strtotime($a['orderdate']);
+		});
+
+		return $results;
+	 
+	 
+ }
 
  function get_advocates1($adv_id, $wen = '')
 {
