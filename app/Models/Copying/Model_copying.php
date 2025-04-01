@@ -14,20 +14,22 @@ class Model_copying extends Model
 
     public function get_rop_path($data){
 
-        $builder = $this->db->table("ordernet_rop_sci");
+        $builder = $this->db->table("public.ordernet_rop_sci");
 
         $builder->select('*');
-        $builder->where('diary_no', $data['diary']);
-        $builder->where('diary_year', $data['diary_year']);
+        $builder->where('diary_no',(INT)$data['diary']);
+        $builder->where('diary_year', (INT)$data['diary_year']);
         $builder->where('rop', $data['order_date']);
-
+        //echo $builder->getCompiledSelect();
+        //die;
         $query = $builder->get();
 
          //echo $this->db->getLastQuery();
-        //exit;
-
+        //exit; 
+       
         if ($query->getNumRows() >= 1) {
             $result = $query->getResultArray();
+            
             return $result;
         } else {
             return false;
@@ -83,7 +85,28 @@ class Model_copying extends Model
             return false;
         }
     }
+    public function getApplication($document_id){
+        $builder = $this->db->table("public.copying_application_documents");
 
+        $builder->select('*');
+        $builder->where('display','Y');
+        $builder->where('id',$document_id);
+        //echo $builder->getCompiledSelect();
+        //die;
+        $query = $builder->get();
+
+         //echo $this->db->getLastQuery();
+        //exit; 
+       
+        if ($query->getNumRows() >= 1) {
+            $result = $query->getResultArray();
+            
+            return $result;
+        } else {
+            return false;
+        }
+    }
+    
     public function getUserVerficationDetails($mobile,$email,$diary_no){
         $builder = $this->db->table("e_services.user_assets as u");
         $builder->select('u.asset_type, a.asset_name, u.id_proof_type, i.id_name, u.file_path, u.verify_status, u.verify_on, u.video_random_text');
@@ -104,7 +127,12 @@ class Model_copying extends Model
         }
 
     }
-
+   public function save_copying_application_documents($data,$id){
+    $builder = $this->db->table("public.copying_application_documents");
+    // Update the user data using Query Builder
+    $builder->where('id',$id);
+    $builder->update($data);
+   }
 
 
 
