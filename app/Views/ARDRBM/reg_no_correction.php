@@ -111,7 +111,11 @@
 
     }
 
-    function search_case() {
+    async function search_case() {
+        
+        await updateCSRFTokenSync();
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
         $('.message').hide();
         $('#record').hide();
@@ -122,8 +126,7 @@
         var ctype = $('#case_type').val();
         var cno = $('#case_number').val();
         var cyr = $('#case_year').val();
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        
        
         if (radio == 'D') {
             if (!dno) {
@@ -162,18 +165,18 @@
                 },
 
                 beforeSend: function() {
-                    updateCSRFToken();
+                    //updateCSRFToken();
                     $('#image').show();
                     $('#record').hide();
                 },
 
                 complete: function() {
-                    updateCSRFToken();
+                    //updateCSRFToken();
                     $('#image').hide();
                 },
 
                 success: function(data) {
-                    updateCSRFToken();
+                    //updateCSRFToken();
                     $('.record').html(data);
                     $('#record').show();
                 },
