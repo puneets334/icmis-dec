@@ -187,7 +187,7 @@ class Registration extends BaseController
     
     
                         //echo ' section '.$section;
-                        $result = $RegistrationModel->updateMain(['active_casetype_id' => $newcc, 'case_grp' => $newcn, 'fil_no_fh' => $t_fil_no_fh, 'active_fil_no' => $t_fil_no_fh, 'fil_dt_fh' => $registration_date, 'active_fil_dt' => $registration_date, 'reg_year_fh' => $year, 'active_reg_year' => $year, 'reg_no_display' => $regNoDisplay, 'mf_active' => 'F', 'section_id' => $section_id, 'diary_no' => $diary_no]);
+                        //$result = $RegistrationModel->updateMain(['active_casetype_id' => $newcc, 'case_grp' => $newcn, 'fil_no_fh' => $t_fil_no_fh, 'active_fil_no' => $t_fil_no_fh, 'fil_dt_fh' => $registration_date, 'active_fil_dt' => $registration_date, 'reg_year_fh' => $year, 'active_reg_year' => $year, 'reg_no_display' => $regNoDisplay, 'mf_active' => 'F', 'section_id' => $section_id, 'diary_no' => $diary_no]);
 
                         $row_m_h = $RegistrationModel->getCaseHistory($diary_no);
 
@@ -205,20 +205,21 @@ class Registration extends BaseController
                         $ucode = session()->get('login')['usercode'];                        
                         
                         // hold
-                        // $result = $RegistrationModel->addCaseHistory([
-                        //     'diary_no' => $diary_no,
-                        //     'old_registration_number' => $old_fil_no,
-                        //     'old_registration_year' => $old_fil_dt,
-                        //     'new_registration_number' => $t_fil_no_fh,
-                        //     'new_registration_year' => $year,
-                        //     'order_date' => date('Y-m-d', strtotime($dtd)), // Ensure the date is formatted correctly
-                        //     'ref_old_case_type_id' => $old_fil_ct,
-                        //     'ref_new_case_type_id' => $newcc,
-                        //     'adm_updated_by' => $ucode,
-                        //     'updated_on' => date('Y-m-d H:i:s'), // Use current date and time
-                        //     'is_deleted' => 'f',
-                        //     'ec_case_id' => 1
-                        // ]);
+                        $result = $RegistrationModel->addCaseHistory([
+                            'diary_no' => $diary_no,
+                            'old_registration_number' => $old_fil_no,
+                            'old_registration_year' => $old_fil_dt,
+                            'new_registration_number' => $t_fil_no_fh,
+                            'new_registration_year' => $year,
+                            'order_date' => date('Y-m-d', strtotime($dtd)), // Ensure the date is formatted correctly
+                            'ref_old_case_type_id' => $old_fil_ct,
+                            'ref_new_case_type_id' => $newcc,
+                            'adm_updated_by' => $ucode,
+                            'updated_on' => date('Y-m-d H:i:s'), // Use current date and time
+                            'is_deleted' => 'f',
+                            'ec_case_id' => 1
+                        ]);
+                        
 
                         $output[$diary_no]['success'] = 1;
                         $output[$diary_no]['message'] = "Registered No. is : " . $regNoDisplay . "\n\r";

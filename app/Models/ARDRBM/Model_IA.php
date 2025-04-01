@@ -424,7 +424,7 @@ class Model_IA extends Model
             ->where('h.is_deleted', 't')
             ->groupEnd()
             ->groupEnd();
-
+        // echo $builder->getCompiledSelect();die;    
         // Get the results
         $query = $subqueryNewReg->get();
         return $query->getRowArray();
