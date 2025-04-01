@@ -329,17 +329,65 @@ class Model_IA extends Model
 
     public function searchDiary($ctype, $cno, $cyr)
     {
+        // $builder = $this->db->table('main')
+        //     ->select("SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) as dn, SUBSTR(diary_no, -4) as dy")
+        //     ->where("SUBSTRING_INDEX(fil_no, '-', 1)", $ctype)
+        //     ->where("CAST($cno AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no, '-', 2), '-', -1) AND SUBSTRING_INDEX(fil_no, '-', -1)")
+        //     ->groupStart()
+        //     ->where("reg_year_mh", 0)
+        //     ->orWhere("DATE(fil_dt) >", '2017-05-10')
+        //     ->orWhere("YEAR(fil_dt)", $cyr)
+        //     ->groupEnd();        
+        // $query = $builder->get();
         $builder = $this->db->table('main')
-            ->select("SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) as dn, SUBSTR(diary_no, -4) as dy")
-            ->where("SUBSTRING_INDEX(fil_no, '-', 1)", $ctype)
-            ->where("CAST($cno AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no, '-', 2), '-', -1) AND SUBSTRING_INDEX(fil_no, '-', -1)")
-            ->groupStart()
-            ->where("reg_year_mh", 0)
-            ->orWhere("DATE(fil_dt) >", '2017-05-10')
-            ->orWhere("YEAR(fil_dt)", $cyr)
-            ->groupEnd();
-        $query = $builder->get();
-        return $query->getRowArray();
+                ->select([
+                    'DN' => 'SUBSTRING(DIARY_NO::TEXT FROM 1 FOR LENGTH(DIARY_NO::TEXT) - 4) as dn',
+                    'DY' => 'RIGHT(DIARY_NO::TEXT, 4) as dy'
+                ])
+                ->where("CASE WHEN SPLIT_PART(FIL_NO, '-', $ctype) ~ '^[0-9]+$' 
+                        THEN SPLIT_PART(FIL_NO, '-', $ctype)::INTEGER 
+                        ELSE NULL END = 1")
+                ->where("$cno BETWEEN COALESCE(
+                        CASE WHEN SPLIT_PART(FIL_NO, '-', 2) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(FIL_NO, '-', 2)::INTEGER 
+                            ELSE NULL END, 0
+                    ) AND COALESCE(
+                        CASE WHEN SPLIT_PART(FIL_NO, '-', -1) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(FIL_NO, '-', -1)::INTEGER 
+                            ELSE NULL END, 0
+                    )")
+                ->groupStart()
+                    ->groupStart()
+                        ->where('reg_year_mh', 0)
+                        ->orWhere('fil_dt >', '2017-05-10')
+                    ->groupEnd()
+                    ->where('EXTRACT(YEAR FROM fil_dt)', $cyr)
+                ->groupEnd()
+                ->orGroupStart()
+                    ->where("CASE WHEN SPLIT_PART(fil_no_fh, '-', 1) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(fil_no_fh, '-', 1)::INTEGER 
+                            ELSE NULL END = 1")
+                    ->where("$cno BETWEEN COALESCE(
+                            CASE WHEN SPLIT_PART(fil_no_fh, '-', 2) ~ '^[0-9]+$' 
+                                THEN SPLIT_PART(fil_no_fh, '-', 2)::INTEGER 
+                                ELSE NULL END, 0
+                        ) AND COALESCE(
+                            CASE WHEN SPLIT_PART(fil_no_fh, '-', -1) ~ '^[0-9]+$' 
+                                THEN SPLIT_PART(fil_no_fh, '-', -1)::INTEGER 
+                                ELSE NULL END, 0
+                        )")
+                    ->groupStart()
+                        ->groupStart()
+                            ->where('reg_year_fh', 0)
+                            ->where('EXTRACT(YEAR FROM fil_dt_fh)', $cyr)
+                        ->groupEnd()
+                        ->orWhere('reg_year_fh', $cyr)
+                    ->groupEnd()
+                ->groupEnd();
+            
+            //echo $builder->getCompiledSelect();die;
+
+        return $builder->get()->getRowArray();
     }
 
     public function updateRegistrationNumber($diaryNo, $regno)
@@ -384,20 +432,69 @@ class Model_IA extends Model
 
     public function searchDiary2($ctype, $cno, $cyr)
     {
-        $builder = $this->db->table('main');
-        $builder->select("SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) AS dn, 
-                          SUBSTR(diary_no, -4) AS dy");
-        $builder->where("SUBSTRING_INDEX(fil_no, '-', 1)", $ctype);
-        $builder->where("CAST($cno AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no, '-', 2), '-', -1) 
-                          AND SUBSTRING_INDEX(fil_no, '-', -1)");
-        $builder->groupStart()
-            ->where("reg_year_mh", 0)
-            ->orWhere("DATE(fil_dt) >", '2017-05-10')
-            ->groupEnd();
-        $builder->where("YEAR(fil_dt)", $cyr);
+        // $builder = $this->db->table('main');
+        // $builder->select("SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) AS dn, 
+        //                   SUBSTR(diary_no, -4) AS dy");
+        // $builder->where("SUBSTRING_INDEX(fil_no, '-', 1)", $ctype);
+        // $builder->where("CAST($cno AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no, '-', 2), '-', -1) 
+        //                   AND SUBSTRING_INDEX(fil_no, '-', -1)");
+        // $builder->groupStart()
+        //     ->where("reg_year_mh", 0)
+        //     ->orWhere("DATE(fil_dt) >", '2017-05-10')
+        //     ->groupEnd();
+        // $builder->where("YEAR(fil_dt)", $cyr);
 
-        $query = $builder->get();
-        return $query->getRowArray();
+        // $query = $builder->get();
+        // return $query->getRowArray();
+        $builder = $this->db->table('main')
+                ->select([
+                    'DN' => 'SUBSTRING(DIARY_NO::TEXT FROM 1 FOR LENGTH(DIARY_NO::TEXT) - 4) as dn',
+                    'DY' => 'RIGHT(DIARY_NO::TEXT, 4) as dy'
+                ])
+                ->where("CASE WHEN SPLIT_PART(FIL_NO, '-', $ctype) ~ '^[0-9]+$' 
+                        THEN SPLIT_PART(FIL_NO, '-', $ctype)::INTEGER 
+                        ELSE NULL END = 1")
+                ->where("$cno BETWEEN COALESCE(
+                        CASE WHEN SPLIT_PART(FIL_NO, '-', 2) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(FIL_NO, '-', 2)::INTEGER 
+                            ELSE NULL END, 0
+                    ) AND COALESCE(
+                        CASE WHEN SPLIT_PART(FIL_NO, '-', -1) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(FIL_NO, '-', -1)::INTEGER 
+                            ELSE NULL END, 0
+                    )")
+                ->groupStart()
+                    ->groupStart()
+                        ->where('reg_year_mh', 0)
+                        ->orWhere('fil_dt >', '2017-05-10')
+                    ->groupEnd()
+                    ->where('EXTRACT(YEAR FROM fil_dt)', $cyr)
+                ->groupEnd()
+                ->orGroupStart()
+                    ->where("CASE WHEN SPLIT_PART(fil_no_fh, '-', 1) ~ '^[0-9]+$' 
+                            THEN SPLIT_PART(fil_no_fh, '-', 1)::INTEGER 
+                            ELSE NULL END = 1")
+                    ->where("$cno BETWEEN COALESCE(
+                            CASE WHEN SPLIT_PART(fil_no_fh, '-', 2) ~ '^[0-9]+$' 
+                                THEN SPLIT_PART(fil_no_fh, '-', 2)::INTEGER 
+                                ELSE NULL END, 0
+                        ) AND COALESCE(
+                            CASE WHEN SPLIT_PART(fil_no_fh, '-', -1) ~ '^[0-9]+$' 
+                                THEN SPLIT_PART(fil_no_fh, '-', -1)::INTEGER 
+                                ELSE NULL END, 0
+                        )")
+                    ->groupStart()
+                        ->groupStart()
+                            ->where('reg_year_fh', 0)
+                            ->where('EXTRACT(YEAR FROM fil_dt_fh)', $cyr)
+                        ->groupEnd()
+                        ->orWhere('reg_year_fh', $cyr)
+                    ->groupEnd()
+                ->groupEnd();
+            
+            //echo $builder->getCompiledSelect();die;
+
+        return $builder->get()->getRowArray();;
     }
 
     public function getSearchDiary2($ctype, $cno, $cyr)
