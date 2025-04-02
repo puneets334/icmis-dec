@@ -113,43 +113,44 @@
 
                             </div>
 
-                            <?php form_close(); ?>
+                            </form>
 
 
                             <br><br>
 
 
                                                     
-                    <div class="row">
+                   
                         <?php
-                        $attribute = array('class' => 'form-horizontal', 'name' => 'frmPilGroupPdf', 'id' => 'frmPilGroupPdf', 'autocomplete' => 'off', 'method' => 'POST');
+                        $attribute = array('class' => 'form-horizontal', 'name' => 'frmPilGroupPdf', 'id' => 'frmPilGroupPdf', 'autocomplete' => 'off', 'method' => 'POST','target' => '_BLANK');
                         echo form_open(base_url('PIL/PilController/downloadGeneratedReport/With_Brief_History/0/0'), $attribute);
                         ?>
-                        <div class="col-sm-12">
-                            <label ><h5>Brief History of the case and relief sought:</h5></label> 
+                         <div class="row">
+                            <div class="col-sm-12">
+                                <label ><h5>Brief History of the case and relief sought:</h5></label> 
                             </div>                
-                        <div class="col-sm-3">
+                            <div class="col-sm-3">
 
-                            <textarea class="form-control" rows="5" cols="10" name="comment" id="comment"></textarea>
-                        </div>
+                                <textarea class="form-control" rows="5" cols="10" name="comment" id="comment"></textarea>
+                            </div>
 
-                        <div class="col-sm-5">
-                             <span class="input-group-btn">
+                            <div class="col-sm-5">
+                                <span class="input-group-btn">
 
-                             <button type="submit" name="generate" id="generate-btn" class="btn bg-blue">Generate Report</button>
-                             </span>
-                        </div>
-
+                                <button type="submit" name="generate" id="generate-btn" class="btn bg-blue">Generate Report</button>
+                                </span>
+                            </div>
+                        </div>                  
 
                         <?php form_close(); ?>
 
 
-                      </div><br><br><br>
+                      <br><br><br>
 
                         <div id="tabledata" style="display: none;">
                             <h4 align="center">PILs in Group</h4>
                             <br><br>
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped custom-table">
                                 <thead>
                                 <tr>
                                     <th>S.No</th>
@@ -295,4 +296,4 @@
 
 
 
- <?=view('sci_main_footer') ?>
+ <?//=view('sci_main_footer') ?>

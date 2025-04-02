@@ -159,10 +159,28 @@
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", {
+            "buttons": [{
+                    extend: 'copy',
+                    title: 'Date-Wise Received in R&I From Outside'
+                },
+                {
+                    extend: 'csv',
+                    title: 'Date-Wise Received in R&I From Outside'
+                },
+                {
+                    extend: 'excel',
+                    title: 'Date-Wise Received in R&I From Outside'
+                },
+                {
+                    extend: 'print',
+                    title: 'Date-Wise Received in R&I From Outside'
+                },
+                {
                     extend: 'pdfHtml5',
                     orientation: 'landscape',
-                    pageSize: 'LEGAL'
+                    pageSize: 'LEGAL',
+                    autoPrint: true,
+                    title: 'Date-Wise Received in R&I From Outside'
                 },
                 {
                     extend: 'colvis',
@@ -173,7 +191,6 @@
             "extend": 'colvis',
             "text": 'Show/Hide'
         }).buttons().container().appendTo('.query_builder_wrapper .col-md-6:eq(0)');
-
     });
 
     function check() {

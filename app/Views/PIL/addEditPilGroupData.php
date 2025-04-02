@@ -117,9 +117,9 @@
 <!--                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>-->
 <!--                            <h4><i class="icon fa fa-ban"></i> Alert!</h4>-->
 
-                        </div>
+                        
 
-                        <br>
+                        
 
                         <?php
                         $attribute = array('class' => 'form-horizontal', 'name' => 'frmPilGroupAddEdit', 'id' => 'frmPilGroupAddEdit', 'autocomplete' => 'off', 'method' => 'POST');
@@ -150,6 +150,7 @@
                             </div>
                            </div>
                         <br><br>
+                        </div>
 
                         <?php
                         if(!empty($casesInPilGroup))

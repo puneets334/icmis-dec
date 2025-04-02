@@ -52,7 +52,7 @@
 
                             <div class="row">
                                 <div class="col-sm-10">
-                                    <h3 class="card-title">PIL(E) >> Pil Entry</h3>
+                                    <h3 class="card-title">PIL(E) >> PIL Entry</h3>
                                 </div>
 
 
@@ -92,7 +92,7 @@
 
 
                         <form class="form-horizontal" id="frmLetterReport" action="<?=base_url('PIL/PilController/getPilDetailByDiaryNumberForLetterGeneration')?>" method="post">
-                        <?= csrf_field() ?>
+                        <?//= csrf_field() ?>
 
                     <input type="hidden" name="usercode" id="usercode" value="<?php echo $_SESSION['login']['usercode']; ?>"/>
 
@@ -207,23 +207,18 @@
         }
 
 
-        // $.post("<?=base_url()?>/PIL/PilController/getSenderAndAddressForLetterGeneration", $("#frmLetterReport").serialize(), function (result) {                /*alert(result);*/
-        //     $("#dataForReport").html(result);
-        // });
-         
-       // var formData = $("#frmLetterReport").serialize();
-        //formData += '&'+CSRF_TOKEN+'='+CSRF_TOKEN_VALUE;
+        
 
         $.ajax({
-            type: "POST",             
+            type: "get",             
             data: $("#frmLetterReport").serialize(),
             url: "<?= base_url() ?>/PIL/PilController/getSenderAndAddressForLetterGeneration",
             success: function (data) {                 
-                 updateCSRFToken();
+                // updateCSRFToken();
                  $("#dataForReport").html(data);
             },
             error: function (data) {
-                updateCSRFToken();
+                //updateCSRFToken();
                 alert("No record Found");
                
             }

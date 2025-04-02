@@ -1,8 +1,7 @@
 var dtCh = "/";
 var minYear = 1900;
 var maxYear = 2100;
-function getXMLHTTP()
-{ //fuction to return the xml http object
+function getXMLHTTP() { //fuction to return the xml http object
     var xmlhttp = false;
     try {
         xmlhttp = new XMLHttpRequest();
@@ -23,8 +22,7 @@ function getXMLHTTP()
     return xmlhttp;
 }
 
-function getXMLHttpRequestObject()
-{
+function getXMLHttpRequestObject() {
     var xmlhttp;
     if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
         try {
@@ -38,34 +36,30 @@ function getXMLHttpRequestObject()
 
 function isInteger(s) {
     var i;
-    for (i = 0; i < s.length; i++)
-    {
+    for (i = 0; i < s.length; i++) {
         var c = s.charAt(i);
         if (((c < "0") || (c > "9")))
             return false;
     }
     return true;
 }
-function chk_all_cn(){
-    
+function chk_all_cn() {
+
     $("input[type='checkbox'][name^='conncchk']").each(function () {
-        if(document.getElementById('connall').checked)
-        $(this).prop('checked',true);
-    else
-        $(this).prop('checked',false);
-                            });
+        if (document.getElementById('connall').checked)
+            $(this).prop('checked', true);
+        else
+            $(this).prop('checked', false);
+    });
 }
 function textformate(cb) {
     var y = document.getElementById('hdremp' + cb).value;
     x = y.split(",");
     if (cb == 72) {
-        for (var i = 0; i < x.length; i++)
-        {
+        for (var i = 0; i < x.length; i++) {
             var iChars = "~`!#$%^&*+=-[]\\\';/{}|\":<>?";
-            for (var j = 0; j < x[i].length; j++)
-            {
-                if (iChars.indexOf(x[i].charAt(j)) !== -1)
-                {
+            for (var j = 0; j < x[i].length; j++) {
+                if (iChars.indexOf(x[i].charAt(j)) !== -1) {
                     alert("Special characters ~`!#$%^&*+=-[]\\\';/{}|\":<>? \nThese are not allowed\n");
                     return false;
                 }
@@ -75,8 +69,7 @@ function textformate(cb) {
             ctype = x[i].replace(/[^a-zA-Z]/g, "");
             ctyp = ctype.toUpperCase();
             var cpa = 0;
-            switch (ctyp)
-            {
+            switch (ctyp) {
                 case 'AA':
                     break;
                 case 'AC':
@@ -213,8 +206,7 @@ function textformate(cb) {
                 cnyr = '0' + cnyr;
             var yr = cnyr.slice(-4);
             var srvr = document.getElementById('srvr').value;
-            if (yr <= 1959)
-            {
+            if (yr <= 1959) {
                 alert("Please Enter Correct Year Greater then 1959");
                 return false;
             }
@@ -225,36 +217,29 @@ function textformate(cb) {
         }
     }
     if (cb == 68 || cb == 23 || cb == 53 || cb == 54 || cb == 25 || cb == 122 || cb == 123) {
-        if (isNaN(y))
-        {
+        if (isNaN(y)) {
             alert('Please Enter Numeric Value');
             setFocusToTextBox(cb);
             return false;
         }
     }
-    if (cb == 53 || cb == 25)
-    {
-        if (y >= 31)
-        {
+    if (cb == 53 || cb == 25) {
+        if (y >= 31) {
             alert('Please Enter Numeric Value Between 1 TO 31 Which Is No Of Days In A Month');
             setFocusToTextBox(cb);
             return false;
         }
     }
-    if (cb == 23 || cb == 122)
-    {
-        if (y >= 54)
-        {
+    if (cb == 23 || cb == 122) {
+        if (y >= 54) {
             alert('Please Enter Numeric Value Between 1 TO 52 Which Is Week No Of The Year');
             // y.focus();
             setFocusToTextBox(cb);
             return false;
         }
     }
-    if (cb == 68 || cb == 123 || cb == 54)
-    {
-        if (y >= 12 && y !== 0)
-        {
+    if (cb == 68 || cb == 123 || cb == 54) {
+        if (y >= 12 && y !== 0) {
             alert('Please Enter Numeric Value Between 1 TO 12 Which Is Month Of The Year');
             setFocusToTextBox(cb);
             return false;
@@ -268,63 +253,49 @@ function setFocusToTextBox(cb) {
     $("#hdremp" + cb).focus();
     textbox.scrollIntoView();
 }
-function chg_def1()
-{
+function chg_def1() {
     var ck_cl_d = '0';
     var hd_co_tot = document.getElementById('hd_co_tot').value;
-    for (var i = 1; i <= hd_co_tot; i++)
-    {
-        if (document.getElementById('hd_sp_a' + i))
-        {
-            if (document.getElementById('hd_sp_b' + i).value == '850' || document.getElementById('hd_sp_b' + i).value == '851')
-            {
+    for (var i = 1; i <= hd_co_tot; i++) {
+        if (document.getElementById('hd_sp_a' + i)) {
+            if (document.getElementById('hd_sp_b' + i).value == '850' || document.getElementById('hd_sp_b' + i).value == '851') {
                 ck_cl_d = 1;
             }
         }
     }
-    if (ck_cl_d == 1)
-    {
-        if (document.getElementById("listorder").value == "50")
-        {
+    if (ck_cl_d == 1) {
+        if (document.getElementById("listorder").value == "50") {
             $("#bench").val("D");
             $("#dbj1").val("514");
             $("#dbj2").val("999");
             document.getElementById("judge_sb").style.display = "none";
             document.getElementById("judge_db").style.display = "block";
         }
-        else
-        {
-            if ($("#bench").val() == "S")
-            {
+        else {
+            if ($("#bench").val() == "S") {
                 $("#sbj").val("514");
             }
-            if ($("#bench").val() == "D")
-            {
+            if ($("#bench").val() == "D") {
                 $("#dbj1").val("514");
                 $("#dbj2").val("999");
             }
         }
     }
-    else
-    {
-        if (document.getElementById("listorder").value == "50")
-        {
+    else {
+        if (document.getElementById("listorder").value == "50") {
             $("#bench").val("D");
             $("#dbj1").val("200");
             $("#dbj2").val("999");
             document.getElementById("judge_sb").style.display = "none";
             document.getElementById("judge_db").style.display = "block";
         }
-        else
-        {
-            if ($("#bench").val() == "S")
-            {
+        else {
+            if ($("#bench").val() == "S") {
                 $("#sbj").val("250");
                 document.getElementById("judge_sb").style.display = "block";
                 document.getElementById("judge_db").style.display = "none";
             }
-            if ($("#bench").val() == "D")
-            {
+            if ($("#bench").val() == "D") {
                 $("#dbj1").val("200");
                 $("#dbj2").val("999");
                 document.getElementById("judge_sb").style.display = "none";
@@ -334,16 +305,14 @@ function chg_def1()
     }
 }
 
-function feed_rmrk()
-{
+function feed_rmrk() {
     var ccstr = "";
     var obrdrem = document.getElementById("brdremh").value;
     document.getElementById("brdrem").value = '';
     ccstr = obrdrem;
-    $("input[type='checkbox'][name^='iachbx']").each(function() {
+    $("input[type='checkbox'][name^='iachbx']").each(function () {
         var isChecked = document.getElementById($(this).attr('id')).checked;
-        if (isChecked)
-        {
+        if (isChecked) {
             var tval = $(this).val().split("|#|");
             if (ccstr != '')
                 ccstr += " \nFOR " + tval[1] + " ON IA " + tval[0];
@@ -354,16 +323,14 @@ function feed_rmrk()
     document.getElementById("brdrem").value = ccstr;
 }
 
-function feed_rmrk_conn(fn)
-{
+function feed_rmrk_conn(fn) {
     var ccstr = "";
     var obrdrem = document.getElementById("brdremh_" + fn).value;
     document.getElementById("brdrem_" + fn).value = '';
     ccstr = obrdrem;
-    $("input[type='checkbox'][name^='cn_ia_" + fn + "']").each(function() {
+    $("input[type='checkbox'][name^='cn_ia_" + fn + "']").each(function () {
         var isChecked = document.getElementById($(this).attr('id')).checked;
-        if (isChecked)
-        {
+        if (isChecked) {
             var tval = $(this).val().split("|#|");
             if (ccstr != '')
                 ccstr += " \nFOR " + tval[2] + " ON IA " + tval[1];
@@ -540,27 +507,24 @@ function feed_rmrk_conn(fn)
 //    close_w(4);
 //}
 
-function save_rec(cnt)
-{
+function save_rec(cnt) {
     var cn = "";
     var stat = "";
     var cr_head = "";
     var rjdt = "00-00-0000";
-        var subh="";
-    if (cnt == 1)
-    {
+    var subh = "";
+    if (cnt == 1) {
         var div1 = "chkp";
         var div2 = "hdremp";
         cn = $('#tmp_casenop').val();
         stat = "P";
         cr_head = '<b><font color="blue">';
     }
-    else
-    {
+    else {
         var div1 = "chkd";
         var div2 = "hdremd";
         cn = $('#tmp_casenod').val();
-        subh=$('#tmp_casenosub').val();        
+        subh = $('#tmp_casenosub').val();
         stat = "D";
         cr_head = '<b><font color="red">';
     }
@@ -575,64 +539,56 @@ function save_rec(cnt)
     var jcnt = 0;
     var chk_var = false;
     var chk_var1 = false;
-    $("input[type='checkbox'][id^='hd_chk_jd']").each(function() {
+    $("input[type='checkbox'][id^='hd_chk_jd']").each(function () {
         if (document.getElementById($(this).attr('id')).checked) {
             jcodes += $(this).val().split("||")[0] + ",";
             jcnt++;
         }
     });
-//    if (bench == "")
-//    {
-//        alert("Select Bench");
-//        return false;
-//    }
-    if (jcodes == "")
-    {
+    //    if (bench == "")
+    //    {
+    //        alert("Select Bench");
+    //        return false;
+    //    }
+    if (jcodes == "") {
         alert("Select Judge");
         return false;
     }
-//    if (bench == "S" && jcnt != 1)
-//    {
-//        alert("Select one Judge for Single Bench");
-//        return false;
-//    }
-//    if (bench == "D" && jcnt != 2)
-//    {
-//        alert("Select two Judge for Division Bench");
-//        return false;
-//    }
-//    if (bench == "F" && jcnt < 3)
-//    {
-//        alert("Select atleast three Judge for Full Bench");
-//        return false;
-//    }
-    $("input[type='checkbox'][name^='" + div1 + "']").each(function() {
+    //    if (bench == "S" && jcnt != 1)
+    //    {
+    //        alert("Select one Judge for Single Bench");
+    //        return false;
+    //    }
+    //    if (bench == "D" && jcnt != 2)
+    //    {
+    //        alert("Select two Judge for Division Bench");
+    //        return false;
+    //    }
+    //    if (bench == "F" && jcnt < 3)
+    //    {
+    //        alert("Select atleast three Judge for Full Bench");
+    //        return false;
+    //    }
+    $("input[type='checkbox'][name^='" + div1 + "']").each(function () {
         var isChecked = document.getElementById($(this).attr('id')).checked;
-        if (isChecked)
-        {
+        if (isChecked) {
             chk_var = true;
             chk_val = $(this).val().split("|");
             cval = $("#" + div1 + chk_val[0]).val().split("|");
-            if (cnt == 1)
-            {
-                if (textformate(cval[0]) == false)
-                {
+            if (cnt == 1) {
+                if (textformate(cval[0]) == false) {
                     isfalse = 1;
                 }
-                if (cval[0] == 24 || cval[0] == 21 || cval[0] == 70 || cval[0] == 59)
-                {
-                    if ($("#" + div2 + cval[0]).val() == '')
-                    {
+                if (cval[0] == 24 || cval[0] == 21 || cval[0] == 70 || cval[0] == 59) {
+                    if ($("#" + div2 + cval[0]).val() == '') {
                         alert('Please Enter Date');
                         setFocusToTextBox(cval[0]);
                         isfalse = 1;
                     }
                 }
             }
-            else
-            {
-                if (cval[0] == 37 || cval[0] == 78 || cval[0] == 73)
-                {
+            else {
+                if (cval[0] == 37 || cval[0] == 78 || cval[0] == 73) {
                     chk_var1 = true;
                     rjdt = document.getElementById("rjdate").value;
                 }
@@ -647,115 +603,111 @@ function save_rec(cnt)
         }
     });
     cr_head += '</font></b>';
-    if (document.getElementById("cldate").value=="")
-    {
+    if (document.getElementById("cldate").value == "") {
         alert("Select CauseList Date!");
         return false;
     }
-    if (document.getElementById("hdate").value=="")
-    {
+    if (document.getElementById("hdate").value == "") {
         alert("Select Hearing Date!");
         return false;
-    }    
-    if (!(chk_var))
-    {
+    }
+    if (!(chk_var)) {
         alert("Select atleast one disposal type from the list.");
         return false;
     }
-    if ((rjdt == "" || rjdt == "00-00-0000") && chk_var1==true)
-    {
+    if ((rjdt == "" || rjdt == "00-00-0000") && chk_var1 == true) {
         alert("Select RJ Date");
         return false;
     }
-    if (isfalse == 0)
-    {
-        var url = "insert_rec_an_disp.php";
-        var http = new getXMLHttpRequestObject();
+    if (isfalse == 0) {
+        var url = `${base_url}/IB/FmdController/insert_rec_an_disp`;
         var str1 = "";
-        var dt = document.getElementById("cldate").value;
-        var hdt = document.getElementById("hdate").value;
-//        var ucode = document.getElementById('hd_ud').value;
-//var uip=document.getElementById('hd_ipadd').value;
-//var umac=document.getElementById('hd_macadd').value;   
-         var subh = document.getElementById("tmp_casenosub").value;
-         var concstr='';
-    $("input[type='checkbox'][name^='conncchk']").each(function () {
-        if($(this).is(':checked')){
-         concstr+= $(this).val()+',';  
-        }
-    });
-    
-        var dt1 = dt.split("-");
-        var dt_new = dt1[2] + "-" + dt1[1] + "-" + dt1[0];
-        var hdt1 = hdt.split("-");
-        var hdt_new = hdt1[2] + "-" + hdt1[1] + "-" + hdt1[0];
-        var rjdt1 = rjdt.split("-");
-        var rjdt_new = rjdt1[2] + "-" + rjdt1[1] + "-" + rjdt1[0];
+        var dt = $("#cldate").val();
+        var hdt = $("#hdate").val();
+        var subh = $("#tmp_casenosub").val();
+        var concstr = "";
+
+        // Collecting checkbox values
+        $("input[type='checkbox'][name^='conncchk']:checked").each(function () {
+            concstr += $(this).val() + ",";
+        });
+
+        // Date format transformation (dd-mm-yyyy to yyyy-mm-dd)
+        var dt_new = dt.split("-").reverse().join("-");
+        var hdt_new = hdt.split("-").reverse().join("-");
+        var rjdt_new = rjdt.split("-").reverse().join("-");
+
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
+        // Constructing the parameters
         str1 = jcodes;
         str_new = cn + "#" + stat + "#" + str_new + "#" + subh;
-        var parameters = "str=" + str_new;
-        parameters += "&str1=" + str1;
-        parameters += "&dt=" + dt_new;
-        parameters += "&hdt=" + hdt_new;
-        parameters += "&rjdt=" + rjdt_new;
-        parameters += "&concstr=" + concstr;
+        var parameters = {
+            str: str_new,
+            str1: str1,
+            dt: dt_new,
+            hdt: hdt_new,
+            rjdt: rjdt_new,
+            concstr: concstr
+        };
 
-        
-      //  parameters += "&bench=" + bench;
-        http.open("POST", url, true);
-        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        http.setRequestHeader("Content-length", parameters.length);
-        http.setRequestHeader("Connection", "close");
-        http.onreadystatechange = function() {//Handler function for call back on state change.
-            if (http.readyState == 4) {
-                var data = http.responseText;
-                if (data != "")
-                    alert(data);
-                else
-                {
+        // Making the AJAX call
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {parameters,CSRF_TOKEN: CSRF_TOKEN_VALUE},
+            success: function (response) {
+                
+                if (response) {
+                    updateCSRFToken();
+                    alert(response);
+                } else {
                     fsubmit();
                 }
+            },
+            error: function (xhr, status, error) {
+                updateCSRFToken();
+                console.error("AJAX Error: " + status + " - " + error);
+                alert("An error occurred while processing your request.");
             }
-        }
-        http.send(parameters);
+        });
+
         close_w(cnt);
     }
+
 }
 
-function call_div(cn, e, cnt,subh)
-{
-    if (cnt == 1)
-    {
+function call_div(cn, e, cnt, subh) {
+    if (cnt == 1) {
         var div1 = "chkp";
         var div2 = "hdremp";
         $('#tmp_casenop').val(cn);
         $('#pend_head').html('<font color=red>' + $('#cs' + cn).html() + '</font>');
     }
-    else
-    {
+    else {
         var div1 = "chkd";
         var div2 = "hdremd";
         $('#tmp_casenod').val(cn);
-        $('#tmp_casenosub').val(subh);        
+        $('#tmp_casenosub').val(subh);
         $('#disp_head').html('<font color=red>Diary No. : ' + $('#diaryno').val() + '</font>');
     }
-   // var elementExists = document.getElementById("caseval" + cn);
+    // var elementExists = document.getElementById("caseval" + cn);
     var csval = "";
-    if(document.getElementById("caseval" + cn))
+    if (document.getElementById("caseval" + cn))
         csval = document.getElementById("caseval" + cn).value;
-   // alert(csval);
+    // alert(csval);
     var csvalspl = csval.split("^^");
     var t_val;
     var chk_val;
-    $("input[type='checkbox'][name^='" + div1 + "']").each(function() {
+    $("input[type='checkbox'][name^='" + div1 + "']").each(function () {
         chk_val = $(this).val().split("|");
         int_chk = 0;
     });
     call_f1(cnt);
 }
 
-function close_w(cnt)
-{
+function close_w(cnt) {
     var divname = "";
     if (cnt == 1)
         divname = "newb";
@@ -770,173 +722,156 @@ function close_w(cnt)
     if (cnt == 3)
         fsubmit();
 }
-function adv_popup(opt)
-{
+function adv_popup(opt) {
     $('#adv_head').html('<font color=red>' + $('#advname' + opt).html() + '</font>');
     $('#txt_adv_name').val($('#advname' + opt).html());
     if (opt == 1)
         $('#advside').val('P');
     if (opt == 2)
         $('#advside').val('R');
-    if ($('#advenroll' + opt).length)
-    {
+    if ($('#advenroll' + opt).length) {
         $('#adv_head1').html('<font color=red>' + $('#advenroll' + opt).html() + '</font>');
         var en = $('#advenroll' + opt).html();
-        if (en.indexOf("/") >= 0)
-        {
+        if (en.indexOf("/") >= 0) {
             var en1 = en.split("/");
             $('#txt_e_no').val(en1[0]);
             $('#txt_e_yr').val(en1[1]);
         }
-        else
-        {
+        else {
             $('#txt_e_no').val(en);
             $('#txt_e_yr').val('');
         }
     }
-    else
-    {
+    else {
         $('#adv_head1').html('');
         $('#txt_e_no').val('');
         $('#txt_e_yr').val('');
     }
     call_f1(4);
 }
-function call_f1(cnt)
-{
+function call_f1(cnt) {
     var divname = "";
-    if (cnt == 1)
-    {
+    if (cnt == 1) {
         divname = "newb";
         $('#' + divname).width($(window).width() - 150);
-        $('#' + divname).height($(window).height() - 120);
+        $('#' + divname).height('80%');
         $('#newb123').height($('#newb').height() - $('#newb1').height() - 50);
     }
-    if (cnt == 2)
-    {
+    if (cnt == 2) {
         divname = "newc";
-        $('#' + divname).width($(window).width() - 150);
-        $('#' + divname).height($(window).height() - 120);
+        $('#' + divname).width('85%');
+        $('#' + divname).height('80%');
         $('#newc123').height($('#newc').height() - $('#newc1').height() - 50);
         $('#concasediv').height($('#newc').height() - $('#newc1').height() - 50);
     }
-    if (cnt == 3)
-    {
+    if (cnt == 3) {
         divname = "newp";
         $('#' + divname).width($(window).width() - 150);
-        $('#' + divname).height($(window).height() - 120);
+        $('#' + divname).height('80%');
         $('#newp123').height($('#newp').height() - $('#newp1').height() - 50);
     }
-    if (cnt == 4)
-    {
+    if (cnt == 4) {
         divname = "newadv";
         $('#' + divname).width('600px');
-        $('#' + divname).height($(window).height() - 150);
+        $('#' + divname).height('80%');
         $('#newadv123').height($('#newadv').height() - $('#newadv1').height() - 50);
     }
     var newX = ($('#' + divname).width() / 2);
     var newY = ($('#' + divname).height() / 2);
     document.getElementById(divname).style.marginLeft = "-" + newX + "px";
-    document.getElementById(divname).style.marginTop = "-" + newY + "px";
+    document.getElementById(divname).style.marginTop = "-27" + "%";
     document.getElementById(divname).style.display = 'block';
     document.getElementById(divname).style.zIndex = 10;
     $('#overlay').height($(window).height());
     document.getElementById('overlay').style.display = 'block';
 }
 function set_ele() {
-    var curr_date=document.getElementById("curr_date").value;
-    var d=new Date(curr_date);
-    $("#hdremp21").datepicker({dateFormat: "dd/mm/yy", numberOfMonths: 2});
-    $("#hdremp24").datepicker({dateFormat: "dd/mm/yy", numberOfMonths: 2});
-    $("#hdremp59").datepicker({dateFormat: "dd/mm/yy", numberOfMonths: 2});
-    $("#hdremp70").datepicker({dateFormat: "dd/mm/yy", numberOfMonths: 2});
-    $("#hdate").datepicker({dateFormat: "dd-mm-yy", numberOfMonths: 2,changeMonth:true, changeYear:true, maxDate: d});
-    $("#cldate").datepicker({dateFormat: "dd-mm-yy", numberOfMonths: 2,changeMonth:true, changeYear:true, maxDate: d});
-    $("#rjdate").datepicker({dateFormat: "dd-mm-yy",changeMonth:true, changeYear:true, maxDate: d});
+    var curr_date = document.getElementById("curr_date").value;
+    var d = new Date(curr_date);
+    $("#hdremp21").datepicker({ dateFormat: "dd/mm/yy", numberOfMonths: 2 });
+    $("#hdremp24").datepicker({ dateFormat: "dd/mm/yy", numberOfMonths: 2 });
+    $("#hdremp59").datepicker({ dateFormat: "dd/mm/yy", numberOfMonths: 2 });
+    $("#hdremp70").datepicker({ dateFormat: "dd/mm/yy", numberOfMonths: 2 });
+    $("#hdate").datepicker({ dateFormat: "dd-mm-yy", numberOfMonths: 2, changeMonth: true, changeYear: true, maxDate: d });
+    $("#cldate").datepicker({ dateFormat: "dd-mm-yy", numberOfMonths: 2, changeMonth: true, changeYear: true, maxDate: d });
+    $("#rjdate").datepicker({ dateFormat: "dd-mm-yy", changeMonth: true, changeYear: true, maxDate: d });
     //$( "#datepicker" ).datepicker({  maxDate: new Date() });
-    $("#rjdate").keyup(function(e) {
+    $("#rjdate").keyup(function (e) {
         if (e.keyCode == 8 || e.keyCode == 46) {
             $.datepicker._clearDate(this);
         }
     });
-    $("#thdate").datepicker({dateFormat: "dd-mm-yy"});
-    $("#hdremp21").keypress(function(e) {
+    $("#thdate").datepicker({ dateFormat: "dd-mm-yy" });
+    $("#hdremp21").keypress(function (e) {
         e.preventDefault();
     });
-    $("#hdremp24").keypress(function(e) {
+    $("#hdremp24").keypress(function (e) {
         e.preventDefault();
     });
-    $("#hdremp59").keypress(function(e) {
+    $("#hdremp59").keypress(function (e) {
         e.preventDefault();
     });
-    $("#hdremp70").keypress(function(e) {
+    $("#hdremp70").keypress(function (e) {
         e.preventDefault();
     });
-    $("#thdate").keypress(function(e) {
+    $("#thdate").keypress(function (e) {
         e.preventDefault();
     });
-    $("#hdate").keypress(function(e) {
+    $("#hdate").keypress(function (e) {
         e.preventDefault();
     });
-    $("#cldate").keypress(function(e) {
+    $("#cldate").keypress(function (e) {
         e.preventDefault();
     });
-    $("#rjdate").keypress(function(e) {
+    $("#rjdate").keypress(function (e) {
         e.preventDefault();
     });
     get_subheading();
     $("#txt_adv_name").autocomplete({
         source: 'get_adv_from_bar.php',
         minLength: 2,
-        select: function(evt, ui)
-        {
+        select: function (evt, ui) {
             $("#txt_e_no").val(ui.item.eno);
             $("#txt_e_yr").val(ui.item.eyr);
         }
     });
-    $(".cls_chkp").click(function() {
+    $(".cls_chkp").click(function () {
         var chk_val = $(this).val().split("|");
         var isChecked = document.getElementById($(this).attr('id')).checked;
-        if (isChecked)
-        {
+        if (isChecked) {
             if (chk_val[0] !== 21 && chk_val[0] !== 24 && chk_val[0] !== 59 && chk_val[0] !== 70)
                 $("#hdremp" + chk_val[0]).attr('readonly', false);
             $("#hdremp" + chk_val[0]).css('background-color', '#fff');
             $("#hdremp" + chk_val[0]).css('border', '1px solid #ccc');
             $("#hdremp" + chk_val[0]).focus();
         }
-        else
-        {
+        else {
             $("#hdremp" + chk_val[0]).attr('readonly', true);
             $("#hdremp" + chk_val[0]).css('background-color', '#F5F5F5');
             $("#hdremp" + chk_val[0]).css('border', '1px solid #ccc');
         }
     });
-    $(".cls_chkd").click(function() {
+    $(".cls_chkd").click(function () {
         var chk_val = $(this).val().split("|");
         var isChecked = document.getElementById($(this).attr('id')).checked;
-        if (isChecked)
-        {
+        if (isChecked) {
             $("#hdremd" + chk_val[0]).attr('readonly', false);
             $("#hdremd" + chk_val[0]).css('background-color', '#fff');
             $("#hdremd" + chk_val[0]).css('border', '1px solid #ccc');
             $("#hdremd" + chk_val[0]).focus();
         }
-        else
-        {
+        else {
             $("#hdremd" + chk_val[0]).attr('readonly', true);
             $("#hdremd" + chk_val[0]).css('background-color', '#F5F5F5');
             $("#hdremd" + chk_val[0]).css('border', '1px solid #ccc');
         }
     });
-    $('#linkimg').click(function() {
-        if ($('#linkimg').html() == 'SHOW ALL LISTINGS')
-        {
+    $('#linkimg').click(function () {
+        if ($('#linkimg').html() == 'SHOW ALL LISTINGS') {
             $('#linkimg').html('HIDE PREVIOUS LISTINGS');
             $('.shclass').show();
         }
-        else
-        {
+        else {
             $('#linkimg').html('SHOW ALL LISTINGS');
             $('.shclass').hide();
         }
@@ -944,8 +879,7 @@ function set_ele() {
     $('.shclass').hide();
 }
 
-function chk_conncase()
-{
+function chk_conncase() {
     var conncs_var = document.frm.conncs.value;
     if (conncs_var == 'Y')
         document.getElementById("conncasediv").style.display = "block";
@@ -953,26 +887,21 @@ function chk_conncase()
         document.getElementById("conncasediv").style.display = "none";
 }
 
-function get_subheading()
-{
+function get_subheading() {
     var xhr2 = getXMLHTTP();
     var jj = 0;
     var sh = $('#sh_hidden').val();
     jj = $('#mf_select').val();
     var str = "get_mf_subhead.php?mf=" + jj + "&sh=" + sh;
     xhr2.open("GET", str, true);
-    xhr2.onreadystatechange = function()
-    {
-        if (xhr2.readyState == 4 && xhr2.status == 200)
-        {
+    xhr2.onreadystatechange = function () {
+        if (xhr2.readyState == 4 && xhr2.status == 200) {
             var data = xhr2.responseText;
             var arr = data.split("|");
-            if (data == "ERROR")
-            {
+            if (data == "ERROR") {
                 //document.getElementById('subhead_select').innerHTML=xhr2.responseText;
             }
-            else
-            {
+            else {
                 document.getElementById('subhead_select').innerHTML = data;
             }
         }
@@ -980,70 +909,54 @@ function get_subheading()
     xhr2.send(null);
 }
 
-function get_max_fin_m(str)
-{
+function get_max_fin_m(str) {
     var ct = document.getElementById("ct").value;
     var caseno = document.getElementById("caseno").value;
     var year = document.getElementById("year").value;
-    if (ct.length == 2)
-    {
+    if (ct.length == 2) {
         ct = '0' + ct;
     }
-    if (caseno.length == 1)
-    {
+    if (caseno.length == 1) {
         caseno = '0000' + caseno;
     }
-    else if (caseno.length == 2)
-    {
+    else if (caseno.length == 2) {
         caseno = '000' + caseno;
     }
-    else if (caseno.length == 3)
-    {
+    else if (caseno.length == 3) {
         caseno = '00' + caseno;
     }
-    else if (caseno.length == 4)
-    {
+    else if (caseno.length == 4) {
         caseno = '0' + caseno;
     }
     var fil_no = '01' + ct + caseno + year;
     var xmlhttp;
-    if (window.XMLHttpRequest)
-    {
+    if (window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
     }
-    else
-    {
+    else {
         xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    xmlhttp.onreadystatechange = function()
-    {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-        {
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             document.getElementById('dv_vc').innerHTML = xmlhttp.responseText;
             var hd_co_tot = document.getElementById('hd_co_tot').value;
             var ytq = 0;
-            for (var itt = 1; itt <= hd_co_tot; itt++)
-            {
-                if (document.getElementById('hd_sp_b' + itt))
-                {
-                    if ((document.getElementById('hd_sp_b' + itt).value == '850') || (document.getElementById('hd_sp_b' + itt).value == '851'))
-                    {
+            for (var itt = 1; itt <= hd_co_tot; itt++) {
+                if (document.getElementById('hd_sp_b' + itt)) {
+                    if ((document.getElementById('hd_sp_b' + itt).value == '850') || (document.getElementById('hd_sp_b' + itt).value == '851')) {
                         ytq = 1;
                     }
                 }
             }
-            if (ytq == '0')
-            {
-                if ($("#bench").val() == "S")
-                {
+            if (ytq == '0') {
+                if ($("#bench").val() == "S") {
                     document.getElementById("judge_sb").style.display = "block";
                     $("#sbj").val("250");
                 }
                 else
                     document.getElementById("judge_sb").style.display = "none";
 
-                if ($("#bench").val() == "D")
-                {
+                if ($("#bench").val() == "D") {
                     document.getElementById("judge_db").style.display = "block";
                     $("#dbj1").val("200");
                     $("#dbj2").val("999");
@@ -1051,18 +964,15 @@ function get_max_fin_m(str)
                 else
                     document.getElementById("judge_db").style.display = "none";
             }
-            else
-            {
-                if ($("#bench").val() == "S")
-                {
+            else {
+                if ($("#bench").val() == "S") {
                     document.getElementById("judge_sb").style.display = "block";
                     $("#sbj").val("514");
                 }
                 else
                     document.getElementById("judge_sb").style.display = "none";
 
-                if ($("#bench").val() == "D")
-                {
+                if ($("#bench").val() == "D") {
                     document.getElementById("judge_db").style.display = "block";
                     $("#dbj1").val("514");
                     $("#dbj2").val("999");
@@ -1076,39 +986,30 @@ function get_max_fin_m(str)
     xmlhttp.send(null);
 }
 
-function change_judge()
-{
-    if (document.getElementById("listorder").value == "50" && $("#bench").val() == "S")
-    {
+function change_judge() {
+    if (document.getElementById("listorder").value == "50" && $("#bench").val() == "S") {
         alert("Related To PMT Scam.Can't Select Single Bench");
         $("#bench").val("D");
     }
-    else
-    {
+    else {
         var hd_co_tot = document.getElementById('hd_co_tot').value;
         var ytq = 0;
-        for (var itt = 1; itt <= hd_co_tot; itt++)
-        {
-            if (document.getElementById('hd_sp_b' + itt))
-            {
-                if ((document.getElementById('hd_sp_b' + itt).value == '850') || (document.getElementById('hd_sp_b' + itt).value == '851'))
-                {
+        for (var itt = 1; itt <= hd_co_tot; itt++) {
+            if (document.getElementById('hd_sp_b' + itt)) {
+                if ((document.getElementById('hd_sp_b' + itt).value == '850') || (document.getElementById('hd_sp_b' + itt).value == '851')) {
                     ytq = 1;
                 }
             }
         }
-        if (ytq == '0')
-        {
-            if ($("#bench").val() == "S")
-            {
+        if (ytq == '0') {
+            if ($("#bench").val() == "S") {
                 document.getElementById("judge_sb").style.display = "block";
                 $("#sbj").val("250");
             }
             else
                 document.getElementById("judge_sb").style.display = "none";
 
-            if ($("#bench").val() == "D")
-            {
+            if ($("#bench").val() == "D") {
                 document.getElementById("judge_db").style.display = "block";
                 $("#dbj1").val("200");
                 $("#dbj2").val("999");
@@ -1116,18 +1017,15 @@ function change_judge()
             else
                 document.getElementById("judge_db").style.display = "none";
         }
-        else
-        {
-            if ($("#bench").val() == "S")
-            {
+        else {
+            if ($("#bench").val() == "S") {
                 document.getElementById("judge_sb").style.display = "block";
                 $("#sbj").val("514");
             }
             else
                 document.getElementById("judge_sb").style.display = "none";
 
-            if ($("#bench").val() == "D")
-            {
+            if ($("#bench").val() == "D") {
                 document.getElementById("judge_db").style.display = "block";
                 $("#dbj1").val("514");
                 $("#dbj2").val("999");
@@ -1137,178 +1035,172 @@ function change_judge()
         }
     }
 }
-function fsubmit()
-{
-     var diaryno, diaryyear, cstype, csno, csyr;
-        var regNum = new RegExp('^[0-9]+$');
-         
-        if($("#radioct").is(':checked')){
-            cstype = $("#case_type").val();
-            csno = $("#case_number").val();
-            csyr = $("#case_year").val();
-            
-            if(!regNum.test(cstype)){
-                alert("Please Select Casetype");
-                $("#case_type").focus();
-                return false;
-            }
-            if(!regNum.test(csno)){
-                alert("Please Fill Case No in Numeric");
-                $("#case_number").focus();
-                return false;
-            }
-            if(!regNum.test(csyr)){
-                alert("Please Fill Case Year in Numeric");
-                $("#case_year").focus();
-                return false;
-            }
-            if(csno == 0){
-                alert("Case No Can't be Zero");
-                $("#case_number").focus();
-                return false;
-            }
-            if(csyr == 0){
-                alert("Case Year Can't be Zero");
-                $("#case_year").focus();
-                return false;
-            }
-            /*if(cstype.length==1)
-                cstype = '00'+cstype;
-            else if(cstype.length==2)
-                cstype = '0'+cstype;*/
-        }
-        else if($("#search_type_d").is(':checked')){
-            diaryno = $("#diary_number").val();
-            diaryyear = $("#diary_year").val();
-            if(!regNum.test(diaryno)){
-                alert("Please Enter Diary No in Numeric");
-                $("#diary_number").focus();
-                return false;
-            }
-            if(!regNum.test(diaryyear)){
-                alert("Please Enter Diary Year in Numeric");
-                $("#diary_year").focus();
-                return false;
-            }
-            if(diaryno == 0){
-                alert("Diary No Can't be Zero");
-                $("#diary_number").focus();
-                return false;
-            }
-            if(diaryyear == 0){
-                alert("Diary Year Can't be Zero");
-                $("#diary_year").focus();
-                return false;
-            }
-        }
-        else{
-            alert('Please Select Any Option');
+async function fsubmit() {
+    updateCSRFTokenSync() 
+    var diaryno, diaryyear, cstype, csno, csyr;
+    var regNum = new RegExp('^[0-9]+$');
+
+    if ($("#radioct").is(':checked')) {
+        cstype = $("#case_type").val();
+        csno = $("#case_number").val();
+        csyr = $("#case_year").val();
+
+        if (!regNum.test(cstype)) {
+            alert("Please Select Casetype");
+            $("#case_type").focus();
             return false;
         }
-           $.ajax({
-            type: 'POST',
-            url:"./set_dispose_process.php",
-            beforeSend: function (xhr) {
-                $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>");
-            },
-            data:{d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,cy:csyr}
-        })
-        .done(function(msg){
+        if (!regNum.test(csno)) {
+            alert("Please Fill Case No in Numeric");
+            $("#case_number").focus();
+            return false;
+        }
+        if (!regNum.test(csyr)) {
+            alert("Please Fill Case Year in Numeric");
+            $("#case_year").focus();
+            return false;
+        }
+        if (csno == 0) {
+            alert("Case No Can't be Zero");
+            $("#case_number").focus();
+            return false;
+        }
+        if (csyr == 0) {
+            alert("Case Year Can't be Zero");
+            $("#case_year").focus();
+            return false;
+        }
+        /*if(cstype.length==1)
+            cstype = '00'+cstype;
+        else if(cstype.length==2)
+            cstype = '0'+cstype;*/
+    }
+    else if ($("#search_type_d").is(':checked')) {
+        diaryno = $("#diary_number").val();
+        diaryyear = $("#diary_year").val();
+        if (!regNum.test(diaryno)) {
+            alert("Please Enter Diary No in Numeric");
+            $("#diary_number").focus();
+            return false;
+        }
+        if (!regNum.test(diaryyear)) {
+            alert("Please Enter Diary Year in Numeric");
+            $("#diary_year").focus();
+            return false;
+        }
+        if (diaryno == 0) {
+            alert("Diary No Can't be Zero");
+            $("#diary_number").focus();
+            return false;
+        }
+        if (diaryyear == 0) {
+            alert("Diary Year Can't be Zero");
+            $("#diary_year").focus();
+            return false;
+        }
+    }
+    else {
+        alert('Please Select Any Option');
+        return false;
+    }
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    $.ajax({
+        type: 'GET',
+        url: base_url + "/IB/FmdController/set_dispose_process",
+        beforeSend: function (xhr) {
+            $("#dv_res1").html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+        },
+        data: { d_no: diaryno, d_yr: diaryyear, ct: cstype, cn: csno, cy: csyr }
+    })
+        .done(function (msg) {
+           
             $("#dv_res1").html(msg);
-   // get_subheading();
-//            $("#result2").html("");
-//get_subheading();
+            // get_subheading();
+            //            $("#result2").html("");
+            //get_subheading();
         })
-        .fail(function(){
-            alert("ERROR, Please Contact Server Room"); 
+        .fail(function () {
+           
+            alert("ERROR, Please Contact Server Room");
         });
-//    document.getElementById("rslt").innerHTML = '';
-//    var ct = document.getElementById("ct").value;
-//    var caseno = document.getElementById("caseno").value;
-//    var year = document.getElementById("year").value;
-//    var hd_ud=document.getElementById('hd_ud').value;
-//    document.getElementById("hint").innerHTML = '<table align=center><tr><td><img src="ajax-preloader.gif"/></td></tr></table>';
-//    var ajaxRequest; // The variable that makes Ajax possible!
-//    try {
-//        // Opera 8.0+, Firefox, Safari
-//        ajaxRequest = new XMLHttpRequest();
-//    } catch (e)
-//    {
-//        // Internet Explorer Browsers
-//        try {
-//            ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-//        } catch (e)
-//        {
-//            try {
-//                ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-//            } catch (e)
-//            {
-//                alert("Your browser broke!");
-//                return false;
-//            }
-//        }
-//    }
+    //    document.getElementById("rslt").innerHTML = '';
+    //    var ct = document.getElementById("ct").value;
+    //    var caseno = document.getElementById("caseno").value;
+    //    var year = document.getElementById("year").value;
+    //    var hd_ud=document.getElementById('hd_ud').value;
+    //    document.getElementById("hint").innerHTML = '<table align=center><tr><td><img src="ajax-preloader.gif"/></td></tr></table>';
+    //    var ajaxRequest; // The variable that makes Ajax possible!
+    //    try {
+    //        // Opera 8.0+, Firefox, Safari
+    //        ajaxRequest = new XMLHttpRequest();
+    //    } catch (e)
+    //    {
+    //        // Internet Explorer Browsers
+    //        try {
+    //            ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+    //        } catch (e)
+    //        {
+    //            try {
+    //                ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+    //            } catch (e)
+    //            {
+    //                alert("Your browser broke!");
+    //                return false;
+    //            }
+    //        }
+    //    }
 
     // Create a function that will receive data sent from the server
-//    ajaxRequest.onreadystatechange = function()
-//    {
-//        if (ajaxRequest.readyState == 4) {
-//            document.getElementById("hint").innerHTML = '';
-//            $("#rslt").html(ajaxRequest.responseText);
-//            set_ele();
-//        }
-//    }
-//    var url = "rmrk_case_entry_new_da_process.php";
-//    url = url + "?ct=" + ct + "&caseno=" + caseno + "&year=" + year + "&hd_ud=" + hd_ud;
-//    ajaxRequest.open("GET", url, true);
-//    ajaxRequest.send(null);
+    //    ajaxRequest.onreadystatechange = function()
+    //    {
+    //        if (ajaxRequest.readyState == 4) {
+    //            document.getElementById("hint").innerHTML = '';
+    //            $("#rslt").html(ajaxRequest.responseText);
+    //            set_ele();
+    //        }
+    //    }
+    //    var url = "rmrk_case_entry_new_da_process.php";
+    //    url = url + "?ct=" + ct + "&caseno=" + caseno + "&year=" + year + "&hd_ud=" + hd_ud;
+    //    ajaxRequest.open("GET", url, true);
+    //    ajaxRequest.send(null);
 }
 var cnt_data1 = 1;
 var ck_subhead = 0;
 var ck_subhead_s = 0;
-function getSlide()
-{
+function getSlide() {
     var ck_ca_sb = 0;
-    if (document.getElementById('hd_ssno').value != '0')
-    {
+    if (document.getElementById('hd_ssno').value != '0') {
         cnt_data1 = parseInt(document.getElementById('hd_ssno').value) + 1;
         document.getElementById('hd_ssno').value = '0';
     }
-  //  var mf_select_nm = document.getElementById('mf_select').options[document.getElementById('mf_select').selectedIndex].innerHTML;
+    //  var mf_select_nm = document.getElementById('mf_select').options[document.getElementById('mf_select').selectedIndex].innerHTML;
     var subhead_select_nm = document.getElementById('subhead_select').options[document.getElementById('subhead_select').selectedIndex].innerHTML;
     var mf_select = document.getElementById('mf_select').value;
     var subhead_select = document.getElementById('subhead_select').value;
     var hd_co_tot = document.getElementById('hd_co_tot').value;
-    for (var i = 1; i <= hd_co_tot; i++)
-    {
-        if (document.getElementById('hd_sp_a' + i))
-        {
-            if (document.getElementById('hd_sp_b' + i).value == '850' || document.getElementById('hd_sp_b' + i).value == '851')
-            {
-                if (document.getElementById('hd_sp_b' + i).value.trim() == '850')
-                {
+    for (var i = 1; i <= hd_co_tot; i++) {
+        if (document.getElementById('hd_sp_a' + i)) {
+            if (document.getElementById('hd_sp_b' + i).value == '850' || document.getElementById('hd_sp_b' + i).value == '851') {
+                if (document.getElementById('hd_sp_b' + i).value.trim() == '850') {
                     ck_subhead = 1;
                     ck_subhead_s = 2;
                 }
-                else if (document.getElementById('hd_sp_b' + i).value.trim() == '851')
-                {
+                else if (document.getElementById('hd_sp_b' + i).value.trim() == '851') {
                     ck_subhead_s = 1;
                     ck_subhead = 2;
                 }
             }
             if ((mf_select.trim() == document.getElementById('hd_sp_a' + i).value.trim()) &&
-                    (subhead_select.trim() == document.getElementById('hd_sp_b' + i).value.trim()))
-            {
+                (subhead_select.trim() == document.getElementById('hd_sp_b' + i).value.trim())) {
                 ck_ca_sb = 1;
             }
         }
     }
-    if (ck_ca_sb == 1)
-    {
+    if (ck_ca_sb == 1) {
         alert("Already Selected");
     }
-    else
-    {
+    else {
         var row0 = document.createElement("tr");
         row0.setAttribute('id', 'tr_uo' + cnt_data1);
         var column0 = document.createElement("td");
@@ -1337,34 +1229,27 @@ function getSlide()
         document.getElementById('sp_c' + cnt_data1).innerHTML = subhead_select_nm;
         document.getElementById('hd_sp_a' + cnt_data1).value = mf_select;
         document.getElementById('hd_sp_b' + cnt_data1).value = subhead_select;
-        if (subhead_select.trim() == '850' || subhead_select.trim() == '851')
-        {
-            if ($("#bench").val() == "S")
-            {
+        if (subhead_select.trim() == '850' || subhead_select.trim() == '851') {
+            if ($("#bench").val() == "S") {
                 $("#sbj").val("514");
             }
-            if ($("#bench").val() == "D")
-            {
+            if ($("#bench").val() == "D") {
                 $("#dbj1").val("514");
                 $("#dbj2").val("999");
             }
-            if (subhead_select.trim() == '850')
-            {
+            if (subhead_select.trim() == '850') {
                 ck_subhead = 1;
                 ck_subhead_s = 2;
             }
-            else if (subhead_select.trim() == '851')
-            {
+            else if (subhead_select.trim() == '851') {
                 ck_subhead_s = 1;
                 ck_subhead = 2;
             }
         }
-        if (ck_subhead == 0 || ck_subhead_s == 0)
-        {
+        if (ck_subhead == 0 || ck_subhead_s == 0) {
             if ($("#bench").val() == "S")
                 $("#sbj").val("250");
-            if ($("#bench").val() == "D")
-            {
+            if ($("#bench").val() == "D") {
                 $("#dbj1").val("200");
                 $("#dbj2").val("999");
             }
@@ -1374,13 +1259,11 @@ function getSlide()
     }
 }
 
-function getDone_upd_cat(str)
-{
+function getDone_upd_cat(str) {
     var str1 = str.split('hd_chk_add');
     var tb = 0;
     var hd_co_tot = document.getElementById('hd_co_tot').value;
-    if (document.getElementById('hd_sp_b' + str1[1]).value == '850' || document.getElementById('hd_sp_b' + str1[1]).value == '851')
-    {
+    if (document.getElementById('hd_sp_b' + str1[1]).value == '850' || document.getElementById('hd_sp_b' + str1[1]).value == '851') {
         if (document.getElementById('hd_sp_b' + str1[1]).value == '850')
             ck_subhead = 0;
         else if (document.getElementById('hd_sp_b' + str1[1]).value == '851')
@@ -1388,48 +1271,41 @@ function getDone_upd_cat(str)
         if ($("#bench").val() == "S")
             $("#sbj").val("250");
 
-        if ($("#bench").val() == "D")
-        {
+        if ($("#bench").val() == "D") {
             $("#dbj1").val("200");
             $("#dbj2").val("999");
         }
     }
-    for (var itt = 1; itt <= hd_co_tot; itt++)
-    {
-        if (document.getElementById('hd_sp_b' + itt))
-        {
+    for (var itt = 1; itt <= hd_co_tot; itt++) {
+        if (document.getElementById('hd_sp_b' + itt)) {
             tb++;
         }
     }
     $("#tr_uo" + str1[1]).remove();
 }
 
-function getSlide()
-{
+function getSlide() {
     $('#btn_coram').hide();
     var cnt_data = parseInt(document.getElementById('djcnt').value);
     var cnt_data1 = cnt_data + 1;
     var mf_select = document.getElementById('djudge').value;
-   // var bench_select = document.getElementById('dbench').value;
-//    if (bench_select == 'S' && cnt_data1 > 1) {
-//        alert("Judge for Single Bench is Already Selected");
-//        return false;
-//    }
-//    if (bench_select == 'D' && cnt_data1 > 2) {
-//        alert("Judges for Division Bench is Already Selected");
-//        return false;
-//    }
-//    if (cnt_data1 > 5) {
-//        alert("Please do not select more than 5 Judges");
-//        return false;
-//    }
+    // var bench_select = document.getElementById('dbench').value;
+    //    if (bench_select == 'S' && cnt_data1 > 1) {
+    //        alert("Judge for Single Bench is Already Selected");
+    //        return false;
+    //    }
+    //    if (bench_select == 'D' && cnt_data1 > 2) {
+    //        alert("Judges for Division Bench is Already Selected");
+    //        return false;
+    //    }
+    //    if (cnt_data1 > 5) {
+    //        alert("Please do not select more than 5 Judges");
+    //        return false;
+    //    }
     var mf_select1 = mf_select.split("||")[1];
-    for (var i = 1; i <= cnt_data; i++)
-    {
-        if (document.getElementById('hd_chk_jd' + i))
-        {
-            if (document.getElementById('hd_chk_jd' + i).value == mf_select)
-            {
+    for (var i = 1; i <= cnt_data; i++) {
+        if (document.getElementById('hd_chk_jd' + i)) {
+            if (document.getElementById('hd_chk_jd' + i).value == mf_select) {
                 alert("Already Selected");
                 return false;
             }
@@ -1452,12 +1328,11 @@ function getSlide()
     document.getElementById('djcnt').value = cnt_data1;
 }
 
-function getDone_upd_cat(str)
-{
-    Element.prototype.remove = function() {
+function getDone_upd_cat(str) {
+    Element.prototype.remove = function () {
         this.parentElement.removeChild(this);
     };
-    NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    NodeList.prototype.remove = HTMLCollection.prototype.remove = function () {
         for (var i = 0, len = this.length; i < len; i++) {
             if (this[i] && this[i].parentElement) {
                 this[i].parentElement.removeChild(this[i]);
@@ -1468,8 +1343,7 @@ function getDone_upd_cat(str)
     var cnt_data1 = cnt_data - 1;
     var idnum = parseInt(str.replace('hd_chk_jd', ''));
     document.getElementById("hd_chk_jd_row" + idnum).remove();
-    for (var i = (idnum + 1); i <= cnt_data; i++)
-    {
+    for (var i = (idnum + 1); i <= cnt_data; i++) {
         var old_id = document.getElementById('hd_chk_jd' + i);
         old_id.id = 'hd_chk_jd' + (i - 1);
         var old_id_row = document.getElementById('hd_chk_jd_row' + i);
@@ -1480,7 +1354,7 @@ function getDone_upd_cat(str)
 
 function chk_checkbox() {
     var isfound = false;
-    $('input:checkbox.cls_chkd').each(function() {
+    $('input:checkbox.cls_chkd').each(function () {
         if (this.checked) {
             var chkVal = (this.checked ? $(this).val() : "");
             var chkVal1 = parseInt(chkVal.split('||')[0]);
@@ -1499,58 +1373,60 @@ function chk_checkbox() {
 
 
 
-$(document).ready(function(){
-    $("#search_type_d").click(function(){
+$(document).ready(function () {
+    $("#search_type_d").click(function () {
         $("#diary_number").removeProp('disabled');
         $("#diary_year").removeProp('disabled');
-        $("#case_type").prop('disabled',true);
-        $("#case_number").prop('disabled',true);
-        $("#case_year").prop('disabled',true);
+        $("#case_type").prop('disabled', true);
+        $("#case_number").prop('disabled', true);
+        $("#case_year").prop('disabled', true);
         $("#case_type").val("-1");
         $("#case_number").val("");
         $("#case_year").val("");
     });
-    
-    $("#radioct").click(function(){
-        $("#diary_number").prop('disabled',true);
-        $("#diary_year").prop('disabled',true);
+
+    $("#radioct").click(function () {
+        $("#diary_number").prop('disabled', true);
+        $("#diary_year").prop('disabled', true);
         $("#diary_number").val("");
         $("#diary_year").val("");
         $("#case_type").removeProp('disabled');
         $("#case_number").removeProp('disabled');
         $("#case_year").removeProp('disabled');
     });
-    
-    $("input[name=btnGetR]").click(function(){
+
+    $("input[name=btnGetR]").click(function () {
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var diaryno, diaryyear, cstype, csno, csyr;
         var regNum = new RegExp('^[0-9]+$');
-         
-        if($("#radioct").is(':checked')){
+
+        if ($("#radioct").is(':checked')) {
             cstype = $("#case_type").val();
             csno = $("#case_number").val();
             csyr = $("#case_year").val();
-            
-            if(!regNum.test(cstype)){
+
+            if (!regNum.test(cstype)) {
                 alert("Please Select Casetype");
                 $("#case_type").focus();
                 return false;
             }
-            if(!regNum.test(csno)){
+            if (!regNum.test(csno)) {
                 alert("Please Fill Case No in Numeric");
                 $("#case_number").focus();
                 return false;
             }
-            if(!regNum.test(csyr)){
+            if (!regNum.test(csyr)) {
                 alert("Please Fill Case Year in Numeric");
                 $("#case_year").focus();
                 return false;
             }
-            if(csno == 0){
+            if (csno == 0) {
                 alert("Case No Can't be Zero");
                 $("#case_number").focus();
                 return false;
             }
-            if(csyr == 0){
+            if (csyr == 0) {
                 alert("Case Year Can't be Zero");
                 $("#case_year").focus();
                 return false;
@@ -1560,58 +1436,56 @@ $(document).ready(function(){
             else if(cstype.length==2)
                 cstype = '0'+cstype;*/
         }
-        else if($("#search_type_d").is(':checked')){
+        else if ($("#search_type_d").is(':checked')) {
             diaryno = $("#diary_number").val();
             diaryyear = $("#diary_year").val();
-            if(!regNum.test(diaryno)){
+            if (!regNum.test(diaryno)) {
                 alert("Please Enter Diary No in Numeric");
                 $("#diary_number").focus();
                 return false;
             }
-            if(!regNum.test(diaryyear)){
+            if (!regNum.test(diaryyear)) {
                 alert("Please Enter Diary Year in Numeric");
                 $("#diary_year").focus();
                 return false;
             }
-            if(diaryno == 0){
+            if (diaryno == 0) {
                 alert("Diary No Can't be Zero");
                 $("#diary_number").focus();
                 return false;
             }
-            if(diaryyear == 0){
+            if (diaryyear == 0) {
                 alert("Diary Year Can't be Zero");
                 $("#diary_year").focus();
                 return false;
             }
         }
-        else{
+        else {
             alert('Please Select Any Option');
             return false;
         }
-        
+
         $.ajax({
             type: 'GET',
             url: base_url + "/IB/FmdController/set_dispose_process",
-            beforeSend: function (xhr) {
-                $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>");
+            beforeSend: function () {
+                $('#dv_res1').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
             },
-            data:{d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,cy:csyr}
+            data: { d_no: diaryno, d_yr: diaryyear, ct: cstype, cn: csno, cy: csyr}
         })
-        .done(function(msg){
-            $("#dv_res1").html(msg);
-   // get_subheading();
-//            $("#result2").html("");
-//get_subheading();
-        })
-        .fail(function(){
-            alert("ERROR, Please Contact Server Room"); 
-        });
+            .done(function (msg) {
+               
+                $("#dv_res1").html(msg);
+            })
+            .fail(function () {
+               
+                alert("ERROR, Please Contact Server Room");
+            });
     });
 });
 
-function get_coram(diary_no)
-{
-    var cl_dt=$('#cldate').val();
+function get_coram(diary_no) {
+    var cl_dt = $('#cldate').val();
     //alert (diary_no);
     //alert(cl_dt);
     $('#td_coram').hide();
@@ -1619,24 +1493,22 @@ function get_coram(diary_no)
         url: './get_coram.php',
         cache: false,
         async: true,
-        data: {cl_dt: cl_dt, diary_no:diary_no},
-        beforeSend:function(){
+        data: { cl_dt: cl_dt, diary_no: diary_no },
+        beforeSend: function () {
             //$('#rs_jg').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
         },
         type: 'POST',
-        success: function(data, status) {
+        success: function (data, status) {
 
-            if(data!='')
-            {
+            if (data != '') {
                 $('#jud_coram').html(data);
             }
-            else
-            {
+            else {
                 alert("No Coram Found");
                 location.reload();
             }
         },
-        error: function(xhr) {
+        error: function (xhr) {
             alert("Error: " + xhr.status + " " + xhr.statusText);
         }
     });

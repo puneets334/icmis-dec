@@ -64,11 +64,10 @@
         var csrf = $("input[name='CSRF_TOKEN']").val();
         var dateFrom = $('#from_dt1').val();
         var dateTo = $('#from_dt2').val();
-		var ddl_users = $('#ddl_users').val();
 		$("#dv_res1").html('');
         //$("#dv_res1").html('<center><img src="../images/load.gif"/></center>');
         $.ajax({
-            url: '<?php echo base_url('/ReportMasterFiling/get_case_alloted_details') ?>',
+            url: '<?php echo base_url('/VC_Report/get_vc_detailed_report') ?>',
             type: "POST",
             cache: false,
             async: true,

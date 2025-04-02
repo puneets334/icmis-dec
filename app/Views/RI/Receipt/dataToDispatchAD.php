@@ -32,7 +32,7 @@ if (!empty($dataForADToDispatch)) {
                             <?php if ($case['is_with_process_id'] == 1) { ?>
                                 Process Id: <?= $case['process_id'] ?>/<?= $case['process_id_year'] ?></br>
                             <?php } else { ?>
-                                <?= (trim($case['reference_number']) != '') ? 'Reference No.: ' . trim($case['reference_number']) . '<br/>' : '' ?>
+                                <?= (trim($case['reference_number'] ?? '') != '') ? 'Reference No.: ' . trim($case['reference_number']) . '<br/>' : '' ?>
                             <?php } ?>
 
                             <?php if ($case['is_case'] == 1) { ?>
@@ -81,15 +81,35 @@ if (!empty($dataForADToDispatch)) {
         "extend": 'colvis',
         "text": 'Show/Hide',
         "dom": 'Bfrtip', // Enables the Buttons extension
-        "buttons": [{
-            extend: 'print',
-            text: 'Print',
-            title: 'Report', // Change title in print view
-            autoPrint: true, // Automatically trigger print dialog
-            exportOptions: {
-                columns: ':visible' // Only print visible columns
+        "buttons": [
+            {
+                extend: 'copy',
+                title: 'Dispatch AD to Section'
+            },
+            {
+                extend: 'csv',
+                title: 'Dispatch AD to Section'
+            },
+            {
+                extend: 'excel',
+                title: 'Dispatch AD to Section'
+            },
+            {
+                extend: 'print',
+                title: 'Dispatch AD to Section'
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                autoPrint: true,
+                title: 'Dispatch AD to Section'
+            },
+            {
+                extend: 'colvis',
+                text: 'Show/Hide'
             }
-        }]
+        ],
     }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
 
 

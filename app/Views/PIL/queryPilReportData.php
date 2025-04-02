@@ -2,34 +2,34 @@
     <?php
     if(!empty($pil_result)) {
 
-//                                echo !empty($column_name)?$column_name:'';die;
-//            if((!empty($column_name)) && (!empty($text)))
-//            {
-//                if($column_name === 'n')
-//                {
-//                    $heading = " Search By Applicant Name And Text is $text";
-//                }elseif ($column_name === 'a')
-//                {
-//                    $heading = " Search By Address And Text is $text";
-//                }elseif ($column_name === 'm')
-//                {
-//                    $heading = " Search By Mobile And Text is $text";
-//                }elseif ($column_name === 'e')
-//                {
-//                    $heading = " Search By Email And Text is $text";
-//                }elseif ($column_name === 'd')
-//                {
-//                    $heading = " Search By Inward Number And Text is $text";
-//                }
-//            }
+                                
+           if((!empty($column_name)) && (!empty($text)))
+           {
+               if($column_name === 'n')
+               {
+                   $heading = " Search By Applicant Name And Text is $text";
+               }elseif ($column_name === 'a')
+               {
+                   $heading = " Search By Address And Text is $text";
+               }elseif ($column_name === 'm')
+               {
+                   $heading = " Search By Mobile And Text is $text";
+               }elseif ($column_name === 'e')
+               {
+                   $heading = " Search By Email And Text is $text";
+               }elseif ($column_name === 'd')
+               {
+                   $heading = " Search By Inward Number And Text is $text";
+               }
+           }
             ?>
             <br>
-<!--            <center><h3><b>--><?//= $heading; ?><!--</b></h3></center>-->
+           <center><h3><b><?= $heading; ?></b></h3></center>
             <br><br>
 
             <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4 query_builder_wrapper">
 
-                <table id="reportTable1" class="table table-bordered table-striped datatable_report">
+                <table id="ReportCaveat" class="table table-bordered table-striped datatable_report custom-table">
                     <!--                                <table id="reportTable1" style="width: 100%" class="table table-striped table-hover">-->
                     <thead>
                     <tr>
@@ -163,12 +163,34 @@
 
     ?>
     <script>
-        $(function () {
-            $(".datatable_report").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel",{extend: 'pdfHtml5',orientation: 'landscape',pageSize: 'LEGAL' },
-                    { extend: 'colvis',text: 'Show/Hide'}],"bProcessing": true,"extend": 'colvis',"text": 'Show/Hide'
-            }).buttons().container().appendTo('.query_builder_wrapper .col-md-6:eq(0)');
+        
 
-        });
+
+        
+$(function () {
+    $("#ReportCaveat").DataTable({
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        ordering: false,
+        "buttons": [
+            {
+                extend: "print",
+                title: "<?=$heading ?? '';?>",
+                customize: function (win) {
+                    $(win.document.body).css('text-align', 'center'); // Align all content centrally
+                     
+                }
+            } 
+
+            
+        ],
+        "bProcessing": true,
+        "extend": 'colvis',
+        "text": 'Show/Hide'
+    }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
+});
+
+
+
     </script>

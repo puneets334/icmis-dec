@@ -21,6 +21,7 @@ class DispatchController extends BaseController
 
     public function __construct()
     {
+        ini_set('memory_limit', '-1');
         $request = \Config\Services::request();
         $this->RIModel = new RIModel();
         $this->Common = new Common();

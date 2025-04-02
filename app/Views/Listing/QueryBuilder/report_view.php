@@ -73,34 +73,34 @@
                                         <td><?= esc($row['causetitle']); ?></td>
                                     <?php endif; ?>
                                     <?php if (in_array('coram', $add_columns)) : ?>
-                                        <td><?= esc($row['Coram']); ?></td>
+                                        <td><?= esc($row['coram']); ?></td>
                                     <?php endif; ?>
                                     <?php if (in_array('category', $add_columns)) : ?>
-                                        <td><?= esc($row['CATEGORY']); ?></td>
+                                        <td><?= esc($row['category']); ?></td>
                                     <?php endif; ?>
                                     <?php if (in_array('connected_count', $add_columns)) : ?>
                                         <td><?= esc($row['connected_count']); ?></td>
                                     <?php endif; ?>
                                     <?php if (in_array('tentative_date', $add_columns)) : ?>
-                                        <td><?= esc($row['Next_Listing_Dt']); ?></td>
+                                        <td><?= esc($row['next_listing_dt' ]); ?></td>
                                     <?php endif; ?>
                                     <?php if (in_array('lastorder', $add_columns)) : ?>
                                         <td><?= esc($row['lastorder']); ?></td>
                                     <?php endif; ?>
                                     <?php if (in_array('section', $add_columns)) : ?>
-                                        <td><?= esc($row['SECTION']); ?></td>
+                                        <td><?= esc($row['section']); ?></td>
                                     <?php endif; ?>
                                     <?php if (in_array('da', $add_columns)) : ?>
-                                        <td><?= esc($row['DA']); ?></td>
+                                        <td><?= esc($row['da']); ?></td>
                                     <?php endif; ?>
                                     <?php if (in_array('advocate_name', $add_columns)) : ?>
-                                        <td><?= esc($row['Advocate_Name']); ?></td>
+                                        <td><?= esc($row['advocate_name']); ?></td>
                                     <?php endif; ?>
                                     <?php if (in_array('notice_date', $add_columns)) : ?>
-                                        <td><?= esc($row['Notice_Date']); ?></td>
+                                        <td><?= esc($row['notice_date']); ?></td>
                                     <?php endif; ?>
                                     <?php if (in_array('admitted_on', $add_columns)) : ?>
-                                        <td><?= esc($row['Admitted_On']); ?></td>
+                                        <td><?= esc($row['admitted_on']); ?></td>
                                     <?php endif; ?>
                                 </tr>
                             <?php endforeach; ?>
