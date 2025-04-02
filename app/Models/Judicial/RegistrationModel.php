@@ -1131,7 +1131,8 @@ class RegistrationModel extends Model
 
         // Select statement with date formatting and grouping
         $builder->select('h.diary_no, TO_CHAR(h.next_dt, \'DD-MM-YYYY\') AS next_dt, STRING_AGG(crm.r_head::TEXT, \', \') AS Disp_Remarks');
-        $builder->join('case_remarks_multiple crm', 'crm.diary_no = h.diary_no::varchar(150) AND crm.cl_date = h.next_dt', 'inner');
+        //$builder->join('case_remarks_multiple crm', 'crm.diary_no = h.diary_no::varchar(150) AND crm.cl_date = h.next_dt', 'inner');
+        $builder->join('case_remarks_multiple crm', 'CAST(crm.diary_no AS INTEGER) = h.diary_no AND crm.cl_date = h.next_dt', 'inner');
         $builder->join('master.case_remarks_head crh', 'crh.sno = crm.r_head AND (crh.display = \'Y\' OR crh.display IS NULL)', 'inner');
 
         $builder->where('h.diary_no', $dairy_no);
@@ -1144,8 +1145,7 @@ class RegistrationModel extends Model
         $builder->where('h.next_dt <=', date('Y-m-d'));
         $builder->where('h.next_dt = (SELECT MAX(next_dt) FROM heardt b WHERE b.diary_no = h.diary_no AND b.clno != 0 AND b.brd_slno != 0 AND b.brd_slno IS NOT NULL AND b.roster_id != 0 AND b.roster_id IS NOT NULL AND main_supp_flag IN (1,2))', null);
         $builder->whereIn('crm.r_head', [181, 182, 3, 183, 184, 1, 41, 176, 177, 178, 27, 196, 200, 201]);
-        $builder->groupBy('h.diary_no, h.next_dt');
-
+        $builder->groupBy('h.diary_no, h.next_dt');        
         $query = $builder->get();
 
         if ($query->getNumRows() > 0) {
@@ -1157,7 +1157,8 @@ class RegistrationModel extends Model
 
             // Select statement with date formatting and grouping
             $builder->select('h.diary_no, TO_CHAR(h.next_dt, \'DD-MM-YYYY\') AS next_dt, STRING_AGG(crm.r_head::TEXT, \', \') AS Disp_Remarks');
-            $builder->join('case_remarks_multiple crm', 'crm.diary_no = h.diary_no::varchar(150) AND crm.cl_date = h.next_dt', 'inner');
+            //$builder->join('case_remarks_multiple crm', 'crm.diary_no = h.diary_no::varchar(150) AND crm.cl_date = h.next_dt', 'inner');
+            $builder->join('case_remarks_multiple crm', 'CAST(crm.diary_no AS INTEGER) = h.diary_no AND crm.cl_date = h.next_dt', 'inner');
             $builder->join('master.case_remarks_head crh', 'crh.sno = crm.r_head AND (crh.display = \'Y\' OR crh.display IS NULL)', 'inner');
 
             $builder->where('h.diary_no', $dairy_no);
