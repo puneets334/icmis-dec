@@ -65,7 +65,7 @@
 
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">PIL(E) >> Pil Entry</h3>
+                                <h3 class="card-title">PIL(E) >> PIL Entry</h3>
                             </div>
 
 
@@ -102,9 +102,11 @@
                             <form class="form-horizontal" name="frmPilAddEdit" id="frmPilAddEdit" method="post" onsubmit="javascript:return savePilData('<?= base_url() ?>',<?= $dcmis_user_idd ?>)">
                                 <?= csrf_field() ?>
                                 <div class="row">
-                                    <!-- <a href="<?= base_url(); ?>/Pil/PilController/rptPilCompleteData/<?= $pil_id ?>" target="_blank">
-                                    <span class="btn btn-warning pull-right""><i class="fa fa-print"> Print</i></span>
-                                    </a>-->
+                                    <div class="col-md-12">
+                                        <a href="<?= base_url(); ?>/PIL/PilController/rptPilCompleteData/<?= $pil_id ?>" target="_blank">
+                                            <span class="btn btn-warning pull-right"><i class="fa fa-print"> Print</i></span>
+                                        </a> 
+                                    </div>
                                 </div>
                                 <br />
 
