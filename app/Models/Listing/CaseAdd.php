@@ -2519,7 +2519,7 @@ class CaseAdd extends Model
             ->select('ms.diary_no')
             ->distinct()
             ->where('ms.c_status', 'P')
-            ->limit(100000)
+            ->limit(1000)
             ->getCompiledSelect();
         $subQueryResults = $this->db->query($subQuery)->getResultArray();
         $diaryNos = array_column($subQueryResults, 'diary_no');
@@ -2533,6 +2533,7 @@ class CaseAdd extends Model
         $query = $builder->get();
         return $query->getRow();
     }
+    
 
     public function getReportDataUsingCol($filters, $add_columns, $number_of_rows, $sort_by2)
     {
@@ -2729,8 +2730,8 @@ class CaseAdd extends Model
 
         // Order by the desired columns
         $builder->orderBy('CAST(RIGHT(CAST(m.diary_no AS text), 4) AS INTEGER) ASC, CAST(LEFT(CAST(m.diary_no AS text), LENGTH(CAST(m.diary_no AS text)) - 4) AS INTEGER) ASC');
-        echo $builder->getCompiledSelect();
-        die();
+        // echo $builder->getCompiledSelect();
+        // die();
         return $builder->get()->getResultArray();
     }
 
