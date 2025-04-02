@@ -40,7 +40,7 @@
             if(isset($pil_result) && sizeof($pil_result)>0 ) {
                 ?>
 
-                <table id="reportTable1" class="table table-striped table-hover">
+                <table id="reportTable1" class="table table-striped table-hover custom-table">
                     <!--    <table id="example1" class="table table-striped table-bordered">-->
                     <thead>
                     <tr>
@@ -163,7 +163,7 @@
                 title: 'PIL Updation on <?= date("d-m-Y", strtotime($dated)) ?>', // Ensuring no unwanted title appears
                 customize: function (win) {
                     $(win.document.body).css('text-align', 'center'); // Align all content centrally
-                    //$(win.document.body).prepend('<h2>PIL Updation on <?= date("d-m-Y", strtotime($dated)) ?></h2>'); // Insert title manually
+                     
                 }
             },
             'pageLength'
@@ -176,32 +176,7 @@
 });
 
 
-
-        $(document).ready(function() {
-            // Setup - add a text input to each footer cell
-            $('#reportTable1 thead tr').clone(true).appendTo( '#reportTable1 thead' );
-            $('#reportTable1 thead tr:eq(1) th').each( function (i) {
-                var title = $(this).text();
-                var width = $(this).width();
-                if(width>260){
-                    width=width-80;
-                }
-                else if(width<100){
-                    width=width+20;
-                }
-                $(this).html( '<input type="text" style="width: '+width+'px" placeholder="'+title+'" />' );
-
-                $( 'input', this ).on( 'keyup change', function () {
-                    if ( table.column(i).search() !== this.value ) {
-                        table
-                            .column(i)
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
-            } );
-
-        });
+ 
 </script>
 </body>
 </html>

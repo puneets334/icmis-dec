@@ -17,7 +17,7 @@
         <h2 align="center">PIL <?= $reportText ?> Between <?php echo !empty($first_date) ? date('d-m-Y', strtotime($first_date)) : ''; ?> to <?php echo !empty($to_date) ? date('d-m-Y', strtotime($to_date)) : ''; ?></h2>
         <br>
         <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4 query_builder_wrapper">
-            <table id="reportTable1" style="width: 100%" class="table table-bordered table-striped datatable_report">
+            <table id="reportTable1" style="width: 100%" class="table table-bordered table-striped datatable_report custom-table">
                 <thead>
                     <tr>
                         <th width="7%">SNo.</th>

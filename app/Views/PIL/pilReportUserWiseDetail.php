@@ -2,11 +2,11 @@
     <div class="col-md-12">
 
             <br>
-        <h2 align="center">PIL Updation Between  Between  <?php echo !empty($first_date)?date('d-m-Y',strtotime($first_date)):'';?> to <?php echo !empty($to_date)?date('d-m-Y',strtotime($to_date)):'';?></h2>
+        <h2 align="center">PIL Updation Between  <?php echo !empty($first_date)?date('d-m-Y',strtotime($first_date)):'';?> to <?php echo !empty($to_date)?date('d-m-Y',strtotime($to_date)):'';?></h2>
 
         <br>
         <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4 query_builder_wrapper">
-            <table  id="reportTable1" style="width: 100%" class="table table-bordered table-striped datatable_report">
+            <table  id="reportTable1" style="width: 100%" class="table table-bordered table-striped datatable_report custom-table">
                 <?php
                 if(!empty($reportType))
                 {
@@ -81,32 +81,7 @@
 });
 
 
-
-        $(document).ready(function() {
-            // Setup - add a text input to each footer cell
-            $('#reportTable1 thead tr').clone(true).appendTo( '#reportTable1 thead' );
-            $('#reportTable1 thead tr:eq(1) th').each( function (i) {
-                var title = $(this).text();
-                var width = $(this).width();
-                if(width>260){
-                    width=width-80;
-                }
-                else if(width<100){
-                    width=width+20;
-                }
-                $(this).html( '<input type="text" style="width: '+width+'px" placeholder="'+title+'" />' );
-
-                $( 'input', this ).on( 'keyup change', function () {
-                    if ( table.column(i).search() !== this.value ) {
-                        table
-                            .column(i)
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
-            } );
-
-        });
+ 
 
 </script>
     
