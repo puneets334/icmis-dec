@@ -128,19 +128,27 @@
      
     <!-- /.row -->
     </div>
- <div class="modal" id="pdfresultModelModal">
-  <div class="modal-dialog modal-fullscreen-md-down">
-  <div class="">
+ <!--<div class="modal" id="pdfresultModelModal">-->
+  <!--<div class="modal-dialog modal-fullscreen-md-down">-->
+  <div class="pdf_result_box col-md-10">
+ 
                             <div class="row" id="pdf_actions" ></div>
+                            
                             <div class="row" id="pdf_result" ></div>
   </div>
-  </div>
-    </div>
+  <!--</div>-->
+    <!--</div>-->
     <div id="qr_related_data" style="display:none;"></div>
     <!-- /.container-fluid -->
 </section>
 <script>
-
+$('.pdf_result_box').hide();
+$(document).on('click', '.pdfbox', function() {
+    $('.pdf_result_box').hide();
+    $('#result_data').show();
+    
+    
+})
 $(document).on('click', '#pdf_link', function() {
     $("#pdf_actions, #pdf_result").html("");
     
@@ -177,7 +185,8 @@ $(document).on('click', '#pdf_link', function() {
         },
         success: function(data) {
             //updateCSRFToken();
-            $("#pdfresultModelModal").modal('show');
+            $(".pdf_result_box").show();
+            $("#result_data").hide();
             $('#qr_related_data').html(data);
             var qr_data =$(".abcd").html();;
             //console.log('hi sant',qr_data);
@@ -282,6 +291,8 @@ $("#application_search").click(function() {
             // Optional: Show loading indicator
         },
         success: function(data) {
+            $('.pdf_result_box').hide();
+            $('#result_data').show();
             $("#result_data").html(data);
             updateCSRFToken();
         },
