@@ -52,7 +52,7 @@
 
                             <div class="row">
                                 <div class="col-sm-10">
-                                    <h3 class="card-title">PIL(E) >> Pil Entry</h3>
+                                    <h3 class="card-title">PIL(E) >> PIL Entry</h3>
                                 </div>
 
 

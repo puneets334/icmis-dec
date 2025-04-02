@@ -105,13 +105,14 @@ class PilController extends BaseController
             if ($diaryNo != '' && $diaryYear != '')
             {
                 $ecPilId = $this->PilModel->getPilId($diaryNo, $diaryYear);
-                 
-                if (!empty($ecPilId) && $ecPilId[0] != null) {
+                
+                if (!empty($ecPilId) && $ecPilId['id'] != null) {
  
-                    $rowsaffected = $this->PilModel->addInPilGroup($ecPilGroupId, $ecPilId, $usercode);
- 
+                    $rowsaffected = $this->PilModel->addInPilGroup($ecPilGroupId, $ecPilId['id'], $usercode);
+                    
 
                     if ($rowsaffected > 0) {
+                       
                         $data['msg']="Added Successfully.";
                         $data['casesInPilGroup'] = $this->PilModel->getCasesInPilGroup($ecPilGroupId);
                         $data['ecPilGroupId']=$ecPilGroupId;
@@ -1456,7 +1457,7 @@ class PilController extends BaseController
         else{
             $data['actionTakenText'] =" ";
         }
-
+        
         return view('PIL/rptCompletePilData', $data);
 
     }

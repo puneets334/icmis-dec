@@ -1,4 +1,4 @@
-<div class="row" style="display: none;">
+<div class="row">
                             <div class="col-sm-6 pull-right">
                                 <span id="msg"  style="color: red;margin-left: 65%;"><?=$msg ?? ''; ?></span>
                             </div>
@@ -10,11 +10,11 @@
  
                         ?>
             <div class="row">
-                <div class="pull-right dropdown" style="witdth:100%">
-                    <button type="button" class="btn btn-primary dropdown-toggle" style="float:right"  data-toggle="dropdown">Dropdown Report
+                <div class="pull-right dropdown" style="width:100%">
+                    <button type="button" class="btn btn-primary dropdown-toggle" style="float:right"  data-toggle="dropdown">Dropdown Report <i class="fa fa-caret-down" aria-hidden="true"></i>
                     </button>
                     
-                    <ul class="dropdown-menu" style="width: max-content;">
+                    <ul class="dropdown-menu" style="width: max-content;left: -3%;padding: 10px;">
                         <li ><a href=" <?= base_url() ?>/PIL/PilController/downloadFormatReport?id=1&eid=<?= $ecPilGroupId?>&uid=<?php echo $_SESSION['login']['usercode']; ?>" target="_blank">Not To SCI</a></li>
                         <li><a href="<?= base_url() ?>/PIL/PilController/downloadFormatReport?id=2&eid=<?= $ecPilGroupId?>&uid=<?php echo $_SESSION['login']['usercode']; ?>" target="_blank">Vernacular</a></li>
                         <li><a href="<?= base_url() ?>/PIL/PilController/downloadFormatReport?id=3&eid=<?= $ecPilGroupId?>&uid=<?php echo $_SESSION['login']['usercode']; ?>" target="_blank">Email Unsigned</a></li>

@@ -13,7 +13,7 @@
     h4 {
         line-height: 0px;
     }
-    .nav-breadcrumb{
+      .nav-breadcrumb{
         margin-left:20px;
     }
     .nav-breadcrumb li a {
@@ -23,8 +23,9 @@
         position: relative;
     }
     .nav-breadcrumb li a, .nav-breadcrumb li a:link, .nav-breadcrumb li a:visited {
-        margin-left: -70px;
-    }
+        margin: 0 10px 0px 0;
+        padding: 15px 0px 0 0;
+    }  
 </style>
 <?php
 $url_district_master = '#';
