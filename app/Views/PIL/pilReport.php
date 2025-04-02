@@ -108,11 +108,11 @@
                                         </div>
                                       <div class="col-md-3">
                                           <label class="control-label"><h5>From Date</h5></label>
-                                            <input type="text" id="from_date" name="from_date" class="form-control dtp" required placeholder="From Date">
+                                            <input type="text" id="from_date" name="from_date" class="form-control dtp" value="<?php echo date('d-m-Y', strtotime('-1 day'));?>" required placeholder="From Date">
                                        </div>
                                       <div class="col-md-3">
                                           <label class="control-label"><h5>To Date</h5></label>
-                                            <input type="text" class="form-control dtp" id="to_date" required name="to_date" placeholder="To Date">
+                                            <input type="text" class="form-control dtp" id="to_date" value="<?php echo date('d-m-Y')?>" required name="to_date" placeholder="To Date">
                                         </div>
                                         <div class="col-md-3">
                                             <button type="button" style="margin-left: 7%;margin-top: 11%;" id="view" name="save" value="submit" onclick="checkDates()" class="btn btn-primary">View</button>
@@ -162,7 +162,7 @@ $(document).ready(function() {
 
         });
     });
-
+    checkDates() ;
         function checkDates() {
             var fromDate = document.getElementById('from_date').value;
             var toDate = document.getElementById('to_date').value;

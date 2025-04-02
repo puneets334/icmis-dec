@@ -150,7 +150,7 @@
                         <div id="tabledata" style="display: none;">
                             <h4 align="center">PILs in Group</h4>
                             <br><br>
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped custom-table">
                                 <thead>
                                 <tr>
                                     <th>S.No</th>
@@ -296,4 +296,4 @@
 
 
 
- <?=view('sci_main_footer') ?>
+ <?//=view('sci_main_footer') ?>

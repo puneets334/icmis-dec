@@ -119,7 +119,7 @@
                                 </select>
                             </div>
                             <div class="col-md-3" id="divDiaryNo">
-                                <input type="number" class="form-control" placeholder="Inward No"  id="diaryNo" name="diaryNo">
+                                <input type="text" maxlength="9" class="form-control numbersonly" placeholder="Inward No"  id="diaryNo" name="diaryNo">
                             </div>
 
                             <div class="col-md-3">

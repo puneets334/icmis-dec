@@ -10,7 +10,7 @@
 
                             <div class="row">
                                 <div class="col-sm-10">
-                                    <h3 class="card-title">PIL(E) >> Pil Report</h3>
+                                    <h3 class="card-title">PIL(E) >> Query PIL Report</h3>
                                 </div>
                             </div>
             
@@ -153,7 +153,7 @@
             {
                 if(qryText.trim().length<5)
                 {
-                    alert("Please Enter Minimum 5 Digit While Searching For Inward Number");
+                    alert("Please Enter Minimum 5 Digit While Searching For Inward Number(diary no + diary year)");
                     return false;
                 }
 
@@ -206,12 +206,16 @@
     </script>
 
     <script>
-        $(function () {
-            $(".datatable_report").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel",{extend: 'pdfHtml5',orientation: 'landscape',pageSize: 'LEGAL' },
-                    { extend: 'colvis',text: 'Show/Hide'}],"bProcessing": true,"extend": 'colvis',"text": 'Show/Hide'
-            }).buttons().container().appendTo('.query_builder_wrapper .col-md-6:eq(0)');
+        // $(function () {
+        //     $(".datatable_report").DataTable({
+        //         "responsive": true, "lengthChange": false, "autoWidth": false,
+        //         "buttons": ["copy", "csv", "excel",{extend: 'pdfHtml5',orientation: 'landscape',pageSize: 'LEGAL' },
+        //             { extend: 'colvis',text: 'Show/Hide'}],"bProcessing": true,"extend": 'colvis',"text": 'Show/Hide'
+        //     }).buttons().container().appendTo('.query_builder_wrapper .col-md-6:eq(0)');
 
-        });
+        // });
+
+        
+
+
     </script>
