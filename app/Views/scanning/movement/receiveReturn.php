@@ -24,6 +24,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
@@ -62,14 +63,44 @@
                                                                 <option value="0">-Select-</option>
                                                                 <?php
                                                                 $options = [
-                                                                    31 => "1 (VC)",32 => "2 (VC)",33 => "3 (VC)",34 => "4 (VC)",  35 => "5 (VC)",
-                                                                    36 => "6 (VC)",37 => "7 (VC)",38 => "8 (VC)",39 => "9 (VC)",
-                                                                    40 => "10 (VC)",41 => "11 (VC)",42 => "12 (VC)",43 => "13 (VC)",
-                                                                    44 => "14 (VC)",45 => "15 (VC)",46 => "16 (VC)",47 => "17 (VC)",
-                                                                    61 => "1 (VC R1)",62 => "2 (VC R2)",1 => "1",2 => "2",
-                                                                    3 => "3",4 => "4",5 => "5",6 => "6",7 => "7",8 => "8",9 => "9",10 => "10",
-                                                                    11 => "11",12 => "12",13 => "13",14 => "14",
-                                                                    15 => "15",16 => "16",17 => "17",21 => "21 (Registrar)",22 => "22 (Registrar)"
+                                                                    31 => "1 (VC)",
+                                                                    32 => "2 (VC)",
+                                                                    33 => "3 (VC)",
+                                                                    34 => "4 (VC)",
+                                                                    35 => "5 (VC)",
+                                                                    36 => "6 (VC)",
+                                                                    37 => "7 (VC)",
+                                                                    38 => "8 (VC)",
+                                                                    39 => "9 (VC)",
+                                                                    40 => "10 (VC)",
+                                                                    41 => "11 (VC)",
+                                                                    42 => "12 (VC)",
+                                                                    43 => "13 (VC)",
+                                                                    44 => "14 (VC)",
+                                                                    45 => "15 (VC)",
+                                                                    46 => "16 (VC)",
+                                                                    47 => "17 (VC)",
+                                                                    61 => "1 (VC R1)",
+                                                                    62 => "2 (VC R2)",
+                                                                    1 => "1",
+                                                                    2 => "2",
+                                                                    3 => "3",
+                                                                    4 => "4",
+                                                                    5 => "5",
+                                                                    6 => "6",
+                                                                    7 => "7",
+                                                                    8 => "8",
+                                                                    9 => "9",
+                                                                    10 => "10",
+                                                                    11 => "11",
+                                                                    12 => "12",
+                                                                    13 => "13",
+                                                                    14 => "14",
+                                                                    15 => "15",
+                                                                    16 => "16",
+                                                                    17 => "17",
+                                                                    21 => "21 (Registrar)",
+                                                                    22 => "22 (Registrar)"
                                                                 ];
 
                                                                 foreach ($options as $value => $label) {
@@ -219,7 +250,7 @@
             }, 'json');
         }
     });
-    
+
     $(document).on("focus", ".list_date", function() {
         $('.dtp').datepicker({
             dateFormat: 'dd-mm-yy',
@@ -271,8 +302,8 @@
                 },
                 type: 'POST',
                 success: function(data, status) {
-                updateCSRFToken();
-                $('#result').html('');
+                    updateCSRFToken();
+                    $('#result').html('');
                     $("#dv_data").html(data);
                 },
                 error: function(xhr) {
@@ -294,49 +325,48 @@
     });
 
 
-      $(document).on('click',".action",function () {
+    $(document).on('click', ".action", function() {
         var saveID = $(this).attr('id');
         var trid = $(this).closest('tr').attr('id');
-       
-        var tdid1=trid + 1;
+
+        var tdid1 = trid + 1;
         //var tdid2=trid + 2;
-        var tdid3=trid + 3;
-        var tdid4=trid + 4;
-        var tdid5=trid + 5;
-        var tdid6=trid + 6;
-        var tdid7=trid + 7;
-        var tdid8=trid + 8;
-        var tdid9=trid + 9;
+        var tdid3 = trid + 3;
+        var tdid4 = trid + 4;
+        var tdid5 = trid + 5;
+        var tdid6 = trid + 6;
+        var tdid7 = trid + 7;
+        var tdid8 = trid + 8;
+        var tdid9 = trid + 9;
 
-        var id=$('#'+tdid1).text();
+        var id = $('#' + tdid1).text();
         // var diaryno=$('#'+tdid2).text();
-        var cause_title=$('#'+tdid3).text();
-        var movement=saveID;
-        if(movement=='receive'){
-            var msg='Received';
+        var cause_title = $('#' + tdid3).text();
+        var movement = saveID;
+        if (movement == 'receive') {
+            var msg = 'Received';
 
 
-        }else{
-            var msg='Return';
+        } else {
+            var msg = 'Return';
         }
 
         //var event=$('#'+tdid5).text();
-        var event_id=$('input[name="eventid"]:checked').val();
-        var clientIP= "10.40.186.78";
-        var roster_id= $('#'+tdid6).val();
-        var item_no= $('#'+tdid7).val();
-        var diaryno= $('#'+tdid8).val();
-        var list_dt= $('#'+tdid9).val();
+        var event_id = $('input[name="eventid"]:checked').val();
+        var clientIP = "10.40.186.78";
+        var roster_id = $('#' + tdid6).val();
+        var item_no = $('#' + tdid7).val();
+        var diaryno = $('#' + tdid8).val();
+        var list_dt = $('#' + tdid9).val();
+        var csrf = $('input[name="<?= csrf_token() ?>"]').val();
 
-        if (typeof event_id=='undefined' && movement=='receive') {
-            $('#'+tdid4).append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Event Type Required* </strong></div>');
+        if (typeof event_id == 'undefined' && movement == 'receive') {
+            $('#' + tdid4).append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Event Type Required* </strong></div>');
             //$('#'+tdid4).focus();
             return false;
-        }
-        else
-        {
+        } else {
             $.ajax({
-                url: '<?= base_url('scanning/SaccaningController/add_update_scanning_movement');?>',
+                url: '<?= base_url('scanning/SaccaningController/add_update_scanning_movement') ?>',
                 cache: false,
                 async: true,
                 data: {
@@ -350,22 +380,23 @@
                     roster_id: roster_id,
                     item_no: item_no,
                     list_dt: list_dt,
-                    '<?= csrf_token() ?>': csrf
+                    '<?= csrf_token() ?>': csrf,
                 },
-                /*beforeSend:function(){
-                    $('#result').html('<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
-                },*/
+                beforeSend: function() {
+                    $('#result').html('<table widht="100%" align="center"><tr><td><img src="<?= base_url(); ?>/images/load.gif"/></td></tr></table>');
+                },
                 type: 'POST',
-                success: function (resultData) {
-                    alert(resultData);
+                success: function(resultData) {
+                    /*alert(resultData);
                     console.log(resultData);
-                    return;
-
+                    return;*/
+                    
+                    $('#result').html('');
                     var btn = '';
                     var event_btn = '';
 
                     if (resultData == 1) {
-                        updateCSRFToken();
+
                         if (movement == 'receive') {
                             btn = "<button class='btn btn-primary action' data-ctn='1'  id='return' style=\'background-color: #8A2624\' >" + "Returned" + "</button>";
                             event_btn = "<td></td>";
@@ -384,50 +415,248 @@
                             //$('#'+trid).closest('tr').children('td,th').css('background-color','');
                         }
 
+                        swal({
+                                title: 'Diary ' + msg + ' Successfully!',
+                                text: "You clicked the button!",
+                                type: "success"
+                            },
+                            function() {
+                                //location.reload();
 
-                        // swal({
-                        //         title: 'Diary ' + msg + ' Successfully!',
-                        //         text: "You clicked the button!",
-                        //         type: "success"
-                        //     },
-                        //     function () {
-                        //         //location.reload();
-
-                        //     });
+                            });
 
 
                         //tdid5
                     } else if (resultData == 0) {
-                        updateCSRFToken()
-                        // swal({
-                        //         title: 'Diary ' + msg + ' Not Successfully!',
-                        //         text: "You clicked the button!",
-                        //         type: "error"
-                        //     },
-                        //     function () {
-                        //         // location.reload();
-                        //     });
+                        swal({
+                                title: 'Diary ' + msg + ' Not Successfully!',
+                                text: "You clicked the button!",
+                                type: "error"
+                            },
+                            function() {
+                                // location.reload();
+                            });
 
+                    } else {
+                        //alert("User Not Found !")
+                        swal({
+                                title: "User Not Found !",
+                                text: "You clicked the button!",
+                                type: "error"
+                            },
+                            function() {
+                                location.reload();
+                            });
                     }
-                    else {
-                        alert("User Not Found !")
-                        // swal({title: "User Not Found !", text: "You clicked the button!", type: "error"},
-                        //     function () {
-                        //         location.reload();
-                        //     });
-                    }
-                }//END OF SUCCESS Function()..
+                } //END OF SUCCESS Function()..
             });
-
-
-        }//END OF ELSE CONDITION..
-
-        //  return;
-    });//END OF FUNCTION ACTION BTN SAVE..
-
-    function updateCSRFToken() {
-            $.get('<?= site_url('Scanning/ScanningController/getCSRF'); ?>', function(data) {
-                $('input[name="<?= csrf_token() ?>"]').val(data.csrf_token);
-            }, 'json');
         }
+
+    });
+</script>
+
+
+<script>
+    $(function() {
+        $('.list_date').datepicker({
+            autoclose: true,
+            format: 'dd-mm-yyyy'
+        });
+    });
+
+    // $("#btn_search").click(function() {
+
+    //     var movement_flag_type = $('#mvmnt_type_id').val();
+    //     //alert(movement_flag_type);
+    //     /*$("#result").html('');
+    //     return;*/
+    //     $("#result").html("");
+    //     $('#show_error').html("");
+    //     var list_date = $(".list_date").val();
+    //     var courtno = $(".courtno").val();
+
+    //     if ($("#radio_m").is(':checked')) {
+    //         var mainhead = $("#radio_m").val();
+    //     }
+    //     if ($("#radio_f").is(':checked')) {
+    //         var mainhead = $("#radio_f").val();
+    //     }
+
+    //     if (list_date.length == 0) {
+    //         $('#show_error').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Please select cause list date</strong></div>');
+    //         $("#from_date").focus();
+    //         return false;
+    //     } else if (courtno == 0) {
+    //         $('#show_error').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Please select court number</strong></div>');
+    //         $("#applicant_type").focus();
+    //         return false;
+    //     } else {
+    //         $.ajax({
+    //             url: 'scan_move_processs.php',
+    //             cache: false,
+    //             async: true,
+    //             data: {
+    //                 search_flag: 'list_detail',
+    //                 list_date: list_date,
+    //                 courtno: courtno,
+    //                 mainhead: mainhead,
+    //                 movement_flag_type: movement_flag_type
+    //             },
+    //             beforeSend: function() {
+    //                 $('#result').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+    //             },
+    //             type: 'POST',
+    //             success: function(data, status) {
+    //                 //$("#result").html('');
+    //                 $("#result").html(data);
+    //             },
+    //             error: function(xhr) {
+    //                 alert("Error: " + xhr.status + " " + xhr.statusText);
+    //             }
+    //         });
+
+    //     }
+    // });
+
+
+    $(document).ready(function() {
+        $(".search_diary").hide();
+
+        $(document).on('click', '#radiodn', function() {
+            $(".search_diary").show();
+            $(".search_case").hide();
+            $('#result').html('');
+            $("#t_h_cno").removeAttr('disabled');
+            $("#t_h_cyt").removeAttr('disabled');
+            $("#selct").prop('disabled', true);
+            $("#case_no").prop('disabled', true);
+            $("#case_yr").prop('disabled', true);
+            $("#selct").val("-1");
+            $("#case_no").val("");
+            $("#case_yr").val("");
+        });
+        //                        $("#radiodn").click(function(){
+        //
+        //    });
+        $(document).on('click', '#radioct', function() {
+            $(".search_diary").hide();
+            $(".search_case").show();
+            $('#result').html('');
+            $("#t_h_cno").prop('disabled', true);
+            $("#t_h_cyt").prop('disabled', true);
+            $("#t_h_cno").val("");
+            $("#t_h_cyt").val("");
+            //
+            $("#selct").removeAttr('disabled');
+            $("#case_no").removeAttr('disabled');
+            $("#case_yr").removeAttr('disabled');
+        });
+
+        function get_case_details_page() {
+            var movement_flag_casetype = $('#mvmnt_type_case').val();
+            var d_no = document.getElementById('t_h_cno').value;
+            var d_yr = document.getElementById('t_h_cyt').value;
+            get_res_all = '';
+            var t_h_cno, t_h_cyt, cstype, csno, csyr, fno;
+            var regNum = new RegExp('^[0-9]+$');
+            var chk_status = 0;
+            var csrf = $('input[name="<?= csrf_token() ?>"]').val();
+
+            if ($("#radioct").is(':checked')) {
+                cstype = $("#selct").val();
+                csno = $("#case_no").val();
+                csyr = $("#case_yr").val();
+                chk_status = 1;
+                if (!regNum.test(cstype)) {
+                    alert("Please Select Casetype");
+                    $("#selct").focus();
+                    return false;
+                }
+                if (!regNum.test(csno)) {
+                    alert("Please Fill Case No in Numeric");
+                    $("#case_no").focus();
+                    return false;
+                }
+                if (!regNum.test(csyr)) {
+                    alert("Please Fill Case Year in Numeric");
+                    $("#case_yr").focus();
+                    return false;
+                }
+                if (csno == 0) {
+                    alert("Case No Can't be Zero");
+                    $("#case_no").focus();
+                    return false;
+                }
+                if (csyr == 0) {
+                    alert("Case Year Can't be Zero");
+                    $("#case_yr").focus();
+                    return false;
+                }
+
+            } else if ($("#radiodn").is(':checked')) {
+
+                var t_h_cno = $('#t_h_cno').val();
+                var t_h_cyt = $('#t_h_cyt').val();
+                chk_status = 2;
+                if (t_h_cno.trim() == '') {
+                    alert("Please enter Diary No.");
+                    $('#t_h_cno').focus();
+                    return false;
+                }
+                if (t_h_cyt.trim() == '') {
+                    alert("Please enter Diary Year");
+                    $('#t_h_cyt').focus();
+                    return false;
+                }
+                var fno = t_h_cno + t_h_cyt;
+            }
+
+            $.ajax({
+                url: '<?= base_url('scanning/SaccaningController/scanningmovement_search_flagcase') ?>',
+                cache: false,
+                async: true,
+                beforeSend: function() {
+                    $('#result').html('<table widht="100%" align="center"><tr><td>Loading...</td></tr></table>');
+                },
+                data: {
+                    search_flag: 'case',
+                    d_no: d_no,
+                    d_yr: d_yr,
+                    fno: fno,
+                    ct: cstype,
+                    cn: csno,
+                    cy: csyr,
+                    chk_status: chk_status,
+                    movement_flag_type: movement_flag_casetype,
+                    '<?= csrf_token() ?>': csrf,
+                },
+
+                type: 'GET',
+                success: function(data, status) {
+                    /*alert(data);
+                    console.log(data);
+                    return;*/
+
+
+                    $('#result').html(data);
+                },
+                error: function(xhr) {
+                    alert("Error: " + xhr.status + " " + xhr.statusText);
+                }
+
+            });
+        } //END OF FUNCTION get_case_details_page()..
+        $(document).on('click', '#btn_search_case', function() {
+            // alert("hulalalalal");
+            get_case_details_page();
+
+        });
+    });
+
+
+    function isNumber(e) {
+        e = e || window.event;
+        var charCode = e.which ? e.which : e.keyCode;
+        return /\d/.test(String.fromCharCode(charCode));
+    } //End of function isNumber ..
 </script>

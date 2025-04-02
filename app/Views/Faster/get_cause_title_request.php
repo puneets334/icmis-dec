@@ -1,4 +1,4 @@
-<?=view('header'); ?>
+
 <section class="content " >
     <div class="container-fluid">
         <div class="row" >
@@ -102,10 +102,12 @@ if ($get_da_sec->getNumRows() == 0) {
 // Fetch the result
 $r_get_da_sec = $get_da_sec->getRowArray();
 
-if ($r_get_da_sec['dacode'] != (isset($_SESSION['dcmis_user_idd']) && $_SESSION['dcmis_user_idd']) && (isset($_SESSION['dcmis_user_idd']) && $_SESSION['dcmis_user_idd']) != 1341 && (isset($_SESSION['dcmis_user_idd']) && $_SESSION['dcmis_user_idd']) != 1) {
-    echo '<p align="center"><font color="red">Only Concerned Dealing Assistant can generate Amended Cause Title!!!</font></p>';
-    exit();
-}
+// pr($r_get_da_sec);
+
+// if ($r_get_da_sec['dacode'] != (isset($_SESSION['dcmis_user_idd']) && $_SESSION['dcmis_user_idd']) && (isset($_SESSION['dcmis_user_idd']) && $_SESSION['dcmis_user_idd']) != 1341 && (isset($_SESSION['dcmis_user_idd']) && $_SESSION['dcmis_user_idd']) != 1) {
+//     echo '<p align="center"><font color="red">Only Concerned Dealing Assistant can generate Amended Cause Title!!!</font></p>';
+//     exit();
+// }
 ?>
 
 <!--start view pdf already exist cause title-->
@@ -126,7 +128,8 @@ $resC = $builder->get();
 $resultC = $resC->getRow();
 
 if (!empty($resultC->cause_title_id) && !empty($resultC->diary_no) && !empty($resultC->path)) {
-    $pdfPath = base_url("supreme_court/jud_ord_html_pdf/" . $resultC->path);
+    // $pdfPath = base_url("supreme_court/jud_ord_html_pdf/" . $resultC->path);
+    $pdfPath = base_url($resultC->path);
     ?>
     <textarea name="viewpdf_load" id="viewpdf_load" style="display: none;">
         <a href="<?php echo $pdfPath; ?>" target="_blank">View PDF</a>

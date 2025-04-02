@@ -1,5 +1,11 @@
 <?= view('header') ?>
- 
+<style>
+table.dataTable>thead .sorting,
+table.dataTable>thead {
+    background-color: #0d48be !important;
+    color: #fff !important;
+}
+</style>
 
 <link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>">
 <section class="content">
@@ -10,7 +16,7 @@
 <div class="card-header heading">
     <div class="row">
         <div class="col-sm-10">
-            <h3 class="card-title">Report >>&nbsp; Duplicate Records</h3>
+            <h3 class="card-title">Record Room >> Report >> Duplicate Records</h3>
         </div>
 
     </div>

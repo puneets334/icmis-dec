@@ -2447,6 +2447,8 @@ function getBasePath()
         $path = '../../u01-nfs/home';
     } elseif (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == "http://localhost/ICMIS/public/") {
         $path = '../../u01-nfs/home';
+    } elseif (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == '10.40.186.244:81') {
+        $path = FCPATH;
     } else {
         $path = '../../u01-nfs/home';
     }
@@ -4782,7 +4784,7 @@ function send_to_address($send_to_type, $tw_sn_to)
     }
     $query = $db->query($sql);
     $r_sql = $query->getRowArray();
-    return $r_sql['ag_adrss'];
+    return (!empty($r_sql) && !empty($r_sql['ag_adrss']) ) ? $r_sql['ag_adrss'] : '';
 }
 
 function get_section($dairy_no)
@@ -4796,8 +4798,8 @@ function get_section($dairy_no)
                 AND b.display = 'Y'
                 AND c.display = 'Y'";
     $query =  $db->query($section);
-    $res_section = $query->getRowArray()['section_name'];
-    return $res_section;
+    $res_section = $query->getRowArray();
+    return  (!empty($res_section) && !empty($res_section['section_name'])) ? $res_section['section_name'] : '';
 }
 
 function get_advocate_address($tw_sn_to)
@@ -4806,7 +4808,7 @@ function get_advocate_address($tw_sn_to)
     $get_address = "Select caddress from master.bar where bar_id='$tw_sn_to'";
     $query =  $db->query($get_address);
     $r_get_address = $query->getRowArray()['caddress'];
-    return $r_get_address;
+    return  (!empty($r_get_address) && !empty($r_get_address['caddress'])) ? $r_get_address['caddress'] : '';
 }
 
 

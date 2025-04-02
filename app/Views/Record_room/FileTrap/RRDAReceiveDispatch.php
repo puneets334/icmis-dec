@@ -195,11 +195,13 @@
                     $("#divDisposedCasesList").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url() ?>/images/load.gif'></div>");
                 },
                 success: function(result) {
-                    console.log(result);
+                    // console.log(result);
+                    updateCSRFToken();
+
                     $("#divDisposedCasesList_msg").html(result);
                     // var json = JSON.stringify(result);
                     // json = $.parseJSON(json);
-                    getReceivedCasesList();
+                    // getReceivedCasesList();
                     return true;
                     // $("#divDisposedCasesList_msg").html(result);
                 },
@@ -210,5 +212,12 @@
         }
 
     }
+
+
+function updateCSRFToken() {
+    $.get('<?= site_url('Scanning/SupremeCourtScan/SupremeCourtScanController/getCSRF'); ?>', function(data) {
+        $('input[name="<?= csrf_token() ?>"]').val(data.csrf_token);
+    }, 'json');
+}
 </script>
 <?php die; ?>

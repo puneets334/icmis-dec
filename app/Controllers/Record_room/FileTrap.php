@@ -122,6 +122,7 @@ class FileTrap extends BaseController
 
     public function receiveCasesFromScanning()
     {
+        // echo "<pre>";
         $usercode = session()->get('login')['usercode'];
 
         $fileTrapUserRoles =  $this->FileTrap_model->getFileTrapUsersRole($usercode);
@@ -137,9 +138,8 @@ class FileTrap extends BaseController
             $hallLocation = '';
         }
         $data['param'] = array($roleName, $userType, null, null, $hallNo, $hallLocation);
-        
         $UserCaseRole =  $this->FileTrap_model->checkUserCaseTypeRole($usercode, $userType);
-        
+       
         $roleCaseNature = $UserCaseRole[0]['casehead'] ?? '';
 
         $data['disposedCasesList'] = '';
@@ -178,7 +178,6 @@ class FileTrap extends BaseController
 
             $fromDate = date('Y-m-d', strtotime($this->request->getPost('dateFrom')));
             $toDate = date('Y-m-d', strtotime($this->request->getPost('dateTo')));
-            // $consignmentRemarks=$this->sanitize($_POST['consignmentRemarks']);
 
             $userCode = $this->request->getPost('usercode');
             $userEmpID =  $this->FileTrap_model->getEmpID($userCode);
@@ -189,7 +188,6 @@ class FileTrap extends BaseController
             $userType = $fileTrapUserRoles[0]['usertype'];
             $roleName = $fileTrapUserRoles[0]['type_name'];
           
-            //echo $userType.'#'.$roleName;
             $remarks = "";
             if ($userType == 110) {
                 $remarks = "RR-DA -> SEG-DA";
@@ -209,42 +207,34 @@ class FileTrap extends BaseController
                 $consignmentRemark = $this->sanitize($consignmentRemark);
                 
                 $caseDistinationHallNo =  $this->FileTrap_model->getCaseDestinationHallNo($diaryNumber);
-                $hallNo = $caseDistinationHallNo['hall_no'] ?? '';
-                
                 // echo $this->db->getLastQuery();
-                // print_r($caseDistinationHallNo);
-                // exit;
-                    
-                // /* code for Allotment within a hall to particulat usertype either casetypewise or Equally */
+                $hallNo = $caseDistinationHallNo['hall_no'] ?? '';
                 $caseGroups = $this->FileTrap_model->getCaseType($diaryNumber);   //check the diary no is Civil type or Criminal type
                 $caseGroup = $caseGroups['case_grp'];
-                   // add code for rec-da to record-keeper
-            
+                
+                // echo $caseGroup;
+                // echo 'Hall No : '.$hallNo;
                 $updationStatus = '';
                 if ($userType == 110) {
                     $designatedUserEmpID = $this->caseEquallyAllotment(111, $caseGroup, $hallNo);
                 } elseif ($userType == 111) {
                     $designatedUserEmpID = 82708;
                 } elseif ($userType == 58) {
-                    //$designatedUserEmpID=4277;
                     $designatedUserEmpID = $this->caseEquallyAllotment(110, $caseGroup, $hallNo);
                 } elseif ($userType == 112) {
                     $designatedUserEmpID = 99999;
                 }
-                
+                // echo $designatedUserEmpID;
                 
                 if ($designatedUserEmpID != 0 or $designatedUserEmpID != null) {
                     
-                    $caseCountFiletrap = $this->FileTrap_model->check_case_file_trap($diaryNumber);
-                    
+                    $caseCountFiletrap = $this->FileTrap_model->check_case_file_trap($diaryNumber);                    
                     $updationStatus = $this->FileTrap_model->updateCaseFileTrap($caseCountFiletrap['count_no'], $diaryNumber, $dispatchFromEmpID, $designatedUserEmpID, $remarks, $hallNo, $consignmentRemark);
-                   
+                    echo $this->FileTrap_model->getLastQuery();
+
                 } 
-                // else {
-                //     echo "DA Not Alloted for received the case -";
-                // }
-                //echo $diaryNumber.' - '.$designatedUserEmpID.'<br>';
             }
+            // print_r($updationStatus);die;
             
             if ($updationStatus == true) {
                 //$myObj = array('name' => 'John', 'age'=>'30', 'city'=> 'New York');
@@ -341,7 +331,7 @@ class FileTrap extends BaseController
                 $designated_user_code = $designated_users[0]['to_userno'];
             }
         }
-        //echo  $designated_user_code;
+        // echo  $designated_user_code;
 
 
         $this->FileTrap_model->record_last_assigned_user($designated_user_code, $utypeName);
@@ -377,68 +367,70 @@ class FileTrap extends BaseController
 
     public function caseTimeline()
     {
-        $usercode = session()->get('login')['usercode'];
+        $usercode = session()->get('login')['usercode'];    
 
         $fileTrapUserRoles =  $this->FileTrap_model->getFileTrapUsersRole($usercode);
         $userType = $fileTrapUserRoles[0]['usertype'];
         $roleName = $fileTrapUserRoles[0]['type_name'];
-                
         $data['caseTimeline'] = '';
         $data['app_name'] = 'CaseTimeline';
         $data['param'] = array($roleName, $userType);
-        
         if (!empty($this->request->getGet('diaryNo'))) {
             $diaryNo = $this->request->getGet('diaryNo');
+
             $data['caseTimeline'] = $this->FileTrap_model->getCaseTimeLineReport($diaryNo);            
-            $data['param'] = array($roleName, $userType);
-            echo "<div id='query_builder_wrapper' class='query_builder_wrapper dataTables_wrapper dt-bootstrap4'>
-            <table class='table table-bordered'>
-        <thead>
-            <tr>
-                <th>Sr no.</th>
-                <th>Cause title</th>
-                <th>Order date</th>
-                <th>Dispatch date</th>
-                <th>Remark</th>
-                <th>Dispath By</th>
-                <th>Dispath To</th>
-                <th>Pet name</th>
-                <th>Res name</th>
-                <th>Rece_dt</th>
-                <th>Role By</th>
-                <th>RoleTo</th>
-                <th>Hall location</th>
-                <th>Hall no</th>
-                <th>Consignment remark</th>
-            </tr>
-        </thead>
-        <tbody>";
+            $data['param'] = array($roleName, $userType);        
 
-$srNo = 1; // Initialize a counter for Sr. No.
-foreach ($data['caseTimeline'] as $case) {
-    echo "<tr>
-            <td>{$srNo}</td>
-            <td>{$case['cause_title']}</td>
-            <td>{$case['order_date']}</td>
-            <td>{$case['dispatchdate']}</td>
-            <td>{$case['remarks']}</td>
-            <td>{$case['dispathBy']}</td>
-            <td>{$case['dispathTo']}</td>
-            <td>{$case['pet_name']}</td>
-            <td>{$case['res_name']}</td>
-            <td>{$case['rece_dt']}</td>
-            <td>{$case['roleBy']}</td>
-            <td>{$case['roleTo']}</td>
-            <td>{$case['hall_location']}</td>
-            <td>{$case['hall_no']}</td>
-            <td>{$case['consignment_remark']}</td>
-          </tr>";
-    $srNo++; 
-}
+            return view('Record_room/FileTrap/caseTimeLine',$data);
 
-echo "</tbody>
-      </table>
-      </div>";
+//             echo "<div id='query_builder_wrapper' class='query_builder_wrapper dataTables_wrapper dt-bootstrap4'>
+//             <table class='table table-bordered'>
+//         <thead>
+//             <tr>
+//                 <th>Sr no.</th>
+//                 <th>Cause title</th>
+//                 <th>Order date</th>
+//                 <th>Dispatch date</th> 
+//                 <th>Remark</th>
+//                 <th>Dispath By</th>
+//                 <th>Dispath To</th>
+//                 <th>Pet name</th>
+//                 <th>Res name</th>
+//                 <th>Rece_dt</th>
+//                 <th>Role By</th>
+//                 <th>RoleTo</th>
+//                 <th>Hall location</th>
+//                 <th>Hall no</th>
+//                 <th>Consignment remark</th>
+//             </tr>
+//         </thead>
+//         <tbody>";
+
+// $srNo = 1; // Initialize a counter for Sr. No.
+// foreach ($data['caseTimeline'] as $case) {
+//     echo "<tr>
+//             <td>{$srNo}</td>
+//             <td>{$case['cause_title']}</td>
+//             <td>{$case['order_date']}</td>
+//             <td>{$case['dispatchdate']}</td>
+//             <td>{$case['remarks']}</td>
+//             <td>{$case['dispathBy']}</td>
+//             <td>{$case['dispathTo']}</td>
+//             <td>{$case['pet_name']}</td>
+//             <td>{$case['res_name']}</td>
+//             <td>{$case['rece_dt']}</td>
+//             <td>{$case['roleBy']}</td>
+//             <td>{$case['roleTo']}</td>
+//             <td>{$case['hall_location']}</td>
+//             <td>{$case['hall_no']}</td>
+//             <td>{$case['consignment_remark']}</td>$this->load->
+//           </tr>";
+//     $srNo++; 
+// }
+
+// echo "</tbody>
+//       </table>
+//       </div>";
             // echo "<pre>";print_r($data);exit;
         }
         //var_dump($this->data);
@@ -499,8 +491,8 @@ echo "</tbody>
         $userCode = session()->get('login')['usercode'];
         $userEmpID =  $this->FileTrap_model->getEmpID($userCode);
         $dispatchFromEmpID = $userEmpID[0]['empid'] ?? '';
-        $diaryNo = trim($this->request->getPost('diaryNo'));
-
+        $diaryNo = trim($this->request->getVar('diaryNo'));
+        
 
         if ($this->FileTrap_model->check_consignment_entry($userCode, $diaryNo)) {
             if ($this->FileTrap_model->check_already_reconsign_today($diaryNo)) {
@@ -510,7 +502,7 @@ echo "</tbody>
                     'diary_no' => $diaryNo,
                     'remarks' => 'RR-DA -> SEG-DA'
                 );
-
+             
 
                 $existingConsignmentRemarks =  $this->FileTrap_model->getConsignmentRemarks($whereConditionArray);
                 $newConsignmentRemarks = $existingConsignmentRemarks[0]['consignment_remark'] ?? '';
@@ -555,6 +547,7 @@ echo "</tbody>
             $data['app_name'] = 'alreadyConsignedRestoredCasesReport';
             $data['alreadyConsignedRestoredCasesList'] =  $this->FileTrap_model->getAllRestoredDisposedCases($fromDate, $toDate);
             $data['param'] = array($fromDate, $toDate);
+            // print_r($data);die;
         }
         return view('Record_room/FileTrap/consigned_restored_cases_list', $data);
     }

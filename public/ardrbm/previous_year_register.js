@@ -2,7 +2,10 @@ function f() {
   // alert("hello");
   // $('#direct_contempt').hide();
 }
-function get_report() {
+async function get_report() {
+  
+  await updateCSRFTokenSync();
+
   var d_no = document.getElementById("diary_number").value;
   var d_yr = document.getElementById("diary_year").value;
   var CSRF_TOKEN = 'CSRF_TOKEN';
@@ -15,7 +18,7 @@ function get_report() {
     data: { d_no: d_no, d_yr: d_yr, old_registration: "Y",CSRF_TOKEN: CSRF_TOKEN_VALUE },
     beforeSend: function () {
       $("#dv_res1").html(
-        '<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>'
+        '<table widht="100%" align="center"><tr><td><img src="' + base_url + '/images/load.gif"/></td></tr></table>'
       );
     },
     type: "POST",

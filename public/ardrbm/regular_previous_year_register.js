@@ -779,8 +779,9 @@ function change_judge()
 
 }
 
-function fsubmit()
+async function fsubmit()
 {   
+    await updateCSRFTokenSync();
     document.getElementById("dv_res1").innerHTML = '';
     var diaryno, diaryyear, cstype, csno, csyr;
     var regNum = new RegExp('^[0-9]+$');
@@ -855,19 +856,20 @@ function fsubmit()
         type: 'POST',
         url: base_url+"/ARDRBM/IA/prevRegularRegistrationProcess",
         beforeSend: function (xhr) {
-            //$("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>");
+            
             $('#search').prop('disabled',true);            
-            $('#dv_res1').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+            $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../../images/load.gif'></div>");
+            //$('#dv_res1').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
         },
         data:{d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,cy:csyr,tab:'Case Details',CSRF_TOKEN: CSRF_TOKEN_VALUE}
     })
         .done(function(msg){
-            updateCSRFToken();
+            //updateCSRFToken();
             $("#dv_res1").html(msg);
             $('#search').prop('disabled',false);
         })
         .fail(function(){
-            updateCSRFToken();
+            //updateCSRFToken();
             alert("ERROR, Please Contact Server Room");
             $('#search').prop('disabled',false);
         });
@@ -1020,8 +1022,14 @@ function save_rec(opt,cl)
         }
     }
 }
-function generate_case(){
-    var url = "generate_case_no.php";
+
+async function generate_case() {
+    await updateCSRFTokenSync();
+
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    //var url = "generate_case_no.php";
+    var url = base_url + "/Judicial/Registration/generate_case_no";    
 
     var qte_array = new Array();
     var cn="";
@@ -1082,20 +1090,27 @@ function generate_case(){
 
         if(confirm("Are you sure you want to generate case no. \n"+cn)) {
             $("#add").prop('disabled',true);
+            
             $.ajax({
                 type : "POST",
                 url: url,
-                data: {qte:qte_array,ct:ct,dtd:dtd,reg_for_year:reg_for_year },
+                data: {qte:qte_array,ct:ct,dtd:dtd,
+                        reg_for_year:reg_for_year,
+                        CSRF_TOKEN: CSRF_TOKEN_VALUE },
+                dataType: "json",        
                 beforeSend: function () {
-                    $('#dv_load').html('<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
+                    $('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
                 },
                 success : function(msg){
+                    
 //                if(msg=='')
 //                {
                     $("#add").prop('disabled',false);
                     //alert(msg);
                     //fsubmit();
-                    $('#dv_res1').html(msg);
+                    if(msg.html != undefined) {
+                        $('#dv_res1').html(msg.html);
+                    }
 //                }
 //                else
 //               alert(msg);

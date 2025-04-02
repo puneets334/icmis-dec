@@ -29,7 +29,7 @@
                                 if ($get_case_details[7] == '') {
                                     echo "D.NO." . substr($row['diary_no'], 0, strlen($row['diary_no']) - 4) . "-" . substr($row['diary_no'], -4);
                                 }
-                                echo '/' . get_section($row['diary_no']);
+                                echo '/' . (!empty($row['diary_no'])) ?  get_section($row['diary_no']) : '';
                                 ?>
                                 &nbsp;&nbsp; (<?= 'Rs.' . $row['stamp']; ?>)
                             </div>

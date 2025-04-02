@@ -53,111 +53,112 @@
                                                     <input type="hidden" name="" id="section_id" value="123" />
                                                     <input type="hidden" name="" id="respondent_name" value="STATE OF HARYANA " />
 
-                                                    <div class="box-body">
-                                                        <div class="row">
-                                                            <div class="col-xs-2">
-                                                                <div class="input-group input-group-sm"><span class="input-group-addon2">Type</span><select class="form-control" ng-model="type" id="type" ng-change="changeType()">
+
+                                                    <div class="">
+                                                        <div class="box-body">
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-2">
+                                                                    <label for="type">Type</label>
+                                                                    <select class="form-control form-control-sm" id="type" ng-model="type" ng-change="changeType()">
                                                                         <option value="">Select FD/BG</option>
-                                                                        <option value="1" short-desc="FDR No.">Fixed Deposit</option>
-                                                                        <option value="2" short-desc="BG No.">Bank Guarantee</option>
-                                                                    </select></div>
-                                                            </div>
-                                                            <div class="col-xs-2">
-                                                                <div class="input-group input-group-sm"><span class="input-group-addon2" id="typeNo">FDR No.</span><input type="text" class="form-control" ng-model="fdrNo" id="fdrNo" autocomplete="off" required></div>
-                                                            </div>
-                                                            <div class="col-xs-3">
-                                                                <div class="input-group input-group-sm"><span class="input-group-addon2">A/c No.</span><input type="text" class="form-control" ng-model="acNo" id="acNo" autocomplete="off" required></div>
-                                                            </div>
-                                                            <div class="col-xs-2">
-                                                                <div class="input-group input-group-sm">
-                                                                    <span class="input-group-addon2">Amount</span>
-                                                                    <input type="text" class="form-control" ng-model="amount" id="amount" autocomplete="off" format>
+                                                                        <option value="1">Fixed Deposit</option>
+                                                                        <option value="2">Bank Guarantee</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <label for="fdrNo">FDR No.</label>
+                                                                    <input type="text" class="form-control form-control-sm" id="fdrNo" ng-model="fdrNo" required>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="acNo">A/c No.</label>
+                                                                    <input type="text" class="form-control form-control-sm" id="acNo" ng-model="acNo" required>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <label for="amount">Amount</label>
+                                                                    <input type="text" class="form-control form-control-sm" id="amount" ng-model="amount" format>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="bank">Bank</label>
+                                                                    <select class="form-control form-control-sm" id="bank" ng-model="bank" required>
+                                                                        <option value="">Select Bank Name</option>
+                                                                        <?php foreach ($banks as $bank) { 
+                                                                                $bank_arr[$bank['id']] = $bank['bank_name'];
+                                                                                echo "<option value='" . $bank['id'] . "'>" . $bank['bank_name'] . "</option>"; 
+                                                                            } ?>
+                                                                    </select>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-xs-3">
-                                                                <div class="input-group input-group-sm"><span class="input-group-addon2">Bank</span><select class="form-control" ng-model="bank" id="bank" required>
-                                                                        <option value="">Select Bank Name</option><?php foreach ($banks as $bank) {
-                                                                                                                        $bank_arr[$bank['id']] = $bank['bank_name'];
-                                                                                                                        echo "<option value='" . $bank['id'] . "'>" . $bank['bank_name'] . "</option>";
-                                                                                                                    } ?>
-                                                                    </select></div>
-                                                            </div>
-                                                        </div><br />
-                                                        <div class="row">
-                                                            <div class="col-xs-2">
-                                                                <div class="input-group input-group-sm"><span class="input-group-addon2">Dep. Date</span><input type="input" class="form-control datepicker" ng-model="depositDate" id="depositDate" autocomplete="off" required placeholder="DD-MM-YYYY"></div>
-                                                            </div>
-                                                            <div class="col-xs-2">
-                                                                <div class="input-group input-group-sm"><span class="input-group-addon2">Mat.Date</span><input type="input" class="form-control datepicker" ng-model="maturityDate" id="maturityDate" required autocomplete="off" placeholder="DD-MM-YYYY"></div>
-                                                            </div>
-                                                            <div class="col-xs-2">
-                                                                <div class="input-group input-group-sm"><span class="input-group-addon2">order Date</span><input type="input" class="form-control datepicker" ng-model="orderDate" id="orderDate" autocomplete="off" placeholder="DD-MM-YYYY"></div>
-                                                            </div>
-                                                            <div class="col-xs-3">
-                                                                <div class="input-group input-group-sm"><span class="input-group-addon2">Payment Mode</span><select class="form-control" ng-model="mode" id="mode">
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-2">
+                                                                    <label for="depositDate">Dep. Date</label>
+                                                                    <input type="text" class="form-control form-control-sm datepicker" id="depositDate" ng-model="depositDate" placeholder="DD-MM-YYYY" required>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <label for="maturityDate">Mat. Date</label>
+                                                                    <input type="text" class="form-control form-control-sm datepicker" id="maturityDate" ng-model="maturityDate" placeholder="DD-MM-YYYY" required>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <label for="orderDate">Order Date</label>
+                                                                    <input type="text" class="form-control form-control-sm datepicker" id="orderDate" ng-model="orderDate" placeholder="DD-MM-YYYY">
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="mode">Payment Mode</label>
+                                                                    <select class="form-control form-control-sm" id="mode" ng-model="mode">
                                                                         <option value="">Select Challan/DD</option>
                                                                         <option value="1">Challan</option>
                                                                         <option value="2">Demand Draft</option>
                                                                         <option value="3">RTGS</option>
                                                                         <option value="4">NEFT</option>
                                                                         <option value="5">None</option>
-                                                                    </select></div>
-                                                            </div>
-                                                            <div class="col-xs-3">
-                                                                <div class="input-group input-group-sm"><span class="input-group-addon2">Mode Doc. No.<No class=""></No></span><input type="text" class="form-control" ng-model="modeNo" id="modeNo" autocomplete="off"></div>
-                                                            </div>
-                                                        </div><br />
-                                                        <div class="row">
-                                                            <div class="col-xs-3">
-                                                                <div class="input-group input-group-sm"><span class="input-group-addon2">Payment Status</span><select class="form-control" ng-model="payStatus" id="payStatus">
-                                                                        <option value="">Select Payment Status</option><?php foreach ($status as $stat) {
-                                                                                                                            $payStatus_arr[$stat['id']] = $stat['status'];
-                                                                                                                            echo "<option value='" . $stat['id'] . "'>" . $stat['status'] . "</option>";
-                                                                                                                        } ?>
-                                                                    </select></div>
-                                                            </div>
-                                                            <div class="col-xs-3">
-                                                                <div class="input-group input-group-sm"><span class="input-group-addon2">Rate of Interest</span><input type="text" class="form-control" ng-model="roi" id="roi" autocomplete="off" minlength="1"></div>
-                                                            </div>
-                                                            <div class="col-xs-6">
-                                                                <div class="input-group input-group-sm">
-                                                                    <span class="input-group-addon2">Remarks</span>
-                                                                    <input type="text" class="form-control" ng-model="remarks" id="remarks" autocomplete="off">
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="modeNo">Mode Doc. No.</label>
+                                                                    <input type="text" class="form-control form-control-sm" id="modeNo" ng-model="modeNo">
                                                                 </div>
                                                             </div>
-
-                                                        </div><br />
-                                                        <div class="row">
-                                                            <div class="col-xs-12">
-                                                                <fieldset class="fieldset">
-                                                                    <legend class="legend">FDR Tenure</legend>
-                                                                    <div class="row">
-                                                                    <div class="col-md-3">
-                                                                        <div class="input-group input-group-sm">
-                                                                            <span class="input-group-addon2">Days</span>
-                                                                            <input type="text" class="form-control" ng-model="days" id="days" autocomplete="off" required>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-3">
-                                                                        <div class="input-group input-group-sm">
-                                                                            <span class="input-group-addon2">Month</span>
-                                                                            <input type="text" class="form-control" ng-model="month" id="month" autocomplete="off" required>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-3">
-                                                                        <div class="input-group input-group-sm">
-                                                                            <span class="input-group-addon2">Year</span>
-                                                                            <input type="text" class="form-control" ng-model="year" id="year" autocomplete="off" required>
-                                                                        </div>
-                                                                    </div> </div>
-                                                                </fieldset>
+                                                            <div class="row mb-3">
+                                                                <div class="col-md-3">
+                                                                    <label for="payStatus">Payment Status</label>
+                                                                    <select class="form-control form-control-sm" id="payStatus" ng-model="payStatus">
+                                                                        <option value="">Select Payment Status</option>
+                                                                        <?php foreach ($status as $stat) { echo "<option value='" . $stat['id'] . "'>" . $stat['status'] . "</option>"; } ?>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label for="roi">Rate of Interest</label>
+                                                                    <input type="text" class="form-control form-control-sm" id="roi" ng-model="roi" maxlength="10">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="remarks">Remarks</label>
+                                                                    <input type="text" class="form-control form-control-sm" id="remarks" ng-model="remarks">
+                                                                </div>
                                                             </div>
+                                                            <fieldset class="border p-3">
+                                                                <legend class="w-auto">FDR Tenure</legend>
+                                                                <div class="row">
+                                                                    <div class="col-md-3">
+                                                                        <label for="days">Days</label>
+                                                                        <input type="text" class="form-control form-control-sm" id="days" ng-model="days" required>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label for="month">Month</label>
+                                                                        <input type="text" class="form-control form-control-sm" id="month" ng-model="month" required>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label for="year">Year</label>
+                                                                        <input type="text" class="form-control form-control-sm" id="year" ng-model="year" required>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
                                                         </div>
                                                     </div>
+
+
                                                     <div class="box-footer">
                                                         <!-- <a id="btn-create-fdr" class="btn bg-olive btn-flat" ng-click="create_fdr()"><i class="fa fa-heart"> </i>Create</a> -->
 
-                                                        <a id="btn-create-fdr" class="btn bg-olive btn-flat" ng-click="createFdr()">Create</a>
+                                                        <a id="btn-create-fdr" class="btn bg-olive btn-flat" ng-click="createFdr()" >Create</a>
                                                         <a id="btn-update-fdr" class="btn bg-purple btn-flat" ng-click="updateFdr()"> Save Changes</a>
                                                         <a id="btn-updateCancel-fdr" class="btn btn-primary" ng-click="showCreateForm()">Cancel Editing</a>
                                                     </div>
@@ -443,9 +444,39 @@
         $scope.createFdr = async function () {
 
             // fields in key-value pairs
-            if ($scope.type != '' && $scope.fdrNo != '' && $scope.bank != '' && $scope.amount != '' && $scope.orderDate != ''
-
-                && $scope.depositDate != '' && $scope.maturityDate != '' && $scope.acNo != ''
+            if ($scope.type == '') {
+                display_error("Invalid Type!");
+            } else if ($scope.fdrNo == '') {
+                display_error("Invalid FDR No!");
+            } else if ($scope.acNo == '') {
+                display_error("Invalid A/c No!");
+            } else if ($scope.amount == '') {
+                display_error("Invalid Amount!");
+            } else if ($scope.bank == '') {
+                display_error("Invalid Bank!");
+            } else if ($scope.depositDate == '') {
+                display_error("Invalid Dep. Date!");
+            } else if ($scope.maturityDate == '') {
+                display_error("Invalid Mat.Date!");
+            } else if ($scope.orderDate == '') {
+                display_error("Invalid order Date!");
+            } else if ($scope.mode == '') {
+                display_error("Invalid Payment Mode!");
+            } else if ($scope.modeNo == '' && $scope.mode < 5) {
+                display_error("Invalid Mode Doc. No!");
+            } else if ($scope.payStatus == '') {
+                display_error("Invalid Payment Status!");
+            } else if ($scope.roi != '' && $scope.roi >= 10) {
+                display_error("Invalid Rate of Interest can't be more then 9.");
+            } else if ($scope.days == '' || $scope.month > 31) {
+                display_error("Invalid FDR Tenure Days!");
+            } else if ($scope.month == '' || $scope.month > 12) {
+                display_error("Invalid FDR Tenure Month!");
+            } else if ($scope.year == '' || $scope.month > 9999) {
+                display_error("Invalid FDR Tenure Year!");
+            } else if ($scope.type != '' && $scope.fdrNo != '' && $scope.bank != '' 
+                        && $scope.amount != '' && $scope.orderDate != '' && $scope.depositDate != '' 
+                        && $scope.maturityDate != '' && $scope.acNo != ''
             ) {
                 await updateCSRFTokenSync();
 
@@ -482,34 +513,7 @@
                     display_success("Record added successfully.");
                     $scope.clearForm();
                     $scope.getAll();
-
-                    // clear modal content
-                    // $scope.clearForm();
-                    // // tell the user new fdr was created
-                    // sweetAlert({
-                    //         title: "Success!",
-                    //         text: "Record added successfully.",
-                    //         type: "success"
-                    //     },
-                    //     function () {
-                    //         // refresh the product list
-                    //         $scope.getAll();
-                    //     });
                 });
-            } else {
-                
-                display_error("Please enter some value.");
-                $scope.getAll();
-
-                // sweetAlert({
-                //         title: "Error!",
-                //         text: "Please enter some value.",
-                //         type: "error"
-                //     },
-                //     function () {
-                //         // refresh the product list
-                //         $scope.getAll();
-                //     });
             }
         }
 

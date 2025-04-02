@@ -86,22 +86,39 @@
                 data: {reasons:reject_reasons,CSRF_TOKEN: CSRF_TOKEN_VALUE},
                 type: 'POST',
                 success: function(data) {
+                    console.log('Response',data);
                     if(data==1){
-                        swal({title:"Reasons Successfully Insert!", text:"You clicked the button!", type:"success"},
-                            function(){
-                                location.reload();
-                            });
+                        Swal.fire({
+                          title: "Reasons Successfully Insert!",
+                          text: "You clicked the button!",
+                          icon: "success"
+                     }).then((result) => {
+                     if (result.isConfirmed) {
+                     location.reload();
+                     }
+                   });
                     }else if(data==0){
-                        swal({title:"Reasons Not Successfully Insert!", text:"You clicked the button!", type:"error"},
-                            function(){
-                                location.reload();
-                            });
+                        Swal.fire({
+                          title: "Reasons Not Successfully Insert!",
+                          text: "You clicked the button!",
+                          icon: "error"
+                     }).then((result) => {
+                     if (result.isConfirmed) {
+                     location.reload();
+                     }
+                   });
+                        
 
                     }else if(data==2){
-                        swal({title:"Reasons Rejection Already Insert", text:"You clicked the button!", type:"error"},
-                            function(){
-                                location.reload();
-                            });
+                        Swal.fire({
+                          title: "Reasons Rejection Already Insert",
+                          text: "You clicked the button!",
+                          icon: "error"
+                     }).then((result) => {
+                     if (result.isConfirmed) {
+                     location.reload();
+                     }
+                    })
                     }else if(data==3){
                         swal({title:"Reasons Mandatory* ", text:"You clicked the button!", type:"danger"},
                             function(){

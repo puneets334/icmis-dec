@@ -1,4 +1,11 @@
 <?=view('header'); ?>
+<style>
+    @media print {
+        #viewpdf {
+            display: none;
+        }
+    }
+</style>
 <section class="content " >
     <div class="container-fluid">
         <div class="row" >
@@ -9,7 +16,7 @@
     <?= csrf_field() ?>
         <div style="text-align: center">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-12" id="alert-msg">
                     <?php if(isset($_SESSION['success'])){?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <?=$_SESSION['success']; ?>
@@ -90,6 +97,7 @@
                 <input type="hidden" name="ct" id="ct_filter" value="">
                 <input type="hidden" name="cn" id="cn_filter" value="">
                 <input type="hidden" name="cy" id="cy_filter" value="">
+                <input type="hidden" name="optradio" id="optradio_filter" value="">
                 <input type="hidden" name="tab" id="tab_filter" value="">
                 <textarea name="pdfcontent" id="pdfcontent" style="display: none;"></textarea>
 
@@ -98,10 +106,10 @@
 
         </div>
 
-            <div align="center" id="action_after_load" style="display: none;">
+            <div align="center" id="action_after_load" class="mt-5" style="display: none;">
 
-                <input name="prnnt1" id="prnnt1" value="Print" type="button"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <button type="button" id="clickSavePDF" onclick="savepdf()"  style="display:none;">Save</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button name="prnnt1" id="prnnt1" class="btn btn-primary" type="button">Print </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" id="clickSavePDF" onclick="savepdf()" class="btn btn-primary" style="display:none;">Save</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <!--start view pdf already exist cause title-->
                 <span id="viewpdf"></span>
                 <!--end view pdf already exist cause title-->
@@ -205,31 +213,6 @@
 <?php }?>
 
     function savepdf(){
-        // alert('Go to savepdf');
-        // swal({
-        //         title: "Are you sure?",
-        //         text: "You want to save?",
-        //         type: "warning",
-        //         showCancelButton: true,
-        //         confirmButtonColor: "#DD6B55",
-        //         confirmButtonText: "Yes, Save it!",
-        //         cancelButtonText: "No, Cancel!",
-        //         closeOnConfirm: false,
-        //         closeOnCancel: false
-        //     },
-        //     function(isConfirm){
-        //         if (isConfirm) {
-        //             // $( "#submitSavePDF" ).click();
-        //             $('#pdfForm').submit();
-        //             swal({title: "Success!",text: "Your PDF has been saved successfully",icon: "success",button: "success!"});
-        //             setTimeout(function(){
-        //                 fsubmit();
-        //             }, 2000);
-        //         } else {
-        //             swal("Cancelled", "Your pdf is not save please try again :)", "error");
-        //         }
-        //     });
-
         Swal.fire({
             title: "Are you sure?",
             text: "You want to save?",
@@ -237,16 +220,15 @@
             showCancelButton: true,
             confirmButtonText: "Yes, Save it!",
             cancelButtonText: 'No, Cancel!',
-            // showDenyButton: true,
-            // denyButtonText: "No, Cancel!",
             allowOutsideClick: false,
             allowEscapeKey: false
         }).then((result) => {
             if (result.value) {
                 $( "#submitSavePDF" ).click();
                 $('#pdfForm').submit();
-                swal({title: "Success!",text: "Your PDF has been saved successfully",icon: "success",button: "success!"});
-                setTimeout(function(){
+                $("#viewpdf_load").remove();
+                swal({title: "Success!",type: 'success',text: "Your PDF has been saved successfully",icon: "success",button: "success!"});
+                setTimeout(function(){                    
                     fsubmit();
                 }, 2000);
             } else{
@@ -254,6 +236,24 @@
             }
         });
     }
+
+    $(document).ready(function () {
+        $('#pdfForm').on('submit', function (e) {
+            e.preventDefault();
+            var url = $(this).attr('action');
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data:$("#pdfForm").serialize(),
+                success: function (resData){
+                    $('#alert-msg').html(resData);
+                    updateCSRFTokenSync();
+                }
+            })
+        });
+    });
+
+    
 
     function fsubmit()
     { //alert('fsubmit akg');
@@ -321,26 +321,34 @@
             alert('Please Select Any Option');
             return false;
         }
+        var CSRF_TOKEN_VALUE = "<?php echo csrf_hash(); ?>";
         /*start to pdf related*/
         $('#d_no_filter').val(diaryno);
         $('#d_yr_filter').val(diaryyear);
         $('#ct_filter').val(cstype);
         $('#cn_filter').val(csno);
         $('#cy_filter').val(csyr);
+        $('#optradio_filter').val(optradio);
         $('#tab_filter').val('Case Details');
         var image_url = "<?php echo base_url('assets/images/load.gif');?>";
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        // var CSRF_TOKEN = 'CSRF_TOKEN';
+        // var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        // var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        // console.log(updateCSRFTokenSync());
+        // alert(csrfTocken);
         /*end to pdf related*/
         $.ajax({
-            type: 'POST',
+            type: 'get',
+            cache: false,
+            dataType:"html",
+            async: false,
             url:"<?=base_url()?>/Faster/FasterController/get_cause_title_request",
             beforeSend: function (xhr) {
                 $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+image_url+"'></div>");
             },
             data:{CSRF_TOKEN: CSRF_TOKEN_VALUE, d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,optradio:optradio,cy:csyr,tab:'Case Details'},
             success: function (msg){
-                updateCSRFToken();
+                updateCSRFTokenSync();
                 if (msg == 404) {
                     var msg_404 = "<p align=center><font color=red>Case Not Found</font></p>";
                     $("#dv_res1").html(msg_404);
@@ -348,16 +356,17 @@
                     $("#clickSavePDF").hide();
                     $('#viewpdf').html('');
                 } else {
-                    $("#dv_res1").html(msg);
-                    $("#pdfcontent").html(msg);
+                    $("#dv_res1").html(msg);                    
                     $("#action_after_load").show();
                     $("#clickSavePDF").show();
-                    var viewpdf = $('#viewpdf_load').val();
+                    $("#pdfcontent").html(msg);
+                    var viewpdf = $('#viewpdf_load').val();                    
                     $('#viewpdf').html(viewpdf);
+                    $("#viewpdf_load").remove();
                 }
             },
             error: function (xhr) {
-                updateCSRFToken();
+                updateCSRFTokenSync();
                 console.log("Error: " + xhr.status + " " + xhr.statusText);
             }
         })
@@ -442,7 +451,7 @@
             },
             data:{CSRF_TOKEN: CSRF_TOKEN_VALUE, d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,cy:csyr,tab:'Case Details'},
             success: function (msg){
-                updateCSRFToken();
+                updateCSRFTokenSync();
                 $("#prnnt").html();
                 var pdfcontent=$("#prnnt").html();
                 /*start to pdf related*/
@@ -454,19 +463,19 @@
                     },
                     data:{CSRF_TOKEN: CSRF_TOKEN_VALUE, d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,cy:csyr,tab:'Case Details',pdfcontent:pdfcontent},
                     success: function (msg){
-                        updateCSRFToken();
+                        updateCSRFTokenSync();
                         $("#dv_res1").html(msg);
                         var pdfcontent=msg;
                         alert(pdfcontent);
                     },
                     error: function (xhr) {
-                        updateCSRFToken();
+                        updateCSRFTokenSync();
                         alert("ERROR, Please Contact Server Room");
                     }
                 })
             },
             error: function (xhr) {
-                updateCSRFToken();
+                updateCSRFTokenSync();
                 alert("ERROR, Please Contact Server Room");
             }
         })

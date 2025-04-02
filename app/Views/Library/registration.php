@@ -94,7 +94,7 @@
                             </div>
 
                             <div class="form-group">
-                                <button id="changedata" type="button" class="btn btn-default">Submit</button>
+                                <button id="changedata" type="button" class="btn btn-primary">Submit</button>
                                 <button style="display:none;" id="deactiv" type="button"
                                     class="btn btn-warning actionCmd">De-Activate</button>
                                 <button style="display:none;" id="activ" type="button"
@@ -173,39 +173,41 @@
             var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
             $.ajax({
-                url: "<?php echo base_url('Library/Registration/searchData'); ?>",
-                type: "POST",
-                data: {
-                    selectedValue: empid,
-                    CSRF_TOKEN: CSRF_TOKEN_VALUE
-                },
-                success: function(response) {
-                    updateCSRFToken();
-                    const data = Array.isArray(response) ? response : JSON.parse(response);
+                    url: "<?php echo base_url('Library/Registration/searchData'); ?>",
+                    type: "POST",
+                    data: {
+                        selectedValue: empid,
+                        CSRF_TOKEN: CSRF_TOKEN_VALUE
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        updateCSRFToken();
 
-                    if (data.length > 0) {
-                        $('#fullname').val(data[0]['fullname'] || '');
-                        $('#email').val(data[0]['adminemail'] || '');
-                        $('#username').val(data[0]['username'] || '');
-                        $('#selectedUsertype').val(data[0]['user_type'] || '');
-                        $('#ph1').val(data[0]['phone_number'] || '');
-                        $('#ph2').val(data[0]['alternative_phone_no'] || '');
-                        $('#court_no').val(data[0]['court_no'] || '');
-                        if (data[0]['status'] == 1) {
-                            $('#deactiv').show();
-                            $('#activ').hide();
+                        if (response && Object.keys(response).length > 0) {  // ✅ Proper check for object
+                          
+                            $('#fullname').val(response.fullname || '');
+                            $('#email').val(response.adminemail || '');
+                            $('#username').val(response.username || '');
+                            $('#selectedUsertype').val(response.user_type || '');
+                            $('#ph1').val(response.phone_number || '');
+                            $('#ph2').val(response.alternative_phone_no || '');
+                            $('#court_no').val(response.court_no || '');
+
+                            if (response.status == 1) {
+                                $('#deactiv').show();
+                                $('#activ').hide();
+                            } else {
+                                $('#activ').show();
+                                $('#deactiv').hide();
+                            }
                         } else {
-                            $('#activ').show();
-                            $('#deactiv').hide();
+                            clearEmployeeDetails();  // ✅ Reset form if no data
                         }
-                    } else {
-                        clearEmployeeDetails();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Error fetching employee details: ", textStatus, errorThrown);
                     }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error("Error fetching employee details: ", textStatus, errorThrown);
-                }
-            });
+                });
         }
 
         function clearEmployeeDetails() {

@@ -16,14 +16,14 @@ class Filingtrap extends BaseController
 
     public function completeView()
     {
-        $usercode = session()->get('login')['usercode'];
         return view('Exchange/completeView');
     }
 
     public function getTrap()
     {
-        $dno = $_REQUEST['dno'].$_REQUEST['dyr'];
-        $data['trapData'] = $this->FilingTrapModel->get_trap($dno);
+        $request = \Config\Services::request();
+        $diaryNumber = $request->getPost('dno').$request->getPost('dyr');
+        $data['trapData'] = $this->FilingTrapModel->get_trap($diaryNumber);
         return view('Exchange/filingTrapResult', $data);
     }
 }

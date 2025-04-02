@@ -201,8 +201,10 @@ class Registration extends BaseController
                             $old_fil_dt = 0;
                         }
 
-                        $ucode = session()->get('dcmis_user_idd');
+                        //$ucode = session()->get('dcmis_user_idd');
+                        $ucode = session()->get('login')['usercode'];                        
                         
+                        // hold
                         $result = $RegistrationModel->addCaseHistory([
                             'diary_no' => $diary_no,
                             'old_registration_number' => $old_fil_no,
@@ -217,13 +219,14 @@ class Registration extends BaseController
                             'is_deleted' => 'f',
                             'ec_case_id' => 1
                         ]);
+                        
 
                         $output[$diary_no]['success'] = 1;
                         $output[$diary_no]['message'] = "Registered No. is : " . $regNoDisplay . "\n\r";
 
                         if ($request->getPost('reg_for_year') != '' && $request->getPost('reg_for_year') != '0') 
                         {
-                            $RegistrationModel->generate_da_code($diary_no);
+                            //$RegistrationModel->generate_da_code($diary_no); //hold
 
                             $result = $RegistrationModel->addRegistrationTrack([
                                 'diary_no' => $diary_no,

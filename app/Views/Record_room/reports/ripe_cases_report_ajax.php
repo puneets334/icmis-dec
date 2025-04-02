@@ -15,7 +15,7 @@ if(is_array($ripeCasesReports))
         {
             
             ?>
-            <table id="reportTable1" class="table table-striped table-hover">
+            <table id="reportTable1" class="table table-striped table-hover table-bordered">
                 <thead>
                 <tr>
                     <th style="width:4%;">S.No.</th>
@@ -34,8 +34,8 @@ if(is_array($ripeCasesReports))
                 {
                     ?>
                     <tr>
-                        <td><?=$s_no;?></td>
-                        <td  width="15%"><?=$result['case_no'];?></td>
+                        <td><?= $s_no;?></td>
+                        <td width="15%"><?=$result['case_no'];?></td>
                         <td width="20%"><?=$result['cause_title'];?></td>
                         <td><?=$result['order_date'];?></td>
                         <td><?=date('d-m-Y', strtotime($result['consignment_date']));?></td>

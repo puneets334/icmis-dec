@@ -36,7 +36,7 @@ class TransactionModel extends Model
             return [];
         }
 
-        return $this->select("concat(event_name, ' dated ', TO_CHAR(event_date, 'DD-MM-YYYY'), ' updated on ', TO_CHAR(event_master.updated_on, 'DD-MM-YYYY'), '; Remarks: ', remarks) as temp")
+        return $this->select("concat(event_name, ' dated ', TO_CHAR(event_date, 'DD-MM-YYYY'), ' updated on ', TO_CHAR(transactions.updated_on, 'DD-MM-YYYY'), ' ; Remarks : ', remarks) as temp")
             ->join('master.event_master', 'event_master.event_code = transactions.event_code')
             ->where('transactions.acid', $tid)
             ->findAll();

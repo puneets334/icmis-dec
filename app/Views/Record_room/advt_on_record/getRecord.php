@@ -41,6 +41,7 @@
                 "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
+                "pageLength": 25,
                 "buttons": [
                     "copy", "csv", "excel", {
                         extend: 'pdfHtml5',

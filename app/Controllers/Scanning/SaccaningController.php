@@ -27,7 +27,7 @@ class SaccaningController extends BaseController
       $fromDate = date("Y-m-d", strtotime($this->request->getPost('fromDate')));
       $toDate = date("Y-m-d", strtotime($this->request->getPost('toDate')));
 
-      
+
       // $toDate = $this->request->getPost('toDate');
       $title = "Verification of Freshly Filed Cases Completed From " . date("d-m-Y", strtotime($fromDate)) . " To " . date("d-m-Y", strtotime($toDate)) . " (As On " . date('d-m-Y H:i:s') . ")";
       $FreshlyData = $this->ScaningModel->getDataByDateRange($fromDate, $toDate);
@@ -47,7 +47,7 @@ class SaccaningController extends BaseController
   {
     // $this->session->set_userdata('dcmis_user_idd', $usercode);
     // $data['usercode'] = $usercode;
-    
+
     $result = $courtDetails = $getIndexDocs = $diaryDocumentsArray = [];
     $diary_number = $diary_year = '';
     $all_doc = $this->ScaningModel->getAllDocuments();
@@ -56,12 +56,12 @@ class SaccaningController extends BaseController
       $diary_year = $this->request->getPost('diary_year');
       $dairy_no = $diary_number . $diary_year;
       $org_fil_no = '';
-     
-      $courtDetails = $this->ScaningModel->getCourtDetails($dairy_no);   
+
+      $courtDetails = $this->ScaningModel->getCourtDetails($dairy_no);
       // echo "<pre>";   print_r($courtDetails);die;
-      $getIndexDocs = $this->ScaningModel->getIndexDocs($dairy_no);     
+      $getIndexDocs = $this->ScaningModel->getIndexDocs($dairy_no);
       $diaryDocumentsArray = $this->ScaningModel->getDiaryDocumentsDetails($dairy_no);
-   
+
       $builder = $this->db->table('public.main');
       $builder->select('pet_name, res_name, c_status, fil_no');
       $builder->where('diary_no', $dairy_no);
@@ -72,7 +72,7 @@ class SaccaningController extends BaseController
       ];
     }
 
-    return view('scanning/indexing/addUpdateIndexing', compact('all_doc', 'result', 'courtDetails', 'diary_number', 'diary_year','getIndexDocs', 'diaryDocumentsArray'));
+    return view('scanning/indexing/addUpdateIndexing', compact('all_doc', 'result', 'courtDetails', 'diary_number', 'diary_year', 'getIndexDocs', 'diaryDocumentsArray'));
   }
 
   public function listingAssets()
@@ -97,7 +97,7 @@ class SaccaningController extends BaseController
 
   public function search_rpt()
   {
-      if ($this->request->getPost('search_rpt') == 'Rpt_search') {
+    if ($this->request->getPost('search_rpt') == 'Rpt_search') {
       $to_dt = date("Y-m-d", strtotime($this->request->getPost('To_date')));
       // $from_dt = date("Y-m-d", strtotime($this->request->getPost('From_date'))); // Uncomment if needed
       $movement_flag_type = $this->request->getPost('movement_flag_type');
@@ -125,9 +125,9 @@ class SaccaningController extends BaseController
       // exit();
 
       $output = [];
-      foreach ($query->getResultArray() as $key=>$row) {
+      foreach ($query->getResultArray() as $key => $row) {
         $output[] = [
-          'id'             => $key+1,
+          'id'             => $key + 1,
           'item_no'        => $row['item_no'],
           'dairy_no'       => $row['dairy_no'],
           'list_dt'        => $row['list_dt'],
@@ -158,18 +158,17 @@ class SaccaningController extends BaseController
     $list_date = date("Y-m-d", strtotime($list_date));
 
     $stg = $mainhead == 'M' ? 1 : 2;
-  
+
     // Build the condition
-    $t_cn= "r.courtno = '$courtno' AND ( to_date IS NULL OR '$list_date' BETWEEN from_date AND to_date )";
-    $roster_ids = $ScaningModel->getRosterIds($stg, $t_cn);    
+    $t_cn = "r.courtno = '$courtno' AND ( to_date IS NULL OR '$list_date' BETWEEN from_date AND to_date )";
+    $roster_ids = $ScaningModel->getRosterIds($stg, $t_cn);
     // echo "<pre>";print_r($roster_ids);exit();
     // Prepare additional WHERE conditions based on movement_flag_type
     $where_condition = $ScaningModel->buildWhereCondition($movement_flag_type);
-    if(empty($roster_ids))
-    {
+    if (empty($roster_ids)) {
       $results = [];
-    }else{  
-    $results = $ScaningModel->getCaseDetails($list_date, $mainhead, $roster_ids, $where_condition);
+    } else {
+      $results = $ScaningModel->getCaseDetails($list_date, $mainhead, $roster_ids, $where_condition);
     }
 
     // echo "<pre>";print_r($results);exit();
@@ -184,10 +183,6 @@ class SaccaningController extends BaseController
 
   public function add_update_scanning_movement()
   {
-    return true;
-    // echo "<pre>";
-    // print_r($this->request->getPost());
-    // exit();
     if ($this->request->getPost('action') == 'save_record') {
       $dairyno = $this->request->getPost('diaryno');
       $cause_title = $this->request->getPost('cause_title');
@@ -232,7 +227,14 @@ class SaccaningController extends BaseController
         }
       } else {
         $builder = $this->db->table('scan_movement_history');
-        $builder->insertSelect('scan_movement', '*', ['dairy_no' => $dairyno, 'is_active' => 'T']);
+        $builder->select('*');
+        $builder->where('dairy_no', $dairyno);
+        $builder->where('is_active', 'T');
+        $query = $builder->get();
+        $data = $query->getResultArray();
+
+        $historyBuilder = $this->db->table('scan_movement_history');
+        $historyBuilder->insertBatch($data);
         $last_insrt_his_id = $this->db->insertID();
 
         if ($last_insrt_his_id > 0) {
@@ -251,7 +253,8 @@ class SaccaningController extends BaseController
           $builder->where('dairy_no', $dairyno);
           $builder->update($data);
           $affected_rows = $this->db->affectedRows();
-
+          // print_r($affected_rows);
+          // exit();
           if ($affected_rows > 0) {
             echo "1"; // RETURN SUCCESSFULLY..
             exit();
@@ -263,6 +266,163 @@ class SaccaningController extends BaseController
       }
     }
   }
+
+  public function scanningmovement_search_flagcase()
+  {
+    echo "<pre>";
+    if ($this->request->getVar('search_flag') == 'case') 
+    {
+      $chk_status = $this->request->getVar('chk_status');
+      $ct = $this->request->getVar('ct');
+      $cn = $this->request->getVar('cn');
+      $cy = $this->request->getVar('cy');
+      $d_no = $this->request->getVar('d_no');
+      $d_yr = $this->request->getVar('d_yr');
+      $movement_flag_type = $this->request->getVar('movement_flag_type');
+     
+      if ($chk_status == 1) {
+        $builder = $this->db->table('main');
+        $builder->select("SUBSTRING(CAST(diary_no AS TEXT), 1, LENGTH(CAST(diary_no AS TEXT)) - 4) AS dn,SUBSTRING(CAST(diary_no AS TEXT), -4) AS dy");
+        $builder->where("(SPLIT_PART(fil_no, '-', 1) = '$ct' AND 
+                  CAST($cn AS INTEGER) BETWEEN (CAST(SPLIT_PART(fil_no, '-', 2) AS INTEGER)) AND 
+                  (CAST(SPLIT_PART(fil_no, '-', 3) AS INTEGER)) AND
+                  CASE WHEN (reg_year_mh = 0 OR DATE(fil_dt) > DATE('2017-05-10')) 
+                  THEN EXTRACT(YEAR FROM fil_dt) = $cy 
+                  ELSE reg_year_mh = $cy END)");
+        $query = $builder->get();
+        // echo $builder->getCompiledSelect();
+
+        if ($query->getNumRows() > 0) {
+          $get_dno = $query->getRowArray();
+          $diary_no = $get_dno['dn'] . $get_dno['dy'];
+        } else {
+          $builder = $this->db->table('main_casetype_history h');
+
+          $builder->select("
+                SUBSTRING(h.diary_no::text FROM 1 FOR LENGTH(h.diary_no::text) - 4) AS dn,
+                SUBSTRING(h.diary_no::text FROM -4) AS dy,
+                CASE WHEN h.new_registration_number != '' THEN split_part(h.new_registration_number, '-', 1) ELSE NULL END AS ct1,
+                CASE WHEN h.new_registration_number != '' THEN split_part(h.new_registration_number, '-', 2) ELSE NULL END AS crf1,
+                CASE WHEN h.new_registration_number != '' THEN split_part(h.new_registration_number, '-', 3) ELSE NULL END AS crl1
+            ");
+
+          $builder->where("
+                (
+                    (CASE WHEN split_part(h.new_registration_number, '-', 1) != '' THEN split_part(h.new_registration_number, '-', 1)::integer END = $ct AND 
+                    CAST(NULLIF($cn::text, '') AS INTEGER) BETWEEN 
+                    CAST(NULLIF(split_part(h.new_registration_number, '-', 2), '') AS INTEGER) AND 
+                    CAST(NULLIF(split_part(h.new_registration_number, '-', 3), '') AS INTEGER) AND 
+                    h.new_registration_year = $cy) 
+                    OR 
+                    (CASE WHEN split_part(h.old_registration_number, '-', 1) != '' THEN split_part(h.old_registration_number, '-', 1)::integer END = $ct AND 
+                    CAST(NULLIF($cn::text, '') AS INTEGER) BETWEEN 
+                    CAST(NULLIF(split_part(h.old_registration_number, '-', 2), '') AS INTEGER) AND 
+                    CAST(NULLIF(split_part(h.old_registration_number, '-', 3), '') AS INTEGER) AND 
+                    h.old_registration_year = $cy AND 
+                    h.is_deleted = 't')
+                )
+            ");
+          $builder->where('h.is_deleted', 'f');
+          $query = $builder->get();
+          //  echo $this->db->getLastQuery();  
+          
+          if ($query->getNumRows() > 0) {
+            $get_dno = $query->getRowArray();
+            $diary_no = $get_dno['dn'] . $get_dno['dy'];
+          } else {
+            echo "Case Number not found";
+            exit();
+          }
+        }
+      } else {
+        $diary_no = $d_no . $d_yr;
+      }
+      // print_r($get_dno['dy']);die;
+
+
+      $builder = $this->db->table('main m');
+      $builder->select('m.diary_no, m.conn_key, m.reg_no_display, r.courtno, h.roster_id, h.next_dt, h.mainhead');
+      $builder->join('heardt h', 'h.diary_no = m.diary_no', 'inner');
+      $builder->join('master.roster r', 'r.id = h.roster_id', 'inner');
+      $builder->where('m.diary_no', $diary_no);
+      $builder->where('h.next_dt >=', date('Y-m-d'));
+      $builder->where('h.clno >', 0);
+      $builder->groupBy('m.diary_no');
+      $query = $builder->get();
+      echo $builder->getCompiledSelect();
+
+      print_r($query->getNumRows());die;
+
+      if ($query->getNumRows() > 0) {
+        foreach ($query->getResultArray() as $data_case) {
+          $courtno = $data_case['courtno'];
+          $list_date = date("d-m-Y", strtotime($data_case['next_dt']));
+          $mainhead = $data_case['mainhead'];
+          if (!empty($data_case['conn_key'])) {
+            $diary_no_manual_qry = "AND conn_key = {$data_case['conn_key']}";
+          } else {
+            $diary_no_manual_qry = "AND diary_no = $diary_no";
+          }
+        }
+      } else {
+        echo "Case Not Listed";
+        exit();
+      }
+
+      $list_date_dmy = date("d-m-Y", strtotime($list_date));
+      $list_date = date("Y-m-d", strtotime($list_date));
+
+      $stg = ($mainhead == 'M') ? 1 : 2;
+      $ScaningModel = new ScaningModel();
+
+      $t_cn = "r.courtno = '$courtno' AND ( to_date IS NULL OR '$list_date' BETWEEN from_date AND to_date )";
+
+      $roster_ids = $ScaningModel->getRosterIds($stg, $t_cn);
+      $where_condition =[];
+      if (!empty($roster_ids)) 
+      {
+        switch ($movement_flag_type) {
+            case 'ALL':
+          $where_condition .= " ORDER BY h.judges, CASE WHEN brd_prnt = 'NA' THEN 2 ELSE 1 END, 
+          h.brd_slno, CASE WHEN m.conn_key = h.diary_no THEN '0000-00-00' ELSE 99 END ASC, 
+          CAST(SUBSTRING(m.diary_no, -4) AS SIGNED) ASC, CAST(LEFT(m.diary_no, LENGTH(m.diary_no) - 4) AS SIGNED) ASC";
+          break;
+
+          case 'receive': // eligible to receive
+          $where_condition .= "WHERE ((sm.movement_flag = 'return' AND sm.roster_id != h.roster_id) OR sm.movement_flag IS NULL) 
+          ORDER BY h.judges, CASE WHEN brd_prnt = 'NA' THEN 2 ELSE 1 END, h.brd_slno, CASE WHEN m.conn_key = h.diary_no THEN '0000-00-00' ELSE 99 END ASC, 
+          CAST(SUBSTRING(m.diary_no, -4) AS SIGNED) ASC, CAST(LEFT(m.diary_no, LENGTH(m.diary_no) - 4) AS SIGNED) ASC";
+          break;
+
+          case 'return': // eligible to return
+          $where_condition .= "
+          WHERE sm.movement_flag = 'receive' ORDER BY h.judges, CASE WHEN brd_prnt = 'NA' THEN 2 ELSE 1 END, 
+          h.brd_slno, CASE WHEN m.conn_key = h.diary_no THEN '0000-00-00' ELSE 99 END ASC, CAST(SUBSTRING(m.diary_no, -4) AS SIGNED) ASC, 
+          CAST(LEFT(m.diary_no, LENGTH(m.diary_no) - 4) AS SIGNED) ASC";
+          break;
+
+          case 'already_return':
+          $where_condition .= "WHERE sm.movement_flag = 'return' AND sm.roster_id = h.roster_id ORDER BY h.judges, CASE WHEN brd_prnt = 'NA' THEN 2 ELSE 1 END, 
+          h.brd_slno, CASE WHEN m.conn_key = h.diary_no THEN '0000-00-00' ELSE 99 END ASC, CAST(SUBSTRING(m.diary_no, -4) AS SIGNED) ASC, 
+          CAST(LEFT(m.diary_no, LENGTH(m.diary_no) - 4) AS SIGNED) ASC";
+          break;
+
+          default:
+          $where_condition .= "";
+          break;
+        }
+        $results = $ScaningModel->getCaseDetails($list_date, $mainhead, $roster_ids, $where_condition);
+        if ($results) {
+          return view('scanning/movement/receive_return_view', ['results' => $results, 'list_date_dmy' => $list_date_dmy, 'courtno' => $courtno, 'mainhead' => $mainhead]);
+        } else {
+          return 'No Records Found';
+        }
+      }
+
+      
+    }
+  }
+
 
   public function listTypeAssetsSearch()
   {

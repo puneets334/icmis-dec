@@ -81,7 +81,7 @@
     });
 </script>
     <script>
-        $(document).on('click', '.btn_consume', function() {
+        $(document).on('click', '.btn_consume',function(){
             var app_id = $(this).data('app_id');
             var envelope_weight = $(this).data('envelope_weight');
             var barcode = $(this).closest('tr').find(".barcode_id").val();

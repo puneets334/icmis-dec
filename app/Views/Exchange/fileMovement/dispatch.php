@@ -88,7 +88,7 @@
                                         <?php
                                         foreach ($cases as $case)
                                         {
-                                            echo '<option value="' . $case["casecode"] . '">' . $case["casename"] . '</option>';
+                                            echo '<option value="' . $case["casecode"] . '">' . $case["short_description"] . '</option>';
                                         }
                                         ?>
                                     </select>
@@ -268,9 +268,9 @@
         }
         $.ajax({
             type: 'POST',
-            data: 
-            {
+            data: {
                 CSRF_TOKEN: CSRF_TOKEN_VALUE,
+                searchby: searchby,
                 d_no:diaryno,
                 d_yr:diaryyear,
                 ct:cstype,
@@ -279,22 +279,16 @@
                 module:'dispatch'
             },
             url: "<?= site_url('Exchange/FileMovement/getSFileRec') ?>",
-            beforeSend: function ()
-            {
+            beforeSend: function () {
                 $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
-            success: function(response)
-            {
-                if(response.status == true)
-                {
+            success: function(response) {
+                if(response.status == true) {
                     $("#dv_res1").html(response.data);
                     $("#dv_res2").html('');
-                    if($('input[name="chk[]"]:checked').length>0)
-                    {
+                    if($('input[name="chk[]"]:checked').length>0) {
                         $('#dispatch').prop('disabled',false);    
-                    }
-                    else
-                    {
+                    } else {
                         $('#dispatch').prop('disabled',true);    
                     }
                     get_user();
@@ -497,7 +491,7 @@
         var val = $("#department").val();
         let url = "<?php echo base_url('Exchange/FileMovement/userMgmtMultiple'); ?>?key=" + 1;
         $.ajax({
-            type: 'GET',
+            type: 'POST',
             data: 
             {
                 CSRF_TOKEN: CSRF_TOKEN_VALUE,
@@ -506,17 +500,16 @@
                 /*,auth:$("#authority").val(),auth_name:$("#auth_name").val()*/
             },
             url: url,
-            success: function(msg)
-            {
-                if (typeof msg !== 'string')
-                {
+            success: function(msg) {
+                $("#section").html('');
+                $("#section").html(msg);
+
+                if (typeof msg !== 'string') {
                     msg = String(msg);
                 }
 
                 var msgg = msg.indexOf("RESET");
-                $("#section").html(msg);
-                if(msgg >= 0)
-                {
+                if(msgg >= 0) {
                     if($("#cur_user_type").val()=='1')
                     {
                         $("#designation").html("<option value='ALL'>ALL</option>");
@@ -541,34 +534,34 @@
     });
 
 
-    // $(document).on("change","#section", function()
-    // {
-    //     let CSRF_TOKEN = 'CSRF_TOKEN';
-    //     let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-    //     var val = $("#section").val();
-    //     let url = "<?php echo base_url('Exchange/FileMovement/userMgmtMultiple'); ?>?key=" + 2;
-    //     $.ajax({
-    //         type: 'GET',
-    //         data: 
-    //         {
-    //             CSRF_TOKEN: CSRF_TOKEN_VALUE,
-    //             deptname:$('#department').val(),
-    //             section:val,cur_user_type:$("#cur_user_type").val()
-    //             /*,auth:$("#authority").val(),auth_name:$("#auth_name").val()*/
-    //         },
-    //         url: url,
-    //         success: function(response)
-    //         {
-    //             $("#designation").html(msg);
-    //             get_user();
-    //         },
-    //         error: function(xhr, status, error)
-    //         {
-    //             alert('Error, Please Contact Server Room');
-    //             return false;
-    //         }
-    //     });
-    // });
+    $(document).on("change","#section", function()
+    {
+        let CSRF_TOKEN = 'CSRF_TOKEN';
+        let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var val = $("#section").val();
+        let url = "<?php echo base_url('Exchange/FileMovement/userMgmtMultiple'); ?>?key=" + 2;
+        $.ajax({
+            type: 'POST',
+            data: 
+            {
+                CSRF_TOKEN: CSRF_TOKEN_VALUE,
+                deptname:$('#department').val(),
+                section:val,cur_user_type:$("#cur_user_type").val()
+                /*,auth:$("#authority").val(),auth_name:$("#auth_name").val()*/
+            },
+            url: url,
+            success: function(response) {
+                $("#designation").html('');
+                $("#designation").html(response);
+                get_user();
+            },
+            error: function(xhr, status, error)
+            {
+                alert('Error, Please Contact Server Room');
+                return false;
+            }
+        });
+    });
 
     $(document).on("click","#dispatch",function()
     {
@@ -637,7 +630,7 @@
                 // {
                 //     $('#dv_res2').html(data);
                 // }
-                $('#dv_res2').html('<p align=center><font color=red>"'+data.message+'"</font></p>');
+                $('#dv_res2').html('<p align=center><font color=red>'+data.message+'</font></p>');
                     setTimeout(function()
                     {
                         $('input[name=btnGetR]').trigger('click');

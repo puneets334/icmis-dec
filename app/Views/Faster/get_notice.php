@@ -6,19 +6,20 @@
                     <div class="card-body">
                         <?php
                         // $diary_no = 0;
-                        if ($chk_status == 1) {
-                            $dairy_no = get_diary_case_type_notice($ct, $cn, $cy);
-                        } else {
-                            $dairy_no = $d_no . $d_yr;
-                        }
-                        // pr($dairy_no);
-                        navigate_diary($dairy_no);
+                        // if ($chk_status == 1) {
+                        //     $diary_no = get_diary_case_type_notice($ct, $cn, $cy);
+                        //     $diaryNumberForSearch = $this->Dropdown_list_model->get_case_details_by_case_no($ct, $cn, $cy);
+                        // } else {
+                        //     $diary_no = $d_no . $d_yr;
+                        // }
+                        // pr($diary_no);
+                        navigate_diary($diary_no);
                         $sessionUserId = isset($_SESSION['dcmis_user_idd']) ? $_SESSION['dcmis_user_idd'] : $_SESSION['login']['usercode'];
 
                         $db = \Config\Database::connect();
                         $builder = $db->table('main');
                         $builder->select('dacode, c_status');
-                        $builder->where('diary_no', $dairy_no);
+                        $builder->where('diary_no', $diary_no);
                         $daResult = $builder->get()->getRowArray();
 
                         if ($daResult) {
@@ -45,30 +46,30 @@
                         }
 
                         ?>
-                        <input type="hidden" name="hd_diary_no" id="hd_diary_no" value="<?php echo  $dairy_no; ?>" />
+                        <input type="hidden" name="hd_diary_no" id="hd_diary_no" value="<?php echo  $diary_no; ?>" />
                         <?php
                         $chk_dts = '0';
                         $date = date('Y-m-d');
                         $ck_pf_nt = '';
                         $ck_pfnt = '';
                         $res_cont = 0;
-                        $row = getAdvisors($dairy_no);
+                        $row = getAdvisors($diary_no);
                         if (count($row) > 0) {
                         ?>
                             <input type="hidden" name="hd_n_status" id="hd_n_status" value="<?php echo $row['c_status']; ?>" />
                             <input type="hidden" name="hd_casetype_id" id="hd_casetype_id" value="<?php echo $row['casetype_id']; ?>" />
                             <?php
-                            $res_sq_fi_sub = getTalDelData($dairy_no, $date);
+                            $res_sq_fi_sub = getTalDelData($diary_no, $date);
                             $res_cont = !empty($res_sq_fi_sub) ? count($res_sq_fi_sub) : 0;
                             ?>
-                            <div class="cl_center">
+                            <div class="cl_center" style="text-align: center;">
                                 <input type="radio" name="ddl_ind_mul" id='ddl_ind_mul' class="cl_ind_mul" value="1" <?php if (!empty($res_sq_fi_sub) && $res_sq_fi_sub['individual_multiple'] == '1') { ?> checked="checked" <?php } ?> /><b>Individual</b>
                                 <input type="radio" name="ddl_ind_mul" id='ddl_ind_mul' class="cl_ind_mul" value="2" <?php if (!empty($res_sq_fi_sub) && $res_sq_fi_sub['individual_multiple'] == '2') { ?> checked="checked" <?php } ?> /><b>Multiple</b>
                             </div>
                             <?php
 
                             if ($row['c_status'] == 'P') {
-                                $ret_res = get_max_dt($dairy_no, '');
+                                $ret_res = get_max_dt($diary_no, '');
                             ?>
                                 <?php
 
@@ -78,8 +79,8 @@
                                 $m = $dmy[1];
                                 $d = $dmy[0];
 
-                                // list($get_sel_con, $fx_dt, $chk_remark, $or_dt) = getRemarkData($dairy_no, $ret_res, $row);
-                                $var = getRemarkData($dairy_no, $ret_res, $row);
+                                // list($get_sel_con, $fx_dt, $chk_remark, $or_dt) = getRemarkData($diary_no, $ret_res, $row);
+                                $var = getRemarkData($diary_no, $ret_res, $row);
                                 $get_sel_con = $var['get_sel_con'];
                                 $fx_dt = $var['fx_dt'];
                                 $chk_remark = $var['chk_remark'];
@@ -91,7 +92,7 @@
                                     if (in_array($chk_remark, ['24', '21', '59', '91', '131'])) {
                                         $query = $db->table('case_remarks_multiple')
                                             ->select("TO_CHAR(TO_DATE(SUBSTRING(head_content, 1, 10), 'DD-MM-YYYY'), 'YYYY-MM-DD') AS head_content")
-                                            ->where('diary_no', $dairy_no)
+                                            ->where('diary_no', $diary_no)
                                             ->whereIn('r_head', ['24', '21', '59', '91', '131'])
                                             ->where('cl_date', $ret_res)
                                             ->get();
@@ -99,7 +100,7 @@
                                     } elseif (in_array($chk_remark, ['23', '8', '12', '20', '53', '54', '68', '113'])) {
                                         $query = $db->table('heardt')
                                             ->select('tentative_cl_dt')
-                                            ->where('diary_no', $dairy_no)
+                                            ->where('diary_no', $diary_no)
                                             ->get();
                                         $rowCount = $query->getNumRows();
                                     }
@@ -121,7 +122,7 @@
                                     $sql_pf = $db->table('docdetails')
                                         ->select("TO_CHAR(ent_dt, 'YYYY-MM-DD') AS dt")
                                         ->where('display', 'Y')
-                                        ->where('diary_no', $dairy_no)
+                                        ->where('diary_no', $diary_no)
                                         ->whereIn('doccode', ['7', '29'])
                                         ->where('doccode1', '0')
                                         ->where("TO_CHAR(ent_dt, 'YYYY-MM-DD') >= '$or_dt'")
@@ -134,7 +135,7 @@
                                         // Get next_dt and mainhead from heardt
                                         $sq_con_not = $db->table('heardt')
                                             ->select('next_dt, mainhead')
-                                            ->where('diary_no', $dairy_no)
+                                            ->where('diary_no', $diary_no)
                                             ->get()
                                             ->getRowArray();
 
@@ -143,8 +144,8 @@
                                             $r_bx = $db->table('main a')
                                                 ->select('a.*')
                                                 ->join('heardt b', 'a.diary_no = b.diary_no')
-                                                ->where('a.conn_key', function ($query) use ($dairy_no) {
-                                                    $query->select('conn_key')->from('main')->where('diary_no', $dairy_no);
+                                                ->where('a.conn_key', function ($query) use ($diary_no) {
+                                                    $query->select('conn_key')->from('main')->where('diary_no', $diary_no);
                                                 })
                                                 ->where('a.conn_key IS NOT NULL')
                                                 ->where('a.conn_key !=', '')
@@ -155,7 +156,7 @@
                                                 $conn_main_cs = 0;
                                                 foreach ($r_bx->getResultArray() as $row2) {
                                                     if ($row2['diary_no'] != $row2['conn_key']) {
-                                                        $conn_main_cs = ($dairy_no != $row2['conn_key']) ? $row2['conn_key'] : 0;
+                                                        $conn_main_cs = ($diary_no != $row2['conn_key']) ? $row2['conn_key'] : 0;
 
                                                         // Check remarks
                                                         if (in_array($chk_remark, ['23', '8', '12', '20', '53', '54', '68'])) {
@@ -183,12 +184,12 @@
                                                 if (in_array($chk_remark, ['23', '8', '12', '20', '53', '54', '68'])) {
                                                     $sqy_pf = $db->table('heardt')
                                                         ->select('tentative_cl_dt')
-                                                        ->where('diary_no', $dairy_no)
+                                                        ->where('diary_no', $diary_no)
                                                         ->get();
                                                 } else {
                                                     $sqy_pf = $db->table('case_remarks_multiple')
                                                         ->select("TO_CHAR(TO_DATE(SUBSTRING(head_content, 1, 10), 'DD-MM-YYYY'), 'YYYY-MM-DD') AS head_content")
-                                                        ->where('diary_no', $dairy_no)
+                                                        ->where('diary_no', $diary_no)
                                                         ->whereIn('r_head', ['24', '21', '59', '91', '131'])
                                                         ->where('cl_date', $ret_res)
                                                         ->get();
@@ -224,7 +225,7 @@
                                     if ($or_dt == '--') {
                                         $sqy_pf_no_r = $db->table('heardt')
                                             ->select('tentative_cl_dt')
-                                            ->where('diary_no', $dairy_no)
+                                            ->where('diary_no', $diary_no)
                                             ->get();
 
                                         $ff_dt = $sqy_pf_no_r->getRow()->tentative_cl_dt ?? null; // Get the first row or null
@@ -274,12 +275,12 @@
                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                     <?php } ?>
                                     <b>Subject</b>&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="text" name="txtSub_nm" id="txtSub_nm" size="80" value="<?php if ($res_cont > 0) { echo $res_sq_fi_sub['sub_tal']; }  ?>" />
+                                    <input type="text" name="txtSub_nm" id="txtSub_nm" style="width: 30%;" value="<?php if ($res_cont > 0) { echo $res_sq_fi_sub['sub_tal']; }  ?>" />
                                 </div>
                                 <div style="height: 111px;width: 100%;overflow-x:hidden;overflow-y:scroll;overflow: -moz-scrollbars-vertical;margin-top: 10px">
                                     <div class="fl_prj" style="width: 50%;float: left;">
-                                        <fieldset>
-                                            <legend><b>Petitioner Details</b></legend>
+                                        <fieldset class="border p-2">
+                                            <legend class="w-auto"><b>Petitioner Details</b></legend>
                                             <table width="100%">
                                                 <tr>
                                                     <th style="text-align: left">
@@ -303,8 +304,8 @@
                                         </fieldset>
                                     </div>
                                     <div class="fl_prj" style="width: 50%;float: left;">
-                                        <fieldset>
-                                            <legend><b>Respondent Details</b></legend>
+                                    <fieldset class="border p-2">
+                                        <legend class="w-auto"><b>Respondent Details</b></legend>
                                             <table width="100%">
                                                 <tr>
                                                     <th style="text-align: left">
@@ -333,7 +334,7 @@
                                 <?php
                                 $builder = $db->table('tw_tal_del');
                                 $builder->selectCount('id');
-                                $builder->where('diary_no', $dairy_no);
+                                $builder->where('diary_no', $diary_no);
                                 $builder->where('rec_dt', $date);
                                 $builder->where('display', 'Y');
                                 $builder->where('print', 0);
@@ -400,7 +401,7 @@
 
                                         </tr>
                                         <?php
-                                        $sql_party =  getParties($dairy_no, $date);
+                                        $sql_party =  getParties($diary_no, $date);
 
 
                                         $sno = 0;
@@ -414,14 +415,14 @@
                                         $ct_tt = 0;
                                         foreach ($sql_party as $row1) {
                                             $ck_en_nt = '0';
-                                            $ck_en_nt_x = null;
+                                            // $ck_en_nt_x = null;
 
-                                            if ($sr_no != '0') {
+                                            if($row1['sr_no'] != '0') {                                 
                                                 $builder = $db->table('tw_tal_del');
                                                 $builder->select(['id', 'name', 'address', 'nt_type', 'amount'])
                                                     ->where('diary_no', $diary_no)
-                                                    ->where('sr_no', $sr_no)
-                                                    ->where('pet_res', $pet_res)
+                                                    ->where('sr_no', $row1['sr_no']) 
+                                                    ->where('pet_res', $row1['pet_res'])
                                                     ->where('rec_dt', $date)
                                                     ->where('display', 'Y')
                                                     ->where('print', 0);
@@ -432,45 +433,45 @@
                                                     $ck_en_nt_x = $query->getRowArray(); // Fetch the first row as an associative array
                                                 }
                                             } else {
-                                                $ck_en_nt_x = '';
+                                                $ck_en_nt_x = [];
                                             }
                                             if ($row1['sr_no'] == '0') {
                                                 $ck_en_nt = '1';
                                             }
-                                            if ($ck_en_nt_x['name'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['name'] == '') {
                                                 $ck_en_nt_x['name'] = $row1['partyname'];
                                             }
 
-                                            if ($ck_en_nt_x['address'] == '') {
+                                            if (isset($ck_en_nt_x['address']) && $ck_en_nt_x['address'] == '') {
                                                 $ck_en_nt_x['address'] = $row1['addr1'];
                                             }
-                                            if ($ck_en_nt_x['nt_type'] == '') {
+                                            if (isset($ck_en_nt_x['nt_type']) && $ck_en_nt_x['nt_type'] == '') {
                                                 $ck_en_nt_x['nt_type'] = $row1['nt_type'];
                                             }
-                                            if ($ck_en_nt_x['del_type'] == '') {
+                                            if (isset($ck_en_nt_x['del_type']) && $ck_en_nt_x['del_type'] == '') {
                                                 $ck_en_nt_x['del_type'] = $row1['del_type'];
                                             }
-                                            if ($ck_en_nt_x['send_to'] == '') {
+                                            if (isset($ck_en_nt_x['send_to']) && $ck_en_nt_x['send_to'] == '') {
                                                 $ck_en_nt_x['send_to'] = $row1['send_to'];
                                             }
-                                            if ($ck_en_nt_x['cp_sn_to'] == '') {
+                                            if (isset($ck_en_nt_x['cp_sn_to']) && $ck_en_nt_x['cp_sn_to'] == '') {
                                                 $ck_en_nt_x['cp_sn_to'] = $row1['cp_sn_to'];
                                             }
 
-                                            if ($ck_en_nt_x['id'] == '') {
+                                            if (isset($ck_en_nt_x['id']) && $ck_en_nt_x['id'] == '') {
                                                 $ck_en_nt_x['id'] = $row1['id'];
                                             }
 
-                                            if ($ck_en_nt_x['jud1'] == '') {
+                                            if (isset($ck_en_nt_x['jud1']) && $ck_en_nt_x['jud1'] == '') {
                                                 $ck_en_nt_x['jud1'] = $row1['jud1'];
                                             }
-                                            if ($ck_en_nt_x['jud2'] == '') {
+                                            if (isset($ck_en_nt_x['jud2']) && $ck_en_nt_x['jud2'] == '') {
                                                 $ck_en_nt_x['jud2'] = $row1['jud2'];
                                             }
-                                            if ($ck_en_nt_x['note'] == '') {
+                                            if (isset($ck_en_nt_x['note']) && $ck_en_nt_x['note'] == '') {
                                                 $ck_en_nt_x['note'] = $row1['note'];
                                             }
-                                            if ($ck_en_nt_x['amount'] == '') {
+                                            if (isset($ck_en_nt_x['amount']) && $ck_en_nt_x['amount'] == '') {
                                                 $ck_en_nt_x['amount'] = $row1['amount'];
                                             }
                                             if ($row1['pet_res'] == 'P' && $c_pet == 0 && $row1['sr_no'] == 1) {
@@ -552,7 +553,7 @@
                                                     <span style="color: #2b15db"><b id="sp_pet_res_id<?php echo $sno; ?>"><?php echo $row1['pet_res'] . '-' . $row1['sr_no']; ?></b></span>
                                                 </td>
                                                 <td style="width: 23%;" id="td_cell_s<?php echo $sno; ?>">
-                                                    <textarea id="sp_nm<?php echo $sno; ?>" style="resize:none;width: 80%" onfocus="clear_data(this.id)"><?php if ($ck_en_nt == '0') { echo trim($row1['partyname']); if ($row1['sonof'] != '') { if ($row1['sonof'] == 'S') echo " S/o "; else if ($row1['sonof'] == 'D') echo " D/o "; else if ($row1['sonof'] == 'W') echo " W/o "; else echo ""; echo $row1['prfhname']; } } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['name']; $get_advocates =  get_advocates($dairy_no); $get_lc_highcourt = get_lc_highcourt($dairy_no); } ?></textarea>
+                                                    <textarea id="sp_nm<?php echo $sno; ?>" style="resize:none;width: 80%" onfocus="clear_data(this.id)"><?php if ($ck_en_nt == '0') { echo trim($row1['partyname']); if ($row1['sonof'] != '') { if ($row1['sonof'] == 'S') echo " S/o "; else if ($row1['sonof'] == 'D') echo " D/o "; else if ($row1['sonof'] == 'W') echo " W/o "; else echo ""; echo $row1['prfhname']; } } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['name']; $get_advocates =  get_advocates($diary_no); $get_lc_highcourt = get_lc_highcourt($diary_no); } ?></textarea>
                                                     <?php
                                                     if ($row1['enrol_no'] != '' && $row1['enrol_yr'] != '') {
                                                     ?>
@@ -695,63 +696,68 @@
                                                         $del_tw_send_to = '';
                                                         $del_tw_copysend_to = '';
                                                         $ex_c_st = '';
-                                                        $delTypeQuery = $db->table('tw_o_r')
-                                                            ->select('del_type')
-                                                            ->where('tw_org_id', $ck_en_nt_x['id'])
-                                                            ->where('display', 'Y')
-                                                            ->get();
-                                                        if ($delTypeQuery->getNumRows() > 0) {
-                                                            foreach ($delTypeQuery->getResultArray() as $row) {
-                                                                $del_modes .= ($del_modes ? '' : '') . $row['del_type'];
-                                                            }
-                                                        }
-                                                        // Get main send_to data
-                                                        $twSendToQuery = $db->table('tw_o_r a')
-                                                            ->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type')
-                                                            ->join('tw_comp_not b', 'a.id = b.tw_o_r_id')
-                                                            ->where('tw_org_id', $ck_en_nt_x['id'])
-                                                            ->where('a.display', 'Y')
-                                                            ->where('b.display', 'Y')
-                                                            ->where('copy_type', 0)
-                                                            ->get();
+                                                        $main_id = '';
 
-                                                        if ($twSendToQuery->getNumRows() > 0) {
-                                                            foreach ($twSendToQuery->getResultArray() as $row) {
-                                                                if ($del_tw_send_to == '') {
-                                                                    $del_tw_send_to = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
-                                                                } else {
-                                                                    $del_tw_send_to .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                        if(isset($ck_en_nt_x['id']) && !empty($ck_en_nt_x['id'])){
+                                                            $delTypeQuery = $db->table('tw_o_r')
+                                                                ->select('del_type')
+                                                                ->where('tw_org_id', $ck_en_nt_x['id'])
+                                                                ->where('display', 'Y')
+                                                                ->get();
+                                                            if ($delTypeQuery->getNumRows() > 0) {
+                                                                foreach ($delTypeQuery->getResultArray() as $row) {
+                                                                    $del_modes .= ($del_modes ? '' : '') . $row['del_type'];
                                                                 }
                                                             }
-                                                        }
+                                                       
+                                                            // Get main send_to data
+                                                            $twSendToQuery = $db->table('tw_o_r a')
+                                                                ->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type')
+                                                                ->join('tw_comp_not b', 'a.id = b.tw_o_r_id')
+                                                                ->where('tw_org_id', $ck_en_nt_x['id'])
+                                                                ->where('a.display', 'Y')
+                                                                ->where('b.display', 'Y')
+                                                                ->where('copy_type', 0)
+                                                                ->get();
 
-                                                        // Get copy send_to data
-                                                        $twCpSendToQuery = $db->table('tw_o_r a')
-                                                            ->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type')
-                                                            ->join('tw_comp_not b', 'a.id = b.tw_o_r_id')
-                                                            ->where('tw_org_id', $ck_en_nt_x['id'])
-                                                            ->where('a.display', 'Y')
-                                                            ->where('b.display', 'Y')
-                                                            ->where('copy_type', 1)
-                                                            ->orderBy('id')
-                                                            ->orderBy('del_type')
-                                                            ->orderBy('copy_type')
-                                                            ->get();
-                                                        if ($twCpSendToQuery->getNumRows() > 0) {
-                                                            $main_id = '';
-                                                            foreach ($twCpSendToQuery->getResultArray() as $row) {
-                                                                if ($main_id != $row['id']) {
-                                                                    if ($del_tw_copysend_to == '') {
-                                                                        $del_tw_copysend_to = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                            if ($twSendToQuery->getNumRows() > 0) {
+                                                                foreach ($twSendToQuery->getResultArray() as $row) {
+                                                                    if ($del_tw_send_to == '') {
+                                                                        $del_tw_send_to = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
                                                                     } else {
-                                                                        $del_tw_copysend_to .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        $del_tw_send_to .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
                                                                     }
-                                                                    $main_id = $row['id'];
-                                                                } else {
-                                                                    if ($ex_c_st == '') {
-                                                                        $ex_c_st = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                }
+                                                            }
+
+                                                            // Get copy send_to data
+                                                            $twCpSendToQuery = $db->table('tw_o_r a')
+                                                                ->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type')
+                                                                ->join('tw_comp_not b', 'a.id = b.tw_o_r_id')
+                                                                ->where('tw_org_id', $ck_en_nt_x['id'])
+                                                                ->where('a.display', 'Y')
+                                                                ->where('b.display', 'Y')
+                                                                ->where('copy_type', 1)
+                                                                ->orderBy('id')
+                                                                ->orderBy('del_type')
+                                                                ->orderBy('copy_type')
+                                                                ->get();
+                                                            if ($twCpSendToQuery->getNumRows() > 0) {
+                                                                $main_id = '';
+                                                                foreach ($twCpSendToQuery->getResultArray() as $row) {
+                                                                    if ($main_id != $row['id']) {
+                                                                        if ($del_tw_copysend_to == '') {
+                                                                            $del_tw_copysend_to = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        } else {
+                                                                            $del_tw_copysend_to .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        }
+                                                                        $main_id = $row['id'];
                                                                     } else {
-                                                                        $ex_c_st .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        if ($ex_c_st == '') {
+                                                                            $ex_c_st = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        } else {
+                                                                            $ex_c_st .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        }
                                                                     }
                                                                 }
                                                             }
@@ -1066,8 +1072,8 @@
 
                                 <div style="height: 111px;width: 100%;overflow-x:hidden;overflow-y:scroll;overflow: -moz-scrollbars-vertical;margin-top: 10px">
                                     <div class="fl_prj" style="width: 50%;float: left;">
-                                        <fieldset>
-                                            <legend><b>Petitioner Details</b></legend>
+                                    <fieldset class="border p-2">
+                                    <legend class="w-auto"><b>Petitioner Details</b></legend>
                                             <table width="100%">
                                                 <tr>
                                                     <th style="text-align: left">
@@ -1091,8 +1097,8 @@
                                         </fieldset>
                                     </div>
                                     <div class="fl_prj" style="width: 50%;float: left;">
-                                        <fieldset>
-                                            <legend><b>Respondent Details</b></legend>
+                                    <fieldset class="border p-2">
+                                        <legend class="w-auto"><b>Respondent Details</b></legend>
                                             <table width="100%">
                                                 <tr>
                                                     <th style="text-align: left">
@@ -1119,7 +1125,7 @@
                                 <?php
                                 $builder = $db->table('tw_tal_del');
                                 $builder->selectCount('id');
-                                $builder->where('diary_no', $dairy_no);
+                                $builder->where('diary_no', $diary_no);
                                 $builder->where('rec_dt', $date);
                                 $builder->where('display', 'Y');
                                 $builder->where('print', 0);
@@ -1188,7 +1194,7 @@
                                         </tr>
                                         <?php
 
-                                        $sql_party =  getParties($dairy_no, $date);
+                                        $sql_party =  getParties($diary_no, $date);
 
                                         $sno = 0;
                                         $c_pet = 0;
@@ -1203,12 +1209,12 @@
                                             $ck_en_nt = '0';
                                             $ck_en_nt_x = null;
 
-                                            if ($sr_no != '0') {
+                                            if ($row1['sr_no'] != '0') {
                                                 $builder = $db->table('tw_tal_del');
                                                 $builder->select(['id', 'name', 'address', 'nt_type', 'amount'])
                                                     ->where('diary_no', $diary_no)
-                                                    ->where('sr_no', $sr_no)
-                                                    ->where('pet_res', $pet_res)
+                                                    ->where('sr_no', $row1['sr_no'])
+                                                    ->where('pet_res', $row1['pet_res'])
                                                     ->where('rec_dt', $date)
                                                     ->where('display', 'Y')
                                                     ->where('print', 0);
@@ -1342,7 +1348,7 @@
                                                     <span style="color: #2b15db"><b><?php echo $row1['pet_res'] . '-' . $row1['sr_no']; ?></b></span>
                                                 </td>
                                                 <td style="width: 23%;" id="td_cell_s<?php echo $sno; ?>">
-                                                    <textarea id="sp_nm<?php echo $sno; ?>" style="resize:none;width: 80%" onfocus="clear_data(this.id)"><?php if ($ck_en_nt == '0') { echo trim($row1['partyname']); if ($row1['sonof'] != '') { if ($row1['sonof'] == 'S') echo " S/o "; else if ($row1['sonof'] == 'D') echo " D/o "; else if ($row1['sonof'] == 'W') echo " W/o "; else echo ""; echo $row1['prfhname']; } } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['name']; $get_advocates =  get_advocates($dairy_no); } ?></textarea>
+                                                    <textarea id="sp_nm<?php echo $sno; ?>" style="resize:none;width: 80%" onfocus="clear_data(this.id)"><?php if ($ck_en_nt == '0') { echo trim($row1['partyname']); if ($row1['sonof'] != '') { if ($row1['sonof'] == 'S') echo " S/o "; else if ($row1['sonof'] == 'D') echo " D/o "; else if ($row1['sonof'] == 'W') echo " W/o "; else echo ""; echo $row1['prfhname']; } } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['name']; $get_advocates =  get_advocates($diary_no); } ?></textarea>
                                                     <?php
                                                     if ($row1['enrol_no'] != '' && $row1['enrol_yr'] != '') {
                                                     ?>

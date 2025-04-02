@@ -225,10 +225,12 @@ class RegistrationModel extends Model
     {
         $builder = $this->db->table('main');
         $builder->select('COUNT(diary_no) AS cnt');
-        $builder->where('active_fil_no ILIKE', '%' . $data['reg_no'] . '%'); // ILIKE for case-insensitive LIKE
+        $builder->where("active_fil_no ILIKE '%" . $data['reg_no'] . "%'", null, false);
+         // ILIKE for case-insensitive LIKE
+        //$builder->like('active_fil_no', "'".$data['reg_no']."'", 'both', false); // 'both' for % on both sides, false to prevent automatic escaping
         $builder->where('active_casetype_id', $data['casetype_id']);
         $builder->where('EXTRACT(YEAR FROM active_fil_dt)', $data['year']);
-
+        ///echo $builder->getCompiledSelect();die;
         $query = $builder->get();
 
         // Check if any rows were returned
@@ -298,7 +300,8 @@ class RegistrationModel extends Model
             'is_deleted' => $data['is_deleted'],
             'ec_case_id' => $data['ec_case_id'],
         ];
-
+        // $sql = $builder->set($add_data)->getCompiledInsert();        
+        // echo $sql;die;
         return $builder->insert($add_data);
     }
 
@@ -335,7 +338,8 @@ class RegistrationModel extends Model
         
         $update_data = [
             'dacode'        => $data['dacode'],
-            'last_usercode' => session()->get('dcmis_user_idd'),
+            //'last_usercode' => session()->get('dcmis_user_idd'),
+            'last_usercode' => session()->get('login')['usercode'],
             'last_dt'      => date('Y-m-d H:i:s') // Current timestamp
         ];
         
@@ -482,34 +486,68 @@ class RegistrationModel extends Model
     {
         $sec_da_upto_disposal = array(21, 55);
 
-        $builder = $this->db->table('main');
+        // $builder = $this->db->table('main');
 
-        $builder->select('section_id, dacode, from_court, ref_agency_state_id, ref_agency_code_id')
-            ->select("CASE 
-                             WHEN active_casetype_id = 0 OR active_casetype_id IS NULL OR active_casetype_id = '' 
-                             THEN casetype_id 
-                             ELSE active_casetype_id 
-                           END AS casetype_id")
-            ->select("EXTRACT(YEAR FROM CASE 
-                             WHEN active_fil_dt = '0000-00-00 00:00:00' OR active_fil_dt IS NULL OR active_fil_dt = '' 
-                             THEN diary_no_rec_date 
-                             ELSE active_fil_dt 
-                           END) AS regyear")
-            ->select("DATE(diary_no_rec_date) AS fildate")
-            ->select("DATE(CASE 
-                             WHEN active_fil_dt = '0000-00-00 00:00:00' OR active_fil_dt IS NULL OR active_fil_dt = '' 
-                             THEN diary_no_rec_date 
-                             ELSE active_fil_dt 
-                           END) AS filregdate")
-            ->where('diary_no', $dairy_no);
+        // $builder->select('section_id, dacode, from_court, ref_agency_state_id, ref_agency_code_id')
+        //     ->select("CASE 
+        //                      WHEN active_casetype_id = 0 OR active_casetype_id IS NULL OR active_casetype_id = '' 
+        //                      THEN casetype_id 
+        //                      ELSE active_casetype_id 
+        //                    END AS casetype_id")
+        //     ->select("EXTRACT(YEAR FROM CASE 
+        //                      WHEN active_fil_dt = '0000-00-00 00:00:00' OR active_fil_dt IS NULL OR active_fil_dt = '' 
+        //                      THEN diary_no_rec_date 
+        //                      ELSE active_fil_dt 
+        //                    END) AS regyear")
+        //     ->select("DATE(diary_no_rec_date) AS fildate")
+        //     ->select("DATE(CASE 
+        //                      WHEN active_fil_dt = '0000-00-00 00:00:00' OR active_fil_dt IS NULL OR active_fil_dt = '' 
+        //                      THEN diary_no_rec_date 
+        //                      ELSE active_fil_dt 
+        //                    END) AS filregdate")
+        //     ->where('diary_no', $dairy_no);
+                $sql = "
+            SELECT 
+                section_id, 
+                dacode, 
+                from_court, 
+                ref_agency_state_id,  
+                ref_agency_code_id,   
+                CASE 
+                    WHEN active_casetype_id = 0 OR active_casetype_id IS NULL THEN casetype_id 
+                    ELSE active_casetype_id 
+                END AS casetype_id,   
+                EXTRACT(YEAR FROM 
+                    CASE 
+                        WHEN NULLIF(CAST(active_fil_dt AS TEXT), '0000-00-00 00:00:00') IS NULL THEN diary_no_rec_date 
+                        ELSE active_fil_dt 
+                    END
+                ) AS regyear,    
+                DATE(diary_no_rec_date) AS fildate,    
+                DATE(
+                    CASE 
+                        WHEN NULLIF(CAST(active_fil_dt AS TEXT), '0000-00-00 00:00:00') IS NULL THEN diary_no_rec_date 
+                        ELSE active_fil_dt 
+                    END
+                ) AS filregdate 
+            FROM main 
+            WHERE diary_no = ?";
 
-        $query = $builder->get();
+        // Execute the query with binding
+        //echo $sql;die;
+        $query = $this->db->query($sql, [$dairy_no]);        
+        // Fetch the results
+        $results = $query->getRowArray();       
+            
+
+        //$query = $builder->get();
 
         $row_main = null; // Default value in case no results are found
-        if ($query->getNumRows() > 0) {
+        if (count($results) > 0) {
             $rcasetype = array(1, 3);
-            $row_main = $query->getRowArray(); // Fetch as associative array
-
+            //$row_main = $query->getRowArray(); // Fetch as associative array
+            $row_main = $results; // Fetch as associative array
+            
             //check if dacode already exist and section is matching with da section  matters_with_wrong_section
             if ($row_main['dacode'] != 0 && $row_main['dacode'] != '') {
                 // check_section($row_main[dacode],$row_main[section_id]);
@@ -800,12 +838,17 @@ class RegistrationModel extends Model
                     
                     $currentYear = date('Y');
                     
+                    // $builder->select('diary_no, fil_dt')
+                    //         ->select('ROW_NUMBER() OVER (ORDER BY fil_dt) AS rownum')
+                    //         ->where('ref_agency_state_id', $row_main['ref_agency_state_id'])
+                    //         ->where('active_casetype_id', $row_main['casetype_id'])
+                    //         ->where("EXTRACT(YEAR FROM COALESCE(NULLIF(active_fil_dt, '0000-00-00 00:00:00'), diary_no_rec_date))", $row_main['regyear']);
                     $builder->select('diary_no, fil_dt')
-                            ->select('ROW_NUMBER() OVER (ORDER BY fil_dt) AS rownum')
+                            ->select('ROW_NUMBER() OVER (ORDER BY fil_dt) AS rownum', false)
                             ->where('ref_agency_state_id', $row_main['ref_agency_state_id'])
                             ->where('active_casetype_id', $row_main['casetype_id'])
-                            ->where("EXTRACT(YEAR FROM COALESCE(NULLIF(active_fil_dt, '0000-00-00 00:00:00'), diary_no_rec_date))", $row_main['regyear']);
-                    
+                            ->where("EXTRACT(YEAR FROM COALESCE(NULLIF(active_fil_dt::TEXT, '0000-00-00 00:00:00')::TIMESTAMP, diary_no_rec_date)) =", $row_main['regyear'], false);
+                    //echo $builder->getCompiledSelect();die;
                     $query = $builder->get();
                     $current_no = 1;
                     
@@ -820,8 +863,8 @@ class RegistrationModel extends Model
                     if (in_array($row_main['section_id'], $sec_da_upto_disposal)) {
                         $builder->select('dacode')
                                 ->where('case_type', $row_main['casetype_id'])
-                                ->where('$current_no BETWEEN case_from AND case_to', null, false)
-                                ->where('$row_main[fildate] BETWEEN case_f_yr AND case_t_yr', null, false)
+                                ->where("$current_no BETWEEN case_from AND case_to", null, false)
+                                ->where("$row_main[fildate] BETWEEN case_f_yr AND case_t_yr", null, false)
                                 ->groupStart()
                                     ->where('state', $row_main['ref_agency_state_id'])
                                     ->orWhere('state', 0)
@@ -830,14 +873,14 @@ class RegistrationModel extends Model
                     } else {
                         $builder->select('dacode')
                                 ->where('case_type', $row_main['casetype_id'])
-                                ->where('$current_no BETWEEN case_from AND case_to', null, false)
-                                ->where('$row_main[filregdate] BETWEEN case_f_yr AND case_t_yr', null, false)
+                                ->where("$current_no BETWEEN case_from AND case_to", null, false)
+                                ->where("$row_main[filregdate] BETWEEN case_f_yr AND case_t_yr", null, false)
                                 ->groupStart()
                                     ->where('state', $row_main['ref_agency_state_id'])
                                     ->orWhere('state', 0)
                                 ->groupEnd()
                                 ->where('display', 'Y');
-
+                        //echo $builder->getCompiledSelect();die;
                         $query = $builder->get();
 
                         if ($query->getNumRows() <= 0) {
@@ -845,8 +888,8 @@ class RegistrationModel extends Model
                             
                             $builder->select('dacode')
                                     ->where('case_type', $row_main['casetype_id'])
-                                    ->where('$current_no BETWEEN case_from AND case_to', null, false)
-                                    ->where('$row_main[regyear] BETWEEN case_f_yr AND case_t_yr', null, false)
+                                    ->where("$current_no BETWEEN case_from AND case_to", null, false)
+                                    ->where("$row_main[regyear] BETWEEN case_f_yr AND case_t_yr", null, false)
                                     ->groupStart()
                                         ->where('state', $row_main['ref_agency_state_id'])
                                         ->orWhere('state', 0)
@@ -1088,7 +1131,8 @@ class RegistrationModel extends Model
 
         // Select statement with date formatting and grouping
         $builder->select('h.diary_no, TO_CHAR(h.next_dt, \'DD-MM-YYYY\') AS next_dt, STRING_AGG(crm.r_head::TEXT, \', \') AS Disp_Remarks');
-        $builder->join('case_remarks_multiple crm', 'crm.diary_no = h.diary_no::varchar(150) AND crm.cl_date = h.next_dt', 'inner');
+        //$builder->join('case_remarks_multiple crm', 'crm.diary_no = h.diary_no::varchar(150) AND crm.cl_date = h.next_dt', 'inner');
+        $builder->join('case_remarks_multiple crm', 'CAST(crm.diary_no AS INTEGER) = h.diary_no AND crm.cl_date = h.next_dt', 'inner');
         $builder->join('master.case_remarks_head crh', 'crh.sno = crm.r_head AND (crh.display = \'Y\' OR crh.display IS NULL)', 'inner');
 
         $builder->where('h.diary_no', $dairy_no);
@@ -1101,8 +1145,7 @@ class RegistrationModel extends Model
         $builder->where('h.next_dt <=', date('Y-m-d'));
         $builder->where('h.next_dt = (SELECT MAX(next_dt) FROM heardt b WHERE b.diary_no = h.diary_no AND b.clno != 0 AND b.brd_slno != 0 AND b.brd_slno IS NOT NULL AND b.roster_id != 0 AND b.roster_id IS NOT NULL AND main_supp_flag IN (1,2))', null);
         $builder->whereIn('crm.r_head', [181, 182, 3, 183, 184, 1, 41, 176, 177, 178, 27, 196, 200, 201]);
-        $builder->groupBy('h.diary_no, h.next_dt');
-
+        $builder->groupBy('h.diary_no, h.next_dt');        
         $query = $builder->get();
 
         if ($query->getNumRows() > 0) {
@@ -1114,7 +1157,8 @@ class RegistrationModel extends Model
 
             // Select statement with date formatting and grouping
             $builder->select('h.diary_no, TO_CHAR(h.next_dt, \'DD-MM-YYYY\') AS next_dt, STRING_AGG(crm.r_head::TEXT, \', \') AS Disp_Remarks');
-            $builder->join('case_remarks_multiple crm', 'crm.diary_no = h.diary_no::varchar(150) AND crm.cl_date = h.next_dt', 'inner');
+            //$builder->join('case_remarks_multiple crm', 'crm.diary_no = h.diary_no::varchar(150) AND crm.cl_date = h.next_dt', 'inner');
+            $builder->join('case_remarks_multiple crm', 'CAST(crm.diary_no AS INTEGER) = h.diary_no AND crm.cl_date = h.next_dt', 'inner');
             $builder->join('master.case_remarks_head crh', 'crh.sno = crm.r_head AND (crh.display = \'Y\' OR crh.display IS NULL)', 'inner');
 
             $builder->where('h.diary_no', $dairy_no);

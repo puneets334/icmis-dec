@@ -38,12 +38,12 @@ class MovementOfDocument extends BaseController
 
     public function get_s_file_rec()
     {
+        $request = \Config\Services::request();
         $ucode = session()->get('login')['usercode'];
-        $module = $this->request->getVar('module');
-
-        $ct = $this->request->getVar('ct');
-        $cn = $this->request->getVar('cn');
-        $cy = $this->request->getVar('cy');
+        $module = $request->getVar('module');
+        $ct = $request->getVar('ct');
+        $cn = $request->getVar('cn');
+        $cy = $request->getVar('cy');
 
         if (!empty($ct)) {
             $diaryData = $this->MovementOfDocumentModel->getDiaryNumber($ct, $cn, $cy);
@@ -75,11 +75,6 @@ class MovementOfDocument extends BaseController
 
         return view('Exchange/movementOfDoc/bulk_dispatch_pro', $data);
     }
-
-
-
-
-
     public function bulkReceive()
     {
         $ucode = session()->get('login')['usercode'];
@@ -123,8 +118,9 @@ class MovementOfDocument extends BaseController
 
     public function save_receive()
     {
+        $request = \Config\Services::request();
         $ucode = session()->get('login')['usercode'];
-        $alldata = $this->request->getGet('alldata');
+        $alldata = $request->getGet('alldata');
         $updateStatus = $this->MovementOfDocumentModel->updateRecords($alldata, $ucode);
         if ($updateStatus) {
             echo 'Update Successfully!';
@@ -141,9 +137,10 @@ class MovementOfDocument extends BaseController
 
     public function save_dispatch()
     {
+        $request = \Config\Services::request();
         $session = session();
         $ucode = $session->get('login')['usercode']; // Get user ID from session
-        $alldata = $this->request->getPost('alldata');
+        $alldata = $request->getPost('alldata');
 
         if (!$alldata) {
             return $this->response->setJSON(['error' => 'No data received']);
@@ -160,27 +157,6 @@ class MovementOfDocument extends BaseController
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //........created by Deepak........//
     public function oldVerify()
     {
         $data['cases'] = $this->MovementOfDocumentModel->getOldCases();
@@ -190,13 +166,14 @@ class MovementOfDocument extends BaseController
 
     public function oldVerifyProcess()
     {
+        $request = \Config\Services::request();
         $data['usercode'] = session()->get('login')['usercode'];
-        $data['d_no']= $this->request->getPost('d_no');
-        $data['d_yr'] = $this->request->getPost('d_yr');
-        $data['ct'] = $this->request->getPost('ct');
-        $data['cn'] = $this->request->getPost('cn');
-        $data['cy'] = $this->request->getPost('cy');
-        $data['tab'] = $this->request->getPost('tab');
+        $data['d_no']= $request->getPost('d_no');
+        $data['d_yr'] = $request->getPost('d_yr');
+        $data['ct'] = $request->getPost('ct');
+        $data['cn'] = $request->getPost('cn');
+        $data['cy'] = $request->getPost('cy');
+        $data['tab'] = $request->getPost('tab');
         $data['model'] = $this->MovementOfDocumentModel;
         $data['model1'] = $this->Dropdown_list_model;
         return view('Exchange/movementOfDoc/oldVerifyProcess', $data);

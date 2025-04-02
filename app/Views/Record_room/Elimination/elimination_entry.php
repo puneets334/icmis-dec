@@ -224,6 +224,9 @@
 
         function saveElimination() {
             var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            var actionRequired = $("#actionRequired").val();
+            var diary_no = $("#diary_no").val();
+            var eliminationDate = $("#eliminationDate").val();
             if (actionRequired !== "" && diary_no !== "" && eliminationDate !== "") {
                 $.ajax({
                     type: "POST",

@@ -115,139 +115,186 @@
                         </div>
 
                     </div>
-
+                    
                 </div>
                 <div id="result_data"></div>
             </div>
         </div>
         <!-- /.card -->
     </div>
+   
     <!-- /.col -->
     </div>
+     
     <!-- /.row -->
     </div>
+ <div class="modal" id="pdfresultModelModal">
+  <div class="modal-dialog modal-fullscreen-md-down">
+  <div class="">
+                            <div class="row" id="pdf_actions" ></div>
+                            <div class="row" id="pdf_result" ></div>
+  </div>
+  </div>
+    </div>
+    <div id="qr_related_data" style="display:none;"></div>
     <!-- /.container-fluid -->
 </section>
 <script>
 
 $(document).on('click', '#pdf_link', function() {
-            $("#pdf_actions, #pdf_result").html("");
-            var application_no = $(this).data('application_no');
-            var path = $(this).data('path');
-            var crn = $(this).data('crn');
-            var court_fee = $(this).data('court_fee');
-            var applicant_name = $(this).data('applicant_name');
-            var application_id_id = $(this).data('application_id_id');
-            var number_of_pages_in_pdf = $(this).data('number_of_pages_in_pdf');
-            var delivery_mode = $(this).data('delivery_mode');
+    $("#pdf_actions, #pdf_result").html("");
+    
+    // Retrieve data attributes
+    var application_no = $(this).data('application_no');
+    var path = $(this).data('path');
+    var crn = $(this).data('crn');
+    var court_fee = $(this).data('court_fee');
+    var applicant_name = $(this).data('applicant_name');
+    var application_id_id = $(this).data('application_id_id');
+    var number_of_pages_in_pdf = $(this).data('number_of_pages_in_pdf');
+    var delivery_mode = $(this).data('delivery_mode');
+    
+    // Get CSRF token
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    
+    // First AJAX call to generate QR code
+    $.ajax({
+        url: 'qr_embed',
+        type: 'POST',
+        data: {
+            crn: crn,
+            application_id_id: application_id_id,
+            application_no: application_no,
+            path: path,
+            court_fee: court_fee,
+            applicant_name:applicant_name,
+            number_of_pages_in_pdf:number_of_pages_in_pdf,
+            delivery_mode: delivery_mode,
+            CSRF_TOKEN: CSRF_TOKEN_VALUE
+        },
+        beforeSend: function() {
+            $('#pdf_result').html('<table width="100%" align="center"><tr><td>Loading...</td></tr></table>');
+        },
+        success: function(data) {
+            //updateCSRFToken();
+            $("#pdfresultModelModal").modal('show');
+            $('#qr_related_data').html(data);
+            var qr_data =$(".abcd").html();;
+            //console.log('hi sant',qr_data);
+            $.getJSON("<?php echo base_url('Csrftoken'); ?>", 
+            function(result) { 
+            //$('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE); 
             $.ajax({
-                url: 'qr_embed.php',
-                cache: false,
-                async: true,
+                url: 'pdf_result',
+                type: 'POST',
                 data: {
-                    crn: crn,
                     application_id_id: application_id_id,
                     application_no: application_no,
                     path: path,
                     court_fee: court_fee,
                     applicant_name: applicant_name,
-                    number_of_pages_in_pdf: number_of_pages_in_pdf,
-                    delivery_mode: delivery_mode
+                    qr_data: qr_data,
+                    delivery_mode: delivery_mode,
+                    CSRF_TOKEN:result.CSRF_TOKEN_VALUE
                 },
-                beforeSend: function() {
-                    $('#pdf_result').html('<table widht="100%" align="center"><tr><td>Loading...</td></tr></table>');
-                },
-                type: 'POST',
-                success: function(data, status) {
-                    $('#qr_related_data').html(data);
-                    var qr_data = $(".abcd").html();
-                    $.ajax({
-                        url: 'pdf_result.php',
-                        cache: false,
-                        async: true,
-                        data: {
-                            application_id_id: application_id_id,
-                            application_no: application_no,
-                            path: path,
-                            court_fee: court_fee,
-                            applicant_name: applicant_name,
-                            delivery_mode: delivery_mode,
-                            qr_data: qr_data
-                        },
-                        type: 'POST',
-                        success: function(data, status) {
-                            $("#pdf_result").html(data);
-                            if (delivery_mode == 3) {
-                                pdf_actions_show(application_id_id);
-                            }
-
-                        },
-                        error: function(xhr) {
-                            alert("Error: " + xhr.status + " " + xhr.statusText);
-                        }
-                    });
-                    //pdf_actions_show(application_id_id);
+                success: function(data) {
+                    updateCSRFToken();
+                    $("#pdf_result").html(data);
+                    if (delivery_mode == 3) {
+                        pdf_actions_show(application_id_id);
+                    }
                 },
                 error: function(xhr) {
-                    alert("Error: " + xhr.status + " " + xhr.statusText);
+                    updateCSRFToken();
+                    alert("Error fetching PDF result: " + xhr.status + " " + xhr.statusText);
+                }
+            });
+            }); 
+            // Second AJAX call to get PDF result
+            
+        },
+        error: function(xhr) {
+            updateCSRFToken();
+            alert("Error generating QR code: " + xhr.status + " " + xhr.statusText);
+        }
+    });
+});
+function pdf_actions_show(application_id_id){
+    $.getJSON("<?php echo base_url('Csrftoken'); ?>", 
+    function(result) { 
+    $.ajax({
+                url:'pdf_action_show',
+                cache: false,
+                async: true,
+                data: {application_id_id:application_id_id,CSRF_TOKEN:result.CSRF_TOKEN_VALUE},
+                type: 'POST',
+                success: function(data, status) {                        
+                    $("#pdf_actions").html(data);
+                     updateCSRFToken();
+                },
+                error: function(xhr) {
+                alert("Error: " + xhr.status + " " + xhr.statusText);
                 }
             });
         });
-        
-    $("#application_search").click(function() {
-        var from_date = $("#from_date").val();
-        var to_date = $("#to_date").val();
-        var application_type = $("#application_type").val();
-        var applicant_type = $("#applicant_type").val();
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-
-        $('#show_error').html("");
-        if (from_date.length == 0) {
-            $('#show_error').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Application From Date Required* </strong></div>');
-            $("#from_date").focus();
-            return false;
-        } else if (to_date.length == 0) {
-            $('#show_error').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Application To Date Required* </strong></div>');
-            $("#to_date").focus();
-            return false;
-        } else if (application_type == "") {
-            $('#show_error').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Application Type Required* </strong></div>');
-            $("#application_type").focus();
-            return false;
-        } else if (applicant_type == "") {
-            $('#show_error').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>Applicant Type Required* </strong></div>');
-            $("#applicant_type").focus();
-            return false;
-        } else {
-            $.ajax({
-                url: '<?php echo base_url('Copying/Copying/get_application_search'); ?>',
-                cache: false,
-                async: true,
-                data: {
-                    from_date: from_date,
-                    to_date: to_date,
-                    application_type: application_type,
-                    applicant_type: applicant_type,
-                    CSRF_TOKEN: CSRF_TOKEN_VALUE
-                },
-                beforeSend: function() {
-                    // $('.application_search').val('Please wait...');
-                    // $('.application_search').prop('disabled', true);
-                },
-                type: 'POST',
-                success: function(data) {
-                    // $('.application_search').prop('disabled', false);
-                    // $('.application_search').val('Search');
-                    $("#result_data").html(data);
-                    updateCSRFToken();
-                },
-                error: function(xhr) {
-                    updateCSRFToken();
-                }
-            });
-
+}
+$("#application_search").click(function() {
+    var from_date = $("#from_date").val();
+    var to_date = $("#to_date").val();
+    var application_type = $("#application_type").val();
+    var applicant_type = $("#applicant_type").val();
+    
+    // Get CSRF token
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    
+    $('#show_error').html("");
+    
+    // Validate input fields
+    if (!from_date) {
+        showError('Application From Date Required*', '#from_date');
+        return false;
+    } 
+    if (!to_date) {
+        showError('Application To Date Required*', '#to_date');
+        return false;
+    } 
+    if (!application_type) {
+        showError('Application Type Required*', '#application_type');
+        return false;
+    } 
+    if (!applicant_type) {
+        showError('Applicant Type Required*', '#applicant_type');
+        return false;
+    } 
+    
+    // AJAX call to search applications
+    $.ajax({
+        url:'<?php echo base_url('Copying/Copying/get_application_search'); ?>',
+        type: 'POST',
+        data: {
+            from_date: from_date,
+            to_date: to_date,
+            application_type: application_type,
+            applicant_type: applicant_type,
+            CSRF_TOKEN: CSRF_TOKEN_VALUE
+        },
+        beforeSend: function() {
+            // Optional: Show loading indicator
+        },
+        success: function(data) {
+            $("#result_data").html(data);
+            updateCSRFToken();
+        },
+        error: function(xhr) {
+            updateCSRFToken();
+            alert("Error searching applications: " + xhr.status + " " + xhr.statusText);
         }
-
     });
+});
+
+// Function to show error messages
+function showError(message, focusElement) {
+    $('#show_error').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>' + message + '</strong></div>');
+    $(focusElement).focus();
+}
 </script>

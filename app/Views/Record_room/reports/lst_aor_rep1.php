@@ -1,6 +1,6 @@
 <?= view('header') ?>
 
-    <link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>">
+    <!-- <link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>"> -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -10,7 +10,7 @@
     <div class="card-header heading">
         <div class="row">
             <div class="col-sm-10">
-                <h3 class="card-title">Report >>&nbsp; AORs having Clerks more than 2</h3>
+                <h3 class="card-title">Record Room >> Report >> AORs having Clerks more than 2</h3>
             </div>
            
         </div>
@@ -29,7 +29,7 @@
 
             <div class='well well-lg'>
               
-                    <a class='btn btn-success ' href='#'>Results Found <span class='badge'><?=$records[0]['clerk_count']; ?></span></a>
+                    <a class='btn btn-success' href='#'>Results Found <span class='badge'><?=$records[0]['clerk_count']; ?></span></a>
               
             </div> <br>
 
@@ -48,21 +48,20 @@
                         <tbody>
                         <?php
                         $sno = 0;
-                        foreach ($records as $record) : ?>
-                            <tr style="color: green;font-weight:bold">
+                        foreach ($mergedData as $record) : ?>
+                            <tr style="color: green; font-weight: bold;">
                                 <td><?= ++$sno ?></td>
-                                <td>AOR NAME</td>
-                                <td><?= $record['name'] . ' (' . $record['aor_code'] . ')' ?></td>
+                                <td><?= $record['aor_code']; ?></td>
+                                <td><?= $record['name']; ?></td>
                                 <td>CLERKS ATTACHED</td>
-                                <td><?= count($clerks[$record['aor_code']]) ?></td>
+                                <td><?= count($record['clerks']); ?></td>
                             </tr>
-
+                        
                             <?php
-                            // Reset $sno to start counting from 1 for each AOR
                             $sno1 = 0;
-                            foreach ($clerks[$record['aor_code']] as $clerk) : ?>
+                            foreach ($record['clerks'] as $clerk) : ?>
                                 <tr>
-                                    <td>&nbsp;&nbsp;&nbsp;<?= ++$sno1 ?></td>
+                                    <td class="ml-2"><?= ++$sno1 ?></td>
                                     <td><?= $clerk['eino'] ?></td>
                                     <td><?= $clerk['cname'] ?></td>
                                     <td><?= $clerk['cfname'] ?></td>
@@ -73,7 +72,7 @@
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
-
+                        
                         <?php endforeach; ?>
 
 

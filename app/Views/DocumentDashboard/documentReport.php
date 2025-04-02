@@ -374,6 +374,7 @@
        }
 
     });
+    
     $(document).ready(function() {
         var title = function () { return 'Document  ('+$('.activeBox').attr('data-title')+')' };
         $('#documentTable').DataTable( {
