@@ -2324,17 +2324,18 @@ class CaseAdd extends Model
         $from_diary_date = date('d-m-Y', strtotime($filters['from_diary_date']));
 
         $builder = $this->db->table($this->table . ' m')
+            //->select('count(DISTINCT m.diary_no) as total_cases, GROUP_CONCAT(DISTINCT m.diary_no, \', \') as dnos')
             ->select('count(distinct m.diary_no) as total_cases, string_agg(DISTINCT m.diary_no::text, \',\') as dnos')
             ->join('heardt h', 'm.diary_no = h.diary_no')
             ->join('mul_category mc', 'mc.diary_no = m.diary_no')
             ->where('m.c_status', 'P');
 
         // Date Filters
-        if (!empty($from_list_date) && !empty($to_list_date)) {
+        if (!empty($from_list_date) && !empty($to_list_date) && $from_list_date !== '01-01-1970' && $to_list_date !== '01-01-1970') {
             $builder->where('date(h.next_dt) >=', $from_list_date);
             $builder->where('date(h.next_dt) <=', $to_list_date);
         }
-        if (!empty($from_diary_date) && !empty($to_diary_date)) {
+        if (!empty($from_diary_date) && !empty($to_diary_date && $from_list_date !== '01-01-1970' && $to_list_date !== '01-01-1970')) {
             $builder->where('date(m.diary_no_rec_date) >=', $from_diary_date);
             $builder->where('date(m.diary_no_rec_date) <=', $to_diary_date);
         }
@@ -2513,7 +2514,21 @@ class CaseAdd extends Model
                 $builder->where('m.part_heard', 'Y');
             }
         }
+        $builder->limit(1);
+        $subQuery = $this->db->table('main ms')
+            ->select('ms.diary_no')
+            ->distinct()
+            ->where('ms.c_status', 'P')
+            ->limit(100000)
+            ->getCompiledSelect();
+        $subQueryResults = $this->db->query($subQuery)->getResultArray();
+        $diaryNos = array_column($subQueryResults, 'diary_no');
 
+        // Use the flat array in whereIn()
+        $builder->whereIn('m.diary_no', $diaryNos);
+
+        // echo $builder->getCompiledSelect();
+        // die();
         // Finalizing the Query
         $query = $builder->get();
         return $query->getRow();
@@ -2525,6 +2540,7 @@ class CaseAdd extends Model
         $inner_left_join = '';
         $category2_join = '';
         $limit = '';
+        $group_by = [];
         if ($number_of_rows > 0) {
             $limit = "LIMIT " . intval($number_of_rows);
         }
@@ -2533,28 +2549,33 @@ class CaseAdd extends Model
             if (in_array('case_no_with_dno', $add_columns)) {
                 // Using CONCAT() to combine reg_no_display and diary_no
                 $select_columns .= "m.diary_no, CONCAT(m.reg_no_display, ' @ ', m.diary_no) AS case_no_with_dno, ";
+                $group_by[] = 'case_no_with_dno';
             }
             if (in_array('diary_no', $add_columns)) {
                 $select_columns .= "m.diary_no, ";
             }
             if (in_array('reg_no_display', $add_columns)) {
                 $select_columns .= "m.reg_no_display, ";
+                $group_by[] = 'm.reg_no_display';
             }
             if (in_array('cause_title', $add_columns)) {
                 $select_columns .= "CONCAT(m.pet_name, ' Vs. ', m.res_name) AS causetitle, ";
+                $group_by[] = 'causetitle';
             }
             if (in_array('coram', $add_columns)) {
                 // Replace MySQL GROUP_CONCAT with PostgreSQL STRING_AGG,
                 // and use string_to_array() with ANY() instead of FIND_IN_SET()
-                $select_columns .= "COALESCE((SELECT STRING_AGG(abbreviation, ', ' ORDER BY judge_seniority) FROM judge WHERE is_retired = 'N' AND display = 'Y' AND jcode = ANY(string_to_array(h.coram, ','))), '') AS Coram, ";
+                $select_columns .= "COALESCE((SELECT STRING_AGG(abbreviation, ', ' ORDER BY judge_seniority) FROM master.judge WHERE is_retired = 'N' AND display = 'Y' AND jcode = ANY(string_to_array(h.coram, ',') :: INTEGER[])), '') AS Coram, ";
+                $group_by[] = 'Coram';
             }
             if (in_array('category', $add_columns)) {
                 $category2_join = "INNER JOIN mul_category mc ON mc.diary_no = h.diary_no AND mc.display = 'Y'
-                                   INNER JOIN submaster s ON mc.submaster_id = s.id AND s.display = 'Y'";
-                $select_columns .= "CASE WHEN (s.category_sc_old IS NOT NULL AND s.category_sc_old <> '' AND s.category_sc_old <> 0) 
+                                   INNER JOIN master.submaster s ON mc.submaster_id = s.id AND s.display = 'Y'";
+                $select_columns .= "CASE WHEN (s.category_sc_old IS NOT NULL AND s.category_sc_old <> '' AND cast(s.category_sc_old as INTEGER) <> 0) 
                                      THEN CONCAT('(', s.category_sc_old, ')', s.sub_name1, '-', s.sub_name4) 
                                      ELSE CONCAT('(', CONCAT(s.subcode1, s.subcode2), ')', s.sub_name1, '-', s.sub_name4) 
                                      END AS CATEGORY, ";
+                $group_by[] = 'CATEGORY';
             }
             
             if (in_array('connected_count', $add_columns)) {
@@ -2563,32 +2584,37 @@ class CaseAdd extends Model
                                           SELECT n.conn_key, COUNT(*) AS total_connected 
                                           FROM main m
                                           INNER JOIN heardt h ON m.diary_no = h.diary_no
-                                          INNER JOIN main n ON m.diary_no = n.conn_key
-                                          WHERE n.diary_no <> n.conn_key AND m.c_status = 'P'
+                                          INNER JOIN main n ON cast(m.diary_no as TEXT) = cast(n.conn_key as TEXT)
+                                          WHERE cast(n.diary_no as TEXT) <> cast(n.conn_key as TEXT) AND m.c_status = 'P'
                                           GROUP BY n.conn_key
-                                      ) cc ON m.diary_no = cc.conn_key";
+                                      ) cc ON cast(m.diary_no as TEXT) = cast(cc.conn_key as TEXT)";
+                 $group_by[] = 'connected_count';
             }
             
             if (in_array('tentative_date', $add_columns)) {
                 $select_columns .= "to_char(h.next_dt, 'DD-MM-YYYY') AS Next_Listing_Dt, ";
+                $group_by[] = 'Next_Listing_Dt';
             }
             
             if (in_array('lastorder', $add_columns)) {
                 $select_columns .= "m.lastorder, ";
+                $group_by[] = 'm.lastorder';
             }
             
             if (in_array('section', $add_columns)) {
                 $select_columns .= "tentative_section(m.diary_no) AS SECTION, ";
+                $group_by[] = 'SECTION';
             }
             
             if (in_array('da', $add_columns)) {
-                $select_columns .= "tentative_da(m.diary_no) AS DA, ";
+                $select_columns .= "tentative_da(cast(m.diary_no as integer)) AS DA, ";
+                $group_by[] = 'DA';
             }
             
             if (in_array('advocate_name', $add_columns)) {
                 $select_columns .= "STRING_AGG(bar.name, ', ') AS Advocate_Name, ";
                 $inner_left_join .= " LEFT JOIN advocate ON advocate.diary_no = m.diary_no AND advocate.display = 'Y'
-                                       LEFT JOIN bar ON bar.bar_id = advocate.advocate_id AND bar.if_aor = 'Y' 
+                                       LEFT JOIN master.bar ON bar.bar_id = advocate.advocate_id AND bar.if_aor = 'Y' 
                                                        AND bar.isdead = 'N' AND bar.if_sen = 'N' ";
             }
             
@@ -2596,10 +2622,12 @@ class CaseAdd extends Model
                 $select_columns .= "to_char(crm.cl_date, 'DD-MM-YYYY') AS Notice_Date, ";
                 $inner_left_join .= " LEFT JOIN case_remarks_multiple crm ON crm.diary_no = m.diary_no 
                                        AND crm.r_head IN (3,62,181,182,183,184,203) ";
+                 $group_by[] = 'Notice_Date';
             }
             
             if (in_array('admitted_on', $add_columns)) {
                 $select_columns .= "to_char(m.fil_dt_fh, 'DD-MM-YYYY') AS Admitted_On, ";
+                $group_by[] = 'Admitted_On';
             }
             
     
@@ -2625,28 +2653,32 @@ class CaseAdd extends Model
                 if ('category' == $sort_by_value) {
                     $sort_by_query .= "CATEGORY, ";
                 }
-                if ('coram' == $sort_by_value) {
-                    $sort_by_query .= "seniority_code, ";
+                if ('coram' == $sort_by_value) {    
+                    $sort_by_query .= "Coram, ";//seniority_code
                 }
                 if ('tentative_date' == $sort_by_value) {
                     $sort_by_query .= "h.next_dt, ";
+                    $group_by[] = 'h.next_dt';
                 }
             }
             $sort_by_query = rtrim($sort_by_query, ', ');
         } else {
             throw new \Exception("Please select Sort by field.");
         }
-    
+        $group_by[] = 'm.diary_no';
+        $grp_str = implode(', ', $group_by);
         $sql = "SELECT $select_columns FROM main m
                 INNER JOIN heardt h ON m.diary_no = h.diary_no 
                 $category2_join
                 $inner_left_join
                 WHERE m.c_status = 'P' 
-                GROUP BY m.diary_no 
+                GROUP BY $grp_str 
                 $sort_by_query 
                 $limit";
-    
+        //die();
         $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+
         return $query->getResultArray();
     }
     
@@ -2683,16 +2715,22 @@ class CaseAdd extends Model
 
         // Apply any necessary filters
         if (!empty($diaryNumbersString)) {
-            $diaryNumbersArray = array_filter(explode(',', $diaryNumbersString));
+            $diaryNumbersArray = array_map('trim', array_filter(explode(',', $diaryNumbersString)));
             if (!empty($diaryNumbersArray)) {
                 $builder->whereIn('m.diary_no', $diaryNumbersArray);
             }
         }
-        $builder->join('heardt h', 'm.diary_no = h.diary_no', 'left');
+        $builder->join('heardt h', 'm.diary_no = h.diary_no');
+        $builder->join('master.listing_purpose l', 'l.code = h.listorder');
+        $builder->join('rgo_default rd', "rd.fil_no = h.diary_no AND rd.remove_def = 'N'");
+        $builder->join('mul_category mc', "mc.diary_no= m.diary_no AND mc.display = 'Y'");
+        $builder->join('master.submaster s', "mc.submaster_id = s.id and s.flag = 's' and s.display = 'Y' and (s.category_sc_old is not null and s.category_sc_old !='')");
+        $builder->join('case_info ci', "ci.diary_no = h.diary_no and ci.display = 'Y'");
 
         // Order by the desired columns
         $builder->orderBy('CAST(RIGHT(CAST(m.diary_no AS text), 4) AS INTEGER) ASC, CAST(LEFT(CAST(m.diary_no AS text), LENGTH(CAST(m.diary_no AS text)) - 4) AS INTEGER) ASC');
-
+        echo $builder->getCompiledSelect();
+        die();
         return $builder->get()->getResultArray();
     }
 
