@@ -100,7 +100,7 @@
             // alert(result);
             tvap = result;
             flag = tvap.length;
-            if (flag == 28) {W
+            if (flag == 28) {
               $("#aorc").val("");
               $("#aorn").val("");
               $("#cnf").val("");
