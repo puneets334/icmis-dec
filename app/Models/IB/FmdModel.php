@@ -213,8 +213,16 @@ ORDER BY
     {
         $builder = $this->db->table('master.state');
         $builder->select('name');
-        $builder->where('state_code', $stateCode);
-        $builder->where('district_code', $cityCode);
+
+        if (!empty($stateCode)) {
+            $builder->where('state_code', $stateCode);
+        }
+
+        if (!empty($cityCode)) {
+            $builder->where('district_code', $cityCode);
+        }
+
+        // These conditions seem static, so keeping them as-is
         $builder->where('sub_dist_code', 0);
         $builder->where('village_code', 0);
         $builder->where('display', 'Y');
@@ -223,6 +231,7 @@ ORDER BY
 
         return $query->getRowArray();
     }
+
 
     public function getLowerCourtDetails($diaryNo)
     {
@@ -304,32 +313,44 @@ ORDER BY
 
     public function getJudgmentDetails($diaryNo)
     {
-        $builder = $this->db->table('dispose d')
-            ->select('d.rj_dt, d.jud_id, DATE_FORMAT(d.ent_dt, "%d-%m-%Y") AS ddt, DATE_FORMAT(d.ord_dt, "%d-%m-%Y") AS odt, d.disp_dt, d.month, d.year, d.dispjud, d.disp_type, GROUP_CONCAT(j.jname ORDER BY j.judge_seniority SEPARATOR ", ") AS judges')
-            ->join('master.judge j', 'FIND_IN_SET(j.jcode, d.jud_id)', 'left')
-            ->where('d.diary_no', $diaryNo)
-            ->groupBy('d.diary_no');
+        $builder = "SELECT d.rj_dt, d.jud_id, TO_CHAR(d.ent_dt, 'DD-MM-YYYY') AS ddt, TO_CHAR(d.ord_dt, 'DD-MM-YYYY') AS odt, 
+                    d.disp_dt, d.month, d.year, d.dispjud, d.disp_type, 
+                    STRING_AGG(j.jname, ', ' ORDER BY j.judge_seniority) AS judges
+                FROM dispose d
+                LEFT JOIN master.judge j ON j.jcode IN (
+                    SELECT CAST(value AS INTEGER)
+                    FROM unnest(string_to_array(d.jud_id, ',')) AS value
+                    WHERE TRIM(value) <> ''
+                )
+                WHERE d.diary_no = '$diaryNo'
+                GROUP BY d.rj_dt, d.jud_id, d.ent_dt, d.ord_dt, d.disp_dt, d.month, d.year, d.dispjud, d.disp_type";
+        $sql = $this->db->query($builder);
 
-        return $builder->get()->getRowArray();
+        return $sql->getRowArray();
     }
 
     public function getJudgeNames($diaryNo)
     {
-        return $this->db->query("
-            SELECT GROUP_CONCAT(j.jname ORDER BY j.judge_seniority SEPARATOR ', ') AS judges
-            FROM (
-                SELECT jcodes FROM case_remarks_multiple WHERE diary_no = '$diaryNo' GROUP BY cl_date ORDER BY e_date DESC LIMIT 1, 1
-            ) a
-            LEFT JOIN master.judge j ON FIND_IN_SET(j.jcode, a.jcodes) > 0
-        ")->getRowArray();
+        $sql = "SELECT STRING_AGG(j.jname, ', ' ORDER BY j.judge_seniority) AS judges
+        FROM (
+            SELECT STRING_AGG(jcodes, ',') AS jcodes
+            FROM case_remarks_multiple
+            WHERE diary_no = '$diaryNo'
+            GROUP BY cl_date
+            ORDER BY MAX(e_date) DESC
+            OFFSET 1 LIMIT 1
+        ) a
+        LEFT JOIN master.judge j ON j.jcode = ANY (string_to_array(a.jcodes, ',')::INTEGER[])";
+
+        $query = $this->db->query($sql);
+        return $query->getRowArray();
     }
 
     public function getDisposalType($disptype)
     {
-        return $this->db->table('disposal')
-            ->where('dispcode', $disptype)
-            ->get()
-            ->getRowArray();
+        $sql = "SELECT * FROM master.disposal WHERE dispcode = '$disptype'";
+        $query = $this->db->query($sql);
+        return $query->getRowArray();
     }
 
     public function getRgo($diaryNo)
@@ -358,17 +379,19 @@ ORDER BY
         $sql = "
             SELECT
                 m.diary_no,
-                (SELECT `list` FROM conct cc WHERE cc.diary_no = m.diary_no LIMIT 1) AS llist
+                (SELECT list FROM conct cc WHERE cc.diary_no = m.diary_no LIMIT 1) AS llist
             FROM
                 main m
             WHERE
-                (m.diary_no = ? OR m.conn_key IN (SELECT conn_key FROM main WHERE diary_no = ?))
-                AND m.diary_no != m.conn_key
+                (m.diary_no = $diaryNo OR m.conn_key IN (SELECT conn_key FROM main WHERE diary_no = $diaryNo))
+                AND m.diary_no != CAST(m.conn_key AS BIGINT)
             ORDER BY
                 m.fil_dt
         ";
 
-        return $this->db->query($sql, [$diaryNo, $diaryNo])->getResultArray();
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
     }
 
     public function getDiaryByNo($diaryNo)
@@ -475,7 +498,7 @@ ORDER BY
     {
         $sql = "SELECT a.diary_no, STRING_AGG(b.jname, ', ') AS jn, a.notbef 
             FROM not_before a 
-            JOIN master.judge b ON (b.jcode = a.j1 OR b.jcode = a.j2 OR b.jcode = a.j3 OR b.jcode = a.j4 OR b.jcode = a.j5) 
+            JOIN master.judge b ON b.jcode = a.j1 
             WHERE a.diary_no = :diary_no: 
             GROUP BY a.diary_no, a.notbef";
 
@@ -557,21 +580,55 @@ WHERE
         $builder->where('display', 'Y');
         $builder->whereIn('jtype', ['J', 'R']);
         $builder->orderBy("CASE WHEN is_retired = 'N' THEN 0 ELSE 1 END, jtype, judge_seniority");
-    
+
         return $builder->get()->getResultArray();
     }
-    
+
 
     public function getCaseRemarks()
     {
         $sql = "SELECT *
-FROM master.case_remarks_head
-WHERE side = 'D'
-  AND display = 'Y'
-ORDER BY CASE WHEN cat_head_id < 1000 THEN 0 ELSE 1 END, head;
-";
-$query = $this->db->query($sql);
+                FROM master.case_remarks_head
+                WHERE side = 'D'
+                AND display = 'Y'
+                ORDER BY CASE WHEN cat_head_id < 1000 THEN 0 ELSE 1 END, head;
+                ";
+        $query = $this->db->query($sql);
 
-return $query->getResultArray();
+        return $query->getResultArray();
+    }
+
+    function get_main_details($dn, $fields)
+    {
+        $data_array = array();
+        if ($dn != "") {
+            if ($fields == "")
+                $fields = "*";
+            $sql = "Select " . $fields . " from main where diary_no='" . $dn . "'";
+            $query = $this->db->query($sql);
+            $result =  $query->getResultArray();
+
+            if (!empty($result)) {
+                foreach ($result as $row) {
+                    foreach ($row as $key => $value) {
+                        $data_array[$row['diary_no']][$key] = $value;
+                    }
+                }
+            }
+        }
+        return $data_array;
+    }
+
+    public function get_brd_remarks($dn)
+    {
+        $brdrem = "";
+        $sqlbr_conn = "select remark from brdrem where diary_no='" . $dn . "'";
+        $results_br_conn = $this->db->query($sqlbr_conn);
+        $result = $results_br_conn->getNumRows();
+        if (!empty($result)) {
+            $row_br_conn = $results_br_conn->getRowArray();
+            $brdrem = $row_br_conn['remark'] ?? '';
+        }
+        return $brdrem;
     }
 }

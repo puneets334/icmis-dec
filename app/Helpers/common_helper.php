@@ -2852,15 +2852,15 @@ if (!function_exists('get_casenos_comma')) {
                         if ($row && isset($row['short_description'])) {
                             $res_ct_typ = $row['short_description'];
                         } else {
-                            $res_ct_typ = ''; 
+                            $res_ct_typ = '';
                         }
 
                         if ($row && isset($row['cs_m_f'])) {
                             $res_ct_typ_mf = $row['cs_m_f'];
                         } else {
-                            $res_ct_typ_mf = ''; 
+                            $res_ct_typ_mf = '';
                         }
-                        
+
                         if (trim($t_fil_no) != '')
                             $t_fil_no .= ",<br>";
                         if ($t_m2 == $t_m21)
@@ -5166,7 +5166,7 @@ function vac_reg_week_fun5($diary_no)
                 LEFT JOIN
                     master.bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y'
                 WHERE
-                    a.diary_no = '".$diary_no."' 
+                    a.diary_no = '" . $diary_no . "' 
                     AND a.display = 'Y'
                 GROUP BY
                     a.diary_no,
@@ -5181,14 +5181,15 @@ function vac_reg_week_fun5($diary_no)
             ) a
             GROUP BY
                 a.diary_no,a.name,a.grp_adv,a.pet_res,a.adv_type,a.pet_res_no";
-   
-   $query = $db->query($sql);
-   $result = $query->getResultArray();
-   return $result;
+
+    $query = $db->query($sql);
+    $result = $query->getResultArray();
+    return $result;
 }
-function vac_reg_week_fun7($diary_no){
+function vac_reg_week_fun7($diary_no)
+{
     $db = \Config\Database::connect();
-    $sql ="SELECT
+    $sql = "SELECT
                 tentative_section(j.diary_no) AS section_name,
                 j.*
             FROM (
@@ -5249,7 +5250,7 @@ function vac_reg_week_fun7($diary_no){
                         c.list = 'Y'
                         AND m.c_status = 'P'
                         AND m.diary_no::TEXT = m.conn_key::TEXT
-                        AND m.conn_key = '".$diary_no."'
+                        AND m.conn_key = '" . $diary_no . "'
                 ) a
                 INNER JOIN
                     main m ON a.conc_diary_no = m.diary_no
@@ -5262,9 +5263,9 @@ function vac_reg_week_fun7($diary_no){
                 ORDER BY
                     m.diary_no_rec_date
             ) j";
-            $query = $db->query($sql);
-            $result = $query->getResultArray();
-            return $result;
+    $query = $db->query($sql);
+    $result = $query->getResultArray();
+    return $result;
 }
 function vac_reg_week_fun6($diary_no)
 {
@@ -5288,7 +5289,7 @@ function vac_reg_week_fun6($diary_no)
                 LEFT JOIN
                     master.bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y'
                 WHERE
-                    a.diary_no = '".$diary_no."'
+                    a.diary_no = '" . $diary_no . "'
                     AND a.display = 'Y'
                 GROUP BY
                     a.diary_no,
@@ -5303,10 +5304,10 @@ function vac_reg_week_fun6($diary_no)
             ) a
             GROUP BY
                 a.diary_no,a.name,a.grp_adv,a.pet_res,a.adv_type,a.pet_res_no";
-   
-   $query = $db->query($sql);
-   $result = $query->getResultArray();
-   return $result;
+
+    $query = $db->query($sql);
+    $result = $query->getResultArray();
+    return $result;
 }
 
 function vac_reg_week_fun8($diary_no)
@@ -5329,7 +5330,7 @@ function vac_reg_week_fun8($diary_no)
                 LEFT JOIN
                     master.bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y'
                 WHERE
-                    a.diary_no = '".$diary_no."'  
+                    a.diary_no = '" . $diary_no . "'  
                     AND a.display = 'Y'
                 GROUP BY
                     a.diary_no,
@@ -6553,4 +6554,50 @@ function get_allocation_judge_m_alc_b($p1, $cldt, $board_type)
             $outer_array[]  = $inner_array;
         }
         return $outer_array;
+    }
+
+    function get_ia($dn)
+    {
+        $db = \Config\Database::connect();
+        $ian_p_conn = "";
+        $sql_ian_conn = "select a.diary_no,a.doccode,a.doccode1,a.docnum,a.docyear,a.filedby,a.docfee,a.forresp,a.feemode,a.ent_dt,a.other1,a.iastat,b.docdesc from docdetails a,  master.docmaster b  where a.doccode=b.doccode and a.doccode1=b.doccode1 and a.diary_no='" . $dn . "' and a.doccode=8 and a.display='Y' order by ent_dt";
+        $results_ian_conn = $db->query($sql_ian_conn);
+        $iancntr_conn = 1;
+        if (!empty($results_ian_conn->getNumRows())) {
+            $ian_p_inhdt = $listed_ia_conn = "";
+            $sql_ian_inhdt = "select listed_ia from heardt  where diary_no='" . $dn . "'";
+            $results_ian_inhdt = $db->query($sql_ian_inhdt);
+            if (!empty($results_ian_inhdt->getNumRows())) {
+                $row_ian_inhdt = $results_ian_inhdt->getRowArray();
+                $listed_ia_conn = $row_ian_inhdt["listed_ia"];
+            }
+            $results_ian_conn->getResultArray();
+            foreach ($results_ian_conn as $row_ian_conn) {
+                if ($ian_p_conn == "" and $row_ian_conn["iastat"] == "P") {
+                    $ian_p_conn = "<div style='overflow:auto; max-height:100px;'><table border='1' bgcolor='#F5F5FC' class='tbl_hr' width='98%' cellspacing='0' cellpadding='3'>";
+                }
+                if ($row_ian_conn["other1"] != "")
+                    $t_part_conn = $row_ian_conn["docdesc"] . " [" . $row_ian_conn["other1"] . "]";
+                else
+                    $t_part_conn = $row_ian_conn["docdesc"];
+                $t_ia_conn = "";
+                if ($row_ian_conn["iastat"] == "P")
+                    $t_ia_conn = "<font color='blue'>" . $row_ian_conn["iastat"] . "</font>";
+                if ($row_ian_conn["iastat"] == "D")
+                    $t_ia_conn = "<font color='red'>" . $row_ian_conn["iastat"] . "</font>";
+                if ($row_ian_conn["iastat"] == "P")
+                {
+                    $t_iaval_conn = $row_ian_conn["docnum"] . "/" . $row_ian_conn["docyear"] . ",";
+                    if (strpos($listed_ia_conn, $t_iaval_conn) !== false)
+                        $check = "checked='checked'";
+                    else
+                        $check = "";
+                    $ian_p_conn .= "<tr><td align='center'><input type='checkbox' name='cn_ia_" . $row_ian_conn["diary_no"] . "_" . $iancntr_conn . "' id='cn_ia_" . $row_ian_conn["diary_no"] . "_" . $iancntr_conn . "' value='" . $row_ian_conn["diary_no"] . "|#|" . $row_ian_conn["docnum"] . "/" . $row_ian_conn["docyear"] . "|#|" . str_replace("XTRA", "", $t_part_conn) . "' onClick='feed_rmrk_conn(\"" . $row_ian_conn["diary_no"] . "\");' " . $check . "></td><td align='center'>" . $row_ian_conn["docnum"] . "/" . $row_ian_conn["docyear"] . "</td><td align='left'>" . str_replace("XTRA", "", $t_part_conn) . "</td><td align='center'>" . date("d-m-Y", strtotime($row_ian_conn["ent_dt"])) . "</td></tr>";
+                }
+                $iancntr_conn++;
+            }
+        }
+        if ($ian_p_conn != "")
+            $ian_p_conn .= "</table></div>";
+        return $ian_p_conn;
     }
