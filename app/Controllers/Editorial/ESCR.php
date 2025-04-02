@@ -412,6 +412,64 @@ class ESCR extends BaseController
         }
     }
 
+    public function show_count_data()
+    {
+
+
+        if (!empty($_POST)) {
+
+            $from_date = date("Y-m-d", strtotime($_POST['fromDate']));
+            $to_date = date("Y-m-d", strtotime($_POST['toDate']));
+            $radio_id = $_POST['optradio'];
+            //            var_dump($_POST);     die;
+            //          DATE WISE FUNCTIONALITY ***********************************
+            if ($radio_id == 1) {
+                if (isset($from_date) && $from_date != '' && $from_date != '1970-01-01' && isset($to_date) && $to_date != '' && $to_date != '1970-01-01') {
+                    $datewiseData = $this->escr_model->datewise_report($from_date, $to_date);
+                    //                     echo "<pre>";
+                    //                     print_r($datewiseData);   die;
+                    if (!empty($datewiseData)) {
+                        $data['list_stats'] = $datewiseData;
+                    } else {
+                        $data['list_stats'] = '';
+                    }
+
+
+                    //pr($datewiseData);
+                }
+
+                $data['from_date'] = $from_date;
+                $data['to_date'] = $to_date;
+                echo view('Editorial/datewise_report', $data);
+                exit();
+            } elseif ($radio_id == 2)               //        USER WISE FUNCTIONALITY ************************************
+            {
+                $loggedInUserRol = '';
+                $userCode = $_SESSION['login']['usercode'];
+
+                $loggedInUserRole = $this->escr_model->escr_user_role($userCode);
+
+                if (!empty($loggedInUserRole)) {
+                    $loggedInUserRol = $loggedInUserRole[0]['role'];
+                }
+
+                $userwiseData = $this->escr_model->userwise_report($from_date, $to_date, $loggedInUserRol, $userCode);
+                if (!empty($userwiseData)) {
+                    $data['list_stats'] = $userwiseData;
+                } else {
+                    $data['list_stats'] = '';
+                }
+                $data['from_date'] = $from_date;
+                $data['to_date'] = $to_date;
+                $data['userrole'] = $loggedInUserRol;
+                echo view('Editorial/show_user_stats', $data);
+                exit();
+            }
+        } else {
+            return view('Editorial/show_stats_data');                         // WHEN NO RADIO BUTTON IS CLICKED SHOW PAGE FOR DATES
+        }
+    }
+
 
 
     public function user_report_details($emp_id = '', $role = '')
