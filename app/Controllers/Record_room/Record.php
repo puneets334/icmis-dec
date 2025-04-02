@@ -180,16 +180,18 @@ class Record extends BaseController
         $id = $this->request->getGet('id');
 
         $wordChunks = explode(";", $tvap);
+
         for ($i = 0; $i < count($wordChunks); $i++) {
             $vform[$i] = str_replace("undefined", "", $wordChunks[$i]);
         }
+       
         $vcname = $vform[2] . ' ' . $vform[3] . ' ' . $vform[4];
         try {
             $aorcode = $vform[0];
             $eino = $vform[22];
             $data = [
                 'aor_code' => $aorcode,
-                'cname' => $vcname,
+                'cname' => trim($vcname),
                 'cfname' => $vform[5],
                 'pa_line1' => $vform[6],
                 'pa_line2' => $vform[7],
@@ -199,10 +201,10 @@ class Record extends BaseController
                 'ppa_line2' => !empty($vform[11]) ? $vform[11] : '',
                 'ppa_district' => $vform[12],
                 'ppa_pin' => (isset($vform[13]) && !empty($vform[13])) ? $vform[13] : 0,
-                'dob' => date('Y-m-d', strtotime($vform[14])),
+                'dob' => $vform[14] != '' ? date('Y-m-d', strtotime($vform[14])) : NULL,
                 'place_birth' => $vform[15],
                 'nationality' => $vform[16],
-                'cmobile' => $vform[17],
+                'cmobile' =>$vform[17] !='' ? $vform[17] : '0',
                 'eq_x' => $vform[18],
                 'eq_xii' => $vform[19],
                 'eq_ug' => $vform[20],
@@ -216,10 +218,9 @@ class Record extends BaseController
                 'updated_by_ip' => getClientIP(),
                 // 'modified_ip' => getClientIP(),
             ];
-
+            
             $model = new Model_record();
             $model->updateAc($id, $data);
-
             echo "<script>alert('Record Successfully Updated')</script>";
         } catch (\Exception $e) {
             die("Error! Contact Administrator!!");
@@ -237,6 +238,7 @@ class Record extends BaseController
     public function getAorOptions()
     {
         $tvap = $this->request->getGet('tvap');
+     
         $Model = new Model_record();
         $options1 = $Model->getaoroption($tvap);
 
@@ -246,9 +248,10 @@ class Record extends BaseController
                 $optionsHtml .= '<option  value=' . $option['aor_code'] . '>' . htmlspecialchars($option['aor_code']) . ' - ' . htmlspecialchars($option['name']) . '</option>';
             }
             $optionsHtml .= '</select>';
-            return $optionsHtml;
+            return $this->response->setJSON(["success" => $optionsHtml]) ;
         } else {
-            return '';
+            $select = '<select id="vadvc"><option value="">No data found</option></select>';
+            return $this->response->setJSON(["error" => $select]);
         }
     }
 
@@ -425,19 +428,19 @@ class Record extends BaseController
     {
         $model = new Model_record();
         $data['model'] = $model;
-        $data['dept'] = $this->request->getGet('dept');
-        $data['secValue'] = $this->request->getGet('sec');
-        $data['desg'] = $this->request->getGet('desg');
-        $data['cur_user_type'] = $this->request->getGet('cur_user_type');
-        $data['allotmentCategory'] = $this->request->getGet('allotmentCategory');
-        $data['jud_sel'] = $this->request->getGet('jud_sel') != '' ? $this->request->getGet('jud_sel') : '';
-        $data['orderjud'] = $this->request->getGet('orderjud') != '' ? $this->request->getGet('orderjud') : '';
-        $data['view_sta'] = $this->request->getGet('view_sta') != '' ? $this->request->getGet('view_sta') : '';
-        $data['auth_name'] = $this->request->getGet('auth_name') != '' ? $this->request->getGet('auth_name') : '';
-        $data['authValue'] = $this->request->getGet('auth') != '' ? $this->request->getGet('auth') : '';
-        $data['auth_sel_name'] = $this->request->getGet('auth_sel_name') != '' ? $this->request->getGet('auth_sel_name') : '';
-
+        $data['dept'] = $this->request->getVar('dept');
+        $data['secValue'] = $this->request->getVar('sec');
+        $data['desg'] = $this->request->getVar('desg');
+        $data['cur_user_type'] = $this->request->getVar('cur_user_type');
+        $data['allotmentCategory'] = $this->request->getVar('allotmentCategory');
+        $data['jud_sel'] = $this->request->getVar('jud_sel') != '' ? $this->request->getVar('jud_sel') : '';
+        $data['orderjud'] = $this->request->getVar('orderjud') != '' ? $this->request->getVar('orderjud') : '';
+        $data['view_sta'] = $this->request->getVar('view_sta') != '' ? $this->request->getVar('view_sta') : '';
+        $data['auth_name'] = $this->request->getVar('auth_name') != '' ? $this->request->getVar('auth_name') : '';
+        $data['authValue'] = $this->request->getVar('auth') != '' ? $this->request->getVar('auth') : '';
+        $data['auth_sel_name'] = $this->request->getVar('auth_sel_name') != '' ? $this->request->getVar('auth_sel_name') : '';
         $data['usercode'] = session()->get('login')['usercode'];
+        
         return view('Record_room/file_movement/rr_view_user_information', $data);
     }
 
@@ -596,6 +599,7 @@ class Record extends BaseController
         $tvap = $this->request->getGet('tvap');
         $wordChunks = explode(";", $tvap);
         $vform = array_map(fn($chunk) => str_replace("undefined", "", $chunk), $wordChunks);
+       
         $sessionData = session()->get();
         $ucode = $sessionData['login']['usercode'];
 
@@ -635,12 +639,21 @@ class Record extends BaseController
             'regdate' => date('Y-m-d', strtotime($vform[22]))
         ];
         $acModel->getInsertData($data);        
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT id, status, regdate FROM ac WHERE aor_code = ? AND eino = ?", [$vform[0], $vform[21]]);
+        $result = $query->getRowArray();
+
+        if ($result) {
+            $event_code = $result['status'];
+        } else {
+            return $this->response->setJSON(['error' => 'No matching record found in the database.']);
+        }
 
         $db = \Config\Database::connect();
         $transactionModel = $db->table('transactions');
         $transactionModel->insert([
             'acid' => $db->insertID(),
-            'event_code' => $vform[22],
+            'event_code' => $event_code,
             'event_date' => $data['regdate'],
             'updated_by' => $ucode,
             'updated_on' => date("Y-m-d H:i:s"),

@@ -97,10 +97,10 @@
           cache: false,
           success: function(result) {
             $('#rslt').html("<img src='<?php echo base_url('images/load.gif'); ?>' width='50px' hight='50px' />");
-            alert(result);
+            // alert(result);
             tvap = result;
             flag = tvap.length;
-            if (flag == 28) {
+            if (flag == 28) {W
               $("#aorc").val("");
               $("#aorn").val("");
               $("#cnf").val("");
@@ -163,7 +163,7 @@
               <div class="card-header heading">
                 <div class="row">
                   <div class="col-sm-10">
-                    <h3 class="card-title">Registration >> Advocate Clerk >> Fresh Registration</h3>
+                    <h3 class="card-title">Record Room >>  Advocate Clerk >> Fresh Registration</h3>
                   </div>
                   <div class="col-sm-2">
                     <!-- <div class="custom_action_menu">
@@ -262,7 +262,7 @@
                           <div class="form-group row">
                             <label class="control-label col-sm-2" for="anumber">New Icard No. *</label>
                             <div class="col-sm-3">
-                              <input class="form-control " name="cein" type="number" id="cein" placeholder="ICard Number">
+                              <input class="form-control " name="cein" type="text" id="cein" placeholder="ICard Number">
                             </div>
                           <!-- </div>
 

@@ -1,8 +1,8 @@
 <?= view('header') ?>
 
 <style>
-  table.dataTable>thead .sorting_disabled,
-  table.dataTable>thead {
+  table.dataTable>thead>tr>th:not(.sorting_disabled), table.dataTable>thead>tr>td:not(.sorting_disabled)
+  {
     background-color: #0d48be !important;
     color: #fff !important;
   }

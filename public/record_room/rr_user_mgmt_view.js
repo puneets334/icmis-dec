@@ -168,7 +168,7 @@ $(document).on("click", "[id^='cl_manage_f']", function () {
     url: base_url + "/Record_room/Record/rr_user_mgmt_multiple?key=3",
     beforeSend: function (xhr) {
       $("#sar").html(
-        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
       );
     },
     data: { userid: num[1] },
@@ -192,15 +192,17 @@ $(document).on("click", "[id^='cl_manage_hall']", function () {
     url: base_url + "/Record_room/Record/rr_user_mgmt_multiple?key=19&hall_no=" + num[1],
     beforeSend: function (xhr) {
       $("#sar").html(
-        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>"
       );
     },
     data: { userid: num[1] },
   })
     .done(function (msg) {
+      updateCSRFToken();
       $("#sar").html(msg);
     })
     .fail(function () {
+      updateCSRFToken();
       $("#sar").html(
         "<div style='margin:0 auto;margin-top:20px;text-align:center'>ERROR, PLEASE CONTACT SERVER ROOM</div>"
       );
@@ -233,7 +235,7 @@ $(document).on("click", "input[name=user_hall_mapping1]", function () {
     "-" +
     $("#case_group option:selected").text() +
     "\
-<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./close-button.gif' onclick=removeCase_rkds('" +
+<img style='width:17px;height:17px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='" + base_url + "/images/close_btn.png' onclick=removeCase_rkds('" +
     rkds_id +
     "')></div>";
 
@@ -342,7 +344,7 @@ $(document).on("click", "input[name=add-da-for]", function () {
     "-" +
     $("#da_c_t option:selected").text() +
     "\
-<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./close-button.gif' onclick=removeCase_rkds('" +
+<img style='width:17px;height:17px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='" + base_url + "/images/close_btn.png' onclick=removeCase_rkds('" +
     rkds_id +
     "')></div>";
 
@@ -451,7 +453,7 @@ $(document).on("click", "input[name=add-hall-for]", function () {
     "-" +
     $("#da_c_t option:selected").text() +
     "\
-<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./close-button.gif' onclick=removeCase_rkhall('" +
+<img style='width:17px;height:17px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='" + base_url + "/images/close_btn.png' onclick=removeCase_rkhall('" +
     rkds_id +
     "')></div>";
 
@@ -480,10 +482,10 @@ $(document).on("click", "input[name=al-rkd-case]", function () {
       $("#dv_sh_hd").css("display", "none");
       $.ajax({
         type: "POST",
-        url: "./rr_view_user_information.php",
+        url: "./rr_view_user_information",
         beforeSend: function (xhr) {
           $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+            "<div style='margin:0 auto;margin-top:20px;width:15%;height:15%'><img src='" + base_url + "/images/load.gif'></div>"
           );
         },
         data: {
@@ -522,35 +524,50 @@ $(document).on("click", "input[name=mapp_user_hall]", function () {
       $("#sp_close").css("display", "inline");
       $("#dv_fixedFor_P").css("display", "none");
       $("#dv_sh_hd").css("display", "none");
-      $.ajax({
-        type: "POST",
-        url: "./rr_view_user_information.php",
-        beforeSend: function (xhr) {
-          $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
-          );
-        },
-        data: {
-          auth: $("#authority").val(),
-          auth_name: $("#auth_name").val(),
-          dept: $("#department").val(),
-          sec: $("#section").val(),
-          desg: $("#designation").val(),
-          cur_user_type: $("#cur_user_type").val(),
-        },
-      })
-        .done(function (msg) {
-          $("#result_main_um").html(msg);
-        })
-        .fail(function () {
-          alert("Error, Please Contact Server Room");
-        });
+
+      var auth = $("#authority").val();
+      var auth_name= $("#auth_name").val();
+      var dept = $("#department").val();
+      var sec = $("#section").val();
+      var desg = $("#designation").val();
+      var cur_user_type = $("#cur_user_type").val();
+      rr_view_user_information(auth, auth_name, dept, sec, desg, cur_user_type);
     })
     .fail(function () {
       $("#sp_close").css("display", "inline");
       $("#rkds_block").html("Error, Please Contact Server Room");
     });
 });
+
+async function rr_view_user_information(auth, auth_name, dept, sec, desg, cur_user_type) {
+  await updateCSRFTokenSync();
+  var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+  $.ajax({
+    type: "POST",
+    //url: "./rr_view_user_information",
+    url: baseURL + "/Record_room/Record/rr_view_user_information",
+    beforeSend: function (xhr) {
+      $("#result_main_um").html(
+        "<div style='margin:0 auto;margin-top:20px;width:35%;height:35%'><img src='" + base_url + "/images/load.gif'></div>"
+      );
+    },
+    data: {
+      auth: auth,
+      auth_name: auth_name,
+      dept: dept,
+      sec: sec,
+      desg: desg,
+      cur_user_type: cur_user_type,
+      CSRF_TOKEN: CSRF_TOKEN_VALUE
+    },
+  })
+    .done(function (msg) {
+      $("#result_main_um").html(msg);
+    })
+    .fail(function () {
+      alert("Error, Please Contact Server Room");
+    });
+}
 
 $(document).on("click", "input[name=al-hall-case]", function () {
   var hallNo = $("#currentHallNo").val();
@@ -562,18 +579,19 @@ $(document).on("click", "input[name=al-hall-case]", function () {
   })
     .done(function (msg) {
       //alert(msg);
+      updateCSRFToken();
       $("#rkds_block").html(msg);
       $("#sp_close").css("display", "inline");
       $("#dv_fixedFor_P").css("display", "none");
       $("#dv_sh_hd").css("display", "none");
       $.ajax({
-        type: "POST",
-        url: "./rr_view_user_information_hall.php",
-        beforeSend: function (xhr) {
-          $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
-          );
-        },
+        type: "GET",
+        url: base_url + "/Record_room/Record/rr_view_user_information_hall",
+        // beforeSend: function (xhr) {
+        //   $("#result_main_um").html(
+        //     "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+ base_url +"/images/load.gif'></div>"
+        //   );
+        // },
         data: {
           allotmentCategory: 1,
           hallNo: $("#authority").val(),
@@ -583,13 +601,16 @@ $(document).on("click", "input[name=al-hall-case]", function () {
         },
       })
         .done(function (msg) {
+          updateCSRFToken();
           $("#result_main_um").html(msg);
         })
         .fail(function () {
+          updateCSRFToken();
           alert("Error, Please Contact Server Room");
         });
     })
     .fail(function () {
+      updateCSRFToken();
       $("#sp_close").css("display", "inline");
       $("#rkds_block").html("Error, Please Contact Server Room");
     });
@@ -650,11 +671,11 @@ function authChangeName(val) {
     });
 }
 
-function deptChange(val) {}
+function deptChange(val) { }
 
-function judSetter(value) {}
+function judSetter(value) { }
 
-function secChange(val) {}
+function secChange(val) { }
 
 function showDetails() {
   var orderjud = "N";
@@ -666,7 +687,7 @@ function showDetails() {
     url: $("#hd_folder").val() + "/view_user_information.php",
     beforeSend: function (xhr) {
       $("#result_main_um").html(
-        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
       );
     },
     data: {
@@ -690,7 +711,7 @@ function showDetails() {
     });
 }
 
-function cl_manage_f(id) {}
+function cl_manage_f(id) { }
 
 $(document).on("click", "#sp_close", function () {
   $("#dv_fixedFor_P").css("display", "none");
@@ -738,9 +759,9 @@ function to_desig(val) {
           $("#cur_position_value").val("0");
           $("#cur_position").html(
             "<span style='color: red'>Allotted to-</span> " +
-              msg_bytes[1] +
-              ", from date- " +
-              msg_bytes[2]
+            msg_bytes[1] +
+            ", from date- " +
+            msg_bytes[2]
           );
           $("#btn_allot").css("display", "none");
         }
@@ -809,13 +830,13 @@ function allotFunction() {
         url: "./view_user_information.php",
         beforeSend: function (xhr) {
           $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
           );
         },
         data: {
           /*auth:$("#authority").val(),auth_name:$("#auth_name").val(),*/ dept: $(
-            "#department"
-          ).val(),
+          "#department"
+        ).val(),
           sec: $("#section").val(),
           desg: $("#designation").val(),
           cur_user_type: $("#cur_user_type").val(),
@@ -841,7 +862,7 @@ function press_add() {
     "'>" +
     $("#c_csty option:selected").text() +
     "\
-<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./close-button.gif' onclick=removeCase('" +
+<img style='width:17px;height:17px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='" + base_url + "/images/close_btn.png' onclick=removeCase('" +
     $("#c_csty").val() +
     "')></div>";
 
@@ -856,7 +877,7 @@ function press_add() {
   }
 }
 
-function press_add_rkds() {}
+function press_add_rkds() { }
 
 function press_add_rkdcmpda() {
   var maked_cont =
@@ -865,7 +886,7 @@ function press_add_rkdcmpda() {
     "'>" +
     $("#cmp_csty option:selected").text() +
     "\
-<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./usermgmt/close-button.gif' onclick=removeCase_rkdcmpda('" +
+<img style='width:17px;height:17px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./usermgmt/close-button.gif' onclick=removeCase_rkdcmpda('" +
     $("#cmp_csty").val() +
     "')></div>";
 
@@ -936,7 +957,7 @@ function allotCase() {
         url: $("#hd_folder").val() + "/view_user_information.php",
         beforeSend: function (xhr) {
           $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
           );
         },
         data: {
@@ -961,7 +982,7 @@ function allotCase() {
     });
 }
 
-function allotCase_rkds() {}
+function allotCase_rkds() { }
 
 function allotCase_rkdcmpda() {
   var rkdcmpda_code = $("#the_user").html();
@@ -987,7 +1008,7 @@ function allotCase_rkdcmpda() {
         url: $("#hd_folder").val() + "/view_user_information.php",
         beforeSend: function (xhr) {
           $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
           );
         },
         data: {
@@ -1022,7 +1043,7 @@ function getEmpINFO() {
     url: $("#hd_folder").val() + "/user_mgmt_multiple.php?key=8",
     beforeSend: function () {
       $("#waiting").html(
-        "<div style='margin:0 auto;margin-top:20px;width:15%;display: none' ><img src='../images/load.jpg'></div>"
+        "<div style='margin:0 auto;margin-top:20px;width:15%;display: none' ><img src='" + base_url + "/images/load.gif'></div>"
       );
     },
     data: { empid: $("#emp_id").val(), service: radio },
@@ -1064,7 +1085,7 @@ function allotUserToDesg() {
     url: $("#hd_folder").val() + "/user_mgmt_multiple.php?key=9",
     beforeSend: function () {
       $("#waiting").html(
-        "<div style='margin:0 auto;margin-top:20px;width:15%;display: none' ><img src='../images/load.jpg'></div>"
+        "<div style='margin:0 auto;margin-top:20px;width:15%;display: none' ><img src='" + base_url + "/images/load.gif'></div>"
       );
     },
     data: {
@@ -1087,7 +1108,7 @@ function allotUserToDesg() {
           url: $("#hd_folder").val() + "/view_user_information.php",
           beforeSend: function (xhr) {
             $("#result_main_um").html(
-              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
             );
           },
           data: {
@@ -1131,13 +1152,13 @@ function relieve_user() {
           url: "./view_user_information.php",
           beforeSend: function (xhr) {
             $("#result_main_um").html(
-              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
             );
           },
           data: {
             /*auth:$("#authority").val(),auth_name:$("#auth_name").val(),*/ dept: $(
-              "#department"
-            ).val(),
+            "#department"
+          ).val(),
             sec: $("#section").val(),
             desg: $("#designation").val(),
             cur_user_type: $("#cur_user_type").val(),
@@ -1181,7 +1202,7 @@ function save_judge_info() {
           url: $("#hd_folder").val() + "/view_user_information.php",
           beforeSend: function (xhr) {
             $("#result_main_um").html(
-              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
             );
           },
           data: {
