@@ -9,7 +9,7 @@
 <body>
     <div id="prnnt" style="font-size:12px;">
         <div align="center" style="font-size:12px;">
-            <b><img src="../images/scilogo.png" width="50px" height="80px"/><br/>
+            <b><img src="<?php echo base_url('images/scilogo.png'); ?>" width="50px" height="80px"/><br/>
             SUPREME COURT OF INDIA<br/></b>
         </div>
         <table border="0" width="100%" style="font-size:12px; text-align: left; background: #ffffff;" cellspacing="0">

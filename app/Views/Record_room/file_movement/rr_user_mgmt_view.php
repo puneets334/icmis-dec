@@ -5,30 +5,28 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                <div class="card-header heading">
+                    <div class="card-header heading">
 
-<div class="row">
-    <div class="col-sm-10">
-        <h3 class="card-title">File movement >> Case allotment >> Record room User/Hall case</h3>
-    </div>
-</div>
-</div>
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h3 class="card-title">File movement >> Case allotment >> Record room User/Hall case</h3>
+                            </div>
+                        </div>
+                    </div>
                     <form method="post" action="">
                         <?= csrf_field(); ?>
                         <div id="dv_content1" class="row mt-4 col-sm-12">
-                            
+
 
                             <div class="col-sm-12 form-group">
                                 <label>Select Allotment Category : </label>
                                 <div>
                                     <div class="col-sm-6 form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="allottment_type"
-                                            id="hallwise" value="1" checked />
+                                        <input class="form-check-input" type="radio" name="allottment_type" id="hallwise" value="1" checked />
                                         <label class="form-check-label" for="hallwise">Hallwise</label>
                                     </div>
                                     <div class="col-sm-6 form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="allottment_type"
-                                            id="userwise" value="2" />
+                                        <input class="form-check-input" type="radio" name="allottment_type" id="userwise" value="2" />
                                         <label class="form-check-label" for="userwise">Userwise</label>
                                     </div>
                                 </div>

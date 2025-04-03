@@ -51,9 +51,9 @@
             aorn = aorn.replace(/[_\W]+/g, " ")
             var acn = $("#acn").val();
             var res = acn.split(" ");
-            var cnf = res[0];
-            var cnm = res[1];
-            var cnl = res[2];
+            var cnf = acn;
+            var cnm = '';
+            var cnl = '';
             var cfn = $("#cfn").val();
             var cpal1 = $("#cpal1").val();
             var cpal2 = $("#cpal2").val();
@@ -77,7 +77,11 @@
 
             var tvap = '';
             tvap = aorc + ";" + aorn + ";" + cnf + ";" + cnm + ";" + cnl + ";" + cfn + ";" + cpal1 + ";" + cpal2 + ";" + cpad + ";" + cpapin + ";" + cppal1 + ";" + cppal2 + ";" + cppad + ";" + cppapin + ";" + cdob + ";" + cpob + ";" + cn + ";" + cmobile + ";" + cx + ";" + cxii + ";" + cug + ";" + cpg + ";" + cein + ";" + crd + ";" + cid;
-
+            
+            if (cnf.trim() == '' || cfn.trim() == '' || cein.trim() == '' || aorc.trim() == '') {
+                alert("Please Enter Mandatory Values");
+                return false;
+            }
             if ((!aorc && !cnf && !cpal1 && !cpapin && !cppal1 && !cppapin && !cdob && !cpob) && !crd) {
                 alert("Please Enter Mandatory Values");
                 return false;
@@ -160,9 +164,7 @@
                                                         <label class="control-label col-sm-2" for="anumber">Name *</label>
                                                         <div class="col-sm-10">
                                                             <input class="form-control" name="acn"
-                                                                value="<?php echo !empty($val['cname']) ? $val['cname'] : ''; ?>"
-                                                                type="text" id="acn"
-                                                                placeholder="Name">
+                                                                value="<?php echo !empty($val['cname']) ? $val['cname'] : ''; ?>" type="text" id="acn" placeholder="Name">
                                                         </div>
                                                     </div>
 
@@ -234,7 +236,7 @@
 
                                                     <div class="form-group row">
                                                         <div class="col-sm-offset-2 col-sm-10">
-                                                            <button type="submit" class="btn btn-info" name="modify" id="modify" onclick="">
+                                                            <button type="button" class="btn btn-info" name="modify" id="modify" onclick="">
                                                                 <i class="fas fa-plus"></i> modify
 
                                                             </button>

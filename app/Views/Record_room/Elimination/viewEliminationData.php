@@ -165,7 +165,7 @@
                 format: 'dd-mm-yyyy',
                 autoclose: true
             });
-        });
+        });        
     </script>
 
 <?php else: ?>

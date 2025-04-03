@@ -81,7 +81,7 @@ if ($keyValue == 1) {
                 Name - <?php echo $currentUser['name']; ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Last Login - <?php echo date('d-m-Y', strtotime($currentUser['log_in'])); ?>
+                Last Login - <?= ($currentUser['log_in'] != '' || !empty($currentUser['log_in'])) ? date('d-m-Y', strtotime($currentUser['log_in'])) : ''; ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
                 Active From - <?php echo revertDate_hiphen(date('Y-m-d', strtotime($currentUser['entdt']))); ?>
@@ -209,7 +209,7 @@ if ($keyValue == 1) {
 
                             $one_rkd_case = $row_chk['ref_hall_no'] . '_' . $row_chk['for_caseGroup'];
                     ?>
-                            <div class="cl_chk_case" id="r_r_<?php echo $one_rkd_case;  ?>">Hall No-<?php echo $row_chk['ref_hall_no'] . '(' . $row_chk['Description'] . ')-' . $forCaseGroup; ?>
+                            <div class="cl_chk_case" id="r_r_<?php echo $one_rkd_case;  ?>">Hall No-<?php echo $row_chk['ref_hall_no'] . '(' . $row_chk['description'] . ')-' . $forCaseGroup; ?>
 
                                 <img style='width:17px;height:17px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='<?= base_url('images/close_btn.png');?>'
                                     onclick="removeCase_rkds('<?php echo $one_rkd_case;  ?>')">
@@ -796,11 +796,11 @@ if ($keyValue == 1) {
         }
 
         // User Hall Mapping Logic
-        $mapping = $model->findMapping($da_code, $hallNo);
-
+        $mapping = $model->findMapping($da_code, $hallNo,'C');
         if (!$mapping) {
             // Check if there's a record with display 'Y'
-            $existingMapping = $model->findMapping($da_code, $hallNo);
+            $existingMapping = $model->findMapping($da_code, $hallNo,'Y');
+
             if (!$existingMapping) {
                 $data = [
                     'usercode' => $da_code,
@@ -818,10 +818,11 @@ if ($keyValue == 1) {
         }
         
         // DA Case Distribution Logic
-        $case = $model->findCaseDistribution($da_code, $caseGroup,$value_up);
-        // echo "<pre>"; print_r($case);die;
+        $case = $model->findCaseDistribution_new($da_code, $caseGroup,'C');      
+        
         if (!$case) {
-            $existingCase = $model->findCaseDistribution($da_code, $caseGroup,$value_up);
+            
+            $existingCase = $model->findCaseDistribution_new($da_code, $caseGroup,'Y');
             if (!$existingCase) {
                 $data = [
                     'user_code' => $da_code,
@@ -840,7 +841,8 @@ if ($keyValue == 1) {
                 $model->insertCaseDistribution($data);
             }
         } else {
-            $model->updateCaseToYDistribution($da_code, $caseGroup);
+            $model->updateCaseToYDistribution_new($da_code, $caseGroup);
+            
         }
     }
 

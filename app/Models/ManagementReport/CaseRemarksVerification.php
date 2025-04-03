@@ -61,7 +61,8 @@ class CaseRemarksVerification extends Model
                 and u.usertype in (17,51,50) $mdacode
                 group by  c.diary_no ,tt.status,tt.approved_by,tt.rejection_remark,tt.approved_on,h.next_dt, c.cl_date, m.diary_no,c.jcodes,c.clno order by m.diary_no_rec_date";
         $query = $this->db->query($sql);
-        return $query->getResultArray();
+        $result = $query->getResultArray();
+        return $result;
     }
 
     public function get_case_remarks($dn, $cldate, $jcodes, $clno)
@@ -178,7 +179,9 @@ class CaseRemarksVerification extends Model
                 o.diary_no = " . $diary_no . " and o.orderdate = '" . date('Y-m-d', strtotime($listing_on)) . "') tbl1 WHERE jo='ROP'
                 ORDER BY tbl1.dated DESC";
         $rs_his = $this->db->query($sql);
-        return $rs_his->getNumRows();
+        $rs_his->getNumRows();
+        $result = $rs_his->getResultArray();
+        return $result;
     }
 
     public function response_case_remarks_verification_store($ucode, $dno, $cl_date, $rremark, $rejection_remark)

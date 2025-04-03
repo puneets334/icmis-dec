@@ -45,6 +45,8 @@ class Advt_on_record extends BaseController
         $dd = $model->GetAorCode($aor);
         $bar_id = $dd[0]['bid'];
         $getAdvtDetails = $modelA->getAdvtDetails($bar_id);
+        // print_r($getAdvtDetails);
+        // die;
         return view('Record_room/advt_on_record/getRecord', ['getAdvtDetails' => $getAdvtDetails]);
     }
 
