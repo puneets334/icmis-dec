@@ -208,7 +208,7 @@ if ($keyValue == 1) {
                     ?>
                             <div class="cl_chk_case" id="r_r_<?php echo $one_rkd_case;  ?>">Hall No-<?php echo $row_chk['ref_hall_no'] . '(' . $row_chk['Description'] . ')-' . $forCaseGroup; ?>
 
-                                <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./close-button.gif'
+                                <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='<?= base_url();?>/images/close_btn.png'
                                     onclick="removeCase_rkds('<?php echo $one_rkd_case;  ?>')">
                             </div>
                     <?php
@@ -918,7 +918,7 @@ if ($keyValue == 1) {
                                 echo $row_chk['short_description'] . '-' . $row_chk['case_from'] . '-' . $row_chk['caseyear_from'] . '-' . $row_chk['case_to'] . '-' . $row_chk['caseyear_to'] . $caseStage;
                             }
                             echo '-' . $type_de_case; ?>
-                            <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./close-button.gif'
+                            <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='<?= base_url();?>/images/close_btn.png'
                                 onclick="removeCase_rkhall('<?php echo $one_rkd_case; /*if($row_chk['bailno']>'0') echo '-'.$row_chk['bailno'];*/ ?>')">
                         </div>
                 <?php

@@ -34,16 +34,23 @@
                     tvap: cein
                 },
                 cache: false,
-                success: function(result) {
-                    if (result) {
-                        var rres = result.split("#");
+                success: function(result)
+                {
+                    console.log("Raw result:", result);
+
+                    if (result.success) {
+                        var rres = result.success.split("#");
                         $('#sbtn').hide();
                         $('#sbtn1').show();
+                        $('#sbtn1').prop('disabled', false); // Enable sbtn1 if result is not empty
                         $('#data').hide();
                         $('#afc').html(rres[0]);
                         $('#vadvc').focus();
                         $('#rslt').html("");
                     } else {
+                        var rres = result.error.split("#");
+                        $('#afc').html(rres[0]);
+                        $('#sbtn1').prop('disabled', false); // Disable sbtn1 if result is empty
                         $('#rslt').html("<h4>Record Not found</h4>");
                     }
                 },

@@ -131,7 +131,7 @@ FROM (
      
     CASE 
       WHEN d.ord_dt != d.disp_dt THEN 
-        'Order Date : ' || TO_CHAR(d.ord_dt, 'DD-MM-YYYY') || E'\n' || 
+        'Order Date : ' || TO_CHAR(d.ord_dt, 'DD-MM-YYYY') || E'' || 
         'Dispose Date : ' || TO_CHAR(d.disp_dt, 'DD-MM-YYYY') 
       ELSE 
         TO_CHAR(d.disp_dt, 'DD-MM-YYYY') 

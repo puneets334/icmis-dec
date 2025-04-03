@@ -89,17 +89,11 @@
             <td>
                 <?php echo $sno;  ?>
             </td>
+        
+
             <td>
-                <?php
-                if (!empty($get_usr_nm)) {
-                    foreach ($get_usr_nm as $name) {
-                        echo $name;
-                    }
-                } else {
-                    echo "No user names found.";
-                }
-                ?>
-            </td>
+            <?php echo $model->getUserName($row['d_to_empid']);?>
+        </td>
             <td>
                 <?php
                 if ($ddl_users == '101' ||  $ddl_users == '109') {

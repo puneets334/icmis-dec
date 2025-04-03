@@ -44,7 +44,7 @@
 								<div class="card-body">
 									<div class="tab-content">
 										<div class="active tab-pane">
-											<form name="advanceQuery" id="advanceQuery" action="<?= base_url('DynamicReport/DynamicReport/getResult'); ?>" method="POST" onsubmit="return submitForm();">
+											<form name="advanceQuery" id="advanceQuery" action="<?= base_url('DynamicReport/DynamicReport/getResult'); ?>" target="_blank" method="POST" onsubmit="return submitForm();">
 												<input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf_token" />
 												<table cellpadding="3" cellspacing="0" class="gridtable">
 													<!-- <tr></tr>
@@ -317,13 +317,13 @@
 	function reset() {
 		document.getElementById('advanceQuery').reset();
 	}
-	// function printDiv(printable) {
-	//   var printContents = document.getElementById(printable).innerHTML;
-	//   var originalContents = document.body.innerHTML;
-	//   document.body.innerHTML = printContents;
-	//   window.print();
-	//   document.body.innerHTML = originalContents;
-	// }
+	function printDiv(printable) {
+		var printContents = document.getElementById(printable).innerHTML;
+		var originalContents = document.body.innerHTML;
+		document.body.innerHTML = printContents;
+		window.print();
+		document.body.innerHTML = originalContents;
+	}
 	function submitForm() {
 		if (advanceQuery.rbtCaseStatus[0].checked == true) {
 			var fromdate = document.forms["advanceQuery"]["filingDateFrom"].value;
@@ -414,6 +414,7 @@
 			cache: false,
 			dataType: "json",
 			success: function(response) {
+				updateCSRFToken();
 				var data = response.data; // Extract the 'data' part of the response
 				var options = '<option value="0">All</option>'; // Default option
 				// Loop through each item in the data array
@@ -422,13 +423,14 @@
 				}
 				// Append the options to the select element
 				$("#subCategoryCode").html(options);
-				$("input[name='" + response.csrfTokenName + "']").val(response.csrfHash);
 			},
 			error: function() {
+				updateCSRFToken();
 				alert('Error occurred while fetching data.');
 			}
 		});
 	}
+
 	function get_da() {
 		var section = $("#section option:selected").val();
 		let csrfName = $("#csrf_token").attr('name');
@@ -444,19 +446,21 @@
 			cache: false,
 			dataType: "json",
 			success: function(response) {
+				updateCSRFToken();
 				var data = response.data;
 				var options = '<option value="0">All</option>';
 				for (var i = 0; i < data.length; i++) {
 					options += '<option value="' + data[i].usercode + '^' + data[i].name + '">' + data[i].name + '</option>';
 				}
 				$("#dealingAssistant").html(options);
-				$("input[name='" + response.csrfTokenName + "']").val(response.csrfHash);
 			},
 			error: function() {
+				updateCSRFToken();
 				alert('ERRO');
 			}
 		});
 	}
+
 	function get_agency() {
 		var state = $("#agencyState option:selected").val();
 		let csrfName = $("#csrf_token").attr('name');
@@ -474,8 +478,7 @@
 			cache: false,
 			dataType: "json",
 			success: function(data) {
-				console.log(data);
-				console.log(data.length);
+				updateCSRFToken();
 				var options = '';
 				options = '<option value="0">All</option>'
 				for (var i = 0; i < data.length; i++) {
@@ -484,35 +487,12 @@
 				$("#agencyCode").html(options);
 			},
 			error: function() {
+				updateCSRFToken();
 				alert('ERRO');
 			}
 		});
 	}
-	// function get_casetype() {
-	// 	var type = $("input[name='rbtCaseType']:checked").val();
-	// 	$.ajax({
-	// 		url: '<?= base_url(); ?>index.php/Dynamic_report/get_casetype',
-	// 		type: "POST",
-	// 		data: {
-	// 			type: type
-	// 		},
-	// 		cache: false,
-	// 		dataType: "json",
-	// 		success: function(data) {
-	// 			console.log(data);
-	// 			console.log(data.length);
-	// 			var options = '';
-	// 			options = '<option value="0">All</option>'
-	// 			for (var i = 0; i < data.length; i++) {
-	// 				options += '<option value="' + data[i].casecode + '^' + data[i].casename + '">' + data[i].casename + '</option>';
-	// 			}
-	// 			$("#caseType").html(options);
-	// 		},
-	// 		error: function() {
-	// 			alert('ERRO');
-	// 		}
-	// 	});
-	// }
+	
 	function get_casetype() {
 		var type=$("input[name='rbtCaseType']:checked").val();
 		let csrfName = $("#csrf_token").attr('name');
@@ -530,8 +510,6 @@
 			success: function(data)
 			{
 				updateCSRFToken();
-				console.log(data);
-				console.log(data.length);
 				var options = '';
 				options = '<option value="0">All</option>'
 				for (var i = 0; i < data.length; i++) {

@@ -125,29 +125,26 @@
             <div style="text-align: center">
                 <H3>CASES VERIFIED DETAIL REPORT</H3>
                 <?php
-
-
-
                 $list_dt = $list_dt;
-
                 $usertype = session()->get('login')['usertype'];
                 $ucode = session()->get('login')['usercode'];
                 $ro_u2 = $model->getUser($ucode);
                 $sec_id = '';
-
                 $username_uby = $ro_u2['name'];
                 $checkDaCode = "";
-               
-               
-                if ($ucode == 1) {
+                if ($ucode == 1)
+                {
                     $checkDaCode = "";
-                } else if ($usertype == '14' and $ucode != 3564 and $ucode != 722 and $ucode != 1182 and $ucode != 184) {
+                }
+                else if ($usertype == '14' and $ucode != 3564 and $ucode != 722 and $ucode != 1182 and $ucode != 184)
+                {
 
                     $ro_u = $model->getAllDa($ucode);
                     $all_da = $ro_u['allda'];
                     $checkDaCode = "AND (m.dacode=$ucode OR m.dacode IN($all_da))";
                     $mdacode = "";
-                } else if (($usertype == '17' or $usertype == '50' or $usertype == '51') and ($ucode != 3564 and $ucode != 722 and $ucode != 1182 and $ucode != 184)) {
+                }
+                else if (($usertype == '17' or $usertype == '50' or $usertype == '51') and ($ucode != 3564 and $ucode != 722 and $ucode != 1182 and $ucode != 184)) {
 
                     $checkDaCode = "AND m.dacode=$ucode";
                 } else {
@@ -156,6 +153,7 @@
 
 
                 $res = $model->getMainQuery($sec_id, $list_dt, $checkDaCode);
+                
 
                 if (!empty($res)) {
                     echo "Verified Matters of " . $username_uby . " Listed on " . date('d-m-Y', strtotime($list_dt));
@@ -185,6 +183,7 @@
                             $verify_time = "<br><span style='color:red'>Verify Time : " . date('h:i:s', strtotime($row['verified_on'])) . "</span>";
                             $coram = $row['coram'];
                             $purpose = $row['purpose'];
+                            //$lastorder = $row['lastorder'];
                             $lastorder = $row['lastorder'];
                             $stagename = $row['stagename'];
                             $diary_no_rec_date = "Diary Dt " . date('d-m-Y', strtotime($row['diary_no_rec_date']));
@@ -198,9 +197,7 @@
                             $mainhead = "";
 
                             $res_sm = $model->categoryScOld($dno);
-                            
-
-                            if (!empty($res_sm)) {
+                          if (!empty($res_sm)) {
                                 foreach ($res_sm as $cate_old_id) {
                                     $cate_old_id1 .= $cate_old_id['category_sc_old'] . ",";
                                 }
@@ -260,10 +257,12 @@
                             //}
                             $padvname = "";
                             $radvname = "";
+                           
 
 
 
                             $resultsadv = $model->getAdv($dno);
+                           
                            
                             if (!empty($resultsadv)) {
                                 $rowadv = $resultsadv;
@@ -300,7 +299,7 @@
 
 
                                 $section_ten_rs = $model->getSectionName($casetype_displ, $ten_reg_yr, $ref_agency_state_id);
-                                pr($section_ten_rs);
+                              
                                 if (!empty($section_ten_rs)) {
                                     $section_ten_row = $section_ten_rs;
                                     $row['section_name'] = $section_ten_row["section_name"];

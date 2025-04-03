@@ -61,10 +61,10 @@
                             orientation: 'landscape',
                             pageSize: 'LEGAL'
                         },
-                        {
-                            extend: 'colvis',
-                            text: 'Show/Hide'
-                        }
+                        // {
+                        //     extend: 'colvis',
+                        //     text: 'Show/Hide'
+                        // }
                     ],
                     "bProcessing": true,
                     "extend": 'colvis',

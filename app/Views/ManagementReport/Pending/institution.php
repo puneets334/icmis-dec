@@ -111,9 +111,9 @@
                             </div>
                          
 
-                            <div class="row">
+                            <div class="row col-md-2">
                                     <label for="button" class="text-right">&nbsp;</label>
-                                    <button type="button" style="text-align:center; width:98%; margin-left:1%; margin-right:1%;" id="view" name="view" onclick="check(); " class="btn btn-block btn-primary">View</button>
+                                    <button type="button" style="text-align:center;" id="view" name="view" onclick="check(); " class="btn btn-block btn-primary">SHOW REPORT</button>
                             </div>
                         </form>
                         <div></div>
@@ -153,11 +153,13 @@
             type: "POST",
             data: $("#dispatchQuery").serialize(),  
             dataType: 'html', 
+            beforeSend: function()
+            {
+                $('#printable').html('<table width="100%" style="margin: 0 auto;"><tr><td style="text-align: center;"><img src="../../images/load.gif"/></td></tr></table>');
+            },
             url: "<?php echo base_url('/ManagementReports/Pending/institution_report_post'); ?>",
-            success: function(data) {
-                alert("Success!");
-                // $('.card-title').hide();
-                // $('.page-header').hide();
+            success: function(data)
+            {
                 $("#printable").html(data);  
                 $("#dispatchDakFromRI").hide(); 
                 updateCSRFToken();  

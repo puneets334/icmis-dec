@@ -824,13 +824,13 @@ class ReceiptController extends BaseController
                 continue;
             }
             $officerDetail = $this->RIModel->getOfficerDetailByEmpId($empId);
-            $usercode = $officerDetail[0]['usercode'];
+            $usercode = $officerDetail['usercode'] ?? '';
             if ($currentusercode == $usercode) {
                 continue;
             }
-            $empid = $officerDetail[0]['empid'];
-            $name = $officerDetail[0]['name'];
-            $type_name = $officerDetail[0]['type_name'];
+            $empid = $officerDetail['empid'] ?? '';
+            $name = $officerDetail['name'] ?? '';
+            $type_name = $officerDetail['type_name'] ?? '';
             $officersListBySection[$i] = array('usercode' => $usercode, 'empid' => $empid, 'name' => $name, 'empTypeName' => $type_name);
             $i++;
         }

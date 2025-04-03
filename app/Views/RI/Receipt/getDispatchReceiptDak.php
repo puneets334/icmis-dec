@@ -85,6 +85,7 @@ if (!empty($receiptData)) {
     $(function() {
         $("#tblDispatchDak").DataTable({
             "responsive": true,
+            "dom": 'Bfrtip',
             "lengthChange": false,
             "autoWidth": false,
             "buttons": [
@@ -92,11 +93,30 @@ if (!empty($receiptData)) {
                     extend: 'csv',
                     title: 'Dispatch to Officer/Section'
                 },
-                
+                {
+                    extend: 'excel',
+                    title: 'Dispatch to Officer/Section'
+                },
+                {
+                    extend: 'print',
+                    title: 'Dispatch to Officer/Section'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    autoPrint: true,
+                    title: 'Dispatch to Officer/Section'
+                },
+                {
+                    extend: 'colvis',
+                    text: 'Show/Hide'
+                }
             ],
             "bProcessing": true,
             "extend": 'colvis',
             "text": 'Show/Hide'
         }).buttons().container().appendTo('.query_builder_wrapper .col-md-6:eq(0)');
     });
+   
 </script>

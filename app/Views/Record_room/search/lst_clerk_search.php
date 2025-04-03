@@ -1,5 +1,11 @@
 <?= view('header') ?>
-
+<style>
+table.dataTable>thead .sorting,
+table.dataTable>thead {
+    background-color: #0d48be !important;
+    color: #fff !important;
+}
+</style>
 <script type="text/javascript">
     $(document).ready(function() {
         $('#aorc').focus();
@@ -83,7 +89,7 @@
 
                                 <div class="row">
                                 <div class="col-sm-10">
-                                <h3 class="card-title">Search &gt;&gt;&nbsp; View Clerk with AOR</h3>
+                                <h3 class="card-title">Record Room >> Search >> View Clerk with AOR</h3>
                                 </div>
 
                                 </div>
@@ -107,16 +113,17 @@
                         <div class="col-sm-6">
                             <input class="form-control" name="aorn" type="text" id="aorn" placeholder="Name">
                         </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-info" name="case_trap_search" id="case_trap_search" onclick="">
+                        <div class="col-sm-3">
+                        <button type="submit" class="btn btn-primary" name="case_trap_search" id="case_trap_search" onclick="">
                             <span class="fa fa-plus"></span> Search
                         </button>
                     </div>
+                    </div>
                 </div>
+
+                <!-- <div class="form-group">
+                    
+                </div> -->
                 <?= form_close() ?>
                 <div id="result_data"></div>
             </div>
@@ -155,10 +162,10 @@
                     orientation: 'landscape',
                     pageSize: 'LEGAL'
                 },
-                {
-                    extend: 'colvis',
-                    text: 'Show/Hide'
-                }
+                // {
+                //     extend: 'colvis',
+                //     text: 'Show/Hide'
+                // }
             ],
             "bProcessing": true,
             "extend": 'colvis',

@@ -83,9 +83,10 @@
                 </div>
             </div>
         </form>
-        <div class="row"> <div class="col-md-12">
-    <div id="divRipeCases">
-    </div></div></div>
+        <div class="row">
+             <div class="col-md-12">
+    <div id="divRipeCases"></div>
+</div></div>
 </div>
 
 <br/>
@@ -179,9 +180,9 @@
                     updateCSRFToken();
                 })
                 .fail(function () {
+                    updateCSRFToken();
                     alert("ERROR, Please Contact Server Room");
                     $("#divRipeCases").html();
-                    updateCSRFToken();
                 });
 
         }
