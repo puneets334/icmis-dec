@@ -495,6 +495,7 @@ class CaseRemarksVerification extends Model
                     AND usercode='" . $usercode . "'
                     GROUP BY 
                     users.name, users.empid, ut.id,us.id;";
+    
 
         $query2 = $this->db->query($sql_da);
         $result = $query2->getResultArray();
@@ -512,76 +513,96 @@ class CaseRemarksVerification extends Model
         } else if ($ut_id != 14 && $ut_id != 4 && $ut_id != 6 && $ut_id != 9 && $ut_id != 12 && $ut_id != 1) {
             $cond = " where u.usercode=" . $usercode;
         }
-        $sql = "SELECT 
-                ListType,
-                TO_CHAR(a.next_dt, 'DD-MM-YYYY') AS cl_date,
-                CASE 
-                    WHEN board_type = 'J' THEN 'COURT' 
-                    WHEN board_type = 'C' THEN 'CHAMBER' 
-                    WHEN board_type = 'R' THEN 'REGISTRAR' 
-                END AS board_type,
-                courtno,
-                clno,
-                a.brd_slno,
-                CONCAT(m.reg_no_display, '@ D.No.', SUBSTRING(m.diary_no::TEXT, 1, LENGTH(m.diary_no::TEXT) - 4), '/', SUBSTRING(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 3, 4)) AS CaseNo,
-                m.pet_name,
-                m.res_name,
-                CONCAT(u.name, '@', u.empid, ' SEC ', us.section_name) AS uid
-            FROM (
-                SELECT 
-                    'Final List' AS ListType, 
-                    h.diary_no, 
-                    h.next_dt, 
-                    h.board_type,
-                    Rt.courtno,
-                    h.clno,
-                    h.brd_slno 
-                FROM 
-                    main m
-                    INNER JOIN heardt h ON h.diary_no = m.diary_no 
-                    LEFT JOIN master.roster Rt ON Rt.id = h.roster_id
-                    LEFT JOIN cl_printed cl ON cl.next_dt = h.next_dt 
-                        AND cl.m_f = h.mainhead 
-                        AND cl.part = h.clno 
-                        AND cl.main_supp = h.main_supp_flag 
-                        AND cl.roster_id = h.roster_id 
-                        AND cl.display = 'Y'
-                WHERE 
-                    cl.next_dt IS NOT NULL 
-                    AND h.next_dt >= CURRENT_DATE 
-                    AND m.c_status = 'P' 
-                    AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
-
-                UNION
-
-                SELECT 
-                    'Advance List' AS ListType, 
-                    h.diary_no, 
-                    h.next_dt, 
-                    h.board_type,
-                    '0' AS courtno,
-                    h.clno,
-                    h.brd_slno 
-                        FROM 
+        $sql ="SELECT
+                    ListType,
+                    TO_CHAR(a.next_dt, 'DD-MM-YYYY') AS cl_date,
+                    CASE
+                        WHEN board_type = 'J' THEN 'COURT'
+                        WHEN board_type = 'C' THEN 'CHAMBER'
+                        WHEN board_type = 'R' THEN 'REGISTRAR'
+                    END AS board_type,
+                    courtno,
+                    clno,
+                    a.brd_slno,
+                    CONCAT(
+                        m.reg_no_display,
+                        '@ D.No.',
+                        SUBSTRING(m.diary_no::TEXT, 1, LENGTH(m.diary_no::TEXT) - 4),
+                        '/',
+                        SUBSTRING(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 3, 4)
+                    ) AS CaseNo,
+                    m.pet_name,
+                    m.res_name,
+                    CONCAT(u.name, '@', u.empid, ' SEC ', us.section_name) AS uid
+                FROM
+                    (
+                        SELECT
+                            'Final List' AS ListType,
+                            h.diary_no::TEXT,
+                            h.next_dt,
+                            h.board_type,
+                            Rt.courtno,
+                            h.clno,
+                            h.brd_slno
+                        FROM
                             main m
-                            LEFT JOIN advance_allocated h ON m.diary_no = h.diary_no 
-                                AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
-                        WHERE 
-                            h.next_dt >= CURRENT_DATE 
-                            AND m.c_status = 'P' 
+                        INNER JOIN
+                            heardt h ON m.diary_no::TEXT = h.diary_no::TEXT
+                        LEFT JOIN
+                            master.roster Rt ON Rt.id = h.roster_id
+                        LEFT JOIN
+                            cl_printed cl ON cl.next_dt = h.next_dt
+                            AND cl.m_f = h.mainhead
+                            AND cl.part = h.clno
+                            AND cl.main_supp = h.main_supp_flag
+                            AND cl.roster_id = h.roster_id
+                            AND cl.display = 'Y'
+                        WHERE
+                            cl.next_dt IS NOT NULL
+                            AND h.next_dt >= CURRENT_DATE
+                            AND m.c_status = 'P'
+                            AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
+
+                        UNION
+
+                        SELECT
+                            'Advance List' AS ListType,
+                            h.diary_no::TEXT,
+                            h.next_dt,
+                            h.board_type,
+                            '0' AS courtno,
+                            h.clno,
+                            h.brd_slno
+                        FROM
+                            main m
+                        LEFT JOIN
+                            advance_allocated h ON m.diary_no::TEXT = h.diary_no::TEXT
+                            AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
+                        WHERE
+                            h.next_dt >= CURRENT_DATE
+                            AND m.c_status = 'P'
                             AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
                     ) a
-                    INNER JOIN main m ON m.diary_no = a.diary_no
-                    LEFT JOIN master.users u ON u.usercode = m.dacode 
-                        AND (u.display = 'Y' OR u.display IS NULL)      
-                    LEFT JOIN master.usersection us ON us.id = u.section 
-                        AND us.display = 'Y'
-                        $cond
-                    ORDER BY 
-                        CASE WHEN ListType = 'Advance List' THEN 1 ELSE 2 END ASC, 
-                        CASE WHEN board_type = 'J' THEN 1 WHEN board_type = 'C' THEN 2 ELSE 3 END, 
-                        cl_date DESC;
-                    ";
+                INNER JOIN
+                    main m ON m.diary_no::TEXT = a.diary_no::TEXT 
+                LEFT JOIN
+                    master.users u ON u.usercode = m.dacode
+                    AND (u.display = 'Y' OR u.display IS NULL)
+                LEFT JOIN
+                    master.usersection us ON us.id = u.section
+                    AND us.display = 'Y'
+                ORDER BY
+                    CASE
+                        WHEN ListType = 'Advance List' THEN 1
+                        ELSE 2
+                    END ASC,
+                    CASE
+                        WHEN board_type = 'J' THEN 1
+                        WHEN board_type = 'C' THEN 2
+                        ELSE 3
+                    END,
+                    cl_date DESC";
+                    
         $query = $this->db->query($sql);
         // $result =  $query->getResultArray();
         if ($query->getNumRows() >= 1) {
