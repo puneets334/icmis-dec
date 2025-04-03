@@ -119,7 +119,7 @@
                                     "ordering": true,
                                     "info": true,
                                     "autoWidth": true,
-                                    "scrollY": "50vh",
+                                    // "scrollY": "50vh",
                                     "scrollX": true,
                                     "scrollCollapse": true,
                                     "footerCallback": "",
@@ -135,7 +135,26 @@
                                     },
                                     {
                                         extend: 'pdf',
-                                        title: ''
+                                        title: '',
+                                        exportOptions: {
+                                            columns: ':visible',
+                                        },
+                                        orientation: 'landscape',
+                                        pageSize: 'A4',
+                                        customize: function (doc) {
+                                            doc.pageMargins = [10, 10, 10, 10];
+                                            doc.content.unshift({
+                                                text: 'Supreme Court Of India',
+                                                style: 'header'
+                                            });
+                                            doc.styles = {
+                                                header: {
+                                                    fontSize: 18,
+                                                    bold: true,
+                                                    margin: [0, 0, 0, 10]
+                                                }
+                                            };
+                                        }
                                     }
                                     ]
                                 });
