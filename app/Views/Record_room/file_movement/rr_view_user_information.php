@@ -40,7 +40,7 @@ if (count($view_rs) > 0) {
     </style>
     <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4">
 
-        <table id="query_builder_report" class="query_builder_report table table-bordered table-striped">
+        <table id="query_builder_report_userwise" class="query_builder_report table table-bordered table-striped">
             <?php
             if ($auth_name != '0') {
             ?>
@@ -216,7 +216,7 @@ if (count($view_rs) > 0) {
 
 <script>
     $(function() {
-        $("#query_builder_report").DataTable({
+        $("#query_builder_report_userwise").DataTable({
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,

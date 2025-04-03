@@ -201,7 +201,7 @@
                         <div class="card-header heading">
                             <div class="row">
                                 <div class="col-sm-10">
-                                    <h3 class="card-title">Record Room >>&nbsp; Advocate on Record >> &nbsp; Aor wise matters (Pending & Disposed)</h3>
+                                    <h3 class="card-title">Record Room >> Advocate on Record >> Aor wise matters (Pending & Disposed)</h3>
                                 </div>
 
                             </div>
