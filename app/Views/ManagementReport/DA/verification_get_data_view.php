@@ -35,14 +35,14 @@
                             $t = $cr1[2];
                             $n = $cr1[3];
                             ?>
-                            <?= $cr_1 ?>
+                            <?php echo $cr_1 ?>
                             <br>
                             <?php
                             if ($cr_his1) {
                             ?>
-                                <span class='tooltip'>History<span class='tooltiptext'><?= $cr_his1 ?></span></span>
+                                <span class='tooltip'>History<span class='tooltiptext'><?php //echo $cr_his1 ?></span></span>
                             <?php
-                            }
+                             }
                             ?>
 
 
@@ -51,7 +51,7 @@
                             <?php
                             $rop_view = "";
                             $resus = $model->ListedOnROP($row['listing_on'], $row['diary_no']);
-                            if ($resus > 0) {
+                            if (isset($resus)) {
                                 $rop_view = "<span style='color:blue;'>";
                                 foreach ($resus as $ro_rop) {
                                     $rjm = explode("/", $ro_rop['pdfname']);

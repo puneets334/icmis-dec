@@ -18,7 +18,7 @@ class DA extends BaseController
     }
 
     public function case_remarks_verification()
-    {
+    { 
         return view('ManagementReport/DA/case_remarks_verification_view');
     }
 
@@ -29,6 +29,12 @@ class DA extends BaseController
         $section1 = $_SESSION['login']['section'];
         $data['if_bo'] = false;
         $mdacode = "";
+        if($usertype == '14' AND $ucode != 3564 AND $ucode != 722 AND $ucode != 184 AND $ucode != 1182){
+            $data['if_bo'] = true;
+        }
+        else if($ucode == 1){
+            $data['if_bo'] = true;
+        }
         $from_dt = date('Y-m-d', strtotime($this->request->getPost('from_dt')));
         $to_dt = date('Y-m-d', strtotime($this->request->getPost('to_dt')));
         $verify_status = $this->request->getPost('verify_status');
