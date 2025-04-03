@@ -7,7 +7,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Data of Video Conferencing hearing matters</h3>
+                                <h3 class="card-title">Stastistical Data of Hearing by Courts through Video Conferencing</h3>
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
 		
 		$("#dv_res1").html('');
         $.ajax({
-            url: '<?php echo base_url('/ManagementReports/VC_Report/VCStats') ?>',
+            url: '<?php echo base_url('/ManagementReports/VC_Report/getMainConn_matters') ?>',
             type: "POST",
             cache: false,
             async: true,
@@ -88,7 +88,7 @@
 			 },
             success: function(r) {
 				updateCSRFToken();
-				window.open("<?php echo base_url('/ManagementReports/VC_Report/VCStats') ?>", "_blank");
+				window.open("<?php echo base_url('/ManagementReports/VC_Report/getMainConn_matters') ?>", "_blank");
                 $("#dv_res1").html('');
 			},
             error: function() {

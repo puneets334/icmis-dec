@@ -150,6 +150,125 @@ class VC_Report extends BaseController
 	}
 	
 	
+	function vc_reports_view(){
+		return view('ManagementReport/VCReports/vc_reports_filter_page');
+	}
+	
+	
+	function getMainConn_matters() {
+			if(!empty($this->request->getPost())){
+				$from_dt = $this->request->getPost('dateFrom');
+			    $to_dt = $this->request->getPost('dateTo');
+				 if (!empty($from_dt) && !empty($to_dt)) {
+					$from_dt = date('Y-m-d', strtotime($from_dt));
+					$to_dt = date('Y-m-d', strtotime($to_dt));
+					session()->set('date_loader_report', ['from_dt_report' => $from_dt, 'to_dt_report' => $to_dt]);
+				}
+			}else{
+				$session = session()->get('date_loader_report');
+				if (!empty($session) && is_array($session)) {
+					$from_dt = $session['from_dt_report'] ?? null;
+					$to_dt = $session['to_dt_report'] ?? null;
+				}
+			}
+		
+		if($from_dt=='' && $to_dt==''){
+			return redirect()->to(''); 
+		}
+		$this->showVCReport($from_dt, $to_dt);
+	}
+	
+	public function showVCReport($from_dt, $to_dt){
+		
+		$disp_vc_stats = $this->model_vcreport->disposal_Vc_Stats($from_dt, $to_dt);
+		$list_vc_stats = $this->model_vcreport->Listed_Vc_Stats($from_dt, $to_dt);
+		$bench_vc_stats = $this->model_vcreport->bench_Vc_Stats($from_dt, $to_dt);
+		$filed_vc_stats = $this->model_vcreport->Filed_Vc_Stats($from_dt, $to_dt);
+		$efiled_vc_stats=$this->model_vcreport->efiled_matters($from_dt, $to_dt);
+		
+		$list_vc_stats = $list_vc_stats ?? ['m_total' => 0, 'r_total' => 0];
+		$disp_vc_stats = $disp_vc_stats ?? ['m_total' => 0, 'r_total' => 0];
+		$filed_vc_stats =  isset($filed_vc_stats['total']) ? $filed_vc_stats : ['total' => 0];
+		$efiled_vc_stats = isset($efiled_vc_stats['total'])? $efiled_vc_stats : ['total' => 0];
+		$bench_vc_stats = isset($bench_vc_stats['total']) ? $bench_vc_stats : ['total' => 0];
+	
+		$pdf = new MCTABLE();
+
+            $pdf->AddPage();
+            $pdf->SetMargins(20, 44, 11.7);
+            $pdf->SetFont('Arial', 'B', 16);
+            $pdf->Cell(0, 0, 'SUPREME COURT OF INDIA', 0, 1, 'C');
+            $pdf->Ln(8);
+            $pdf->SetFont('Arial', '', 12);
+            $pdf->Cell(0, 0, 'COMPUTER CELL', 0, 1, 'C');
+            $pdf->Ln(14);
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(0, 0, 'STASTISTICAL DATA OF HEARING BY COURTS', 0, 1, 'C');
+            $pdf->Ln(8);
+            $pdf->SetFont('Arial', '', 10);
+            $from_dt = $from_dt ?? '';  
+			$to_dt = $to_dt ?? '';  
+			$pdf->Cell(0, 0, '[Period From : ' . date('d-m-Y', strtotime($from_dt ?: 'now')) . ' to ' . date('d-m-Y', strtotime($to_dt ?: 'now')) . ' ]', 0, 1, 'C');
+            $pdf->Ln(4);
+            $pdf->SetFont('Arial', 'B', 13);
+
+
+            $pdf->Ln(7);
+            $pdf->MultiCell(0, 8, '1. Number of matters heard', 1, 'L');
+
+            $pdf->SetWidths(array(70, 70, 38));
+            $pdf->SetFont('Arial', '', 13);
+
+            $pdf->Row(array('Miscellaneous', 'Regular', 'Total'), 1);
+
+			$total = (!empty($list_vc_stats['m_total']) ? $list_vc_stats['m_total'] : 0) + (!empty($list_vc_stats['r_total']) ? $list_vc_stats['r_total'] : 0);
+            $pdf->Row(array($list_vc_stats['m_total'],$list_vc_stats['r_total'], $total), 1);
+
+           
+            $pdf->Ln(7);
+            $pdf->SetFont('Arial', 'B', 13);
+            $end = '2. Number of matters Disposed of';
+
+            $pdf->MultiCell(0, 8, $end, 1, 'L');
+
+            $pdf->SetWidths(array(70, 70, 38));
+            $pdf->SetFont('Arial', '', 13);
+
+            $pdf->Row(array('Miscellaneous', 'Regular', 'Total'), 1);
+
+            $total = (!empty($disp_vc_stats['m_total']) ? $disp_vc_stats['m_total'] : 0) + (!empty($disp_vc_stats['r_total']) ? $disp_vc_stats['r_total'] : 0);
+            $pdf->Row(array($disp_vc_stats['m_total'],$disp_vc_stats['r_total'], $total), 1);
+
+            $pdf->Ln(7);
+            $pdf->SetFont('Arial', 'B', 13);
+            $end = '3. Number of Cases Filed';
+            $pdf->MultiCell(0, 8, $end, 1, 'L');
+            $pdf->SetFont('Arial', '', 13);
+            $pdf->SetWidths(array(70, 70,38));
+            $pdf->Row(array('e-Filed', 'Counter filing', 'Total'), 1);
+
+            $pdf->Row(array($efiled_vc_stats['total'],($filed_vc_stats['total'] -$efiled_vc_stats['total']),$filed_vc_stats['total']), 1);
+
+            $pdf->Ln(7);
+            $pdf->SetFont('Arial', 'B', 13);
+            $end = '4. Total number of benches ';
+
+            $pdf->MultiCell(0, 8, $end, 1, 'L');
+            $pdf->SetFont('Arial', '', 13);
+            $pdf->MultiCell(0, 8, (!empty($bench_vc_stats['total']) ? $bench_vc_stats['total'] : 0), 1, 'L');
+            $pdf->Ln(7);
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(0, 0, 'Note:- Above statistics are generated from ICMIS and e-Filing database of website; ', 0, 1, 'C');
+            $pdf->Ln(7);
+            $pdf->Cell(0, 0, '       Include both Physical as well as Virtual Hearing Stats', 0, 1, 'C');
+			
+			header('Content-Type: application/pdf');
+			header('Content-Disposition: inline; filename="vc_reports.pdf"');
+			header('Cache-Control: private, max-age=0, must-revalidate');
+			$pdf->Output('I');
+			exit();
+	}
+	
     
    
 }
