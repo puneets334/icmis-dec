@@ -444,7 +444,7 @@
     }
     function showtransactions(step){
         $.get("<?=base_url()?>/Faster/FasterController/getTransactions",{step:step},function(result){
-            //alert(result);
+            // alert(result);
             response = $.parseJSON(result);
             $('#tbl_history tbody').empty();
             $.each(response, function(i, item) {
@@ -461,9 +461,27 @@
     }
 
     function downloadAll(){
+        updateCSRFTokenSyncr();
         $("#frmDownload").submit();
         setTimeout(function(){ showtransactions(<?=DOWNLOAD?>); }, 1000);
     }
+
+    // $(document).ready(function () {
+    //     $('#frmDownload').on('submit', function (e) {
+    //         e.preventDefault();
+    //         var url = $(this).attr('action');
+    //         $.ajax({
+    //             type: 'GET',
+    //             url: url,
+    //             data:$("#pdfForm").serialize(),
+    //             success: function (resData){
+    //                 // $('#alert-msg').html(resData);
+    //             }
+    //         })
+
+    //         updateCSRFTokenSyncr();
+    //     });
+    // });
 
     async function recipientDetails(){
         $("#hiddenEmailIds").empty();
