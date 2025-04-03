@@ -31,6 +31,8 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 <script src="<?php echo base_url('plugins/sweetalert/sweetalert.min.js'); ?>"></script>
+
+
 <link rel="stylesheet" href="<?php echo base_url('assets/vendor/new_style.css') ?>">
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
@@ -80,6 +82,7 @@
 <script src="<?php echo base_url('js/nav_link.js'); ?>"></script>
 <script src="<?php echo base_url('js/customize_style.js'); ?>"></script>
 <script src="<?php echo base_url('autocomplete/autocomplete-ui.min.js'); ?>"></script>
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <!--<script src="--><?php //echo base_url('js/adminlte.min.js'); 
                     ?><!--"></script>-->
@@ -94,6 +97,9 @@
 <script src="<?php echo base_url('assets/js/jquery.tokeninput.js'); ?>"></script>
 <script src="<?php echo base_url('js/custom.js'); ?>"></script>
 <script src="<?php echo base_url('js/editor_tools.js'); ?>"></script>
+<script src="<?php echo base_url('jquery/jquery-qrcode-master/dist/jquery-qrcode.min.js'); ?>"></script>
+<script src="<?php echo base_url('jquery/jquery-qrcode-master/dist/jquery-qrcode.js'); ?>"></script>
+
 
 <script>
 // or via CommonJS
