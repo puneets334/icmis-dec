@@ -7,7 +7,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Stastistical Data of Hearing by Courts through Video Conferencing</h3>
+                                <h3 class="card-title">Data of Video Conferencing hearing matters</h3>
                             </div>
                         </div>
                     </div>

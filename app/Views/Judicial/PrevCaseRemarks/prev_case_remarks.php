@@ -147,6 +147,7 @@ $t_table = '';
                         }
                     }
                 }
+            }
             //DA NAME ENDS
             ?>
             <tr>
@@ -361,7 +362,7 @@ $t_table = '';
                         </tr>
                 <?php
                     }
-                }
+                
             } else {
                 ?>
 
@@ -375,12 +376,14 @@ $t_table = '';
                 </tr>
 
             <?php
-            }
+            } 
             ?>
         </table>
 
     <?php
-    } else {
+    
+    if (empty($row_da)) 
+             {
     ?>
 
         <div class="cl_center"><b>No Record Found</b></div>

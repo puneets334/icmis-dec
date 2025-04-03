@@ -2883,7 +2883,8 @@ class ProposalModel extends Model
                 // Checkbox logic
                 if ($row_ian_conn["iastat"] == "P") {
                     $t_iaval_conn = $row_ian_conn["docnum"] . "/" . $row_ian_conn["docyear"] . ",";
-                    $check = (strpos($listed_ia_conn, $t_iaval_conn) !== false) ? "checked='checked'" : "";
+                    //$check = (strpos($listed_ia_conn, $t_iaval_conn) !== false) ? "checked='checked'" : "";
+                    $check = (strpos((string) $listed_ia_conn, $t_iaval_conn) !== false) ? "checked='checked'" : "";
 
                     $ian_p_conn .= "<tr>
                         <td align='center'>
