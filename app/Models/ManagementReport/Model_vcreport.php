@@ -201,6 +201,116 @@ class Model_vcreport extends Model
 	}
 	
 	
+	public function disposal_Vc_Stats($start_date, $end_date){
+		
+		$builder = $this->db->table('dispose d')
+			->select("COUNT(CASE WHEN m.mf_active = 'M' OR m.mf_active = '' THEN 1 END) AS m_total", false)
+			->select("COUNT(CASE WHEN m.mf_active = 'F' THEN 1 END) AS r_total", false)
+			->join('main m', 'd.diary_no = m.diary_no')
+			->where('m.c_status', 'D')
+			->where("DATE(d.ord_dt) BETWEEN '".$start_date."' AND '".$end_date."'")
+			->groupBy('m.diary_no');
+
+		$query = $builder->get();
+		return $query->getRowArray(); 
+    }
+	
+	public function Listed_Vc_Stats($start_date, $end_date){
+		$subQuery1 = $this->db->table('main m')
+			->select('h.diary_no, h.mainhead, h.next_dt, h.brd_slno, h.clno, h.roster_id')
+			->join('heardt h', 'm.diary_no = h.diary_no')
+			->whereIn('h.main_supp_flag', [1, 2])
+			->where("h.next_dt BETWEEN '".$start_date."' AND '".$end_date."'");
+
+		$subQuery2 = $this->db->table('main m')
+			->select('h.diary_no, h.mainhead, h.next_dt, h.brd_slno, h.clno, h.roster_id')
+			->join('last_heardt h', 'm.diary_no = h.diary_no')
+			->whereIn('h.main_supp_flag', [1, 2])
+			->where("h.next_dt BETWEEN '".$start_date."' AND '".$end_date."'")
+			->groupStart()
+				->where('h.bench_flag', '')
+				->orWhere('h.bench_flag IS NULL')
+			->groupEnd();
+
+		$unionQuery = $subQuery1->getCompiledSelect() . " UNION " . $subQuery2->getCompiledSelect();
+
+		$subQuery3 = $this->db->table("($unionQuery) h", false)
+			->select('h.*')
+			->join('cl_printed p', "p.next_dt = h.next_dt AND p.m_f = h.mainhead AND p.part = h.clno AND p.roster_id = h.roster_id AND p.display = 'Y'", 'left')
+			->where('p.next_dt IS NOT NULL')
+			->groupBy(['h.diary_no', 'h.roster_id', 'h.mainhead', 'h.next_dt', 'h.brd_slno', 'h.clno']);
+
+		$finalQuery = $this->db->table("({$subQuery3->getCompiledSelect(false)}) a", false)
+			->select("COUNT(CASE WHEN mainhead = 'M' OR mainhead = '' THEN 1 END) AS m_total", false)
+			->select("COUNT(CASE WHEN mainhead = 'F' OR mainhead = '' THEN 1 END) AS r_total", false);
+
+		$query = $finalQuery->get();
+		return $query->getRowArray();
+    }
+	
+	public function bench_Vc_Stats($start_date, $end_date){
+		    $subQuery1 = $this->db->table('main m')
+				->select('h.diary_no, h.next_dt, h.roster_id, h.mainhead, h.clno')
+				->join('heardt h', 'm.diary_no = h.diary_no')
+				->whereIn('h.main_supp_flag', [1, 2])
+				->where("h.next_dt BETWEEN '".$start_date."' AND '".$end_date."'");
+
+
+			$subQuery2 = $this->db->table('main m')
+				->select('h.diary_no, h.next_dt, h.roster_id, h.mainhead, h.clno')
+				->join('last_heardt h', 'm.diary_no = h.diary_no')
+				->whereIn('h.main_supp_flag', [1, 2])
+				->groupStart()
+					->where('h.bench_flag', '')
+					->orWhere('h.bench_flag IS NULL')
+				->groupEnd()
+				->where("h.next_dt BETWEEN '".$start_date."' AND '".$end_date."'");
+
+			$unionQuery = $subQuery1->getCompiledSelect() . " UNION " . $subQuery2->getCompiledSelect();
+
+
+			$subQuery3 = $this->db->table("($unionQuery) h", false)
+				->select('h.diary_no, h.next_dt, h.roster_id, h.mainhead, h.clno')
+				->join('cl_printed p', "p.next_dt = h.next_dt AND p.m_f = h.mainhead AND p.part = h.clno AND p.roster_id = h.roster_id AND p.display = 'Y'", 'left')
+				->where('p.next_dt IS NOT NULL')
+				->groupBy(['h.diary_no', 'h.roster_id', 'h.mainhead', 'h.next_dt', 'h.clno']);
+
+
+			$subQuery4 = $this->db->table("({$subQuery3->getCompiledSelect(false)}) a", false)
+				->select('a.diary_no, a.roster_id, a.next_dt')  
+				->groupBy(['a.diary_no', 'a.roster_id', 'a.next_dt']); 
+
+	
+			$finalQuery = $this->db->table("({$subQuery4->getCompiledSelect(false)}) temp", false)
+				->select('COUNT(*) AS total');
+
+			$query = $finalQuery->get();
+			return $query->getRowArray();
+    }
+	
+	public function Filed_Vc_Stats($start_date, $end_date){
+		$builder = $this->db->table('main')
+			->select('COUNT(*) as total')
+			->where('diary_no_rec_date >=', $start_date)
+			->where('diary_no_rec_date <=', $end_date);
+			
+
+		$query = $builder->get();
+		return $query->getRowArray();
+		
+	}
+	
+	public function efiled_matters($start_date, $end_date){
+		$query = $this->db->table('e_filing.efiling_transaction_records')
+			->select("SUM(CASE WHEN app_flag LIKE 'filing%' AND status_id = 1 THEN 1 ELSE 0 END) AS total", false) 
+			->where("DATE(transaction_datetime) BETWEEN '".$start_date."' AND '".$end_date."'")
+			->get();
+
+		return $query->getRowArray();
+	}
+	
+	
+	
 	
 	
 }
