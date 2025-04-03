@@ -18,13 +18,12 @@
 
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Record Room >> Search >> Speciman Signature </h3>
+                                <h3 class="card-title">Record Room >> Search >> Specimen Signature </h3>
                             </div>
                         </div>
                     </div>
-                    <?= view('Copying/copying_registration_breadcrum'); ?>
                     <div class="card-header p-2" style="background-color: #fff; border-bottom:none;">
-                        <h4 class="basic_heading">Speciman Signature </h4>
+                        <h4 class="basic_heading">Specimen Signature </h4>
                     </div>
 
                     <form class="form-horizontal" id="push-form" method="post" action="<?php echo base_url('Copying/Copying/specimen_signature'); ?>">

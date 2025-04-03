@@ -1,3 +1,10 @@
+<style>
+table.dataTable>thead .sorting,
+table.dataTable>thead {
+    background-color: #0d48be !important;
+    color: #fff !important;
+}
+</style>
 <div class="card">
     <div class="card-body">
         <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -57,10 +64,10 @@
                         orientation: 'landscape',
                         pageSize: 'LEGAL'
                     },
-                        {
-                            extend: 'colvis',
-                            text: 'Show/Hide'
-                        }
+                        // {
+                        //     extend: 'colvis',
+                        //     text: 'Show/Hide'
+                        // }
                     ],
                     "bProcessing": true,
                     "extend": 'colvis',

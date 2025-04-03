@@ -343,6 +343,7 @@ class FileTrap extends BaseController
         $data['app_name'] = '';
         $data['receiveDispatchReports'] = '';
         $data['param'] = '';
+        $data['reportType'] = '1';
 
         if ($this->request->getMethod() === 'post') {
             $usercode = $this->request->getPost('usercode');
@@ -361,6 +362,8 @@ class FileTrap extends BaseController
             $data['app_name'] = 'receivedDispatchedReport';
             $data['receiveDispatchReports'] = $this->FileTrap_model->getReceivedDispatchedReport($fromDate, $toDate, $userType, $userEmpID, $reportType);
             $data['param'] = array($fromDate, $toDate, $roleName, $userType, $reportType, $userEmpName);
+            $data['reportType'] = $reportType;
+         
         }
         return view('Record_room/FileTrap/file_trap_report', $data);
     }
@@ -547,7 +550,9 @@ class FileTrap extends BaseController
             $data['app_name'] = 'alreadyConsignedRestoredCasesReport';
             $data['alreadyConsignedRestoredCasesList'] =  $this->FileTrap_model->getAllRestoredDisposedCases($fromDate, $toDate);
             $data['param'] = array($fromDate, $toDate);
-            // print_r($data);die;
+            $data['from_date'] = $fromDate;
+            $data['to_date'] = $toDate;
+        //    echo "<pre>"; print_r($data['param'][0]);die;
         }
         return view('Record_room/FileTrap/consigned_restored_cases_list', $data);
     }
