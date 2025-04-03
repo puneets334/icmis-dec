@@ -7,6 +7,7 @@
     //die;                    
 ?>
 <div class="row clearfix col-md-12 pb-1">
+
 <?php 
 if($data['sent_to_applicant_by'] == '' OR $data['sent_to_applicant_by'] == null){
     
@@ -14,7 +15,7 @@ if($data['sent_to_applicant_by'] == '' OR $data['sent_to_applicant_by'] == null)
 
 if(!empty($data['pdf_embed_path'])){
 ?>
-<div class='d-inline col-md-3'>
+<div class='d-inline col-md-2'>
 <!--<input type="button" class="btn btn-success float-left" value="Download" id="download_copy" data-document_id = '<?=$document_id;?>'
        data-send_to_path="<?=$data['pdf_embed_path'];?>" />-->
 <!--
@@ -44,7 +45,7 @@ if(!empty($data['pdf_embed_path'])){
 
     </form>
 </div>
-    <div class='d-inline col-md-3'>
+    <div class='d-inline col-md-2'>
             <input type="button" name="btn_sign" value="Token" class="btn btn-info btn_token_signer"/>
     </div>
 
@@ -96,19 +97,21 @@ if($data['pdf_downloaded_by'] != '' && $data['pdf_downloaded_by'] != null){
 <?php 
 if($data['pdf_digital_signature_by'] != '' && $data['pdf_digital_signature_by'] != null){
 ?>
-    <div class='col-md-3'>
+    <div class='col-md-2'>
         <input type="button" class="btn btn-success float-right" value="View Signed Pdf" id="view_signed_pdf" data-application_id_id="<?=$_POST['application_id_id'];?>"
                data-document_id = '<?=$document_id;?>' data-send_to_path="<?='http://'.$_SERVER['SERVER_ADDR'].'/'.$data['pdf_digital_signature_path'];?>"/>
     </div>
 
-    <div class='col-md-3'>
+    <div class='col-md-2'>
 <input type="button" class="btn btn-success float-right" data-source="pdf_file" value="Send" id="send_to_applicant" data-application_id_id="<?=$_POST['application_id_id'];?>"
        data-document_id = '<?=$document_id;?>' data-send_to_path="<?=$data['pdf_digital_signature_path'];?>"/>
 </div>    
 <?php    
 }
 }
-?>               
+?>
+<div class='col-md-2'>
+<button type="button" class="btn btn-danger float-right pdfbox">close pdf</button></div>               
 </div>
         <span class="col-md-11" id="certificate_span"></span>
 <?php } ?>
