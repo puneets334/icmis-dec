@@ -67,7 +67,7 @@
                                                             ?>
                                                                 <tr>
                                                                     <td><?php echo $s_no; ?></td>
-                                                                    <td><?php echo $result['Listtype']; ?></td>
+                                                                    <td><?php echo $result['listtype']; ?></td>
                                                                     <td><?php echo $result['cl_date']; ?></td>
                                                                     <td><?php echo $result['board_type']; ?></td>
                                                                     <td><?php echo $result['courtno']; ?></td>
