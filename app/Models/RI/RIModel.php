@@ -1125,9 +1125,9 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
                 }
             } elseif ($searchBy == 'c' || $searchBy == 'd') {
                 $fetchedDiaryNo = $this->getSearchDiary($searchBy, $caseType ?? '', $caseNo ?? '', $caseYear ?? '', $diaryNumber ?? '', $diaryYear ?? '');
-               if($fetchedDiaryNo != '')
+                if ($fetchedDiaryNo != '')
                     $whereDateRange = " AND epd.diary_no = " . $fetchedDiaryNo;
-                    else
+                else
                     $whereDateRange = " AND epd.diary_no is NULL ";
             } elseif ($searchBy == 'p') {
                 $whereDateRange = " AND epd.process_id = $processId AND epd.process_id_year = " . $processYear;
@@ -1149,7 +1149,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
             }
         }
 
-         $sql = "SELECT 
+        $sql = "SELECT 
                 epd.is_case, epd.is_with_process_id, epd.reference_number, 
                 epd.id AS ec_postal_dispatch_id, epd.process_id, epd.process_id_year,
                 CASE 
@@ -1179,7 +1179,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
             LEFT JOIN master.state d ON d.id_no = epd.tal_district     
             WHERE $wherePostalDispatch $whereDateRange 
             ORDER BY epd.ref_postal_type_id, epd.serial_number";
- 
+
         $query = $this->db->query($sql);
         return $query->getResultArray();
     }
@@ -1870,11 +1870,11 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
                 }
             } else if ($searchBy == 'c' || $searchBy == 'd') {
                 $fetchedDiaryNo = $this->getSearchDiary($searchBy, $caseType, $caseNo, $caseYear, $diaryNumber, $diaryYear);
-              
+
                 $fetchedDiaryNo = (!empty($fetchedDiaryNo)) ? $fetchedDiaryNo : "NULL";
                 $whereDateRange =  "  epd.diary_no=" . $fetchedDiaryNo;
             } else if ($searchBy == 'p') {
-                $whereDateRange = "   epd.process_id=$processId and process_id_year='".$processYear."'";
+                $whereDateRange = "   epd.process_id=$processId and process_id_year='" . $processYear . "'";
             }
 
             if ($dispatchMode != 0 && $dispatchMode != '') {
@@ -1896,7 +1896,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
             $builder->where($whereDateRange);
         }
 
-             //   epd.ref_letter_status_id in (4,5)>> and epd.process_id=12345 and process_id_year=2024 and epd.ref_postal_type_id=
+        //   epd.ref_letter_status_id in (4,5)>> and epd.process_id=12345 and process_id_year=2024 and epd.ref_postal_type_id=
 
         ###this need to uncomment
 
@@ -1912,7 +1912,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
         return $query->getResultArray();
     }
 
-    
+
 
 
     function getLetterStatus()
@@ -2628,7 +2628,7 @@ else '' end as case_no");
         $builder->update($dataForDispatch);
 
         if ($this->db->affectedRows() > 0) {
-            
+
             $dataForDispatchTransactions = array(
                 'ec_postal_dispatch_id' => $id,
                 'ref_letter_status_id' => $letterStatus,
@@ -2804,7 +2804,7 @@ else '' end as case_no");
 
     function getDakDataForReceive($usercode, $section, $status = "", $actionType = "", $fromDate = "", $toDate = "")
     {
-        
+
         $whereCondition = "";
         $dateCondition = "";
         if ($status == 'P') {
@@ -2838,10 +2838,10 @@ else '' end as case_no");
                   where (ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted='f' and ept.dispatched_by is not null and ept.dispatched_by is not null 
                   $whereCondition    $dateCondition  
                   order by ecpd.diary_no";
-                  $bindings = array('f'); 
-                //   $finalQuery = vsprintf(str_replace("?", "'%s'", $sql), $bindings);
-          
-           $query = $this->db->query($sql, $bindings);
+            $bindings = array('f');
+            //   $finalQuery = vsprintf(str_replace("?", "'%s'", $sql), $bindings);
+
+            $query = $this->db->query($sql, $bindings);
             if ($query->getNumRows() > 1) {
                 return $query->getResultArray();
             }
@@ -2867,8 +2867,8 @@ else '' end as case_no");
                   and ((ept.dispatched_to_user_type='s' and ept.dispatched_to=?) or (ept.dispatched_to_user_type='o' and ept.dispatched_to=?))
                   order by ecpd.diary_no";
 
-                  $bindings = array('f', $section, $usercode); 
-                  
+            $bindings = array('f', $section, $usercode);
+
             $query = $this->db->query($sql, array('f', $section, $usercode));
             if ($query->getNumRows() > 1) {
                 return $query->getResultArray();
@@ -3053,7 +3053,8 @@ else '' end as case_no");
         //  echo '</pre>';
     }
 
-    function getInitiatedDakDataForReceive($usercode, $section, $status = "", $actionType = "", $fromDate = "", $toDate = ""){
+    function getInitiatedDakDataForReceive($usercode, $section, $status = "", $actionType = "", $fromDate = "", $toDate = "")
+    {
         //echo $usercode.'||'.$section;
         $whereCondition = "";
         $dateCondition = "";
@@ -3081,9 +3082,9 @@ else '' end as case_no");
                   $whereCondition    $dateCondition 
                   order by ecpd.id DESC ";
 
-                $bindings = array('f'); 
-                $query = $this->db->query($sql, $bindings);
-            
+            $bindings = array('f');
+            $query = $this->db->query($sql, $bindings);
+
             if ($query->getNumRows() >= 1) {
                 return $query->getResultArray();
             }
@@ -3100,10 +3101,10 @@ else '' end as case_no");
                   $whereCondition    $dateCondition 
                    and ((ept.dispatched_to_user_type='s' and ept.dispatched_to=?) or (ept.dispatched_to_user_type='o' and ept.dispatched_to=?))
                   order by ecpd.id DESC ";
-                $query = $this->db->query($sql, array('f', $section, $usercode));
-                if ($query->getNumRows() >= 1) {
-                    return $query->getResultArray();
-                }
+            $query = $this->db->query($sql, array('f', $section, $usercode));
+            if ($query->getNumRows() >= 1) {
+                return $query->getResultArray();
+            }
         }
     }
 
@@ -3115,12 +3116,10 @@ else '' end as case_no");
         $builder->join('master.notice_mapping nm', 'us.id=nm.section_id', 'INNER');
         $builder->where("nm.section_id", $dealingSection);
         $builder->where("us.display", 'Y');
-
         $query = $builder->get();
-        //        $query=$this->db->getLastQuery();echo (string) $query;exit();
         $result = $query->getResultArray();
 
-        if ($query->getNumRows() >= 1) {
+        if (!empty($result)) {
             return $result;
         } else {
             return [];
@@ -3132,22 +3131,23 @@ else '' end as case_no");
         $builder = $this->db->table('master.usersection us');
         $builder->select('section_name');
         $builder->where('id', $section);
-
         $query = $builder->get();
         //        $query=$this->db->getLastQuery();echo (string) $query;exit();
-        $result = $query->getResultArray();
-
-        if ($query->getNumRows() >= 1) {
+        $result = $query->getRowArray()['section_name'];
+        if (!empty($result)) {
             return $result;
         } else {
             return [];
         }
+    }
 
-        //        $this->db->where('id', $section);
-        //        $query = $this->db->get('usersection');
-        //        $res = $query->result_array();
-        //        $sectionName = $res[0]['section_name'];
-        //        return $sectionName;
+    function getOfficerDetailByEmpId($empId)
+    {
+        $sql = "select usercode,empid,name,ut.type_name from master.users u inner join master.usertype ut on u.usertype=ut.id
+                 where empid=$empId";
+        $query = $this->db->query($sql);
+        $result = $query->getRowArray();
+        return $result;
     }
 
     function getSecretaryGeneral()
@@ -3637,7 +3637,7 @@ else '' end as case_no");
 
         $receiving_employee_details_url = 'http://10.25.78.92:81/services/employee_details.php?employeeId=' . $receivingUser;
         $json = file_get_contents($receiving_employee_details_url);
-        $obj = json_decode($json, true);
+        $obj = @json_decode($json, true);
 
         $tmpArr = array();
         foreach ($obj as $sub) {
@@ -4007,8 +4007,4 @@ else '' end as case_no");
         $query = $this->db->query($sql, array($id));
         return $query->getResultArray();
     }
-
-
-
-
 }
