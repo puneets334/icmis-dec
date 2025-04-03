@@ -1,5 +1,11 @@
 <?= view('header') ?>
-
+<style>
+    table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+    }
+</style>
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -27,20 +33,26 @@
 
                         <div class="form-row mt-4 ml-4">
                             <div class="form-group col-md-4">
-                                <label for="orderDateFrom">Order Date From:</label>
-                                <input type="text" id="orderDateFrom" name="orderDateFrom" class="form-control datepick" placeholder="From Date">
+                                <label for="orderDateFrom">Order Date From </label>
+                                <input type="text" id="orderDateFrom"  name="orderDateFrom" class="form-control datepick" placeholder="From Date">
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="orderDateTo">Order Date To:</label>
+                                <label for="orderDateTo">Order Date To</label>
                                 <input type="text" id="orderDateTo" name="orderDateTo" class="form-control datepick" placeholder="To Date">
                             </div>
                             <div class="form-group col-md-4 mt-4">
                                 <label>&nbsp;</label>
-                                <button type="submit" id="btnGetCases" class="btn btn-info btn-block">Get Cases</button>
+                                <button type="submit" id="btnGetCases" class="btn btn-primary btn-block" onclick="showLoader()">Get Cases</button>
+                                
                             </div>
                         </div>
                     </form>
-
+                    <div id="rslt"></div>
+                                <script>
+                                    function showLoader() {
+                                        $('#rslt').html("<div style='display: flex; justify-content: center; align-items: center;'><img src='<?php echo base_url('images/load.gif'); ?>' width='5%' height='5%' /></div>");
+                                    }
+                                </script>
 
                     <?php
                     if ($app_name == 'alreadyConsignedRestoredCasesReport') {
@@ -52,8 +64,8 @@
                                 List of Already Consigned Restored Matters with Order Date BETWEEN &nbsp;<strong><?= date('d-m-Y', strtotime($param[0])); ?></strong> and <strong><?= date('d-m-Y', strtotime($param[1])); ?></strong>
                             </h4>
                         </caption>
-                        <div class="table-responsive">
-                            <table id="reportTable1" class="table table-striped table-hover box box-danger">
+                        <div class="card-body row table-responsive">
+                            <table id="reportTable1" class="table table-striped table-hover box box-primary table-bordered">
                                 <thead>
                                     <tr>
                                         <th style="width:5%;">S.No.</th>
@@ -189,8 +201,8 @@
                     });
             }
 
-        });       
-       
+        });
+
         $('#reportTable1').DataTable({
             /* dom: 'Bfrtip',
              buttons: [
@@ -201,10 +213,16 @@
             "bProcessing": true,
             dom: 'Bfrtip',
             buttons: [
-                'excelHtml5',
+                {
+                    extend: 'excelHtml5',
+                    filename: " Re-Consign Restored Cases <?= date('Y-m-d H:i:s');?>",
+                    title: "List of Already Consigned Restored Matters with Order Date BETWEEN <?= isset($param[0]) ? date('d-m-Y', strtotime($param[0])) : ''; ?> and <?= isset($param[1]) ? date('d-m-Y', strtotime($param[1])) : ''; ?>"
+                },
                 {
                     extend: 'pdfHtml5',
                     pageSize: 'A3',
+                    filename: " Re-Consign Restored Cases <?= date('Y-m-d H:i:s');?>",
+                    title: "List of Already Consigned Restored Matters with Order Date BETWEEN <?= isset($param[0]) ? date('d-m-Y', strtotime($param[0])) : ''; ?> and <?= isset($param[1]) ? date('d-m-Y', strtotime($param[1])) : ''; ?>",
                     customize: function(doc) {
                         doc.content.splice(0, 0, {
                             margin: [0, 0, 0, 5],
@@ -223,7 +241,7 @@
 
         });
     });
-    
+
     function showModale(id) {
         $.ajax({
                 type: 'GET',
@@ -243,4 +261,5 @@
     }
 </script>
 
-<?php //die; ?>
+<?php //die; 
+?>

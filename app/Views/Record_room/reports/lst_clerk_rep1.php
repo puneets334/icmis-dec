@@ -1,5 +1,11 @@
 <?= view('header') ?>
-
+<style>
+   .table thead th{
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+</style>
     <link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>">
     <section class="content">
         <div class="container-fluid">
@@ -20,13 +26,13 @@
         <?php if (empty($records)) : ?>
             <div class='well well-lg'>
                 <div class='col-md-12'>
-                    <a class='btn btn-success btn-xs' href='#'>Results Found---<span class='badge'>0 </span></a>
+                    <a class='btn btn-primary btn-xs' href='#'>Results Found---<span class='badge'>0 </span></a>
                 </div>
             </div>
         <?php else : ?>
             <div class='well well-lg'>
                 <div class='col-md-12'>
-                    <a class='btn btn-success ' href='#'>Results Found <span class='badge'><?= count($records) ?></span></a>
+                    <a class='btn btn-primary ' href='#'>Results Found <span class='badge'><?= count($records) ?></span></a>
                 </div>
             </div> <br>
             <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4">
@@ -104,10 +110,10 @@
                         orientation: 'landscape',
                         pageSize: 'LEGAL'
                     },
-                    {
-                        extend: 'colvis',
-                        text: 'Show/Hide'
-                    }
+                    // {
+                    //     extend: 'colvis',
+                    //     text: 'Show/Hide'
+                    // }
                 ],
                 "processing": true, // Changed "bProcessing" to "processing"
                 "ordering": false, // Added to disable sorting
