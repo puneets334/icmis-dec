@@ -147,6 +147,7 @@ $t_table = '';
                         }
                     }
                 }
+            }
             //DA NAME ENDS
             ?>
             <tr>
@@ -361,7 +362,7 @@ $t_table = '';
                         </tr>
                 <?php
                     }
-                }
+                
             } else {
                 ?>
 
