@@ -1,8 +1,8 @@
 <?php
 namespace App\Libraries;
 
-use App\Libraries\FPDF;
-
+use App\Libraries\Fpdf;
+  
 class MCTABLE extends FPDF
 {
     var $widths;
