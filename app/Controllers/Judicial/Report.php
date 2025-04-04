@@ -173,7 +173,7 @@ class Report extends BaseController
         // );
 
         $data['ucode'] = $usercode;
-
+        
         foreach ($results as $indexKey => $row10) {
 
             $t_fil_no = "";
@@ -188,10 +188,12 @@ class Report extends BaseController
             if ($row10['ct2'] != '') {
                 $check_for_regular_case = "FOUND";
                 $res_ct_typ = $ReportModel->getCaseType($row10['ct2']);
-                if ($row10['crf2'] == $row10['crl2'])
-                    $t_fil_no .= "</br>" . '' . $res_ct_typ['short_description'] . " " . $row10['crf2'] . '/' . $row10['f_year'];
-                else
-                    $t_fil_no .= "</br>" . '' . $res_ct_typ['short_description'] . " " . $row10['crf2'] . " - " . $row10['crl2'] . '/' . $row10['f_year'];
+                if(!empty($res_ct_typ)){
+                    if ($row10['crf2'] == $row10['crl2'])
+                        $t_fil_no .= "</br>" . '' . $res_ct_typ['short_description'] . " " . $row10['crf2'] . '/' . $row10['f_year'];
+                    else
+                        $t_fil_no .= "</br>" . '' . $res_ct_typ['short_description'] . " " . $row10['crf2'] . " - " . $row10['crl2'] . '/' . $row10['f_year'];
+                }
             }
 
             if (trim($t_fil_no) == '') {
@@ -215,7 +217,7 @@ class Report extends BaseController
             $brdremark = (!empty($brdremark['remark'])) ? $brdremark['remark'] : '';
 
             $results_s = $ReportModel->getCaseMultipleRemarks(['diary_no' => $row10["diary_no"], 'cl_date' => $tdt1, 'jcodes' => $row10["judges"]]);
-            
+
             $head1 = "";
             $txt_value = "";
             if (!empty($results_s)) {
@@ -240,9 +242,10 @@ class Report extends BaseController
 
             $results[$indexKey]['head1'] = $head1;
 
-            $res_verif = $ReportModel->getCaseVerifyROP(['diary_no' => $row10["diary_no"], 'cl_dt' => $tdt1]);
+            $res_verif = $ReportModel->getCaseVerifyROP(['diary_no' => @$row10["diary_no"], 'cl_dt' => $tdt1]);
+            
             $results[$indexKey]['res_verif'] = $res_verif;
-
+            
             $ro_hu = $ReportModel->getListingPurpose(['diary_no' => $row10["diary_no"], 'next_dt' => $tdt1]);
 
             $t_cl_dt = "";
@@ -297,16 +300,16 @@ class Report extends BaseController
                 if (trim($row_rstr["frm_time"]) != "")
                     $bench_from_roster .= " (From " . $row_rstr["frm_time"] . ") ";
             }
-
+            
             $results[$indexKey]['stagename'] = $row10["stagename"] ?? "";
             
-            $result1_s = $ReportModel->getSubheading($row10["subhead"]);
-
+            $result1_s = $ReportModel->getSubheading($row10["subhead"]);            
             $results[$indexKey]['brdremark'] = $brdremark;
             $results[$indexKey]['result1_s'] = $result1_s;
             $results[$indexKey]['tmp_caseno'] = $tmp_caseno;
             $results[$indexKey]['jcourt'] = $jcourt;
             $results[$indexKey]['bench_from_roster'] = $bench_from_roster;
+            
         }
 
         // print_r($results);

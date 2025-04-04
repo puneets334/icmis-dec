@@ -1008,17 +1008,29 @@ class ReportModel extends Model
         } else {
             return [];
         }
-    }
+    }  
+    
 
     function getCaseVerifyROP($data = [])
     {
         // Prepare the query using raw SQL (since query builder does not support STRING_AGG directly)
+        // $sql = "SELECT STRING_AGG(cr.remarks, ', ') AS rem_dtl, cv.ent_dt 
+        //             FROM case_verify_rop cv
+        //             LEFT JOIN master.case_verify_by_sec_remark cr ON cr.id = ANY(string_to_array(cv.remark_id, ',')::int[])
+        //             WHERE cv.diary_no = '" . $data['diary_no'] . "' AND cv.cl_dt >= '" . $data['cl_dt'] . "'
+        //             GROUP BY cv.id";
         $sql = "SELECT STRING_AGG(cr.remarks, ', ') AS rem_dtl, cv.ent_dt 
                     FROM case_verify_rop cv
-                    LEFT JOIN master.case_verify_by_sec_remark cr ON cr.id = ANY(string_to_array(cv.remark_id, ',')::int[])
+                    LEFT JOIN master.case_verify_by_sec_remark cr 
+                    ON cr.id = ANY(
+                        string_to_array(
+                            REGEXP_REPLACE(cv.remark_id, '[^0-9,]', '', 'g'),
+                            ','
+                        )::int[]
+                    )
                     WHERE cv.diary_no = '" . $data['diary_no'] . "' AND cv.cl_dt >= '" . $data['cl_dt'] . "'
                     GROUP BY cv.id";
-
+        
         // Execute the query
         $query = $this->db->query($sql);
 
