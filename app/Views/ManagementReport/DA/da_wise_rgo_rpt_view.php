@@ -69,6 +69,17 @@
 </section>
 
 <script>
+    function CallPrint(strid)
+{
+ var prtContent = document.getElementById(strid);
+ var WinPrint = window.open('','','letf=100,top=0,width=800,height=1200,toolbar=1,scrollbars=1,status=1,menubar=1');
+ WinPrint.document.write(prtContent.innerHTML);
+ WinPrint.document.close();
+ WinPrint.focus();
+ WinPrint.print();
+ //WinPrint.close();
+ //prtContent.innerHTML=strOldOne;
+}
        $("#example1").DataTable({
         "responsive": true,
         "lengthChange": false,

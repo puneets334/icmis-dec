@@ -974,8 +974,7 @@ class CaseRemarksVerification extends Model
 
     public function get_da_wise_rgo_data($condition, $section_name)
     {
-
-        $sql = "SELECT 
+         $sql = "SELECT 
                     m.dacode, 
                     b.section_name, 
                     a.name, 
@@ -1013,9 +1012,9 @@ class CaseRemarksVerification extends Model
                                         true
                                 END
                                 and (
-                                    m.main_supp_flag = 0
+                                    h.main_supp_flag = 0
                                     AND clno = 0 
-                                    AND m.brd_slno = 0 
+                                    AND h.brd_slno = 0 
                                     AND (judges is null OR judges = '0') 
                                     AND roster_id = 0
                                 )
@@ -1078,9 +1077,9 @@ class CaseRemarksVerification extends Model
                                         true
                                 END
                                 and (
-                                    m.main_supp_flag = 0 
+                                    h.main_supp_flag = 0 
                                     AND clno = 0 
-                                    AND m.brd_slno = 0 
+                                    AND h.brd_slno = 0 
                                     AND (judges is null OR judges = '0') 
                                     and roster_id = 0
                                 )
@@ -1143,7 +1142,7 @@ class CaseRemarksVerification extends Model
                                         true
                                 END
                                 and (
-                                   m.main_supp_flag = 0 
+                                   h.main_supp_flag = 0 
                                     AND clno = 0 
                                     AND h.brd_slno = 0 
                                     AND (judges is null OR judges = '0') 
@@ -1203,7 +1202,7 @@ class CaseRemarksVerification extends Model
                                         true
                                 END
                                 and (
-                                    m.main_supp_flag = 0 
+                                    h.main_supp_flag = 0 
                                     AND clno = 0 
                                     AND h.brd_slno = 0 
                                     AND (judges is null OR judges = '0') 
@@ -1246,13 +1245,13 @@ class CaseRemarksVerification extends Model
                     count(
                         distinct case 
                             when h.mainhead = 'M' 
-                                and (m.tentative_cl_dt::date - CURRENT_DATE) > 1 
+                                and (h.tentative_cl_dt::date - CURRENT_DATE) > 1 
                                 and not (
                                     (
                                         (h.mainhead = 'M' and s.listtype = 'M' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
                                         or (h.mainhead = 'S' and s.listtype = 'S' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
-                                        or (m.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
-                                    or (m.next_dt IS NOT NULL and m.next_dt::date >= CURRENT_DATE)
+                                        or (h.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
+                                    or (h.next_dt IS NOT NULL and h.next_dt::date >= CURRENT_DATE)
                                     )
                                 )
                                 and (
@@ -1272,13 +1271,13 @@ class CaseRemarksVerification extends Model
                     count(
                         distinct case 
                             when h.mainhead = 'F' 
-                                and (m.tentative_cl_dt::date - CURRENT_DATE) > 1 
+                                and (h.tentative_cl_dt::date - CURRENT_DATE) > 1 
                                 and not (
                                     (
                                         (h.mainhead = 'M' and s.listtype = 'M' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
                                         or (h.mainhead = 'S' and s.listtype = 'S' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
-                                        or (m.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
-                                        or (m.next_dt IS NOT NULL and m.next_dt::date >= CURRENT_DATE)
+                                        or (h.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
+                                        or (h.next_dt IS NOT NULL and h.next_dt::date >= CURRENT_DATE)
                                     )
                                 )
                                 and (
@@ -1302,8 +1301,8 @@ class CaseRemarksVerification extends Model
                                 or (h.mainhead = 'S' and s.listtype = 'S' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
                             )
                                 and (
-                                    (m.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
-                                    or (m.next_dt IS NOT NULL and m.next_dt::date >= CURRENT_DATE)
+                                    (h.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
+                                    or (h.next_dt IS NOT NULL and h.next_dt::date >= CURRENT_DATE)
                                     or (lastorder like '%Not Reached%' or lastorder like '%Case Not Receive%' or lastorder like '%Heard & Reserved%')
                                     or head_code = '5'
                                 )
@@ -1324,8 +1323,8 @@ class CaseRemarksVerification extends Model
                                     or (h.mainhead = 'S' and s.listtype = 'S' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
                                 )
                                 and (
-                                    (m.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
-                                    or (m.next_dt IS NOT NULL and m.next_dt::date >= CURRENT_DATE)
+                                    (h.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
+                                    or (h.next_dt IS NOT NULL and h.next_dt::date >= CURRENT_DATE)
                                     or (lastorder like '%Not Reached%' or lastorder like '%Case Not Receive%' or lastorder like '%Heard & Reserved%')
                                     or head_code = '5'
                                 )
@@ -1346,8 +1345,8 @@ class CaseRemarksVerification extends Model
                                     or (h.mainhead = 'S' and s.listtype = 'S' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
                                 )
                                 and (
-                                    (m.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
-                                    or (m.next_dt IS NOT NULL and m.next_dt::date >= CURRENT_DATE)
+                                    (h.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
+                                    or (h.next_dt IS NOT NULL and h.next_dt::date >= CURRENT_DATE)
                                     or (lastorder like '%Not Reached%' or lastorder like '%Case Not Receive%' or lastorder like '%Heard & Reserved%')
                                     or head_code = '5'
                                 )
@@ -1414,6 +1413,7 @@ class CaseRemarksVerification extends Model
                     order by 
                     section_name, 
                     empid";
+                     
         // pr($sql);
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
@@ -1629,6 +1629,7 @@ class CaseRemarksVerification extends Model
                 s.category_sc_old, s.sub_name1, s.sub_name4, s.subcode1, s.subcode2,m.diary_no,r.courtno
                 ORDER BY 
                 r.courtno, mb.board_type_mb, d.clno";
+               
             $query = $this->db->query($sql);
             $result = $query->getResultArray();
             return $result;
