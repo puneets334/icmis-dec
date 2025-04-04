@@ -72,6 +72,15 @@
         z-index: 9002;
     }
 
+    .table-striped tr:nth-child(odd) td {
+        background: #fff !important;
+        box-shadow: none;
+    }
+    .table-striped tr:nth-child(odd) td:hover {
+        background: #fff !important;
+        box-shadow: none;
+    }
+
     /*#popUpDiv*/
 </style>
 <section class="content">

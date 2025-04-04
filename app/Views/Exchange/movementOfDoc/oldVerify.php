@@ -118,11 +118,10 @@
                                 </div>
 
 
-                                <div class="col-md-2">
+                                <div class="col-md-2 mt-1">
                                     <label for="from" class="text-right">&nbsp;</label>
-                                    <!-- <button type="button" name="btnGetR" style="width: 100%; background-color: #072d74; color: white;">Get Details
-                                    </button> -->
-                                    <input type="button" name="btnGetR" value="GET DETAILS"/>
+                                    
+                                    <input type="button" name="btnGetR" value="GET DETAILS" class="mt-4" />
                                 </div>
                             </div>
                             <!-- <center><input type="button" id="btnGetR" value="Show"/></center> -->

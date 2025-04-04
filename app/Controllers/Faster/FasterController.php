@@ -215,7 +215,7 @@ class FasterController extends BaseController
             $data = (!empty($detail->designation) ? trim($detail->designation).',' : '').(!empty($detail->district_name) ? trim($detail->district_name).',' : '').(!empty($detail->state_name) ? trim($detail->state_name) : '').(!empty($detail->email_id) ? ' ('.trim($detail->email_id).')' : '');
             $output.="<option value='$detail->id'>".$data."</option>";
         }
-        echo json_encode($contactDetails);
+        // echo json_encode($contactDetails);
         echo $output;
         exit(0);
     }
@@ -647,11 +647,26 @@ class FasterController extends BaseController
         }
     }
 
+    private function rrmdir($dir) { 
+        if (is_dir($dir)) { 
+          $objects = scandir($dir); 
+          foreach ($objects as $object) { 
+            if ($object != "." && $object != "..") { 
+              if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object); 
+            } 
+          } 
+          reset($objects); 
+          rmdir($dir); 
+        } 
+    }
+
     public function downloadAll(){
         extract($_SESSION);
         $sharedDocuments=$this->FasterModel->fasterSharedDocuments(0,$fasterCasesId);
+        // pr($sharedDocuments);
         // $folderLocation=FILE_ROOT_PATH.$sharedDocuments[0]['file_path'];
         $folderLocation=getBasePath().'reports'.$sharedDocuments[0]['file_path'];
+        // $folderLocationaa='/var/www/html/public/reports'.$sharedDocuments[0]['file_path'];
         $zipFileDirectory=$folderLocation."complete_file/";
         
         $pathDir = getBasePath().'reports';
@@ -659,24 +674,26 @@ class FasterController extends BaseController
         // pr($zipFileDirectory);
 
         if(is_dir($zipFileDirectory)){
+            exec("chmod -R 0777 ".$pathDir);
+            array_map('unlink', glob("$zipFileDirectory/*.*"));
+            // $this->rrmdir($zipFileDirectory);
             rmdir($zipFileDirectory);
         }
         else{
             mkdir($zipFileDirectory, 0777, true);
         }
         exec("chmod -R 0777 ".$pathDir);
-        // pr($sharedDocuments);
+        // pr($folderLocation);
 
         foreach($sharedDocuments as $index=>$document){
             $fileNameArray  = explode(".",$document['file_name']);
             $fileName       = $fileNameArray[0]."_Certified.pdf";
-            $fileToAttach   = getBasePath().'reports'.$document['file_path'].$fileNameArray[0]."_Certified.pdf";
-
+            $fileToAttach   = $folderLocation.$fileName;
             copy($fileToAttach, $zipFileDirectory.$fileName);
         }
         exec("chmod -R 0777 ".$zipFileDirectory);
 
-
+        // pr('Hello');
         $zip = new ZipArchive();
         $zip->open($folderLocation . 'complete_file.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
         try{
@@ -701,7 +718,7 @@ class FasterController extends BaseController
         ob_clean();
         $data = file_get_contents($folderLocation . '/complete_file.zip'); //assuming my file is on localhost
         $name = $_SESSION['diaryNumberForSearch']."_".date('d-m-Y').".zip";
-        $this->delete_directory($zipFileDirectory);
+        $this->rrmdir($zipFileDirectory);
 
 
         // $this->db->trans_start();

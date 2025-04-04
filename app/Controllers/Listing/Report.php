@@ -1008,7 +1008,7 @@ class Report extends BaseController
     $hd_nm_id = $request->getPost('hd_nm_id');
 
 
-    pr($hd_nm_id);
+   
 
     if ($usercode != '1' && $r_section != '30' && $r_usertype != '4') {
       $chk_users = " and u.usercode='$usercode'";
