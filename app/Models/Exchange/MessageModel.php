@@ -53,10 +53,9 @@ class MessageModel extends Model
         return $json_response;
     }
 
-    public function send_msg($mess_to_arr , $msg_frm ,$msg ,$hd_ipadd)
+    public function send_msg($mess_to_arr, $msg_frm, $msg, $hd_ipadd)
     {
-         for ($index = 0; $index < count($mess_to_arr); $index++)
-         {
+        for ($index = 0; $index < count($mess_to_arr); $index++) {
             $msg = urldecode($msg);
 
             $data = [
@@ -66,45 +65,47 @@ class MessageModel extends Model
                 'ipadd' => $hd_ipadd,
                 'time' => date('Y-m-d H:i:s')
             ];
-          
+
 
             $this->db->table('msg')->insert($data);
         }
 
-        echo "Message sent successfully...";
+
+        $message = "Message sent successfully...";
+        echo "<div style='text-align: center; color: green;'>$message</div>";
     }
 
     public function inbox_pro($q, $dtp)
     {
         $usercode = session()->get('login')['usercode'];
-    
+
         $db = \Config\Database::connect();
         $builder = $db->table('msg m')
-                      ->select('m.*, ut.type_name, u.*, us.section_name')
-                      ->join('master.users u', 'm.from_user = CAST(u.empid AS TEXT)', 'left')
-                      ->join('master.usertype ut', 'u.usertype = ut.id', 'left')
-                      ->join('master.usersection us', 'u.section = us.id', 'left')
-                      ->where('m.to_user', $usercode)
-                      ->where('m.display', 'Y')
-                      ->where('m.trash', 'N');
-    
+            ->select('m.*, ut.type_name, u.*, us.section_name')
+            ->join('master.users u', 'm.from_user = CAST(u.empid AS TEXT)', 'left')
+            ->join('master.usertype ut', 'u.usertype = ut.id', 'left')
+            ->join('master.usersection us', 'u.section = us.id', 'left')
+            ->where('m.to_user', $usercode)
+            ->where('m.display', 'Y')
+            ->where('m.trash', 'N');
+
         if ($q == 'P') {
             $builder->where('DATE(m.time)', $dtp);
         }
-    
+
         $builder->orderBy('m.seen', 'DESC')
-                ->orderBy('m.time', 'DESC');
-    
+            ->orderBy('m.time', 'DESC');
+
         $query = $builder->get();
-    
+
         $html = '';
         if ($query->getNumRows() == 0) {
             $html = '<div align="center"><strong>No Record Found</strong></div>';
         } else {
             $result = $query->getResultArray();
             // Further processing of $result if needed
-      
-    
+
+
             if ($q == 'all') {
                 $updateData =
                     [
@@ -225,7 +226,7 @@ class MessageModel extends Model
     {
         $usercode = session()->get('login')['usercode'];
         $db = \Config\Database::connect();
-    
+
         if ($q == 'all') {
             $subQuery1 = $db->table('msg m')
                 ->select('m.id, m.to_user AS tu, m.from_user AS fu, m.msg, m.time, u.name AS us_1')
@@ -233,14 +234,14 @@ class MessageModel extends Model
                 ->where('m.from_user', $usercode)
                 ->where('m.display2', 'N')
                 ->where('m.trash2', 'Y');
-    
+
             $subQuery2 = $db->table('msg m')
                 ->select('m.id, m.to_user AS tu, m.from_user AS fu, m.msg, m.time, u.name AS us_1')
                 ->join('master.users u', 'CAST(u.empid AS TEXT) = m.to_user', 'inner')
                 ->where('m.to_user', $usercode)
                 ->where('m.display', 'N')
                 ->where('m.trash', 'Y');
-    
+
             $query = $db->table("({$subQuery1->getCompiledSelect()} UNION {$subQuery2->getCompiledSelect()}) as rr")
                 ->select('rr.*, ur.name AS un')
                 ->join('master.users ur', 'CAST(ur.empid AS TEXT) = rr.fu', 'inner')
@@ -253,14 +254,14 @@ class MessageModel extends Model
                 ->where('m.from_user', $usercode)
                 ->where('m.display2', 'N')
                 ->where('m.trash2', 'Y');
-    
+
             $subQuery2 = $db->table('msg m')
                 ->select('m.id, m.to_user AS tu, m.from_user AS fu, m.msg, m.time')
                 ->join('master.users u', 'CAST(u.empid AS TEXT) = m.to_user', 'inner')
                 ->where('m.to_user', $usercode)
                 ->where('m.display', 'N')
                 ->where('m.trash', 'Y');
-    
+
             $query = $db->table("({$subQuery1->getCompiledSelect()} UNION {$subQuery2->getCompiledSelect()}) as combined")
                 ->select('combined.*, ur.name AS un, u.name AS us_1')
                 ->join('master.users ur', 'CAST(ur.empid AS TEXT) = combined.fu', 'inner')
@@ -269,14 +270,11 @@ class MessageModel extends Model
                 ->orderBy('combined.time', 'DESC')
                 ->get();
         }
-    
+
         $html = '';
-        if ($query->getNumRows() == 0)
-        {
+        if ($query->getNumRows() == 0) {
             $html = '<div align="center"><strong>No Record Found</strong></div>';
-        }
-        else
-        {
+        } else {
             $result = $query->getResultArray();
             $html .= '<table class="table_tr_th_w_clr tbl_border table-striped table-hover myTable" align="center" style="width:100%; table-layout:fixed; border:solid thin;">';
             $html .= '<col width="5%" /><col width="20%" /><col width="20%" /><col width="55%" />';
@@ -315,7 +313,7 @@ class MessageModel extends Model
         $sp = 1;
 
         if ($q == 'all') {
-          $queryString = "SELECT * 
+            $queryString = "SELECT * 
            FROM msg m
            JOIN master.users u ON u.empid::text = m.to_user
            WHERE m.from_user = '$usercode' 
@@ -324,7 +322,7 @@ class MessageModel extends Model
             AND m.trash2 = 'N'
            ORDER BY m.time DESC";
         } else if ($q == 'P') {
-           $queryString = "SELECT *
+            $queryString = "SELECT *
            FROM msg m
            JOIN master.users u ON u.empid::text = m.to_user
            WHERE m.from_user = '$usercode'
@@ -399,6 +397,7 @@ class MessageModel extends Model
         }
 
         $result = $query->getResultArray();
+      
 
         $html = '<table align="center" class="table_tr_th_w_clr tbl_border table-striped table-hover" style="width:100%;table-layout:fixed;border:solid;border-width:thin">';
         $html .= '<col width="5" /><col width="20" /><col width="45" /><col width="30" />';
@@ -406,7 +405,8 @@ class MessageModel extends Model
 
         $SN = 1;
         foreach ($result as $val) {
-            $z2 = date('j M Y, G:i:s', strtotime($val['time']));
+            //$z2 = date('j M Y, G:i:s', strtotime($val['time']));
+            $z2 = $val['time'];
             $html .= '<tr>';
             $html .= '<td width="auto">' . $SN . '</td>';
             $html .= '<td width="auto"><span id="spno_' . htmlspecialchars($val['id']) . '">'
