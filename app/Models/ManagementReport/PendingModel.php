@@ -1755,43 +1755,44 @@ class PendingModel extends Model
         elseif ($rpt_type == 'filing')
         {
             $report_name = 'Filing';
-
-                    $sql="SELECT SUBSTRING(COALESCE(NULLIF(fil_no, ''), '0') FROM 1 FOR 2)::INTEGER AS case_code, 
-                            COUNT(*) AS cnt,  
-                            short_description, 
-                            casename, 
-                            DATE(diary_no_rec_date) AS fil_dt
-                        FROM main m
-                        INNER JOIN master.casetype c ON c.casecode = m.casetype_id
-                        WHERE DATE(diary_no_rec_date) BETWEEN '$from_dt' AND '$to_dt'
-                        GROUP BY case_code, short_description, casename, fil_dt,m.diary_no_rec_date";
+            $sql="SELECT 
+                substr(MAX(fil_no), 1, 2) AS fil_no_prefix, 
+                MAX(short_description) AS short_description, 
+                MAX(casename) AS casename, 
+                MAX(diary_no_rec_date::date) AS fil_dt, 
+                count(m.ack_id) AS cnt
+            FROM 
+                main m
+            INNER JOIN 
+                master.casetype c ON c.casecode = m.casetype_id
+            WHERE 
+                diary_no_rec_date::date BETWEEN '$from_dt' AND '$to_dt'
+            GROUP BY 
+                m.casetype_id";
+                                                                                                                                                                     
                     
         }
         elseif ($rpt_type == 'defect')
         {
             $report_name = 'Defect Matters';
-            $sql="SELECT DATE(diary_no_rec_date) AS fil_dt, 
-                    COUNT(*) AS cnt,
-                    SUM(CASE WHEN fil_no IS NULL OR fil_no = '' THEN 1 ELSE 0 END) AS defect,
-                    SUM(CASE WHEN (fil_no IS NULL OR fil_no = '') AND not_reg_if_pen = 1 AND iastat = 'P' THEN 1 ELSE 0 END) AS defect_ia,
-                    SUM(CASE WHEN fil_no IS NOT NULL AND fil_no <> '' THEN 1 ELSE 0 END) AS not_defect,
-                    m.diary_no, 
-                    diary_no_rec_date, 
-                    fil_no, 
-                    not_reg_if_pen, 
-                    iastat
+            $sql="SELECT date( diary_no_rec_date ) fil_dt, count(*) cnt,
+                    sum(CASE WHEN fil_no = '' or fil_no IS NULL THEN 1 ELSE 0 END ) defect ,
+                    sum(CASE WHEN (fil_no = '' or fil_no IS NULL) and not_reg_if_pen =1 AND iastat = 'P'  THEN 1 ELSE 0 END ) defect_ia, 
+                    sum(CASE WHEN (fil_no != '' or fil_no IS not NULL) THEN 1 ELSE 0 END ) not_defect ,
+                    m.diary_no, diary_no_rec_date, fil_no, not_reg_if_pen, iastat
                     FROM main m
                     LEFT JOIN (
-                    SELECT d.diary_no, iastat, not_reg_if_pen
-                    FROM docdetails d
-                    INNER JOIN master.docmaster d2 ON d.doccode = d2.doccode
-                                        AND d.doccode1 = d2.doccode1
-                    WHERE not_reg_if_pen = 1
-                    AND iastat = 'P'
-                    GROUP BY d.diary_no, iastat, not_reg_if_pen
-                ) t ON t.diary_no = m.diary_no
-                WHERE DATE(diary_no_rec_date) BETWEEN '$from_dt' AND '$to_dt'
-                GROUP BY fil_dt, m.diary_no, diary_no_rec_date, fil_no, not_reg_if_pen, iastat";
+                            SELECT d.diary_no,iastat ,not_reg_if_pen
+                            FROM docdetails d
+                            INNER JOIN master.docmaster d2 ON d.doccode = d2.doccode
+                            AND d.doccode1 = d2.doccode1
+                            WHERE not_reg_if_pen =1
+                            AND iastat = 'P' group by diary_no,iastat ,not_reg_if_pen
+                            ) t on t.diary_no=m.diary_no
+                    WHERE date( diary_no_rec_date )
+                    BETWEEN '$from_dt' AND '$to_dt' GROUP BY date( diary_no_rec_date ),
+                    m.diary_no, diary_no_rec_date, fil_no, not_reg_if_pen, iastat";
+                    
 
         }
         elseif ($rpt_type == 'refiling')
@@ -1820,6 +1821,7 @@ class PendingModel extends Model
                     COALESCE(NULLIF(m.active_casetype_id::TEXT, '0')::INTEGER, m.casetype_id) = c.casecode
                 GROUP BY a.disp_dt, c.short_description";
         }
+        
      
 
         $query = $this->db->query($sql);
