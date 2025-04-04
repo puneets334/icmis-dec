@@ -48,7 +48,7 @@ class Diary_modify extends BaseController
         $this->Model_party= new Model_party();
         $this->Model_renewed_caveat= new Model_renewed_caveat();
         $this->Model_caveat= new Model_caveat();
-        ini_set('memory_limit','51200M'); // This also needs to be increased in some cases. Can be changed to a higher value as per need)
+        ini_set('memory_limit','-1'); // This also needs to be increased in some cases. Can be changed to a higher value as per need)
         ini_set('max_execution_time', 0);
         //error_reporting(2);
 
@@ -245,7 +245,8 @@ class Diary_modify extends BaseController
                     $res_cause_title .= strtoupper(trim($_REQUEST['res_deptt'])).' ';
                 if($_REQUEST['r_cause_t3']==1)
                     $res_cause_title .= strtoupper(trim($_REQUEST['res_post'])).' ';
-                $res_cause_title = rtrim(trim($res_cause_title),',');
+               
+                    $res_cause_title =  (!empty($res_cause_title)) ?  rtrim(trim($res_cause_title),',') : '';
                 // echo "third update";
                 $update_main=[
                     'case_pages'=> $_REQUEST['page'],

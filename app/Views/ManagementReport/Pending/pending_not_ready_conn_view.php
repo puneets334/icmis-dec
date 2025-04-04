@@ -80,4 +80,14 @@
         });
         
     });
+
+    $(document).on("click","#print1",function(){
+    var prtContent = $("#dv_content1").html();
+    var temp_str=prtContent;
+    var WinPrint = window.open('','','left=10,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1');
+    WinPrint.document.write(temp_str);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+});
 </script>

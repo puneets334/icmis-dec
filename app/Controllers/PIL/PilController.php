@@ -223,6 +223,7 @@ class PilController extends BaseController
                 $columnName=$columnName."address_to,";
                 $valueField=$valueField."'".$this->addSlashinString($addressedto)."',";
             }
+           
             if(!empty($receivedfrom)){
                 $columnName=$columnName."received_from,";
                 $valueField=$valueField."'".$this->addSlashinString($receivedfrom)."',";
@@ -429,6 +430,7 @@ class PilController extends BaseController
             if(!empty($addressedto)){
                 $updateQuery=$updateQuery."address_to='".$this->addSlashinString($addressedto)."',";
             }
+            // pr('rrrrrr_'.$updateQuery);
             if(!empty($receivedfrom)){
                 $updateQuery=$updateQuery."received_from='".$this->addSlashinString($receivedfrom)."',";
             }
@@ -625,7 +627,8 @@ class PilController extends BaseController
     }
 
     private function addSlashinString($str){
-        return addslashes($str);
+        //return addslashes($str);
+        return str_replace("'", "''", $str);
 
     }
 
@@ -1055,10 +1058,7 @@ class PilController extends BaseController
            return $data;
 
         }
-//       var_dump($data['casesInPilGroup']);
-//        echo "<pre>";
-//        print_r($data);
-//        die;
+ 
         return view('PIL/reportPilGroupView', $data);
 
     }
@@ -1417,7 +1417,10 @@ class PilController extends BaseController
        
         // Load necessary models
         //$this->CourtMasterModel = new \App\Models\Court\CourtMasterModel();
-    
+        if($ecPilGroupId == '' || $ecPilGroupId == 0)
+        {
+            $ecPilGroupId = $_POST['ecPilGroupId'];
+        }
         // Fetch user details and report data
         $userdetail = $this->CourtMasterModel->getUserNameAndDesignation($_SESSION['login']['usercode']);
         $pilGroupData = $this->PilModel->getCasesInPilGroup_asc($ecPilGroupId);
@@ -1533,18 +1536,17 @@ class PilController extends BaseController
     
         }elseif ($reportType=='With_Brief_History'){
 
-           // error_reporting(0);
-           // pr($pilData);
-            /*var_dump($pilGroupData);
-            exit(0);*/
-                    /*foreach($pilData as $index=>$data){*/
-                        foreach($pilGroupData as $index=>$data){
-                        if($index==0){
-                            $reportContent="Inward Nos. ";
-                            $receivedFrom="Received from :- ".$this->common->convertToTitleCase($data['received_from']);
-                        }
+            $reportContent = $receivedFrom = '';
+                   if(!empty($pilGroupData))
+                   {
+                        foreach($pilGroupData as $index=>$data){                           
+                            if($index==0){
+                                $reportContent="Inward Nos. ";
+                                $receivedFrom="Received from :- ".$this->common->convertToTitleCase($data['received_from']);
+                            }
                         $reportContent.=$data['pil_diary_number'].", ";
                     }
+                }
 
                     if(!empty($pilData))
                     $totalPils=count($pilData);

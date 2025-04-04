@@ -1815,6 +1815,7 @@ class PendingModel extends Model
     }
     public function get_institutionDisposal_report($ddlYear, $ddlMonth)
     {
+
         $report_name = '';
         $month = $ddlMonth;
         $year = $ddlYear;
@@ -1826,6 +1827,60 @@ class PendingModel extends Model
 
         // Last day of the month.
         $lastDate = date('Y-m-t', strtotime($query_date));
+        // pr("select * from 
+        // (select sum(case when mf_active='F' then 0 else 1 end) as misc_institution,
+        // sum(case when mf_active='F' then 1 else 0 end) as reg_institution,
+        // sum(case when case_grp='C' then 1 else 0 end) as civil_institution,
+        // sum(case when case_grp='R' then 1 else 0 end) as criminal_institution,
+        // count(diary_no) inst from 
+        // (SELECT m.diary_no, m.fil_dt, unreg_fil_dt,mf_active,case_grp
+        // FROM main m
+        // WHERE 
+        // IF (
+        // date(unreg_fil_dt) != '0000-00-00'
+        // AND (
+        // date(unreg_fil_dt) <= date( m.fil_dt )
+        // OR date( m.fil_dt ) = '0000-00-00'
+        // ), date(unreg_fil_dt) between '".$firstDate."' and '".$lastDate."', (
+        // date( m.fil_dt ) between '".$firstDate."' and '".$lastDate."'
+        // AND date(fil_dt) != '0000-00-00'
+        // )
+        // )
+        // AND (
+        // substr(m.fil_no, 1, 2) NOT IN ( 39 )
+        // OR m.fil_no = ''
+        // OR m.fil_no IS NULL
+        // )
+        // GROUP BY m.diary_no
+        // ) a) ins,
+        // (select sum(case when mf_active='F' then 0 else 1 end) as misc_dispose,
+        // sum(case when mf_active='F' then 1 else 0 end) as reg_dispose,
+        // sum(case when case_grp='C' then 1 else 0 end) as civil_dispose,
+        // sum(case when case_grp='R' then 1 else 0 end) as criminal_dispose ,
+        // count(diary_no) total from (SELECT IF (
+        // unreg_fil_dt != '0000-00-00'
+        // AND unreg_fil_dt <= date( m.fil_dt ) , 'u', 'r'
+        // ), unreg_fil_dt, fil_dt, d.diary_no , d.fil_no, d.month, d.year, d.disp_dt, d.disp_type, d.rj_dt,
+        // mf_active,case_grp
+        // FROM dispose d
+        // INNER JOIN main m ON m.diary_no = d.diary_no
+        // WHERE 1 =1 AND (
+        // substr(m.fil_no, 1, 2) NOT
+        // IN ( 39 )
+        // OR m.fil_no = ''
+        // OR m.fil_no IS NULL
+        // )
+        // AND
+        // IF (date(d.rj_dt) != '0000-00-00', date(d.rj_dt)
+        // BETWEEN '".$firstDate."' and '".$lastDate."', date(d.disp_dt)
+        // between '".$firstDate."' and '".$lastDate."'
+        // )
+        // AND
+        // IF (date(unreg_fil_dt) != '0000-00-00'
+        // AND date(unreg_fil_dt) <= date( m.fil_dt ) , date(unreg_fil_dt) != '0000-00-00', (
+        // date( m.fil_dt ) != '0000-00-00'
+        // AND date(fil_dt) != '0000-00-00'
+        // ))) a) dis");
         $sql = "SELECT *
                           FROM (
                           SELECT 
