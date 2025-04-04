@@ -46,6 +46,17 @@
         width: 100%;
         height: 100%;
     }
+    #newcs{height:80vh!important}
+    #newcs123{height: 67vh;
+        overflow-y: scroll;}
+    
+        .iFrameWrapper {
+        position: relative;
+        padding-bottom: 0 !important;
+        padding-top: 5px !important;
+        height: 0 !important;
+    }
+    
 </style>
 
 <section class="content">
@@ -100,7 +111,7 @@
                                                 </div>
                                                 <div id="res_loader"></div>
 
-                                                <div id="dv_res1"></div>
+                                                <div id="dv_res1" class="pad10"></div>
                                             </div>
                                             <div id="overlay" style="display:none;">&nbsp;</div>
                                             <?php echo form_close(); ?>
@@ -192,8 +203,8 @@
         divname = "newcs";
         document.getElementById(divname).style.display = 'block';
         $('#' + divname).width($(window).width() - 150);
-        $('#' + divname).height($(window).height() - 480);
-        $('#newcs123').height($('#newcs').height() - $('#newcs1').height() - 50);
+        $('#' + divname).height($(window).height() - 300);
+        $('#newcs123').height($('#newcs').height() - $('#newcs1').height() - 350);
         var newX = ($('#' + divname).width() / 2);
         var newY = ($('#' + divname).height() / 2);
         document.getElementById(divname).style.marginLeft = "-" + newX + "px";

@@ -84,7 +84,7 @@
         "buttons": [{
             extend: 'print',
             text: 'Print',
-            className: 'btn-primary quick-btn',
+            className: 'btn btn-primary',
             customize: function(win) {
                 $(win.document.body).find('h1').remove();
             }

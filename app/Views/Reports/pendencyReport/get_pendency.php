@@ -96,7 +96,7 @@
                             <input type="hidden" name="usercode" id="usercode" value="<?php echo session()->get('login')['usercode']; ?>"/>
                             <div class="form-group row">
                                 <div class="col-md-12" style="overflow: hidden;padding-top: 26px;" align="center">
-                                    <input type="button" id="btnGetR" value="Show">
+                                    <input type="button" id="btnGetR" value="Show" class="btn btn-primary">
                                 </div>
                             <?= form_close()?>
                         </div>
