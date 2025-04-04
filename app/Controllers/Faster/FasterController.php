@@ -95,11 +95,12 @@ class FasterController extends BaseController
 
     private function goToCurrentStage($diaryNumberForSearch, $nextDate=""){
         $_SESSION['diaryNumberForSearch']=$diaryNumberForSearch;
+        
         if(!empty($nextDate)){
             $_SESSION['nextDate']=convertToYmd($nextDate);
         }
-        $caseDetails=$this->getCaseDetails($diaryNumberForSearch, $nextDate);
         
+        $caseDetails=$this->getCaseDetails($diaryNumberForSearch, $nextDate);        
         
         $data['caseDetails']=$caseDetails;
         $casetype_id=$caseDetails[0]['casetype_id'];
@@ -107,8 +108,9 @@ class FasterController extends BaseController
             $casetype_id=$caseDetails[0]['active_casetype_id'];
         }
         $data['noticeTypes']=$this->FasterModel->getNoticeType($caseDetails[0]['nature'],$caseDetails[0]['section_id'],$caseDetails[0]['c_status'],$casetype_id);
-
-        if(isset($caseDetails[0]['last_step_id']) && !empty($caseDetails[0]['last_step_id'])){
+        
+        if(isset($caseDetails[0]['last_step_id']) && !empty($caseDetails[0]['last_step_id']))
+        {
             switch ($caseDetails[0]['last_step_id']){
                 case ADD_DOCUMENTS:
                     $data['multiStepFlag']='AddDocuments';
@@ -153,7 +155,8 @@ class FasterController extends BaseController
         return view('Faster/multiStep',$data);
     }
 
-    private function getCaseDetails($diaryNo,$nextDate=""){
+    private function getCaseDetails($diaryNo,$nextDate="")
+    {
         $caseDetails=$this->FasterModel->caseDetails($diaryNo,$nextDate);
         
         if(count($caseDetails) > 0){

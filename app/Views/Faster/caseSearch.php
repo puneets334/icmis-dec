@@ -65,7 +65,7 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="view">&nbsp;</label>
-                        <button type="submit"  id="view" name="view" class="btn btn-block btn-primary">View</button>
+                        <button type="button"  id="view" name="view" class="btn btn-block btn-primary">View</button>
                     </div>
                 </div>
                 </div>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="view">&nbsp;</label>
-                        <button type="submit"  id="view" name="view" class="btn btn-block btn-primary">View</button>
+                        <button type="button"  id="view" name="view" class="btn btn-block btn-primary">View</button>
                     </div>
 
                 </div>
@@ -101,6 +101,7 @@
 
             </div>
         </form>
+        <center><span id="loader"></span></center>
         <hr>
         <div class="row">
             <div id="diaryNoWise" class="col-sm-12">
@@ -178,7 +179,14 @@
         $(this).alert('close');
     });
 
-
+    $('#view').on('click', function(e){
+        e.preventDefault();
+        $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+        $(this).attr('disabled','disabled');
+        if($('#headerForm').submit()){
+            alert('error');
+        }
+    });
 
     $(document).ready(function()
     {
