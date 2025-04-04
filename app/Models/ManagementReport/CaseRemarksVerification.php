@@ -1699,492 +1699,156 @@ class CaseRemarksVerification extends Model
 
     public function pending_not_ready_process_data()
     {
-        $sql = "SELECT 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('C') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key is null
-    ) THEN 1 ELSE 0 END
-  ) chamber_not_ready_main, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('C') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) chamber_not_ready_conn, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('C') THEN 1 ELSE 0 END
-  ) chamber_not_ready, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('R') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key is null
-    ) THEN 1 ELSE 0 END
-  ) Registrar_not_ready_main, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('R') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) Registrar_not_ready_conn, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('R') THEN 1 ELSE 0 END
-  ) Registrar_not_ready, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (main_supp_flag = 3) 
-    AND board_type IN ('J') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key is null
-    ) THEN 1 ELSE 0 END
-  ) misc_not_ready_main, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND main_supp_flag = 3 
-    AND board_type IN ('J') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) misc_not_ready_conn, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND main_supp_flag = 3 
-    AND board_type IN ('J') THEN 1 ELSE 0 END
-  ) misc_not_ready, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key IS NULL
-    ) THEN 1 ELSE 0 END
-  ) AS misc_updation_awaited_main, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J') 
-    AND temp.conn_key != temp.diary_no :: text 
-    AND temp.conn_key > '0' THEN 1 ELSE 0 END
-  ) AS misc_updation_awaited_conn, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J') THEN 1 ELSE 0 END
-  ) AS misc_updation_awaited, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key IS NULL
-    ) THEN 1 ELSE 0 END
-  ) AS misc_total_main, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) AS misc_total_conn, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J') THEN 1 ELSE 0 END
-  ) AS misc_total, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND main_supp_flag = 3 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key is null
-    ) THEN 1 ELSE 0 END
-  ) final_not_ready_main, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND main_supp_flag = 3 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) final_not_ready_conn, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND main_supp_flag = 3 
-    AND board_type IN ('J', 'C', 'R') THEN 1 ELSE 0 END
-  ) final_not_ready, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key IS NULL
-    ) THEN 1 ELSE 0 END
-  ) AS final_updation_awaited_main, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) AS final_updation_awaited_conn, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') THEN 1 ELSE 0 END
-  ) AS final_updation_awaited, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key IS NULL
-    ) THEN 1 ELSE 0 END
-  ) AS final_total_main, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) AS final_total_conn, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') THEN 1 ELSE 0 END
-  ) AS final_total 
-FROM 
-  (
-    SELECT 
-      DISTINCT a.diary_no, 
-      a.conn_key, 
-      next_dt, 
-      mf_active, 
-      main_supp_flag, 
-      board_type, 
-      case_grp, 
-      fil_dt, 
-      c.list 
-    FROM 
-      (
-        SELECT 
-          m.diary_no, 
-          m.conn_key, 
-          h.next_dt, 
-          m.fil_dt, 
-          c_status, 
-          d.rj_dt, 
-          d.month, 
-          d.year, 
-          d.disp_dt, 
-          active_casetype_id, 
-          casetype_id, 
-          m.mf_active, 
-          h.main_supp_flag, 
-          h.board_type, 
-          m.case_grp 
-        FROM 
-          main m 
-          LEFT JOIN heardt h ON m.diary_no = h.diary_no 
-          LEFT JOIN dispose d ON m.diary_no = d.diary_no 
-          LEFT JOIN restored r ON m.diary_no = r.diary_no 
-        WHERE 
-          1 = 1 
-          AND h.board_type IN ('J', 'C', 'R') 
-          AND (
-            CASE WHEN DATE(r.disp_dt) IS NOT NULL 
-            AND r.disp_dt IS NOT NULL 
-            AND DATE(r.conn_next_dt) IS NOT NULL 
-            AND r.conn_next_dt IS NOT NULL THEN CURRENT_DATE NOT BETWEEN DATE(r.disp_dt) 
-            AND DATE(conn_next_dt) ELSE DATE(r.disp_dt) IS NULL 
-            OR r.disp_dt IS NULL 
-            OR DATE(r.conn_next_dt) IS NULL 
-            OR r.conn_next_dt IS NULL END 
-            OR r.fil_no IS NULL
-          ) 
-          AND (
-            CASE WHEN DATE(r.unreg_fil_dt) IS NOT NULL 
+        $sql = "SELECT
+    -- Chamber Not Ready Counts
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('C')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) chamber_not_ready_main,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('C')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) chamber_not_ready_conn,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('C')
+        THEN 1 ELSE 0 END) chamber_not_ready,
+
+    -- Registrar Not Ready Counts
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('R')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) registrar_not_ready_main,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('R')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) registrar_not_ready_conn,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('R')
+        THEN 1 ELSE 0 END) registrar_not_ready,
+
+    -- Misc Not Ready Counts
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 3 AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) misc_not_ready_main,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 3 AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) misc_not_ready_conn,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 3 AND board_type IN ('J')
+        THEN 1 ELSE 0 END) misc_not_ready,
+
+    -- Misc Updation Awaited Counts
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 5 AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) misc_updation_awaited_main,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 5 AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) misc_updation_awaited_conn,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 5 AND board_type IN ('J')
+        THEN 1 ELSE 0 END) misc_updation_awaited,
+
+    -- Misc Total Counts
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) misc_total_main,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) misc_total_conn,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        THEN 1 ELSE 0 END) misc_total,
+
+    -- Final Not Ready Counts
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 4 AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) final_not_ready_main,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 4 AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) final_not_ready_conn,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 4 AND board_type IN ('J')
+        THEN 1 ELSE 0 END) final_not_ready,
+
+    -- Final Updation Awaited Counts
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 6 AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) final_updation_awaited_main,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 6 AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) final_updation_awaited_conn,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 6 AND board_type IN ('J')
+        THEN 1 ELSE 0 END) final_updation_awaited,
+
+    -- Final Total Counts
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) final_total_main,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) final_total_conn,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        THEN 1 ELSE 0 END) final_total
+
+FROM (
+    -- Subquery logic remains unchanged
+    SELECT DISTINCT
+        a.diary_no,
+        a.conn_key,
+        next_dt,
+        mf_active,
+        main_supp_flag,
+        board_type,
+        case_grp,
+        fil_dt,
+        c.list
+    FROM (
+            SELECT
+            m.diary_no,
+            m.conn_key,
+            h.next_dt,
+            m.fil_dt,
+            c_status,
+            d.rj_dt,
+            d.month,
+            d.year,
+            d.disp_dt,
+            active_casetype_id,
+            casetype_id,
+            m.mf_active,
+            h.main_supp_flag,
+            h.board_type,
+            m.case_grp
+        FROM main m
+        LEFT JOIN public.heardt h ON m.diary_no = h.diary_no
+        LEFT JOIN dispose d ON m.diary_no = d.diary_no
+        LEFT JOIN restored r ON m.diary_no = r.diary_no
+        WHERE 1 = 1
+            AND board_type IN ('J', 'C', 'R')
             AND (
-              DATE(r.unreg_fil_dt) <= DATE(m.fil_dt) 
-              OR DATE(m.fil_dt) IS NULL
-            ) THEN DATE(r.unreg_fil_dt) <= CURRENT_DATE ELSE DATE(m.fil_dt) <= CURRENT_DATE 
-            AND DATE(fil_dt) IS NOT NULL END
-          ) 
-          AND c_status = 'P' 
-          OR (
-            c_status = 'D' 
+                CASE 
+                    WHEN r.disp_dt IS NOT NULL AND r.conn_next_dt IS NOT NULL THEN
+                        CURRENT_DATE NOT BETWEEN r.disp_dt AND r.conn_next_dt
+                    ELSE 
+                        r.disp_dt IS NULL OR r.conn_next_dt IS NULL
+                END
+                OR r.fil_no IS NULL
+            )
             AND (
-              CASE WHEN DATE(d.rj_dt) IS NOT NULL THEN DATE(d.rj_dt) >= CURRENT_DATE 
-              AND DATE(d.rj_dt) >= '1950-01-01' 
-              AND NOT (
-                DATE(d.rj_dt) > CURRENT_DATE
-              ) WHEN DATE(d.disp_dt) IS NOT NULL THEN DATE(d.disp_dt) >= CURRENT_DATE 
-              AND DATE(d.disp_dt) >= '1950-01-01' 
-              AND NOT (
-                DATE(d.disp_dt) > CURRENT_DATE
-              ) ELSE TO_DATE(
-                d.year || '-' || LPAD(d.month :: TEXT, 2, '0') || '-01', 
-                'YYYY-MM-DD'
-              ) >= CURRENT_DATE 
-              AND DATE(d.disp_dt) >= '1950-01-01' 
-              AND NOT (
-                DATE(d.disp_dt) > CURRENT_DATE
-              ) END
-            ) 
+                CASE 
+                    WHEN unreg_fil_dt IS NOT NULL 
+                        AND (unreg_fil_dt <= m.fil_dt OR m.fil_dt IS NULL)
+                    THEN unreg_fil_dt <= CURRENT_DATE
+                    ELSE m.fil_dt <= CURRENT_DATE AND m.fil_dt IS NOT NULL
+                END
+            )
             AND (
-              CASE WHEN DATE(r.unreg_fil_dt) IS NOT NULL 
-              AND (
-                DATE(r.unreg_fil_dt) <= DATE(m.fil_dt) 
-                OR DATE(m.fil_dt) IS NULL
-              ) THEN DATE(r.unreg_fil_dt) <= CURRENT_DATE ELSE DATE(m.fil_dt) <= CURRENT_DATE 
-              AND DATE(fil_dt) IS NOT NULL END
-            ) 
-            AND CASE WHEN DATE(r.disp_dt) IS NOT NULL 
-            AND r.disp_dt IS NOT NULL 
-            AND DATE(r.conn_next_dt) IS NOT NULL 
-            AND r.conn_next_dt IS NOT NULL THEN CURRENT_DATE NOT BETWEEN DATE(r.disp_dt) 
-            AND DATE(conn_next_dt) ELSE DATE(r.disp_dt) IS NULL 
-            OR r.disp_dt IS NULL 
-            OR DATE(r.conn_next_dt) IS NULL 
-            OR r.conn_next_dt IS NULL END
-          ) 
-          AND (
-            CAST(
-              COALESCE(
-                NULLIF(
-                  SUBSTRING(
-                    m.fil_no 
-                    FROM 
-                      1 FOR 2
-                  ), 
-                  ''
-                ), 
-                '0'
-              ) AS INTEGER
-            ) NOT IN (39)
-          ) 
-          OR m.fil_no = '' 
-          OR m.fil_no IS NULL 
-        GROUP BY 
+                c_status = 'P' OR 
+                (c_status = 'D' AND (
+                    CASE 
+                        WHEN d.rj_dt IS NOT NULL THEN 
+                            d.rj_dt >= CURRENT_DATE AND d.rj_dt >= '1950-01-01'
+                        WHEN d.disp_dt IS NOT NULL THEN 
+                            d.disp_dt >= CURRENT_DATE AND d.disp_dt >= '1950-01-01'
+                        ELSE 
+                            TO_DATE(d.year || '-' || LPAD(d.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') >= CURRENT_DATE
+                    END
+                ))
+            )
+            AND (
+                SUBSTRING(m.fil_no FROM 1 FOR 2) NOT IN ('39') OR m.fil_no IS NULL
+            )
+                       GROUP BY 
           m.diary_no, 
           h.next_dt, 
           d.rj_dt, 
@@ -2193,9 +1857,10 @@ FROM
           d.disp_dt, 
           h.main_supp_flag, 
           h.board_type
-      ) a 
-      left join conct c on c.diary_no = a.diary_no
-  ) temp";
+    ) a
+    LEFT JOIN conct c ON c.diary_no = a.diary_no
+) temp";
+
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
