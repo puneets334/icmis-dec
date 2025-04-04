@@ -1933,4 +1933,60 @@ class PendingModel extends Model
         }
     }
     ///kr************************************************************************************************************
+
+
+
+    // Shubham Work 
+    public function getCaseName($case_type)
+    {
+        $builder = $this->db->table('master.casetype');
+        $builder->select('casename');
+        $builder->where('casecode', $case_type);
+        $query = $builder->get();
+        $row = $query->getRowArray();
+        return $row['casename'] ?? null;
+    }
+
+    public function getSectionName($section)
+    {
+        $builder = $this->db->table('master.usersection');
+        $builder->select('section_name');
+        $builder->where('id', $section);
+        $query = $builder->get();
+        $row = $query->getRowArray();
+        return $row['section_name'] ?? null;
+    }
+
+
+    public function getDetailsList($condition_agency, $condition_case, $condition_year, $condition_sec)
+    {
+        $builder = $this->db->table('main m');
+        $builder->select("substring(m.diary_no::text, 1, length(m.diary_no::text) - 4) as diary_no,
+                          substring(m.diary_no::text, -4) as diary_year,
+                  pet_name, res_name, reg_no_display, empid, dacode, name, type_name, section_name");
+        $builder->join('master.users user', 'm.dacode = user.usercode', 'left');
+        $builder->join('master.usertype ut', 'ut.id = user.usertype', 'left');
+        $builder->join('master.usersection b', 'b.id = user.section', 'left');
+        $builder->where('c_status', 'P');
+        $builder->where('m.fil_dt IS NOT NULL');
+        if (!empty($condition_sec)) {
+            $builder->where($condition_sec);
+        }
+        if (!empty($condition_year)) {
+            $builder->where($condition_year);
+        }
+        if (!empty($condition_case)) {
+            $builder->where($condition_case);
+        }
+        if (!empty($condition_agency)) {
+            $builder->where($condition_agency);
+        }
+        $query = $builder->get();
+        if ($query->getNumRows() == 0) {
+            return [];
+        }
+        return $query->getResultArray();
+    }
+
+    // Shubham Work END
 }

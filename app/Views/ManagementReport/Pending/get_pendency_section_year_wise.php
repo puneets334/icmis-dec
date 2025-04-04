@@ -7,7 +7,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Year-Section wise Pendency</h3>
+                                <h3 class="card-title">Management Report >> Pending >> Year - Section wise Pendency</h3>
                             </div>
                             <?= view('Filing/filing_filter_buttons'); ?>
                         </div>
@@ -31,7 +31,7 @@
 </section>
 <script>
     $("#btnGetR").click(function() {
-        $("#dv_res1").html('<center><img src="../images/load.gif"/></center>');
+        $("#dv_res1").html('<center><img src="<?= base_url(); ?>/images/load.gif"/></center>');
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
         $.ajax({

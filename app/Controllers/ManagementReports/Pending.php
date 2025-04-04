@@ -188,12 +188,53 @@ class Pending extends BaseController
         $data['array_result'] = $this->PendingModel->year_section_wise_pendency();
         return view('ManagementReport/Pending/year_section_wise_pendency', $data);
     }
+
+    // Shubham work start 
     public function details()
     {
-        $data['year'] = $this->request->getGet('year');
-        $data['section'] = $this->request->getGet('section');
+        $heading = "";
+        $agency = $this->request->getGet('agency');
+        $state = $this->request->getGet('state');
+        $case_type = $this->request->getGet('case_type');
+        $year = $this->request->getGet('year');
+        $section = $this->request->getGet('section');
+
+        if ($agency) {
+            $condition_agency = "m.ref_agency_state_id=" . $agency;
+            $heading .= " State-" . $state;
+        } else {
+            $condition_agency = "";
+        }
+
+        if ($case_type) {
+            $condition_case = "m.active_casetype_id=" . $case_type;
+            $casename = $this->PendingModel->getCaseName($case_type);
+            $heading .= "Case Type-" . $casename;
+        } else {
+            $condition_case = "";
+        }
+
+        if ($year) {
+            $condition_year = "m.active_reg_year=" . $year;
+            $heading .= "Registration Year-" . $year;
+        } else {
+            $condition_year = "";
+        }
+
+        if ($section) {
+            $condition_sec = "b.id=" . $section;
+            $sectionname = $this->PendingModel->getSectionName($section); 
+            $heading .= "Section-" . $sectionname;
+        } else {
+            $condition_sec = "";
+        }
+        
+        $data['heading'] = $heading;
+        $data['details_list']=$this->PendingModel->getDetailsList($condition_agency, $condition_case, $condition_year, $condition_sec);
         return view('ManagementReport/Pending/details', $data);
     }
+    //  Shubham work END
+
     public function year_head_nature_wise_ason_rpt()
     {
         $data['subject'] = $this->PendingModel->subject();
