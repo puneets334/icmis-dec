@@ -93,7 +93,6 @@
             var res = await updateCSRFTokenSyncr();
             var CSRF_TOKEN_VALUE = res.CSRF_TOKEN_VALUE
             $.post("<?=base_url()?>/Faster/FasterController/getStakeholderDetails", {CSRF_TOKEN: CSRF_TOKEN_VALUE, stakeholder: stakeholder},function(result){
-                console.log('Hiiii')
                 $("#stakeholderDetails").html(result);
                 $("#divResult").html(result);
             });
