@@ -159,7 +159,8 @@ class MessageModel extends Model
                 $html .= '<input type="button" value="Reply" onclick="replythis(' . $val['from_user'] . ');" />';
 
                 // Popup for reply
-               xkground-color: whitesmoke;">';
+                $html .= '<div id="blanket" style="display:none;"></div>';
+                $html .= '<div id="popUpDiv" style="display:none; background-color: whitesmoke;">';
                 $html .= '<table class="table_tr_th_w_clr tbl_border" style="width:400px; height: 400px;">';
                 $html .= '<tr><td colspan="2"><span id="reply_str" style="display:none;"></span></td></tr>';
                 $html .= '<tr><td colspan="2"><textarea id="replytext" style="width: 400px; height: 200px;"></textarea></td></tr>';
