@@ -51,8 +51,7 @@
                                 <div class="form-group row">
                                     <label><h4 style="margin-top: 15%;">Search By:</h4></label>
                                     <div class="col-md-6">
-                                        <select class="form-control" name="columnName" id="columnName">
-                                            <option value="" >Search by</option>
+                                        <select class="form-control" name="columnName" id="columnName">                                            
                                             <option value="n">Applicant Name</option>
                                             <option value="a">Address</option>
                                             <option value="m">mobile</option>
@@ -153,7 +152,7 @@
             {
                 if(qryText.trim().length<5)
                 {
-                    alert("Please Enter Minimum 5 Digit While Searching For Inward Number(diary no + diary year)");
+                    alert("Please Enter Minimum 5 Digit While Searching For Inward Number(diary no & diary year)");
                     return false;
                 }
 

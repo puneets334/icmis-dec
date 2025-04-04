@@ -10,21 +10,22 @@
                                 <h3 class="card-title">Upload Old Judgments</h3>
                             </div>
 
-                            <?= view('Filing/filing_filter_buttons'); ?>
+                            
                         </div>
                     </div>
                     <div class="card-body">
-                        <input type="hidden" name="court_userName" id="court_userName" value="<?php // echo  $_SESSION['userName']; 
+                    <?= view('Library/court_notification'); ?><br>
+                        <input type="hidden" name="court_username" id="court_username" value="<?php  echo  $_SESSION['username']; 
                                                                                                 ?>">
-                        <input type="hidden" name="userrole_id" id="userrole_id" value="<?php // echo $_SESSION['role_id']; 
+                        <input type="hidden" name="userrole_id" id="userrole_id" value="<?php  echo $_SESSION['role_id']; 
                                                                                         ?>">
-                        <input type="hidden" name="court_number" id="court_number" class="form-control" value="<?php //echo $_SESSION['court_number']; 
+                        <input type="hidden" name="court_number" id="court_number" class="form-control" value="<?php echo $_SESSION['court_number']; 
                                                                                                                 ?>">
                         <div class="col-sm-12 " id="">
                             <center>
-                                <h3><?php // echo $_SESSION['court_number']; 
+                                <h3><?php  echo $_SESSION['court_number']; 
                                     ?>
-                                    &nbsp;(BENCH:&nbsp;<?php // $_SESSION['court_bench']; 
+                                    &nbsp;(BENCH:&nbsp;<?php echo $_SESSION['court_bench']; 
                                                         ?>)</h3>
                             </center>
                             <div class="table-responsive">
@@ -195,67 +196,50 @@
         </div>
 
     </div>
-    <div class="" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal" id="modelWindow" tabindex="-1" aria-labelledby="modelWindowLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg vertical-align-center">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="position: relative;border-bottom: 1px solid #ccc;">
 
                     <h5 class="modal-title">Requisition Form</h5> <button type="button" class="close"
                         data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" style="padding-top: 25px !important; text-align: left;">
 
 
                     <form action="" name="frmrequistionAsst" id="frmrequistionAsst">
-                        <input type="hidden" name="court_userName" id="court_userName"
-                            value="<?php // echo $_SESSION['userName']; 
-                                    ?>">
+                    <?= csrf_field() ?>    
+                        <input type="hidden" name="court_username" id="court_username" value="<?php  echo $_SESSION['username']; ?>">
 
-                        <input type="hidden" name="court_number" id="court_number" class="form-control"
-                            value="<?php // echo $_SESSION['court_number']; 
-                                    ?>">
+                        <input type="hidden" name="court_number" id="court_number" class="form-control" value="<?php  echo $_SESSION['court_number']; ?>">
 
-                        <input type="hidden" name="userIp" id="userIp"
-                            value="<?php // echo $_SERVER['REMOTE_ADDR']; 
-                                    ?>">
-                        <input type="hidden" name="court_bench" id="court_bench"
-                            value="<?php // echo $_SESSION['court_bench'] 
-                                    ?>">
+                        <input type="hidden" name="userIp" id="userIp" value="<?php  echo $_SERVER['REMOTE_ADDR']; ?>">
+                        <input type="hidden" name="court_bench" id="court_bench" value="<?php  echo $_SESSION['court_bench'] ?>">
 
                         <input type="hidden" name="user_type" id="user_type" value="1">
 
-                        <input type="hidden" name="token" id="token" value="<?php // echo $_SESSION['token']; 
-                                                                            ?>">
+                        <input type="hidden" name="token" id="token" value="<?php echo $_SESSION['token']; ?>">
 
                         <div class="row">
                             <div class="col-sm-4">
                                 <label for="remark">List Date: <span style="color:red;">*</span></label>
                                 <select id="dtd" name="dtd" class="form-control">
-                                    <!-- <option value="">Select List Date</option>  -->
-                                    <?php //foreach ($dataDropdown as $res) { 
-                                    ?>
-                                    <option value="<?php // echo $res['next_dt']; 
-                                                    ?>">
-                                        <?php // echo date("d-m-Y", strtotime($res['next_dt'])); 
-                                        ?></option>
-                                    <?php //} 
-                                    ?>
+                                      <option value="">Select List Date</option>  
+                                      <?php foreach ($dataDropdown as $res)  {?>
+                                    <option value="<?php echo $res['next_dt'];?>" ><?php echo date("d-m-Y", strtotime($res['next_dt']));?></option>
+                                <?php }?>
                                 </select>
                             </div>
                             <div class="col-sm-4">
                                 <label for="section">Section<span style="color:red;">*</span></label>
                                 <select id="section" name="section" class="form-control">
-                                    <option value="">Select Section</option>
-                                    <?php
-                                    //while ($result = $librarySection->fetch(PDO::FETCH_ASSOC)) {
+                                <option value="">Select Section</option>
+                                <?php
+                                foreach ($librarySection as $result) {
                                     ?>
-                                    <option value="<?php //  echo $result['library_section_name'] 
-                                                    ?>">
-                                        <?php // echo $result['library_section_name'] 
-                                        ?></option>
-                                    <?php //} 
-                                    ?>
-                                </select>
+                                    <option value="<?php echo $result['library_section_name'] ?>"><?php echo $result['library_section_name'] ?></option>
+                                <?php } ?>
+                            </select>
                             </div>
                             <div class="col-sm-4">
                                 <label for="remark">Court No<span style="color:red;">*</span></label>
@@ -298,8 +282,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <label for="adv_name">Advocate Name: </label>
-                                <input type="text" class="form-control adv_name" name="adv_name" id="adv_name"
-                                    placeholder="Advocate Name" value="">
+                                <input type="text" class="form-control adv_name" name="adv_name" id="adv_name" placeholder="Advocate Name" value="">
                             </div>
 
                             <div class="col-sm-4">
@@ -402,6 +385,7 @@
 
                         <button type="button" class="btn btn-success" id="addQuery"
                             onclick="formValidation();">Submit Requisition</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-danger">Close</button>
                     </form>
 
 
@@ -412,13 +396,14 @@
                     <div class="alert alert-success w-50" role="alert" id="successMsg"
                         style="display:none; margin: 0 auto;"></div>
 
-                    <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                    
                 </div>
             </div>
         </div>
     </div>
 </section>
-<script src="<?php echo base_url(); ?>/plugins/jquery/jquery.min.js"></script>
+<!-- <script src="<?php //echo base_url(); ?>/plugins/jquery/jquery.min.js"></script> -->
+<script src="<?php echo base_url();?>/requisition/requistion.js">   </script>
 <script>
     $(document).ready(function() {
 
@@ -434,19 +419,19 @@
             $('#court_no').val('<?= $_SESSION['court_number'] ?>')
             $('#court_no').attr('disabled', true)
         }
-        setInterval(function() {
-            var CSRF_TOKN = 'CSRF_TOKEN';
-            var csrf = $("name='CSRF_TOKEN'").val();
-            var userName = $("#court_userName").val();
+       /* setInterval(function() {
+            var CSRF_TOKEN = 'CSRF_TOKEN';
+		    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            var username = $("#court_username").val();
             var court_number = $("#court_number").val();
 
             $.ajax({
                 type: 'POST',
-                url: '<?php echo base_url('Library/Requisition/ajax'); ?>',
+                url: '<?php echo base_url('Library/Requisition/frmusrLogin'); ?>',
                 data: {
-                    CSRF_TOKEN: csrf,
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE,
                     mode: "getAutoRefresh",
-                    userName: userName,
+                    username: username,
                     court_number: court_number
                 },
                 dataType: 'json',
@@ -460,7 +445,7 @@
                     $("#statusData").html(response.html);
                 },
             });
-        }, 5000);
+        }, 5000); */
         $("#addRowOther").click(function() {
             let x = Math.floor(Math.random() * 100);
             var html = '';
@@ -512,4 +497,61 @@
             $('#' + attrId).next('label').text(cid);
         })
     });
+</script>
+
+
+<script>
+
+
+
+
+    $( document ).ready(function() {
+
+
+        // Summernote
+        $('#btnrequistion').click(function() {
+          
+            $('#dynamicDetails').hide()
+            $('#modelWindow').modal('show');
+            $("#recvRemark").hide();0
+            $("#addQuery").show();
+            $("#queryAdd").hide();
+
+            $("#section").prop('disabled', false);
+            $("#itemNo").prop('disabled', false);
+            $("#itemNo").prop('disabled', false);
+            $('input[name=urgent]').attr("disabled",false);
+
+            $('#remark1').val('').empty();
+            $('#itemNo').val('');
+            $('#section').val('');
+            $('#remark1').summernote('code', '');
+        });
+
+        // $('#remark1').summernote();
+
+
+        $('#remark1').summernote({
+            // styleTags: ['h1', 'h2'],
+            toolbar: [
+                // ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                // ['table', ['table']],
+                //['insert', ['link', 'picture', 'video']],
+                //['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+
+
+
+    })
+    function showuploadDiv(){
+        $("#queryAdd").toggle();
+    }
+    function showInsuploadDiv(){
+        $("#intraction").toggle();
+    }
 </script>

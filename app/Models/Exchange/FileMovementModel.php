@@ -69,11 +69,11 @@ class FileMovementModel extends Model
 
         if($rur == 'R')
         {
-            $criteria .= " AND m.fil_no IS NOT NULL AND m.fil_no != '' ";
+            $criteria .= " AND (m.fil_no IS NOT NULL AND m.fil_no != '') ";
         }
         elseif ($rur == 'U')
         {
-            $criteria .= " AND m.fil_no IS NULL OR m.fil_no = '' ";
+            $criteria .= " AND (m.fil_no IS NULL OR m.fil_no = '') ";
         }
 
         if($ct != 'all' && $rur != 'U')
@@ -1746,7 +1746,7 @@ class FileMovementModel extends Model
                     if ($usertype_query) {
                         /*$dept_query = $this->db->table('master.users')->select('DISTINCT udept, dept_name')->join('master.userdept', 'udept = userdept.id', 'left')->orderBy('udept')->get()->getResultArray();*/
 
-                        $dept_query = $this->db->table('master.users')->distinct()->select('udept, dept_name')->join('master.userdept', 'users.udept = userdept.id', 'left')->orderBy('udept')->get()->getResultArray();
+                        $dept_query = $this->db->table('master.users')->distinct()->select('udept, dept_name')->join('master.userdept', 'users.udept = userdept.id', 'left')->where('dept_name is not null')->orderBy('udept')->get()->getResultArray();
                     }
 
                     // Start generating HTML

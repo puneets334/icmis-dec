@@ -1,4 +1,15 @@
 <?= view('header') ?>
+<style>
+    #tblCasesUploadStatus_info, #tblCasesUploadStatus_paginate {
+        display: none !important;
+    }
+    .paging_simple_numbers {
+        margin-top: -30px !important;
+    }
+    #tblCasesUploadStatus_filter {
+        margin-top: -50px !important;
+    }
+</style>
 <section class="content">
 	<div class="container-fluid">
 		<div class="row">
@@ -7,7 +18,7 @@
                     <div id="printable">
                         <center>
                             <h2><b>SUPREME COURT OF INDIA</b></h2>
-                            <?php echo " <h4> (Result generated through Dynamic Report on " . date('d-m-Y') . " at " . date('H:i:s A') . " )</h4>"; ?>
+                            <?php echo "<h4>(Result generated through Dynamic Report on " . date('d-m-Y') . " at " . date('H:i:s A') . ")</h4>"; ?>
                         </center>
                         <fieldset>
                             <legend style="border-bottom: black;"><u>Filtering Criteria</u></legend>

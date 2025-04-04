@@ -161,7 +161,7 @@ class PilModel extends Model
         if ($query1->getNumRows() >= 1) {
             return $result;
         } else {
-            return 0;
+            return '';
         }
 
 

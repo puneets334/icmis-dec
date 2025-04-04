@@ -461,7 +461,12 @@
                 info_chk.push($(this).val());
             }
         });
-
+        
+        if (info_chk.length === 0) {
+            alert("No record selected!");
+            return false;
+        }
+        
         $.ajax({
             url: "<?= site_url('Exchange/FileMovement/saveDispatchedRecord') ?>",
             type: "post",

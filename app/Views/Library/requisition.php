@@ -54,6 +54,7 @@
                         <?php endif; ?>
 
                         <form  method="post" name="frmusrLogin" id="frmusrLogin">
+                        <?= csrf_field() ?>    
                                 <input type="hidden" name="mode" id="mode" value="login">
                                 <input type="hidden" name="token" id="token" value="<?php echo session()->get('token'); ?>">
                         <div class="input-group mb-3">
@@ -73,7 +74,7 @@
                                     </div>
                                 </div>
                                 </div>
-
+                               
 
                                 <div id="role_admin" style="display:none;">
 
@@ -144,7 +145,7 @@
    
           
           <div class="col-4">
-              <button   onclick="validateForm();" class="btn btn-primary btn-block">Click</button>
+              <button type="button"   onclick="validateForm();" class="btn btn-primary btn-block">Click</button>
             <br>
           </div>
            
@@ -171,3 +172,6 @@ show_role_div('<?= session()->get('role_id') ?>')
 
 
 </script>
+
+
+

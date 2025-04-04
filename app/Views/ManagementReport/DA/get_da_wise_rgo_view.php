@@ -1,16 +1,24 @@
+<style>
+    table thead tr th {
+    background: #6f6a6a;
+}
+</style>
 <?php if (sizeof($data) > 0) { ?>
-    <font color=blue size=+1>DA WISE RED ORANGE GREEN YELLOW CASES DATE :<?php echo date('d-m-Y'); ?></font>
-    <div class="table-responsive">
-        <table id="customers" class="table table-striped custom-table">
+    <br><br><div align="center"><input name="cmdPrnRqs2" type="button" id="cmdPrnRqs2" onClick="CallPrint('prnTable');" value="PRINT"></div>
+    <div class="table-responsive" id="prnTable">
+        <!-- <table id="customers" class="table table-striped custom-table"> -->
+        <table cellpadding="1" cellspacing="0" border="1" align="left">
             <thead>
-                <tr style="background:#6F6A6A;">
+            <tr>
+            <td colspan="21" align=center><font color="blue" size="+1">DA WISE RED ORANGE GREEN YELLOW CASES DATE :<?php echo date('d-m-Y'); ?></font></td></tr>
+            <tr style="background:#6F6A6A;">
                     <th rowspan="2">Sno</th>
                     <th rowspan="2">DA NAME</th>
                     <th style="color:#FF0000" colspan="3">RED</th>
                     <th style="color:#FFA500" colspan="3">ORANGE</th>
                     <th style="color:#00FF00" colspan="3">GREEN</th>
                     <th style="color:#FFFF00" colspan="3">Yellow <br>(Conditional Listing) </th>
-                    <th colspan="3">TOTAL</th>
+                    <th colspan="3"><b>TOTAL</b></th>
                 </tr>
 
                 <tr>
@@ -111,21 +119,21 @@
                         echo "<tr style='color:#0000FF'>
 					<td>" . $i . "</td>
 					<td>" . $row['section_name'] . " / <font color=red>" . $daname . "</font> / " . $row['empid'] . "</td>
-					<td bgcolor='#FAEBF5' align=right>" . $row['red_mh'] . "</td>
-					<td bgcolor='#FAEBF5' align=right>" . $row['red_fh'] . "</td>
-					<td bgcolor='#FAEBF5' align=right><b>" . $row['red'] . "</b></td>
+					<td style='background:#FAEBF5;' align=right>" . $row['red_mh'] . "</td>
+					<td style='background:#FAEBF5;' align=right>" . $row['red_fh'] . "</td>
+					<td style='background:#FAEBF5;' align=right><b>" . $row['red'] . "</b></td>
 					
 					
-					<td bgcolor='#fee9cc' align=right>" . $row['orange_mh'] . "</td>
-					<td bgcolor='#fee9cc' align=right>" . $row['orange_fh'] . "</td>	
-					<td bgcolor='fee9cc' align=right><b>" . $row['orange'] . "</b></td>
+					<td style='background:#fee9cc;' align=right>" . $row['orange_mh'] . "</td>
+					<td style='background:#fee9cc;' align=right>" . $row['orange_fh'] . "</td>	
+					<td style='background:#fee9cc;' align=right><b>" . $row['orange'] . "</b></td>
 					
-					<td bgcolor='#CCFFCC' align=right>" . $row['green_mh'] . "</td>
-					<td bgcolor='#CCFFCC' align=right>" . $row['green_fh'] . "</td>
-					<td bgcolor='#CCFFCC' align=right><b>" . $row['green'] . "</b></td>
-					<td bgcolor='#FFFF00' align=right><b>" . $row['yellow_mh'] . "</b></td>
-					<td bgcolor='#FFFF00' align=right><b>" . $row['yellow_fh'] . "</b></td>
-					<td bgcolor='#FFFF00' align=right><b>" . $row['yellow'] . "</b></td>
+					<td style='background:#CCFFCC;' align=right>" . $row['green_mh'] . "</td>
+					<td style='background:#CCFFCC;' align=right>" . $row['green_fh'] . "</td>
+					<td style='background:#CCFFCC;' align=right><b>" . $row['green'] . "</b></td>
+					<td style='background:#FFFF00;' align=right><b>" . $row['yellow_mh'] . "</b></td>
+					<td style='background:#FFFF00;' align=right><b>" . $row['yellow_fh'] . "</b></td>
+					<td style='background:#FFFF00;' align=right><b>" . $row['yellow'] . "</b></td>
 					<td align=right><b>" . ($row['red_mh'] + $row['orange_mh'] + $row['green_mh'] + $row['yellow_mh']) . "</b></td>
 					<td align=right><b>" . ($row['red_fh'] + $row['orange_fh'] + $row['green_fh'] + $row['yellow_fh']) . "</b></td>
 					<td align=right><b>" . ($row['red'] + $row['orange'] + $row['green'] + $row['yellow']) . "</b></td>
@@ -134,22 +142,22 @@
                 }
 
                 echo "<tr><td colspan=2 align=right>TOTAL</td>
-            <td bgcolor='#FAEBF5' align=right>" . $red_MH . "</td>
-			<td bgcolor='#FAEBF5' align=right>" . $red_FH . "</td>
-			<td bgcolor='#FAEBF5' align=right><b>" . $red . "</b></td>
+            <td style='background:#FAEBF5;' align=right>" . $red_MH . "</td>
+			<td style='background:#FAEBF5;' align=right>" . $red_FH . "</td>
+			<td style='background:#FAEBF5;' align=right><b>" . $red . "</b></td>
 			
 			
-			<td bgcolor='fee9cc' align=right>" . $orange_MH . "</td>
-			<td bgcolor='fee9cc' align=right>" . $orange_FH . "</td>
-			<td bgcolor='fee9cc' align=right><b>" . $orange . "</b></td>
+			<td style='background:#fee9cc;' align=right>" . $orange_MH . "</td>
+			<td style='background:#fee9cc;' align=right>" . $orange_FH . "</td>
+			<td style='background:#fee9cc;' align=right><b>" . $orange . "</b></td>
 			
 			
-			<td bgcolor='#CCFFCC' align=right>" . $green_MH . "</td>
-			<td bgcolor='#CCFFCC' align=right>" . $green_FH . "</td>
-			<td bgcolor='#CCFFCC' align=right><b>" . $green . "</b></td>
-			<td bgcolor='#FFFF00' align=right><b>" . $yellow_mh . "</b></td>
-			<td bgcolor='#FFFF00' align=right><b>" . $yellow_fh . "</b></td>
-			<td bgcolor='#FFFF00' align=right><b>" . $yellow . "</b></td>
+			<td style='background:#CCFFCC;' align=right>" . $green_MH . "</td>
+			<td style='background:#CCFFCC;' align=right>" . $green_FH . "</td>
+			<td style='background:#CCFFCC;' align=right><b>" . $green . "</b></td>
+			<td style='background:#FFFF00;' align=right><b>" . $yellow_mh . "</b></td>
+			<td style='background:#FFFF00;' align=right><b>" . $yellow_fh . "</b></td>
+			<td style='background:#FFFF00;' align=right><b>" . $yellow . "</b></td>
 			<td align=right><b>" . ($red_MH + $orange_MH + $green_MH + $yellow_mh) . "</b></td>
 			<td align=right><b>" . ($red_FH + $orange_FH + $green_FH + $yellow_fh) . "</b></td>
 			<td align=right><b>" . ($red + $orange + $green + $yellow) . "</b></td>

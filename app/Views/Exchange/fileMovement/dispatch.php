@@ -606,6 +606,11 @@
             return value +'-'+ info_remarks[index];
         });
 
+        if (newArray.length === 0) {
+            alert("No record selected!");
+            return false;
+        }
+
         $.ajax({
             url: "<?= site_url('Exchange/FileMovement/saveDispatchedRecord') ?>",
             type: "post",
