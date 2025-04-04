@@ -74,7 +74,7 @@ function changeRstatus(reqid)
         // If you pressed OK!";
 
         $.ajax({
-            url: "admin/requisition/ajax.php",
+            url: base_url + '/Library/Requisition/frmusrLogin', //"admin/requisition/ajax.php",
             dataType: "json",
             type: "POST",
             data: { mode:'CHANGE-STAUS-RECEIVED',requestid: requestID,currentstatus:current_status,created_by:created_by},
@@ -116,7 +116,7 @@ function view_requistion_result(requestid)
     $('#interaction_remarks').val('').empty();
     $.ajax({
         type: 'POST',
-        url: 'admin/requisition/ajax.php',
+        url: base_url + '/Library/Requisition/frmusrLogin', //'admin/requisition/ajax.php',
         data: {requestid: requestid, mode: 'REQUISTION-REQUEST'},
         dataType: ' json',
         async: false,
@@ -157,7 +157,7 @@ function addInteractions()
 
         type: "POST",
         async: false,
-        url: "admin/requisition/ajax.php",
+        url: base_url + '/Library/Requisition/frmusrLogin',  //"admin/requisition/ajax.php",
         data: formData,
         contentType: false,
         processData: false,
@@ -218,7 +218,7 @@ function addAdvInteractions()
 
             type: "POST",
             async: false,
-            url: "admin/requisition/ajax.php",
+            url: base_url + '/Library/Requisition/frmusrLogin',   //"admin/requisition/ajax.php",
             data: formData,
             contentType: false,
             processData: false,
@@ -269,7 +269,7 @@ function getQueryData(id) {
     $("#uploadCheck").hide();
     $.ajax({
         type: 'POST',
-        url: 'admin/requisition/ajax.php',
+        url: base_url + '/Library/Requisition/frmusrLogin',   //'admin/requisition/ajax.php',
         data: {mode: "REQUISTION-REQUEST", requestid: id},
         dataType: ' json',
         async: false,
@@ -345,7 +345,7 @@ function requestformValidation() {
         $.ajax({
 
             type: 'POST',
-            url: 'admin/requisition/ajax.php',
+            url: base_url + '/Library/Requisition/frmusrLogin',   //'admin/requisition/ajax.php',
             data: fd,
             dataType: ' json',
             async: false,
@@ -418,7 +418,7 @@ function advformValidation() {
         $("#addAdvQuery").prop('disabled', true);
         $.ajax({
             type: 'POST',
-            url: 'admin/requisition/ajax.php',
+            url: base_url + '/Library/Requisition/frmusrLogin',   //'admin/requisition/ajax.php',
             data: data,
             dataType: ' json',
             async: false,
@@ -460,6 +460,7 @@ function advformValidation() {
 
 
 function validateForm() {
+   
     var fd = new FormData();
     var role = $("#role_id").val();
     var errval = 0;
@@ -551,11 +552,7 @@ function validateForm() {
     if (errval == 0) {
         var values = $("#frmusrLogin").serialize();
 
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-		    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-
-            values.append('CSRF_TOKEN', CSRF_TOKEN_VALUE);
-        alert('fffff');
+       
         $.ajax({
             url: base_url + '/Library/Requisition/frmusrLogin',  // ajax.php
             type: 'POST',
@@ -563,6 +560,7 @@ function validateForm() {
             data: values,
             success: function (response) {
                 updateCSRFToken();
+                alert(response);
                 if (response.status == 'Success')
                     {
                         if (role == 5 || role == 6) {
@@ -730,7 +728,7 @@ function formValidation() {
            
             $.ajax({
                 type: 'POST',
-                url: 'admin/requisition/ajax.php',
+                url: base_url + '/Library/Requisition/frmusrLogin',
                 data: fd,
                 dataType: 'json',
                 async: false,
@@ -773,7 +771,7 @@ function getToggleView(id) {
     $("#toggle_text" + id).toggle();
     $.ajax({
         type: 'POST',
-        url: 'admin/requisition/ajax.php',
+        url: base_url + '/Library/Requisition/frmusrLogin', //'admin/requisition/ajax.php',
         data: {mode: "getReqIntractionReport", id: id},
         dataType: ' json',
         async: false,
@@ -857,16 +855,19 @@ function backList(){
 function getCaseNo(value){
     let dateitm = $('#dtd').find(":selected").val()
     let courtno = $('#court_no').find(":selected").val()
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
     $.ajax({
         type: 'POST',
-        url: 'admin/requisition/ajax.php',
-        data: {mode: "getCaseNo", item_no: value, 'dateitem': dateitm, court_no: courtno},
+        url: base_url + '/Library/Requisition/frmusrLogin', //'admin/requisition/ajax.php',
+        data: {mode: "getCaseNo", item_no: value, 'dateitem': dateitm, court_no: courtno, CSRF_TOKEN :CSRF_TOKEN_VALUE},
         dataType: 'json',
         async: false,
         error: function () {
             console.log("error");
         },
         success: function (response) {
+            updateCSRFToken();
             console.log(response);
             if(response){
                 $('#dynamicDetails').show()

@@ -61,7 +61,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="cause_date" class="col-form-label">List Date</label>
-                                        <input type="text" class="form-control bg-white list_date" value="" aria-describedby="list_date_addon" placeholder="Date..." readonly>
+                                        <input type="text" class="form-control bg-white list_date" value="" aria-describedby="list_date_addon" placeholder="Date..." />
                                     </div>
                                 </div>
                                 <div class="col-md-3">

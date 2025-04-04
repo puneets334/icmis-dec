@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-md-3" id="divDiaryNo">
                                 <label><h5 style="margin: 0;">Search by PIL Inward Number</h5></label>
-                                <input type="number" class="form-control" placeholder="Inward No" required id="diaryNo" name="diaryNo" >
+                                <input type="text" class="form-control numbersonly" maxlength="9" placeholder="Inward No" required id="diaryNo" name="diaryNo" >
 
                             </div>
 

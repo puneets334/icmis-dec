@@ -96,7 +96,7 @@
 
                             <div class="col-md-3">
                                 <label class="control-label"><h5>From Date</h5></label>
-                                <input type="text" id="from_date" name="from_date" class="form-control dtp" value="<?php echo date('d-m-Y', strtotime('-1 day'));?>" required placeholder="From Date">
+                                <input type="text" id="from_date" name="from_date" class="form-control dtp" value="<?php echo date('d-m-Y', strtotime('first day of this month'));?>" required placeholder="From Date">
                             </div>
                             <div class="col-md-3">
                                 <label class="control-label"><h5>To Date</h5></label>
@@ -150,7 +150,9 @@ $(document).ready(function() {
                 // document.getElementById('to_date').focus();
 
             }else{
-                if (fromDate > toDate)
+                date1 = new Date(fromDate.split('-')[2],fromDate.split('-')[1]-1,fromDate.split('-')[0]);
+                date2 = new Date(toDate.split('-')[2],toDate.split('-')[1]-1,toDate.split('-')[0]);
+                if (date1 > date2)
                 {
                     alert("To Date must be greater than From date");
                     return false;

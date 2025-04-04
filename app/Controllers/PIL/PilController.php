@@ -16,7 +16,7 @@ use App\Models\Court\CourtMasterModel;
 
 //use Mpdf;
 //use \setasign\Fpdi\PdfParser\StreamReader;
-ini_set('memory_limit','51200M');
+ini_set('memory_limit','-1');
 class PilController extends BaseController
 {
     public $ecPilGroupFile;
@@ -182,11 +182,11 @@ class PilController extends BaseController
 
     }
     public function getPilDetailByDiaryNumber(){
-
+        
         $ecPilId=$this->PilModel->getPilId($_POST['diaryNo'],$_POST['diaryYear']);
 
         if($ecPilId!=null)
-            return redirect()->to('PIL/PilController/editPilData/'.$ecPilId[0]['id']);
+            return redirect()->to('PIL/PilController/editPilData/'.$ecPilId['id']);
         else
         session()->setFlashdata('infomsg', 'No data found!');
             return redirect()->to('PIL/PilController/index/');

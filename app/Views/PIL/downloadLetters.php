@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="col-sm-3 ">
-                <button type="submit" name="generate" id="generate-btn" class="btn btn-flat bg-blue btn-block"  <!--onclick="downloadReport();"-->
+                <button type="button" name="generate" id="generate-btn" class="btn btn-flat bg-blue btn-block"  onclick="downloadReport();">
                     Generate Report</button>
 
                     </div>   
@@ -91,5 +91,20 @@
 </div>
 
 <br><br> 
+
+<script>
+function downloadReport()
+{
+    if($('#comment').val() == '')
+    {
+        alert('Please write message!!');
+        $('#comment').focus();
+        return false;
+    }
+    $('#downloadReports').trigger('submit');
+    $('#search-btn').trigger('click');
+}
+
+</script>
 
 
