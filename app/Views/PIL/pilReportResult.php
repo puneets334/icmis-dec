@@ -162,29 +162,29 @@
 
 
 
-        $(document).ready(function() {
-            // Setup - add a text input to each footer cell
-            $('#reportTable1 thead tr').clone(true).appendTo( '#reportTable1 thead' );
-            $('#reportTable1 thead tr:eq(1) th').each( function (i) {
-                var title = $(this).text();
-                var width = $(this).width();
-                if(width>260){
-                    width=width-80;
-                }
-                else if(width<100){
-                    width=width+20;
-                }
-                $(this).html( '<input type="text" style="width: '+width+'px" placeholder="'+title+'" />' );
+        // $(document).ready(function() {
+        //     // Setup - add a text input to each footer cell
+        //     $('#reportTable1 thead tr').clone(true).appendTo( '#reportTable1 thead' );
+        //     $('#reportTable1 thead tr:eq(1) th').each( function (i) {
+        //         var title = $(this).text();
+        //         var width = $(this).width();
+        //         if(width>260){
+        //             width=width-80;
+        //         }
+        //         else if(width<100){
+        //             width=width+20;
+        //         }
+        //         $(this).html( '<input type="text" style="width: '+width+'px" placeholder="'+title+'" />' );
 
-                $( 'input', this ).on( 'keyup change', function () {
-                    if ( table.column(i).search() !== this.value ) {
-                        table
-                            .column(i)
-                            .search( this.value )
-                            .draw();
-                    }
-                } );
-            } );
+        //         $( 'input', this ).on( 'keyup change', function () {
+        //             if ( table.column(i).search() !== this.value ) {
+        //                 table
+        //                     .column(i)
+        //                     .search( this.value )
+        //                     .draw();
+        //             }
+        //         } );
+        //     } );
 
-        });
+        // });
 </script>

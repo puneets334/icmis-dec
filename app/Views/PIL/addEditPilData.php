@@ -202,19 +202,23 @@
                                                     break;
                                                 }
                                             case "W": {
-                                                    $actionTakenText = "Written Letter to " . $pilCompleteDetail['written_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['written_on']));
+                                               $written_on = (!empty($pilCompleteDetail['written_on'])) ? date('d-m-Y', strtotime($pilCompleteDetail['written_on'])) : '';
+                                                    $actionTakenText = "Written Letter to " . $pilCompleteDetail['written_to'] . " on " . $written_on;
                                                     break;
                                                 }
                                             case "R": {
-                                                    $actionTakenText = "Letter Returned to Sender on " . date('d-m-Y', strtotime($pilCompleteDetail['return_date']));
+                                                    $return_date = (!empty($pilCompleteDetail['return_date'])) ?  date('d-m-Y', strtotime($pilCompleteDetail['return_date'])) : '';
+                                                    $actionTakenText = "Letter Returned to Sender on " . $return_date;
                                                     break;
                                                 }
                                             case "S": {
-                                                    $actionTakenText = "Letter Sent To " . $pilCompleteDetail['sent_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['sent_on']));
+                                                    $sent_on = (!empty($pilCompleteDetail['sent_on'])) ?  date('d-m-Y', strtotime($pilCompleteDetail['sent_on'])) : '';
+                                                    $actionTakenText = "Letter Sent To " . $pilCompleteDetail['sent_to'] . " on " . $sent_on;
                                                     break;
                                                 }
                                             case "T": {
-                                                    $actionTakenText = "Letter Transferred To " . $pilCompleteDetail['transfered_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['transfered_on']));
+                                                    $transfered_on = (!empty($pilCompleteDetail['transfered_on'])) ?  date('d-m-Y', strtotime($pilCompleteDetail['transfered_on'])) : '';
+                                                    $actionTakenText = "Letter Transferred To " . $pilCompleteDetail['transfered_to'] . " on " . $transfered_on;
                                                     break;
                                                 }
                                             case "I": {

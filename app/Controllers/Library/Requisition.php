@@ -4,15 +4,24 @@ namespace App\Controllers\Library;
 
 use App\Controllers\BaseController;
 use Config\Database;
+use App\Models\Library\RequisitionModel;
+use App\Models\Library\AdminpermissionModel;
+use App\Models\Library\AdminusersModel;
 
 class Requisition extends BaseController
 {
     protected $db;
+    protected $RequisitionModel;
+    protected $AdminpermissionModel;
+    protected $AdminusersModel;
 
     public function __construct()
     {
         $this->db = Database::connect();
         $this->session = session();
+        $this->RequisitionModel = new RequisitionModel();
+        $this->AdminpermissionModel = new AdminpermissionModel();
+        $this->AdminusersModel = new AdminusersModel();
     }
 
     public function requisition_view()
@@ -22,9 +31,7 @@ class Requisition extends BaseController
         if (!isset($sessionData['login']['usercode'])) {
             return redirect()->to('/login');
         }
-        // if (!isset($sessionData['token'])) {
-        //     $this->session->set('token', bin2hex(random_bytes(32)));
-        // }
+        
 
         $usercode = $sessionData['login']['usercode'];
 
@@ -42,9 +49,7 @@ class Requisition extends BaseController
             $this->session->set('court_number', $result['court_no']);
            
         }
-
-
-        
+ 
         //$requisitions = $this->view_today_RequisitionData($usercode);
         $requisitions = $this->view_requistion_department();
       //  pr($requisitions);
@@ -111,38 +116,33 @@ class Requisition extends BaseController
     }
 
     public function frmusrLogin()
-    {
-        
+    {        
             $time = time();
-            //$connect = $dbclass->dbConnection();
-          
-            //$apermission = new Adminpermission($connect);
-            //$reqConnection = new Requisition($connect);
             $mode =$_POST['mode'];
+            $icmis_user_id = $_SESSION['login']['usercode'];
+
             if($mode =='login'){
 
-
                 if (!empty($_POST['token'])) {
-
                   
 
-                    $apermission->role_id = $_POST['role_id'];
+                    $role_id = $_POST['role_id'];
 
                     if($_POST['role_id']==5 || $_POST['role_id']==6 || $_POST['role_id']==7)
                     {
                          
-                        $icmis_user_id = $_SESSION['dcmis_user_idd'];
-                        $apermission->icmis_user_id = $icmis_user_id;
+                        //$icmis_user_id = $_SESSION['dcmis_user_idd'];
+                        //$icmis_user_id = $icmis_user_id;
 
 
-                        $apermission->passWord = md5(trim($_POST['user_password']));
+                        $passWord = md5(trim($_POST['user_password']));
 
-                        $stmt = $apermission->getRequisitionLogin();
-                        $count = $stmt->rowCount();
-                        if($count > 0){
+                        $stmt = $this->AdminpermissionModel->getRequisitionLogin($icmis_user_id,$role_id);
+                        
+                        if(!empty($stmt)){
 
-                            $nameUsr = $stmt->fetch(PDO::FETCH_OBJ)->UserName;
-                            $_SESSION['userName']=$nameUsr;
+                            $nameUsr = $stmt['username'];
+                            $_SESSION['username']=$nameUsr;
                             $_SESSION['role_id']=$_POST['role_id'];
 
                             $returnArr['status'] = "Success";
@@ -157,40 +157,39 @@ class Requisition extends BaseController
                     }else if($_POST['role_id']==4)
                     {
 
-                        $icmis_user_id = $_SESSION['dcmis_user_idd'];
+                       // $icmis_user_id = $_SESSION['dcmis_user_idd'];
 
                         if(trim($_POST['user_name_other'])=="")
                         {
                             
-                            $apermission->icmis_user_id = $icmis_user_id;
-                            $stmt = $apermission->getRequisitionLogin();
-                            $count = $stmt->rowCount();
+                            //$apermission->icmis_user_id = $icmis_user_id;
+                            $stmt = $this->AdminpermissionModel->getRequisitionLogin($icmis_user_id,$_POST['role_id']);
+                           
+                            //$count = $stmt->rowCount();
                         }elseif(trim($_POST['user_name_other'])!=""){
                             $usr_Name = $_POST['user_name_other'];
-                            $apermission->passWord = md5(trim($_POST['user_password']));
-                            $stmt = $apermission->getRequiLogin_Other();
-                            $count = $stmt->rowCount();
+                            $passWord = md5(trim($_POST['user_password']));
+                            $stmt = $this->AdminpermissionModel->getRequiLogin_Other($passWord,$_POST['role_id']);
+                            //$count = $stmt->rowCount();
                         }
-
-
-
-                        if($count==0)
+ 
+                        if(!empty($stmt))
                         {
-                            $error=1;  
+                            $error=0;  
                         }else{
-                            $error=0;
+                            $error=1;
                         }
 
 
                         if($error==0)
                         {
-
-                            $usr_Name = $stmt->fetch(PDO::FETCH_OBJ)->UserName;
+                            pr($stmt);
+                            $usr_Name = $stmt['username'];
 
                             $_SESSION['court_number'] = $_POST['court_number'];
                             $_SESSION['court_bench'] = $_POST['court_bench'];
                             $_SESSION['role_id']=$_POST['role_id'];
-                            $_SESSION['userName']=$usr_Name;
+                            $_SESSION['username']=$usr_Name;
                             $returnArr['status'] = "Success";
                             $returnArr['msg'] = "Login Successfully";
 
@@ -227,32 +226,41 @@ class Requisition extends BaseController
             if($mode == 'addRequest'){
 
                 if (!empty($_POST['token'])) {
-
-
-                     
-                    $reqConnection->court_number = $_POST['courtNo'];
-                    $reqConnection->section = $_POST['section'];
-                    $reqConnection->remark1 = $_POST['request'];
-                    $reqConnection->court_userName = $_POST['userName'];
-                    $reqConnection->created_by = $_POST['userName'];
-                    $reqConnection->user_ip = $_POST['userIp'];
-                    $reqConnection->itemNo = $_POST['itemNo'];
-                    $reqConnection->urgent = $_POST['urgent'];
-                    $reqConnection->court_bench = $_POST['court_bench'];
-                    $reqConnection->diary_no = $_POST['diary_no'];
-                    $reqConnection->itemDate = $_POST['itemDate'];
-
-                    $reqConnection->advocate_name = $_POST['advocate_name'];
-                    $reqConnection->appearing_for = $_POST['appearing_for'];
-                    $reqConnection->party_serial_no = $_POST['party_serial_no'];
+                     $data = array(
+                        'court_number' => $_POST['court_number'],
+                        'court_username' => $_POST['court_username'],
+                        'remark1' => $_POST['remark1'],
+                        'court_bench' => $_POST['court_bench'],
+                        'urgent' => $_POST['urgent'],
+                        'section' => $_POST['section'],
+                        'request_file' => '',
+                        'itemNo' => $_POST['itemNo'],
+                        'itemDate' => $_POST['itemDate'],
+                        'alternate_number' => '',
+                        'user_type' => ($_POST['user_type'] == '') ?? 1,                       
+                        'created_by' => $_POST['username'],
+                        'user_ip' => $_POST['userIp'],
+                        'diary_no' => $_POST['diary_no'],
+                       'advocate_name' => $_POST['advocate_name'],
+                        'appearing_for' => $_POST['appearing_for'],
+                        'party_serial_no' => $_POST['party_serial_no']
+                        
+                     );
                     
 
                     
-                    if($lastId =$reqConnection->create()){
-                        $reqConnection->requisition_id= $lastId;
-                        $reqConnection->interaction_remarks= $_POST['request'];
-                        $reqConnection->interaction_status= 'pending';
-                        $InsertInteraction=$reqConnection->Insert_Interaction();
+                    if($lastId =$this->RequisitionModel->create($data)){
+                        $requisition_id= $lastId;
+                        $interaction_remarks= $_POST['request'];
+                        $interaction_status= 'pending';
+                        $insertData = array(
+                            'requisition_id' => $requisition_id,
+                            'interaction_status' => $interaction_status,
+                            'interaction_remarks' => $interaction_remarks,                             
+                            'interaction_ip' => $_SERVER['REMOTE_ADDR'],
+                            'created_by' => $icmis_user_id,
+                        );
+                        $InsertInteraction=$this->RequisitionModel->Insert_Interaction($insertData);
 
 
 
@@ -271,9 +279,9 @@ class Requisition extends BaseController
                                     if(move_uploaded_file($files['file-'.$ky]["tmp_name"], "/var/www/html/supreme_court/library_resources_offline/files/library_aor_uploads/".$file_name_path)){
                                         //echo "yes";
                                     }
-                                    $statement = $connect->prepare('INSERT INTO requistion_upload (req_id, file_path, usercode, ip, remarks) VALUES (:reqId, :filePath, :userCode, :Ip, :Remark)');
+                                    $statement = ('INSERT INTO requistion_upload (req_id, file_path, usercode, ip, remarks) VALUES (:reqId, :filePath, :userCode, :Ip, :Remark)');
 
-                                    $status = $statement->execute([
+                                    $status = $this->db->query($statement, [
                                         'reqId' => $lastId,
                                         'filePath' => $file_name_path,
                                         'userCode' => $_SESSION['icmic_empid'],
@@ -282,8 +290,8 @@ class Requisition extends BaseController
                                     ]);
 
                                 }else{
-                                    $statement = $connect->prepare('INSERT INTO requistion_upload (req_id, file_path, usercode, ip, remarks) VALUES (:reqId, :filePath, :userCode, :Ip, :Remark)');
-                                    $status = $statement->execute([
+                                    $statement =('INSERT INTO requistion_upload (req_id, file_path, usercode, ip, remarks) VALUES (:reqId, :filePath, :userCode, :Ip, :Remark)');
+                                    $status = $this->db->query($statement,[
                                         'reqId' => $lastId,
                                         'filePath' => '',
                                         'userCode' => $_SESSION['icmic_empid'],
@@ -292,8 +300,8 @@ class Requisition extends BaseController
                                     ]);
                                 }
                             }else{
-                                $statement = $connect->prepare('INSERT INTO requistion_upload (req_id, file_path, usercode, ip, remarks) VALUES (:reqId, :filePath, :userCode, :Ip, :Remark)');
-                                $status = $statement->execute([
+                                $statement = ('INSERT INTO requistion_upload (req_id, file_path, usercode, ip, remarks) VALUES (:reqId, :filePath, :userCode, :Ip, :Remark)');
+                                $status = $this->db->query($statement,[
                                     'reqId' => $lastId,
                                     'filePath' => '',
                                     'userCode' => $_SESSION['icmic_empid'],
@@ -319,18 +327,18 @@ class Requisition extends BaseController
             }
             if($mode =="REQUISTION-REQUEST"){
                 $requestid=$_POST['requestid'];
-                $reqConnection->id=$requestid;
-                $list_requistionReq=$reqConnection->viewRequistionRequest();
-                $requistionReq=$list_requistionReq->fetch(PDO::FETCH_ASSOC);
+                $id=$requestid;
+                $requistionReq=$this->RequisitionModel->viewRequistionRequest($id);
+                //$requistionReq=$list_requistionReq->fetch(PDO::FETCH_ASSOC);
                 $requistionReq['remark1']=stripslashes($requistionReq['remark1']);
                 echo json_encode($requistionReq);
 
 
             }
             if($mode =="ReuqistionAlert"){
-                $totalReq_Pending=$reqConnection->view_today_ReqAdminData();
-                $count = $totalReq_Pending->rowCount();
-                $data = array('total_pendingCase'=>$count);
+                $totalReq_Pending=$this->RequisitionModel->view_today_ReqAdminData();
+               // $count = $totalReq_Pending->rowCount();
+                $data = array('total_pendingCase'=>$totalReq_Pending);
                 echo json_encode($data);
 
 
@@ -351,24 +359,50 @@ class Requisition extends BaseController
                         $ext = $info['extension']; // get the extension of the file
                         $time = time();
                         $newname = $time.".".$ext ;
-                        $reqConnection->file =$newname;
+                        $file =$newname;
                         $target = '../../reqistionRequest/'.$newname;
                         $upload = move_uploaded_file($_FILES['file']['tmp_name'], $target);
                     }
-                    $reqConnection->requisition_id=$_POST['requisition_id'];
-                    $reqConnection->urgent=$_POST['urgent'];
-                    $reqConnection->interaction_remarks=$_POST['interaction_remarks'];
+                    $requisition_id=$_POST['requisition_id'];
+                    $urgent=$_POST['urgent'];
+                    $interaction_remarks=$_POST['interaction_remarks'];
                     if($_POST['roleid']=='6')
                     {
-                        $reqConnection->interaction_status="Interaction";
+                        $interaction_status="Interaction";
 
                     }else{
-                        $reqConnection->interaction_status=trim($_POST['current_status']);
+                        $interaction_status=trim($_POST['current_status']);
                     }
 
-                    $reqConnection->created_by=trim($_POST['created_by']);
-                    $InsertInteraction=$reqConnection->Insert_Interaction();
-                    if($updateInteraction=$reqConnection->update_requistion()){
+                    $created_by=trim($_POST['created_by']);
+                    $insertData = array(
+                        'requisition_id' => $requisition_id,
+                        'interaction_status' => $interaction_status,
+                        'interaction_remarks' => $interaction_remarks,                             
+                        'interaction_ip' => $_SERVER['REMOTE_ADDR'],
+                        'created_by' => $created_by,
+                    );
+                    $InsertInteraction=$this->RequisitionModel->Insert_Interaction($insertData);
+
+                    if($interaction_status=="closed" || $interaction_status=="received" || $interaction_status=="cancel")
+                    {
+                        $currenttime=date("Y-m-d H:i:s");
+                    }else
+                    {
+                        $currenttime="";
+                    }
+                    $updateData = array(                         
+                        'current_status' => $interaction_status,
+                        'remark2' => $interaction_remarks,   
+                        'request_file' => $file,                          
+                        'urgent' => $urgent,                          
+                        'request_close_datetime' => $currenttime,                          
+                        'interaction_ip' => $_SERVER['REMOTE_ADDR'],
+                        'updated_by' => $created_by,
+                        'updated_on' => NOW()
+                    );
+
+                    if($updateInteraction=$this->RequisitionModel->update_requistion($requisition_id,$updateData)){
                         $returnArr['status'] = "Success";
                         $returnArr['msg'] = "Interaction Added Successfully ";
                     }else{
@@ -388,14 +422,40 @@ class Requisition extends BaseController
             {
                  
 
-                $reqConnection->requisition_id=$_POST['requisition_id'];
-                $reqConnection->interaction_remarks=$_POST['interaction_remarks'];
-                $reqConnection->interaction_status=trim($_POST['current_status']);
-                $reqConnection->created_by=trim($_POST['created_by']);
-                $reqConnection->itemNo=trim($_POST['itemNo']);
+                $requisition_id=$_POST['requisition_id'];
+                $interaction_remarks=$_POST['interaction_remarks'];
+                $interaction_status=trim($_POST['current_status']);
+                $created_by=trim($_POST['created_by']);
+                $itemNo=trim($_POST['itemNo']);
 
-                $InsertInteraction=$reqConnection->Insert_Interaction();
-                if($updateInteraction=$reqConnection->update_requistion()){
+                $insertData = array(
+                    'requisition_id' => $requisition_id,
+                    'interaction_status' => $interaction_status,
+                    'interaction_remarks' => $interaction_remarks,                             
+                    'interaction_ip' => $_SERVER['REMOTE_ADDR'],
+                    'created_by' => $created_by,
+                );
+
+                $InsertInteraction=$this->RequisitionModel->Insert_Interaction($insertData);
+
+                if($interaction_status=="closed" || $interaction_status=="received" || $interaction_status=="cancel")
+                    {
+                        $currenttime=date("Y-m-d H:i:s");
+                    }else
+                    {
+                        $currenttime="";
+                    }
+                    $updateData = array(                         
+                        'current_status' => $interaction_status,
+                        'remark2' => $interaction_remarks,   
+                        'request_file' => $file,                          
+                        'urgent' => $urgent,                          
+                        'request_close_datetime' => $currenttime,                          
+                        'interaction_ip' => $_SERVER['REMOTE_ADDR'],
+                        'updated_by' => $created_by,
+                        'updated_on' => NOW()
+                    );
+                if($updateInteraction=$this->RequisitionModel->update_requistion($requisition_id,$updateData)){
                     $returnArr['status'] = "Success";
                     $returnArr['msg'] = "Interaction Added Successfully ";
                 }else{
@@ -412,20 +472,21 @@ class Requisition extends BaseController
 
             if($mode == 'getAutoRefresh'){
                 $contents = "";$cnt1=1;
-                $reqConnection->court_userName = $_POST['userName'];
-                $reqConnection->court_number = $_POST['court_number'];
-                if($stmt = $reqConnection->read()){
-                    while ($res = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $court_username = $_POST['username'];
+                $court_number = $_POST['court_number'];
+                $stmt = $this->RequisitionModel->read($court_number);
+                if(!empty($stmt)){
+                    foreach ($stmt as $res){
 
                         $req_id = $res['id'];
                         $query11 = "SELECT id, req_id, file_path, remarks FROM requistion_upload where req_id = '".$req_id."' AND is_active = '1' ";
-                        $pdo_statement11 = $connect->prepare($query11);
-                        $pdo_statement11->execute();
-                        $count11 = $pdo_statement11->rowCount();
+                        $pdo_statement11 = $this->db->query($query11);
+                       // $pdo_statement11->execute();
+                        $count11 = $pdo_statement11->getNumRows();
                         $reqArr= [];
                         
                         if($count11 > 0){
-                            $resu = $pdo_statement11->fetchAll(PDO::FETCH_ASSOC);
+                            $resu = $pdo_statement11->getResultArray();
                         }
                         if(!empty($resu)){
                             foreach ($resu as $ve) {
@@ -435,11 +496,11 @@ class Requisition extends BaseController
                             }
                         }
 
-                        $reqConnection->requisition_id=$res['id'];
-                        $interactions=$reqConnection->view_requistion_interactions();
-                        $interaction_count = $interactions->rowCount();
-                        $reqConnection->created_by=$_POST['userName'];
-                        $int_assit_readcnt=$reqConnection->count_Interaction_read_assitant();
+                        $requisition_id=$res['id'];
+                        $interaction_count=$this->RequisitionModel->view_requistion_interactions($requisition_id);
+                       // $interaction_count = $interactions->rowCount();
+                        $created_by=$_POST['username'];
+                        $int_assit_readcnt=$this->RequisitionModel->count_Interaction_read_assitant($requisition_id,$created_by);
                         
                         if($res['current_status'] == "pending" ){
                             $btnVal = '<button type="button" class="btn btn-danger">'.strtoupper($res['current_status']).'</button>';
@@ -546,32 +607,32 @@ class Requisition extends BaseController
                 
                 if($_POST['roletype']==5)
                 {
-                    $stmt = $reqConnection->view_today_RequisitionData();
+                    $stmt = $this->RequisitionModel->view_today_RequisitionData();
 
 
                 }
                 if($_POST['roletype']==6){
-                    $stmt = $reqConnection->view_today_ReqAdminData();
+                    $stmt = $this->RequisitionModel->view_today_ReqAdminData();
 
                 }
 
                 $interaction_by_admin="";
 
-                $countVal = $stmt->rowCount();
+                //$countVal = $stmt->rowCount();
 
-                if($countVal){
-                    while ($res = $stmt->fetch(PDO::FETCH_ASSOC)){
+                if(!empty($stmt)){
+                    foreach ($stmt as $res){
 
-                        $reqConnection->requisition_id=$res['id'];
-                        $interactions=$reqConnection->view_requistion_interactions();
-                        $interaction_count = $interactions->rowCount();
+                        $requisition_id=$res['id'];
+                        $interaction_count=$this->RequisitionModel->view_requistion_interactions($requisition_id);
+                        //$interaction_count = $interactions->rowCount();
 
-                        $reqConnection->created_by=$_SESSION['userName'];
-                        $interaction_read_cnt=$reqConnection->count_Interaction_read_libraian();
+                        $created_by=$_SESSION['username'];
+                        $interaction_read_cnt=$this->RequisitionModel->count_Interaction_read_libraian($requisition_id,$created_by);
                         $btncolor="btn-warning";
                         if($_POST['roletype']==5)
                         {
-                            $Cnt_inter_by_admin=$reqConnection->count_Interaction_By_Admin();
+                            $Cnt_inter_by_admin=$this->RequisitionModel->count_Interaction_By_Admin($requisition_id);
 
                             if($Cnt_inter_by_admin) $btncolor="btn-danger";
 
@@ -663,8 +724,8 @@ class Requisition extends BaseController
                 $statusArry=array('pending','attending','Interaction','received','closed','cancel','Sent');
                 foreach($statusArry as $stausVal)
                 {
-                    $reqConnection->current_status=$stausVal;
-                    $statuscnt=$reqConnection->view_requistion_status_cnt();
+                    $current_status=$stausVal;
+                    $statuscnt=$this->RequisitionModel->view_requistion_status_cnt($current_status);
 
                     $returnArr[$stausVal] = $statuscnt;
                 }
@@ -674,9 +735,11 @@ class Requisition extends BaseController
             }
             if($mode == 'getReqIntractionReport'){
                 $contents ='Data Not Available';
-                $reqConnection->requisition_id=$_POST['id'];
-                if($interactions = $reqConnection->view_requistion_interactions()){
-                    while ($res = $interactions->fetch(PDO::FETCH_OBJ)){
+                $requisition_id=$_POST['id'];
+                $interactions = $this->RequisitionModel->view_requistion_interactions_results($requisition_id);
+                if(!empty($interactions))
+                {
+                    foreach($interactions as $res){
                         if($res->request_file){
                             $inFile = '<a href="../../requisition/reqistionRequest/'.$res->request_file.'" target="_blank"><i class="fa fa-eye"></i></a>';
                         }else{
@@ -703,13 +766,39 @@ class Requisition extends BaseController
 
                 if($_POST['currentstatus']=="received" && $_POST['requestid']!="")
                 {
-                    $reqConnection->interaction_remarks=ucwords($_POST['created_by'])." changed the status to Received";
-                    $reqConnection->requisition_id=$_POST['requestid'];
-                    $reqConnection->interaction_status=$_POST['currentstatus'];
-                    $reqConnection->created_by=$_POST['created_by'];
-                    $reqConnection->Insert_Interaction();
+                    $interaction_remarks=ucwords($_POST['created_by'])." changed the status to Received";
+                    $requisition_id=$_POST['requestid'];
+                    $interaction_status=$_POST['currentstatus'];
+                    $created_by=$_POST['created_by'];
 
-                    if($updateInteraction=$reqConnection->update_requistion()){
+                    $insertData = array(
+                        'requisition_id' => $requisition_id,
+                        'interaction_status' => $interaction_status,
+                        'interaction_remarks' => $interaction_remarks,                             
+                        'interaction_ip' => $_SERVER['REMOTE_ADDR'],
+                        'created_by' => $created_by,
+                    );
+                    $$this->RequisitionModel->Insert_Interaction($insertData);
+
+                    if($interaction_status=="closed" || $interaction_status=="received" || $interaction_status=="cancel")
+                    {
+                        $currenttime=date("Y-m-d H:i:s");
+                    }else
+                    {
+                        $currenttime="";
+                    }
+                    $updateData = array(                         
+                        'current_status' => $interaction_status,
+                        'remark2' => $interaction_remarks,   
+                        'request_file' => $file,                          
+                        'urgent' => $urgent,                          
+                        'request_close_datetime' => $currenttime,                          
+                        'interaction_ip' => $_SERVER['REMOTE_ADDR'],
+                        'updated_by' => $created_by,
+                        'updated_on' => NOW()
+                    );
+
+                    if($updateInteraction=$this->RequisitionModel->update_requistion($requisition_id,$updateData)){
                         $returnArr['status'] = "Success";
                         $returnArr['msg'] = "Successfully updated the status ";
                     }else{
@@ -725,19 +814,42 @@ class Requisition extends BaseController
                 echo  json_encode($returnArr);
             }
             if($mode == 'getAdvReqData'){
-                $reqConnection->court_number = $_POST['court_number'];
-                $reqConnection->court_userName = $_POST['regId'];
-                $reqConnection->created_by = $_POST['regId'];
-                $reqConnection->remark1 = $_POST['remark1'];
-                $reqConnection->section = 'ADVOCATE';
-                $reqConnection->user_type = 2;
-                $reqConnection->itemNo = $_POST['itemNo'];
-                $reqConnection->itemDate = $_POST['itemDate'];
-                $reqConnection->user_ip = $_POST['userIp'];
-                $reqConnection->phoneNo = $_POST['phoneNo'];
+
+
+                // $court_number = $_POST['court_number'];
+                // $court_username = $_POST['regId'];
+                // $created_by = $_POST['regId'];
+                // $remark1 = $_POST['remark1'];
+                // $section = 'ADVOCATE';
+                // $user_type = 2;
+                // $itemNo = $_POST['itemNo'];
+                // $itemDate = $_POST['itemDate'];
+                // $user_ip = $_POST['userIp'];
+                // $phoneNo = $_POST['phoneNo'];
+
+                $data = array(
+                    'court_number' => $_POST['court_number'],
+                    'court_username' => $_POST['regId'],
+                    'remark1' => $_POST['remark1'],
+                    'court_bench' => $_POST['court_bench'],
+                    'urgent' => $_POST['urgent'],
+                    'section' => $_POST['section'],
+                    'request_file' => '',
+                    'itemNo' => $_POST['itemNo'],
+                    'itemDate' => $_POST['itemDate'],
+                    'alternate_number' => $_POST['phoneNo'],
+                    'user_type' => ($_POST['user_type'] == '') ?? 1,                       
+                    'created_by' => $_POST['regId'],
+                    'user_ip' => $_POST['userIp'],
+                    'diary_no' => $_POST['diary_no'],
+                   'advocate_name' => $_POST['advocate_name'],
+                    'appearing_for' => $_POST['appearing_for'],
+                    'party_serial_no' => $_POST['party_serial_no']
+                    
+                 );
  
-                // die;
-                if($lastId =$reqConnection->create()){
+                 
+                if($lastId =$this->RequisitionModel->create($data)){
                     if(isset($_POST['citation'])) $arry_cit= array_filter($_POST['citation']);
                     if(isset($_POST['fileType']))  $arry_filetype= array_filter($_POST['fileType']);
                   
@@ -749,23 +861,33 @@ class Requisition extends BaseController
                         }
                         foreach($_FILES['citationFile']['tmp_name'] as $key => $tmp_name)
                         {
-                            $reqConnection->requisition_id= $lastId;
-                            $reqConnection->file_type= $_POST['fileType'][$key];
-                            $reqConnection->file_text= $_POST['citation'][$key];
+                            $requisition_id= $lastId;
+                            $file_type= $_POST['fileType'][$key];
+                            $file_text= $_POST['citation'][$key];
                             $tempName = $_FILES['citationFile']['tmp_name'][$key];
                             $info = pathinfo($_FILES['citationFile']['name'][$key]);
                             $ext = $info['extension']; // get the extension of the file
-                            $newname = $reqConnection->file_type.$key."_".$time.".".$ext ;
+                            $newname = $file_type.$key."_".$time.".".$ext ;
                             $target = '../../reqistionRequest/'.$newname;
 
                             $upload = move_uploaded_file($tempName, $target);
                             if($upload)
                             {
-                                $reqConnection->file_name = $newname;
+                                $file_name = $newname;
                             }else{
-                                $reqConnection->file_name = '';
+                                $file_name = '';
                             }
-                            if($reqConnection->advCitationData()){
+                         
+                            $insertData = array(
+                                'req_id' => $requisition_id,
+                                'file_type' => $file_type,
+                                'file_text' => $file_text,
+                                'file_name' => $file_name,
+                                'created_by' => $_POST['created_by'],
+
+                            );
+
+                            if($this->RequisitionModel->advCitationData($insertData)){
                                 $returnArr['status'] = "Success";
                                 $returnArr['msg'] = "Request Successfully Add";
                             }else{
@@ -788,9 +910,9 @@ class Requisition extends BaseController
             }
 
             if($mode == 'getCaseNo'){
-                $stmt = $reqConnection->getCaseNo($_POST['item_no'],$_POST['court_no'], $_POST['dateitem']);
-                $caseDetail = $stmt->fetch(PDO::FETCH_OBJ);
-                echo json_encode($caseDetail);
+                $stmt = $this->RequisitionModel->getCaseNo($_POST['item_no'],$_POST['court_no'], $_POST['dateitem']);
+               // $caseDetail = $stmt->fetch(PDO::FETCH_OBJ);
+                echo json_encode($stmt);
             }
 
 
@@ -802,11 +924,17 @@ class Requisition extends BaseController
 
     public function court_dashboard()
     {
+        //pr($_SESSION);
+        $data['RequisitionModel'] = $this->RequisitionModel;
+        $data['AdminusersModel'] = $this->AdminusersModel;
+       // $data['RequisitionModel'] = $this->RequisitionModel;
         $todayDate = date('Y-m-d');
-        $court_userName = session()->get('login')['name'];
-        $sql = "SELECT *  FROM  tbl_court_requisition  where DATE(created_on)='$todayDate' AND court_userName='$court_userName' ORDER BY id DESC";
+        $court_username = session()->get('login')['name'];
+        $sql = "SELECT *  FROM  tbl_court_requisition  where DATE(created_on)='$todayDate' AND court_username='$court_username' ORDER BY id DESC";
         $query = $this->db->query($sql);
         $data['result'] = $query->getResultArray();
+        $data['dataDropdown'] = $this->RequisitionModel->dropdownItemDates();
+        $data['librarySection'] = $this->RequisitionModel->view_library_section();
         return view('Library/court_dashboard',$data);
     }
     // public function ajax(){
