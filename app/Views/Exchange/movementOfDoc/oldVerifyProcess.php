@@ -315,7 +315,9 @@
                 <td align='center'><b>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</b></td>
                 <td>" . str_replace("XTRA", "", $t_part) . "</td>
                 <td>" . $row_ian["filedby"] . "</td>
-                <td align='center'>" . date("d-m-Y", strtotime($row_ian["ent_dt"])) . "</td>
+                
+                <td align='center'>" . (!empty($row_ian["ent_dt"]) ? date("d-m-Y", strtotime($row_ian["ent_dt"])) : "N/A") . "</td>
+
                 <td align='center'>" . $verified . "</td>
                 <td align='center'><b>" . $t_ia . "</b></td></tr>";
 
