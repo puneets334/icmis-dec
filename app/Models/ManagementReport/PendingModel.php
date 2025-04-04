@@ -1508,60 +1508,46 @@ class PendingModel extends Model
     }
     public function regular_in_misc_get()
     {
-        $sql = "SELECT 
-                        ROW_NUMBER() OVER (
-                            ORDER BY 
-                            tentative_section(c.diary_no),
-                            tentative_da(c.diary_no),
-                            c.diary_no_rec_date
-                        ) AS SNO, 
-                        c.* 
-                        FROM 
-                        (
-                            SELECT 
-                            m.diary_no,
-                            CONCAT(
-                                m.reg_no_display, ' @ ', m.diary_no
-                            ) AS REGNO_DNO, 
-                            CONCAT(pet_name, ' Vs. ', res_name) AS TITLE, 
-                            TO_CHAR(h.next_dt :: DATE, 'DD-MM-YYYY') AS Tentative_Date, 
-                            tentative_section(m.diary_no) AS SECTION, 
-                            tentative_da(m.diary_no) AS DA,
-                            m.diary_no_rec_date
-                            FROM 
-                            heardt h 
-                            INNER JOIN main m ON m.diary_no = h.diary_no 
-                            LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no 
-                            AND mc.display = 'Y' 
-                            LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no 
-                            AND rd.remove_def = 'N' 
-                            WHERE 
-                            rd.fil_no IS NULL 
-                            AND mc.diary_no IS NOT NULL 
-                            AND (
-                                m.diary_no :: text = m.conn_key 
-                                OR m.conn_key IS NULL 
-                                OR m.conn_key = '' 
-                                OR m.conn_key = '0'
-                            ) 
-                            AND m.c_status = 'P' 
-                            AND h.mainhead = 'M' 
-                            AND (
-                                m.fil_no_fh IS NOT NULL 
-                                AND m.fil_no_fh != ''
-                            )
-                            GROUP BY 
-                            m.diary_no, 
-                            m.reg_no_display, 
-                            pet_name, 
-                            res_name, 
-                            h.next_dt,
-                            m.diary_no_rec_date
-                            ORDER BY 
-                            tentative_section(m.diary_no), 
-                            tentative_da(m.diary_no), 
-                            m.diary_no_rec_date
+                $sql = "SELECT
+                            ROW_NUMBER() OVER () AS SNO,
+                            c.*
+                        FROM (
+                            SELECT
+                                CONCAT(m.reg_no_display, ' @ ', m.diary_no) AS REGNO_DNO,
+                                CONCAT(m.pet_name, ' Vs. ', m.res_name) AS TITLE,
+                                TO_CHAR(h.next_dt, 'DD-MM-YYYY') AS Tentative_Date,
+                                tentative_section(m.diary_no) AS SECTION,
+                                tentative_da(m.diary_no::INTEGER) AS DA
+                            FROM
+                                heardt h
+                            INNER JOIN
+                                main m ON m.diary_no = h.diary_no
+                            LEFT JOIN
+                                mul_category mc ON mc.diary_no = h.diary_no
+                                AND mc.display = 'Y'
+                            LEFT JOIN
+                                rgo_default rd ON rd.fil_no = h.diary_no
+                                AND rd.remove_def = 'N'
+                            WHERE
+                                rd.fil_no IS NULL
+                                AND mc.diary_no IS NOT NULL
+                                AND (
+                                    (m.conn_key != '' AND m.conn_key IS NOT NULL AND m.diary_no = m.conn_key::INTEGER)
+                                    OR m.conn_key = ''
+                                    OR m.conn_key IS NULL
+                                    OR m.conn_key = '0'
+                                ) 
+                                AND m.c_status = 'P'
+                                AND h.mainhead = 'M'
+                                AND (m.fil_no_fh IS NOT NULL AND m.fil_no_fh != '')
+                            GROUP BY
+                                m.diary_no, h.next_dt 
+                            ORDER BY
+                                tentative_section(m.diary_no),
+                                tentative_da(m.diary_no::INTEGER),
+                                m.diary_no_rec_date
                         ) c";
+    
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
