@@ -140,10 +140,12 @@ class DynamicReportModel extends Model
 
      function get_result($option, $condition, $sort, $joinCondition)
      {
-          if(!empty($condition)){
+          if(!str_contains($condition, 'and active_reg_year=') && !empty($condition)) {
                $condition = "where $condition";
+          } elseif(str_contains($condition, 'and active_reg_year=')) {
+               $condition = "";
           }
-          if ($sort != ''){
+          if ($sort != '') {
                $condition .= " order by " . $sort;
           }
           $sql = "select 

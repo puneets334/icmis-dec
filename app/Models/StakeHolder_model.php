@@ -171,7 +171,7 @@ class StakeHolder_model extends Model
                 'a.authdesc AS designation'
             ])
             ->join('master.master_stakeholder_type mst', 'st.stakeholder_type_id = mst.id', 'inner')
-            ->join('master.authority a', 'st.nodal_officer_designation = a.authcode', 'inner')
+            ->join('master.authority a', 'st.nodal_officer_designation::int = a.authcode', 'inner')
             ->where('st.is_deleted', 0)
             ->orderBy('st.created_on', 'DESC');
 
@@ -222,7 +222,7 @@ class StakeHolder_model extends Model
             $usedfromWhere ='';$addressWhere ='';$pincodeWhere ='';$phone_noWhere ='';$benchWhere='';$benchName='';$benchJoin='';$districtColumns='';
             $jailJoin='';$jail_name='';$tribunalWhere ='';$tribunalStateWhere ='';$tribunal_name='';$stateJoin='';$districtJoin='';$tribunalJoin='';$orderBy='';
             if(isset($designation_type) && !empty($designation_type)){
-                $designationWhere ="and sd.nodal_officer_designation = $designation_type ";
+                $designationWhere ="and sd.nodal_officer_designation::int = $designation_type ";
             }
             if(isset($nodal_officer_name) && !empty($nodal_officer_name)){
                 $nodalofficernameWhere = "and sd.nodal_officer_name like '$nodal_officer_name%' ";
@@ -255,25 +255,25 @@ class StakeHolder_model extends Model
                     $stateJoin='';$sql='';$jail_name='';$jailWhere='';$districtWhere='';$districtColumns='';$districtJoin='';$jailJoin='';$stateWhere='';
                     $state_name='';
                     if(isset($jail_state_id) && !empty($jail_state_id)){
-                        $stateJoin = "inner join (select State_Code, Police_state, cmis_state from jail_master j where
+                        $stateJoin = "inner join (select State_Code, Police_state, cmis_state from master.jail_master j where
                                    j.Police_state != '' and j.District_Code !=0   group by Police_state_code
                                ) jm
                         on sd.jail_state_id = jm.State_Code";
                         $state_name =",jm.Police_state as state_name";
                         $stateWhere = "and sd.jail_state_id= $jail_state_id";
-                        $districtJoin = "inner join (select State_Code, District_Code, Police_district from jail_master as j1
+                        $districtJoin = "inner join (select State_Code, District_Code, Police_district from master.jail_master as j1
                                  where j1.police_station_name != '' AND j1.District_Code !=0  and j1.State_Code=$jail_state_id
                                   group by j1.Police_district_code
                                 ) j11     
                             on sd.jail_district_id = j11.District_Code";
                         $districtColumns = ",j11.Police_district as district_name";
-                        $jailJoin ="inner join (select Loc_Id, Loc_Det, jail_name from jail_master as j2 
+                        $jailJoin ="inner join (select Loc_Id, Loc_Det, jail_name from master.jail_master as j2 
 		                where   j2.State_code = $jail_state_id) as j22
                             on sd.jail_id = j22.Loc_Id ";
                           $jail_name = ",j22.Loc_Det as jail_name";
                     }
                     if(isset($jail_district_id) && !empty($jail_district_id)){
-                        $districtJoin = "inner join (select State_Code, District_Code, Police_district from jail_master as j1
+                        $districtJoin = "inner join (select State_Code, District_Code, Police_district from master.jail_master as j1
                                  where j1.police_station_name != '' AND j1.District_Code !=0  and j1.State_Code=$jail_state_id
                                   group by j1.Police_district_code
                                 ) j11     
@@ -282,32 +282,32 @@ class StakeHolder_model extends Model
                         $districtWhere = "and sd.jail_district_id= $jail_district_id";
                     }
                     if(isset($jail_id) && !empty($jail_id)){
-                        $jailJoin ="inner join (select Loc_Id, Loc_Det, jail_name from jail_master as j2 
+                        $jailJoin ="inner join (select Loc_Id, Loc_Det, jail_name from master.jail_master as j2 
 		                where   j2.State_code = $jail_state_id) as j22
                             on sd.jail_id = j22.Loc_Id ";
                         $jail_name = ",j22.Loc_Det as jail_name";
                         $jailWhere = "and sd.jail_id= '$jail_id' ";
                     }
                     if(empty($jail_state_id) && empty($jail_district_id) && empty($jail_id)){
-                        $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,DATE_FORMAT(sd.used_from,'%d-%m-%Y') as used_from,DATE_FORMAT(sd.created_on,'%d-%m-%Y') as created_on,sd.address,
+                        $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,TO_CHAR(sd.used_from, 'DD-MM-YYYY') as used_from,TO_CHAR(sd.created_on, 'DD-MM-YYYY') as created_on,sd.address,
                             sd.pincode,sd.phone_no,mst.description as stakeholder_type,
                             a.authdesc as designation, j.Police_state as state_name, j.Police_district as district_name, j.Loc_Det as jail_name
-                            from stakeholder_details as sd 
-                            inner join master_stakeholder_type as mst
-                            on sd.stakeholder_type_id = mst.id inner join authority as a 
-                            on sd.nodal_officer_designation = a.authcode  inner join jail_master j
+                            from master.stakeholder_details as sd 
+                            inner join master.master_stakeholder_type as mst
+                            on sd.stakeholder_type_id = mst.id inner join master.authority as a 
+                            on sd.nodal_officer_designation::int = a.authcode  inner join master.jail_master j
                             on sd.jail_state_id = j.State_Code and sd.jail_district_id =j.District_Code and sd.jail_id = j.Loc_Id 
                             where sd.stakeholder_type_id = $stakeholderTypeId $designationWhere $nodalofficernameWhere $jcnemailidWhere $officialemailidWhere $mobileWhere $usedfromWhere
                             $addressWhere $pincodeWhere $phone_noWhere $orderBy";
                     }
                     else{
-                           $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,DATE_FORMAT(sd.used_from,'%d-%m-%Y') as used_from,DATE_FORMAT(sd.created_on,'%d-%m-%Y') as created_on,sd.address,
+                           $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,TO_CHAR(sd.used_from, 'DD-MM-YYYY') as used_from,TO_CHAR(sd.created_on, 'DD-MM-YYYY') as created_on,sd.address,
                             sd.pincode,sd.phone_no,mst.description as stakeholder_type,
                             a.authdesc as designation $state_name $districtColumns $jail_name
-                            from stakeholder_details as sd 
-                            inner join master_stakeholder_type as mst
-                            on sd.stakeholder_type_id = mst.id inner join authority as a 
-                            on sd.nodal_officer_designation = a.authcode $stateJoin  $districtJoin $jailJoin
+                            from master.stakeholder_details as sd 
+                            inner join master.master_stakeholder_type as mst
+                            on sd.stakeholder_type_id = mst.id inner join master.authority as a 
+                            on sd.nodal_officer_designation::int = a.authcode $stateJoin  $districtJoin $jailJoin
                             where sd.stakeholder_type_id = $stakeholderTypeId
                             $stateWhere $districtWhere $jailWhere $designationWhere $nodalofficernameWhere $jcnemailidWhere $officialemailidWhere $mobileWhere $usedfromWhere
                             $addressWhere $pincodeWhere $phone_noWhere $orderBy
@@ -319,31 +319,31 @@ class StakeHolder_model extends Model
                     $stateJoin='';$sql='';$benchWhere='';$benchJoin='';$stateWhere='';
                     if(isset($state_id) && !empty($state_id)){
                         $stateWhere = "and sd.state_id= $state_id";
-                        $stateJoin = "inner join state s 
+                        $stateJoin = "inner join master.state s 
                             on sd.state_id = s.State_code and s.display = 'Y' AND s.sci_state_id !=0 AND s.District_code =0 AND 
                             s.Sub_Dist_code =0 and s.State_code= $state_id";
-                        $benchJoin ="inner join ref_agency_code rac 
-                        on sd.bench_id = rac.id and rac.is_deleted = 'f' and rac.agency_or_court = 1";
+                        $benchJoin ="inner join master.ref_agency_code rac 
+                        on sd.bench_id = rac.id and rac.is_deleted = 'f' and rac.agency_or_court = '1'";
                         $benchName =",rac.agency_name";
                     }
                     else{
-                        $stateJoin = "inner join state s 
+                        $stateJoin = "inner join master.state s 
                             on sd.state_id = s.State_code and s.display = 'Y' AND s.sci_state_id !=0 AND s.District_code =0 AND 
                             s.Sub_Dist_code =0";
-                        $benchJoin ="inner join ref_agency_code rac 
-                        on sd.bench_id = rac.id and rac.is_deleted = 'f' and rac.agency_or_court = 1";
+                        $benchJoin ="inner join master.ref_agency_code rac 
+                        on sd.bench_id = rac.id and rac.is_deleted = 'f' and rac.agency_or_court = '1'";
                         $benchName =",rac.agency_name";
                     }
                     if(isset($bench_id) && !empty($bench_id)){
                         $benchWhere ="and sd.bench_id = $bench_id";
                     }
-                    $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,DATE_FORMAT(sd.used_from,'%d-%m-%Y') as used_from,DATE_FORMAT(sd.created_on,'%d-%m-%Y') as created_on,sd.address,
+                    $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,TO_CHAR(sd.used_from, 'DD-MM-YYYY') as used_from,TO_CHAR(sd.created_on, 'DD-MM-YYYY') as created_on,sd.address,
                             sd.pincode,sd.phone_no,mst.description as stakeholder_type,
                             a.authdesc as designation ,s.name as state_name $benchName
-                            from stakeholder_details as sd 
-                            inner join master_stakeholder_type as mst
-                            on sd.stakeholder_type_id = mst.id inner join authority as a 
-                            on sd.nodal_officer_designation = a.authcode $stateJoin  $benchJoin
+                            from master.stakeholder_details as sd 
+                            inner join master.master_stakeholder_type as mst
+                            on sd.stakeholder_type_id = mst.id inner join master.authority as a 
+                            on sd.nodal_officer_designation::int = a.authcode $stateJoin  $benchJoin
                             where sd.stakeholder_type_id = $stakeholderTypeId
                             $stateWhere $benchWhere  $designationWhere $nodalofficernameWhere $jcnemailidWhere $officialemailidWhere $mobileWhere $usedfromWhere
                             $addressWhere $pincodeWhere $phone_noWhere $orderBy
@@ -353,22 +353,22 @@ class StakeHolder_model extends Model
                     $sql='';$stateWhere='';$stateJoin='';
                     if(isset($state_id) && !empty($state_id)){
                         $stateWhere = "and sd.state_id= $state_id";
-                        $stateJoin = "inner join state s 
+                        $stateJoin = "inner join master.state s 
                             on sd.state_id = s.State_code and s.display = 'Y' AND s.sci_state_id !=0 AND s.District_code =0 AND 
                             s.Sub_Dist_code =0 and s.State_code= $state_id";
                     }
                     else{
-                        $stateJoin = "inner join state s 
+                        $stateJoin = "inner join master.state s 
                             on sd.state_id = s.State_code and s.display = 'Y' AND s.sci_state_id !=0 AND s.District_code =0 AND 
                             s.Sub_Dist_code =0";
                     }
-                    $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,DATE_FORMAT(sd.used_from,'%d-%m-%Y') as used_from,DATE_FORMAT(sd.created_on,'%d-%m-%Y') as created_on,sd.address,
+                    $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,TO_CHAR(sd.used_from, 'DD-MM-YYYY') as used_from,TO_CHAR(sd.created_on, 'DD-MM-YYYY') as created_on,sd.address,
                             sd.pincode,sd.phone_no,mst.description as stakeholder_type,
                             a.authdesc as designation ,s.name as state_name 
-                            from stakeholder_details as sd 
-                            inner join master_stakeholder_type as mst
-                            on sd.stakeholder_type_id = mst.id inner join authority as a 
-                            on sd.nodal_officer_designation = a.authcode $stateJoin 
+                            from master.stakeholder_details as sd 
+                            inner join master.master_stakeholder_type as mst
+                            on sd.stakeholder_type_id = mst.id inner join master.authority as a 
+                            on sd.nodal_officer_designation::int = a.authcode $stateJoin 
                             where sd.stakeholder_type_id = $stakeholderTypeId
                             $stateWhere $designationWhere $nodalofficernameWhere $jcnemailidWhere $officialemailidWhere $mobileWhere $usedfromWhere
                             $addressWhere $pincodeWhere $phone_noWhere $orderBy
@@ -378,19 +378,19 @@ class StakeHolder_model extends Model
                     $sql='';$stateJoin='';$stateWhere='';$districtJoin='';$districtColumns='';$districtWhere='';
                     if(isset($state_id) && !empty($state_id)){
                         $stateWhere = "and sd.state_id= $state_id";
-                        $stateJoin = "inner join state s 
+                        $stateJoin = "inner join master.state s 
                             on sd.state_id = s.State_code and s.display = 'Y' AND s.sci_state_id !=0 AND s.District_code =0 AND 
                             s.Sub_Dist_code =0 and s.State_code= $state_id";
-                        $districtJoin = "inner join state as ss
+                        $districtJoin = "inner join master.state as ss
                             on sd.district_id = ss.District_code and ss.display = 'Y' AND ss.District_code !=0 AND ss.Sub_Dist_code =0
                             AND ss.Village_code =0 and ss.State_code = $state_id ";
                         $districtColumns = ",ss.name as district_name";
                     }
                     else{
-                        $stateJoin = "inner join state s 
+                        $stateJoin = "inner join master.state s 
                             on sd.state_id = s.State_code and s.display = 'Y' AND s.sci_state_id !=0 AND s.District_code =0 AND 
                             s.Sub_Dist_code =0";
-                        $districtJoin = "inner join state as ss
+                        $districtJoin = "inner join master.state as ss
                             on sd.district_id = ss.District_code and ss.display = 'Y' AND ss.District_code !=0 AND ss.Sub_Dist_code =0
                             AND ss.Village_code =0 and ss.id_no = sd.cmis_state_id ";
                         $districtColumns = ",ss.name as district_name";
@@ -398,13 +398,13 @@ class StakeHolder_model extends Model
                     if(isset($district_id) && !empty($district_id)){
                         $districtWhere ="and sd.district_id = $district_id";
                     }
-                    $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,DATE_FORMAT(sd.used_from,'%d-%m-%Y') as used_from,DATE_FORMAT(sd.created_on,'%d-%m-%Y') as created_on,sd.address,
+                    $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,TO_CHAR(sd.used_from, 'DD-MM-YYYY') as used_from,TO_CHAR(sd.created_on, 'DD-MM-YYYY') as created_on,sd.address,
                             sd.pincode,sd.phone_no,mst.description as stakeholder_type,
                             a.authdesc as designation ,s.name as state_name $districtColumns
-                            from stakeholder_details as sd 
-                            inner join master_stakeholder_type as mst
-                            on sd.stakeholder_type_id = mst.id inner join authority as a 
-                            on sd.nodal_officer_designation = a.authcode $stateJoin $districtJoin
+                            from master.stakeholder_details as sd 
+                            inner join master.master_stakeholder_type as mst
+                            on sd.stakeholder_type_id = mst.id inner join master.authority as a 
+                            on sd.nodal_officer_designation::int = a.authcode $stateJoin $districtJoin
                             where sd.stakeholder_type_id = $stakeholderTypeId
                             $stateWhere $districtWhere $designationWhere $nodalofficernameWhere $jcnemailidWhere $officialemailidWhere $mobileWhere $usedfromWhere
                             $addressWhere $pincodeWhere $phone_noWhere $orderBy
@@ -414,32 +414,32 @@ class StakeHolder_model extends Model
                     $sql=''; $stateWhere='';$stateJoin='';$tribunalJoin='';$tribunal_name='';$tribunalWhere='';
                     if(isset($state_id) && !empty($state_id)){
                         $stateWhere = "and sd.tribunal_state_id= $state_id";
-                        $stateJoin = "inner join state s 
+                        $stateJoin = "inner join master.state s 
                             on sd.tribunal_state_id = s.State_code and s.display = 'Y' AND s.sci_state_id !=0 AND s.District_code =0 AND 
                             s.Sub_Dist_code =0 and s.State_code= $state_id";
-                        $tribunalJoin = "inner join ref_agency_code as rac
-                            on sd.cmis_state_id = rac.cmis_state_id and sd.tribunal_id=rac.id and rac.is_deleted = 'f'  and rac.agency_or_court IN(2, 5, 6) ";
+                        $tribunalJoin = "inner join master.ref_agency_code as rac
+                            on sd.cmis_state_id = rac.cmis_state_id and sd.tribunal_id=rac.id and rac.is_deleted = 'f'  and rac.agency_or_court::int IN(2, 5, 6) ";
                         $tribunal_name = ", rac.agency_name";
                     }
                     else{
-                        $stateJoin = "inner join state s 
+                        $stateJoin = "inner join master.state s 
                             on sd.tribunal_state_id = s.State_code and s.display = 'Y' AND s.sci_state_id !=0 AND s.District_code =0 AND 
                             s.Sub_Dist_code =0";
-                        $tribunalJoin = "inner join ref_agency_code as rac
-                            on sd.cmis_state_id = rac.cmis_state_id and sd.tribunal_id=rac.id and rac.is_deleted = 'f'  and rac.agency_or_court IN(2, 5, 6) ";
+                        $tribunalJoin = "inner join master.ref_agency_code as rac
+                            on sd.cmis_state_id = rac.cmis_state_id and sd.tribunal_id=rac.id and rac.is_deleted = 'f'  and rac.agency_or_court::int IN(2, 5, 6) ";
                         $tribunal_name = ", rac.agency_name";
                     }
                     if(isset($tribunal_id) && !empty($tribunal_id)){
-                        $tribunalWhere ="and sd.tribunal_id = $tribunal_id  and rac.agency_or_court IN(2, 5, 6)";
+                        $tribunalWhere ="and sd.tribunal_id = $tribunal_id  and rac.agency_or_court::int IN(2, 5, 6)";
                         $tribunal_name = ", rac.agency_name";
                     }
-                    $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,DATE_FORMAT(sd.used_from,'%d-%m-%Y') as used_from,DATE_FORMAT(sd.created_on,'%d-%m-%Y') as created_on,sd.address,
+                    $sql ="select sd.nodal_officer_name,sd.jcn_email_id,sd.official_email_id,sd.mobile_number,TO_CHAR(sd.used_from, 'DD-MM-YYYY') as used_from,TO_CHAR(sd.created_on, 'DD-MM-YYYY') as created_on,sd.address,
                             sd.pincode,sd.phone_no,mst.description as stakeholder_type ,
                             a.authdesc as designation ,s.name as state_name $tribunal_name
-                            from stakeholder_details as sd 
-                            inner join master_stakeholder_type as mst
-                            on sd.stakeholder_type_id = mst.id inner join authority as a 
-                            on sd.nodal_officer_designation = a.authcode $stateJoin $tribunalJoin
+                            from master.stakeholder_details as sd 
+                            inner join master.master_stakeholder_type as mst
+                            on sd.stakeholder_type_id = mst.id inner join master.authority as a 
+                            on sd.nodal_officer_designation::int = a.authcode $stateJoin $tribunalJoin
                             where sd.stakeholder_type_id = $stakeholderTypeId
                             $stateWhere $tribunalWhere $designationWhere $nodalofficernameWhere $jcnemailidWhere $officialemailidWhere $mobileWhere $usedfromWhere
                             $addressWhere $pincodeWhere $phone_noWhere $orderBy

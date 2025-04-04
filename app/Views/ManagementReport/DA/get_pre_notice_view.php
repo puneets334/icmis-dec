@@ -2,8 +2,7 @@
     <?php
     if (count($get_pre_notice_data) > 0) {
     ?>
-        <h3><?php echo $h3_head . "<br>"; //$heading1;  
-            ?></h3>
+        <h3><?php echo $h3_head . "<br>"; ?></h3>
         <table class="table table-striped custom-table" id="example1">
             <thead>
                 <tr>
@@ -24,7 +23,7 @@
                 $sno = 1;
                 foreach ($get_pre_notice_data as $ro) {
                     $advsql = $model->get_advocate_data($ro["diary_no"]);
-                    pr($advsql);
+                    // pr($advsql);
                     $sno1 = $sno % 2;
                     $dno = $ro['diary_no'];
                     $conn_no = $ro['conn_key'];
@@ -71,8 +70,8 @@
                     $advsql = $model->get_advocate_data($ro["diary_no"]);
 
                     if (count($advsql) > 0) {
-                        $radvname =  $advsql["r_n"];
-                        $padvname =  $advsql["p_n"];
+                        $radvname =  $advsql[0]["r_n"];
+                        $padvname =  $advsql[0]["p_n"];
                     }
 
                     if (($ro['section_name'] == null or $ro['section_name'] == '') and $ro['ref_agency_state_id'] != '' and $ro['ref_agency_state_id'] != 0) {
@@ -111,7 +110,7 @@
 
                         </tr>
             </tbody>
-            ?>
+           
         <?php
                     $sno++;
                 }

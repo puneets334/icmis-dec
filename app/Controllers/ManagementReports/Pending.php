@@ -309,28 +309,42 @@ class Pending extends BaseController
     {
         return view('ManagementReport/Pending/institution');
     }
+    // public function institution_report_post()
+    // {
+        
+    //     $from_date  = $_POST['from_date'];
+    //     $to_date    = $_POST['to_date'];
+    //     $rpt_type   = $_POST['rpt_type'];
+    //     if ($rpt_type == 'registration' || $rpt_type == 'institution') {
+            
+    //         $condition = "1=1"; 
+    //         if ($_POST['rpt_type'] == 'registration') {
+    //             $report_name = 'Fresh Registration';
+    //         }
+    //         if ($_POST['rpt_type'] == 'institution') {
+    //             $report_name = 'Institution';
+    //             $condition = " substr(`fil_no`, 1, 2) != 39"; 
+    //         }
+    //         $result['report_data']  = $this->PendingModel->get_institution_report($from_date, $to_date, $rpt_type);
+    //         $result['from_date'] = $from_date; 
+    //         $result['to_date'] = $to_date;
+    //         return view('ManagementReport/Pending/data_institution', $result);
+    //     }
+        
+    // }
+
     public function institution_report_post()
     {
-        //pr($_POST);die;
-        $from_date  = $_POST['from_date'];
-        $to_date    = $_POST['to_date'];
-        $rpt_type   = $_POST['rpt_type'];
-        if ($_POST['rpt_type'] == 'registration' || $_POST['rpt_type'] == 'institution') {
-            $condition = "1=1"; // Default condition
-            if ($_POST['rpt_type'] == 'registration') {
-                $report_name = 'Fresh Registration';
-            }
-            if ($_POST['rpt_type'] == 'institution') {
-                $report_name = 'Institution';
-                $condition = " substr(`fil_no`, 1, 2) != 39"; // Additional condition for institution
-            }
-            $result['report_data']  = $this->PendingModel->get_institution_report($from_date, $to_date, $rpt_type);
-            // pr($result['report_data']);die;
-            $result['from_date'] = $from_date; // Add from_date to result
-            $result['to_date'] = $to_date;
-            return view('ManagementReport/Pending/data_institution', $result);
-        }
+        $data['from_date'] = $this->request->getPost('from_date');
+        $data['to_date']   = $this->request->getPost('to_date');
+        $data['rpt_type']  = $this->request->getPost('rpt_type');
+        $data['model']  = $this->PendingModel;
+        return view('ManagementReport/Pending/data_institution', $data);
+
+        
     }
+
+
     public function InstitutionDisposal()
     {
         return view('ManagementReport/Pending/InstitutionDisposal');

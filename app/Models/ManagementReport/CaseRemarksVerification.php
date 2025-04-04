@@ -766,11 +766,13 @@ class CaseRemarksVerification extends Model
             $heading1 .= " ";
         }
         if ($pre_after == "1") {
-            $pre_after = " c.diary_no IS NULL AND (m.fil_no_fh = '' OR m.fil_no_fh IS NULL) AND h.subhead NOT IN (813, 814) AND ";
+            $pre_after =" c.diary_no IS NULL
+                    AND (m.fil_no_fh = '' OR m.fil_no_fh IS NULL)
+                    AND h.subhead NOT IN (813, 814) AND ";
             $heading1 .= " Pre Notice ";
         }
         if ($pre_after == "2") {
-            $pre_after = " ((c.diary_no is not null AND m.fil_no_fh != '' AND m.fil_no_fh is not null) OR h.subhead in (813,814) ) AND ";
+            $pre_after = " ((c.diary_no IS NOT NULL AND m.fil_no_fh != '' AND m.fil_no_fh IS NOT NULL) OR h.subhead in (813,814) ) AND ";
             $heading1 .= " After Notice ";
         }
         if ($coram_having == "0") {
@@ -778,11 +780,11 @@ class CaseRemarksVerification extends Model
             $heading1 .= "";
         }
         if ($coram_having == "1") {
-            $coram_having = " and h.coram::int != 0 and h.coram is not null and h.coram !='' ";
+            $coram_having = " AND h.coram::TEXT != '0' AND h.coram::TEXT IS NOT NULL AND h.coram::TEXT != '' ";
             $heading1 .= " Having Coram ";
         }
         if ($coram_having == "2") {
-            $coram_having = " and (h.coram::int = 0 or h.coram is null or h.coram = '') ";
+            $coram_having = " AND (h.coram::TEXT = '0' OR h.coram::TEXT is null OR h.coram::TEXT = '') ";
             $heading1 .= " Having No Coram ";
         }
 
@@ -797,7 +799,7 @@ class CaseRemarksVerification extends Model
             $sec_id2 = "";
         } else {
             $sec_id = "AND us.id = '" . $sec_id . "'";
-            $sec_id2 = "AND us.id is not null";
+            $sec_id2 = "AND us.id IS NOT NULL";
         }
         if ($rnr == "0") {
             $ready_not_ready = "";
@@ -810,79 +812,108 @@ class CaseRemarksVerification extends Model
             $ready_not_ready = " AND h.main_supp_flag != 0";
             $heading1 .= " Not Ready Cases ";
         }
-
-        $sql = "SELECT CASE WHEN h.main_supp_flag = 0 THEN 'Ready' ELSE 'Not Ready' END AS r_n_r, m.reg_no_display,  mc.submaster_id, u.name, us.section_name, 
-                s.stagename, l.purpose, EXTRACT( YEAR FROM  m.active_fil_dt) AS fyr,active_reg_year, active_fil_dt, active_fil_no, m.pet_name, m.res_name, 
-                m.pno, m.rno, casetype_id, ref_agency_state_id,diary_no_rec_date, h.* FROM heardt h INNER JOIN main m ON m.diary_no = h.diary_no LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no AND mc.display = 'Y' AND mc.submaster_id != 911 AND mc.submaster_id != 912 AND mc.submaster_id != 914 
-                AND mc.submaster_id != 239 AND mc.submaster_id != 240 AND mc.submaster_id != 241 AND mc.submaster_id != 242 AND mc.submaster_id != 243 
-                AND mc.submaster_id != 331 AND mc.submaster_id != 9999  left join case_remarks_multiple c on c.diary_no = m.diary_no and c.r_head in (1, 3, 62, 181, 182, 183, 184) left join master.subheading s on s.stagecode = h.subhead and s.display = 'Y' left join  master.listing_purpose l on l.code = h.listorder 
-                LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no  AND rd.remove_def = 'N' LEFT JOIN master.users u ON u.usercode = m.dacode AND u.display = 'Y' 
-                LEFT JOIN master.usersection us ON us.id = u.section $sec_id WHERE $pre_after m.c_status = 'P' AND h.board_type = 'J' AND h.mainhead = 'M'  and rd.fil_no is null AND mc.diary_no IS NOT NULL  and h.listorder != 49  AND m.active_casetype_id != 9 AND m.active_casetype_id != 10 
-                AND m.active_casetype_id != 25 AND m.active_casetype_id != 26 
-                AND (
-                    m.diary_no = m.conn_key :: int 
-                    OR m.conn_key = '' 
-                    OR m.conn_key IS NULL 
-                    OR m.conn_key = '0'
-                ) 
-                AND h.next_dt IS NOT NULL 
-                AND h.subhead != 801 
-                AND h.subhead != 817 
-                AND h.subhead != 818 
-                AND h.subhead != 819 
-                AND h.subhead != 820 
-                AND h.subhead != 848 
-                AND h.subhead != 849 
-                AND h.subhead != 850 
-                AND h.subhead != 854 
-                and h.subhead != 0 $coram_having $ready_not_ready $mdacode $sec_id2 
-                group by 
-                m.diary_no, 
-                mc.submaster_id, 
-                u.name, 
-                us.section_name, 
-                s.stagename, 
-                l.purpose, 
-                fyr, 
-                m.active_reg_year, 
-                m.active_fil_dt, 
-                m.active_fil_no, 
-                m.pet_name, 
-                m.res_name, 
-                m.pno, 
-                m.rno, 
-                m.casetype_id, 
-                m.ref_agency_state_id, 
-                m.diary_no_rec_date, 
-                h.main_supp_flag, 
-                h.diary_no 
-                order by 
-                tentative_section(m.diary_no), 
-                tentative_da(m.diary_no), 
-                CASE WHEN m.active_fil_dt is null THEN 2 ELSE 1 END ASC, 
-                CASE WHEN m.active_fil_no = '' THEN 2 ELSE 1 END ASC, 
-                EXTRACT(
-                    YEAR 
-                    FROM 
-                    m.active_fil_dt
-                ), 
-                CAST(
-                    SPLIT_PART(
-                    SPLIT_PART(m.active_fil_no, '-', -1), 
-                    ' ', 
-                    1
-                    ) AS INTEGER
-                ), 
-                CAST(
-                    RIGHT(m.diary_no :: text, 4) AS INTEGER
-                ) ASC, 
-                CAST(
-                    LEFT(
-                    m.diary_no :: text, 
-                    LENGTH(m.diary_no :: text) -4
-                    ) AS INTEGER
-                ) ASC
-                ";
+       $sql = "SELECT
+                    CASE
+                        WHEN h.main_supp_flag = 0 THEN 'Ready'
+                        ELSE 'Not Ready'
+                    END AS r_n_r,
+                    m.reg_no_display,
+                    mc.submaster_id,
+                    u.name,
+                    us.section_name,
+                    s.stagename,
+                    l.purpose,
+                    EXTRACT(YEAR FROM m.active_fil_dt) AS fyr,
+                    m.active_reg_year,
+                    m.active_fil_dt,
+                    m.active_fil_no,
+                    m.pet_name,
+                    m.res_name,
+                    m.pno,
+                    m.rno,
+                    m.casetype_id,
+                    m.ref_agency_state_id,
+                    m.diary_no_rec_date,
+                    h.*,
+                    SPLIT_PART(SPLIT_PART(m.active_fil_no, '-', -1), ' ', 1) as fil_no_order 
+                FROM
+                    heardt h
+                INNER JOIN
+                    main m ON m.diary_no = h.diary_no
+                LEFT JOIN
+                    mul_category mc ON mc.diary_no = h.diary_no
+                    AND mc.display = 'Y'
+                    AND mc.submaster_id NOT IN (911, 912, 914, 239, 240, 241, 242, 243, 331, 9999)
+                LEFT JOIN
+                    case_remarks_multiple c ON c.diary_no = m.diary_no
+                    AND c.r_head IN (1, 3, 62, 181, 182, 183, 184)
+                LEFT JOIN
+                    master.subheading s ON s.stagecode = h.subhead
+                    AND s.display = 'Y'
+                LEFT JOIN
+                    master.listing_purpose l ON l.code = h.listorder
+                LEFT JOIN
+                    rgo_default rd ON rd.fil_no = h.diary_no
+                    AND rd.remove_def = 'N'
+                LEFT JOIN
+                    master.users u ON u.usercode = m.dacode
+                    AND u.display = 'Y'
+                LEFT JOIN
+                    master.usersection us ON us.id = u.section
+                    $sec_id 
+                WHERE
+                    $pre_after 
+                    m.c_status = 'P'
+                    AND h.board_type = 'J'
+                    AND h.mainhead = 'M'
+                    AND rd.fil_no IS NULL
+                    AND mc.diary_no IS NOT NULL
+                    AND h.listorder != 49
+                    AND m.active_casetype_id NOT IN (9, 10, 25, 26)
+                    AND m.conn_key != ''
+                    AND m.conn_key is not null
+                    AND (
+                        m.diary_no::INTEGER = m.conn_key::INTEGER
+                        OR m.conn_key::INTEGER = 0
+                    )
+                    AND h.next_dt IS NOT NULL
+                    AND h.subhead NOT IN (801, 817, 818, 819, 820, 848, 849, 850, 854, 0) 
+                    $coram_having $ready_not_ready $mdacode $sec_id2 
+                GROUP BY
+                    m.diary_no,
+                    mc.submaster_id,
+                    u.name,
+                    us.section_name,
+                    s.stagename,
+                    l.purpose,
+                    fyr,
+                    m.active_reg_year,
+                    m.active_fil_dt,
+                    m.active_fil_no,
+                    m.pet_name,
+                    m.res_name,
+                    m.pno,
+                    m.rno,
+                    m.casetype_id,
+                    m.ref_agency_state_id,
+                    m.diary_no_rec_date,
+                    h.main_supp_flag,
+                    h.diary_no
+                ORDER BY
+                    tentative_section(m.diary_no),
+                    tentative_da(CAST(m.diary_no AS INTEGER)),
+                    CASE
+                        WHEN m.active_fil_dt IS NULL THEN 2
+                        ELSE 1
+                    END ASC,
+                    CASE
+                        WHEN m.active_fil_no IS NULL THEN 2
+                        ELSE 1
+                    END ASC,
+                    EXTRACT(YEAR FROM m.active_fil_dt),
+                    fil_no_order,
+                    CAST(RIGHT(m.diary_no::TEXT, 4) AS INTEGER) ASC,
+                    CAST(LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 4) AS INTEGER) ASC";
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;

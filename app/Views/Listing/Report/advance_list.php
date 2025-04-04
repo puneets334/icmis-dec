@@ -129,7 +129,7 @@
                                                         $cur_ddt = date('Y-m-d');
                                                         $next_court_work_day = date("d-m-Y", strtotime(chksDate($cur_ddt)));
                                                         ?>
-                                                        <input type="text" size="10" class="dtp" name='ldates' id='ldates' value="<?php echo $next_court_work_day; ?>" readonly />
+                                                        <input type="text" class="dtp" name='ldates' id='ldates' value="<?php echo $next_court_work_day; ?>" readonly />
                                                     </div>
 
                                                 </div>
