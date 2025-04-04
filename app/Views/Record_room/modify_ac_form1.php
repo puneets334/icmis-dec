@@ -77,15 +77,32 @@
 
             var tvap = '';
             tvap = aorc + ";" + aorn + ";" + cnf + ";" + cnm + ";" + cnl + ";" + cfn + ";" + cpal1 + ";" + cpal2 + ";" + cpad + ";" + cpapin + ";" + cppal1 + ";" + cppal2 + ";" + cppad + ";" + cppapin + ";" + cdob + ";" + cpob + ";" + cn + ";" + cmobile + ";" + cx + ";" + cxii + ";" + cug + ";" + cpg + ";" + cein + ";" + crd + ";" + cid;
-            
-            if (cnf.trim() == '' || cfn.trim() == '' || cein.trim() == '' || aorc.trim() == '') {
-                alert("Please Enter Mandatory Values");
+            let missingFields = [];
+
+            if (aorc.trim() === "") missingFields.push("AOR/Firm Code");
+            if (cnf.trim() === "") missingFields.push("First Name");
+            if (cpal1.trim() === "") missingFields.push("Present Address Line 1");
+            if (cpapin.trim() === "") missingFields.push("Present Address Pincode");
+            if (cppal1.trim() === "") missingFields.push("Permanent Address Line 1");
+            if (cppapin.trim() === "") missingFields.push("Permanent Address Pincode");
+            if (cein.trim() === "") missingFields.push("New Icard No");
+            if (cpob.trim() === "") missingFields.push("Place of Birth");
+            if (crd.trim() === "") missingFields.push("Registration Date");
+            if (cmobile.trim() === "") missingFields.push("Mobile Number");
+
+
+            if (missingFields.length > 0) {
+                alert("Please Enter Mandatory Values : " + missingFields.join(", "));
                 return false;
             }
-            if ((!aorc && !cnf && !cpal1 && !cpapin && !cppal1 && !cppapin && !cdob && !cpob) && !crd) {
-                alert("Please Enter Mandatory Values");
-                return false;
-            }
+            // if (cnf.trim() == '' || cfn.trim() == '' || cein.trim() == '' || aorc.trim() == '') {
+            //     alert("Please Enter Mandatory Values");
+            //     return false;
+            // }
+            // if ((!aorc && !cnf && !cpal1 && !cpapin && !cppal1 && !cppapin && !cdob && !cpob) && !crd) {
+            //     alert("Please Enter Mandatory Values");
+            //     return false;
+            // }
 
             var dataString = 'tvap=' + tvap + '&id=' + cid;
 
@@ -98,7 +115,7 @@
                 data: dataString,
                 cache: false,
                 success: function(result) {
-                    if (result.indexOf('Record Successfully Updated') !== -1) { 
+                    if (result.indexOf('Record Successfully Updated') !== -1) {
                         alert('Record Successfully Updated');
                         window.location.href = '<?php echo base_url('Record_room/Record/modify_details'); ?>';
 
@@ -120,7 +137,7 @@
     <?php {
 
     ?>
-    <section class="content">
+        <section class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
@@ -128,7 +145,7 @@
                             <div class="card-header heading">
                                 <div class="row">
                                     <div class="col-sm-10">
-                                        <h3 class="card-title">Record Room >>  Advocate Clerk >> Modification</h3>
+                                        <h3 class="card-title">Record Room >> Advocate Clerk >> Modification</h3>
                                     </div>
                                     <div class="col-sm-2"></div>
                                 </div>
@@ -138,7 +155,7 @@
                                 <div class="col-md-12">
                                     <div class="">
                                         <div class="panel panel-info">
-                                            
+
                                             <div class="panel-heading">
 
                                                 <input name="cid" type="hidden" id="cid" value="<?php echo !empty($val['id']) ? $val['id'] : ''; ?>">
@@ -175,7 +192,7 @@
                                                     </div>
 
                                                     <div class="form-group row">
-                                                        <label class="control-label col-sm-2" for="anumber">Present Address</label>
+                                                        <label class="control-label col-sm-2" for="anumber">Present Address *</label>
                                                         <div class="col-sm-3"><input class="form-control " name="cpal1" value="<?php echo !empty($val['pa_line1']) ? $val['pa_line1'] : ''; ?>" type="text" id="cpal1" placeholder="Address Line1"></div>
                                                         <div class="col-sm-3"><input class="form-control " name="cpal2" value="<?php echo !empty($val['pa_line2']) ? $val['pa_line2'] : ''; ?>" type="text" id="cpal2" placeholder="Address Line2"></div>
                                                         <div class="col-sm-2"><input class="form-control " name="cpad" value="<?php echo !empty($val['pa_district']) ? $val['pa_district'] : ''; ?>" type="text" id="cpad" placeholder="District"></div>
@@ -183,7 +200,7 @@
                                                     </div>
 
                                                     <div class="form-group row">
-                                                        <label class="control-label col-sm-2" for="anumber">Permanent Address</label>
+                                                        <label class="control-label col-sm-2" for="anumber">Permanent Address *</label>
                                                         <div class="col-sm-3"><input class="form-control " name="cppal1" value="<?php echo !empty($val['ppa_line1']) ? $val['ppa_line1'] : ''; ?>" type="text" id="cppal1" placeholder="Address Line1"></div>
                                                         <div class="col-sm-3"><input class="form-control " name="cppal2" value="<?php echo !empty($val['ppa_line2']) ? $val['ppa_line2'] : ''; ?>" type="text" id="cppal2" placeholder="Address Line2"></div>
                                                         <div class="col-sm-2"><input class="form-control " name="cppad" value="<?php echo !empty($val['ppa_district']) ? $val['ppa_district'] : ''; ?>" type="text" id="cppad" placeholder="District"></div>
@@ -196,7 +213,7 @@
                                                             <input class="form-control" name="cdob" type="text" value="<?php echo !empty($val['dob']) ? date('d/m/Y', strtotime($val['dob'])) : ''; ?>" id="cdob">
                                                         </div>
 
-                                                    <!-- </div>
+                                                        <!-- </div>
 
                                                     <div class="form-group row"> -->
                                                         <label class="control-label col-sm-2 mt-3" for="anumber">Place of Birth</label>
@@ -208,10 +225,10 @@
                                                         <div class="col-sm-3">
                                                             <input class="form-control " name="cn" type="text" id="cn" placeholder="Nationality" value="INDIAN" disabled>
                                                         </div>
-                                                    <!-- </div>
+                                                        <!-- </div>
 
                                                     <div class="form-group row"> -->
-                                                        <label class="control-label col-sm-2 mt-3" for="anumber">Mobile Number</label>
+                                                        <label class="control-label col-sm-2 mt-3" for="anumber">Mobile Number *</label>
                                                         <div class="col-sm-3">
                                                             <input class="form-control " name="cmobile" value="<?php echo !empty($val['cmobile']) ? $val['cmobile'] : ''; ?>" type="number" maxlength="10" id="cmobile" placeholder="mobile" oninput="validateMobileLength(this)">
                                                         </div>
@@ -225,10 +242,8 @@
                                                         <div class="col-sm-2"><input class="form-control " value="<?php echo !empty($val['eq_pg']) ? $val['eq_pg'] : ''; ?>" name="cpg" type="text" id="cpg" placeholder="PG"></div>
                                                     </div>
 
-
-
                                                     <div class="form-group row">
-                                                        <label class="control-label col-sm-2" for="anumber">Registration Date:</label>
+                                                        <label class="control-label col-sm-2" for="anumber">Registration Date *</label>
                                                         <div class="col-sm-2">
                                                             <input class="form-control" value="<?php echo !empty($val['regdate']) ? date('d/m/Y', strtotime($val['regdate'])) : ''; ?>" name="crd" type="text" id="crd">
                                                         </div>
@@ -245,7 +260,7 @@
 
                                                 </form>
                                             </div>
-                                       
+
                                         </div>
                                     </div>
                                 </div>
