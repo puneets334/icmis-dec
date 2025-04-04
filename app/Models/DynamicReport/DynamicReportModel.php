@@ -109,9 +109,9 @@ class DynamicReportModel extends Model
      function get_agency_code($state, $agency)
      {
           if ($agency == 1)
-               $condition = " and agency_or_court=1";
+               $condition = " and agency_or_court::integer=1";
           else if ($agency == 2)
-               $condition = " and agency_or_court in(5,6)";
+               $condition = " and agency_or_court::integer in(5,6)";
           else
                $condition = "";
           $sql = "select * from master.ref_agency_code where cmis_state_id=$state and is_deleted='f' $condition order by agency_or_court,agency_name";
