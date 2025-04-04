@@ -136,8 +136,8 @@
 
                             <div class="col-sm-5">
                                 <span class="input-group-btn">
-
-                                <button type="submit" name="generate" id="generate-btn" class="btn bg-blue">Generate Report</button>
+                                <input type="hidden" name="ecPilGroupId" id="ecPilGroupIdSelected" value="">                
+                                <button type="button" name="generate" id="generate-btn" class="btn bg-blue" onclick="downloadReport();">Generate Report</button>
                                 </span>
                             </div>
                         </div>                  
@@ -191,13 +191,21 @@
 
 
 
-<script>
-
-    function updateCSRFToken() {
-        $.getJSON("<?php echo base_url('Csrftoken'); ?>", function (result) {
-            $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-        });
+    <script>
+function downloadReport()
+{
+    if($('#comment').val() == '')
+    {
+        alert('Please write message!!');
+        $('#comment').focus();
+        return false;
     }
+    $('#frmPilGroupPdf').trigger('submit');
+    $('#search-btn').trigger('click');
+    updateCSRFToken();
+}
+
+ 
 
     function checkGroup() {
 
@@ -208,25 +216,27 @@
             return false;
         } else {
 
-            var CSRF_TOKEN = 'CSRF_TOKEN';
-            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-
+             
+            $('#ecPilGroupIdSelected').val(ecPilGroupId);
             $.ajax({
-                type: "POST",
+                type: "GEt",
                 dataType: 'json',
-                data: {
-                    CSRF_TOKEN: CSRF_TOKEN_VALUE,
+                data: {                     
                     'dt': ecPilGroupId
 
                 },
+                beforeSend: function () {
+                    $('#tabledata').css("display", "block");
+                    $('#data_set').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+                },
                 url: "<?php echo base_url('PIL/PilController/addToPilGroupReport'); ?>",
                 success: function (data) {
-                    updateCSRFToken();
+                    //updateCSRFToken();
                     
                     var dataArray = data.casesInPilGroup;
                   
                     var html = "";
-                    if (dataArray !== undefined && dataArray !== null) {
+                    if (dataArray !== undefined && dataArray !== null && dataArray !== '') {
                         var i = 1;
                         dataArray.forEach(dt => {
 
@@ -240,19 +250,21 @@
                             html += '</tr>';
 
                         })
-                        console.log(html);
-                        $('#data_set').append(html);
+                        
+                        $('#data_set').html(html);
 
                         $('#tabledata').css("display", "block");
                         // window.location.reload();
                     } else {
-                        alert("No record Found");
+                        $('#tabledata').css("display", "none");
+                        $('#data_set').html('No record Found');
+                        //alert("No record Found");
                     }
 
                    
                 },
                 error: function (data) {
-                    updateCSRFToken();
+                    //updateCSRFToken();                   
                     alert(data);
                     
                 }
@@ -262,7 +274,7 @@
         }
     }
 
-    function generateReport()
+    function generateReport_()
     {
         var ecPilGroupId = $("#ecPilGroupId").val();
         var comment = $("#comment").val();
