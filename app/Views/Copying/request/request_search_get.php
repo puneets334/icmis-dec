@@ -331,8 +331,10 @@ if(in_array_any( [10,71], $session->get('dcmis_multi_section_id') ) && ($row['al
     </style>
     <div class="row p-1 col-12" >
     <div class="dspace_docs border-0 col-12 list-group-item p-0 m-1">
-        <div class="rounded ml-3" data-toggle="collapse" data-target="#collapse_<?=$row['crn'];?>"
-             style="cursor: pointer; text-align: center;background-color:darkgray;border-radius: 5px importaint; width:100%"><strong>Documents Available in the DSPACE</strong>
+    <div class="rounded ml-3"
+    style="cursor: pointer; text-align: center;background-color:darkgray;border-radius: 5px importaint; width:100%">
+        <!--<div class="rounded ml-3" data-toggle="collapse" data-target="#collapse_<?=$row['crn'];?>"
+             style="cursor: pointer; text-align: center;background-color:darkgray;border-radius: 5px importaint; width:100%">--><strong>Documents Available in the DSPACE</strong>
         </div>
 
         <div class="dSpacePage col-12 p-1 m-1 collapse" id="collapse_<?=$row['crn'];?>" >
