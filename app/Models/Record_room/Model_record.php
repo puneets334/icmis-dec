@@ -331,7 +331,6 @@ class Model_record extends Model
     {
         try {
             $this->db->table('public.ac')->insert($data);
-            // echo $this->db->getlastQuery();
             return true;
         } catch (\Exception $e) {
             // Log the error message

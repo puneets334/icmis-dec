@@ -101,8 +101,9 @@ class Record extends BaseController
                 'updated_on' => date("Y-m-d H:i:s"),
                 'updated_by_ip' => getClientIP(),
             ];
-
+            
             $model->insert1($data);
+            
             $db = \Config\Database::connect();
             $transactionModel = $db->table('transactions');
             $transactionModel->insert([
@@ -114,9 +115,9 @@ class Record extends BaseController
                 'updated_by_ip' => getClientIP()
             ]);
 
-            echo "Record Successfully Inserted";
+           return $this->response->setJSON(["success" => 'Record Successfully Inserted']) ;
         } catch (\Exception $e) {
-            echo "Error: " . $e->getMessage();
+            return $this->response->setJSON(["error" => $e->getMessage()]) ;
             die();
         }
     }
