@@ -28,7 +28,7 @@
                     </p>
                     <br />
                     <p align="right" style="font-size: 12px;"><b>ADDITIONAL REGISTRAR</b>&nbsp; &nbsp;</p>
-                    <div style="width: 100%; padding-bottom: 1px; background-color: #ddf1f9; text-align: center; border-top: 1px solid #000; position: fixed; bottom: 0; left: 0; right: 0; z-index: 0; display: block;">
+                    <div style="width: 100%; padding-bottom: 1px; background-color: #ddf1f9; text-align: center; border-top: 1px solid #000; position: fixed; bottom: 0; left: 0; right: 0; z-index: 15; display: block;">
                         <input name="prnnt1" type="button" id="prnnt1" value="Print" />
                     </div>
                     <center></center>
