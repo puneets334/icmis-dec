@@ -260,7 +260,7 @@
             $('#tblSharedDocuments tbody').empty();
             $.each(response, function(i, item) {
                 var document_date_check = item.document_date;
-                if(document_date_check == '00-00-0000'){
+                if(document_date_check == NULL){
                     document_date_check = "";
                 }
                 else{
@@ -289,6 +289,7 @@
             $("#divShowPdf").html(result);
         });
     }
+
     function dodelete(id){
         var choice = confirm('Do you really want to delete this file?');
         if(choice === true) {
@@ -406,6 +407,7 @@
 
         });
     }
+
     function showDocumentsListForCertification(){
         $.get("<?=base_url()?>/Faster/FasterController/getSharedDocuments",function(result){
             response = $.parseJSON(result);

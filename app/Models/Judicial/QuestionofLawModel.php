@@ -468,12 +468,12 @@ class QuestionofLawModel extends Model
         $builder->join('master.users u2', 'u2.usercode = l.verified_by AND (u2.display = \'Y\' OR u2.display IS NULL)', 'left');
         $builder->join('master.usersection us', 'us.id = u.section AND (us.display = \'Y\' OR us.display IS NULL)', 'left');
         $builder->where("l.verified_on BETWEEN '$fromDate' AND '$toDate'");
-        $builder->where('l.is_verified', 1);
+        $builder->where("CAST(l.is_verified AS INTEGER) =", 1);
         // $builder->where('l.is_verified', 1);
         $builder->orderBy('us.section_name');
         $builder->orderBy('l.updated_on');
 
-        // echo $builder->getCompiledSelect();die;
+        //echo $builder->getCompiledSelect();die;
 
         $query = $builder->get(); //['fromDate' => $fromDate, 'toDate' => $toDate]
 

@@ -283,10 +283,13 @@
         WinPrint.focus();
         WinPrint.print();
     });
+
     var image_url = "<?php echo base_url('assets/images/load.gif');?>";
-    var CSRF_TOKEN = 'CSRF_TOKEN';
-    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
     $(document).on('click','.actionType',function(){
+        updateCSRFTokenSync();
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var type = $(this).attr('data-type');
         $(".actionType").removeClass('activeBox');
         $(this).addClass('activeBox');
@@ -307,7 +310,7 @@
                     $('#loader_image').html('<table widht="100%" align="center"><tr><td><img src="' + base_url + '/images/load.gif"/></td></tr></table>');
                 },
                 success: function (res){
-                    updateCSRFToken();
+                    updateCSRFTokenSync();
                     $("#documentTableDiv").show();
                     $('#loader_image').html('');
                     var length = res.length;
@@ -333,7 +336,7 @@
                     }
                 },
                 error: function (xhr) {
-                    updateCSRFToken();
+                    updateCSRFTokenSync();
                     console.log("Error: " + xhr.status + " " + xhr.statusText);
                 }
             });
@@ -348,6 +351,9 @@
        var rowId = $(this).attr('data-id');
        var type = $(this).attr('data-type');
        if(rowId && type){
+        updateCSRFTokenSync();
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
            $.ajax({
                url: '<?=base_url();?>/Faster/DocumentDashboard/getDocumentTimelineData',
                cache: false,
@@ -359,7 +365,7 @@
                    $('#loader_image').html('<table widht="100%" align="center"><tr><td><img src="' + base_url + '/images/load.gif"/></td></tr></table>');
                },
                success: function (res) {
-                    updateCSRFToken();
+                    updateCSRFTokenSync();
                    $('#loader_image').html('');
                    $("#timeLineDiv").show();
                    $("#timeLineUl").html('');
@@ -367,8 +373,8 @@
                    $("html,body").animate({"scrollTop": $("#timeLineDiv").offset().top},1000);
                },
                error: function (xhr) {
-                    updateCSRFToken();
-                   console.log("Error: " + xhr.status + " " + xhr.statusText);
+                    updateCSRFTokenSync();
+                    console.log("Error: " + xhr.status + " " + xhr.statusText);
                }
            });
        }
