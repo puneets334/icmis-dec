@@ -800,28 +800,28 @@ if ($keyValue == 1) {
             }
 
             // User Hall Mapping Logic
-            // $mapping = $model->findMapping($da_code, $hallNo,'C');
+            $mapping = $model->findMapping($da_code, $hallNo,'C');
            
 
-            // if (!$mapping) {
-            //     // Check if there's a record with display 'Y'
-            //     $existingMapping = $model->findMapping($da_code, $hallNo,'Y');
+            if (!$mapping) {
+                // Check if there's a record with display 'Y'
+                $existingMapping = $model->findMapping($da_code, $hallNo,'Y');
 
-            //     if (!$existingMapping) {
-            //         $data = [
-            //             'usercode' => $da_code,
-            //             'ref_hall_no' => $hallNo,
-            //             'from_date' => date('Y-m-d H:i:s'),
-            //             'to_date' => null,
-            //             'display' => 'Y',
-            //             'update_on' => date('Y-m-d H:i:s'),
-            //             'updated_by' => $usercode
-            //         ];
-            //         $model->insertMapping($data);
-            //     }
-            // } else {
-            //     $model->updateMappingToY($da_code, $hallNo);
-            // }
+                if (!$existingMapping) {
+                    $data = [
+                        'usercode' => $da_code,
+                        'ref_hall_no' => $hallNo,
+                        'from_date' => date('Y-m-d H:i:s'),
+                        'to_date' => null,
+                        'display' => 'Y',
+                        'update_on' => date('Y-m-d H:i:s'),
+                        'updated_by' => $usercode
+                    ];
+                    $model->insertMapping($data);
+                }
+            } else {
+                $model->updateMappingToY($da_code, $hallNo);
+            }
             // DA Case Distribution Logic
             $case = $model->findCaseDistribution_new($da_code, $caseGroup,'C');      
 
