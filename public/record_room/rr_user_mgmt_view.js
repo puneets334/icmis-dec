@@ -106,7 +106,7 @@ $(document).ready(function () {
         url: base_url + "/Record_room/Record/rr_view_user_information_hall",
         beforeSend: function (xhr) {
           $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>"
+            "<div style='margin:0 auto;margin-top:20px;width:60%'><img src='" + base_url + "/images/load.gif'></div>"
           );
         },
         data: {
@@ -133,7 +133,7 @@ $(document).ready(function () {
         url: base_url + "/Record_room/Record/rr_view_user_information",
         beforeSend: function (xhr) {
           $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>"
+            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
           );
         },
         data: {
@@ -192,7 +192,7 @@ $(document).on("click", "[id^='cl_manage_hall']", function () {
     url: base_url + "/Record_room/Record/rr_user_mgmt_multiple?key=19&hall_no=" + num[1],
     beforeSend: function (xhr) {
       $("#sar").html(
-        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>"
+        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
       );
     },
     data: { userid: num[1] },
@@ -512,6 +512,7 @@ $(document).on("click", "input[name=al-rkd-case]", function () {
 
 $(document).on("click", "input[name=mapp_user_hall]", function () {
   var rkds_code = $("#hd_usercode").val();
+  
   $("#sp_close").css("display", "none");
   $.ajax({
     type: "GET",
@@ -803,13 +804,17 @@ function allotFunction() {
   $("#sp_close").css("display", "none");
   var fil_t_d = "";
   var txdis = $("#transfer_block").css("display");
+  // var CSRF_TOKEN = "CSRF_TOKEN";
+  // var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
   if (txdis == "block") {
     fil_t_d = $("#fil_trap_desg").val();
   }
 
   $.ajax({
-    type: "POST",
-    url: "./user_mgmt_multiple.php?key=6",
+    type: "GET",
+    // url: "./user_mgmt_multiple.php?key=6",
+    url: base_url + "/Record_room/Record/update_caseallotment_userwise_status",
+
     data: {
       status: $("#change_user_stat").val(),
       user: $("#hd_usercode").val(),
@@ -817,38 +822,56 @@ function allotFunction() {
         fil_t_d /*,dept:$("#tx_to_dept").html(),sec:$("#txto_section").val(),
             desg:$("#txto_designation").val(),user:$("#the_user").html(),uname:$("#curunm").html(),empid:$("#hd_emp_id_for_transfer").val(),
             service:$("#hd_service_for_transfer").val(),utype:$("#usertype_based_on_current_user").val()*/,
+            // CSRF_TOKEN: CSRF_TOKEN_VALUE
+
     },
   })
-    .done(function (msg) {
-      //alert(msg);
-      $("#sar").html(msg);
-      $("#sp_close").css("display", "inline");
-      $("#dv_fixedFor_P").css("display", "none");
-      $("#dv_sh_hd").css("display", "none");
-      $.ajax({
-        type: "POST",
-        url: "./view_user_information.php",
-        beforeSend: function (xhr) {
-          $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
-          );
-        },
-        data: {
-          /*auth:$("#authority").val(),auth_name:$("#auth_name").val(),*/ dept: $(
-          "#department"
-        ).val(),
-          sec: $("#section").val(),
-          desg: $("#designation").val(),
-          cur_user_type: $("#cur_user_type").val(),
-        },
-      })
-        .done(function (msg) {
-          $("#result_main_um").html(msg);
-        })
-        .fail(function () {
-          alert("Error, Please Contact Server Room");
-        });
-    })
+
+  .done(function (msg) {
+    //alert(msg);    
+    $("#rkds_block").html(msg.success);
+    $("#sp_close").css("display", "inline");
+    $("#dv_fixedFor_P").css("display", "none");
+    $("#dv_sh_hd").css("display", "none");
+
+    var auth = $("#authority").val();
+    var auth_name= $("#auth_name").val();
+    var dept = $("#department").val();
+    var sec = $("#section").val();
+    var desg = $("#designation").val();
+    var cur_user_type = $("#cur_user_type").val();
+    rr_view_user_information(auth, auth_name, dept, sec, desg, cur_user_type);
+  })
+
+
+    // .done(function (msg) {
+    //   $("#sar").html(msg.success);
+    //   $("#sp_close").css("display", "inline");
+    //   $("#dv_fixedFor_P").css("display", "none");
+    //   $("#dv_sh_hd").css("display", "none");
+    //   $.ajax({
+    //     type: "POST",
+    //     url: "./view_user_information.php",
+    //     beforeSend: function (xhr) {
+    //       $("#result_main_um").html(
+    //         "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
+    //       );
+    //     },
+    //     data: {
+    //       /*auth:$("#authority").val(),auth_name:$("#auth_name").val(),*/ 
+    //       dept: $("#department").val(),
+    //       sec: $("#section").val(),
+    //       desg: $("#designation").val(),
+    //       cur_user_type: $("#cur_user_type").val(),
+    //     },
+    //   })
+    //     .done(function (msg) {
+    //       $("#result_main_um").html(msg);
+    //     })
+    //     .fail(function () {
+    //       alert("Error, Please Contact Server Room");
+    //     });
+    // })
     .fail(function () {
       $("#sp_close").css("display", "inline");
       $("#sar").html("ERROR, PLEASE CONTACT SERVER ROOM");
@@ -1139,38 +1162,33 @@ function relieve_user() {
   if (confirm("Are You Sure to Relieve This User?")) {
     $("#sp_close").css("display", "none");
     $.ajax({
-      type: "POST",
-      url: "./user_mgmt_multiple.php?key=10",
+      type: "GET",
+      // url: "./user_mgmt_multiple.php?key=10",
+      url: base_url + "/Record_room/Record/retire_caseallotment_user",
       data: { user: $("#hd_usercode").val() },
     })
-      .done(function (msg) {
-        if (msg == "1") alert("User Relieved Successfully!!!");
-        else alert("!!!Error Occured!!!");
 
-        $.ajax({
-          type: "POST",
-          url: "./view_user_information.php",
-          beforeSend: function (xhr) {
-            $("#result_main_um").html(
-              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='" + base_url + "/images/load.gif'></div>"
-            );
-          },
-          data: {
-            /*auth:$("#authority").val(),auth_name:$("#auth_name").val(),*/ dept: $(
-            "#department"
-          ).val(),
-            sec: $("#section").val(),
-            desg: $("#designation").val(),
-            cur_user_type: $("#cur_user_type").val(),
-          },
-        })
-          .done(function (msg) {
-            $("#result_main_um").html(msg);
-          })
-          .fail(function () {
-            alert("Error, Please Contact Server Room");
-          });
-      })
+    .done(function (msg) {
+      if (msg == "1") 
+        alert("User Relieved Successfully!!!");
+      else 
+      alert("!!!Error Occured!!!");
+
+      //alert(msg);
+      $("#rkds_block").html(msg);
+      $("#sp_close").css("display", "inline");
+      $("#dv_fixedFor_P").css("display", "none");
+      $("#dv_sh_hd").css("display", "none");
+
+      var auth = $("#authority").val();
+      var auth_name= $("#auth_name").val();
+      var dept = $("#department").val();
+      var sec = $("#section").val();
+      var desg = $("#designation").val();
+      var cur_user_type = $("#cur_user_type").val();
+      rr_view_user_information(auth, auth_name, dept, sec, desg, cur_user_type);
+    })
+
       .fail(function () {
         $("#sp_close").css("display", "inline");
         $("#waiting").html("");
@@ -1231,6 +1249,7 @@ function save_judge_info() {
 
 function get_print(strid) {
   var prtContent = document.getElementById(strid);
+  
   var WinPrint = window.open(
     "",
     "",

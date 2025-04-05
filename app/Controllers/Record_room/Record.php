@@ -276,9 +276,6 @@ class Record extends BaseController
         }
     }
 
-
-
-
     public function getAORsWithMoreClerks()
     {
         // error_reporting(0);
@@ -441,7 +438,9 @@ class Record extends BaseController
         $data['authValue'] = $this->request->getVar('auth') != '' ? $this->request->getVar('auth') : '';
         $data['auth_sel_name'] = $this->request->getVar('auth_sel_name') != '' ? $this->request->getVar('auth_sel_name') : '';
         $data['usercode'] = session()->get('login')['usercode'];
-        
+        // echo "<pre>";
+        // print_r($data);
+        // die;
         return view('Record_room/file_movement/rr_view_user_information', $data);
     }
 
@@ -478,7 +477,130 @@ class Record extends BaseController
         exit;
     }
 
+    public function update_caseallotment_userwise_status()
+    {
+        $status = $this->request->getVar('status');
+        $user = $this->request->getVar('user');
+        $utype = $this->request->getVar('utype');
+        $fil_t = $this->request->getVar('fil_t');
+        $user_type = $this->request->getVar('user_type');
+        $sessionUserId = session()->get('login')['usercode'];
 
+        $db = \Config\Database::connect();
+
+        if ($status == 1) {
+            $db->table('master.users')
+            ->where('usercode', $user)
+            ->update([
+                'attend' => 'P',
+                'upuser' => $sessionUserId,
+                'updt' => date('Y-m-d H:i:s')
+            ]);
+        } else if ($status == 0) {
+            if ($utype == 13) {
+            $db->table('master.users')
+                ->where('usercode', $user)
+                ->update([
+                'attend' => 'A',
+                'jcode' => 0,
+                'upuser' => $sessionUserId,
+                'updt' => date('Y-m-d H:i:s')
+                ]);
+            } else {
+            $db->table('master.users')
+                ->where('usercode', $user)
+                ->update([
+                'attend' => 'A',
+                'upuser' => $sessionUserId,
+                'updt' => date('Y-m-d H:i:s')
+                ]);
+            }
+        }
+
+        if (!empty($fil_t)) {
+            $query = $db->table('fil_trap_users')
+                ->select('id')
+                ->where('usercode', $user)
+                ->where('display', 'Y')
+                ->get();
+
+            if ($query->getNumRows() > 0) {
+            if ($fil_t == 0) {
+                $db->table('fil_trap_users')
+                ->where('usercode', $user)
+                ->where('display', 'Y')
+                ->update([
+                    'display' => 'N',
+                    'upuser' => $sessionUserId,
+                    'updt' => date('Y-m-d H:i:s')
+                ]);
+            } else {
+                $queryBefore = $db->table('fil_trap_users')
+                          ->select('id, user_type')
+                          ->where('usercode', $user)
+                          ->where('usertype', $fil_t)
+                          ->where('display', 'Y')
+                          ->get();
+
+                if ($queryBefore->getNumRows() == 0) {
+                $db->table('fil_trap_users')
+                    ->where('usercode', $user)
+                    ->where('display', 'Y')
+                    ->update([
+                    'display' => 'N',
+                    'upuser' => $sessionUserId,
+                    'updt' => date('Y-m-d H:i:s')
+                    ]);
+
+                $db->table('fil_trap_users')
+                    ->insert([
+                    'usertype' => $fil_t,
+                    'usercode' => $user,
+                    'entuser' => $sessionUserId,
+                    'ent_dt' => date('Y-m-d H:i:s'),
+                    'user_type' => $user_type
+                    ]);
+                } else {
+                $data = $queryBefore->getRowArray();
+                if ($user_type != $data['user_type']) {
+                    $db->table('fil_trap_users')
+                    ->where('id', $data['id'])
+                    ->update(['user_type' => $user_type]);
+                }
+                }
+            }
+            } else {
+            $db->table('fil_trap_users')
+                ->insert([
+                'usertype' => $fil_t,
+                'usercode' => $user,
+                'entuser' => $sessionUserId,
+                'ent_dt' => date('Y-m-d H:i:s'),
+                'user_type' => $user_type
+                ]);
+            }
+        }
+        return $this->response->setJSON(['success' => 'Operation completed successfully']);
+    }
+
+    public function retire_caseallotment_user()
+    {
+        $user = $this->request->getVar('user');
+        $db = \Config\Database::connect();
+        $builder = $db->table('master.users');
+        $updateData = [
+            'attend' => 'A',
+            'display' => 'N',
+            'upuser' => session()->get('login')['usercode'],
+            'updt' => date('Y-m-d H:i:s')
+        ];
+        $builder->where('usercode', $user);
+        if ($builder->update($updateData)) {
+            echo "1";
+        } else {
+            die(__LINE__ . '->' . $db->error()['message']);
+        }
+    }
 
     public function lst_aor_search()
     {
