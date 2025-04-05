@@ -108,7 +108,7 @@
                                     <input class="form-control dtp" type="text" id="to_date" name="to_date" class="form-control datepick2" placeholder="To Date" required="required">
                                 </div>
                                 <div class="col-md-2" style="padding-top: 25px;">
-                                    <button type="submit" id="view" name="view" readonly>View</button>
+                                    <button type="submit" id="view" name="view" class="btn btn-primary" readonly>View</button>
                                 </div>
                                 <?= form_close()?>
                             </div>
