@@ -77,7 +77,7 @@ else
 
 ?>
 
-
+<!-- 
 <script>
         $('#reportTable1').DataTable( {
             "bProcessing"   :   true,
@@ -104,4 +104,4 @@ else
 
         });
 
-</script>
+</script> -->

@@ -11,7 +11,7 @@ class EliminationModel extends Model
 
     public function eliminationdatatoshow($casetype = 0, $caseno = 0, $caseyear = 0, $diary_number = 0, $diary_year = 0)
     {
-       
+
         $db = \Config\Database::connect();
         $builder = $db->table('main m');
 
@@ -46,34 +46,25 @@ class EliminationModel extends Model
             'weeded_by'
         ]);
 
-        // Subquery for elimination
-        $builder->join(
-            '(SELECT fil_no, MAX(ent_dt) AS max_ent_dt FROM elimination GROUP BY fil_no) eli_max',
-            'm.diary_no = eli_max.fil_no',
-            'LEFT'
-        );
-
+        $builder->join('(SELECT fil_no, MAX(ent_dt) AS max_ent_dt FROM elimination GROUP BY fil_no) eli_max', 'm.diary_no = eli_max.fil_no', 'LEFT');
         $builder->join('elimination eli', 'eli.fil_no = eli_max.fil_no AND eli.ent_dt = eli_max.max_ent_dt', 'LEFT');
         $builder->join('dispose dis', 'dis.diary_no = m.diary_no', 'LEFT');
 
-        // Add debugging output
-        // log_message('info', "Casetype: $casetype, Caseno: $caseno, Caseyear: $caseyear, Diary Number: $diary_number, Diary Year: $diary_year");
-
-        if ($casetype != 0 && $caseno != 0) {
-            $builder->where('CAST(SUBSTRING(m.active_fil_no FROM 1 FOR 2) AS INTEGER)', $casetype)
+        if (is_numeric($casetype) && is_numeric($caseno) && $casetype != 0 && $caseno != 0) {
+            $builder->where('CAST(NULLIF(SUBSTRING(m.active_fil_no FROM 1 FOR 2), \'\') AS INTEGER)', $casetype)
                 ->where('m.active_reg_year', $caseyear)
                 ->groupStart()
-                ->where('CAST(SUBSTRING(m.active_fil_no FROM 4 FOR 6) AS INTEGER)', $caseno)
-                ->orWhere("$caseno BETWEEN CAST(SUBSTRING(m.active_fil_no FROM 4 FOR 6) AS INTEGER) AND CAST(SUBSTRING(m.active_fil_no FROM 11 FOR 6) AS INTEGER)")
+                ->where('CAST(NULLIF(SUBSTRING(m.active_fil_no FROM 4 FOR 6), \'\') AS INTEGER)', $caseno)
+                ->orWhere("$caseno BETWEEN CAST(NULLIF(SUBSTRING(m.active_fil_no FROM 4 FOR 6), '') AS INTEGER) AND CAST(NULLIF(SUBSTRING(m.active_fil_no FROM 11 FOR 6), '') AS INTEGER)")
                 ->groupEnd();
-        } elseif ($diary_number != 0 && $diary_year != 0) {
+        } elseif (is_numeric($diary_number) && is_numeric($diary_year) && $diary_number != 0 && $diary_year != 0) {
             $diaryFullNumber = $diary_number . str_pad($diary_year, 4, '0', STR_PAD_LEFT);
             $builder->where('m.diary_no', $diaryFullNumber);
         }
 
         $query = $builder->get();
-
-        return $query->getNumRows() > 0 ? $query->getResultArray() : false; // Return false if no records found
+        // echo $builder->getLastQuery(); // Debugging output
+        return $query->getNumRows() > 0 ? $query->getResultArray() : false;
     }
 
     public function caseType()
@@ -125,33 +116,30 @@ class EliminationModel extends Model
     }
 
     public function insertElimination($data)
-{
-    if (empty($data['weeded_by'])) {
-        $data['weeded_by'] = null;
+    {
+        if (empty($data['weeded_by'])) {
+            $data['weeded_by'] = null;
+        }
+        $builder = $this->db->table('elimination');
+        $builder->insert($data);
+        $insertId = $this->db->insertID();
+
+        return $insertId;
     }
-    $builder = $this->db->table('elimination');
-    $builder->insert($data);
-    $insertId = $this->db->insertID();
 
-    return $insertId;
-}
+    public function updateElimination($fil_no, $data)
+    {
+        $builder = $this->db->table('elimination');
+        $builder->where('fil_no', $fil_no);
+        $builder->update($data);
+        return $this->db->affectedRows();
+    }
 
-public function updateElimination($fil_no, $data)
-{
-    $builder = $this->db->table('elimination');
-    $builder->where('fil_no', $fil_no);
-    $builder->update($data);
-    return $this->db->affectedRows();
-}
-
-public function updateDisposal($diaryno, $data)
-{
-    $builder = $this->db->table('dispose');
-    $builder->where('diary_no', $diaryno);
-    $builder->update($data);
-    return $this->db->affectedRows();
-}
-
-
-
+    public function updateDisposal($diaryno, $data)
+    {
+        $builder = $this->db->table('dispose');
+        $builder->where('diary_no', $diaryno);
+        $builder->update($data);
+        return $this->db->affectedRows();
+    }
 }
