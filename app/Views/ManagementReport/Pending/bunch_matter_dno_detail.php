@@ -1,6 +1,6 @@
 <div class="table-responsive">
     <?php if ($results) { ?>
-        <div class="font-weight-bold text-center mt-26">Bunch Matters</div>
+        <!--<div class="font-weight-bold text-center mt-26">Bunch Matters</div>-->
         <table id="example2" class="table table-striped custom-table">
             <thead>
                 <tr>
