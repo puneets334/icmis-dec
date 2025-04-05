@@ -41,16 +41,16 @@
                 <div class="well66">
                     <br/>
                     <div class="row  align-items-center">
-                        <div class="col-md-1"></div>
+                        
                         <div class="col-md-2">
-                            <div class="form-group clearfix">
+                            <div class="form-group2 clearfix">
                                 <div class="icheck-primary d-inline">
                                     <input type="radio" class="search_type" id="search_type_d" name="search_type" value="D" checked>
                                     <label for="search_type_d">
                                         Diary
                                     </label>
                                 </div>
-                                <div class="icheck-primary d-inline">
+                                <div class="icheck-primary d-inline2 mt-3">
                                     <input type="radio" class="search_type" id="search_type_c" name="search_type" value="C">
                                     <label for="search_type_c">
                                         Case Type
@@ -59,15 +59,15 @@
 
                             </div>
                         </div>
-                        <div class="col-md-3 diary_section">
+                        <div class="col-md-3  diary_section">
                             <div class="form-group row">
-                                <label for="inputEmail3" class="col-sm-5 col-form-label">Diary No</label>
+                                <label for="inputEmail3" class="ml-2 col-form-label">Diary No</label>
                                 <input type="number" class="form-control" id="diary_number" name="diary_number" placeholder="Enter Diary No">
                             </div>
                         </div>
-                        <div class="col-md-3 diary_section">
+                        <div class="col-md-3  diary_section">
                             <div class="form-group row">
-                                <label for="inputEmail3" class="col-sm-5 col-form-label">Diary Year</label>
+                                <label for="inputEmail3" class="ml-2 col-form-label">Diary Year</label>
                                 <?php $year = 1950;
                                 $current_year = date('Y');
                                 ?>
@@ -78,42 +78,53 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3 casetype_section" style="display: none;">
-                            <div class="form-group row">
-                                <label for="inputEmail3" class="col-sm-5 col-form-label">Case type</label>
-                                <select name="case_type" id="case_type" class="custom-select rounded-0 select2" style="width: 100%;">
-                                    <option value="">Select case type</option>
-                                    <?php
-                                    foreach ($case_type as $row) {
-                                        echo '<option value="' . sanitize(($row['casecode'])) . '">' . sanitize(strtoupper($row['casename'])) . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+                        
+                        <div class="col-md-7 casetype_section" style="display: none;">
+                            <div class="row">
+                                   
+                                    <div class="col-md-4 casetype_section" style="display: none;">
+                                            <div class="form-group row">
+                                                <label for="inputEmail3" class="col-form-label mb-2">Case type</label>
+                                                <select name="case_type" id="case_type" class="custom-select rounded-0 select2" style="width: 100%;">
+                                                    <option value="">Select case type</option>
+                                                    <?php
+                                                    foreach ($case_type as $row) {
+                                                        echo '<option value="' . sanitize(($row['casecode'])) . '">' . sanitize(strtoupper($row['casename'])) . '</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
 
-                        </div>
-                        <div class="col-md-2 casetype_section" style="display: none;">
+                                    </div>
+                                    <div class="col-md-4 casetype_section" style="display: none;">
 
-                            <div class="form-group row ">
-                                <label for="inputEmail3" class="col-sm-5 col-form-label">Case No</label>
-                                <input type="number" class="form-control" id="case_number" name="case_number" placeholder="Enter Case No">
+                                            <div class="form-group row ">
+                                                <label for="inputEmail3" class="col-form-label">Case No</label>
+                                                <input type="number" class="form-control" id="case_number" name="case_number" placeholder="Enter Case No">
+                                            </div>
+                                    </div>
+                                    <div class="col-md-4 casetype_section" style="display: none;">
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class=" col-form-label">Case Year</label>
+                                            <?php $year = 1950;
+                                            $current_year = date('Y');
+                                            ?>
+                                            <select name="case_year" id="case_year" class="custom-select rounded-0">
+                                                <?php for ($x = $current_year; $x >= $year; $x--) { ?>
+                                                    <option><?php echo $x; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
                             </div>
                         </div>
-                        <div class="col-md-2 casetype_section" style="display: none;">
-                            <div class="form-group row">
-                                <label for="inputEmail3" class="col-sm-5 col-form-label">Case Year</label>
-                                <?php $year = 1950;
-                                $current_year = date('Y');
-                                ?>
-                                <select name="case_year" id="case_year" class="custom-select rounded-0">
-                                    <?php for ($x = $current_year; $x >= $year; $x--) { ?>
-                                        <option><?php echo $x; ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
-                        </div>
+                        
+                        
+                        
 
-                        <div class="col-md-2">
+                        <div class="col-md-3 mt-3">
                             <button type="btton" class="btn btn-primary" id="submit" onclick="get_detail(event)">Search Case</button>
                         </div>
                         <div class="col-md-2"></div>
