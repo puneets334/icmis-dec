@@ -37,11 +37,11 @@
                        
                             <?php echo form_open();
                              csrf_field(); ?>
-                            <input type="hidden" id="curr_date" value="2023-10-18" />
-                            <div class="container" style="width: 100%; height:100vh; overflow:hidden;">
+                            <input type="hidden" id="curr_date" value="<?php echo date('Y-m-d');?>" />
+                            <div class="container-fluid" style="width: 100%; height:100vh; overflow:hidden;">
                                 <input type="hidden" name="caseno" id="caseno">
                                 <input type="hidden" name="t_cs" id="t_cs">
-                                <input type="hidden" name="uid" id="uid" value="">
+                                <input type="hidden" name="uid" id="uid" value="<?php echo session()->get('login')['usercode']?>">
                                 <input type="hidden" name="sid" id="sid" value="">
                                 <input type="hidden" name="flnm" id="flnm" value="">
 
@@ -65,11 +65,12 @@
                                 </div>
 
                                 <div id="s_box" align="center" style="padding:0px;">
-                                    <div class="column1">
+                                    <div class="row">
+                                    <div class="col-md-4 column1">
                                         <div class="row">
                                             <div class="input-group">
-                                                <span class="input-group-addon" style="background-color:silver; font-size: 1vw;">Cause List Date</span>
-                                                <input style="font-size: 1vw;" class="form-control dtp" type="text" value="18-10-2023" name="dtd" id="dtd" readonly="readonly">
+                                                <span class="input-group-addon  col-md-4" style="background-color:silver;font-size: 1vw;margin-top: 6px;padding-top: 6px;">Cause List Date</span>
+                                                <input style="font-size: 1vw;" class="form-control dtp  col-md-8" type="text" value="<?php echo date('d-m-Y');?>" name="dtd" id="dtd" readonly="readonly">
                                             </div>
                                         </div>
 
@@ -85,7 +86,7 @@
                                         <div class="left_panel_data_row1 row" style="height:95vh; overflow-y: scroll;"></div>
                                     </div>
 
-                                    <div class="column11">
+                                    <div class="col-md-8 column11">
                                         <div class="row row_column11"></div>
                                         <div class="row">
                                             <div class="column2" style="height:95vh; overflow-y: scroll;"></div>
@@ -98,6 +99,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -118,7 +120,7 @@ $(document).ready(function() {
     $('[data-toggle="tooltip"]').tooltip();
     
     // Initial token update and data fetch
-    updateCSRFToken(); 
+    
     get_item_nos();
 
     $(document).on('change', '#courtno, #dtd', function() {
@@ -183,22 +185,67 @@ $(document).ready(function() {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
-        updateCSRFToken();
+        
     }
 
-    function get_item_nos() {
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var csrf = $("input[name='CSRF_TOKEN']").val();
+
+    function get_item_nos(){
+            var courtno = $("#courtno").val();
+            var dtd = $("#dtd").val();
+            $("#display_pdf_section").html("");
+            $.ajax({
+                url: '<?= base_url('Library/LiveCourt/get_title'); ?>',
+                cache: false,
+                async: true,
+                data: {courtno:courtno,dtd:dtd},
+                beforeSend:function(){
+                     $('.left_panel_data_row1').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+                },
+                type: 'GET',
+                success: function(data, status) {
+                    $('.row_column11').html(data);
+                },
+                error: function(xhr) {
+                    alert("Error: " + xhr.status + " " + xhr.statusText);
+                }
+            });
+
+            $.ajax({
+                url: '<?= base_url('Library/LiveCourt/get_item_nos'); ?>',
+                cache: false,
+                async: true,
+                data: {courtno:courtno,dtd:dtd},
+                beforeSend:function(){
+                    $('.left_panel_data_row1').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+                },
+                type: 'GET',
+                success: function(data, status) {
+                    $('.left_panel_data_row1').html(data);
+                    //if(data)
+                    //$(".scrollup").show();
+                },
+                error: function(xhr) {
+                    alert("Error: " + xhr.status + " " + xhr.statusText);
+                }
+            });
+        }
+
+    function get_item_nos_old() {
+
+       
         var courtno = $("#courtno").val();
         var dtd = $("#dtd").val();
-        var CSRF_TOKEN_VALUE = $('[name="<?= csrf_token() ?>"]').val();
-        // updateCSRFToken();
+
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var CSRF_TOKEN_VALUE = $("input[name='CSRF_TOKEN']").val();
+        
+         
         // Fetch item numbers
         $.ajax({
             url: '<?= base_url('Library/LiveCourt/get_item_nos'); ?>',
             type: 'POST',
             data: {
-                CSRF_TOKEN:csrf,
+                CSRF_TOKEN:CSRF_TOKEN_VALUE,
                 courtno: courtno,
                 dtd: dtd,
                 
@@ -212,7 +259,7 @@ $(document).ready(function() {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
-        updateCSRFToken();
+        
     }
 
     function loadGistDetails(item) {
@@ -252,7 +299,7 @@ $(document).ready(function() {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
-        updateCSRFToken();
+         
     }
 });
 

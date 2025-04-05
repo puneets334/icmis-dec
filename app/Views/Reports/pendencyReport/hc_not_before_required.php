@@ -76,7 +76,7 @@
                         </div>
                     </div>
                     
-                    <div class="row mt-2" style="width: 100% !important;">
+                    <div class="row card-body">
                         <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                             <?php if (session()->getFlashdata('msg')): ?>
                                 <?= session()->getFlashdata('msg') ?>
@@ -94,7 +94,7 @@
                             echo form_open(base_url('#'), $attribute);
                             ?>
                             <input type="hidden" name="usercode" id="usercode" value="<?php echo session()->get('login')['usercode']; ?>"/>
-                            <div class="form-group row">
+                            <!--<div class="form-group row">
                                 <div class="col-md-2" style="max-width: 9%;">
                                     <label for="m_dept">Mainhead</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="radio" name="mainhead" id="mainhead" value="M" title="Miscellaneous" checked="checked">M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -104,8 +104,19 @@
                                 <div class="col-md-2" style="overflow: hidden;padding-top: 10px;" align="center">
                                     <input type="button" id="btngetr" name="btngetr" value="Get">
                                 </div>
-                            <?= form_close()?>
-                            </div>
+                            
+                            </div>-->
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="m_dept">Mainhead</label>
+                                    <input type="radio" name="mainhead" id="mainhead" value="M" title="Miscellaneous" checked="checked">M
+                                    <input type="radio" name="mainhead" id="mainhead" value="F" title="Regular">R
+                                    <input type="button" id="btngetr" name="btngetr" value="Get" class="btn btn-primary">
+                                </div>
+                                
+                            </div>  
+                            <?= form_close()?>  
                         </div>
                     </div>
                     <div class="card-body">

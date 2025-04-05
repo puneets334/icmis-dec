@@ -72,9 +72,9 @@
                                 <input type="button" id="btnShow" value="Show" class="btn btn-primary mt-2" />
                             </div>
 
-                            <div id="result_main_um"></div>
                         </div>
                     </form>
+                    <div id="result_main_um"></div>
                 </div>
             </div>
         </div>

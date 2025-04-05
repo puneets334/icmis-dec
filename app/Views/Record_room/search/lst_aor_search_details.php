@@ -14,7 +14,7 @@ table.dataTable>thead {
                 <table id="ReportFileTrap" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th id='sno'>SNo</th>
+                        <th>SNo</th>
                         <th>Clerk Name</th>
                         <th>Clerk's Father Name</th>
                         <th>Icard No.</th>
@@ -59,11 +59,17 @@ table.dataTable>thead {
                     "responsive": true,
                     "lengthChange": false,
                     "autoWidth": false,
-                    "buttons": ["copy", "csv", "excel", {
+                    "buttons": ["copy", "csv", {
+                        extend: 'excelHtml5',
+                        title: "Clerk(s) History attached to AOR with code <?= $tvap ?> and Name : <?= $aorn ?>",
+                        filename: "Clerk_History_<?= $tvap ?>_<?= $aorn ?>",
+                    }, {
                         extend: 'pdfHtml5',
-                        orientation: 'landscape',
-                        pageSize: 'LEGAL'
-                    },
+                        orientation: 'portrait',
+                        pageSize: 'A4',
+                        title: "Clerk(s) History attached to AOR with code <?= $tvap ?> and Name : <?= $aorn ?>",
+                        filename: "Clerk_History_<?= $tvap ?>_<?= $aorn ?>",
+                    }
                         // {
                         //     extend: 'colvis',
                         //     text: 'Show/Hide'
