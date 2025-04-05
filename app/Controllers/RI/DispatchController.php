@@ -315,7 +315,7 @@ class DispatchController extends BaseController
             $dataToInsert = array(
                 'is_with_process_id' => 0,
                 'is_case' => 1,
-                'diary_no' => $fetchedDiaryNo,
+                'diary_no' => (!empty($fetchedDiaryNo)) ? $fetchedDiaryNo : NULL,
                 'tw_notice_id' => 57, //57 for Decree
                 'send_to_name' => $sendTo,
                 'send_to_address' => $address,

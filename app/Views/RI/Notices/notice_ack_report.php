@@ -120,7 +120,7 @@
         $('.dtp').datepicker({
             dateFormat: 'dd-mm-yy',
             changeMonth: true,
-            changeYear: true,notice_ack_report
+            changeYear: true,
             yearRange: '1950:2050'
         });
     });
@@ -157,8 +157,8 @@
     }
 
     function get_data() {
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+       // var CSRF_TOKEN = 'CSRF_TOKEN';
+        //var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var cs_tp = $('#cs_tp').val() || ''; 
         var txtFromDate = $('#txtFromDate').val();
         var txtToDate = $('#txtToDate').val();
@@ -181,16 +181,16 @@
                 section_name: section_name,
                 ddl_endt_da: ddl_endt_da,
                 serveType: serveType,
-                CSRF_TOKEN: CSRF_TOKEN_VALUE
+                ///CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             success: function(response) {
                 $('#app_data').html(response);
                 $('#sp_ctt').text($('#hd_ct_pr_id').val()); 
-                updateCSRFToken();
+              //  updateCSRFToken();
             },
             error: function(xhr, status, error) {
                 console.error("AJAX Error:", status, error);
-                updateCSRFToken();
+               // updateCSRFToken();
                 $('#app_data').html('<p style="color: red;">Failed to load data.</p>');
             }
         });

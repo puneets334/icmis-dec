@@ -59,10 +59,18 @@ if (isset($case_result) && sizeof($case_result) > 0 && is_array($case_result)) {
                 "buttons": [{
                     extend: 'print',
                     text: 'Print',
-                    title: 'Report', // Change title in print view
+                    title: 'Edit Delete Dispatch via Process id', // Change title in print view
                     autoPrint: true, // Automatically trigger print dialog
                     exportOptions: {
                         columns: ':visible' // Only print visible columns
+                    },
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css('text-align', 'center') // Center everything
+                            .find('h1')
+                            .css('text-align', 'center') // Specifically center the title
+                            .css('width', '100%')
+                            .css('margin', '0 auto');
                     }
                 }]
             }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');

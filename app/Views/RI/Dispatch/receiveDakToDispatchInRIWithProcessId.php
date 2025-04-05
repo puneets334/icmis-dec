@@ -391,4 +391,22 @@
 
     });
 
+
+    function selectallMe() {
+    var checkBoxList=$('[name="daks[]"]');
+
+    if ($('#allCheck').is(':checked'))
+    {
+
+        for (var i1 = 0; i1<checkBoxList.length; i1++){
+            checkBoxList[i1].checked=true;
+        }
+
+    }else{
+        for (var i1 = 0; i1<checkBoxList.length; i1++){
+            checkBoxList[i1].checked=false;
+        }
+    }
+}
+
 </script>
