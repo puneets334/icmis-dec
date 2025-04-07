@@ -125,83 +125,93 @@
     </div>
 </section>
 <script>
+    $(document).ready(function() {
+        // Function to control field visibility and enable/disable inputs
+        function toggleFieldsBasedOnRadio() {
+            var selectedOption = $("input[name='optradio']:checked").val();
+            if (selectedOption === 'C') {
+                $('#caseTypeWise').show();
+                $('#diaryNoWise').hide();
+                $('#caseType, #caseNo, #caseYear').prop("disabled", false);
+                $('#diaryNumber, #diaryYear').prop("disabled", true);
+            } else {
+                $('#caseTypeWise').hide();
+                $('#diaryNoWise').show();
+                $('#caseType, #caseNo, #caseYear').prop("disabled", true);
+                $('#diaryNumber, #diaryYear').prop("disabled", false);
+            }
+        }
 
-        $(document).ready(function() {
-            // Function to control field visibility and enable/disable inputs
-            function toggleFieldsBasedOnRadio() {
-                var selectedOption = $("input[name='optradio']:checked").val();
-                if (selectedOption === 'C') {
-                    $('#caseTypeWise').show();
-                    $('#diaryNoWise').hide();
-                    $('#caseType, #caseNo, #caseYear').prop("disabled", false);
-                    $('#diaryNumber, #diaryYear').prop("disabled", true);
-                } else {
-                    $('#caseTypeWise').hide();
-                    $('#diaryNoWise').show();
-                    $('#caseType, #caseNo, #caseYear').prop("disabled", true);
-                    $('#diaryNumber, #diaryYear').prop("disabled", false);
+        // Call once on page load to apply default logic
+        toggleFieldsBasedOnRadio();
+
+        // Change fields when radio button is clicked
+        $("input[name='optradio']").click(function() {
+            toggleFieldsBasedOnRadio();
+        });
+
+        // Form submit logic
+        $("#submitForm,#submitForm1").click(function(e) {
+            e.preventDefault();
+
+            var selectedOption = $("input[name='optradio']:checked").val();
+            var isValid = true;
+            var errorMessage = '';
+
+            if (selectedOption === 'C') {
+                var caseType = $('#caseType').val().trim();
+                var caseNo = $('#caseNo').val().trim();
+                var caseYear = $('#caseYear').val().trim();
+
+                if (caseType === '' || caseNo === '' || caseYear === '') {
+                    isValid = false;
+                    errorMessage = 'Please fill all the Case-wise fields.';
+                } else if (caseNo.length > 9) {
+                    isValid = false;
+                    errorMessage = 'Case No. should not be more than 9 digits.';
+                }
+
+            } else {
+                var diaryNumber = $('#diaryNumber').val().trim();
+                var diaryYear = $('#diaryYear').val().trim();
+
+                if (diaryNumber === '' || diaryYear === '') {
+                    isValid = false;
+                    errorMessage = 'Please fill both Diary Number and Year.';
                 }
             }
 
-            // Call once on page load to apply default logic
-            toggleFieldsBasedOnRadio();
+            if (!isValid) {
+                alert(errorMessage);
+                return;
+            }
 
-            // Change fields when radio button is clicked
-            $("input[name='optradio']").click(function() {
-                toggleFieldsBasedOnRadio();
-            });
+            var csrfName = '<?= csrf_token() ?>';
+            var csrfHash = $('[name="<?= csrf_token() ?>"]').val();
 
-            // Form submit logic
-            $("#submitForm,#submitForm1").click(function(e) {
-                e.preventDefault();
-
-                var selectedOption = $("input[name='optradio']:checked").val();
-                var isValid = true;
-                var errorMessage = '';
-
-                if (selectedOption === 'C') {
-                    if ($('#caseType').val() == '' || $('#caseNo').val() == '' || $('#caseYear').val() == '') {
-                        isValid = false;
-                        errorMessage = 'Please fill all the Case-wise fields.';
-                    }
-                } else {
-                    if ($('#diaryNumber').val() == '' || $('#diaryYear').val() == '') {
-                        isValid = false;
-                        errorMessage = 'Please fill both Diary Number and Year.';
-                    }
+            $.ajax({
+                url: "<?= base_url('JudgesLibrary/NeutralCitation/change_court_order_type_new'); ?>",
+                type: "POST",
+                data: $("#headerForm").serialize(),
+                beforeSend: function() {
+                    $('#responseMessage').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url('images/load.gif'); ?>'></div>");
+                },
+                success: function(response) {
+                    updateCSRFToken();
+                    $("#responseMessage").html(response);
+                },
+                error: function() {
+                    updateCSRFToken();
+                    $("#responseMessage").html('<div class="alert alert-danger">An error occurred. Please try again.</div>');
                 }
-
-                if (!isValid) {
-                    alert(errorMessage);
-                    return;
-                }
-
-                var csrfName = '<?= csrf_token() ?>';
-                var csrfHash = $('[name="<?= csrf_token() ?>"]').val();
-
-                $.ajax({
-                    url: "<?= base_url('JudgesLibrary/NeutralCitation/change_court_order_type_new'); ?>",
-                    type: "POST",
-                    data: $("#headerForm").serialize(),
-                    beforeSend: function() {
-                        $('#responseMessage').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url('images/load.gif'); ?>'></div>");
-                    },
-                    success: function(response) {
-                        updateCSRFToken();
-                        $("#responseMessage").html(response);
-                    },
-                    error: function() {
-                        updateCSRFToken();
-                        $("#responseMessage").html('<div class="alert alert-danger">An error occurred. Please try again.</div>');
-                    }
-                });
-            });
-
-            // Auto-close alert after 4 seconds
-            $(document).on('DOMNodeInserted', ".alert", function() {
-                $(".alert").delay(4000).slideUp(500, function() {
-                    $(this).alert('close');
-                });
             });
         });
+
+        // Auto-close alert after 4 seconds
+        $(document).on('DOMNodeInserted', ".alert", function() {
+            $(".alert").delay(4000).slideUp(500, function() {
+                $(this).alert('close');
+            });
+        });
+    });
 </script>
