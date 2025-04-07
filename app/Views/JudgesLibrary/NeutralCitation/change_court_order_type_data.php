@@ -60,29 +60,34 @@
       usercode = $('#usercode').val();
       var CSRF_TOKEN = 'CSRF_TOKEN';
       var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-      //alert(usercode);
-      if (id.value != 0) {
-        $.ajax({
-          url: "<?php echo base_url('JudgesLibrary/NeutralCitation/getListedDetailsForJudgmentFlag'); ?>",
-          type: "POST",
-          data: {
-            id: id.value,
-            usercode: usercode,
-            CSRF_TOKEN: CSRF_TOKEN_VALUE
-          },
-          beforeSend: function() {
-            $('#divDetailsForROPUpload').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
-          },
-          success: function(result) {
-            updateCSRFToken();
-            $("#divDetailsForROPUpload").html(result);
-          },
-          error: function(xhr, status, error) {
-            updateCSRFToken();
-            console.error("AJAX Error:", status, error); // Log error
-            alert("An error occurred while fetching details. Please try again.");
-          }
-        });
+
+      // If "Select Listing Date" is selected
+      if (id.value == 0) {
+        $('#divDetailsForROPUpload').html(''); // Clear previously loaded content
+        return;
       }
+
+      // If a valid date is selected
+      $.ajax({
+        url: "<?php echo base_url('JudgesLibrary/NeutralCitation/getListedDetailsForJudgmentFlag'); ?>",
+        type: "POST",
+        data: {
+          id: id.value,
+          usercode: usercode,
+          CSRF_TOKEN: CSRF_TOKEN_VALUE
+        },
+        beforeSend: function() {
+          $('#divDetailsForROPUpload').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+        },
+        success: function(result) {
+          updateCSRFToken();
+          $("#divDetailsForROPUpload").html(result);
+        },
+        error: function(xhr, status, error) {
+          updateCSRFToken();
+          console.error("AJAX Error:", status, error);
+          alert("An error occurred while fetching details. Please try again.");
+        }
+      });
     }
   </script>
