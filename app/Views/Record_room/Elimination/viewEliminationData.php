@@ -24,7 +24,7 @@
     }
 
     $actionRequired = ($eliminationData[0]['ele_dt'] == null || $eliminationData[0]['ele_dt'] == '') ? "I" : "U";
-    $eliminationDate = '<input type="text" class="form-control" name="eliminationDate" id="eliminationDate" placeholder="Elimination Date" value="' . ($actionRequired == "I" ? date("d-m-Y") : date("d-m-Y", strtotime($eliminationData[0]['ele_dt']))) . '">';
+    $eliminationDate = '<input type="text" class="form-control dtp" name="eliminationDate" id="eliminationDate" placeholder="Elimination Date" value="' . ($actionRequired == "I" ? date("d-m-Y") : date("d-m-Y", strtotime($eliminationData[0]['ele_dt']))) . '">';
     ?>
 
     <form id="eliminationDetail" method="post">
@@ -52,7 +52,7 @@
                         <div class="input-group"><?= $eliminationDate ?></div>
                     </td>
                     <td><label>Remark</label></td>
-                    <td><input type="text" class="form-control" id="remark" name="remark" placeholder="Remark" value="<?= esc($eliminationData[0]['remark']) ?>"></td>
+                    <td><input type="text" class="form-control " id="remark" name="remark" placeholder="Remark" value="<?= esc($eliminationData[0]['remark']) ?>"></td>
                 </tr>
                 <tr>
                     <td colspan="4">
@@ -67,34 +67,36 @@
                 <?php if ($eliminationData[0]['c_status'] == 'D'): ?>
                     <tr>
                         <td><label>Cause List/Order Date </label></td>
-                        <td><input type="text" class="form-control" name="orderDate" id="orderDate" placeholder="Order Date" value="<?= esc(date("d-m-Y", strtotime($eliminationData[0]['ord_dt']))) ?>"></td>
+                        <td><input type="text" class="form-control dtp" name="orderDate" id="orderDate" placeholder="Order Date" value="<?= esc(date("d-m-Y", strtotime($eliminationData[0]['ord_dt']))) ?>"></td>
                         <td><label>Disposal/Hearing Date </label></td>
-                        <td><input type="text" class="form-control" name="disposalDate" id="disposalDate" placeholder="Disposal Date" value="<?= esc(date("d-m-Y", strtotime($eliminationData[0]['disp_dt']))) ?>"></td>
+                        <td><input type="text" class="form-control dtp" name="disposalDate" id="disposalDate" placeholder="Disposal Date" value="<?= esc(date("d-m-Y", strtotime($eliminationData[0]['disp_dt']))) ?>"></td>
                     </tr>
-                        
-                    <?php 
+
+                    <?php
                     for ($i = 1; $i <= 5; $i++): ?>
-                        <?php if ($i % 2 != 0): // Start a new row for odd judges ?>
+                        <?php if ($i % 2 != 0): // Start a new row for odd judges 
+                        ?>
                             <tr>
-                        <?php endif; ?>
+                            <?php endif; ?>
                             <td><label class="mt-3">Judge <?= $i ?></label></td>
                             <td>
                                 <select class="form-control" id="judge<?= $i ?>" name="judge<?= $i ?>">
                                     <option value="0">Select Judge</option>
                                     <?php foreach ($judge as $j): ?>
-                                        <option value="<?= esc($j['jcode']) ?>" 
+                                        <option value="<?= esc($j['jcode']) ?>"
                                             <?= isset($judgeinitial[$i - 1]) && $judgeinitial[$i - 1] == $j['jcode'] ? 'selected' : '' ?>>
                                             <?= esc($j['jcode']) ?> - <?= esc($j['jname']) ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
                             </td>
-                        <?php if ($i % 2 == 0 || $i == 5): // Close the row for even judges or the last judge ?>
+                            <?php if ($i % 2 == 0 || $i == 5): // Close the row for even judges or the last judge 
+                            ?>
                             </tr>
                         <?php endif; ?>
                     <?php endfor; ?>
 
-                                        
+
                     <tr>
                         <td><label>Disposal Judge </label></td>
                         <td>
@@ -118,22 +120,35 @@
                         <td colspan="4">
                             <table>
                                 <?php foreach ($caseRemarksHead as $index => $caseRemark): ?>
-                                    <?php if ($index % 3 == 0): // Start a new row after every three items ?>
+                                    <?php if ($index % 3 == 0): // Start a new row after every three items 
+                                    ?>
                                         <tr>
-                                    <?php endif; ?>
+                                        <?php endif; ?>
                                         <td style="width: 33%">
                                             <label style="cursor: pointer;">
-                                                <input class="myCheckbox" type="checkbox" name="caseRemarksHead[]" value="<?= esc($caseRemark['cis_disp_code']) ?>" <?= $caseRemark['cis_disp_code'] == $eliminationData[0]['disp_type'] ? 'checked' : '' ?> />
+                                                <input class="myCheckbox" type="checkbox" name="caseRemarksHead" value="<?= esc($caseRemark['cis_disp_code']) ?>" <?= $caseRemark['cis_disp_code'] == $eliminationData[0]['disp_type'] ? 'checked' : '' ?> onclick="handleCheckboxSelection(this)" />
                                                 <?= esc($caseRemark['head']) ?>
                                             </label>
                                         </td>
-                                    <?php if (($index + 1) % 3 == 0 || $index + 1 == count($caseRemarksHead)): // Close the row after three items or at the end ?>
+                                        <?php if (($index + 1) % 3 == 0 || $index + 1 == count($caseRemarksHead)): // Close the row after three items or at the end 
+                                        ?>
                                         </tr>
                                     <?php endif; ?>
                                 <?php endforeach; ?>
                             </table>
                         </td>
                     </tr>
+
+                    <script>
+                        function handleCheckboxSelection(selectedCheckbox) {
+                            const checkboxes = document.querySelectorAll('.myCheckbox');
+                            checkboxes.forEach(checkbox => {
+                                if (checkbox !== selectedCheckbox) {
+                                    checkbox.checked = false;
+                                }
+                            });
+                        }
+                    </script>
                     <tr>
                         <td><label>Weeded By </label></td>
                         <td>
@@ -160,12 +175,18 @@
     </form>
 
     <script>
-        $(function() {
-            $("#eliminationDate, #orderDate, #disposalDate").datepicker({
-                format: 'dd-mm-yyyy',
-                autoclose: true
-            });
-        });        
+      
+        $(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
+    });
     </script>
 
 <?php else: ?>

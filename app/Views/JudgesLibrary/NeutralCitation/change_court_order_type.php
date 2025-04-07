@@ -59,14 +59,14 @@
                                                                     ?>
                                                                 </select>
                                                             </div>
-                                                           
+
                                                             <div class="col-sm-12 col-md-3 mb-3">
-                                                            <label for="caseNo">Case No.</label>
+                                                                <label for="caseNo">Case No.</label>
                                                                 <input class="form-control" id="caseNo" name="caseNo" placeholder="Case Number" type="number" maxlength="10" required="required">
                                                             </div>
-                                                            
+
                                                             <div class="col-sm-12 col-md-3 mb-3">
-                                                            <label for="caseYear">Year</label>
+                                                                <label for="caseYear">Year</label>
                                                                 <select class="form-control" id="caseYear" name="caseYear">
                                                                     <?php
                                                                     for ($year = date('Y'); $year >= 1950; $year--)
@@ -126,16 +126,75 @@
 </section>
 <script>
     $(document).ready(function() {
+        // Function to control field visibility and enable/disable inputs
+        function toggleFieldsBasedOnRadio() {
+            var selectedOption = $("input[name='optradio']:checked").val();
+            if (selectedOption === 'C') {
+                $('#caseTypeWise').show();
+                $('#diaryNoWise').hide();
+                $('#caseType, #caseNo, #caseYear').prop("disabled", false);
+                $('#diaryNumber, #diaryYear').prop("disabled", true);
+            } else {
+                $('#caseTypeWise').hide();
+                $('#diaryNoWise').show();
+                $('#caseType, #caseNo, #caseYear').prop("disabled", true);
+                $('#diaryNumber, #diaryYear').prop("disabled", false);
+            }
+        }
+
+        // Call once on page load to apply default logic
+        toggleFieldsBasedOnRadio();
+
+        // Change fields when radio button is clicked
+        $("input[name='optradio']").click(function() {
+            toggleFieldsBasedOnRadio();
+        });
+
+        // Form submit logic
         $("#submitForm,#submitForm1").click(function(e) {
             e.preventDefault();
+
+            var selectedOption = $("input[name='optradio']:checked").val();
+            var isValid = true;
+            var errorMessage = '';
+
+            if (selectedOption === 'C') {
+                var caseType = $('#caseType').val().trim();
+                var caseNo = $('#caseNo').val().trim();
+                var caseYear = $('#caseYear').val().trim();
+
+                if (caseType === '' || caseNo === '' || caseYear === '') {
+                    isValid = false;
+                    errorMessage = 'Please fill all the Case-wise fields.';
+                } else if (caseNo.length > 9) {
+                    isValid = false;
+                    errorMessage = 'Case No. should not be more than 9 digits.';
+                }
+
+            } else {
+                var diaryNumber = $('#diaryNumber').val().trim();
+                var diaryYear = $('#diaryYear').val().trim();
+
+                if (diaryNumber === '' || diaryYear === '') {
+                    isValid = false;
+                    errorMessage = 'Please fill both Diary Number and Year.';
+                }
+            }
+
+            if (!isValid) {
+                alert(errorMessage);
+                return;
+            }
+
             var csrfName = '<?= csrf_token() ?>';
             var csrfHash = $('[name="<?= csrf_token() ?>"]').val();
+
             $.ajax({
-                url: "<?php echo base_url('JudgesLibrary/NeutralCitation/change_court_order_type_new'); ?>",
+                url: "<?= base_url('JudgesLibrary/NeutralCitation/change_court_order_type_new'); ?>",
                 type: "POST",
                 data: $("#headerForm").serialize(),
                 beforeSend: function() {
-                    $('#responseMessage').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+                    $('#responseMessage').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?= base_url('images/load.gif'); ?>'></div>");
                 },
                 success: function(response) {
                     updateCSRFToken();
@@ -147,45 +206,12 @@
                 }
             });
         });
-    });
 
-
-    $(".alert").delay(4000).slideUp(500, function() {
-        $(this).alert('close');
-    });
-    $(document).ready(function() {
-        /*      $('#diaryNumber').prop("disabled",'disabled');
-                $('#diaryYear').prop("disabled",'disabled');
-                $('#diaryNoWise').hide();*/
-        $('#caseType').prop("disabled", 'disabled');
-        $('#caseNo').prop("disabled", 'disabled');
-        $('#caseYear').prop("disabled", 'disabled');
-
-        $('#caseTypeWise').hide();
-
-
-        $("input[name$='optradio']").click(function() {
-            var searchValue = $(this).val();
-            if (searchValue == 'C') {
-                $('#caseType').removeAttr('disabled');
-                $('#caseNo').removeAttr('disabled');
-                $('#caseYear').removeAttr('disabled');
-                $('#diaryNumber').prop("disabled", 'disabled');
-                $('#diaryYear').prop("disabled", 'disabled');
-                $('#diaryNoWise').hide();
-                $('#caseTypeWise').show();
-            } else {
-                $('#caseType').prop("disabled", 'disabled');
-                $('#caseNo').prop("disabled", 'disabled');
-                $('#caseYear').prop("disabled", 'disabled');
-
-                $('#caseTypeWise').hide();
-
-                $('#diaryNumber').removeAttr('disabled');
-                $('#diaryYear').removeAttr('disabled');
-
-                $('#diaryNoWise').show();
-            }
+        // Auto-close alert after 4 seconds
+        $(document).on('DOMNodeInserted', ".alert", function() {
+            $(".alert").delay(4000).slideUp(500, function() {
+                $(this).alert('close');
+            });
         });
     });
 </script>

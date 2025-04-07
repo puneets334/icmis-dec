@@ -101,6 +101,215 @@ class AdminusersModel extends Model{
    }
 
 
+   public function getRosterData($dtd, $judge_code = '')
+{
+    $sql = "
+        SELECT 
+            r.id,
+            (
+                SELECT STRING_AGG(jsub.jcode::TEXT, ',' ORDER BY jsub.judge_seniority)
+                FROM (
+                    SELECT DISTINCT j.jcode, j.judge_seniority
+                    FROM master.judge j
+                    JOIN master.roster_judge rj2 ON j.jcode = rj2.judge_id
+                    WHERE rj2.roster_id = r.id
+                ) AS jsub
+            ) AS jcd,
+            (
+                SELECT STRING_AGG(jsub.jname, ', ' ORDER BY jsub.judge_seniority)
+                FROM (
+                    SELECT DISTINCT j.jname, j.judge_seniority
+                    FROM master.judge j
+                    JOIN master.roster_judge rj2 ON j.jcode = rj2.judge_id
+                    WHERE rj2.roster_id = r.id
+                ) AS jsub
+            ) AS jnm,
+            j.first_name,
+            j.sur_name,
+            j.title,
+            r.courtno,
+            rb.bench_no,
+            mb.abbr,
+            mb.board_type_mb,
+            r.tot_cases,
+            r.frm_time,
+            r.session
+        FROM master.roster r 
+        LEFT JOIN master.roster_bench rb ON rb.id = r.bench_id 
+        LEFT JOIN master.master_bench mb ON mb.id = rb.bench_id
+        LEFT JOIN master.roster_judge rj ON rj.roster_id = r.id 
+        LEFT JOIN master.judge j ON j.jcode = rj.judge_id
+        LEFT JOIN cl_printed cp 
+            ON cp.next_dt = ? 
+            AND cp.roster_id = r.id 
+            AND cp.display = 'Y'
+        WHERE 
+            cp.next_dt IS NOT NULL
+            AND j.is_retired <> 'Y' 
+            AND j.display = 'Y'
+            AND rj.display = 'Y'
+            AND rb.display = 'Y'
+            AND mb.display = 'Y'
+            AND r.display = 'Y'
+            $judge_code
+        GROUP BY r.id, j.first_name, j.sur_name, j.title, r.courtno, rb.bench_no, mb.abbr, mb.board_type_mb, r.tot_cases, r.frm_time, r.session
+        ORDER BY r.id
+    ";
+
+    $query = $this->db->query($sql, [$dtd]);
+    return $query->getRowArray();
+}
+
+
+public function getRosterJudgeData($t_cn = '')
+{
+    $sql = "
+        SELECT DISTINCT 
+            rj.roster_id, 
+            mb.board_type_mb
+        FROM roster_judge rj 
+        JOIN roster r ON rj.roster_id = r.id 
+        JOIN roster_bench rb ON rb.id = r.bench_id AND rb.display = 'Y'
+        JOIN master_bench mb ON mb.id = rb.bench_id AND mb.display = 'Y'
+        WHERE r.m_f IN (1, 2)
+            AND rj.display = 'Y' 
+            AND r.display = 'Y'
+            $t_cn
+        ORDER BY 
+            CASE WHEN r.courtno = 0 THEN 9999 ELSE r.courtno END,
+            CASE 
+                WHEN mb.board_type_mb = 'J' THEN 1
+                WHEN mb.board_type_mb = 'S' THEN 2
+                WHEN mb.board_type_mb = 'C' THEN 3
+                WHEN mb.board_type_mb = 'CC' THEN 4
+                WHEN mb.board_type_mb = 'R' THEN 5
+                ELSE 6
+            END,
+            rj.judge_id
+    ";
+
+    $query = $this->db->query($sql);
+    return $query->getResultArray();
+}
+
+
+public function getCaseBoardList($tdt1, $result, $whereStatus = '')
+{
+    $sql = "
+    SELECT 
+        SUBSTRING(m.diary_no FROM 1 FOR LENGTH(m.diary_no) - 4) AS case_no,
+        RIGHT(m.diary_no, 4) AS year,  
+        m.diary_no,
+        m.reg_no_display,    
+        m.conn_key,   
+        h.mainhead,
+        h.judges,
+        h.board_type,
+        h.next_dt,   
+        h.clno,
+        h.brd_slno,
+        m.pet_name,
+        m.res_name,
+        m.c_status,
+        CASE 
+            WHEN cl.next_dt IS NULL THEN 'NA'
+            ELSE h.brd_slno
+        END AS brd_prnt,
+        h.roster_id,    
+        m.casetype_id,
+        m.case_status_id,
+        c.short_description,
+        h.list_status
+    FROM (
+        SELECT 
+            t1.diary_no,
+            t1.next_dt,
+            t1.judges,
+            t1.roster_id,  
+            t1.mainhead,
+            t1.board_type,
+            t1.clno,
+            t1.brd_slno,  
+            t1.main_supp_flag,
+            'Heardt' AS list_status
+        FROM heardt t1 
+        WHERE 
+            t1.next_dt = ? 
+            AND t1.mainhead IN ('M', 'F')
+            AND t1.roster_id = ANY(string_to_array(?, ',')::int[])
+            AND t1.main_supp_flag IN (1, 2)
+
+        UNION
+
+        SELECT 
+            t2.diary_no,
+            t2.next_dt,
+            t2.judges,
+            t2.roster_id,  
+            t2.mainhead,
+            t2.board_type,
+            t2.clno,
+            t2.brd_slno,  
+            t2.main_supp_flag,
+            'Last_Heardt' AS list_status
+        FROM last_heardt t2 
+        WHERE 
+            t2.next_dt = ? 
+            AND t2.mainhead IN ('M', 'F')
+            AND t2.roster_id = ANY(string_to_array(?, ',')::int[])
+            AND t2.main_supp_flag IN (1, 2)
+            AND (t2.bench_flag = '' OR t2.bench_flag IS NULL)
+
+        UNION  
+
+        SELECT 
+            t3.diary_no,
+            t3.cl_date AS next_dt,
+            'Judges' AS judges,
+            t3.roster_id,  
+            t3.mf AS mainhead,
+            'Board_Type' AS board_type,  
+            t3.part AS clno,
+            t3.clno AS brd_slno, 
+            'Main_supp_flag' AS main_supp_flag,
+            'DELETED' AS list_status
+        FROM drop_note t3 
+        WHERE 
+            t3.cl_date = ? 
+            AND t3.mf IN ('M', 'F')
+            AND t3.roster_id = ANY(string_to_array(?, ',')::int[])
+    ) h
+    INNER JOIN main m ON h.diary_no = m.diary_no   
+    LEFT JOIN cl_printed cl 
+        ON cl.next_dt = h.next_dt 
+        AND cl.m_f = h.mainhead 
+        AND cl.part = h.clno
+        AND cl.roster_id = h.roster_id 
+        AND cl.display = 'Y'
+    LEFT JOIN casetype c ON m.casetype_id = c.casecode
+    LEFT JOIN conct ct ON m.diary_no = ct.diary_no AND ct.list = 'Y'  
+    WHERE cl.next_dt IS NOT NULL $whereStatus
+    GROUP BY 
+        m.diary_no, m.reg_no_display, m.conn_key, h.mainhead, h.judges, h.board_type, 
+        h.next_dt, h.clno, h.brd_slno, m.pet_name, m.res_name, m.c_status, cl.next_dt, 
+        h.roster_id, m.casetype_id, m.case_status_id, c.short_description, h.list_status
+    ORDER BY 
+        CASE WHEN cl.next_dt IS NULL THEN 2 ELSE 1 END,
+        h.brd_slno,
+        CASE WHEN m.conn_key = m.diary_no THEN '0000-00-00' ELSE '99' END,
+        COALESCE(ct.ent_dt, 999),
+        CAST(RIGHT(m.diary_no, 4) AS INTEGER),
+        CAST(SUBSTRING(m.diary_no FROM 1 FOR LENGTH(m.diary_no) - 4) AS INTEGER)
+    ";
+
+    $query = $this->db->query($sql, [$tdt1, $result, $tdt1, $result, $tdt1, $result]);
+    return $query->getResultArray();
+}
+
+
+
+
+
 
 
 

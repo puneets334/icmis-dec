@@ -31,7 +31,7 @@ foreach ($result_array as $ros12) {
                     <td>Comp Gen</td>
                     <td>TOTAL</td>
                 </tr>
-                <tr>
+                <!--<tr>
                     <td>1</td>
                     <td>2</td>
                     <td>3</td>
@@ -39,7 +39,7 @@ foreach ($result_array as $ros12) {
                     <td>5</td>
                     <td>6</td>
                     <td>7</td>
-                </tr>
+                </tr>-->
                 <?php
                 $sno = 1;
                 $t_fd_not_listed = 0;

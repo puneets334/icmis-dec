@@ -1655,7 +1655,7 @@ class CaseRemarksVerification extends Model
                         TO_CHAR(d.ent_dt, 'DD-MM-YYYY') AS IA_Date1,
                         dm.docdesc,
                         tentative_section(m.diary_no) AS Section,
-                        tentative_da(m.diary_no) AS DA
+                        tentative_da(m.diary_no::int) AS DA
                     FROM 
                         heardt h
                     INNER JOIN main m ON m.diary_no = h.diary_no 
@@ -1690,7 +1690,7 @@ class CaseRemarksVerification extends Model
                        m.diary_no, h.next_dt,d.ent_dt,dm.docdesc,d.doccode1 
                     ORDER BY 
                         tentative_section(m.diary_no), 
-                        tentative_da(m.diary_no), 
+                        tentative_da(m.diary_no::int), 
                         d.ent_dt) c";
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
@@ -1906,6 +1906,7 @@ FROM (
                 m.res_name, 
                 m.pno, 
                 m.rno, 
+                m.active_casetype_id,
                 casetype_id, 
                 ref_agency_state_id, 
                 diary_no_rec_date, 
@@ -1958,10 +1959,8 @@ FROM (
                         a.adv_type, 
                         pet_res_no
                     FROM advocate a
-                    LEFT JOIN bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y'
-                    WHERE 
-                        WHERE a.diary_no='" . $diary_no . "'
-                        a.display = 'Y'
+                    LEFT JOIN master.bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y'
+                    WHERE a.diary_no='" . $diary_no . "' and a.display = 'Y'
                     GROUP BY a.diary_no, b.name, a.pet_res, a.adv_type, pet_res_no
                     ORDER BY pet_res ASC, adv_type DESC, pet_res_no ASC
                     ) a

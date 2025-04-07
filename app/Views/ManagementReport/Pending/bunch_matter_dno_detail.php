@@ -1,6 +1,6 @@
 <div class="table-responsive">
     <?php if ($results) { ?>
-        <div class="font-weight-bold text-center mt-26">Bunch Matters</div>
+        <!--<div class="font-weight-bold text-center mt-26">Bunch Matters</div>-->
         <table id="example2" class="table table-striped custom-table">
             <thead>
                 <tr>
@@ -84,7 +84,7 @@
         "buttons": [{
             extend: 'print',
             text: 'Print',
-            className: 'btn-primary quick-btn',
+            className: 'btn btn-primary',
             customize: function(win) {
                 $(win.document.body).find('h1').remove();
             }

@@ -86,13 +86,13 @@ $(document).ready(function () {
     var calcda = 0;
     if ($("#calc-da-code").is(":checked")) calcda = 1;
 
-    //alert($("#designation").val());
+    alert($("#designation").val());
     $.ajax({
       type: "GET",
       url: base_url + "/MasterManagement/UserManagement/view_user_information",
       beforeSend: function (xhr) {
         $("#result_main_um").html(
-          "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>"
+          "<div style='margin:0 auto;margin-top:20px;width:25%'><img src='" + base_url + "/images/load.gif'></div>"
         );
       },
       data: {
