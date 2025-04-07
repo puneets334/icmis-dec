@@ -1508,62 +1508,365 @@ class PendingModel extends Model
         $result = $query->getResultArray();
         return $result;
     }
+    public function pre_after_notice_get(){
+        $sql = "select * from (select 
+                notice, 
+                SUM(CASE WHEN (listorder = 4) THEN 1 ELSE 0 END) fix_dt,        
+                SUM(CASE WHEN (listorder = 5) THEN 1 ELSE 0 END) mentioning,        
+                SUM(CASE WHEN (listorder = 7) THEN 1 ELSE 0 END) week_commencing,         
+                SUM(CASE WHEN (listorder = 32) THEN 1 ELSE 0 END) freshly_filed,
+                SUM(CASE WHEN (listorder = 25) THEN 1 ELSE 0 END) freshly_filed_adj,
+                SUM(CASE WHEN subhead = 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) part_heard,
+                SUM(CASE WHEN inperson = 1 and bail != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) inperson,
+                SUM(CASE WHEN bail = 1 and inperson != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) bail,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 8) THEN 1 ELSE 0 END) after_week,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 24) THEN 1 ELSE 0 END) imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 21) THEN 1 ELSE 0 END) ia_other_than_imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 48) THEN 1 ELSE 0 END) nradj_not_list,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 2) THEN 1 ELSE 0 END) adm_order,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 16) THEN 1 ELSE 0 END) ordinary,
+                count(*) total
+
+                FROM
+                (select 'Pre_Notice_Ready' as notice,
+                h.subhead, d.doccode1, mc.submaster_id, h.listorder, h.diary_no,
+                CASE
+                    WHEN h.subhead::INTEGER = 804 OR mc.submaster_id::INTEGER = 173 OR doccode1 IN (40, 41, 48, 49, 71, 72, 118, 131, 211, 309) THEN 1
+                    ELSE 0
+                END AS bail,
+                    CASE
+                    WHEN a.advocate_id = 584 THEN 1
+                    ELSE 0
+                END AS inperson        
+                FROM heardt h       
+                INNER JOIN main m ON m.diary_no = h.diary_no 
+                LEFT JOIN docdetails d ON d.diary_no = m.diary_no AND d.display = 'Y' AND d.iastat = 'P' AND d.doccode = 8 
+                    AND d.doccode1 IN  (7,66,29,56,57,28,103,133,226,3,309,73,99,40,48,72,71,27,124,2,16,41,49,71,72,102,118,131,211,309) 
+                LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no AND mc.display = 'Y'  
+                AND mc.submaster_id != 911 AND mc.submaster_id != 912 AND mc.submaster_id != 914 and mc.submaster_id != 239 AND mc.submaster_id != 240 
+                AND mc.submaster_id != 241 AND mc.submaster_id != 242 AND mc.submaster_id != 243 AND mc.submaster_id != 331 AND mc.submaster_id != 9999
+                left join advocate a on a.diary_no = m.diary_no and a.advocate_id = 584 and a.display = 'Y'          
+                left join case_remarks_multiple c on c.diary_no = m.diary_no and c.r_head in (1,3,62,181,182,183,184)
+                LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no AND rd.remove_def = 'N'
+                WHERE 
+                c.diary_no is null and (m.fil_no_fh = '' or m.fil_no_fh is null) and h.subhead not in (813,814) 
+                and 
+                CASE
+                    WHEN h.listorder IN (4, 5) THEN TRUE  
+                    ELSE
+                        CASE
+                            WHEN 0 = 0 THEN (h.is_nmd = 'N' OR h.is_nmd = '' OR h.is_nmd IS NULL)
+                            ELSE (h.is_nmd = 'N' OR h.is_nmd = '' OR h.is_nmd IS NULL)
+                        END
+                END 
+                and rd.fil_no is null 
+                AND mc.diary_no::INTEGER IS NOT NULL and 
+                (m.diary_no::TEXT = m.conn_key::TEXT OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = '0') AND 
+                    m.c_status = 'P' AND h.board_type = 'J' AND h.mainhead = 'M' and h.next_dt != '0001-01-01'  
+                    and main_supp_flag = 0 and h.clno = 0 and h.listorder != 49
+                    AND m.active_casetype_id != 9 AND m.active_casetype_id != 10
+                AND m.active_casetype_id != 25 AND m.active_casetype_id != 26
+                AND h.next_dt != '0001-01-01'  AND h.listorder > 0
+                AND h.subhead != 801 AND h.subhead != 817 AND h.subhead != 818 AND h.subhead != 819 AND h.subhead != 820
+                AND h.subhead != 848 AND h.subhead != 849 AND h.subhead != 850 AND h.subhead != 854 and h.subhead != 0
+                    group by m.diary_no,h.subhead, d.doccode1, mc.submaster_id, h.listorder,h.diary_no,a.advocate_id) t
+                    group by notice) a
+                        
+                        union
+                    select * from (select 
+                notice, 
+                SUM(CASE WHEN (listorder = 4) THEN 1 ELSE 0 END) fix_dt,        
+                SUM(CASE WHEN (listorder = 5) THEN 1 ELSE 0 END) mentioning,        
+                SUM(CASE WHEN (listorder = 7) THEN 1 ELSE 0 END) week_commencing,         
+                SUM(CASE WHEN (listorder = 32) THEN 1 ELSE 0 END) freshly_filed,
+                SUM(CASE WHEN (listorder = 25) THEN 1 ELSE 0 END) freshly_filed_adj,
+                SUM(CASE WHEN subhead = 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) part_heard,
+                SUM(CASE WHEN inperson = 1 and bail != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) inperson,
+                SUM(CASE WHEN bail = 1 and inperson != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) bail,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 8) THEN 1 ELSE 0 END) after_week,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 24) THEN 1 ELSE 0 END) imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 21) THEN 1 ELSE 0 END) ia_other_than_imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 48) THEN 1 ELSE 0 END) nradj_not_list,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 2) THEN 1 ELSE 0 END) adm_order,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 16) THEN 1 ELSE 0 END) ordinary,
+                count(*) total
+
+                FROM
+                (select 'Pre_Notice_Listed_in_Future_Dates' as notice,
+                h.subhead, d.doccode1, mc.submaster_id, h.listorder, h.diary_no,
+                CASE
+                    WHEN h.subhead = 804 OR mc.submaster_id = 173 OR doccode1 IN (40, 41, 48, 49, 71, 72, 118, 131, 211, 309) THEN 1
+                    ELSE 0
+                END AS bail,
+                    CASE
+                    WHEN a.advocate_id = 584 THEN 1
+                    ELSE 0
+                END AS inperson       
+                FROM heardt h       
+                INNER JOIN main m ON m.diary_no = h.diary_no 
+                LEFT JOIN docdetails d ON d.diary_no = m.diary_no AND d.display = 'Y' AND d.iastat = 'P' AND d.doccode = 8 
+                    AND d.doccode1 IN  (7,66,29,56,57,28,103,133,226,3,309,73,99,40,48,72,71,27,124,2,16,41,49,71,72,102,118,131,211,309) 
+                LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no AND mc.display = 'Y'  
+                AND mc.submaster_id != 911 AND mc.submaster_id != 912 AND mc.submaster_id != 914 and mc.submaster_id != 239 AND mc.submaster_id != 240 
+                AND mc.submaster_id != 241 AND mc.submaster_id != 242 AND mc.submaster_id != 243 AND mc.submaster_id != 331 AND mc.submaster_id != 9999
+                left join advocate a on a.diary_no = m.diary_no and a.advocate_id = 584 and a.display = 'Y'          
+                left join case_remarks_multiple c on c.diary_no = m.diary_no and c.r_head in (1,3,62,181,182,183,184)
+                LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no AND rd.remove_def = 'N'
+                WHERE 
+                c.diary_no is null and (m.fil_no_fh = '' or m.fil_no_fh is null) and h.subhead not in (813,814) and
+                rd.fil_no is null AND mc.diary_no IS NOT NULL and (m.diary_no::INTEGER = m.conn_key::INTEGER OR m.conn_key::INTEGER IS NULL OR m.conn_key::INTEGER = '0') AND 
+                    m.c_status = 'P' AND h.board_type = 'J' AND h.mainhead = 'M' and h.next_dt != '0001-01-01'  
+                    and main_supp_flag != 0 and h.listorder != 49
+                    AND m.active_casetype_id != 9 AND m.active_casetype_id != 10
+                AND m.active_casetype_id != 25 AND m.active_casetype_id != 26
+                and date(h.next_dt) >= CURRENT_DATE and h.clno > 0 and h.main_supp_flag in (1,2)
+                    group by m.diary_no, h.subhead, d.doccode1, mc.submaster_id, h.listorder, h.diary_no,a.advocate_id) t
+                    group by notice) a11
+                        
+                        union
+                    select * from (select 
+                notice, 
+                SUM(CASE WHEN (listorder = 4) THEN 1 ELSE 0 END) fix_dt,        
+                SUM(CASE WHEN (listorder = 5) THEN 1 ELSE 0 END) mentioning,        
+                SUM(CASE WHEN (listorder = 7) THEN 1 ELSE 0 END) week_commencing,         
+                SUM(CASE WHEN (listorder = 32) THEN 1 ELSE 0 END) freshly_filed,
+                SUM(CASE WHEN (listorder = 25) THEN 1 ELSE 0 END) freshly_filed_adj,
+                SUM(CASE WHEN subhead = 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) part_heard,
+                SUM(CASE WHEN inperson = 1 and bail != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) inperson,
+                SUM(CASE WHEN bail = 1 and inperson != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) bail,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 8) THEN 1 ELSE 0 END) after_week,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 24) THEN 1 ELSE 0 END) imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 21) THEN 1 ELSE 0 END) ia_other_than_imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 48) THEN 1 ELSE 0 END) nradj_not_list,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 2) THEN 1 ELSE 0 END) adm_order,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 16) THEN 1 ELSE 0 END) ordinary,
+                count(*) total
+
+                FROM
+                (select 'Pre_Notice_Updation_Awaited' as notice,
+                h.subhead, d.doccode1, mc.submaster_id, h.listorder, h.diary_no,
+                CASE
+                    WHEN h.subhead = 804 OR mc.submaster_id = 173 OR doccode1 IN (40, 41, 48, 49, 71, 72, 118, 131, 211, 309) THEN 1
+                    ELSE 0
+                END AS bail,
+                    CASE
+                    WHEN a.advocate_id = 584 THEN 1
+                    ELSE 0
+                END AS inperson        
+                FROM heardt h       
+                INNER JOIN main m ON m.diary_no = h.diary_no 
+                LEFT JOIN docdetails d ON d.diary_no = m.diary_no AND d.display = 'Y' AND d.iastat = 'P' AND d.doccode = 8 
+                    AND d.doccode1 IN  (7,66,29,56,57,28,103,133,226,3,309,73,99,40,48,72,71,27,124,2,16,41,49,71,72,102,118,131,211,309) 
+                LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no AND mc.display = 'Y'  
+                AND mc.submaster_id != 911 AND mc.submaster_id != 912 AND mc.submaster_id != 914 and mc.submaster_id != 239 AND mc.submaster_id != 240 
+                AND mc.submaster_id != 241 AND mc.submaster_id != 242 AND mc.submaster_id != 243 AND mc.submaster_id != 331 AND mc.submaster_id != 9999
+                left join advocate a on a.diary_no = m.diary_no and a.advocate_id = 584 and a.display = 'Y'          
+                left join case_remarks_multiple c on c.diary_no = m.diary_no and c.r_head in (1,3,62,181,182,183,184)
+                LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no AND rd.remove_def = 'N'
+                WHERE 
+                c.diary_no is null and (m.fil_no_fh = '' or m.fil_no_fh is null) and h.subhead not in (813,814) and
+                rd.fil_no is null AND mc.diary_no IS NOT NULL and (m.diary_no::TEXT = m.conn_key::TEXT OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = '0') AND 
+                    m.c_status = 'P' AND h.board_type = 'J' AND h.mainhead = 'M' and h.next_dt != '0001-01-01'  
+                    and main_supp_flag != 0 and h.listorder != 49
+                    AND m.active_casetype_id != 9 AND m.active_casetype_id != 10
+                AND m.active_casetype_id != 25 AND m.active_casetype_id != 26
+                and date(h.next_dt) < CURRENT_DATE and h.clno > 0 and h.main_supp_flag in (1,2)
+                    group by m.diary_no,h.subhead, d.doccode1, mc.submaster_id, h.listorder,h.diary_no,a.advocate_id) t
+                    group by notice) a12
+                    union
+                    select * from (select 
+                notice, 
+                SUM(CASE WHEN (listorder = 4) THEN 1 ELSE 0 END) fix_dt,        
+                SUM(CASE WHEN (listorder = 5) THEN 1 ELSE 0 END) mentioning,        
+                SUM(CASE WHEN (listorder = 7) THEN 1 ELSE 0 END) week_commencing,         
+                SUM(CASE WHEN (listorder = 32) THEN 1 ELSE 0 END) freshly_filed,
+                SUM(CASE WHEN (listorder = 25) THEN 1 ELSE 0 END) freshly_filed_adj,
+                SUM(CASE WHEN subhead = 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) part_heard,
+                SUM(CASE WHEN inperson = 1 and bail != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) inperson,
+                SUM(CASE WHEN bail = 1 and inperson != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) bail,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 8) THEN 1 ELSE 0 END) after_week,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 24) THEN 1 ELSE 0 END) imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 21) THEN 1 ELSE 0 END) ia_other_than_imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 48) THEN 1 ELSE 0 END) nradj_not_list,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 2) THEN 1 ELSE 0 END) adm_order,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 16) THEN 1 ELSE 0 END) ordinary,
+                count(*) total
+
+                FROM
+                (select 'Pre_Notice_Not_Ready' as notice,
+                h.subhead, d.doccode1, mc.submaster_id, h.listorder, h.diary_no,
+                CASE
+                    WHEN h.subhead = 804 OR mc.submaster_id = 173 OR doccode1 IN (40, 41, 48, 49, 71, 72, 118, 131, 211, 309) THEN 1
+                    ELSE 0
+                END AS bail,
+                    CASE
+                    WHEN a.advocate_id = 584 THEN 1
+                    ELSE 0
+                END AS inperson      
+                FROM heardt h       
+                INNER JOIN main m ON m.diary_no = h.diary_no 
+                LEFT JOIN docdetails d ON d.diary_no = m.diary_no AND d.display = 'Y' AND d.iastat = 'P' AND d.doccode = 8 
+                    AND d.doccode1 IN  (7,66,29,56,57,28,103,133,226,3,309,73,99,40,48,72,71,27,124,2,16,41,49,71,72,102,118,131,211,309) 
+                LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no AND mc.display = 'Y'  
+                AND mc.submaster_id != 911 AND mc.submaster_id != 912 AND mc.submaster_id != 914 and mc.submaster_id != 239 AND mc.submaster_id != 240 
+                AND mc.submaster_id != 241 AND mc.submaster_id != 242 AND mc.submaster_id != 243 AND mc.submaster_id != 331 AND mc.submaster_id != 9999
+                left join advocate a on a.diary_no = m.diary_no and a.advocate_id = 584 and a.display = 'Y'          
+                left join case_remarks_multiple c on c.diary_no = m.diary_no and c.r_head in (1,3,62,181,182,183,184)
+                LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no AND rd.remove_def = 'N'
+                WHERE 
+                c.diary_no is null and (m.fil_no_fh = '' or m.fil_no_fh is null) and h.subhead not in (813,814) and
+                rd.fil_no is null AND mc.diary_no IS NOT NULL and (m.diary_no::TEXT = m.conn_key::TEXT OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = '0') AND 
+                    m.c_status = 'P' AND h.board_type = 'J' AND h.mainhead = 'M' and h.next_dt != '0001-01-01'  
+                    and main_supp_flag = 3 and h.listorder != 49
+                    AND m.active_casetype_id != 9 AND m.active_casetype_id != 10
+                AND m.active_casetype_id != 25 AND m.active_casetype_id != 26
+                    group by m.diary_no,h.subhead, d.doccode1, mc.submaster_id, h.listorder,h.diary_no,a.advocate_id) t
+                    group by notice) a1
+                    union
+                    select * from (select 
+                notice, 
+                SUM(CASE WHEN (listorder = 4) THEN 1 ELSE 0 END) fix_dt,        
+                SUM(CASE WHEN (listorder = 5) THEN 1 ELSE 0 END) mentioning,        
+                SUM(CASE WHEN (listorder = 7) THEN 1 ELSE 0 END) week_commencing,         
+                SUM(CASE WHEN (listorder = 32) THEN 1 ELSE 0 END) freshly_filed,
+                SUM(CASE WHEN (listorder = 25) THEN 1 ELSE 0 END) freshly_filed_adj,
+                SUM(CASE WHEN subhead = 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) part_heard,
+                SUM(CASE WHEN inperson = 1 and bail != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) inperson,
+                SUM(CASE WHEN bail = 1 and inperson != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) bail,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 8) THEN 1 ELSE 0 END) after_week,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 24) THEN 1 ELSE 0 END) imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 21) THEN 1 ELSE 0 END) ia_other_than_imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 48) THEN 1 ELSE 0 END) nradj_not_list,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 2) THEN 1 ELSE 0 END) adm_order,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 16) THEN 1 ELSE 0 END) ordinary,
+                count(*) total
+
+                FROM
+                (select 'After_Notice_Ready' as notice,
+                h.subhead, d.doccode1, mc.submaster_id, h.listorder, h.diary_no,
+                CASE
+                    WHEN h.subhead = 804 OR mc.submaster_id = 173 OR doccode1 IN (40, 41, 48, 49, 71, 72, 118, 131, 211, 309) THEN 1
+                    ELSE 0
+                END AS bail,
+                    CASE
+                    WHEN a.advocate_id = 584 THEN 1
+                    ELSE 0
+                END AS inperson   
+                FROM heardt h       
+                INNER JOIN main m ON m.diary_no = h.diary_no 
+                LEFT JOIN docdetails d ON d.diary_no = m.diary_no AND d.display = 'Y' AND d.iastat = 'P' AND d.doccode = 8 
+                    AND d.doccode1 IN  (7,66,29,56,57,28,103,133,226,3,309,73,99,40,48,72,71,27,124,2,16,41,49,71,72,102,118,131,211,309) 
+                LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no AND mc.display = 'Y'  
+                AND mc.submaster_id != 911 AND mc.submaster_id != 912 AND mc.submaster_id != 914 and mc.submaster_id != 239 AND mc.submaster_id != 240 
+                AND mc.submaster_id != 241 AND mc.submaster_id != 242 AND mc.submaster_id != 243 AND mc.submaster_id != 331 AND mc.submaster_id != 9999
+                left join advocate a on a.diary_no = m.diary_no and a.advocate_id = 584 and a.display = 'Y'          
+                left join case_remarks_multiple c on c.diary_no = m.diary_no and c.r_head in (1,3,62,181,182,183,184)
+                LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no AND rd.remove_def = 'N'
+                WHERE 
+                NOT (c.diary_no IS NULL AND (m.fil_no_fh = '' OR m.fil_no_fh IS NULL) AND h.subhead NOT IN (813, 814)) and 
+                rd.fil_no is null AND mc.diary_no IS NOT NULL and (m.diary_no::TEXT = m.conn_key::TEXT OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = '0') AND 
+                    m.c_status = 'P' AND h.board_type = 'J' AND h.mainhead = 'M' and h.next_dt != '0001-01-01'  
+                    and main_supp_flag = 0 and h.clno = 0 and h.listorder != 49
+                    AND m.active_casetype_id != 9 AND m.active_casetype_id != 10
+                AND m.active_casetype_id != 25 AND m.active_casetype_id != 26
+                    group by m.diary_no,h.subhead, d.doccode1, mc.submaster_id, h.listorder,h.diary_no,a.advocate_id) t
+                    group by notice) b
+                    union
+                    select * from (select 
+                notice, 
+                SUM(CASE WHEN (listorder = 4) THEN 1 ELSE 0 END) fix_dt,        
+                SUM(CASE WHEN (listorder = 5) THEN 1 ELSE 0 END) mentioning,        
+                SUM(CASE WHEN (listorder = 7) THEN 1 ELSE 0 END) week_commencing,         
+                SUM(CASE WHEN (listorder = 32) THEN 1 ELSE 0 END) freshly_filed,
+                SUM(CASE WHEN (listorder = 25) THEN 1 ELSE 0 END) freshly_filed_adj,
+                SUM(CASE WHEN subhead = 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) part_heard,
+                SUM(CASE WHEN inperson = 1 and bail != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) inperson,
+                SUM(CASE WHEN bail = 1 and inperson != 1 and subhead != 824 AND listorder not in (4,5,7,32,25) THEN 1 ELSE 0 END) bail,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 8) THEN 1 ELSE 0 END) after_week,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 24) THEN 1 ELSE 0 END) imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 21) THEN 1 ELSE 0 END) ia_other_than_imp_ia,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 48) THEN 1 ELSE 0 END) nradj_not_list,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 2) THEN 1 ELSE 0 END) adm_order,
+                SUM(CASE WHEN (inperson != 1 and bail != 1 and subhead != 824 and listorder = 16) THEN 1 ELSE 0 END) ordinary,
+                count(*) total
+
+                FROM
+                (select 'After_Notice_Not_Ready' as notice,
+                h.subhead, d.doccode1, mc.submaster_id, h.listorder, h.diary_no,
+                CASE
+                    WHEN h.subhead = 804 OR mc.submaster_id = 173 OR doccode1 IN (40, 41, 48, 49, 71, 72, 118, 131, 211, 309) THEN 1
+                    ELSE 0
+                END AS bail,
+                    CASE
+                    WHEN a.advocate_id = 584 THEN 1
+                    ELSE 0
+                END AS inperson      
+                FROM heardt h       
+                INNER JOIN main m ON m.diary_no = h.diary_no 
+                LEFT JOIN docdetails d ON d.diary_no = m.diary_no AND d.display = 'Y' AND d.iastat = 'P' AND d.doccode = 8 
+                    AND d.doccode1 IN  (7,66,29,56,57,28,103,133,226,3,309,73,99,40,48,72,71,27,124,2,16,41,49,71,72,102,118,131,211,309) 
+                LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no AND mc.display = 'Y'  
+                AND mc.submaster_id != 911 AND mc.submaster_id != 912 AND mc.submaster_id != 914 and mc.submaster_id != 239 AND mc.submaster_id != 240 
+                AND mc.submaster_id != 241 AND mc.submaster_id != 242 AND mc.submaster_id != 243 AND mc.submaster_id != 331 AND mc.submaster_id != 9999
+                left join advocate a on a.diary_no = m.diary_no and a.advocate_id = 584 and a.display = 'Y'          
+                left join case_remarks_multiple c on c.diary_no = m.diary_no and c.r_head in (1,3,62,181,182,183,184)
+                LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no AND rd.remove_def = 'N'
+                WHERE 
+                NOT (c.diary_no IS NULL AND (m.fil_no_fh = '' OR m.fil_no_fh IS NULL) AND h.subhead NOT IN (813, 814))
+                AND 
+                rd.fil_no is null AND mc.diary_no IS NOT NULL and (m.diary_no::TEXT = m.conn_key::TEXT OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = '0') AND 
+                    m.c_status = 'P' AND h.board_type = 'J' AND h.mainhead = 'M' and h.next_dt != '0001-01-01'  
+                    and main_supp_flag != 0 and h.listorder != 49
+                    AND m.active_casetype_id != 9 AND m.active_casetype_id != 10
+                AND m.active_casetype_id != 25 AND m.active_casetype_id != 26
+                    group by m.diary_no,h.subhead, d.doccode1, mc.submaster_id, h.listorder,h.diary_no,a.advocate_id) t
+                    group by notice) b1";
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+    }
     public function regular_in_misc_get()
     {
-        $sql = "SELECT 
-                        ROW_NUMBER() OVER (
-                            ORDER BY 
-                            tentative_section(c.diary_no),
-                            tentative_da(c.diary_no),
-                            c.diary_no_rec_date
-                        ) AS SNO, 
-                        c.* 
-                        FROM 
-                        (
-                            SELECT 
-                            m.diary_no,
-                            CONCAT(
-                                m.reg_no_display, ' @ ', m.diary_no
-                            ) AS REGNO_DNO, 
-                            CONCAT(pet_name, ' Vs. ', res_name) AS TITLE, 
-                            TO_CHAR(h.next_dt :: DATE, 'DD-MM-YYYY') AS Tentative_Date, 
-                            tentative_section(m.diary_no) AS SECTION, 
-                            tentative_da(m.diary_no) AS DA,
-                            m.diary_no_rec_date
-                            FROM 
-                            heardt h 
-                            INNER JOIN main m ON m.diary_no = h.diary_no 
-                            LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no 
-                            AND mc.display = 'Y' 
-                            LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no 
-                            AND rd.remove_def = 'N' 
-                            WHERE 
-                            rd.fil_no IS NULL 
-                            AND mc.diary_no IS NOT NULL 
-                            AND (
-                                m.diary_no :: text = m.conn_key 
-                                OR m.conn_key IS NULL 
-                                OR m.conn_key = '' 
-                                OR m.conn_key = '0'
-                            ) 
-                            AND m.c_status = 'P' 
-                            AND h.mainhead = 'M' 
-                            AND (
-                                m.fil_no_fh IS NOT NULL 
-                                AND m.fil_no_fh != ''
-                            )
-                            GROUP BY 
-                            m.diary_no, 
-                            m.reg_no_display, 
-                            pet_name, 
-                            res_name, 
-                            h.next_dt,
-                            m.diary_no_rec_date
-                            ORDER BY 
-                            tentative_section(m.diary_no), 
-                            tentative_da(m.diary_no), 
-                            m.diary_no_rec_date
+                $sql = "SELECT
+                            ROW_NUMBER() OVER () AS SNO,
+                            c.*
+                        FROM (
+                            SELECT
+                                CONCAT(m.reg_no_display, ' @ ', m.diary_no) AS REGNO_DNO,
+                                CONCAT(m.pet_name, ' Vs. ', m.res_name) AS TITLE,
+                                TO_CHAR(h.next_dt, 'DD-MM-YYYY') AS Tentative_Date,
+                                tentative_section(m.diary_no) AS SECTION,
+                                tentative_da(m.diary_no::INTEGER) AS DA
+                            FROM
+                                heardt h
+                            INNER JOIN
+                                main m ON m.diary_no = h.diary_no
+                            LEFT JOIN
+                                mul_category mc ON mc.diary_no = h.diary_no
+                                AND mc.display = 'Y'
+                            LEFT JOIN
+                                rgo_default rd ON rd.fil_no = h.diary_no
+                                AND rd.remove_def = 'N'
+                            WHERE
+                                rd.fil_no IS NULL
+                                AND mc.diary_no IS NOT NULL
+                                AND (
+                                    (m.conn_key != '' AND m.conn_key IS NOT NULL AND m.diary_no = m.conn_key::INTEGER)
+                                    OR m.conn_key = ''
+                                    OR m.conn_key IS NULL
+                                    OR m.conn_key = '0'
+                                ) 
+                                AND m.c_status = 'P'
+                                AND h.mainhead = 'M'
+                                AND (m.fil_no_fh IS NOT NULL AND m.fil_no_fh != '')
+                            GROUP BY
+                                m.diary_no, h.next_dt 
+                            ORDER BY
+                                tentative_section(m.diary_no),
+                                tentative_da(m.diary_no::INTEGER),
+                                m.diary_no_rec_date
                         ) c";
+    
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;

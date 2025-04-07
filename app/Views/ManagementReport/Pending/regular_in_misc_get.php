@@ -26,12 +26,12 @@ if (count($result_array) > 0) {
                     <?php
                 }
                     ?>
-                    <td><?php echo $ro['SNO']; ?></td>
-                    <td><?php echo $ro['REGNO_DNO']; ?></td>
-                    <td><?php echo $ro['TITLE']; ?></td>
-                    <td><?php echo $ro['Tentative_Date']; ?></td>
-                    <td><?php echo $ro['SECTION'];  ?></td>
-                    <td><?php echo $ro['DA']; ?></td>
+                    <td><?php echo $ro['sno']; ?></td>
+                    <td><?php echo $ro['regno_dno']; ?></td>
+                    <td><?php echo $ro['title']; ?></td>
+                    <td><?php echo $ro['tentative_date']; ?></td>
+                    <td><?php echo $ro['section'];  ?></td>
+                    <td><?php echo $ro['da']; ?></td>
                     </tr>
                 <?php
                 $sno++;
