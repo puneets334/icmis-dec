@@ -225,7 +225,7 @@
                                                     <select name="ddl_bench" id="ddl_bench" class="form-control">
                                                         <option value="" title="Select">Select High Court Bench</option>
                                                         <?php
-                                                       
+                                                        if(!empty($hc_benches)){
                                                         foreach ($hc_benches as $row) {
                                                            
                                                            // if (isset($row['cmis_state_id'])) {
@@ -237,6 +237,7 @@
                                                                 echo '<option ' . $sel . ' value="' . sanitize(($row['id'])) . '">' . sanitize(strtoupper($row['agency_name'])) . '</option>';
                                                            // }
                                                         }
+                                                    }
                                                         ?>
                                                     </select>
                                                 </div>

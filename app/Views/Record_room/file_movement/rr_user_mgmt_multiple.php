@@ -81,7 +81,7 @@ if ($keyValue == 1) {
                 Name - <?php echo $currentUser['name']; ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Last Login - <?php echo date('d-m-Y', strtotime($currentUser['log_in'])); ?>
+                Last Login - <?= ($currentUser['log_in'] != '' || !empty($currentUser['log_in'])) ? date('d-m-Y', strtotime($currentUser['log_in'])) : ''; ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
                 Active From - <?php echo revertDate_hiphen(date('Y-m-d', strtotime($currentUser['entdt']))); ?>
@@ -209,7 +209,7 @@ if ($keyValue == 1) {
 
                             $one_rkd_case = $row_chk['ref_hall_no'] . '_' . $row_chk['for_caseGroup'];
                     ?>
-                            <div class="cl_chk_case" id="r_r_<?php echo $one_rkd_case;  ?>">Hall No-<?php echo $row_chk['ref_hall_no'] . '(' . $row_chk['Description'] . ')-' . $forCaseGroup; ?>
+                            <div class="cl_chk_case" id="r_r_<?php echo $one_rkd_case;  ?>">Hall No-<?php echo $row_chk['ref_hall_no'] . '(' . $row_chk['description'] . ')-' . $forCaseGroup; ?>
 
                                 <img style='width:17px;height:17px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='<?= base_url('images/close_btn.png');?>'
                                     onclick="removeCase_rkds('<?php echo $one_rkd_case;  ?>')">
@@ -782,69 +782,77 @@ if ($keyValue == 1) {
 <?php
 } else if ($keyValue == 21) { //record room users hall_mapping and add C R mapping in rr_da_case_distribution table
 
+    echo "<pre>";
     // $model->updateDisplayToC3($da_code);
     $model->updateDisplayToC3($da_code);
 
-    $total = explode(',', ltrim($totalValue, ','));
-    foreach ($total as $value) {
-        $value_up = explode('_', $value);
-        $hallNo = $value_up[0];
-        $caseGroup = $value_up[1];
-
-        if ($hallNo == '0' || $value == '') {
-            continue;
-        }
-
-        // User Hall Mapping Logic
-        $mapping = $model->findMapping($da_code, $hallNo);
-
-        if (!$mapping) {
-            // Check if there's a record with display 'Y'
-            $existingMapping = $model->findMapping($da_code, $hallNo);
-            if (!$existingMapping) {
-                $data = [
-                    'usercode' => $da_code,
-                    'ref_hall_no' => $hallNo,
-                    'from_date' => date('Y-m-d H:i:s'),
-                    'to_date' => null,
-                    'display' => 'Y',
-                    'update_on' => date('Y-m-d H:i:s'),
-                    'updated_by' => $usercode
-                ];
-                $model->insertMapping($data);
+    $total = array_filter(explode(',', ltrim($totalValue, ',')));
+   
+    if(!empty($total))
+    {
+   
+        foreach ($total as $value) {
+            $value_up = explode('_', $value);
+            $hallNo = $value_up[0];
+            $caseGroup = $value_up[1];
+            if ($hallNo == '0' || $value == '') {
+                continue;
             }
-        } else {
-            $model->updateMappingToY($da_code, $hallNo);
-        }
-        
-        // DA Case Distribution Logic
-        $case = $model->findCaseDistribution($da_code, $caseGroup,$value_up);
-        // echo "<pre>"; print_r($case);die;
-        if (!$case) {
-            $existingCase = $model->findCaseDistribution($da_code, $caseGroup,$value_up);
-            if (!$existingCase) {
-                $data = [
-                    'user_code' => $da_code,
-                    'case_from' => 0,
-                    'case_to' => 0,
-                    'caseyear_from' => 0,
-                    'caseyear_to' => 0,
-                    'casehead' => $caseGroup,
-                    'casetype' => null,
-                    'valid_from' => date('Y-m-d H:i:s'),
-                    'valid_to' => null,
-                    'updated_by' => $usercode,
-                    'update_on' => date('Y-m-d H:i:s'),
-                    'display' => 'Y'
-                ];
-                $model->insertCaseDistribution($data);
+
+            // User Hall Mapping Logic
+            $mapping = $model->findMapping($da_code, $hallNo,'C');
+           
+
+            if (!$mapping) {
+                // Check if there's a record with display 'Y'
+                $existingMapping = $model->findMapping($da_code, $hallNo,'Y');
+
+                if (!$existingMapping) {
+                    $data = [
+                        'usercode' => $da_code,
+                        'ref_hall_no' => $hallNo,
+                        'from_date' => date('Y-m-d H:i:s'),
+                        'to_date' => null,
+                        'display' => 'Y',
+                        'update_on' => date('Y-m-d H:i:s'),
+                        'updated_by' => $usercode
+                    ];
+                    $model->insertMapping($data);
+                }
+            } else {
+                $model->updateMappingToY($da_code, $hallNo);
             }
-        } else {
-            $model->updateCaseToYDistribution($da_code, $caseGroup);
+            // DA Case Distribution Logic
+            $case = $model->findCaseDistribution_new($da_code, $caseGroup,'C');      
+
+            if (!$case) {
+                
+                $existingCase = $model->findCaseDistribution_new($da_code, $caseGroup,'Y');
+
+                if (!$existingCase) {
+                    $data = [
+                        'user_code' => $da_code,
+                        'case_from' => 0,
+                        'case_to' => 0,
+                        'caseyear_from' => 0,
+                        'caseyear_to' => 0,
+                        'casehead' => $caseGroup,
+                        'casetype' => null,
+                        'valid_from' => date('Y-m-d H:i:s'),
+                        'valid_to' => null,
+                        'updated_by' => $usercode,
+                        'update_on' => date('Y-m-d H:i:s'),
+                        'display' => 'Y'
+                    ];
+                    $model->insertCaseDistribution($data);
+                }
+            } else {
+                $model->updateCaseToYDistribution_new($da_code, $caseGroup);
+                
+            }
         }
     }
 
-    // Deactivate previous mappings and cases
     $model->deactivateMapping($da_code);
     $model->deactivateCase($da_code);
 ?>

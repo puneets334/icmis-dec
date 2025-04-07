@@ -20,12 +20,12 @@
             $textFilled="";
         }
         elseif($reportType=="3")
-        {
+        {           
             $rval="Article 235";
-            $textFilled=$pilDetails[0]['received_from'].",\n".$pilDetails[0]['address'];
+            $textFilled= (!empty($pilDetails)) ?  $pilDetails[0]['received_from'].",\n".$pilDetails[0]['address'] : '';
         }
         ?>
-        <?php if(isset($pilDetails))
+        <?php if(!empty($pilDetails))
         {
             $ecPilId=$pilDetails[0]['id'];
             $diaryNo=$pilDetails[0]['diary_number'];
@@ -78,16 +78,33 @@
                 </div>
 
                 <div class="col-sm-3 ">
-                <button type="submit" name="generate" id="generate-btn" class="btn btn-flat bg-blue btn-block"  <!--onclick="downloadReport();"-->
+                <button type="button" name="generate" id="generate-btn" class="btn btn-flat bg-blue btn-block"  onclick="downloadReport();">
                     Generate Report</button>
 
                     </div>   
             </div> 
         </form>                                                              
         <?php
-        }?>
+        }else{?>
+            <center><h4 style='color:Red'>NO RECORD FOUND</h4></center>
+        <?php }?>
 </div>
 
 <br><br> 
+
+<script>
+function downloadReport()
+{
+    if($('#comment').val() == '')
+    {
+        alert('Please write message!!');
+        $('#comment').focus();
+        return false;
+    }
+    $('#downloadReports').trigger('submit');
+    $('#search-btn').trigger('click');
+}
+
+</script>
 
 

@@ -65,7 +65,7 @@
 
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">PIL(E) >> Pil Entry</h3>
+                                <h3 class="card-title">PIL(E) >> PIL Entry</h3>
                             </div>
 
 
@@ -102,9 +102,11 @@
                             <form class="form-horizontal" name="frmPilAddEdit" id="frmPilAddEdit" method="post" onsubmit="javascript:return savePilData('<?= base_url() ?>',<?= $dcmis_user_idd ?>)">
                                 <?= csrf_field() ?>
                                 <div class="row">
-                                    <!-- <a href="<?= base_url(); ?>/Pil/PilController/rptPilCompleteData/<?= $pil_id ?>" target="_blank">
-                                    <span class="btn btn-warning pull-right""><i class="fa fa-print"> Print</i></span>
-                                    </a>-->
+                                    <div class="col-md-12">
+                                        <a href="<?= base_url(); ?>/PIL/PilController/rptPilCompleteData/<?= $pil_id ?>" target="_blank">
+                                            <span class="btn btn-warning pull-right"><i class="fa fa-print"> Print</i></span>
+                                        </a> 
+                                    </div>
                                 </div>
                                 <br />
 
@@ -200,19 +202,23 @@
                                                     break;
                                                 }
                                             case "W": {
-                                                    $actionTakenText = "Written Letter to " . $pilCompleteDetail['written_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['written_on']));
+                                               $written_on = (!empty($pilCompleteDetail['written_on'])) ? date('d-m-Y', strtotime($pilCompleteDetail['written_on'])) : '';
+                                                    $actionTakenText = "Written Letter to " . $pilCompleteDetail['written_to'] . " on " . $written_on;
                                                     break;
                                                 }
                                             case "R": {
-                                                    $actionTakenText = "Letter Returned to Sender on " . date('d-m-Y', strtotime($pilCompleteDetail['return_date']));
+                                                    $return_date = (!empty($pilCompleteDetail['return_date'])) ?  date('d-m-Y', strtotime($pilCompleteDetail['return_date'])) : '';
+                                                    $actionTakenText = "Letter Returned to Sender on " . $return_date;
                                                     break;
                                                 }
                                             case "S": {
-                                                    $actionTakenText = "Letter Sent To " . $pilCompleteDetail['sent_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['sent_on']));
+                                                    $sent_on = (!empty($pilCompleteDetail['sent_on'])) ?  date('d-m-Y', strtotime($pilCompleteDetail['sent_on'])) : '';
+                                                    $actionTakenText = "Letter Sent To " . $pilCompleteDetail['sent_to'] . " on " . $sent_on;
                                                     break;
                                                 }
                                             case "T": {
-                                                    $actionTakenText = "Letter Transferred To " . $pilCompleteDetail['transfered_to'] . " on " . date('d-m-Y', strtotime($pilCompleteDetail['transfered_on']));
+                                                    $transfered_on = (!empty($pilCompleteDetail['transfered_on'])) ?  date('d-m-Y', strtotime($pilCompleteDetail['transfered_on'])) : '';
+                                                    $actionTakenText = "Letter Transferred To " . $pilCompleteDetail['transfered_to'] . " on " . $transfered_on;
                                                     break;
                                                 }
                                             case "I": {

@@ -63,15 +63,17 @@ class Registration extends BaseController
     
             // dd($query->getNumRows());
         if ($query->getNumRows() > 0) {
-            return $this->response->setJSON($query->getResultArray());
+            return $this->response->setJSON($query->getRowArray());
         } else {
             $query2 = $this->db->table('"master.users"')
-                ->select('name as FullName, mobile_no as phone_number, email_id as adminemail')
+                ->select('name as fullname, mobile_no as phone_number, email_id as adminemail')
                 ->where(['display' => 'Y', 'usercode' => $searchId])
                 ->get();
-    
+           // pr($query2->getRowArray());
             if ($query2->getNumRows() > 0) {
-                return $this->response->setJSON($query2->getResultArray());
+                return $this->response->setJSON($query2->getRowArray());
+            }else{
+                return $this->response->setJSON([]);
             }
         }
     

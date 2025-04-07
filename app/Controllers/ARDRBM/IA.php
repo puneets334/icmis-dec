@@ -888,6 +888,7 @@ class IA extends BaseController
         $data['sessionUserId'] = session()->get('login')['usercode'];
 
         $data['model_ia'] = $this->Model_IA;
+        //echo "<pre>";print_r($data);exit();
 
         return view('ARDRBM/reg_no_correction_process', $data);
     }

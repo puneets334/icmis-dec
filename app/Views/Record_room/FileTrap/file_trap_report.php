@@ -1,5 +1,11 @@
 <?= view('header') ?>
-
+<style>
+    table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+    }
+</style>
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -27,14 +33,14 @@
                             <div class="col-sm-12">
                                 <div class="form-group row">
                                     <div class="col-sm-6" id="caseCategory">
-                                        <label for="caseCategory" class="col-sm-4 col-form-label">Select Report Type:</label>
+                                        <label for="caseCategory" class="col-sm-4 col-form-label">Select Report Type </label>
                                         <div class="col-sm-8">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="rptType" id="receivedFiles" value="1" checked>
+                                                <input class="form-check-input" type="radio" name="rptType" id="receivedFiles" value="1" <?= (isset($reportType) && $reportType == 1) ? 'checked' : ''; ?>>
                                                 <label class="form-check-label" for="receivedFiles">Received Files</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="rptType" id="dispatchedFiles" value="2">
+                                                <input class="form-check-input" type="radio" name="rptType" id="dispatchedFiles" value="2" <?= (isset($reportType) && $reportType == 2) ? 'checked' : ''; ?>>
                                                 <label class="form-check-label" for="dispatchedFiles">Dispatched Files</label>
                                             </div>
                                         </div>
@@ -51,14 +57,19 @@
                                         <input type="text" class="form-control datepick" id="toDate" name="toDate" placeholder="To Date">
                                     </div>
                                     <div class="col-sm-3">
-                                        <button type="submit" id="btnGetCases" class="btn btn-info form-control" style="margin-top: 35px;">Get Cases</button>
+                                        <button type="submit" id="btnGetCases" class="btn btn-primary form-control" onclick="showLoader()" style="margin-top: 35px;">Get Cases</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </form>
 
-
+                    <div id="rslt"></div>
+                                <script>
+                                    function showLoader() {
+                                        $('#rslt').html("<div style='display: flex; justify-content: center; align-items: center;'><img src='<?php echo base_url('images/load.gif'); ?>' width='5%' height='5%' /></div>");
+                                    }
+                                </script>
                     <?php
                     if ($app_name == 'receivedDispatchedReport') {
                         //var_dump($param);
@@ -70,8 +81,8 @@
                             <strong><?= date('d-m-Y', strtotime($param[0])); ?></strong> and
                             <strong><?= date('d-m-Y', strtotime($param[1])); ?></strong>
                         </h4>
-                        <div class="table-responsive">
-                            <table id="reportTable1" class="table table-striped table-hover box box-danger table-bordered">
+                        <div class="card-body row table-responsive">
+                            <table id="reportTable1" class="table table-striped table-hover box box-primary table-bordered">
                                 <thead>
                                     <tr>
                                         <th style="width:5px;">S.No.</th>
@@ -236,10 +247,16 @@
             "bProcessing": true,
             dom: 'Bfrtip',
             buttons: [
-                'excelHtml5',
+                {
+                    extend: 'excelHtml5',
+                    filename: "Report (Receive / Dispatch) <?= date('Y-m-d H:i:s');?>",
+                    title: "<?= isset($string1) ? $string1 : ''; ?> <?= isset($param[5]) ? $param[5] : ''; ?> (<?= isset($param[2]) ? $param[2] : ''; ?>) BETWEEN <?= isset($param[0]) ? date('d-m-Y', strtotime($param[0])) : ''; ?> and <?= isset($param[1]) ? date('d-m-Y', strtotime($param[1])) : ''; ?>"
+                },
                 {
                     extend: 'pdfHtml5',
                     pageSize: 'A3',
+                    filename: "Report (Receive / Dispatch) <?= date('Y-m-d H:i:s');?>",
+                    title: "<?= isset($string1) ? $string1 : ''; ?> <?= isset($param[5]) ? $param[5] : ''; ?> (<?= isset($param[2]) ? $param[2] : ''; ?>) BETWEEN <?= isset($param[0]) ? date('d-m-Y', strtotime($param[0])) : ''; ?> and <?= isset($param[1]) ? date('d-m-Y', strtotime($param[1])) : ''; ?>",
                     customize: function(doc) {
                         doc.content.splice(0, 0, {
                             margin: [0, 0, 0, 5],

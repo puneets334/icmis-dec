@@ -43,18 +43,22 @@
                 "autoWidth": false,
                 "pageLength": 25,
                 "buttons": [
-                    "copy", "csv", "excel", {
+                    "copy", "csv", {
+                        extend: "excel",
+                        title: "Report_<?= date("Y-m-d H:i:s");?>",
+                    }, {
                         extend: 'pdfHtml5',
                         orientation: 'landscape',
-                        pageSize: 'LEGAL'
-                    },
-                    {
-                        extend: 'colvis',
-                        text: 'Show/Hide'
-                    }
+                        pageSize: 'LEGAL',
+                        title: "Report_<?= date("Y-m-d H:i:s");?>",
+                       },  
+                    // {
+                    //     extend: 'colvis',
+                    //     text: 'Show/Hide'
+                    // }
                 ],
                 "processing": true, // Changed "bProcessing" to "processing"
-                "ordering": false, // Added to disable sorting
+                "ordering": true, // Added to disable sorting
 
             }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
         });

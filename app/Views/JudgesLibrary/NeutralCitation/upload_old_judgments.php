@@ -1,97 +1,121 @@
 <?= view('header'); ?>
-<section class="content">
-    <div class="container-fluid">
+<section class="content ">
+    <form name="headerForm" method="POST">
+        <!---------------- Next Section ---------------->
         <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header heading">
-                        <div class="row">
-                            <div class="col-sm-10">
-                                <h3 class="card-title">Upload Old Judgments</h3>
-                            </div>
+            <input type="hidden" name="usercode" id="usercode" value="<?= $usercode ?>">
+            <?= csrf_field() ?>
+            <div class="col-sm-12 form-group">
+                <span style="float: left;">
+                    <label class="text-primary">Search Option : </label>
+                    <label class="radio-inline"><input type="radio" name="optradio" value="C" checked>Case Type</label>
+                    <label class="radio-inline"><input type="radio" name="optradio" value="D">Diary No.</label>
+                </span>
+            </div>
 
-                            <?= view('Filing/filing_filter_buttons'); ?>
-                        </div>
-                    </div>
-                    <div class="card-body">
+
+            <div id="caseTypeWise" class="col-sm-12 form-group">
+                <label for="lodgementDate" class="col-sm-1 control-label text-primary">Case Type</label>
+                <div class="col-sm-2">
+                    <select class="form-control" name="caseType" tabindex="1" id="caseType" required>
+                        <option value="">Select</option>
                         <?php
-                        $action =  '#';
-                        $attribute = "name='headerForm' method='post'";
-                        echo form_open();
-                        csrf_token();
+                        foreach ($caseTypes as $caseType) {
+                            echo '<option value="' . $caseType['casecode'] . '">' . $caseType['casename'] . '&nbsp;:&nbsp;' . $caseType['skey'] . '</option>';
+                        }
                         ?>
-                        <!---------------- Next Section ---------------->
-                        <div class="row">
-                            <input type="hidden" name="usercode" id="usercode" value="<?= $usercode ?>">
-                            <div class="col-sm-12 form-group">
-                                <span>
-                                    <label>Search Option : </label>
-                                    <label class="radio-inline"><input type="radio" name="optradio" value="C" checked>Case Type</label>
-                                    <label class="radio-inline"><input type="radio" name="optradio" value="D">Diary No.</label>
-                                </span>
-                            </div>
+                    </select>
+                </div>
+                <label for="caseNo" class="col-sm-1 control-label text-primary">Case No.</label>
+                <div class="col-sm-2">
+                    <input class="form-control" id="caseNo" name="caseNo" placeholder="Case Number" type="number" maxlength="10" required="required">
+                </div>
+                <label for="caseYear" class="col-sm-1 control-label text-primary">Year</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="caseYear" name="caseYear">
+                        <?php
+                        for ($year = date('Y'); $year >= 1950; $year--)
+                            echo '<option value="' . $year . '">' . $year . '</option>';
+                        ?>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" id="view" name="view" class="btn btn-block btn-primary">View</button>
+                </div>
+            </div>
+            <div id="diaryNoWise" class="col-sm-12 form-group">
+                <label for="diaryNumber" class="col-sm-1 control-label text-primary">Diary No</label>
+                <div class="col-sm-2">
+                    <input class="form-control" id="diaryNumber" name="diaryNumber" placeholder="Diary Number" type="number" maxlength="20" required="required">
+                </div>
+
+                <label for="diaryYear" class="col-sm-1 control-label text-primary">Year</label>
+                <div class="col-sm-2">
+                    <select class="form-control" id="diaryYear" name="diaryYear" required="required">
+                        <?php
+                        for ($year = date('Y'); $year >= 1950; $year--)
+                            echo '<option value="' . $year . '">' . $year . '</option>';
+                        ?>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <button type="submit" id="view" name="view" class="btn btn-block btn-primary">View</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+    <?php
+    if ($msg != "") {
+    ?>
+        <div class="alert alert-info">
+            <?= $msg ?>
+        </div>
+    <?php
+    }
+    ?>
 
 
-                            <div id="caseTypeWise" class="row col-sm-12 form-group">
-
-                                <div class="col-sm-2">
-                                    <label for="lodgementDate">Case Type</label>
-                                    <select class="form-control" name="caseType" tabindex="1" id="caseType" required>
-                                        <option value="">Select</option>
-                                        <?php
-                                        foreach ($caseTypes as $caseType) {
-                                            echo '<option value="' . $caseType['casecode'] . '">' . $caseType['casename'] . '&nbsp;:&nbsp;' . $caseType['skey'] . '</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <label for="caseNo">Case No.</label>
-                                    <input class="form-control" id="caseNo" name="caseNo" placeholder="Case Number" type="number" maxlength="10" required="required">
-                                </div>
-                                <div class="col-sm-2">
-                                    <label for="caseYear">Year</label>
-                                    <select class="form-control" id="caseYear" name="caseYear">
-                                        <?php
-                                        for ($year = date('Y'); $year >= 1950; $year--)
-                                            echo '<option value="' . $year . '">' . $year . '</option>';
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="col-sm-2 mt-4">
-                                    <button type="submit" id="view" name="view" class="btn btn-block btn-primary">View</button>
-                                </div>
-                            </div>
-                            <div id="diaryNoWise" class="row col-sm-12 form-group">
-
-                                <div class="col-sm-2">
-                                    <label for="diaryNumber">Diary No</label>
-                                    <input class="form-control" id="diaryNumber" name="diaryNumber" placeholder="Diary Number" type="number" maxlength="20" required="required">
-                                </div>
 
 
-                                <div class="col-sm-2">
-                                    <label for="diaryYear">Year</label>
-                                    <select class="form-control" id="diaryYear" name="diaryYear" required="required">
-                                        <?php
-                                        for ($year = date('Y'); $year >= 1950; $year--)
-                                            echo '<option value="' . $year . '">' . $year . '</option>';
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="col-sm-2 mt-4">
-                                    <button type="submit" id="view" name="view" class="btn btn-block btn-primary">View</button>
-                                </div>
-                            </div>
+    <!-------------Result Section ------------>
+    <?php if (isset($caseDetails) && is_array($caseDetails)) {
 
+    ?>
+        <br /><br />
+        <form id="frmReplaceRop" enctype="multipart/form-data" action="<?= base_url() ?>index.php/CourtMasterController/insertNewOrder" method="post">
+            <input type="hidden" name="usercode" id="usercode" value="<?= $usercode ?>" />
+            <input type="hidden" name="diaryNo" id="diaryNo" value="<?= $caseDetails[0]['diary_no'] ?>" />
+
+            <div class="col-sm-12 form-group">
+
+                <label for="diaryNumber" class="col-sm-6 control-label"><span class="text-primary">Case No: </span> <?= $caseDetails[0]['reg_no_display'] ?>&nbsp;(D No. <?= substr($caseDetails[0]['diary_no'], 0, strlen($caseDetails[0]['diary_no']) - 4), '/', SUBSTR($caseDetails[0]['diary_no'], -4) ?>)</label>
+                <label for="causeTitle" class="col-sm-6 control-label"><span class="text-primary">Causetitle : </span> <?= $caseDetails[0]['pet_name'] ?> Vs. <?= $caseDetails[0]['res_name'] ?></label>
+            </div>
+            <div class="col-sm-12 form-group">
+
+                <label for="diaryYear" class="col-sm-2 control-label text-primary">Order Date</label>
+                <div class="col-sm-4">
+
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
                         </div>
-                        <?php echo form_close(); ?>
+                        <input type="text" class="form-control" name="listingDates" id="listingDates"
+                            placeholder="dd/mm/yyyy">
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+            <br />
+            <div id="divDetailsForROPUpload">
+
+            </div>
+        </form>
+
+    <?php } else {
+        // echo "No data found";
+    }
+    ?>
 </section>
 <script>
     $(function() {

@@ -89,9 +89,9 @@ class ReceiptController extends BaseController
             $receiptid = $_POST['receiptid'];
             $usercode = $_POST['usercode'];
             $postalNo = $_POST['postalNo'];
-            $postalDate = $_POST['postalDate'];
+            $postalDate = date('Y-m-d',strtotime($_POST['postalDate']));
             $letterNo = $_POST['letterNo'];
-            $letterDate = $_POST['letterDate'];
+            $letterDate = date('Y-m-d',strtotime($_POST['letterDate']));
             $senderName = $_POST['senderName'];
             $senderAddress = $_POST['senderAddress'];
             $state = $_POST['state'];
@@ -352,8 +352,8 @@ class ReceiptController extends BaseController
     {
 
         if (!empty($_POST)) {
-            $fromDate = $_POST['fromDate'];
-            $toDate = $_POST['toDate'];
+            $fromDate = date('Y-m-d',strtotime($_POST['fromDate']));
+            $toDate = date('Y-m-d',strtotime($_POST['toDate']));
             if (isset($fromDate) && isset($toDate)) {
                 $data['fromDate'] = $fromDate;
                 $data['toDate'] = $toDate;
@@ -423,8 +423,8 @@ class ReceiptController extends BaseController
 
         if (!empty($_POST)) {
             $searchBy = $_POST['searchBy'];
-            $fromDate = $_POST['fromDate'];
-            $toDate = $_POST['toDate'];
+            $fromDate = date('Y-m-d',strtotime($_POST['fromDate']));
+            $toDate = date('Y-m-d',strtotime($_POST['toDate']));
             $dealingSection = $_POST['dealingSection'];
             $caseType = $_POST['caseType'];
             $caseNo = $_POST['caseNo'];
@@ -508,8 +508,8 @@ class ReceiptController extends BaseController
             //            echo "RRR";
             $whereCondition = "";
             $receiptModeCondition = "";
-            $fromDate = $_POST['fromDate'];
-            $toDate = $_POST['toDate'];
+            $fromDate = date('Y-m-d',strtotime($_POST['fromDate']));
+            $toDate = date('Y-m-d',strtotime($_POST['toDate']));
             $searchBy = $_POST['searchBy'];
             $parcelReceiptMode = $_POST['parcelReceiptMode'];
             $judge = $_POST['judge'];
@@ -633,8 +633,8 @@ class ReceiptController extends BaseController
         $usercode = session()->get('login')['usercode'];
 
         if (!empty($_POST)) {
-            $fromDate = $_POST['fromDate'];
-            $toDate = $_POST['toDate'];
+            $fromDate = date('Y-m-d',strtotime($_POST['fromDate']));
+            $toDate = date('Y-m-d',strtotime($_POST['toDate']));
             $reportType = $_POST['reportType'];
             $userDetails = $this->RIModel->getUserDetails($usercode);
           
@@ -793,19 +793,20 @@ class ReceiptController extends BaseController
         foreach ($officersOfSection as $officers) {
             if ($officers != "") {
                 $registrar = $officers['registrar'];
-                $allOfficers = explode(',', $registrar);
+                $allOfficers = (!empty($registrar)) ?  explode(',', $registrar) :  array();
                 $officersOfSectionArray = array_merge($officersOfSectionArray, $allOfficers);
                 $additional_registrar = $officers['additional_registrar'];
-                $allOfficers = explode(',', $additional_registrar);
+                $allOfficers = (!empty($additional_registrar)) ?  explode(',', $additional_registrar) : array();
                 $officersOfSectionArray = array_merge($officersOfSectionArray, $allOfficers);
                 $deputy_registrar = $officers['deputy_registrar'];
-                $allOfficers = explode(',', $deputy_registrar);
+                
+                $allOfficers = (!empty($deputy_registrar)) ?  explode(',', $deputy_registrar) : array();
                 $officersOfSectionArray = array_merge($officersOfSectionArray, $allOfficers);
                 $assistant_registrar = $officers['assistant_registrar'];
-                $allOfficers = explode(',', $assistant_registrar);
+                $allOfficers = (!empty($assistant_registrar)) ? explode(',', $assistant_registrar) : array();
                 $officersOfSectionArray = array_merge($officersOfSectionArray, $allOfficers);
                 $branch_officer = $officers['branch_officer'];
-                $allOfficers = explode(',', $branch_officer);
+                $allOfficers = (!empty($branch_officer)) ?  explode(',', $branch_officer) : array();
                 $officersOfSectionArray = array_merge($officersOfSectionArray, $allOfficers);
             }
         }
@@ -819,18 +820,20 @@ class ReceiptController extends BaseController
         }
         //ADD SG END
         $i = 0;
+       
         foreach ($officersOfSectionArray as $empId) {
             if ($empId == '') {
                 continue;
             }
+             
             $officerDetail = $this->RIModel->getOfficerDetailByEmpId($empId);
-            $usercode = $officerDetail[0]['usercode'];
+            $usercode = $officerDetail['usercode'] ?? '';
             if ($currentusercode == $usercode) {
                 continue;
             }
-            $empid = $officerDetail[0]['empid'];
-            $name = $officerDetail[0]['name'];
-            $type_name = $officerDetail[0]['type_name'];
+            $empid = $officerDetail['empid'] ?? '';
+            $name = $officerDetail['name'] ?? '';
+            $type_name = $officerDetail['type_name'] ?? '';
             $officersListBySection[$i] = array('usercode' => $usercode, 'empid' => $empid, 'name' => $name, 'empTypeName' => $type_name);
             $i++;
         }

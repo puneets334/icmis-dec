@@ -97,7 +97,8 @@
                     <?php
                     $attribute = array('class' => 'form-horizontal ', 'name' => 'case_trap_form', 'id' => 'case_trap_form', 'autocomplete' => 'off');
                     echo form_open(base_url('#'), $attribute);
-                    ?>                      <div class="form-group">
+                    ?>  
+                    <div class="form-group">
                         <div class="row">
                             <label class="control-label col-sm-2" for="atitle">AOR/Firm Code *</label>
 
@@ -107,16 +108,19 @@
                             <div class="col-sm-6">
                                 <input class="form-control" name="aorn" type="text" id="aorn" placeholder="Name">
                             </div>
-                        </div>
-                    </div>
+<!-- 
 
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-info"  name="case_trap_search" id="case_trap_search" onclick="">
+                            <div class="form-group"> -->
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-primary"  name="case_trap_search" id="case_trap_search" onclick="">
                                     <span class="fa fa-plus"></span> Search
                                 </button>
                             </div>
+                        <!-- </div> -->
                         </div>
+                    </div>
+
+                       
                     <?= form_close() ?>
                     <div id="result_data"></div>
                 </div>
@@ -152,13 +156,14 @@
                 "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", {
                     extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    pageSize: 'LEGAL'
+                    orientation: 'Orientation',
+                    pageSize: 'A4',
+                    title: 'AOR Report',
                 },
-                    {
-                        extend: 'colvis',
-                        text: 'Show/Hide'
-                    }
+                    // {
+                    //     extend: 'colvis',
+                    //     text: 'Show/Hide'
+                    // }
                 ],
                 "bProcessing": true,
                 "extend": 'colvis',

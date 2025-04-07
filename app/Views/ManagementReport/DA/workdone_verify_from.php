@@ -9,6 +9,14 @@
         width: auto !important;
         padding: 4px;
     }
+	
+	button.btn.btn-secondary.buttons-excel.buttons-html5 span {
+       color: #fff;
+    }
+	
+	button.btn.btn-secondary.buttons-pdf.buttons-html5 span {
+		color: #fff;
+	}
 </style>
 <section class="content">
     <div class="container-fluid">

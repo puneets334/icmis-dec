@@ -65,7 +65,8 @@
                             if ($row['cnt'] != 0) {
                                 for ($i = 0; $i < count($arr_ex); $i++) {
 
-                                    echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($arr_ex[$i]);' href='#'>" . f_get_reg_no($arr_ex[$i]) . "</a>";
+                                    echo "<a data-toggle='modal' data-target='#exampleModal' onclick='return call_fcs($arr_ex[$i]);' href='#'>" . f_get_reg_no($arr_ex[$i]) . "</a>";
+                                   
                                     if ((count($arr_ex) - 1) == $i) {
                                     } else {
                                         echo ", ";
@@ -89,22 +90,20 @@
     } ?>
 </div>
 
-
-<div id="newcs" style="display:none;">
-    <table width="100%" border="0" style="border-collapse: collapse">
-        <tr style="background-color: #FFFFFF;display: flex; justify-content: space-between; align-items: center;">
-            <td align="center">
-                <b>
-                    <font color="black" style="font-size:14px;">Bunch Matters</font>
-                </b>
-            </td>
-            <td>
-                <input class="btn btn-primary quick-btn" type="button" name="close_b" id="close_b" value="CLOSE WINDOW" onclick="close_wcs();" />
-            </td>
-        </tr>
-    </table>
-    <div id="newcs123" style="overflow:auto; background-color: #FFF;">
-    </div>   
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modalXl modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Bunch Matters</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modData">
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>

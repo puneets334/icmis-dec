@@ -116,7 +116,7 @@
                             </div>
                             <div class="row">
                                     <label for="button" class="text-right">&nbsp;</label>
-                                    <button type="button" style="text-align:center; width:98%; margin-left:1%; margin-right:1%;" id="view" name="view" onclick="check(); " class="btn btn-block btn-primary">Show Report</button>
+                                    <button type="button" style="text-align:center; " id="view" name="view" onclick="check(); " class="btn btn-block btn-primary">Show Report</button>
                             </div>
                         </form>
                         <div></div>
@@ -155,10 +155,14 @@
             $.ajax({
             type: "POST",
             data: $("#dispatchQuery").serialize(),  
+            beforeSend: function()
+            {
+                $('#printable').html('<table width="100%" style="margin: 0 auto;"><tr><td style="text-align: center;"><img src="../../images/load.gif"/></td></tr></table>');
+            },
             dataType: 'html', 
             url: "<?php echo base_url('/ManagementReports/Pending/InstitutionDisposalPost'); ?>",
             success: function(data) {
-                alert("Success!");
+               
                 // $('.card-title').hide();
                 // $('.page-header').hide();
                 $("#printable").html(data);  

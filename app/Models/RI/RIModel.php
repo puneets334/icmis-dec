@@ -1125,8 +1125,10 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
                 }
             } elseif ($searchBy == 'c' || $searchBy == 'd') {
                 $fetchedDiaryNo = $this->getSearchDiary($searchBy, $caseType ?? '', $caseNo ?? '', $caseYear ?? '', $diaryNumber ?? '', $diaryYear ?? '');
-
-                $whereDateRange = " AND epd.diary_no = " . $fetchedDiaryNo;
+                if ($fetchedDiaryNo != '')
+                    $whereDateRange = " AND epd.diary_no = " . $fetchedDiaryNo;
+                else
+                    $whereDateRange = " AND epd.diary_no is NULL ";
             } elseif ($searchBy == 'p') {
                 $whereDateRange = " AND epd.process_id = $processId AND epd.process_id_year = " . $processYear;
             }
@@ -1868,11 +1870,11 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
                 }
             } else if ($searchBy == 'c' || $searchBy == 'd') {
                 $fetchedDiaryNo = $this->getSearchDiary($searchBy, $caseType, $caseNo, $caseYear, $diaryNumber, $diaryYear);
-              
+
                 $fetchedDiaryNo = (!empty($fetchedDiaryNo)) ? $fetchedDiaryNo : "NULL";
                 $whereDateRange =  "  epd.diary_no=" . $fetchedDiaryNo;
             } else if ($searchBy == 'p') {
-                $whereDateRange = "   epd.process_id=$processId and process_id_year='".$processYear."'";
+                $whereDateRange = "   epd.process_id=$processId and process_id_year='" . $processYear . "'";
             }
 
             if ($dispatchMode != 0 && $dispatchMode != '') {
@@ -1894,7 +1896,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
             $builder->where($whereDateRange);
         }
 
-             //   epd.ref_letter_status_id in (4,5)>> and epd.process_id=12345 and process_id_year=2024 and epd.ref_postal_type_id=
+        //   epd.ref_letter_status_id in (4,5)>> and epd.process_id=12345 and process_id_year=2024 and epd.ref_postal_type_id=
 
         ###this need to uncomment
 
@@ -1910,7 +1912,7 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
         return $query->getResultArray();
     }
 
-    
+
 
 
     function getLetterStatus()
@@ -1976,7 +1978,16 @@ else case when dispatched_to_user_type = 'j' then (select jname from master.judg
 
     public function getNoticeAdLtrDetails($txt_frmdate, $txt_todate, $ddlOR, $ucode, $u_cond)
     {
-        $sql = "SELECT d.id,a.diary_no, process_id, a.name, case when (send_to_type='' or send_to_type::integer IN (2, 3)) then address when (send_to_type::integer = 1) then bb.caddress else '' END AS address, b.name nt_typ, del_type, 
+        $sql = "SELECT d.id,a.diary_no, process_id, a.name, 
+        CASE
+        WHEN (send_to_type = '' OR CAST(NULLIF(REGEXP_REPLACE(send_to_type, '[^0-9]', '', 'g'), '') AS INTEGER) IN (2, 3)) 
+        THEN address
+        WHEN (CAST(NULLIF(REGEXP_REPLACE(send_to_type, '[^0-9]', '', 'g'), '') AS INTEGER) = 1) 
+        THEN bb.caddress
+        ELSE ''
+    END AS address, 
+        
+        b.name nt_typ, del_type, 
       tw_sn_to, copy_type, send_to_type, fixed_for, rec_dt, office_notice_rpt,reg_no_display,
       sendto_district,sendto_state,nt_type,tal_state,tal_district,dispatch_id,dispatch_dt,station,weight,stamp,
       barcode,dis_remark,dispatch_user_id
@@ -2617,7 +2628,7 @@ else '' end as case_no");
         $builder->update($dataForDispatch);
 
         if ($this->db->affectedRows() > 0) {
-            
+
             $dataForDispatchTransactions = array(
                 'ec_postal_dispatch_id' => $id,
                 'ref_letter_status_id' => $letterStatus,
@@ -2793,7 +2804,7 @@ else '' end as case_no");
 
     function getDakDataForReceive($usercode, $section, $status = "", $actionType = "", $fromDate = "", $toDate = "")
     {
-        
+
         $whereCondition = "";
         $dateCondition = "";
         if ($status == 'P') {
@@ -2827,10 +2838,10 @@ else '' end as case_no");
                   where (ept.is_active='t' or ept.is_active is null) and ecpd.is_deleted='f' and ept.dispatched_by is not null and ept.dispatched_by is not null 
                   $whereCondition    $dateCondition  
                   order by ecpd.diary_no";
-                  $bindings = array('f'); 
-                //   $finalQuery = vsprintf(str_replace("?", "'%s'", $sql), $bindings);
-          
-           $query = $this->db->query($sql, $bindings);
+            $bindings = array('f');
+            //   $finalQuery = vsprintf(str_replace("?", "'%s'", $sql), $bindings);
+
+            $query = $this->db->query($sql, $bindings);
             if ($query->getNumRows() > 1) {
                 return $query->getResultArray();
             }
@@ -2856,8 +2867,8 @@ else '' end as case_no");
                   and ((ept.dispatched_to_user_type='s' and ept.dispatched_to=?) or (ept.dispatched_to_user_type='o' and ept.dispatched_to=?))
                   order by ecpd.diary_no";
 
-                  $bindings = array('f', $section, $usercode); 
-                  
+            $bindings = array('f', $section, $usercode);
+
             $query = $this->db->query($sql, array('f', $section, $usercode));
             if ($query->getNumRows() > 1) {
                 return $query->getResultArray();
@@ -3042,7 +3053,8 @@ else '' end as case_no");
         //  echo '</pre>';
     }
 
-    function getInitiatedDakDataForReceive($usercode, $section, $status = "", $actionType = "", $fromDate = "", $toDate = ""){
+    function getInitiatedDakDataForReceive($usercode, $section, $status = "", $actionType = "", $fromDate = "", $toDate = "")
+    {
         //echo $usercode.'||'.$section;
         $whereCondition = "";
         $dateCondition = "";
@@ -3070,9 +3082,9 @@ else '' end as case_no");
                   $whereCondition    $dateCondition 
                   order by ecpd.id DESC ";
 
-                $bindings = array('f'); 
-                $query = $this->db->query($sql, $bindings);
-            
+            $bindings = array('f');
+            $query = $this->db->query($sql, $bindings);
+
             if ($query->getNumRows() >= 1) {
                 return $query->getResultArray();
             }
@@ -3089,10 +3101,10 @@ else '' end as case_no");
                   $whereCondition    $dateCondition 
                    and ((ept.dispatched_to_user_type='s' and ept.dispatched_to=?) or (ept.dispatched_to_user_type='o' and ept.dispatched_to=?))
                   order by ecpd.id DESC ";
-                $query = $this->db->query($sql, array('f', $section, $usercode));
-                if ($query->getNumRows() >= 1) {
-                    return $query->getResultArray();
-                }
+            $query = $this->db->query($sql, array('f', $section, $usercode));
+            if ($query->getNumRows() >= 1) {
+                return $query->getResultArray();
+            }
         }
     }
 
@@ -3104,12 +3116,10 @@ else '' end as case_no");
         $builder->join('master.notice_mapping nm', 'us.id=nm.section_id', 'INNER');
         $builder->where("nm.section_id", $dealingSection);
         $builder->where("us.display", 'Y');
-
         $query = $builder->get();
-        //        $query=$this->db->getLastQuery();echo (string) $query;exit();
         $result = $query->getResultArray();
 
-        if ($query->getNumRows() >= 1) {
+        if (!empty($result)) {
             return $result;
         } else {
             return [];
@@ -3121,22 +3131,23 @@ else '' end as case_no");
         $builder = $this->db->table('master.usersection us');
         $builder->select('section_name');
         $builder->where('id', $section);
-
         $query = $builder->get();
         //        $query=$this->db->getLastQuery();echo (string) $query;exit();
-        $result = $query->getResultArray();
-
-        if ($query->getNumRows() >= 1) {
+        $result = $query->getRowArray()['section_name'];
+        if (!empty($result)) {
             return $result;
         } else {
             return [];
         }
+    }
 
-        //        $this->db->where('id', $section);
-        //        $query = $this->db->get('usersection');
-        //        $res = $query->result_array();
-        //        $sectionName = $res[0]['section_name'];
-        //        return $sectionName;
+    function getOfficerDetailByEmpId($empId)
+    {
+        $sql = "select usercode,empid,name,ut.type_name from master.users u inner join master.usertype ut on u.usertype=ut.id
+                 where empid=$empId";
+        $query = $this->db->query($sql);
+        $result = $query->getRowArray();
+        return $result;
     }
 
     function getSecretaryGeneral()
@@ -3594,19 +3605,45 @@ else '' end as case_no");
             $queryUpdateInactive = "update ec_postal_transactions set is_active='f' where ec_postal_received_id=$ecPostalReceivedId";
             $this->db->query($queryUpdateInactive);
 
-            $query = "insert into ec_postal_transactions set ec_postal_received_id=$ecPostalReceivedId, dispatched_to_user_type='" . $dispatched_to_user_type . "',
-        dispatched_to=$dispatched_to, dispatched_by=$usercode, dispatched_on='" . $dispatched_on . "', is_forwarded='t', is_active='t',  letterPriority='" . $letterPriority . "'";
+          //echo $query = "insert into ec_postal_transactions set ec_postal_received_id=$ecPostalReceivedId, dispatched_to_user_type='" . $dispatched_to_user_type . "',        dispatched_to=$dispatched_to, dispatched_by=$usercode, dispatched_on='" . $dispatched_on . "', is_forwarded='t', is_active='t',  letterPriority='" . $letterPriority . "'";
+          $data = [
+                'ec_postal_received_id'     => $ecPostalReceivedId,
+                'dispatched_to_user_type'   => $dispatched_to_user_type,
+                'dispatched_to'             => $dispatched_to,
+                'dispatched_by'             => $usercode,
+                'dispatched_on'             => $dispatched_on,
+                'is_forwarded'              => 't',
+                'is_active'                 => 't',
+                'letterpriority'            => $letterPriority
+            ];
+
+            //$builder = $this->db->table('ec_postal_transactions');
+            //$builder->insert($data);
+        
         } elseif ($initiatedDakInsertId != "") {
             $queryUpdateInactive = "update ec_postal_transactions set is_active='f' where ec_postal_user_initiated_letter_id=$initiatedDakInsertId";
             $this->db->query($queryUpdateInactive);
 
-            $query = "insert into ec_postal_transactions set ec_postal_user_initiated_letter_id=$initiatedDakInsertId, dispatched_to_user_type='" . $dispatched_to_user_type . "',
-        dispatched_to=$dispatched_to, dispatched_by=$usercode, dispatched_on='" . $dispatched_on . "', is_forwarded='t', is_active='t', letterPriority='" . $letterPriority . "'";
+            //$query = "insert into ec_postal_transactions set ec_postal_user_initiated_letter_id=$initiatedDakInsertId, dispatched_to_user_type='" . $dispatched_to_user_type . "',         dispatched_to=$dispatched_to, dispatched_by=$usercode, dispatched_on='" . $dispatched_on . "', is_forwarded='t', is_active='t', letterPriority='" . $letterPriority . "'";
+            $data = [
+                'ec_postal_user_initiated_letter_id' => $initiatedDakInsertId,
+                'dispatched_to_user_type'            => $dispatched_to_user_type,
+                'dispatched_to'                      => $dispatched_to,
+                'dispatched_by'                      => $usercode,
+                'dispatched_on'                      => $dispatched_on,
+                'is_forwarded'                       => 't',
+                'is_active'                          => 't',
+                'letterpriority'                     => $letterPriority
+            ];
+             
+            
+            
         }
 
         $this->sendForwardedLetterIntimationSMS($letterPriority, $officer);
-        $this->db->query($query);
-        return $this->db->insert_id();
+        $builder = $this->db->table('ec_postal_transactions');
+        $builder->insert($data);
+        return $this->db->insertID();
     }
 
     function sendForwardedLetterIntimationSMS($receivingUser, $letterPriority = 0)
@@ -3626,11 +3663,14 @@ else '' end as case_no");
 
         $receiving_employee_details_url = 'http://10.25.78.92:81/services/employee_details.php?employeeId=' . $receivingUser;
         $json = file_get_contents($receiving_employee_details_url);
-        $obj = json_decode($json, true);
-
+        $obj = @json_decode($json, true);
+         
         $tmpArr = array();
-        foreach ($obj as $sub) {
-            $tmpArr[] = $sub['mobileNumbers'];
+        if(!empty($obj))
+        {
+            foreach ($obj as $sub) {
+                $tmpArr[] = $sub['mobileNumbers'];
+            }
         }
 
         $mobile_numbers = implode(',', $tmpArr);
@@ -3925,6 +3965,75 @@ else '' end as case_no");
 
         $query = $this->db->query($builder, $bindings);
 
+        return $query->getResultArray();
+    }
+
+
+    public function getRICompleteDetail($id)
+    {
+        $sql = "SELECT 
+                    rls.description AS current_status,
+                    epd.is_case,
+                    epd.is_with_process_id,
+                    epd.reference_number,
+                    epd.id AS ec_postal_dispatch_id,
+                    epd.process_id,
+                    epd.process_id_year,
+                    COALESCE(m.reg_no_display, CONCAT(LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT)-4), '/', RIGHT(m.diary_no::TEXT, 4))) AS case_no,
+                    epd.diary_no,
+                    epd.send_to_name,
+                    epd.send_to_address,
+                    tn.name AS doc_type,
+                    s.name AS state_name,
+                    d.name AS district_name,
+                    epd.pincode,
+                    epd.tal_state,
+                    epd.tal_district,
+                    (SELECT name || '(' || empid || ')' FROM master.users WHERE usercode = epd.usercode) AS last_updated_by,
+                    epd.updated_on AS last_updated_on,
+                    us.section_name,
+                    epd.serial_number,
+                    epd.ref_postal_type_id,
+                    epd.postal_charges,
+                    epd.weight,
+                    epd.waybill_number,
+                    epd.usersection_id,
+                    (SELECT section_name FROM master.usersection WHERE id = epd.usersection_id) AS send_to_section,
+                    (SELECT name FROM master.tw_serve WHERE serve_stage = epd.serve_stage AND serve_type = 0) AS serve_stage,
+                    (SELECT name FROM master.tw_serve WHERE id = epd.tw_serve_id) AS serve_type,
+                    epd.serve_remarks,
+                    rpt.postal_type_description             
+                FROM ec_postal_dispatch epd 
+                LEFT JOIN main m ON epd.diary_no = m.diary_no
+                LEFT JOIN master.tw_notice tn ON epd.tw_notice_id = tn.id
+                LEFT JOIN master.usersection us ON epd.usersection_id = us.id
+                LEFT JOIN master.ref_letter_status rls ON epd.ref_letter_status_id = rls.id
+                LEFT JOIN master.ref_postal_type rpt ON epd.ref_postal_type_id = rpt.id
+                LEFT JOIN master.state s ON s.id_no = epd.tal_state 
+                LEFT JOIN master.state d ON d.id_no = epd.tal_district     
+                WHERE epd.id = ?";
+
+        $query = $this->db->query($sql, array($id));
+        return $query->getRow();
+    }
+
+    public function getDispatchTransactions($id)
+    {
+        $sql = "SELECT 
+                    rls.description AS letter_stage,
+                    u.name,
+                    u.empid,
+                    epdt.updated_on,
+                    us.section_name,
+                    epdt.remarks
+                FROM ec_postal_dispatch_transactions epdt 
+                INNER JOIN master.ref_letter_status rls ON epdt.ref_letter_status_id = rls.id
+                INNER JOIN master.users u ON epdt.usercode = u.usercode
+                LEFT JOIN master.usersection us ON u.section = us.id
+                WHERE epdt.ec_postal_dispatch_id = ?
+                ORDER BY epdt.ref_letter_status_id";
+
+        $query = $this->db->query($sql, array($id));
         return $query->getResultArray();
     }
 }

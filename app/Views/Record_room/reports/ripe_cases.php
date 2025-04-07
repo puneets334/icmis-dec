@@ -1,5 +1,5 @@
 <?= view('header') ?>
-<link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>">
+<!-- <link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>"> -->
 
 <section class="content">
         <div class="container-fluid">
@@ -25,7 +25,7 @@
         <form class="form-horizontal" id="push-form" name="push-form" >
         <?= csrf_field(); ?>
             <div class="box-body">
-                <div class="row" >
+                <div class="row">
 
 
                     <div class="col-sm-4">
@@ -41,17 +41,17 @@
                         </div>
                     </div>
               
-                    <div class="col-sm-4 ml-3">
+                    <div class="col-sm-4">
                     <div class="row ">
 
                         <label class="col-sm-12 radio-label">Report Type</label>
-                        <div class="col-sm-3 mt-3">
+                        <div class="col-sm-6 mt-3">
                             <input type="radio" class="form-check-input"  name="report_type" value="1" checked onchange="func_hall()">
-                            &nbsp;&nbsp;&nbsp;&nbsp;Consolidated
+                            &nbsp;&nbsp;&nbsp;&nbsp; Consolidated
                         </div>
-                        <div class="col-sm-9  mt-3">
+                        <div class="col-sm-6  mt-3">
                             <input type="radio" class="form-check-input"  name="report_type" value="2" onchange="func_hall()">
-                            &nbsp;&nbsp;&nbsp;&nbsp;Hall wise
+                            &nbsp;&nbsp;&nbsp;&nbsp; Hall wise
 
 
 
@@ -71,21 +71,19 @@
 
 
                         </div>
-                    </div>
-
-
-                       
+                    </div>                       
                     </div>
                
-                    <div  class="col-sm-3  mt-3">
-                        <button type="button" style="width:25%;float:left; margin-top: 24px;" id="view" name="view"  class="form-control btn btn-block btn-primary">View</button>
+                    <div  class="col-sm-4 mt-4">
+                        <button type="button" id="view" name="view"  class="form-control btn btn-primary">View</button>
                     </div>
                 </div>
             </div>
         </form>
-        <div class="row"> <div class="col-md-12">
-    <div id="divRipeCases">
-    </div></div></div>
+        <div class="row">
+             <div class="col-md-12">
+    <div id="divRipeCases"></div>
+</div></div>
 </div>
 
 <br/>
@@ -179,9 +177,9 @@
                     updateCSRFToken();
                 })
                 .fail(function () {
+                    updateCSRFToken();
                     alert("ERROR, Please Contact Server Room");
                     $("#divRipeCases").html();
-                    updateCSRFToken();
                 });
 
         }

@@ -1,4 +1,9 @@
-
+<style>
+.table thead th{
+    background-color: #0d48be !important;
+    color: #fff !important;
+}
+</style>
 <?php
 
 if(is_array($ripeCasesReports))
@@ -50,6 +55,7 @@ if(is_array($ripeCasesReports))
         if($app_name=='ripeCasesHallwise')
         {
             ?>
+            <div class="row table-responsive">
             <table id="reportTable1" class="table table-striped table-hover table-bordered">
                 <thead>
                 <tr>
@@ -89,6 +95,7 @@ if(is_array($ripeCasesReports))
                 ?>
                 </tbody>
             </table>
+            </div>
             <?php
 
 die;
@@ -110,6 +117,8 @@ die;
 <script>
         $('#reportTable1').DataTable( {
             "bProcessing"   :   true,
+            "pageLength"   :   50,
+            "searching": true,
             dom: 'Bfrtip',
             buttons: [
                 'excelHtml5',

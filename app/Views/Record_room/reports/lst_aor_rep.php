@@ -29,14 +29,14 @@ table.dataTable>thead {
     <?php if (empty($records)) : ?>
         <div class='well well-lg'>
             <div class='col-md-12'>
-                <a class='btn btn-success btn-xs' href='#'>Results Found---<span class='badge'>0</span></a>
+                <a class='btn btn-primary btn-xs' href='#'>Results Found---<span class='badge'>0</span></a>
             </div>
         </div>
     <?php else : ?>
 
         <div class='well well-lg'>
             <div class='col-md-12'>
-                <a class='btn btn-success btn-xs' href='#'>Results Found---<span class='badge'><?= count($records) ?></span></a>
+                <a class='btn btn-primary btn-xs' href='#'>Results Found---<span class='badge'><?= count($records) ?></span></a>
             </div>
         </div>
         <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4">
@@ -96,10 +96,10 @@ table.dataTable>thead {
                     orientation: 'landscape',
                     pageSize: 'LEGAL'
                 },
-                {
-                    extend: 'colvis',
-                    text: 'Show/Hide'
-                }
+                // {
+                //     extend: 'colvis',
+                //     text: 'Show/Hide'
+                // }
             ],
             "bProcessing": true,
             "extend": 'colvis',

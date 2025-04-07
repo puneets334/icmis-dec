@@ -1,5 +1,6 @@
 <?php
 ?>
+<!-- <script src="<?php echo base_url('assets/vendor/jquery/jquery.min.js'); ?>"></script> -->
 <section class="content " >
     <div class="row">
         <div class="col-sm-3"><h3 class="head text-left" style="padding: 0 !important; margin: 0 !important;">Send Email</h3></div>
@@ -24,7 +25,7 @@
         <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf_token" />
         <div class="form-group col-sm-2">
             <label for="stakeholderType">Stakeholder Type</label>
-            <select class="form-control" name="stakeholderType" id="stakeholderType" onchange="getStakeholderDetails(this);">
+            <select class="form-control" name="stakeholderType" id="stakeholderType" onchange="getStakeholderDetails(this.value);">
                 <option value="0">Select</option>
                 <?php //var_dump($stakeholderType);
                 foreach($stakeholderType as $stakeholder){
@@ -87,9 +88,11 @@
 </section>
 <script type="text/javascript">
 
-    function getStakeholderDetails(id){
-        if(id.value!=0){
-            $.post("<?=base_url()?>index.php/FasterController/getStakeholderDetails", {stakeholder: id.value},function(result){
+    async function getStakeholderDetails(stakeholder){
+        if(stakeholder != '0'){
+            var res = await updateCSRFTokenSyncr();
+            var CSRF_TOKEN_VALUE = res.CSRF_TOKEN_VALUE
+            $.post("<?=base_url()?>/Faster/FasterController/getStakeholderDetails", {CSRF_TOKEN: CSRF_TOKEN_VALUE, stakeholder: stakeholder},function(result){
                 $("#stakeholderDetails").html(result);
                 $("#divResult").html(result);
             });

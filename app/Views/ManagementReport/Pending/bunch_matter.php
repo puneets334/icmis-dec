@@ -46,6 +46,10 @@
         width: 100%;
         height: 100%;
     }
+
+    .modal .modal-header {
+        position:relative !important;
+    }
 </style>
 
 <section class="content">
@@ -115,6 +119,8 @@
         </div>
     </div>
 </section>
+
+
 <script>
     $(document).on("click", "#btnSubmit", function() {
         get_cl_1();
@@ -186,7 +192,7 @@
         WinPrint.print();
     });
 
-    function call_fcs(d_no1) {
+    function call_fcs1(d_no1) {
 
         var divname = "";
         divname = "newcs";
@@ -224,4 +230,28 @@
                 updateCSRFToken();
             });
     }
+
+    function call_fcs(d_no1) {
+        var CSRF_TOKEN_VALUE = $("input[name='CSRF_TOKEN']").val();
+        $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url('ManagementReports/Pending/bunch_matter_dno_detail'); ?>',
+                beforeSend: function(xhr) {
+                    $("#modData").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../../images/load.gif'></div>");
+                },
+                data: {
+                    diary_no: d_no1,
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE
+                }
+            })
+            .done(function(msg) {
+                //$("#newcs123").html(msg);
+                updateCSRFToken();
+                $('#modData').html(msg);
+            })
+            .fail(function() {
+                alert("ERROR, Please Contact Server Room");
+                updateCSRFToken();
+            });
+  }
 </script>

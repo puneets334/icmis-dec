@@ -137,7 +137,8 @@ class PendingModel extends Model
                     rd.fil_no IS NULL
                     AND mc.diary_no IS NOT NULL
                     AND m.c_status = 'P'
-                    AND (m.diary_no = m.conn_key::bigint OR m.conn_key IS NULL OR m.conn_key = '0')
+                    --AND (m.diary_no = m.conn_key::bigint OR m.conn_key IS NULL OR m.conn_key = '0')
+                    AND (m.diary_no = NULLIF(m.conn_key, '')::bigint OR m.conn_key IS NULL OR m.conn_key = '0')
                     AND wd.display = 'Y'
                     AND wd.is_holiday = 0
                     AND wd.is_nmd = 0
@@ -290,7 +291,7 @@ class PendingModel extends Model
             pet_name,
             res_name,
             tentative_section(m.diary_no) AS section_name,
-            tentative_da(m.diary_no) AS da_name,
+            tentative_da(m.diary_no::INT) AS da_name,
             CAST(SUBSTRING(m.diary_no::TEXT, -4) AS BIGINT) AS diary_no_suffix,
             CAST(LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 4) AS BIGINT) AS diary_no_prefix
         FROM main m 
@@ -305,7 +306,7 @@ class PendingModel extends Model
         and h.next_dt IS NOT NULL 
         GROUP BY m.diary_no, l.purpose, s.stagename
         ORDER BY 
-        tentative_section(m.diary_no), tentative_da(m.diary_no),
+        tentative_section(m.diary_no), tentative_da(m.diary_no::INT),
         diary_no_suffix ASC, diary_no_prefix ASC";
         $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1) {
@@ -330,7 +331,7 @@ class PendingModel extends Model
                     pet_name,
                     res_name,
                     tentative_section(m.diary_no) AS section_name,
-                    tentative_da(m.diary_no) AS da_name,
+                    tentative_da(m.diary_no::int) AS da_name,
                     CAST(SUBSTRING(m.diary_no::TEXT, -4) AS BIGINT) AS diary_no_suffix,
                     CAST(LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 4) AS BIGINT) AS diary_no_prefix
                 FROM main m 
@@ -346,7 +347,7 @@ class PendingModel extends Model
                 AND h.subhead IN (824,810,803,802,807,804,808,811,812,813,814,815,816)
                 GROUP BY m.diary_no, l.purpose, s.stagename
                 ORDER BY 
-                tentative_section(m.diary_no), tentative_da(m.diary_no),
+                tentative_section(m.diary_no), tentative_da(m.diary_no::int),
                 diary_no_suffix ASC, diary_no_prefix ASC";
 
         $query = $this->db->query($sql);
@@ -404,7 +405,8 @@ class PendingModel extends Model
                 ->where('mc.display', 'Y')
                 ->where('m.c_status', 'P')
                 ->where('c.list', 'Y')
-                ->where('CAST(m.diary_no AS BIGINT) = CAST(m.conn_key AS BIGINT)')
+                //->where('CAST(m.diary_no AS BIGINT) = CAST(m.conn_key AS BIGINT)')
+                ->where("CAST(m.diary_no AS BIGINT) = CAST(NULLIF(m.conn_key, '') AS BIGINT)")
                 ->where('h.mainhead', $mainhead)
                 ->groupBy('c.conn_key, s.sub_name1')
                 ->having('COUNT(*) >', $grp_hv);
@@ -431,7 +433,7 @@ class PendingModel extends Model
                     active_fil_no, m.pet_name, m.res_name, m.pno, m.rno, casetype_id, ref_agency_state_id, diary_no_rec_date         
                 FROM 
                 (SELECT m.conn_key FROM main m WHERE m.diary_no = '" . $diary_no . "') a
-                INNER JOIN main m ON CAST(m.conn_key AS BIGINT) = CAST(a.conn_key AS BIGINT)
+                INNER JOIN main m ON CAST(NULLIF(m.conn_key, '') AS BIGINT) = CAST(a.conn_key AS BIGINT)
                 INNER JOIN conct c ON c.diary_no = m.diary_no
                 INNER JOIN heardt h ON h.diary_no = m.diary_no
                 LEFT JOIN master.casetype c1 ON m.active_casetype_id = c1.casecode
@@ -614,7 +616,7 @@ class PendingModel extends Model
     }
     public function sc_disposed_cav_verification_table_get($rop_chk_dno)
     {
-        $sql = "SELECT diary_no,jm AS pdfname, dated AS orderdate FROM (SELECT o.diary_no diary_no, o.pdfname jm, TO_CHAR(o.orderdate, 'DD-MM-YYYY') dated, CASE WHEN o.type = 'O' THEN 'ROP' WHEN o.type = 'J' THEN 'Judgement' END AS jo FROM ordernet o WHERE o.diary_no =  ) tbl1 WHERE jo='Judgement' ORDER BY tbl1.dated DESC";
+        $sql = "SELECT diary_no,jm AS pdfname, dated AS orderdate FROM (SELECT o.diary_no diary_no, o.pdfname jm, TO_CHAR(o.orderdate, 'DD-MM-YYYY') dated, CASE WHEN o.type = 'O' THEN 'ROP' WHEN o.type = 'J' THEN 'Judgement' END AS jo FROM ordernet o WHERE o.diary_no =  $rop_chk_dno) tbl1 WHERE jo='Judgement' ORDER BY tbl1.dated DESC";
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
@@ -1566,110 +1568,270 @@ class PendingModel extends Model
         $result = $query->getResultArray();
         return $result;
     }
-    public function section_pendency(){
-        return ;
+    public function section_pendency()
+    {
+        return;
     }
     ///kr************************************************************************************************************
 
-    public function get_institution_report($from_dt, $to_dt, $rpt_type)
+    // public function get_institution_report($from_dt, $to_dt, $rpt_type)
+    // {
+
+    //     switch ($rpt_type) {
+    //         case 'registration':
+    //             $sql = "
+    //                   SELECT substr(fil_no, 1, 2) fil_no, count(*) cnt, date(fil_dt) fil_dt, short_description, casename,
+    //                       sum(case when DATE(diary_no_rec_date) BETWEEN '$from_dt' AND '$to_dt' then 1 else 0 end) filed,
+    //                       sum(case when DATE(diary_no_rec_date) not BETWEEN '$from_dt' AND '$to_dt'  then 1 else 0 end) not_filed
+    //                   FROM main m
+    //                   INNER JOIN master.casetype c ON c.casecode::text = substr(fil_no, 1, 2)
+    //                   WHERE DATE(fil_dt) BETWEEN '$from_dt' AND '$to_dt' 
+    //                   GROUP BY substr(fil_no, 1, 2),m.fil_dt,c.short_description,c.casename";
+    //                   pr($sql);
+    //             break;
+
+    //         case 'institution':
+    //             $sql = "SELECT 
+    //                         substr(fil_no, 1, 2) AS case_code, 
+    //                         COUNT(*) AS cnt, 
+    //                         DATE(fil_dt) AS fil_dt, 
+    //                         short_description, 
+    //                         casename,
+    //                         SUM(CASE WHEN DATE(diary_no_rec_date) BETWEEN '$from_dt' AND '$to_dt' THEN 1 ELSE 0 END) AS filed,
+    //                         SUM(CASE WHEN DATE(diary_no_rec_date) NOT BETWEEN '$from_dt' AND '$to_dt' THEN 1 ELSE 0 END) AS not_filed
+    //                     FROM main m
+    //                     INNER JOIN master.casetype c 
+    //                     ON c.casecode = CAST(NULLIF(substr(fil_no, 1, 2), '') AS INTEGER) 
+    //                     WHERE DATE(fil_dt) BETWEEN '$from_dt' AND '$to_dt' 
+    //                     AND substr(fil_no, 1, 2) != '39'
+    //                     GROUP BY substr(fil_no, 1, 2), DATE(fil_dt), short_description, casename";
+    //             break;
+
+    //         case 'filing':
+    //             $sql = "
+    //                   SELECT 
+    //                       substr(fil_no, 1, 2) AS case_code, 
+    //                       COUNT(*) AS cnt, 
+    //                       short_description, 
+    //                       casename, 
+    //                       DATE(diary_no_rec_date) AS fil_dt
+    //                   FROM main m
+    //                   INNER JOIN casetype c ON c.casecode = casetype_id
+    //                   WHERE DATE(diary_no_rec_date) BETWEEN '$from_dt' AND '$to_dt'
+    //                   GROUP BY casetype_id";
+    //             break;
+
+    //         case 'defect':
+    //             $sql = "
+    //                   SELECT 
+    //                       DATE(diary_no_rec_date) AS fil_dt, 
+    //                       COUNT(*) AS cnt,
+    //                       SUM(CASE WHEN fil_no = '' OR fil_no IS NULL THEN 1 ELSE 0 END) AS defect,
+    //                       SUM(CASE WHEN (fil_no = '' OR fil_no IS NULL) AND not_reg_if_pen = 1 AND iastat = 'P' THEN 1 ELSE 0 END) AS defect_ia,
+    //                       SUM(CASE WHEN NOT (fil_no = '' OR fil_no IS NULL) THEN 1 ELSE 0 END) AS not_defect
+    //                   FROM main m
+    //                   LEFT JOIN (
+    //                       SELECT d.diary_no, iastat, not_reg_if_pen
+    //                       FROM docdetails d
+    //                       INNER JOIN docmaster d2 ON d.doccode = d2.doccode AND d.doccode1 = d2.doccode1
+    //                       WHERE not_reg_if_pen = 1 AND iastat = 'P'
+    //                       GROUP BY diary_no
+    //                   ) t ON t.diary_no = m.diary_no
+    //                   WHERE DATE(diary_no_rec_date) BETWEEN '$from_dt' AND '$to_dt'
+    //                   GROUP BY DATE(diary_no_rec_date)";
+    //             break;
+
+    //         case 'refiling':
+    //             $sql = "
+    //                   SELECT 
+    //                       disp_dt AS fil_dt, 
+    //                       short_description, 
+    //                       COUNT(a.diary_no) AS cnt 
+    //                   FROM (
+    //                       SELECT DATE(disp_dt) AS disp_dt, diary_no 
+    //                       FROM fil_trap 
+    //                       WHERE remarks = 'FDR -> SCR' AND DATE(disp_dt) BETWEEN '$from_dt' AND '$to_dt'
+    //                       UNION ALL
+    //                       SELECT DATE(disp_dt) AS disp_dt, diary_no 
+    //                       FROM fil_trap_his 
+    //                       WHERE remarks = 'FDR -> SCR' AND DATE(disp_dt) BETWEEN '$from_dt' AND '$to_dt'
+    //                   ) a
+    //                   JOIN main m ON a.diary_no = m.diary_no
+    //                   JOIN casetype c ON COALESCE(NULLIF(m.active_casetype_id, ''), casetype_id) = c.casecode
+    //                   GROUP BY disp_dt, short_description";
+
+    //             break;
+
+    //         default:
+
+    //             return [];
+    //     }
+
+
+
+    //     $query = $this->db->query($sql);
+    //     return $query->getResultArray();
+
+    //     // echo '<pre>';
+    //     // print_r($result);
+    //     // echo '</pre>';
+    //     // die;
+    // }
+
+    // public function get_institution_report($from_dt, $to_dt, $rpt_type)
+    // {
+    //     switch ($rpt_type) {
+    //         case 'registration':
+    //         case 'institution':
+    //             $condition = ($rpt_type === 'institution') ? "AND substring(fil_no from 1 for 2) != '39'" : "";
+    //             $sql = "
+    //                 SELECT substring(fil_no from 1 for 2) AS case_code,
+    //                        COUNT(*) AS cnt,
+    //                        DATE(fil_dt) AS fil_dt,
+    //                        short_description,
+    //                        casename,
+    //                        SUM(CASE WHEN DATE(diary_no_rec_date) BETWEEN ? AND ? THEN 1 ELSE 0 END) AS filed,
+    //                        SUM(CASE WHEN DATE(diary_no_rec_date) NOT BETWEEN ? AND ? THEN 1 ELSE 0 END) AS not_filed
+    //                 FROM main m
+    //                 INNER JOIN master.casetype c 
+    //                 ON c.casecode = COALESCE(NULLIF(substring(fil_no from 1 for 2), ''), '0')::INTEGER
+    //                 WHERE DATE(fil_dt) BETWEEN ? AND ? 
+    //                 $condition
+    //                 GROUP BY substring(fil_no from 1 for 2), DATE(fil_dt), short_description, casename
+    //             ";
+
+    //             return $this->db->query($sql, [$from_dt, $to_dt, $from_dt, $to_dt, $from_dt, $to_dt])->getResultArray();
+    //             break;
+
+    //         default:
+    //             return [];
+    //     }
+    // }
+
+
+
+    public function get_institution_report($from_date, $to_date, $rpt_type)
     {
-        //pr($rpt_type);die;
+        $report_name = '';
+        $from_date = explode("-", $from_date);
+        $from_dt = $from_date[2] . "-" . $from_date[1] . "-" . $from_date[0];
 
-        switch ($rpt_type) {
-            case 'registration':
-                $sql = "
-                      SELECT substr(fil_no, 1, 2) fil_no, count(*) cnt, date(fil_dt) fil_dt, short_description, casename,
-                          sum(case when DATE(diary_no_rec_date) BETWEEN '$from_dt' AND '$to_dt' then 1 else 0 end) filed,
-                          sum(case when DATE(diary_no_rec_date) not BETWEEN '$from_dt' AND '$to_dt'  then 1 else 0 end) not_filed
-                      FROM main m
-                      INNER JOIN master.casetype c ON c.casecode::text = substr(fil_no, 1, 2)
-                      WHERE DATE(fil_dt) BETWEEN '$from_dt' AND '$to_dt' 
-                      GROUP BY substr(fil_no, 1, 2),m.fil_dt,c.short_description,c.casename";
-                break;
+        $to_date = explode("-", $to_date);
+        $to_dt = $to_date[2] . "-" . $to_date[1] . "-" . $to_date[0];
 
-            case 'institution':
-                $sql = "
-                      SELECT 
-                          substr(fil_no, 1, 2) as case_code, 
-                          COUNT(*) AS cnt, 
-                          DATE(fil_dt) AS fil_dt, 
-                          short_description, 
-                          casename,
-                          SUM(CASE WHEN DATE(diary_no_rec_date) BETWEEN '$fromDt' AND '$toDt' THEN 1 ELSE 0 END) AS filed,
-                          SUM(CASE WHEN DATE(diary_no_rec_date) NOT BETWEEN '$fromDt' AND '$toDt' THEN 1 ELSE 0 END) AS not_filed
-                      FROM main m
-                      INNER JOIN casetype c ON c.casecode = substr(fil_no, 1, 2)
-                      WHERE DATE(fil_dt) BETWEEN '$fromDt' AND '$toDt' AND substr(fil_no, 1, 2) != '39'
-                      GROUP BY substr(fil_no, 1, 2)";
-                break;
+        if ($rpt_type == 'registration' || $rpt_type == 'institution')
+        {
+            $condition = "1=1";
+            if ($rpt_type == 'registration') {
+                $report_name = 'Fresh Registration';
+            }
+            if ($rpt_type == 'institution') {
+                $report_name = 'Institution';
+               $condition = " NULLIF((SUBSTRING(fil_no FROM 1 FOR 2)), '')::INTEGER <> 39 ";
+            }
+            $sql="SELECT 
+                SUBSTRING(fil_no FROM 1 FOR 2) AS case_prefix, 
+                COUNT(*) AS cnt,  
+                DATE(fil_dt) AS fil_dt, 
+                c.short_description, 
+                c.casename,
+                SUM(CASE 
+                    WHEN DATE(diary_no_rec_date) BETWEEN '$from_dt' AND '$to_dt' 
+                    THEN 1 ELSE 0 
+                END) AS filed,
+                SUM(CASE 
+                    WHEN DATE(diary_no_rec_date) NOT BETWEEN '$from_dt' AND '$to_dt'  
+                    THEN 1 ELSE 0 
+                END) AS not_filed
+            FROM main m
 
-            case 'filing':
-                $sql = "
-                      SELECT 
-                          substr(fil_no, 1, 2) AS case_code, 
-                          COUNT(*) AS cnt, 
-                          short_description, 
-                          casename, 
-                          DATE(diary_no_rec_date) AS fil_dt
-                      FROM main m
-                      INNER JOIN casetype c ON c.casecode = casetype_id
-                      WHERE DATE(diary_no_rec_date) BETWEEN '$fromDt' AND '$toDt'
-                      GROUP BY casetype_id";
-                break;
+            INNER JOIN master.casetype c ON c.casecode = NULLIF((SUBSTRING(fil_no FROM 1 FOR 2)), '')::INTEGER  
 
-            case 'defect':
-                $sql = "
-                      SELECT 
-                          DATE(diary_no_rec_date) AS fil_dt, 
-                          COUNT(*) AS cnt,
-                          SUM(CASE WHEN fil_no = '' OR fil_no IS NULL THEN 1 ELSE 0 END) AS defect,
-                          SUM(CASE WHEN (fil_no = '' OR fil_no IS NULL) AND not_reg_if_pen = 1 AND iastat = 'P' THEN 1 ELSE 0 END) AS defect_ia,
-                          SUM(CASE WHEN NOT (fil_no = '' OR fil_no IS NULL) THEN 1 ELSE 0 END) AS not_defect
-                      FROM main m
-                      LEFT JOIN (
-                          SELECT d.diary_no, iastat, not_reg_if_pen
-                          FROM docdetails d
-                          INNER JOIN docmaster d2 ON d.doccode = d2.doccode AND d.doccode1 = d2.doccode1
-                          WHERE not_reg_if_pen = 1 AND iastat = 'P'
-                          GROUP BY diary_no
-                      ) t ON t.diary_no = m.diary_no
-                      WHERE DATE(diary_no_rec_date) BETWEEN '$fromDt' AND '$toDt'
-                      GROUP BY DATE(diary_no_rec_date)";
-                break;
+            WHERE DATE(fil_dt) BETWEEN '$from_dt' AND '$to_dt' 
+            AND $condition
+            GROUP BY SUBSTRING(fil_no FROM 1 FOR 2), DATE(fil_dt), c.short_description, c.casename";
+            
 
-            case 'refiling':
-                $sql = "
-                      SELECT 
-                          disp_dt AS fil_dt, 
-                          short_description, 
-                          COUNT(a.diary_no) AS cnt 
-                      FROM (
-                          SELECT DATE(disp_dt) AS disp_dt, diary_no 
-                          FROM fil_trap 
-                          WHERE remarks = 'FDR -> SCR' AND DATE(disp_dt) BETWEEN '$fromDt' AND '$toDt'
-                          UNION ALL
-                          SELECT DATE(disp_dt) AS disp_dt, diary_no 
-                          FROM fil_trap_his 
-                          WHERE remarks = 'FDR -> SCR' AND DATE(disp_dt) BETWEEN '$fromDt' AND '$toDt'
-                      ) a
-                      JOIN main m ON a.diary_no = m.diary_no
-                      JOIN casetype c ON COALESCE(NULLIF(m.active_casetype_id, ''), casetype_id) = c.casecode
-                      GROUP BY disp_dt, short_description";
-                break;
-
-            default:
-                return [];
+          
         }
+        elseif ($rpt_type == 'filing')
+        {
+            $report_name = 'Filing';
+            $sql="SELECT 
+                substr(MAX(fil_no), 1, 2) AS fil_no_prefix, 
+                MAX(short_description) AS short_description, 
+                MAX(casename) AS casename, 
+                MAX(diary_no_rec_date::date) AS fil_dt, 
+                count(m.ack_id) AS cnt
+            FROM 
+                main m
+            INNER JOIN 
+                master.casetype c ON c.casecode = m.casetype_id
+            WHERE 
+                diary_no_rec_date::date BETWEEN '$from_dt' AND '$to_dt'
+            GROUP BY 
+                m.casetype_id";
+                                                                                                                                                                     
+                    
+        }
+        elseif ($rpt_type == 'defect')
+        {
+            $report_name = 'Defect Matters';
+            $sql="SELECT date( diary_no_rec_date ) fil_dt, count(*) cnt,
+                    sum(CASE WHEN fil_no = '' or fil_no IS NULL THEN 1 ELSE 0 END ) defect ,
+                    sum(CASE WHEN (fil_no = '' or fil_no IS NULL) and not_reg_if_pen =1 AND iastat = 'P'  THEN 1 ELSE 0 END ) defect_ia, 
+                    sum(CASE WHEN (fil_no != '' or fil_no IS not NULL) THEN 1 ELSE 0 END ) not_defect ,
+                    m.diary_no, diary_no_rec_date, fil_no, not_reg_if_pen, iastat
+                    FROM main m
+                    LEFT JOIN (
+                            SELECT d.diary_no,iastat ,not_reg_if_pen
+                            FROM docdetails d
+                            INNER JOIN master.docmaster d2 ON d.doccode = d2.doccode
+                            AND d.doccode1 = d2.doccode1
+                            WHERE not_reg_if_pen =1
+                            AND iastat = 'P' group by diary_no,iastat ,not_reg_if_pen
+                            ) t on t.diary_no=m.diary_no
+                    WHERE date( diary_no_rec_date )
+                    BETWEEN '$from_dt' AND '$to_dt' GROUP BY date( diary_no_rec_date ),
+                    m.diary_no, diary_no_rec_date, fil_no, not_reg_if_pen, iastat";
+                    
+
+        }
+        elseif ($rpt_type == 'refiling')
+        {
+            $report_name = 'Re-filing';
+
+            $sql="SELECT 
+                    a.disp_dt AS fil_dt, 
+                    c.short_description, 
+                    COUNT(a.diary_no) AS cnt
+                FROM (
+                    SELECT DATE(disp_dt) AS disp_dt, diary_no 
+                    FROM fil_trap  
+                    WHERE remarks = 'FDR -> SCR' 
+                    AND DATE(disp_dt) BETWEEN '$from_dt' AND '$to_dt'
+                    
+                    UNION ALL
+                    
+                    SELECT DATE(disp_dt) AS disp_dt, diary_no 
+                    FROM fil_trap_his 
+                    WHERE remarks = 'FDR -> SCR' 
+                    AND DATE(disp_dt) BETWEEN '$from_dt' AND '$to_dt'
+                ) a 
+                JOIN main m ON a.diary_no = m.diary_no 
+                JOIN master.casetype c ON 
+                    COALESCE(NULLIF(m.active_casetype_id::TEXT, '0')::INTEGER, m.casetype_id) = c.casecode
+                GROUP BY a.disp_dt, c.short_description";
+        }
+        
+     
+
         $query = $this->db->query($sql);
         return $query->getResultArray();
-        // /return $result;
-        echo '<pre>';
-        print_r($result);
-        echo '</pre>';
-        die;
     }
     public function get_institutionDisposal_report($ddlYear, $ddlMonth)
     {
+
         $report_name = '';
         $month = $ddlMonth;
         $year = $ddlYear;
@@ -1681,6 +1843,60 @@ class PendingModel extends Model
 
         // Last day of the month.
         $lastDate = date('Y-m-t', strtotime($query_date));
+        // pr("select * from 
+        // (select sum(case when mf_active='F' then 0 else 1 end) as misc_institution,
+        // sum(case when mf_active='F' then 1 else 0 end) as reg_institution,
+        // sum(case when case_grp='C' then 1 else 0 end) as civil_institution,
+        // sum(case when case_grp='R' then 1 else 0 end) as criminal_institution,
+        // count(diary_no) inst from 
+        // (SELECT m.diary_no, m.fil_dt, unreg_fil_dt,mf_active,case_grp
+        // FROM main m
+        // WHERE 
+        // IF (
+        // date(unreg_fil_dt) != '0000-00-00'
+        // AND (
+        // date(unreg_fil_dt) <= date( m.fil_dt )
+        // OR date( m.fil_dt ) = '0000-00-00'
+        // ), date(unreg_fil_dt) between '".$firstDate."' and '".$lastDate."', (
+        // date( m.fil_dt ) between '".$firstDate."' and '".$lastDate."'
+        // AND date(fil_dt) != '0000-00-00'
+        // )
+        // )
+        // AND (
+        // substr(m.fil_no, 1, 2) NOT IN ( 39 )
+        // OR m.fil_no = ''
+        // OR m.fil_no IS NULL
+        // )
+        // GROUP BY m.diary_no
+        // ) a) ins,
+        // (select sum(case when mf_active='F' then 0 else 1 end) as misc_dispose,
+        // sum(case when mf_active='F' then 1 else 0 end) as reg_dispose,
+        // sum(case when case_grp='C' then 1 else 0 end) as civil_dispose,
+        // sum(case when case_grp='R' then 1 else 0 end) as criminal_dispose ,
+        // count(diary_no) total from (SELECT IF (
+        // unreg_fil_dt != '0000-00-00'
+        // AND unreg_fil_dt <= date( m.fil_dt ) , 'u', 'r'
+        // ), unreg_fil_dt, fil_dt, d.diary_no , d.fil_no, d.month, d.year, d.disp_dt, d.disp_type, d.rj_dt,
+        // mf_active,case_grp
+        // FROM dispose d
+        // INNER JOIN main m ON m.diary_no = d.diary_no
+        // WHERE 1 =1 AND (
+        // substr(m.fil_no, 1, 2) NOT
+        // IN ( 39 )
+        // OR m.fil_no = ''
+        // OR m.fil_no IS NULL
+        // )
+        // AND
+        // IF (date(d.rj_dt) != '0000-00-00', date(d.rj_dt)
+        // BETWEEN '".$firstDate."' and '".$lastDate."', date(d.disp_dt)
+        // between '".$firstDate."' and '".$lastDate."'
+        // )
+        // AND
+        // IF (date(unreg_fil_dt) != '0000-00-00'
+        // AND date(unreg_fil_dt) <= date( m.fil_dt ) , date(unreg_fil_dt) != '0000-00-00', (
+        // date( m.fil_dt ) != '0000-00-00'
+        // AND date(fil_dt) != '0000-00-00'
+        // ))) a) dis");
         $sql = "SELECT *
                           FROM (
                           SELECT 
@@ -1933,4 +2149,60 @@ class PendingModel extends Model
         }
     }
     ///kr************************************************************************************************************
+
+
+
+    // Shubham Work 
+    public function getCaseName($case_type)
+    {
+        $builder = $this->db->table('master.casetype');
+        $builder->select('casename');
+        $builder->where('casecode', $case_type);
+        $query = $builder->get();
+        $row = $query->getRowArray();
+        return $row['casename'] ?? null;
+    }
+
+    public function getSectionName($section)
+    {
+        $builder = $this->db->table('master.usersection');
+        $builder->select('section_name');
+        $builder->where('id', $section);
+        $query = $builder->get();
+        $row = $query->getRowArray();
+        return $row['section_name'] ?? null;
+    }
+
+
+    public function getDetailsList($condition_agency, $condition_case, $condition_year, $condition_sec)
+    {
+        $builder = $this->db->table('main m');
+        $builder->select("substring(m.diary_no::text, 1, length(m.diary_no::text) - 4) as diary_no,
+                          substring(m.diary_no::text, -4) as diary_year,
+                  pet_name, res_name, reg_no_display, empid, dacode, name, type_name, section_name");
+        $builder->join('master.users user', 'm.dacode = user.usercode', 'left');
+        $builder->join('master.usertype ut', 'ut.id = user.usertype', 'left');
+        $builder->join('master.usersection b', 'b.id = user.section', 'left');
+        $builder->where('c_status', 'P');
+        $builder->where('m.fil_dt IS NOT NULL');
+        if (!empty($condition_sec)) {
+            $builder->where($condition_sec);
+        }
+        if (!empty($condition_year)) {
+            $builder->where($condition_year);
+        }
+        if (!empty($condition_case)) {
+            $builder->where($condition_case);
+        }
+        if (!empty($condition_agency)) {
+            $builder->where($condition_agency);
+        }
+        $query = $builder->get();
+        if ($query->getNumRows() == 0) {
+            return [];
+        }
+        return $query->getResultArray();
+    }
+
+    // Shubham Work END
 }

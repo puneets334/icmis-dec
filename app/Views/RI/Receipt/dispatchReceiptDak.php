@@ -38,7 +38,7 @@
                                             $attribute = array('class' => 'form-horizontal', 'name' => 'dispatchDak', 'id' => 'dispatchDak', 'autocomplete' => 'off');
                                             echo form_open(base_url('#'), $attribute);
                                             ?>
-                                            <?= csrf_field() ?>
+                                            <?//= csrf_field() ?>
                                             <div class="row">
                                                 <div class="col-sm-5">
                                                     <h4 class="box-title">Search By Name Of : </h4><br>
@@ -63,13 +63,13 @@
 
                                                         <div class="col-sm-12 col-md-3 mb-3">
                                                             <label for="fromDate">From Date: </label>
-                                                            <input type="text" id="fromDate" name="fromDate" class="form-control datepick" required placeholder="From Date" value="<?= !empty($fromDate) ? $fromDate : null; ?>">
+                                                            <input type="text" id="fromDate" name="fromDate" class="form-control dtp" required placeholder="From Date" value="<?= !empty($fromDate) ? $fromDate : null; ?>" maxlength="10" size="10" readonly>
                                                         </div>
 
 
                                                         <div class="col-sm-12 col-md-3 mb-3">
                                                             <label for="toDate">To Date:</label>
-                                                            <input type="text" id="toDate" name="toDate" class="form-control datepick" required placeholder="From Date" value="<?= !empty($toDate) ? $toDate : null; ?>">
+                                                            <input type="text" id="toDate" name="toDate" class="form-control dtp" required placeholder="From Date" value="<?= !empty($toDate) ? $toDate : null; ?>" maxlength="10" size="10" readonly>
                                                         </div>
 
 
@@ -245,6 +245,9 @@
             type: 'POST',
             url: '<?= base_url('/RI/ReceiptController/getDispatchData'); ?>',
             data: $("#dispatchDak").serialize(),
+            beforeSend: function() {
+                $('#printable').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+            },
             success: function(result) {
                 updateCSRFToken();
                 $("#printable").html(result);
@@ -307,44 +310,46 @@
             }
         }
     }
-    $(document).on("focus", ".datepick", function() {
-        $('.datepick').datepicker({
-            dateFormat: 'dd-mm-yy',
-            changeMonth: true,
-            changeYear: true,
-            yearRange: '1950:2050'
-        });
-    });
+    $(document).on("focus", ".dtp", function() {
+		$('.dtp').datepicker({
+			dateFormat: 'dd-mm-yy',
+			changeMonth: true,
+			changeYear: true,
+			yearRange: '1950:2050'
+		});   
+	});
 
     function doDispatch() {
-    var CSRF_TOKEN = 'CSRF_TOKEN';
-var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-    var selectedCases = [];
-    
-    $('#tblDispatchDak input:checked').each(function() {
-        if ($(this).attr('name') != 'allCheck')
-            selectedCases.push($(this).val());
-    });
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var selectedCases = [];
 
-    if (selectedCases.length <= 0) {
-        alert("Please select at least one dak for dispatch.");
-        return false;
-    }
+        $('#tblDispatchDak input:checked').each(function() {
+            if ($(this).attr('name') != 'allCheck')
+                selectedCases.push($(this).val());
+        });
 
-    $.ajax({
-        url: "<?= base_url('/RI/ReceiptController/doDispatchDak');?>",
-        type: "POST",
-        data: { selectedCases: selectedCases,CSRF_TOKEN: CSRF_TOKEN_VALUE },
-        success: function(result) {
-            updateCSRFToken();
-            $("#printable").html(result);
-        },
-        error: function(xhr, status, error) {
-            updateCSRFToken();
-            console.error("AJAX Error: ", error);
-            alert("An error occurred while dispatching. Please try again.");
+        if (selectedCases.length <= 0) {
+            alert("Please select at least one dak for dispatch.");
+            return false;
         }
-    });
-}
 
+        $.ajax({
+            url: "<?= base_url('/RI/ReceiptController/doDispatchDak'); ?>",
+            type: "POST",
+            data: {
+                selectedCases: selectedCases,
+                CSRF_TOKEN: CSRF_TOKEN_VALUE
+            },
+            success: function(result) {
+                updateCSRFToken();
+                $("#printable").html(result);
+            },
+            error: function(xhr, status, error) {
+                updateCSRFToken();
+                console.error("AJAX Error: ", error);
+                alert("An error occurred while dispatching. Please try again.");
+            }
+        });
+    }
 </script>

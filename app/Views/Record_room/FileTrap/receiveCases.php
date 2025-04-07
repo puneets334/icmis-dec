@@ -4,37 +4,72 @@ if (is_array($disposedCasesList)) {
     // var_dump($disposedCasesList);
     // var_dump($param);
 ?>
-
+<style>
+    table.dataTable>thead .sorting_disabled,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+    }
+    
+</style>
     <div id="printable" class="box box-danger">
+
+    <div class="row col-sm-12">
+    <div class="col-sm-7">
+    <?php if ($param[1] == 110) { ?>
+        <caption>
+            <h5 style="margin: 0px;">
+                Record Of Disposed Cases BETWEEN <strong><?= date('d-m-Y', strtotime($param[2])); ?></strong> 
+                and <strong><?= date('d-m-Y', strtotime($param[3])); ?>
+            </strong> to Hall No.<strong><?= $param[4]; ?>(<?= $param[5]; ?>)</strong> </h4>
+            </h5>
+        </caption>
+    <?php } 
+    if ($param[1] == 111) { ?>
+        <caption>
+            <h4 style="text-align: center;">
+                RECORD TO BE RECEIVE AND DISPATCH BETWEEN &nbsp;<strong><?= date('d-m-Y', strtotime($param[2])); ?></strong> and <strong><?= date('d-m-Y', strtotime($param[3])); ?></strong> </h4>
+            </h4>
+        </caption>
+    <?php }
+    if ($param[1] == 58) { ?>
+        <caption>
+            <h4 style="text-align: center;">
+                RECORD TO BE RECEIVE AND DISPATCH BETWEEN &nbsp;<strong><?= date('d-m-Y', strtotime($param[2])); ?></strong> and <strong><?= date('d-m-Y', strtotime($param[3])); ?></strong> </h4>
+            </h4>
+        </caption>
+    <?php } ?>
+                        
+    </div>
+
+    <div class="col-sm-5">
         <br>
         <?php if ($param[1] == 110) { ?>
             <div class=" col-sm-12">
                 <button type="button" id="btnAcceptAndDispatch" name="btnAcceptAndDispatch" class="btn btn-success btn-block pull-right generateROP"
                     onclick="receiveAndAutoDispatch();"><i class="fa fa-check"></i>&nbsp;Received Cases and Dispatch to Segregation DA / Record Keeper</button>
             </div>
-        <?php } ?>
-
-        <?php if ($param[1] == 111) { ?>
+        <?php } if ($param[1] == 111) { ?>
             <div class=" col-sm-12">
                 <button type="button" id="btnAcceptAndDispatch" name="btnAcceptAndDispatch" class="btn btn-success btn-block pull-right generateROP" 
                 onclick="receiveAndAutoDispatch();"><i class="fa fa-check"></i>&nbsp;Received Cases and Dispatch to Scanning</button>
             </div>
-        <?php } ?>
-
-        <?php if ($param[1] == 58) { ?>
+        <?php }  if ($param[1] == 58) { ?>
             <div class=" col-sm-12">
                 <button type="button" id="btnAcceptAndDispatch" name="btnAcceptAndDispatch" class="btn btn-success btn-block pull-right generateROP" 
                 onclick="receiveAndAutoDispatch();"><i class="fa fa-check"></i>&nbsp;Received Cases and Dispatch to RecordRoom DA</button>
             </div>
-        <?php } ?>
-
-        <?php if ($param[1] == 112) { ?>
+        <?php }  if ($param[1] == 112) { ?>
             <div class=" col-sm-12">
                 <button type="button" id="btnAcceptAndDispatch" name="btnAcceptAndDispatch" class="btn btn-success btn-block pull-right generateROP"
                  onclick="receiveAndAutoDispatch();"><i class="fa fa-check"></i>&nbsp;Received Cases</button>
             </div>
         <?php } ?>
-        <br>
+        </div>
+       
+    </div> 
+
+
         <?php
 
         if ($app_name == 'disposedCasesList') {
@@ -43,30 +78,10 @@ if (is_array($disposedCasesList)) {
 
             <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4">
                 <div id="printable">
+               
                     <table id="query_builder_report" class="query_builder_report table table-bordered table-striped">
 
-                        <?php if ($param[1] == 110) { ?>
-                            <caption>
-                                <h4 style="text-align: center;">
-                                    RECORD OF Disposed Cases BETWEEN &nbsp;<strong><?= date('d-m-Y', strtotime($param[2])); ?></strong> and <strong><?= date('d-m-Y', strtotime($param[3])); ?></strong> to Hall No.<strong><?= $param[4]; ?>(<?= $param[5]; ?>)</strong> </h4>
-                                </h4>
-                            </caption>
-                        <?php } ?>
-                        <?php if ($param[1] == 111) { ?>
-                            <caption>
-                                <h4 style="text-align: center;">
-                                    RECORD TO BE RECEIVE AND DISPATCH BETWEEN &nbsp;<strong><?= date('d-m-Y', strtotime($param[2])); ?></strong> and <strong><?= date('d-m-Y', strtotime($param[3])); ?></strong> </h4>
-                                </h4>
-                            </caption>
-                        <?php } ?>
-
-                        <?php if ($param[1] == 58) { ?>
-                            <caption>
-                                <h4 style="text-align: center;">
-                                    RECORD TO BE RECEIVE AND DISPATCH BETWEEN &nbsp;<strong><?= date('d-m-Y', strtotime($param[2])); ?></strong> and <strong><?= date('d-m-Y', strtotime($param[3])); ?></strong> </h4>
-                                </h4>
-                            </caption>
-                        <?php } ?>
+                        
                         <thead>
                             <tr>
                                 <th style="width:5px;">S.No.</th>

@@ -1,3 +1,10 @@
+<style>
+table.dataTable>thead .sorting,
+table.dataTable>thead {
+    background-color: #0d48be !important;
+    color: #fff !important;
+}
+</style>
 <div class="card">
     <div class="card-body">
         <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -7,7 +14,7 @@
                 <table id="ReportFileTrap" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th id='sno'>SNo</th>
+                        <th>SNo</th>
                         <th>Clerk Name</th>
                         <th>Clerk's Father Name</th>
                         <th>Icard No.</th>
@@ -52,15 +59,21 @@
                     "responsive": true,
                     "lengthChange": false,
                     "autoWidth": false,
-                    "buttons": ["copy", "csv", "excel", {
+                    "buttons": ["copy", "csv", {
+                        extend: 'excelHtml5',
+                        title: "Clerk(s) History attached to AOR with code <?= $tvap ?> and Name : <?= $aorn ?>",
+                        filename: "Clerk_History_<?= $tvap ?>_<?= $aorn ?>",
+                    }, {
                         extend: 'pdfHtml5',
-                        orientation: 'landscape',
-                        pageSize: 'LEGAL'
-                    },
-                        {
-                            extend: 'colvis',
-                            text: 'Show/Hide'
-                        }
+                        orientation: 'portrait',
+                        pageSize: 'A4',
+                        title: "Clerk(s) History attached to AOR with code <?= $tvap ?> and Name : <?= $aorn ?>",
+                        filename: "Clerk_History_<?= $tvap ?>_<?= $aorn ?>",
+                    }
+                        // {
+                        //     extend: 'colvis',
+                        //     text: 'Show/Hide'
+                        // }
                     ],
                     "bProcessing": true,
                     "extend": 'colvis',

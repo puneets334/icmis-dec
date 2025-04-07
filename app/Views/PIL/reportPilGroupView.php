@@ -113,43 +113,44 @@
 
                             </div>
 
-                            <?php form_close(); ?>
+                            </form>
 
 
                             <br><br>
 
 
                                                     
-                    <div class="row">
+                   
                         <?php
-                        $attribute = array('class' => 'form-horizontal', 'name' => 'frmPilGroupPdf', 'id' => 'frmPilGroupPdf', 'autocomplete' => 'off', 'method' => 'POST');
+                        $attribute = array('class' => 'form-horizontal', 'name' => 'frmPilGroupPdf', 'id' => 'frmPilGroupPdf', 'autocomplete' => 'off', 'method' => 'POST','target' => '_BLANK');
                         echo form_open(base_url('PIL/PilController/downloadGeneratedReport/With_Brief_History/0/0'), $attribute);
                         ?>
-                        <div class="col-sm-12">
-                            <label ><h5>Brief History of the case and relief sought:</h5></label> 
+                         <div class="row">
+                            <div class="col-sm-12">
+                                <label ><h5>Brief History of the case and relief sought:</h5></label> 
                             </div>                
-                        <div class="col-sm-3">
+                            <div class="col-sm-3">
 
-                            <textarea class="form-control" rows="5" cols="10" name="comment" id="comment"></textarea>
-                        </div>
+                                <textarea class="form-control" rows="5" cols="10" name="comment" id="comment"></textarea>
+                            </div>
 
-                        <div class="col-sm-5">
-                             <span class="input-group-btn">
-
-                             <button type="submit" name="generate" id="generate-btn" class="btn bg-blue">Generate Report</button>
-                             </span>
-                        </div>
-
+                            <div class="col-sm-5">
+                                <span class="input-group-btn">
+                                <input type="hidden" name="ecPilGroupId" id="ecPilGroupIdSelected" value="">                
+                                <button type="button" name="generate" id="generate-btn" class="btn bg-blue" onclick="downloadReport();">Generate Report</button>
+                                </span>
+                            </div>
+                        </div>                  
 
                         <?php form_close(); ?>
 
 
-                      </div><br><br><br>
+                      <br><br><br>
 
                         <div id="tabledata" style="display: none;">
                             <h4 align="center">PILs in Group</h4>
                             <br><br>
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped custom-table">
                                 <thead>
                                 <tr>
                                     <th>S.No</th>
@@ -190,13 +191,21 @@
 
 
 
-<script>
-
-    function updateCSRFToken() {
-        $.getJSON("<?php echo base_url('Csrftoken'); ?>", function (result) {
-            $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-        });
+    <script>
+function downloadReport()
+{
+    if($('#comment').val() == '')
+    {
+        alert('Please write message!!');
+        $('#comment').focus();
+        return false;
     }
+    $('#frmPilGroupPdf').trigger('submit');
+    $('#search-btn').trigger('click');
+    updateCSRFToken();
+}
+
+ 
 
     function checkGroup() {
 
@@ -207,25 +216,27 @@
             return false;
         } else {
 
-            var CSRF_TOKEN = 'CSRF_TOKEN';
-            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-
+             
+            $('#ecPilGroupIdSelected').val(ecPilGroupId);
             $.ajax({
-                type: "POST",
+                type: "GEt",
                 dataType: 'json',
-                data: {
-                    CSRF_TOKEN: CSRF_TOKEN_VALUE,
+                data: {                     
                     'dt': ecPilGroupId
 
                 },
+                beforeSend: function () {
+                    $('#tabledata').css("display", "block");
+                    $('#data_set').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+                },
                 url: "<?php echo base_url('PIL/PilController/addToPilGroupReport'); ?>",
                 success: function (data) {
-                    updateCSRFToken();
+                    //updateCSRFToken();
                     
                     var dataArray = data.casesInPilGroup;
                   
                     var html = "";
-                    if (dataArray !== undefined && dataArray !== null) {
+                    if (dataArray !== undefined && dataArray !== null && dataArray !== '') {
                         var i = 1;
                         dataArray.forEach(dt => {
 
@@ -239,19 +250,21 @@
                             html += '</tr>';
 
                         })
-                        console.log(html);
-                        $('#data_set').append(html);
+                        
+                        $('#data_set').html(html);
 
                         $('#tabledata').css("display", "block");
                         // window.location.reload();
                     } else {
-                        alert("No record Found");
+                        $('#tabledata').css("display", "none");
+                        $('#data_set').html('No record Found');
+                        //alert("No record Found");
                     }
 
                    
                 },
                 error: function (data) {
-                    updateCSRFToken();
+                    //updateCSRFToken();                   
                     alert(data);
                     
                 }
@@ -261,7 +274,7 @@
         }
     }
 
-    function generateReport()
+    function generateReport_()
     {
         var ecPilGroupId = $("#ecPilGroupId").val();
         var comment = $("#comment").val();
@@ -295,4 +308,4 @@
 
 
 
- <?=view('sci_main_footer') ?>
+ <?//=view('sci_main_footer') ?>

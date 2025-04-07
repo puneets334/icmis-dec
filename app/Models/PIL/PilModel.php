@@ -39,7 +39,7 @@ class PilModel extends Model
         $builder->where('diary_year', $diaryYear);
         $query = $builder->get();
 //        $query=$this->db->getLastQuery();echo (string) $query;exit();
-        $result = $query->getResultArray();
+        $result = $query->getRowArray();
 
         if ($query->getNumRows() >= 1) {
             return $result;
@@ -117,7 +117,7 @@ class PilModel extends Model
 //        echo "<br>";
 //        print_r($result);
 //        die;
-        $ecPilId = $ecPilId[0];
+        //$ecPilId = $ecPilId[0];
         if ($result) {
             $data = array(
                 'group_file_number' => $ecPilGroupId,
@@ -161,7 +161,7 @@ class PilModel extends Model
         if ($query1->getNumRows() >= 1) {
             return $result;
         } else {
-            return 0;
+            return '';
         }
 
 

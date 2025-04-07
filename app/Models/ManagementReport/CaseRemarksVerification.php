@@ -61,7 +61,8 @@ class CaseRemarksVerification extends Model
                 and u.usertype in (17,51,50) $mdacode
                 group by  c.diary_no ,tt.status,tt.approved_by,tt.rejection_remark,tt.approved_on,h.next_dt, c.cl_date, m.diary_no,c.jcodes,c.clno order by m.diary_no_rec_date";
         $query = $this->db->query($sql);
-        return $query->getResultArray();
+        $result = $query->getResultArray();
+        return $result;
     }
 
     public function get_case_remarks($dn, $cldate, $jcodes, $clno)
@@ -178,7 +179,9 @@ class CaseRemarksVerification extends Model
                 o.diary_no = " . $diary_no . " and o.orderdate = '" . date('Y-m-d', strtotime($listing_on)) . "') tbl1 WHERE jo='ROP'
                 ORDER BY tbl1.dated DESC";
         $rs_his = $this->db->query($sql);
-        return $rs_his->getNumRows();
+        $rs_his->getNumRows();
+        $result = $rs_his->getResultArray();
+        return $result;
     }
 
     public function response_case_remarks_verification_store($ucode, $dno, $cl_date, $rremark, $rejection_remark)
@@ -281,27 +284,27 @@ class CaseRemarksVerification extends Model
 			switch ($flag) {
 				case 2:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "tt.bo_ent_dt != '0000-00-00 00:00:00'";
+					$cs_v_leftjoin_sq = "tt.bo_ent_dt != '0001-01-01 00:00:00'";
 					break;
 				case 3:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "(tt.bo_ent_dt = '0000-00-00 00:00:00' OR tt.bo_ent_dt IS NULL)";
+					$cs_v_leftjoin_sq = "(tt.bo_ent_dt = '0001-01-01 00:00:00' OR tt.bo_ent_dt IS NULL)";
 					break;
 				case 4:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "tt.ar_ent_dt != '0000-00-00 00:00:00'";
+					$cs_v_leftjoin_sq = "tt.ar_ent_dt != '0001-01-01 00:00:00'";
 					break;
 				case 5:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "tt.bo_ent_dt != '0000-00-00 00:00:00' AND tt.ar_ent_dt = '0000-00-00 00:00:00'";
+					$cs_v_leftjoin_sq = "tt.bo_ent_dt != '0001-01-01 00:00:00' AND tt.ar_ent_dt = '0001-01-01 00:00:00'";
 					break;
 				case 6:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "tt.dy_ent_dt != '0000-00-00 00:00:00'";
+					$cs_v_leftjoin_sq = "tt.dy_ent_dt != '0001-01-01 00:00:00'";
 					break;
 				case 7:
 					$cs_v_leftjoin = true;
-					$cs_v_leftjoin_sq = "tt.ar_ent_dt != '0000-00-00 00:00:00' AND tt.dy_ent_dt = '0000-00-00 00:00:00'";
+					$cs_v_leftjoin_sq = "tt.ar_ent_dt != '0001-01-01 00:00:00' AND tt.dy_ent_dt = '0001-01-01 00:00:00'";
 					break;
 			}
 		}
@@ -315,7 +318,7 @@ class CaseRemarksVerification extends Model
 					->join('brdrem b', 'b.diary_no = h.diary_no', 'left')
 					->join('master.users u', 'u.usercode = h.usercode', 'left');
 		if ($cs_v_leftjoin) {
-			$builder->join('case_verify_by_sec tt', 'tt.diary_no = h.diary_no AND tt.bo_ent_dt > h.ent_dt AND tt.display = "Y"', 'left');
+			$builder->join('case_verify_by_sec tt', "tt.diary_no = h.diary_no AND tt.bo_ent_dt > h.ent_dt AND tt.display = 'Y'", 'left');
 		}
 
 		$whereConditions = [
@@ -331,9 +334,8 @@ class CaseRemarksVerification extends Model
 		$builder->where($whereConditions);
 		
 		$builder->orderBy('h.ent_dt', 'ASC');
-		//pr($builder->getCompiledSelect());
-		$builder->limit(2);
-        $query = $builder->get();
+		//pr($builder->getCompiledSelect()); die;
+		$query = $builder->get();
 		return $query->getResultArray(); 
     }
 	
@@ -493,6 +495,7 @@ class CaseRemarksVerification extends Model
                     AND usercode='" . $usercode . "'
                     GROUP BY 
                     users.name, users.empid, ut.id,us.id;";
+    
 
         $query2 = $this->db->query($sql_da);
         $result = $query2->getResultArray();
@@ -510,76 +513,96 @@ class CaseRemarksVerification extends Model
         } else if ($ut_id != 14 && $ut_id != 4 && $ut_id != 6 && $ut_id != 9 && $ut_id != 12 && $ut_id != 1) {
             $cond = " where u.usercode=" . $usercode;
         }
-        $sql = "SELECT 
-                ListType,
-                TO_CHAR(a.next_dt, 'DD-MM-YYYY') AS cl_date,
-                CASE 
-                    WHEN board_type = 'J' THEN 'COURT' 
-                    WHEN board_type = 'C' THEN 'CHAMBER' 
-                    WHEN board_type = 'R' THEN 'REGISTRAR' 
-                END AS board_type,
-                courtno,
-                clno,
-                a.brd_slno,
-                CONCAT(m.reg_no_display, '@ D.No.', SUBSTRING(m.diary_no::TEXT, 1, LENGTH(m.diary_no::TEXT) - 4), '/', SUBSTRING(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 3, 4)) AS CaseNo,
-                m.pet_name,
-                m.res_name,
-                CONCAT(u.name, '@', u.empid, ' SEC ', us.section_name) AS uid
-            FROM (
-                SELECT 
-                    'Final List' AS ListType, 
-                    h.diary_no, 
-                    h.next_dt, 
-                    h.board_type,
-                    Rt.courtno,
-                    h.clno,
-                    h.brd_slno 
-                FROM 
-                    main m
-                    INNER JOIN heardt h ON h.diary_no = m.diary_no 
-                    LEFT JOIN master.roster Rt ON Rt.id = h.roster_id
-                    LEFT JOIN cl_printed cl ON cl.next_dt = h.next_dt 
-                        AND cl.m_f = h.mainhead 
-                        AND cl.part = h.clno 
-                        AND cl.main_supp = h.main_supp_flag 
-                        AND cl.roster_id = h.roster_id 
-                        AND cl.display = 'Y'
-                WHERE 
-                    cl.next_dt IS NOT NULL 
-                    AND h.next_dt >= CURRENT_DATE 
-                    AND m.c_status = 'P' 
-                    AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
-
-                UNION
-
-                SELECT 
-                    'Advance List' AS ListType, 
-                    h.diary_no, 
-                    h.next_dt, 
-                    h.board_type,
-                    '0' AS courtno,
-                    h.clno,
-                    h.brd_slno 
-                        FROM 
+        $sql ="SELECT
+                    ListType,
+                    TO_CHAR(a.next_dt, 'DD-MM-YYYY') AS cl_date,
+                    CASE
+                        WHEN board_type = 'J' THEN 'COURT'
+                        WHEN board_type = 'C' THEN 'CHAMBER'
+                        WHEN board_type = 'R' THEN 'REGISTRAR'
+                    END AS board_type,
+                    courtno,
+                    clno,
+                    a.brd_slno,
+                    CONCAT(
+                        m.reg_no_display,
+                        '@ D.No.',
+                        SUBSTRING(m.diary_no::TEXT, 1, LENGTH(m.diary_no::TEXT) - 4),
+                        '/',
+                        SUBSTRING(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 3, 4)
+                    ) AS CaseNo,
+                    m.pet_name,
+                    m.res_name,
+                    CONCAT(u.name, '@', u.empid, ' SEC ', us.section_name) AS uid
+                FROM
+                    (
+                        SELECT
+                            'Final List' AS ListType,
+                            h.diary_no::TEXT,
+                            h.next_dt,
+                            h.board_type,
+                            Rt.courtno,
+                            h.clno,
+                            h.brd_slno
+                        FROM
                             main m
-                            LEFT JOIN advance_allocated h ON m.diary_no = h.diary_no 
-                                AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
-                        WHERE 
-                            h.next_dt >= CURRENT_DATE 
-                            AND m.c_status = 'P' 
+                        INNER JOIN
+                            heardt h ON m.diary_no::TEXT = h.diary_no::TEXT
+                        LEFT JOIN
+                            master.roster Rt ON Rt.id = h.roster_id
+                        LEFT JOIN
+                            cl_printed cl ON cl.next_dt = h.next_dt
+                            AND cl.m_f = h.mainhead
+                            AND cl.part = h.clno
+                            AND cl.main_supp = h.main_supp_flag
+                            AND cl.roster_id = h.roster_id
+                            AND cl.display = 'Y'
+                        WHERE
+                            cl.next_dt IS NOT NULL
+                            AND h.next_dt >= CURRENT_DATE
+                            AND m.c_status = 'P'
+                            AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
+
+                        UNION
+
+                        SELECT
+                            'Advance List' AS ListType,
+                            h.diary_no::TEXT,
+                            h.next_dt,
+                            h.board_type,
+                            '0' AS courtno,
+                            h.clno,
+                            h.brd_slno
+                        FROM
+                            main m
+                        LEFT JOIN
+                            advance_allocated h ON m.diary_no::TEXT = h.diary_no::TEXT
+                            AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
+                        WHERE
+                            h.next_dt >= CURRENT_DATE
+                            AND m.c_status = 'P'
                             AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
                     ) a
-                    INNER JOIN main m ON m.diary_no = a.diary_no
-                    LEFT JOIN master.users u ON u.usercode = m.dacode 
-                        AND (u.display = 'Y' OR u.display IS NULL)      
-                    LEFT JOIN master.usersection us ON us.id = u.section 
-                        AND us.display = 'Y'
-                        $cond
-                    ORDER BY 
-                        CASE WHEN ListType = 'Advance List' THEN 1 ELSE 2 END ASC, 
-                        CASE WHEN board_type = 'J' THEN 1 WHEN board_type = 'C' THEN 2 ELSE 3 END, 
-                        cl_date DESC;
-                    ";
+                INNER JOIN
+                    main m ON m.diary_no::TEXT = a.diary_no::TEXT 
+                LEFT JOIN
+                    master.users u ON u.usercode = m.dacode
+                    AND (u.display = 'Y' OR u.display IS NULL)
+                LEFT JOIN
+                    master.usersection us ON us.id = u.section
+                    AND us.display = 'Y'
+                ORDER BY
+                    CASE
+                        WHEN ListType = 'Advance List' THEN 1
+                        ELSE 2
+                    END ASC,
+                    CASE
+                        WHEN board_type = 'J' THEN 1
+                        WHEN board_type = 'C' THEN 2
+                        ELSE 3
+                    END,
+                    cl_date DESC";
+                    
         $query = $this->db->query($sql);
         // $result =  $query->getResultArray();
         if ($query->getNumRows() >= 1) {
@@ -743,11 +766,13 @@ class CaseRemarksVerification extends Model
             $heading1 .= " ";
         }
         if ($pre_after == "1") {
-            $pre_after = " c.diary_no IS NULL AND (m.fil_no_fh = '' OR m.fil_no_fh IS NULL) AND h.subhead NOT IN (813, 814) AND ";
+            $pre_after =" c.diary_no IS NULL
+                    AND (m.fil_no_fh = '' OR m.fil_no_fh IS NULL)
+                    AND h.subhead NOT IN (813, 814) AND ";
             $heading1 .= " Pre Notice ";
         }
         if ($pre_after == "2") {
-            $pre_after = " ((c.diary_no is not null AND m.fil_no_fh != '' AND m.fil_no_fh is not null) OR h.subhead in (813,814) ) AND ";
+            $pre_after = " ((c.diary_no IS NOT NULL AND m.fil_no_fh != '' AND m.fil_no_fh IS NOT NULL) OR h.subhead in (813,814) ) AND ";
             $heading1 .= " After Notice ";
         }
         if ($coram_having == "0") {
@@ -755,11 +780,11 @@ class CaseRemarksVerification extends Model
             $heading1 .= "";
         }
         if ($coram_having == "1") {
-            $coram_having = " and h.coram::int != 0 and h.coram is not null and h.coram !='' ";
+            $coram_having = " AND h.coram::TEXT != '0' AND h.coram::TEXT IS NOT NULL AND h.coram::TEXT != '' ";
             $heading1 .= " Having Coram ";
         }
         if ($coram_having == "2") {
-            $coram_having = " and (h.coram::int = 0 or h.coram is null or h.coram = '') ";
+            $coram_having = " AND (h.coram::TEXT = '0' OR h.coram::TEXT is null OR h.coram::TEXT = '') ";
             $heading1 .= " Having No Coram ";
         }
 
@@ -774,7 +799,7 @@ class CaseRemarksVerification extends Model
             $sec_id2 = "";
         } else {
             $sec_id = "AND us.id = '" . $sec_id . "'";
-            $sec_id2 = "AND us.id is not null";
+            $sec_id2 = "AND us.id IS NOT NULL";
         }
         if ($rnr == "0") {
             $ready_not_ready = "";
@@ -787,79 +812,108 @@ class CaseRemarksVerification extends Model
             $ready_not_ready = " AND h.main_supp_flag != 0";
             $heading1 .= " Not Ready Cases ";
         }
-
-        $sql = "SELECT CASE WHEN h.main_supp_flag = 0 THEN 'Ready' ELSE 'Not Ready' END AS r_n_r, m.reg_no_display,  mc.submaster_id, u.name, us.section_name, 
-                s.stagename, l.purpose, EXTRACT( YEAR FROM  m.active_fil_dt) AS fyr,active_reg_year, active_fil_dt, active_fil_no, m.pet_name, m.res_name, 
-                m.pno, m.rno, casetype_id, ref_agency_state_id,diary_no_rec_date, h.* FROM heardt h INNER JOIN main m ON m.diary_no = h.diary_no LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no AND mc.display = 'Y' AND mc.submaster_id != 911 AND mc.submaster_id != 912 AND mc.submaster_id != 914 
-                AND mc.submaster_id != 239 AND mc.submaster_id != 240 AND mc.submaster_id != 241 AND mc.submaster_id != 242 AND mc.submaster_id != 243 
-                AND mc.submaster_id != 331 AND mc.submaster_id != 9999  left join case_remarks_multiple c on c.diary_no = m.diary_no and c.r_head in (1, 3, 62, 181, 182, 183, 184) left join master.subheading s on s.stagecode = h.subhead and s.display = 'Y' left join  master.listing_purpose l on l.code = h.listorder 
-                LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no  AND rd.remove_def = 'N' LEFT JOIN master.users u ON u.usercode = m.dacode AND u.display = 'Y' 
-                LEFT JOIN master.usersection us ON us.id = u.section $sec_id WHERE $pre_after m.c_status = 'P' AND h.board_type = 'J' AND h.mainhead = 'M'  and rd.fil_no is null AND mc.diary_no IS NOT NULL  and h.listorder != 49  AND m.active_casetype_id != 9 AND m.active_casetype_id != 10 
-                AND m.active_casetype_id != 25 AND m.active_casetype_id != 26 
-                AND (
-                    m.diary_no = m.conn_key :: int 
-                    OR m.conn_key = '' 
-                    OR m.conn_key IS NULL 
-                    OR m.conn_key = '0'
-                ) 
-                AND h.next_dt IS NOT NULL 
-                AND h.subhead != 801 
-                AND h.subhead != 817 
-                AND h.subhead != 818 
-                AND h.subhead != 819 
-                AND h.subhead != 820 
-                AND h.subhead != 848 
-                AND h.subhead != 849 
-                AND h.subhead != 850 
-                AND h.subhead != 854 
-                and h.subhead != 0 $coram_having $ready_not_ready $mdacode $sec_id2 
-                group by 
-                m.diary_no, 
-                mc.submaster_id, 
-                u.name, 
-                us.section_name, 
-                s.stagename, 
-                l.purpose, 
-                fyr, 
-                m.active_reg_year, 
-                m.active_fil_dt, 
-                m.active_fil_no, 
-                m.pet_name, 
-                m.res_name, 
-                m.pno, 
-                m.rno, 
-                m.casetype_id, 
-                m.ref_agency_state_id, 
-                m.diary_no_rec_date, 
-                h.main_supp_flag, 
-                h.diary_no 
-                order by 
-                tentative_section(m.diary_no), 
-                tentative_da(m.diary_no), 
-                CASE WHEN m.active_fil_dt is null THEN 2 ELSE 1 END ASC, 
-                CASE WHEN m.active_fil_no = '' THEN 2 ELSE 1 END ASC, 
-                EXTRACT(
-                    YEAR 
-                    FROM 
-                    m.active_fil_dt
-                ), 
-                CAST(
-                    SPLIT_PART(
-                    SPLIT_PART(m.active_fil_no, '-', -1), 
-                    ' ', 
-                    1
-                    ) AS INTEGER
-                ), 
-                CAST(
-                    RIGHT(m.diary_no :: text, 4) AS INTEGER
-                ) ASC, 
-                CAST(
-                    LEFT(
-                    m.diary_no :: text, 
-                    LENGTH(m.diary_no :: text) -4
-                    ) AS INTEGER
-                ) ASC
-                ";
+       $sql = "SELECT
+                    CASE
+                        WHEN h.main_supp_flag = 0 THEN 'Ready'
+                        ELSE 'Not Ready'
+                    END AS r_n_r,
+                    m.reg_no_display,
+                    mc.submaster_id,
+                    u.name,
+                    us.section_name,
+                    s.stagename,
+                    l.purpose,
+                    EXTRACT(YEAR FROM m.active_fil_dt) AS fyr,
+                    m.active_reg_year,
+                    m.active_fil_dt,
+                    m.active_fil_no,
+                    m.pet_name,
+                    m.res_name,
+                    m.pno,
+                    m.rno,
+                    m.casetype_id,
+                    m.ref_agency_state_id,
+                    m.diary_no_rec_date,
+                    h.*,
+                    SPLIT_PART(SPLIT_PART(m.active_fil_no, '-', -1), ' ', 1) as fil_no_order 
+                FROM
+                    heardt h
+                INNER JOIN
+                    main m ON m.diary_no = h.diary_no
+                LEFT JOIN
+                    mul_category mc ON mc.diary_no = h.diary_no
+                    AND mc.display = 'Y'
+                    AND mc.submaster_id NOT IN (911, 912, 914, 239, 240, 241, 242, 243, 331, 9999)
+                LEFT JOIN
+                    case_remarks_multiple c ON c.diary_no = m.diary_no
+                    AND c.r_head IN (1, 3, 62, 181, 182, 183, 184)
+                LEFT JOIN
+                    master.subheading s ON s.stagecode = h.subhead
+                    AND s.display = 'Y'
+                LEFT JOIN
+                    master.listing_purpose l ON l.code = h.listorder
+                LEFT JOIN
+                    rgo_default rd ON rd.fil_no = h.diary_no
+                    AND rd.remove_def = 'N'
+                LEFT JOIN
+                    master.users u ON u.usercode = m.dacode
+                    AND u.display = 'Y'
+                LEFT JOIN
+                    master.usersection us ON us.id = u.section
+                    $sec_id 
+                WHERE
+                    $pre_after 
+                    m.c_status = 'P'
+                    AND h.board_type = 'J'
+                    AND h.mainhead = 'M'
+                    AND rd.fil_no IS NULL
+                    AND mc.diary_no IS NOT NULL
+                    AND h.listorder != 49
+                    AND m.active_casetype_id NOT IN (9, 10, 25, 26)
+                    AND m.conn_key != ''
+                    AND m.conn_key is not null
+                    AND (
+                        m.diary_no::INTEGER = m.conn_key::INTEGER
+                        OR m.conn_key::INTEGER = 0
+                    )
+                    AND h.next_dt IS NOT NULL
+                    AND h.subhead NOT IN (801, 817, 818, 819, 820, 848, 849, 850, 854, 0) 
+                    $coram_having $ready_not_ready $mdacode $sec_id2 
+                GROUP BY
+                    m.diary_no,
+                    mc.submaster_id,
+                    u.name,
+                    us.section_name,
+                    s.stagename,
+                    l.purpose,
+                    fyr,
+                    m.active_reg_year,
+                    m.active_fil_dt,
+                    m.active_fil_no,
+                    m.pet_name,
+                    m.res_name,
+                    m.pno,
+                    m.rno,
+                    m.casetype_id,
+                    m.ref_agency_state_id,
+                    m.diary_no_rec_date,
+                    h.main_supp_flag,
+                    h.diary_no
+                ORDER BY
+                    tentative_section(m.diary_no),
+                    tentative_da(CAST(m.diary_no AS INTEGER)),
+                    CASE
+                        WHEN m.active_fil_dt IS NULL THEN 2
+                        ELSE 1
+                    END ASC,
+                    CASE
+                        WHEN m.active_fil_no IS NULL THEN 2
+                        ELSE 1
+                    END ASC,
+                    EXTRACT(YEAR FROM m.active_fil_dt),
+                    fil_no_order,
+                    CAST(RIGHT(m.diary_no::TEXT, 4) AS INTEGER) ASC,
+                    CAST(LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 4) AS INTEGER) ASC";
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
@@ -920,8 +974,7 @@ class CaseRemarksVerification extends Model
 
     public function get_da_wise_rgo_data($condition, $section_name)
     {
-
-        $sql = "SELECT 
+         $sql = "SELECT 
                     m.dacode, 
                     b.section_name, 
                     a.name, 
@@ -959,9 +1012,9 @@ class CaseRemarksVerification extends Model
                                         true
                                 END
                                 and (
-                                    m.main_supp_flag = 0
+                                    h.main_supp_flag = 0
                                     AND clno = 0 
-                                    AND m.brd_slno = 0 
+                                    AND h.brd_slno = 0 
                                     AND (judges is null OR judges = '0') 
                                     AND roster_id = 0
                                 )
@@ -1024,9 +1077,9 @@ class CaseRemarksVerification extends Model
                                         true
                                 END
                                 and (
-                                    m.main_supp_flag = 0 
+                                    h.main_supp_flag = 0 
                                     AND clno = 0 
-                                    AND m.brd_slno = 0 
+                                    AND h.brd_slno = 0 
                                     AND (judges is null OR judges = '0') 
                                     and roster_id = 0
                                 )
@@ -1089,7 +1142,7 @@ class CaseRemarksVerification extends Model
                                         true
                                 END
                                 and (
-                                   m.main_supp_flag = 0 
+                                   h.main_supp_flag = 0 
                                     AND clno = 0 
                                     AND h.brd_slno = 0 
                                     AND (judges is null OR judges = '0') 
@@ -1149,7 +1202,7 @@ class CaseRemarksVerification extends Model
                                         true
                                 END
                                 and (
-                                    m.main_supp_flag = 0 
+                                    h.main_supp_flag = 0 
                                     AND clno = 0 
                                     AND h.brd_slno = 0 
                                     AND (judges is null OR judges = '0') 
@@ -1192,13 +1245,13 @@ class CaseRemarksVerification extends Model
                     count(
                         distinct case 
                             when h.mainhead = 'M' 
-                                and (m.tentative_cl_dt::date - CURRENT_DATE) > 1 
+                                and (h.tentative_cl_dt::date - CURRENT_DATE) > 1 
                                 and not (
                                     (
                                         (h.mainhead = 'M' and s.listtype = 'M' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
                                         or (h.mainhead = 'S' and s.listtype = 'S' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
-                                        or (m.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
-                                    or (m.next_dt IS NOT NULL and m.next_dt::date >= CURRENT_DATE)
+                                        or (h.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
+                                    or (h.next_dt IS NOT NULL and h.next_dt::date >= CURRENT_DATE)
                                     )
                                 )
                                 and (
@@ -1218,13 +1271,13 @@ class CaseRemarksVerification extends Model
                     count(
                         distinct case 
                             when h.mainhead = 'F' 
-                                and (m.tentative_cl_dt::date - CURRENT_DATE) > 1 
+                                and (h.tentative_cl_dt::date - CURRENT_DATE) > 1 
                                 and not (
                                     (
                                         (h.mainhead = 'M' and s.listtype = 'M' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
                                         or (h.mainhead = 'S' and s.listtype = 'S' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
-                                        or (m.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
-                                        or (m.next_dt IS NOT NULL and m.next_dt::date >= CURRENT_DATE)
+                                        or (h.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
+                                        or (h.next_dt IS NOT NULL and h.next_dt::date >= CURRENT_DATE)
                                     )
                                 )
                                 and (
@@ -1248,8 +1301,8 @@ class CaseRemarksVerification extends Model
                                 or (h.mainhead = 'S' and s.listtype = 'S' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
                             )
                                 and (
-                                    (m.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
-                                    or (m.next_dt IS NOT NULL and m.next_dt::date >= CURRENT_DATE)
+                                    (h.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
+                                    or (h.next_dt IS NOT NULL and h.next_dt::date >= CURRENT_DATE)
                                     or (lastorder like '%Not Reached%' or lastorder like '%Case Not Receive%' or lastorder like '%Heard & Reserved%')
                                     or head_code = '5'
                                 )
@@ -1270,8 +1323,8 @@ class CaseRemarksVerification extends Model
                                     or (h.mainhead = 'S' and s.listtype = 'S' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
                                 )
                                 and (
-                                    (m.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
-                                    or (m.next_dt IS NOT NULL and m.next_dt::date >= CURRENT_DATE)
+                                    (h.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
+                                    or (h.next_dt IS NOT NULL and h.next_dt::date >= CURRENT_DATE)
                                     or (lastorder like '%Not Reached%' or lastorder like '%Case Not Receive%' or lastorder like '%Heard & Reserved%')
                                     or head_code = '5'
                                 )
@@ -1292,8 +1345,8 @@ class CaseRemarksVerification extends Model
                                     or (h.mainhead = 'S' and s.listtype = 'S' and s.listtype IS NOT NULL and s.display = 'Y' and s.display IS NOT NULL)
                                 )
                                 and (
-                                    (m.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
-                                    or (m.next_dt IS NOT NULL and m.next_dt::date >= CURRENT_DATE)
+                                    (h.main_supp_flag = 0 and clno = 0 and h.brd_slno = 0 and (judges is null or judges = '0') and roster_id = 0)
+                                    or (h.next_dt IS NOT NULL and h.next_dt::date >= CURRENT_DATE)
                                     or (lastorder like '%Not Reached%' or lastorder like '%Case Not Receive%' or lastorder like '%Heard & Reserved%')
                                     or head_code = '5'
                                 )
@@ -1360,6 +1413,7 @@ class CaseRemarksVerification extends Model
                     order by 
                     section_name, 
                     empid";
+                     
         // pr($sql);
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
@@ -1575,6 +1629,7 @@ class CaseRemarksVerification extends Model
                 s.category_sc_old, s.sub_name1, s.sub_name4, s.subcode1, s.subcode2,m.diary_no,r.courtno
                 ORDER BY 
                 r.courtno, mb.board_type_mb, d.clno";
+               
             $query = $this->db->query($sql);
             $result = $query->getResultArray();
             return $result;
@@ -1600,7 +1655,7 @@ class CaseRemarksVerification extends Model
                         TO_CHAR(d.ent_dt, 'DD-MM-YYYY') AS IA_Date1,
                         dm.docdesc,
                         tentative_section(m.diary_no) AS Section,
-                        tentative_da(m.diary_no) AS DA
+                        tentative_da(m.diary_no::int) AS DA
                     FROM 
                         heardt h
                     INNER JOIN main m ON m.diary_no = h.diary_no 
@@ -1635,7 +1690,7 @@ class CaseRemarksVerification extends Model
                        m.diary_no, h.next_dt,d.ent_dt,dm.docdesc,d.doccode1 
                     ORDER BY 
                         tentative_section(m.diary_no), 
-                        tentative_da(m.diary_no), 
+                        tentative_da(m.diary_no::int), 
                         d.ent_dt) c";
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
@@ -1644,492 +1699,156 @@ class CaseRemarksVerification extends Model
 
     public function pending_not_ready_process_data()
     {
-        $sql = "SELECT 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('C') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key is null
-    ) THEN 1 ELSE 0 END
-  ) chamber_not_ready_main, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('C') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) chamber_not_ready_conn, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('C') THEN 1 ELSE 0 END
-  ) chamber_not_ready, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('R') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key is null
-    ) THEN 1 ELSE 0 END
-  ) Registrar_not_ready_main, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('R') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) Registrar_not_ready_conn, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND board_type IN ('R') THEN 1 ELSE 0 END
-  ) Registrar_not_ready, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (main_supp_flag = 3) 
-    AND board_type IN ('J') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key is null
-    ) THEN 1 ELSE 0 END
-  ) misc_not_ready_main, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND main_supp_flag = 3 
-    AND board_type IN ('J') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) misc_not_ready_conn, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND main_supp_flag = 3 
-    AND board_type IN ('J') THEN 1 ELSE 0 END
-  ) misc_not_ready, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key IS NULL
-    ) THEN 1 ELSE 0 END
-  ) AS misc_updation_awaited_main, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J') 
-    AND temp.conn_key != temp.diary_no :: text 
-    AND temp.conn_key > '0' THEN 1 ELSE 0 END
-  ) AS misc_updation_awaited_conn, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J') THEN 1 ELSE 0 END
-  ) AS misc_updation_awaited, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key IS NULL
-    ) THEN 1 ELSE 0 END
-  ) AS misc_total_main, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) AS misc_total_conn, 
-  SUM(
-    CASE WHEN mf_active != 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J') THEN 1 ELSE 0 END
-  ) AS misc_total, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND main_supp_flag = 3 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key is null
-    ) THEN 1 ELSE 0 END
-  ) final_not_ready_main, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND main_supp_flag = 3 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) final_not_ready_conn, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND main_supp_flag = 3 
-    AND board_type IN ('J', 'C', 'R') THEN 1 ELSE 0 END
-  ) final_not_ready, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key IS NULL
-    ) THEN 1 ELSE 0 END
-  ) AS final_updation_awaited_main, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) AS final_updation_awaited_conn, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag > 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') THEN 1 ELSE 0 END
-  ) AS final_updation_awaited, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key = temp.diary_no :: text 
-      OR temp.conn_key = '0' 
-      OR temp.conn_key = '' 
-      OR temp.conn_key IS NULL
-    ) THEN 1 ELSE 0 END
-  ) AS final_total_main, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') 
-    AND (
-      temp.conn_key != temp.diary_no :: text 
-      AND temp.conn_key > '0'
-    ) THEN 1 ELSE 0 END
-  ) AS final_total_conn, 
-  SUM(
-    CASE WHEN mf_active = 'F' 
-    AND (
-      (
-        main_supp_flag IN (1, 2) 
-        AND next_dt < CURRENT_DATE
-      ) 
-      OR (
-        diary_no :: text != conn_key 
-        AND list = 'N' 
-        AND main_supp_flag != 3 
-        AND NOT (
-          main_supp_flag IN (1, 2) 
-          AND next_dt < CURRENT_DATE
-        )
-      ) 
-      OR main_supp_flag >= 3
-    ) 
-    AND board_type IN ('J', 'C', 'R') THEN 1 ELSE 0 END
-  ) AS final_total 
-FROM 
-  (
-    SELECT 
-      DISTINCT a.diary_no, 
-      a.conn_key, 
-      next_dt, 
-      mf_active, 
-      main_supp_flag, 
-      board_type, 
-      case_grp, 
-      fil_dt, 
-      c.list 
-    FROM 
-      (
-        SELECT 
-          m.diary_no, 
-          m.conn_key, 
-          h.next_dt, 
-          m.fil_dt, 
-          c_status, 
-          d.rj_dt, 
-          d.month, 
-          d.year, 
-          d.disp_dt, 
-          active_casetype_id, 
-          casetype_id, 
-          m.mf_active, 
-          h.main_supp_flag, 
-          h.board_type, 
-          m.case_grp 
-        FROM 
-          main m 
-          LEFT JOIN heardt h ON m.diary_no = h.diary_no 
-          LEFT JOIN dispose d ON m.diary_no = d.diary_no 
-          LEFT JOIN restored r ON m.diary_no = r.diary_no 
-        WHERE 
-          1 = 1 
-          AND h.board_type IN ('J', 'C', 'R') 
-          AND (
-            CASE WHEN DATE(r.disp_dt) IS NOT NULL 
-            AND r.disp_dt IS NOT NULL 
-            AND DATE(r.conn_next_dt) IS NOT NULL 
-            AND r.conn_next_dt IS NOT NULL THEN CURRENT_DATE NOT BETWEEN DATE(r.disp_dt) 
-            AND DATE(conn_next_dt) ELSE DATE(r.disp_dt) IS NULL 
-            OR r.disp_dt IS NULL 
-            OR DATE(r.conn_next_dt) IS NULL 
-            OR r.conn_next_dt IS NULL END 
-            OR r.fil_no IS NULL
-          ) 
-          AND (
-            CASE WHEN DATE(r.unreg_fil_dt) IS NOT NULL 
+        $sql = "SELECT
+    -- Chamber Not Ready Counts
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('C')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) chamber_not_ready_main,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('C')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) chamber_not_ready_conn,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('C')
+        THEN 1 ELSE 0 END) chamber_not_ready,
+
+    -- Registrar Not Ready Counts
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('R')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) registrar_not_ready_main,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('R')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) registrar_not_ready_conn,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('R')
+        THEN 1 ELSE 0 END) registrar_not_ready,
+
+    -- Misc Not Ready Counts
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 3 AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) misc_not_ready_main,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 3 AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) misc_not_ready_conn,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 3 AND board_type IN ('J')
+        THEN 1 ELSE 0 END) misc_not_ready,
+
+    -- Misc Updation Awaited Counts
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 5 AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) misc_updation_awaited_main,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 5 AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) misc_updation_awaited_conn,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 5 AND board_type IN ('J')
+        THEN 1 ELSE 0 END) misc_updation_awaited,
+
+    -- Misc Total Counts
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) misc_total_main,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) misc_total_conn,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        THEN 1 ELSE 0 END) misc_total,
+
+    -- Final Not Ready Counts
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 4 AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) final_not_ready_main,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 4 AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) final_not_ready_conn,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 4 AND board_type IN ('J')
+        THEN 1 ELSE 0 END) final_not_ready,
+
+    -- Final Updation Awaited Counts
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 6 AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) final_updation_awaited_main,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 6 AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) final_updation_awaited_conn,
+    SUM(CASE WHEN mf_active != 'F' AND main_supp_flag = 6 AND board_type IN ('J')
+        THEN 1 ELSE 0 END) final_updation_awaited,
+
+    -- Final Total Counts
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        AND (temp.conn_key = temp.diary_no::text OR temp.conn_key = '0' OR temp.conn_key IS NULL)
+        THEN 1 ELSE 0 END) final_total_main,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        AND (temp.conn_key != temp.diary_no::text AND temp.conn_key > '0')
+        THEN 1 ELSE 0 END) final_total_conn,
+    SUM(CASE WHEN mf_active != 'F' AND board_type IN ('J')
+        THEN 1 ELSE 0 END) final_total
+
+FROM (
+    -- Subquery logic remains unchanged
+    SELECT DISTINCT
+        a.diary_no,
+        a.conn_key,
+        next_dt,
+        mf_active,
+        main_supp_flag,
+        board_type,
+        case_grp,
+        fil_dt,
+        c.list
+    FROM (
+            SELECT
+            m.diary_no,
+            m.conn_key,
+            h.next_dt,
+            m.fil_dt,
+            c_status,
+            d.rj_dt,
+            d.month,
+            d.year,
+            d.disp_dt,
+            active_casetype_id,
+            casetype_id,
+            m.mf_active,
+            h.main_supp_flag,
+            h.board_type,
+            m.case_grp
+        FROM main m
+        LEFT JOIN public.heardt h ON m.diary_no = h.diary_no
+        LEFT JOIN dispose d ON m.diary_no = d.diary_no
+        LEFT JOIN restored r ON m.diary_no = r.diary_no
+        WHERE 1 = 1
+            AND board_type IN ('J', 'C', 'R')
             AND (
-              DATE(r.unreg_fil_dt) <= DATE(m.fil_dt) 
-              OR DATE(m.fil_dt) IS NULL
-            ) THEN DATE(r.unreg_fil_dt) <= CURRENT_DATE ELSE DATE(m.fil_dt) <= CURRENT_DATE 
-            AND DATE(fil_dt) IS NOT NULL END
-          ) 
-          AND c_status = 'P' 
-          OR (
-            c_status = 'D' 
+                CASE 
+                    WHEN r.disp_dt IS NOT NULL AND r.conn_next_dt IS NOT NULL THEN
+                        CURRENT_DATE NOT BETWEEN r.disp_dt AND r.conn_next_dt
+                    ELSE 
+                        r.disp_dt IS NULL OR r.conn_next_dt IS NULL
+                END
+                OR r.fil_no IS NULL
+            )
             AND (
-              CASE WHEN DATE(d.rj_dt) IS NOT NULL THEN DATE(d.rj_dt) >= CURRENT_DATE 
-              AND DATE(d.rj_dt) >= '1950-01-01' 
-              AND NOT (
-                DATE(d.rj_dt) > CURRENT_DATE
-              ) WHEN DATE(d.disp_dt) IS NOT NULL THEN DATE(d.disp_dt) >= CURRENT_DATE 
-              AND DATE(d.disp_dt) >= '1950-01-01' 
-              AND NOT (
-                DATE(d.disp_dt) > CURRENT_DATE
-              ) ELSE TO_DATE(
-                d.year || '-' || LPAD(d.month :: TEXT, 2, '0') || '-01', 
-                'YYYY-MM-DD'
-              ) >= CURRENT_DATE 
-              AND DATE(d.disp_dt) >= '1950-01-01' 
-              AND NOT (
-                DATE(d.disp_dt) > CURRENT_DATE
-              ) END
-            ) 
+                CASE 
+                    WHEN unreg_fil_dt IS NOT NULL 
+                        AND (unreg_fil_dt <= m.fil_dt OR m.fil_dt IS NULL)
+                    THEN unreg_fil_dt <= CURRENT_DATE
+                    ELSE m.fil_dt <= CURRENT_DATE AND m.fil_dt IS NOT NULL
+                END
+            )
             AND (
-              CASE WHEN DATE(r.unreg_fil_dt) IS NOT NULL 
-              AND (
-                DATE(r.unreg_fil_dt) <= DATE(m.fil_dt) 
-                OR DATE(m.fil_dt) IS NULL
-              ) THEN DATE(r.unreg_fil_dt) <= CURRENT_DATE ELSE DATE(m.fil_dt) <= CURRENT_DATE 
-              AND DATE(fil_dt) IS NOT NULL END
-            ) 
-            AND CASE WHEN DATE(r.disp_dt) IS NOT NULL 
-            AND r.disp_dt IS NOT NULL 
-            AND DATE(r.conn_next_dt) IS NOT NULL 
-            AND r.conn_next_dt IS NOT NULL THEN CURRENT_DATE NOT BETWEEN DATE(r.disp_dt) 
-            AND DATE(conn_next_dt) ELSE DATE(r.disp_dt) IS NULL 
-            OR r.disp_dt IS NULL 
-            OR DATE(r.conn_next_dt) IS NULL 
-            OR r.conn_next_dt IS NULL END
-          ) 
-          AND (
-            CAST(
-              COALESCE(
-                NULLIF(
-                  SUBSTRING(
-                    m.fil_no 
-                    FROM 
-                      1 FOR 2
-                  ), 
-                  ''
-                ), 
-                '0'
-              ) AS INTEGER
-            ) NOT IN (39)
-          ) 
-          OR m.fil_no = '' 
-          OR m.fil_no IS NULL 
-        GROUP BY 
+                c_status = 'P' OR 
+                (c_status = 'D' AND (
+                    CASE 
+                        WHEN d.rj_dt IS NOT NULL THEN 
+                            d.rj_dt >= CURRENT_DATE AND d.rj_dt >= '1950-01-01'
+                        WHEN d.disp_dt IS NOT NULL THEN 
+                            d.disp_dt >= CURRENT_DATE AND d.disp_dt >= '1950-01-01'
+                        ELSE 
+                            TO_DATE(d.year || '-' || LPAD(d.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') >= CURRENT_DATE
+                    END
+                ))
+            )
+            AND (
+                SUBSTRING(m.fil_no FROM 1 FOR 2) NOT IN ('39') OR m.fil_no IS NULL
+            )
+                       GROUP BY 
           m.diary_no, 
           h.next_dt, 
           d.rj_dt, 
@@ -2138,9 +1857,10 @@ FROM
           d.disp_dt, 
           h.main_supp_flag, 
           h.board_type
-      ) a 
-      left join conct c on c.diary_no = a.diary_no
-  ) temp";
+    ) a
+    LEFT JOIN conct c ON c.diary_no = a.diary_no
+) temp";
+
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
@@ -2186,6 +1906,7 @@ FROM
                 m.res_name, 
                 m.pno, 
                 m.rno, 
+                m.active_casetype_id,
                 casetype_id, 
                 ref_agency_state_id, 
                 diary_no_rec_date, 
@@ -2238,10 +1959,8 @@ FROM
                         a.adv_type, 
                         pet_res_no
                     FROM advocate a
-                    LEFT JOIN bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y'
-                    WHERE 
-                        WHERE a.diary_no='" . $diary_no . "'
-                        a.display = 'Y'
+                    LEFT JOIN master.bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y'
+                    WHERE a.diary_no='" . $diary_no . "' and a.display = 'Y'
                     GROUP BY a.diary_no, b.name, a.pet_res, a.adv_type, pet_res_no
                     ORDER BY pet_res ASC, adv_type DESC, pet_res_no ASC
                     ) a

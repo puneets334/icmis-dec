@@ -9,7 +9,7 @@
       <input type="button" name="btn_print" id="btn_print" value="Print" onclick="pnt_dt('td_zxx')" />
     </div> -->
     <div class="table-responsive">
-      <table id="report" class="table table-striped custom-table">
+      <table id="ReportCaveat" class="table table-striped custom-table">
         <thead>
           <tr>
             <th width="4%">SNo.</th>
@@ -153,7 +153,9 @@
 
 <script>
   $(function() {
-    $("#report").DataTable({
+
+   var pr_id =  $('#hd_ct_pr_id').val()
+    $("#ReportCaveat").DataTable({
       "responsive": true,
       "lengthChange": false,
       "autoWidth": false,
@@ -161,6 +163,24 @@
       "extend": 'colvis',
       "text": 'Show/Hide',
       "dom": 'Bfrtip',
+      buttons: [
+            {
+                extend: 'print',
+                text: 'Print',
+                title: 'Acknowledgement Received between <?= date("d-m-Y", strtotime($from_date)) ?> and <?= date("d-m-Y", strtotime($todate)) ?><br>Total Process Id:'+pr_id, 
+                customize: function (win) {
+                    $(win.document.body).css('text-align', 'center');  
+                   
+                }
+            },
+            'pageLength'
+        ],
     }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
   });
+
+
+ 
+
+
+
 </script>

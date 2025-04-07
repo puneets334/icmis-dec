@@ -127,7 +127,6 @@ class Monitoring extends Model
 
   public function CtRemarks_Changeby_user_data($on_date)
   {
-    // Escape the date parameter to prevent SQL injection
     $on_date = $this->db->escape($on_date);
 
     $sql = "SELECT a.uid, 
@@ -173,6 +172,61 @@ class Monitoring extends Model
     }
   }
 
+//   public function CtRemarks_Changeby_user_data($on_date)
+// {
+//     $db = \Config\Database::connect();
+//     $on_date = $db->escape($on_date);
+
+//     // First part of the UNION ALL (for current crm_count)
+//     $builder1 = $db->table('case_remarks_multiple');
+//     $subquery1 = $builder1->select('uid, COUNT(*) AS crm_count, 0 AS newcnt')
+//         ->distinct()
+//         ->where('cl_date', $on_date)
+//         ->groupBy('uid')
+//         ->getCompiledSelect();
+
+//     // Second part of the UNION ALL (for history crm_count)
+//     $builder2 = $db->table('case_remarks_multiple_history');
+//     $subquery2 = $builder2->select('uid, COUNT(*) AS crm_count, 1 AS newcnt')
+//         ->whereIn('CAST(fil_no AS INTEGER)', function($query) use ($on_date) {
+//             $query->select('CAST(diary_no AS INTEGER)')
+//                 ->from('case_remarks_multiple')
+//                 ->where('cl_date', $on_date)
+//                 ->distinct();
+//         })
+//         ->where('cl_date', $on_date)
+//         ->groupBy('fil_no, uid')
+//         ->getCompiledSelect();
+
+//     // Combine the two subqueries using UNION ALL
+//     $subquery = "({$subquery1}) UNION ALL ({$subquery2})";
+
+//     // Final SELECT with joins and grouping
+//     $builder = $db->table("($subquery) a", null);
+//     $query = $builder->select('a.uid, CONCAT(u.name, \'@\', u.empid, \' SEC \', us.section_name) AS uid_name')
+//         ->select("SUM(CASE WHEN newcnt = 0 THEN crm_count ELSE 0 END) AS current_total")
+//         ->select("SUM(CASE WHEN newcnt = 1 THEN crm_count ELSE 0 END) AS history_total")
+//         ->select("SUM(CASE WHEN newcnt >= 0 THEN crm_count ELSE 0 END) AS total")
+//         ->join('master.users u', 'u.usercode = a.uid AND (u.display = \'Y\' OR u.display IS NULL)', 'left')
+//         ->join('master.usersection us', 'us.id = u.section AND us.display = \'Y\'', 'left')
+//         ->groupBy('a.uid, u.name, u.empid, us.section_name')
+//         ->orderBy('history_total', 'desc')
+//         ->get();
+
+//     // Return results or false if no rows
+//     if ($query->getNumRows() >= 1) {
+//         return $query->getResultArray();
+//     } else {
+//         return false;
+//     }
+// }
+
+  
+  
+  
+  
+
+
 
   public function CtRemarks_user_details($cl_date, $flag, $usercode)
   {
@@ -184,7 +238,9 @@ class Monitoring extends Model
     $cond3 = "";
     $cond4 = " crm.uid=$usercode and crm.cl_date='$cl_date' group by crm.uid,crm.diary_no ";
 
-    if ($flag == 'C') {
+    if ($flag == 'C')
+    {
+      
       $sql = "SELECT crm.diary_no,
               CONCAT(m.reg_no_display, '@ D.No.', SUBSTRING(m.diary_no::text FROM 1 FOR LENGTH(m.diary_no::text) - 4), '/', SUBSTRING(m.diary_no::text FROM -4)) AS CaseNo,
               h.clno, h.brd_slno, h.tentative_cl_dt, m.pet_name, m.res_name,
@@ -220,7 +276,10 @@ class Monitoring extends Model
             LEFT JOIN cl_printed cl ON (cl.next_dt = h.next_dt AND cl.m_f = h.mainhead AND cl.part = h.clno AND cl.main_supp = h.main_supp_flag AND cl.roster_id = h.roster_id AND cl.display = 'Y')
             WHERE crm.uid = '$usercode' AND crm.cl_date = '$cl_date'
             GROUP BY m.diary_no,crm.uid, crm.diary_no, m.reg_no_display, h.clno, h.brd_slno, h.tentative_cl_dt, m.pet_name, m.res_name, cl.next_dt, h.roster_id, Rt.courtno, u.name, u.empid, us.section_name;";
-    } else {
+    }
+    else
+    {
+     
       $sql = "SELECT crmh.fil_no,
               CONCAT(m.reg_no_display, '@ D.No.', SUBSTRING(m.diary_no::text FROM 1 FOR LENGTH(m.diary_no::text) - 4), '/', SUBSTRING(m.diary_no::text FROM -4)) AS CaseNo,
               h.clno, h.brd_slno, h.tentative_cl_dt, m.pet_name, m.res_name,
@@ -246,7 +305,7 @@ class Monitoring extends Model
             LEFT JOIN master.users u1 ON u1.usercode = crmh.uid AND (u1.display = 'Y' OR u1.display IS NULL)
             LEFT JOIN master.usersection us1 ON us1.id = u1.section AND us1.display = 'Y'
             LEFT JOIN master.case_remarks_head crh1 ON crh1.sno = crmh.r_head AND (crh1.display = 'Y' OR crh1.display IS NULL)
-            INNER JOIN case_remarks_multiple crm ON crmh.fil_no = crm.diary_no AND crm.cl_date = '$cl_date'
+            INNER JOIN case_remarks_multiple crm ON crmh.fil_no::bigint = crm.diary_no AND crm.cl_date = '$cl_date'
             LEFT JOIN master.users u ON u.usercode = crm.uid AND (u.display = 'Y' OR u.display IS NULL)
             LEFT JOIN master.usersection us ON us.id = u.section AND us.display = 'Y'
             LEFT JOIN master.case_remarks_head crh ON crh.sno = crm.r_head AND (crh.display = 'Y' OR crh.display IS NULL)
@@ -269,6 +328,7 @@ class Monitoring extends Model
             WHERE crmh.uid = '$usercode' AND crmh.cl_date = '$cl_date'
             GROUP BY m.diary_no, crmh.uid, crmh.fil_no, m.reg_no_display, h.clno, h.brd_slno, h.tentative_cl_dt, m.pet_name, m.res_name, cl.next_dt, h.roster_id, Rt.courtno, u1.name, u1.empid, us1.section_name, u.name, u.empid, us.section_name;";
     }
+    
     $query = $db->query($sql);
     $result = $query->getResultArray();
 
@@ -366,6 +426,7 @@ class Monitoring extends Model
             ) AS f
         ) AS l 
         GROUP BY GROUPING SETS ((daName), ())";
+       
 
     $query = $this->db->query($sql);
 
@@ -375,6 +436,13 @@ class Monitoring extends Model
       return false;
     }
   }
+
+
+
+  
+  
+  
+
 
   public function getActiveCaseTypes()
   {
@@ -605,6 +673,15 @@ class Monitoring extends Model
       }
     }
   }
+  public function getUserName($d_to_empid)
+  {
+      $db = \Config\Database::connect();
+    $builder = $db->table('master.users');
+    $builder->select('name');
+    $builder->where('empid', $d_to_empid);
+    $query = $builder->get()->getRow();
+    return $query ? $query->name : null;
+  }
 
   public function get_usr_nm_uid($d_to_empid)
   {
@@ -690,22 +767,30 @@ class Monitoring extends Model
     return $query->getRowArray(); 
 }
 
+
 public function categoryScOld($dno)
 {
-  //remove vkg
-  $sql="SELECT category_sc_old FROM mul_category mc INNER JOIN master.submaster s ON s.id = mc.submaster_id WHERE mc.display = 'Y' and mc.diary_no = '$dno' ";
-  $query = $this->db->query($sql);
-  $results = $query->getResultArray();
-  return $results;
-
+    $builder = $this->db->table('mul_category mc');
+    $builder->select('s.category_sc_old'); 
+    $builder->join('master.submaster s', 's.id = mc.submaster_id', 'inner');
+    $builder->where('mc.display', 'Y');
+    $builder->where('mc.diary_no', $dno);
+    
+    return $builder->get()->getResultArray();
 }
+
+
+
+
+
+
 
 public function getMainQuery($sec_id ,$list_dt ,$checkDaCode)
 {
  //remove vkg
- //$list_dt=2023-09-22;
-  
-  $sql = "SELECT DISTINCT
+ //$list_dt='2023-09-22';
+ $list_dt=date('Y-m-d', strtotime($list_dt));
+ $sql = "SELECT DISTINCT
             m.diary_no,
             h.next_dt,
             u.name,
@@ -776,7 +861,7 @@ public function getMainQuery($sec_id ,$list_dt ,$checkDaCode)
           )
 
               AND CASE 
-              WHEN (m.diary_no = m.conn_key::int OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL)
+              WHEN ( m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key = '0'  OR m.conn_key IS NULL)
                   THEN TRUE
               ELSE EXISTS (
                   SELECT 1 
@@ -789,67 +874,161 @@ public function getMainQuery($sec_id ,$list_dt ,$checkDaCode)
           GROUP BY m.diary_no,h.next_dt,u.name,us.section_name,l.purpose,s.stagename,h.coram,c1.short_description,tt.ent_dt,tt.remark_id,tt.ucode
           ORDER BY
           1,2,
-            main_or_connected ASC
-            LIMIT 20"; // remove limt
-           
+            main_or_connected ASC"; 
             $query = $this->db->query($sql);
             $results = $query->getResultArray();
             return $results;
 }
 
+// public function getMainQuery($sec_id, $list_dt, $checkDaCode)
+// {
+//     // Format the date input
+//     $list_dt = date('Y-m-d', strtotime($list_dt));
+
+//     // Build the query
+//     $builder = $this->db->table('main m')
+//         ->distinct()
+//         ->select([
+//             'm.diary_no',
+//             'h.next_dt',
+//             'u.name',
+//             'CASE 
+//                 WHEN us.section_name IS NOT NULL THEN us.section_name 
+//                 ELSE tentative_section(m.diary_no) 
+//             END AS section_name',
+//             'm.conn_key AS main_key',
+//             'l.purpose',
+//             's.stagename',
+//             'h.coram',
+//             'c1.short_description',
+//             'active_fil_no',
+//             'm.active_reg_year',
+//             'm.casetype_id',
+//             'm.active_casetype_id',
+//             'm.ref_agency_state_id',
+//             'm.reg_no_display',
+//             "EXTRACT(YEAR FROM m.fil_dt) AS fil_year",
+//             'm.fil_no',
+//             'm.fil_dt',
+//             'm.fil_no_fh',
+//             'm.reg_year_fh AS fil_year_f',
+//             'm.mf_active',
+//             'm.pet_name',
+//             'm.res_name',
+//             'm.lastorder',
+//             'pno',
+//             'rno',
+//             'm.diary_no_rec_date',
+//             'CASE 
+//                 WHEN (m.diary_no = m.conn_key::int OR m.conn_key = \'0\' OR m.conn_key = \'\' OR m.conn_key IS NULL)
+//                     THEN 0
+//                 ELSE 1
+//             END AS main_or_connected',
+//             '(SELECT CASE WHEN diary_no IS NOT NULL THEN 1 ELSE 0 END
+//               FROM conct
+//               WHERE diary_no = m.diary_no AND LIST = \'Y\') AS listed',
+//             "to_char(tt.ent_dt, 'DD-MM-YYYY HH12:MI AM') AS verified_on",
+//             "(SELECT replace(STRING_AGG(remarks, E'\\n'), ',', E'\\n')
+//               FROM master.case_verify_by_sec_remark
+//               WHERE id::text = ANY(string_to_array(tt.remark_id, ','))) AS remarks_by_monitoring",
+//             "(SELECT CONCAT(name, '(', empid, ')')
+//               FROM master.users
+//               WHERE usercode = tt.ucode) AS verified_by"
+//         ])
+//         ->join('heardt h', 'h.diary_no = m.diary_no', 'inner')
+//         ->join('case_verify tt', 'tt.diary_no = h.diary_no', 'inner')
+//         ->join('master.listing_purpose l', 'l.code = h.listorder AND l.display = "Y"', 'left')
+//         ->join('master.subheading s', 's.stagecode = h.subhead AND s.display = "Y" AND s.listtype = "M"', 'left')
+//         ->join('master.casetype c1', 'm.active_fil_no = c1.casecode::text', 'left')
+//         ->join('master.users u', 'u.usercode = m.dacode AND u.display = "Y"', 'left')
+//         ->join('master.usersection us', 'us.id = u.section' . $sec_id, 'left')
+//         ->where('tt.display', 'Y')
+//         ->where('DATE(h.next_dt)', $list_dt)
+//         ->where($checkDaCode)
+//         ->groupStart()
+//         ->whereIn('COALESCE(NULLIF(TRIM(LEADING \'0\' FROM split_part(m.fil_no, \'-\', 1)), \'\')::INTEGER, 0)', [
+//             3, 15, 19, 31, 23, 24, 40, 32, 34, 22, 39, 11, 17, 13, 1, 7, 37, 9999, 38, 5, 21, 27, 4, 16, 20, 18, 33, 41, 35, 36, 28, 12, 14, 2, 8, 6
+//         ])
+//         ->orWhere('m.active_fil_no', '')
+//         ->orWhere('m.active_fil_no IS NULL')
+//         ->groupEnd()
+//         ->groupStart()
+//         ->where('(m.diary_no = CAST(NULLIF(m.conn_key, \'\') AS BIGINT) OR m.conn_key = \'0\' OR m.conn_key IS NULL)')
+//         ->orWhere(function($query) {
+//             $query->whereExists(function($query) {
+//                 $query->select(1)
+//                     ->from('conct')
+//                     ->where('diary_no', 'm.diary_no')
+//                     ->whereIn('conn_key', function($subquery) {
+//                         $subquery->select('diary_no')
+//                             ->from('heardt t1')
+//                             ->where('t1.next_dt', 'h.next_dt');
+//                     });
+//             });
+//         })
+//         ->groupEnd()
+//         ->groupBy([
+//             'm.diary_no', 'h.next_dt', 'u.name', 'us.section_name', 'l.purpose', 's.stagename', 'h.coram', 'c1.short_description',
+//             'tt.ent_dt', 'tt.remark_id', 'tt.ucode'
+//         ])
+//         ->orderBy('1')
+//         ->orderBy('2')
+//         ->orderBy('main_or_connected', 'ASC');
+
+//     // Execute query and get results
+//     $query = $builder->get();
+//     return $query->getResultArray();
+// }
+
+
+
+
+
+
 public function getAdv($diary_no)
 {
-  $advsql = "SELECT a.*, 
-              STRING_AGG(
-                  a.name || COALESCE(CASE WHEN pet_res = 'R' THEN grp_adv END, ''), ', ' 
-                  ORDER BY adv_type DESC, pet_res_no ASC
-              ) AS r_n,
-              STRING_AGG(
-                  a.name || COALESCE(CASE WHEN pet_res = 'P' THEN grp_adv END, ''), ', ' 
-                  ORDER BY adv_type DESC, pet_res_no ASC
-              ) AS p_n,
-              STRING_AGG(
-                  a.name || COALESCE(CASE WHEN pet_res = 'I' THEN grp_adv END, ''), ', ' 
-                  ORDER BY adv_type DESC, pet_res_no ASC
-              ) AS i_n
-          FROM (
-              SELECT a.diary_no, 
-                    b.name, 
-                    STRING_AGG(
-                          COALESCE(a.adv, ''), ', ' 
-                          ORDER BY CASE WHEN pet_res = 'I' THEN 99 ELSE 0 END ASC, adv_type DESC, pet_res_no ASC
-                    ) AS grp_adv, 
-                    a.pet_res, 
-                    a.adv_type, 
-                    a.pet_res_no
-              FROM advocate a 
-              LEFT JOIN master.bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y' 
-            -- WHERE a.diary_no = '52018' 
-              WHERE a.diary_no = '$diary_no' 
-                AND a.display = 'Y' 
-              GROUP BY a.diary_no, b.name, a.pet_res, a.adv_type, a.pet_res_no
-          ) a 
-          GROUP BY a.diary_no,a.name,a.grp_adv,a.pet_res,a.adv_type,a.pet_res_no";
+    $subquery = $this->db->table('advocate a')
+        ->select([
+            'a.diary_no',
+            'b.name',
+            "STRING_AGG(COALESCE(a.adv, ''), ', ' 
+                ORDER BY 
+                    CASE WHEN a.pet_res = 'I' THEN 99 ELSE 0 END,  -- Handling 'I' pet_res first
+                    a.adv_type DESC,  -- Then sorting by adv_type DESC
+                    a.pet_res_no ASC -- Finally by pet_res_no ASC
+            ) AS grp_adv",
+            'a.pet_res',
+            'a.adv_type',
+            'a.pet_res_no'
+        ])
+        ->join('master.bar b', 'a.advocate_id = b.bar_id AND b.isdead != \'Y\'', 'left')
+        ->where('a.diary_no', $diary_no)
+        ->where('a.display', 'Y')
+        ->groupBy(['a.diary_no', 'b.name', 'a.pet_res', 'a.adv_type', 'a.pet_res_no']);
 
-    $query = $this->db->query($advsql);
-    $results = $query->getRowArray();
-    return $results;
+    $builder = $this->db->table('(' . $subquery->getCompiledSelect() . ') a')
+        ->select([
+            'a.diary_no',
+            "STRING_AGG(a.name || COALESCE(
+                CASE WHEN a.pet_res = 'R' THEN a.grp_adv END, ''), ', ' 
+                ORDER BY a.adv_type DESC, a.pet_res_no ASC) AS r_n",
+            "STRING_AGG(a.name || COALESCE(
+                CASE WHEN a.pet_res = 'P' THEN a.grp_adv END, ''), ', ' 
+                ORDER BY a.adv_type DESC, a.pet_res_no ASC) AS p_n",
+            "STRING_AGG(a.name || COALESCE(
+                CASE WHEN a.pet_res = 'I' THEN a.grp_adv END, ''), ', ' 
+                ORDER BY a.adv_type DESC, a.pet_res_no ASC) AS i_n"
+        ])
+        ->groupBy('a.diary_no');
+    $query = $builder->get();
+    return $query->getRowArray();
 }
 
-// public function getSectionName($casetype_displ ,$ten_reg_yr,$ref_agency_state_id)
-// {
-//   $section_ten_q = "SELECT dacode,section_name,name FROM master.da_case_distribution a
-//   LEFT JOIN master.users b ON usercode=dacode
-//   LEFT JOIN master.usersection c ON b.section=c.id
-//   WHERE case_type=$casetype_displ AND $ten_reg_yr BETWEEN case_f_yr AND case_t_yr AND state='$ref_agency_state_id' AND a.display='Y' ";
-//   $query = $this->db->query($section_ten_q);
-//   $results = $query->getRowArray();
-//   return $results;
- 
-// }
+
 
 public function getSectionName($casetype_displ, $ten_reg_yr, $ref_agency_state_id)
 {
+ 
     $builder = $this->db->table('master.da_case_distribution a');
     $builder->select('a.dacode, c.section_name, b.name');
     $builder->join('master.users b', 'b.usercode = a.dacode', 'left');

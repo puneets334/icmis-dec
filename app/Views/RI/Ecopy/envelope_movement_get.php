@@ -23,7 +23,7 @@ if (!empty($envelopeData))
 //    print_r($envelopeData);
 //    die;
     ?>
-    <table id="reportTable1" class="table table-striped table-hover">
+    <table id="reportTable1" class="table table-striped table-hover custom-table">
         <thead>
         <tr>
             <th>Sno.</th>

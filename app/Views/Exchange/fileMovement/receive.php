@@ -89,7 +89,7 @@
                                         <?php
                                         foreach ($cases as $case)
                                         {
-                                            echo '<option value="' . $case["casecode"] . '">' . $case["casename"] . '</option>';
+                                            echo '<option value="' . $case["casecode"] . '">' . $case["short_description"] . '</option>';
                                         }
                                         ?>
                                     </select>
@@ -269,9 +269,9 @@
         }
         $.ajax({
             type: 'POST',
-            data: 
-            {
+            data:  {
                 CSRF_TOKEN: CSRF_TOKEN_VALUE,
+                searchby: searchby,
                 d_no:diaryno,
                 d_yr:diaryyear,
                 ct:cstype,
@@ -280,22 +280,16 @@
                 module:'receive'
             },
             url: "<?= site_url('Exchange/FileMovement/getSFileRec') ?>",
-            beforeSend: function ()
-            {
+            beforeSend: function () {
                 $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
-            success: function(response)
-            {
-                if(response.status == true)
-                {
+            success: function(response) {
+                if(response.status == true) {
                     $("#dv_res1").html(response.data);
                     $("#dv_res2").html('');
-                    if($('input[name="chk[]"]:checked').length>0)
-                    {
+                    if($('input[name="chk[]"]:checked').length>0) {
                         $('#receive').prop('disabled',false);    
-                    }
-                    else
-                    {
+                    } else {
                         $('#receive').prop('disabled',true);    
                     }
                 }
@@ -467,7 +461,12 @@
                 info_chk.push($(this).val());
             }
         });
-
+        
+        if (info_chk.length === 0) {
+            alert("No record selected!");
+            return false;
+        }
+        
         $.ajax({
             url: "<?= site_url('Exchange/FileMovement/saveDispatchedRecord') ?>",
             type: "post",
@@ -480,7 +479,7 @@
             },
             success: function(data)
             {
-                console.log(data);
+                //console.log(data);
                 /*if(data=='')
                 {
                     $('#dv_res2').html('<p align=center><font color=red>Successfully Received</font></p>');
@@ -493,7 +492,7 @@
                     $('#dv_res2').html(data);
                 }*/
 
-                $('#dv_res2').html('<p align=center><font color=red>"'+data.message+'"</font></p>');
+                $('#dv_res2').html('<p align=center><font color=red>'+data.message+'</font></p>');
                     setTimeout(function()
                     {
                         $('input[name=btnGetR]').trigger('click');

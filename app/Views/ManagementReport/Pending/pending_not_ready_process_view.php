@@ -1,6 +1,7 @@
 <?php
-if (sizeof($res) > 0) {
-?><div class="table-responsive">
+if (!empty($res)) {
+?>
+<div class="table-responsive" id="dv_content1">
     <table id="reportTable1"  class="table table-striped custom-table">
         <thead>
             <tr>
@@ -17,6 +18,7 @@ if (sizeof($res) > 0) {
             <?php
 
             foreach ($res as $data) {
+               
                 $tot_misc_main = $data['misc_not_ready_main'] + $data['misc_updation_awaited_main'] + $data['chamber_not_ready_main'];
                 $tot_misc_main = $tot_misc_main + $data['registrar_not_ready_main'];
 
@@ -25,6 +27,9 @@ if (sizeof($res) > 0) {
 
                 $tot_misc_total = $data['misc_not_ready'] + $data['misc_updation_awaited'] + $data['chamber_not_ready'];
                 $tot_misc_total = $tot_misc_total + $data['registrar_not_ready'];
+
+               
+
 
                 $tot_reg_main = $data['final_not_ready_main'] + $data['final_updation_awaited_main'];
                 $tot_reg_conn = $data['final_not_ready_conn'] + $data['final_updation_awaited_conn'];
@@ -128,6 +133,10 @@ if (sizeof($res) > 0) {
             <?php } ?>
         </tbody>
     </table>
+    <div style="text-align: center;">
+  <input name="print1" type="button" id="print1" value="Print">
+</div>
+
   </div>
 <?php } else {
 ?>

@@ -42,13 +42,13 @@
 
                                             <div class="row">
                                                 <div class="col-sm-12 col-md-3 mb-3">
-                                                    <label for="from">From Date: </label> <input type="text" id="fromDate" name="fromDate" class="form-control datepick" required placeholder="From Date" value="<?= !empty($fromDate) ? $fromDate : null; ?>">
+                                                    <label for="from">From Date: </label> <input type="text" id="fromDate" name="fromDate" class="form-control dtp" required placeholder="From Date" value="<?= !empty($fromDate) ? $fromDate : null; ?>"  maxlength="10" size="10" readonly>
 
                                                 </div>
 
                                                 <div class="col-sm-12 col-md-3 mb-3">
                                                     <label for="to_date">To Date:</label>
-                                                    <input type="text" id="toDate" name="toDate" class="form-control datepick" required placeholder="From Date" value="<?= !empty($toDate) ? $toDate : null; ?>">
+                                                    <input type="text" id="toDate" name="toDate" class="form-control dtp" required placeholder="From Date" value="<?= !empty($toDate) ? $toDate : null; ?>"  maxlength="10" size="10" readonly>
                                                 </div>
 
 
@@ -190,8 +190,8 @@
     </div>
 </section>
 <script>
-    $(document).on("focus", ".datepick", function() {
-        $('.datepick').datepicker({
+    $(document).on("focus", ".dtp", function() {
+        $('.dtp').datepicker({
             dateFormat: 'dd-mm-yy',
             changeMonth: true,
             changeYear: true,

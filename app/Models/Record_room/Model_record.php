@@ -106,7 +106,9 @@ class Model_record extends Model
     {
         try {
             $response = $this->db->table('public.ac')->where('id', $id)->update($data);
-            // var_dump($response);exit;
+            // echo $this->db->getLastQuery();
+            // // var_dump($response);
+            // exit;
             return true;
         } catch (\Exception $e) {
             // Log the error message
@@ -121,7 +123,7 @@ class Model_record extends Model
     {
         $builder = $this->db->table('master.bar');
         $builder->select('name');
-        $builder->where('aor_code', $tvap);
+        $builder->where('CAST(aor_code AS TEXT)', $tvap);
         $query = $builder->get();
         $row = $query->getRow();
         if ($row) {
@@ -135,7 +137,7 @@ class Model_record extends Model
         $builder = $this->db->table('ac a');
         $builder->select('b.aor_code, b.name');
         $builder->join('master.bar b', 'b.aor_code = a.aor_code');
-        $builder->where('a.eino', $tvap);
+        $builder->where('CAST(a.eino AS TEXT)', $tvap);
         $query = $builder->get();
         return $query->getResultArray();
     }
@@ -329,7 +331,6 @@ class Model_record extends Model
     {
         try {
             $this->db->table('public.ac')->insert($data);
-            // echo $this->db->getlastQuery();
             return true;
         } catch (\Exception $e) {
             // Log the error message
@@ -347,7 +348,7 @@ class Model_record extends Model
         return $this->select("CONCAT(a.aor_code, '#', b.name, '#', a.cname, '#', a.cfname, '#', a.pa_line1, '#', a.pa_line2, '#', a.pa_district, '#', a.pa_pin, '#', a.ppa_line1, '#', a.ppa_line2, '#', a.ppa_district, '#', a.ppa_pin, '#', a.dob, '#', a.place_birth, '#', a.nationality, '#', a.cmobile, '#', a.eq_x, '#', a.eq_xii, '#', a.eq_ug, '#', a.eq_pg, '#', a.regdate, '#', a.id) as result")
             ->from('ac a')
             ->join('master.bar b', 'b.aor_code = a.aor_code', 'left')
-            ->where('a.eino', $tvap)
+            ->where('CAST(a.eino AS TEXT)', $tvap)
             ->get()
             ->getRowArray();
     }
@@ -1332,16 +1333,20 @@ class Model_record extends Model
             ->where('ref_hall_no', $hallNo)
             ->where('display', 'C')
             ->update();
+        //      echo $this->db->getLastQuery();
+        //  die(); 
     }
 
-    public function findMapping($usercode, $hallNo)
+    public function findMapping($usercode, $hallNo,$display = 'C')
     {
-        return $this->db->table('master.rr_user_hall_mapping')
+        $query = $this->db->table('master.rr_user_hall_mapping')
             ->where('usercode', $usercode)
             ->where('ref_hall_no', $hallNo)
-            ->where('display', 'C')
-            ->get()
-            ->getRowArray();
+            ->where('display', $display)
+            ->get()->getRowArray()?? NULL;
+            return $query;
+        //  echo $this->db->getLastQuery();
+        //  die();   
     }
 
     public function deactivateMapping($usercode)
@@ -1357,12 +1362,31 @@ class Model_record extends Model
             ->update();
     }
 
-    public function findCaseDistribution($da_code, $value, $value_up)
+    public function findCaseDistribution_new($da_code, $caseGroup, $value_up='C')
     {
 
+        $builder = $this->db->table('master.rr_da_case_distribution');
+        $builder->where('user_code', $da_code);
+        $builder->where('casehead', $caseGroup);
+        $builder->where('display', $value_up);
+        // echo $builder->getCompiledSelect();
+        return $builder->get()->getResultArray();
+
+        // return $this->db->table('master.da_case_distribution')
+        // ->where('dacode', $da_code)
+        // ->where('CAST(case_type AS TEXT)', $value)
+        // ->where('case_from', (int)$value_up[1]) 
+        // ->orderBy('id', 'ASC')
+        // ->get();
+    }
+
+
+
+    public function findCaseDistribution($da_code, $value, $value_up)
+    {
         return $this->db->table('master.da_case_distribution')
         ->where('dacode', $da_code)
-        ->where('case_type', $value)  
+        ->where('CAST(case_type AS TEXT)', $value)
         ->where('case_from', (int)$value_up[1]) 
         ->orderBy('id', 'ASC')
         ->get();
@@ -1382,16 +1406,27 @@ class Model_record extends Model
 
     public function insertCaseDistribution($data)
     {
-        return $this->db->table('master.da_case_distribution')->insert($data);
+        return $this->db->table('master.rr_da_case_distribution')->insert($data);
     }
 
     public function updateCaseToYDistribution($rkdcmpda_code, $value)
     {
-        return $this->db->table('master.da_case_distribution')->set(['display' => 'Y'])
+        $res= $this->db->table('master.da_case_distribution')->set(['display' => 'Y'])
             ->where('dacode', $rkdcmpda_code)
-            ->where('nature', $value)
+            // ->where('nature', $value)
             ->where('display', 'C')
             ->update();
+        return $res;
+    }
+
+    public function updateCaseToYDistribution_new($rkdcmpda_code, $value)
+    {
+        $res= $this->db->table('master.rr_da_case_distribution')->set(['display' => 'Y','valid_to'=> null])
+            ->where('user_code', $rkdcmpda_code)
+            ->where('casehead', $value)
+            ->where('display', 'C')
+            ->update();
+        return $res;
     }
 
     public function deactivateCase($usercode)

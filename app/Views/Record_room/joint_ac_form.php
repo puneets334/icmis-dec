@@ -1,5 +1,14 @@
 <?= view('header') ?>
 
+
+<style>
+    #rslt {
+    text-align: center;
+    font-size: large;
+    font-weight: 600;
+    color: red;
+}
+</style>
 <script type="text/javascript">
     $(function() {
         $("#crd1").datepicker({
@@ -103,7 +112,14 @@
                     data: dataString,
                     cache: false,
                     success: function(result) {
-                        $('#rslt').html(result);
+                        if(result.error)
+                        {
+                        $('#rslt').html(result.error);
+                        }else
+                        {
+                            $('#rslt').html(result.success);
+
+                        }
                     }
                 });
             }

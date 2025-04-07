@@ -2226,7 +2226,7 @@ function getDisposal_AsPer_Updation($fromDate=null, $toDate=null,$id=null)
                     WHERE DATE($date_type) BETWEEN '$fromDate' AND '$toDate'
                     AND br.aor_code = $aorCode
                     ORDER BY order_filing_date DESC";
-    
+                   
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         if (!empty($result)) {
@@ -2258,7 +2258,6 @@ function getDisposal_AsPer_Updation($fromDate=null, $toDate=null,$id=null)
                         WHERE b.aor_code = '".$aorCode."' AND a.display = 'Y'
                         GROUP BY m.diary_no, m.fil_dt, m.c_status
                     ) a;";
-            
             $query = $this->db->query($sql);
             $result = $query->getResultArray();
             
@@ -2278,39 +2277,40 @@ function getDisposal_AsPer_Updation($fromDate=null, $toDate=null,$id=null)
         } else if ($type == 3) {
             $condition = " AND c_status = 'D' ";
         }
-            $sql = "SELECT a.diary_no, 
-                           CONCAT(bar.title, ' ', bar.name) AS advName,
-                           bar.aor_code, 
-                           pet_name, 
-                           res_name, 
-                           reg_no_display, 
-                           c_status,
-                           diary_no_rec_date AS filing_date, 
-                           CASE 
-                               WHEN fil_dt IS NOT NULL AND fil_dt != '1970-01-01 00:00:00'::timestamp 
-                               THEN fil_dt 
-                               ELSE NULL 
-                           END AS reg_date, 
-                           d.ord_dt AS disposal_dt,
-                           b.mf_active,
-                           CASE
-                               WHEN (b.conn_key::INTEGER = 0 OR b.conn_key IS NULL OR b.conn_key::INTEGER = a.diary_no::INTEGER)
-                               THEN 'M'
-                               ELSE CASE
-                                   WHEN (b.conn_key::INTEGER != 0 AND b.conn_key IS NOT NULL AND b.conn_key::INTEGER != a.diary_no::INTEGER)
-                                   THEN 'C'
-                               END
-                           END AS mainOrConn
-                    FROM advocate a
-                    INNER JOIN master.bar ON a.advocate_id = bar.bar_id
-                    INNER JOIN main b ON a.diary_no = b.diary_no
-                    LEFT JOIN dispose d ON d.diary_no = a.diary_no                
-                    WHERE bar.aor_code = $aorCode 
-                      AND a.display = 'Y' 
-                      $condition
-                    GROUP BY a.diary_no, bar.title, bar.name, bar.aor_code, pet_name, res_name, reg_no_display, c_status, 
-                             diary_no_rec_date, fil_dt, d.ord_dt, b.mf_active, b.conn_key, a.diary_no
-                    ORDER BY diary_no_rec_date DESC";
+        $sql ="SELECT DISTINCT
+                    a.diary_no,
+                    CONCAT(bar.title, ' ', bar.name) AS advName,
+                    bar.aor_code,
+                    pet_name,
+                    res_name,
+                    reg_no_display,
+                    c_status,
+                    diary_no_rec_date AS filing_date,
+                    CASE
+                        WHEN fil_dt IS NOT NULL AND fil_dt != '1970-01-01 00:00:00'::timestamp THEN fil_dt ELSE NULL END AS reg_date,
+                    d.ord_dt AS disposal_dt,
+                    b.mf_active,
+                    CASE
+                        WHEN b.conn_key IS NULL OR b.conn_key = '' OR b.conn_key::INTEGER = 0 OR b.conn_key::INTEGER = b.diary_no::INTEGER THEN 'M'
+                        WHEN b.conn_key::INTEGER != 0 AND b.conn_key::INTEGER IS NOT NULL AND b.conn_key::INTEGER != b.diary_no::INTEGER THEN 'C'
+                        ELSE NULL
+                    END AS mainOrConn
+                FROM
+                    advocate a
+                INNER JOIN
+                    master.bar ON a.advocate_id = bar.bar_id
+                INNER JOIN
+                    main b ON a.diary_no = b.diary_no
+                LEFT JOIN
+                    dispose d ON d.diary_no = a.diary_no
+                WHERE
+                    bar.aor_code = $aorCode
+                    AND a.display = 'Y'
+                    $condition
+                GROUP BY
+                    a.diary_no, advName, bar.aor_code, pet_name, res_name, reg_no_display, c_status, filing_date, reg_date, disposal_dt, b.mf_active, mainOrConn
+                ORDER BY
+                    filing_date DESC";
             $query = $this->db->query($sql);
             $result = $query->getResultArray();
             if (!empty($result)) {

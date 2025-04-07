@@ -267,8 +267,7 @@ GROUP BY GROUPING SETS ((daName), ())";
 
   public function get_filling($frm_dt, $to_dt, $ddl_users, $chk_da, $chk_users)
   {
-    //pr($ddl_users);
-    //vinit garg
+   
 
     $remarks = '';
     $remarks1 = '';
@@ -322,7 +321,8 @@ GROUP BY GROUPING SETS ((daName), ())";
       $ck_comp_refil_x = '';
       $ck_comp_refil_w = '';
 
-      if ($ddl_users == '103') {
+      if ($ddl_users == '103')
+      {
 
         $ck_comp_fil_x = " (xx.remarks = 'SCR -> AOR' or xx.remarks = 'AUTO -> CAT' or xx.remarks = 'SCR -> CAT' OR xx.remarks = 'SCR -> REF' OR xx.remarks = 'SCR -> FDR') ";
         $ck_comp_fil_w = " (ww.remarks = 'SCR -> AOR' or ww.remarks = 'AUTO -> CAT' or ww.remarks = 'SCR -> CAT' OR ww.remarks = 'SCR -> REF' OR ww.remarks = 'SCR -> FDR') ";
@@ -811,7 +811,9 @@ GROUP BY GROUPING SETS ((daName), ())";
                         GROUP BY u.usercode ) tt  GROUP BY tt.usercode,tt.d_to_empid
                         ORDER BY s DESC";
         //pr($sql);
-      } else if ($ddl_users == '108') {
+      }
+      else if ($ddl_users == '108')
+      {
         $ck_comp_fil_x = " xx.remarks = 'FDR -> AOR'  ";
         $ck_comp_fil_w = " ww.remarks = 'FDR -> AOR' ";
         $ck_comp_refil_x = " xx.remarks = 'FDR -> SCR'  ";
@@ -1308,7 +1310,8 @@ GROUP BY GROUPING SETS ((daName), ())";
                                     GROUP BY u.usercode ) tt  GROUP BY tt.usercode,tt.r_by_empid
                                     ORDER BY s DESC";
       }
-    } elseif ($ddl_users == '105') {
+    } elseif ($ddl_users == '105')
+    {
       $sql = "SELECT 
           SUM(s) s,
           SUM(ss) ss,
@@ -1521,7 +1524,9 @@ GROUP BY GROUPING SETS ((daName), ())";
           AND t_u.display = 'Y' 
           AND u.display = 'Y' $chk_users
         GROUP BY u.usercode ";
-    } elseif ($ddl_users == '109') {
+    }
+    elseif ($ddl_users == '109')
+    {
       $sql = "Select  u.empid d_to_empid ,COUNT(diary_no) ss from  master.users u 
         JOIN fil_trap_users t_u 
           ON u.usercode = t_u.usercode
@@ -1529,7 +1534,9 @@ GROUP BY GROUPING SETS ((daName), ())";
         between '$frm_dt' AND '$to_dt'
         WHERE t_u.usertype = '$ddl_users' $chk_users
         AND t_u.display = 'Y'  and u.display='Y' $chk_users GROUP BY u.empid ";
-    } else {
+    }
+    else
+    {
       $res_rmk = '';
       if ($ddl_users == '102') {
         $res_rmk = "DE -> SCR";
@@ -1771,6 +1778,7 @@ GROUP BY GROUPING SETS ((daName), ())";
           AND u.display = 'Y'  $chk_users
         GROUP BY u.usercode ";
     }
+
     $query = $this->db->query($sql);
 
     return $query->getResultArray();

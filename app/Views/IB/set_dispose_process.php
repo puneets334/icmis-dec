@@ -254,8 +254,9 @@ if ($d_no != '' and $d_yr != '') {
 
                 if ($filno['c_status'] == 'D') {
                     $row_rj = $model->getJudgmentDetails($filno['diary_no']);
-                    if ($row_rj) {
-                        $disp_str = " (Order Date: " . $row_rj["ord_dt"] . " and Updated on " . $row_rj["ddt"] . ")<br> JUDGES: " . stripslashes($row_rj["judges"]);
+                     $disp_str = '';
+                    if (!empty($row_rj)) {
+                        $disp_str = " (Order Date: " . $row_rj["odt"] . " and Updated on " . $row_rj["ddt"] . ")<br> JUDGES: " . stripslashes($row_rj["judges"]);
 
                         $judgeNames = $model->getJudgeNames($filno['diary_no']);
 
@@ -276,7 +277,7 @@ if ($d_no != '' and $d_yr != '') {
                         }
 
                         $disp_dt = $row_rj["disp_dt"];
-                        if ($row_rj["rj_dt"] != "0000-00-00") {
+                        if (!empty($row_rj["rj_dt"])) {
                             $rjdate = "&nbsp;&nbsp;&nbsp;RJ Date: " . date('d-m-Y', strtotime($row_rj["rj_dt"]));
                         }
                     }
@@ -352,7 +353,8 @@ if ($d_no != '' and $d_yr != '') {
                             </td>
                             <td>
                                 <?php
-                                if (get_display_status_with_date_differnces($r_ttv['tentative_cl_dt']) == 'T') {
+
+                                if (!empty($r_ttv['tentative_cl_dt']) && get_display_status_with_date_differnces($r_ttv['tentative_cl_dt']) == 'T') {
                                     $tentative_date = $r_ttv['tentative_cl_dt'];
                                     echo change_date_format($tentative_date);
                                 }
@@ -413,6 +415,7 @@ if ($d_no != '' and $d_yr != '') {
         $listorder = "";
         $jcodes = "";
         $benchmain = "";
+        $t_conn_cases = '';
 
         $row_m = $model->getDiaryByNo($diaryno);
         if ($row_m) {
@@ -420,6 +423,7 @@ if ($d_no != '' and $d_yr != '') {
             $connto = $row_m["connto"];
             //IAN
             $results_ian = $model->getDocDetailsByDiaryNo($diaryno);
+           // pr($results_ian);
             $iancntr = 1;
             foreach ($results_ian as $row_ian) {
                 if ($ian_p == "" and $row_ian["iastat"] == "P") {
@@ -441,10 +445,12 @@ if ($d_no != '' and $d_yr != '') {
                     $t_ia = "<font color='blue'>" . $row_ian["iastat"] . "</font>";
                 if ($row_ian["iastat"] == "D")
                     $t_ia = "<font color='red'>" . $row_ian["iastat"] . "</font>";
-                $ian .= "<tr><td align='center'>" . $iancntr . "</td><td align='center'><b>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</b></td><td>" . $t_part . "</td><td>" . $row_ian["filedby"] . "</td><td align='center'>" . date("d-m-Y", strtotime($row_ian["ent_dt"])) . "</td><td align='center'><b>" . $t_ia . "</b></td></tr>";
+                    $row_ian_ent_dt =   $row_ian["ent_dt"] ? date("d-m-Y", strtotime($row_ian["ent_dt"])) : '';
+                $ian .= "<tr><td align='center'>" . $iancntr . "</td><td align='center'><b>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</b></td><td>" . $t_part . "</td><td>" . $row_ian["filedby"] . "</td><td align='center'>" . $row_ian_ent_dt . "</td><td align='center'><b>" . $t_ia . "</b></td></tr>";
 
                 if ($row_ian["iastat"] == "P") {
-                    $ian_p .= "<tr><td align='center'><input type='checkbox' name='iachbx" . $iancntr . "' id='iachbx" . $iancntr . "' value='" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "|#|" . $t_part . "' onClick='feed_rmrk();'></td><td align='center'>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</td><td align='left'>" . $t_part . "</td><td align='center'>" . date("d-m-Y", strtotime($row_ian["ent_dt"])) . "</td></tr>";
+                    $row_ian_ent_dt =   $row_ian["ent_dt"] ? date("d-m-Y", strtotime($row_ian["ent_dt"])) : '';
+                    $ian_p .= "<tr><td align='center'><input type='checkbox' name='iachbx" . $iancntr . "' id='iachbx" . $iancntr . "' value='" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "|#|" . $t_part . "' onClick='feed_rmrk();'></td><td align='center'>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</td><td align='left'>" . $t_part . "</td><td align='center'>" . $row_ian_ent_dt . "</td></tr>";
                 }
                 $iancntr++;
             }
@@ -549,10 +555,11 @@ if ($d_no != '' and $d_yr != '') {
 
             // Handle dispose date if status is D
             $rjdate = '';
+
             if ($status == 'D') {
-                $sqlRJ = "SELECT rj_dt FROM dispose WHERE diary_no = :diary_no:";
-                $resultRJ = $this->db->query($sqlRJ, ['diary_no' => $diaryNo])->getRowArray();
-                if ($resultRJ && $resultRJ['rj_dt'] != '0000-00-00') {
+                $resultRJ = is_data_from_table('dispose', "diary_no = $diaryno", 'rj_dt', '');
+
+                if (!empty($resultRJ['rj_dt'])) {
                     $rjdate = date('d-m-Y', strtotime($resultRJ['rj_dt']));
                 }
             }
@@ -664,18 +671,20 @@ if ($d_no != '' and $d_yr != '') {
 
                         $sn = 0;
                         $t_conn_cases = '';
+
                         foreach ($conncases as $row => $link) {
                             if ($link['c_type'] != "") {
 
                                 $sn++;
-                                $main_details = get_main_details($link['diary_no'], 'diary_no,pet_name,res_name,c_status,fil_no_fh');
+                                $main_details = $model->get_main_details($link['diary_no'], 'diary_no,pet_name,res_name,c_status,fil_no_fh');
                                 if (is_array($main_details)) {
                                     foreach ($main_details as $rowm => $linkm) {
+
                                         $t_pname = $linkm['pet_name'];
                                         $t_rname = $linkm['res_name'];
                                         $t_status = $linkm['c_status'];
                                         $t_fil_no_fh = $linkm['fil_no_fh'];
-                                        if ($link["list"] == "Y")
+                                        if (isset($link["list"]) && $link["list"] == "Y")
                                             $chked = "checked";
                                         else
                                             $chked = "";
@@ -683,7 +692,7 @@ if ($d_no != '' and $d_yr != '') {
                                             $chked = " disabled=disabled";
                                     }
                                 }
-                                $t_brdrem = get_brd_remarks($link['diary_no']);
+                                $t_brdrem = $model->get_brd_remarks($link['diary_no']);
                                 $t_conn_type = "";
                                 if ($link['c_type'] == "M") {
                                     $t_conn_type = "Main";
@@ -697,8 +706,9 @@ if ($d_no != '' and $d_yr != '') {
                                 if ($link['c_type'] != "M" and $t_status == "P" and $link['diary_no'] != '') {
                                     $t_conn_cases .= '<tr><td><input type="checkbox" name="conncchk' . $link['diary_no'] . '" id="conncchk' . $link['diary_no'] . '" value="' . $link['diary_no'] . '"/><label class="lblclass" for="conncchk' . $link['diary_no'] . '">' . get_real_diaryno($link['diary_no']) . '</label></td></tr>';
                                 }
+                                $list = isset($link["list"]) ? $link["list"] : '';
                                 $mul_cat = get_mul_category($link['diary_no']);
-                                echo "<tr><td align='center' width='30px'>" . $sn . "</td><td>" . get_real_diaryno($link['diary_no']) . "</td><td>" . $t_conn_type . "</td><td>" . $t_pname . " Vs. " . $t_rname . "</td><td>" . $mul_cat[0] . "</td><td align='center'>" . $t_status . "</td><td align='center'></td><td align='center'>" . $link["list"] . "</td><td></td></tr>";
+                                echo "<tr><td align='center' width='30px'>" . $sn . "</td><td>" . get_real_diaryno($link['diary_no']) . "</td><td>" . $t_conn_type . "</td><td>" . $t_pname . " Vs. " . $t_rname . "</td><td>" . $mul_cat[0] . "</td><td align='center'>" . $t_status . "</td><td align='center'></td><td align='center'>" . $list . "</td><td></td></tr>";
                                 if ($link['c_type'] != "M") {
                                     if ($t_fil_no_fh == '') {
                                         $t_check = '<div class="fh_error" style="display:none;"><font color="red">Case is not registered in Regular Hearing</font></div>';
@@ -740,14 +750,17 @@ if ($d_no != '' and $d_yr != '') {
                             $t_ia = "<font color='blue'>" . $row_ian["iastat"] . "</font>";
                         if ($row_ian["iastat"] == "D")
                             $t_ia = "<font color='red'>" . $row_ian["iastat"] . "</font>";
-                        $ian .= "<tr><td align='center'>" . $iancntr . "</td><td align='center'><b>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</b></td><td>" . str_replace("XTRA", "", $t_part) . "</td><td>" . $row_ian["filedby"] . "</td><td align='center'>" . date("d-m-Y", strtotime($row_ian["ent_dt"])) . "</td><td align='center'><b>" . $t_ia . "</b></td></tr>";
+                            $row_ian_ent_dt = $row_ian["ent_dt"] ? date("d-m-Y", strtotime($row_ian["ent_dt"])) : '';
+
+                        $ian .= "<tr><td align='center'>" . $iancntr . "</td><td align='center'><b>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</b></td><td>" . str_replace("XTRA", "", $t_part) . "</td><td>" . $row_ian["filedby"] . "</td><td align='center'>" .$row_ian_ent_dt . "</td><td align='center'><b>" . $t_ia . "</b></td></tr>";
                         if ($row_ian["iastat"] == "P") {
+                            $row_ian_ent_dt = $row_ian["ent_dt"] ? date("d-m-Y", strtotime($row_ian["ent_dt"])) : '';
                             $t_iaval = $row_ian["docnum"] . "/" . $row_ian["docyear"] . ",";
                             if (strpos($listed_ia, $t_iaval) !== false)
                                 $check = "checked='checked'";
                             else
                                 $check = "";
-                            $ian_p .= "<tr><td align='center'><input type='checkbox' name='iachbx" . $iancntr . "' id='iachbx" . $iancntr . "' value='" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "|#|" . str_replace("XTRA", "", $t_part) . "' onClick='feed_rmrk();'  " . $check . "></td><td align='center'>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</td><td align='left'>" . str_replace("XTRA", "", $t_part) . "</td><td align='center'>" . date("d-m-Y", strtotime($row_ian["ent_dt"])) . "</td></tr>";
+                            $ian_p .= "<tr><td align='center'><input type='checkbox' name='iachbx" . $iancntr . "' id='iachbx" . $iancntr . "' value='" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "|#|" . str_replace("XTRA", "", $t_part) . "' onClick='feed_rmrk();'  " . $check . "></td><td align='center'>" . $row_ian["docnum"] . "/" . $row_ian["docyear"] . "</td><td align='left'>" . str_replace("XTRA", "", $t_part) . "</td><td align='center'>" .$row_ian_ent_dt . "</td></tr>";
                         }
                         $iancntr++;
                     }
@@ -777,8 +790,10 @@ if ($d_no != '' and $d_yr != '') {
                         if ($row_od["doccode"] == 7 and $row_od["doccode1"] == 0)
                             $doc_oth = ' Fees Mode: ' . $row_od["feemode"] . ' For Resp: ' . $row_od["forresp"];
                         else
+                        $row_od_ent_dt = $row_od["ent_dt"] ? date("d-m-Y", strtotime($row_od["ent_dt"])) : '';
+
                             $doc_oth = '';
-                        $oth_doc .= "<tr><td align='center'>" . $odcntr . "</td><td align='center'><b>" . $row_od["docnum"] . "/" . $row_od["docyear"] . "</b></td><td>" . $docdesc . "</td><td>" . $row_od["filedby"] . "</td><td align='center'>" . date("d-m-Y", strtotime($row_od["ent_dt"])) . "</td><td align='center'>" . $doc_oth . "</td></tr>";
+                        $oth_doc .= "<tr><td align='center'>" . $odcntr . "</td><td align='center'><b>" . $row_od["docnum"] . "/" . $row_od["docyear"] . "</b></td><td>" . $docdesc . "</td><td>" . $row_od["filedby"] . "</td><td align='center'>" .$row_od_ent_dt . "</td><td align='center'>" . $doc_oth . "</td></tr>";
                         $odcntr++;
                     }
                     if ($oth_doc != "")
@@ -818,97 +833,97 @@ if ($d_no != '' and $d_yr != '') {
                         if ($cldate == "")
                             $cldate = date('d-m-Y');
                         ?>
-                            <tr>
-                                <td align="center"><b>
-                                        <font size="+1">Cause List/Order Date : </font>
-                                    </b>&nbsp;<input class="dtp" type="text" name="cldate" id="cldate" value="<?php echo $cldate; ?>" size="12" readonly="readonly"><input type="button" id="btn_coram" onclick="get_coram('<?php echo $diaryno; ?>','<?php echo $cldate; ?>');" name="btn_coram" value="Get Coram"></td>
-                                <input type="hidden" id="hdn_cldate" value="" />
-                                <td id="td_coram" align="center" rowspan="4"><b>
-                                        <font size="+1">Coram : </font>
-                                    </b>&nbsp;
-                                    <select size="1" name="djudge" id="djudge" class="searchable-dropdown">
+                        <tr>
+                            <td align="center"><b>
+                                    <font size="+1">Cause List/Order Date : </font>
+                                </b>&nbsp;<input class="dtp" type="text" name="cldate" id="cldate" value="<?php echo $cldate; ?>" size="12" readonly="readonly"><input type="button" id="btn_coram" onclick="get_coram('<?php echo $diaryno; ?>','<?php echo $cldate; ?>');" name="btn_coram" value="Get Coram"></td>
+                            <input type="hidden" id="hdn_cldate" value="" />
+                            <td id="td_coram" align="center" rowspan="4"><b>
+                                    <font size="+1">Coram : </font>
+                                </b>&nbsp;
+                                <select size="1" name="djudge" id="djudge" class="searchable-dropdown">
 
 
-                                        <?php
-                                        $sql2 = "SELECT jcode AS jcode, case when (jname like '%CHIEF JUSTICE%' OR jname like '%Registrar%') THEN concat(trim(jname),' (', first_name,' ',sur_name,' )') ELSE trim(jname) END AS jname FROM judge WHERE display = 'Y'  AND jtype IN('J','R')  ORDER BY if(is_retired='N',0,1),jtype,judge_seniority";
-                                        echo '<option value =""> </option>';
+                                    <?php
+                                    $sql2 = "SELECT jcode AS jcode, case when (jname like '%CHIEF JUSTICE%' OR jname like '%Registrar%') THEN concat(trim(jname),' (', first_name,' ',sur_name,' )') ELSE trim(jname) END AS jname FROM judge WHERE display = 'Y'  AND jtype IN('J','R')  ORDER BY if(is_retired='N',0,1),jtype,judge_seniority";
+                                    echo '<option value =""> </option>';
 
-                                        $results2 = $model->getJudges();
-                                        $tjud1 = $tjud2 = $tjud3 = $tjud4 = $tjud5 = "";
-                                        $cljudge1 = '';
-                                        $cljudge2 = '';
-                                        $cljudge3 = '';
-                                        $cljudge4 = '';
-                                        $cljudge5 = '';
-                                        if (count($results2) > 0) {
-                                            $djcnt = 0;
-                                            foreach ($results2 as $row2) {
-                                                if ($cljudge1 == $row2["jcode"])
-                                                    echo '<option value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '" selected>' . str_replace("\\", "", $row2["jname"]) . '</option>';
-                                                else
-                                                    echo '<option value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '">' . str_replace("\\", "", $row2["jname"]) . '</option>';
-                                                if ($cljudge1 == $row2["jcode"]) {
-                                                    $djcnt++;
-                                                    $tjud1 = '<input type="checkbox"  id="hd_chk_jd1" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . '</b></font>';
-                                                }
-                                                if ($cljudge2 == $row2["jcode"]) {
-                                                    $djcnt++;
-                                                    $tjud2 = '<input type="checkbox"  id="hd_chk_jd2" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . '</b></font>';
-                                                }
-                                                if ($cljudge3 == $row2["jcode"]) {
-                                                    $djcnt++;
-                                                    $tjud3 = '<input type="checkbox"  id="hd_chk_jd3" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . '</b></font>';
-                                                }
-                                                if ($cljudge4 == $row2["jcode"]) {
-                                                    $djcnt++;
-                                                    $tjud4 = '<input type="checkbox"  id="hd_chk_jd4" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . '</b></font>';
-                                                }
-                                                if ($cljudge5 == $row2["jcode"]) {
-                                                    $djcnt++;
-                                                    $tjud5 = '<input type="checkbox"  id="hd_chk_jd5" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . '</b></font>';
-                                                }
+                                    $results2 = $model->getJudges();
+                                    $tjud1 = $tjud2 = $tjud3 = $tjud4 = $tjud5 = "";
+                                    $cljudge1 = '';
+                                    $cljudge2 = '';
+                                    $cljudge3 = '';
+                                    $cljudge4 = '';
+                                    $cljudge5 = '';
+                                    if (count($results2) > 0) {
+                                        $djcnt = 0;
+                                        foreach ($results2 as $row2) {
+                                            if ($cljudge1 == $row2["jcode"])
+                                                echo '<option value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '" selected>' . str_replace("\\", "", $row2["jname"]) . '</option>';
+                                            else
+                                                echo '<option value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '">' . str_replace("\\", "", $row2["jname"]) . '</option>';
+                                            if ($cljudge1 == $row2["jcode"]) {
+                                                $djcnt++;
+                                                $tjud1 = '<input type="checkbox"  id="hd_chk_jd1" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . '</b></font>';
+                                            }
+                                            if ($cljudge2 == $row2["jcode"]) {
+                                                $djcnt++;
+                                                $tjud2 = '<input type="checkbox"  id="hd_chk_jd2" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . '</b></font>';
+                                            }
+                                            if ($cljudge3 == $row2["jcode"]) {
+                                                $djcnt++;
+                                                $tjud3 = '<input type="checkbox"  id="hd_chk_jd3" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . '</b></font>';
+                                            }
+                                            if ($cljudge4 == $row2["jcode"]) {
+                                                $djcnt++;
+                                                $tjud4 = '<input type="checkbox"  id="hd_chk_jd4" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . '</b></font>';
+                                            }
+                                            if ($cljudge5 == $row2["jcode"]) {
+                                                $djcnt++;
+                                                $tjud5 = '<input type="checkbox"  id="hd_chk_jd5" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . '||' . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . '</b></font>';
                                             }
                                         }
+                                    }
 
-                                        ?>
+                                    ?>
 
-                                        <style>
-                                            #select2-container--focus {
-                                                width: 220px !important;
-                                            }
-                                        </style>
+                                    <style>
+                                        #select2-container--focus {
+                                            width: 220px !important;
+                                        }
+                                    </style>
 
-                                        <script>
-                                            $("#djudge").select2({
-                                                placeholder: "Select Judges/ Registrar",
-                                                allowClear: true
-                                            });
-                                        </script>
-
-
+                                    <script>
+                                        $("#djudge").select2({
+                                            placeholder: "Select Judges/ Registrar",
+                                            allowClear: true
+                                        });
+                                    </script>
 
 
-                        </select><br><br>
-                        <input type="hidden" name="djcnt" id="djcnt" value="<?php echo $djcnt; ?>" />
-                        <input type="button" name="addjudge" id="addjudge" value="Add" onclick="getSlide();" />
-                        </td>
-                        <td rowspan="4" id="judgelist">
-                            <table id="tb_new" width="100%" style="text-align:left;">
-                                <?php
-                                if ($tjud1 != "") echo "<tr id='hd_chk_jd_row1'><td>" . $tjud1 . "</td></tr>";
-                                if ($tjud2 != "") echo "<tr id='hd_chk_jd_row2'><td>" . $tjud2 . "</td></tr>";
-                                if ($tjud3 != "") echo "<tr id='hd_chk_jd_row3'><td>" . $tjud3 . "</td></tr>";
-                                if ($tjud4 != "") echo "<tr id='hd_chk_jd_row4'><td>" . $tjud4 . "</td></tr>";
-                                if ($tjud5 != "") echo "<tr id='hd_chk_jd_row5'><td>" . $tjud5 . "</td></tr>";
-                                ?>
-                            </table>
-                        </td>
-                        <td rowspan="4" id="auto_chck">
-                            <table id="jud_coram" width="100%" style="text-align:left;">
 
-                            </table>
 
-                        </td>
+                                </select><br><br>
+                                <input type="hidden" name="djcnt" id="djcnt" value="<?php echo $djcnt; ?>" />
+                                <input type="button" name="addjudge" id="addjudge" value="Add" onclick="getSlide();" />
+                            </td>
+                            <td rowspan="4" id="judgelist">
+                                <table id="tb_new" width="100%" style="text-align:left;">
+                                    <?php
+                                    if ($tjud1 != "") echo "<tr id='hd_chk_jd_row1'><td>" . $tjud1 . "</td></tr>";
+                                    if ($tjud2 != "") echo "<tr id='hd_chk_jd_row2'><td>" . $tjud2 . "</td></tr>";
+                                    if ($tjud3 != "") echo "<tr id='hd_chk_jd_row3'><td>" . $tjud3 . "</td></tr>";
+                                    if ($tjud4 != "") echo "<tr id='hd_chk_jd_row4'><td>" . $tjud4 . "</td></tr>";
+                                    if ($tjud5 != "") echo "<tr id='hd_chk_jd_row5'><td>" . $tjud5 . "</td></tr>";
+                                    ?>
+                                </table>
+                            </td>
+                            <td rowspan="4" id="auto_chck">
+                                <table id="jud_coram" width="100%" style="text-align:left;">
+
+                                </table>
+
+                            </td>
                         </tr>
 
                         <tr>
@@ -992,7 +1007,7 @@ if ($d_no != '' and $d_yr != '') {
                                                 <div id="concasediv" style="overflow: auto;display:fixed;max-height:550px;">
                                                     <table>
                                                         <?php
-                                                        if (@$t_conn_cases != '') {
+                                                        if ($t_conn_cases != '') {
                                                             $t_conn_cases = '<tr><td bgcolor=#5499c7><input type="checkbox" name="connall" id="connall" value="" onclick="chk_all_cn();"/><label class="lblclass" for="connall">CHECK ALL</label></td></tr>' . $t_conn_cases;
                                                             echo $t_conn_cases;
                                                         } ?>
@@ -1023,8 +1038,7 @@ if ($d_no != '' and $d_yr != '') {
 
             </div>
 
-            <input type="hidden" name="sh_hidden" id="sh_hidden" value="<?php // echo $shead1;
-                                                                        ?>" />
+            <input type="hidden" name="sh_hidden" id="sh_hidden" value="" />
             <input type="hidden" name="diaryno" id="diaryno" value="<?php echo get_real_diaryno($diaryno); ?>" />
 <?php
         } else {

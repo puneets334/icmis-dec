@@ -27,6 +27,7 @@
         }
     </style>
     <script>
+
         async function updateCSRFTokenSyncr() {
             const response = await $.ajax({
                 url: "<?php echo base_url('Csrftoken'); ?>",
@@ -124,7 +125,8 @@
                             $data['transactions']=$transactions;
                         }
                         if($multiStepFlag == 'Download'){
-                            echo view("Faster/download",$data);
+                            
+                            echo view("Faster/download", $data);                            
                         } ?>
                     </div>
                     <div class="tab-pane fade <?= $multiStepFlag == 'sendEmail' ? 'in active' : '' ?>" id="sendEmail">
@@ -143,7 +145,6 @@
 
 <div class="content-fluid">
 
-</div>
 
 <script type="text/javascript" src="<?=base_url()?>/assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script type="text/javascript" src="<?=base_url()?>/assets/js/bootstrap.min.js"></script>
@@ -259,7 +260,7 @@
             $('#tblSharedDocuments tbody').empty();
             $.each(response, function(i, item) {
                 var document_date_check = item.document_date;
-                if(document_date_check == '00-00-0000'){
+                if(document_date_check == NULL){
                     document_date_check = "";
                 }
                 else{
@@ -274,8 +275,13 @@
 
         });
     }
-    function showAttachedFile(id,hideBtn=true,showDigitallySignedFile=false,showDigitallyCertifiedFile=false){
-        $.post("<?=base_url()?>/Faster/FasterController/showAttachedFile",{'documentId':id,'showDigitallySignedFile':showDigitallySignedFile,'showDigitallyCertifiedFile':showDigitallyCertifiedFile},function(result){
+
+    async function showAttachedFile(id,hideBtn=true,showDigitallySignedFile=false,showDigitallyCertifiedFile=false){
+        $("#divShowPdf").html('<table widht="100%" align="center"><tr><td><img src="<?=base_url()?>/assets/images/load.gif"/></td></tr></table>');
+        $("#divShowPdf").show();
+        var res = await updateCSRFTokenSyncr();
+        var CSRF_TOKEN_VALUE = res.CSRF_TOKEN_VALUE
+        $.post("<?=base_url()?>/Faster/FasterController/showAttachedFile",{CSRF_TOKEN: CSRF_TOKEN_VALUE,'documentId':id,'showDigitallySignedFile':showDigitallySignedFile,'showDigitallyCertifiedFile':showDigitallyCertifiedFile},function(result){
             $("#divShowPdf").show();
             if(hideBtn){
                 $("#divBtnAttachPdf").css("display", "none");
@@ -283,6 +289,7 @@
             $("#divShowPdf").html(result);
         });
     }
+
     function dodelete(id){
         var choice = confirm('Do you really want to delete this file?');
         if(choice === true) {
@@ -305,7 +312,7 @@
     }
 
     $(document).on("click", ".doActionDigiSign", function () {
-        $("#actionDigiSign").html('<table widht="100%" align="center"><tr><td><img src="<?=base_url()?>assets/images/load.gif"/></td></tr></table>');
+        $("#actionDigiSign").html('<table widht="100%" align="center"><tr><td><img src="<?=base_url()?>/assets/images/load.gif"/></td></tr></table>');
 
         var file_path = $(this).data('file_path');
         var faster_shared_doc_id = $(this).data('faster_shared_doc_id');
@@ -329,7 +336,7 @@
     });
 
     $(document).on("click", ".doActionDigiCertify", function () {
-        $("#actionDigitalCertify").html('<table widht="100%" align="center"><tr><td><img src="<?=base_url()?>assets/images/load.gif"/></td></tr></table>');
+        $("#actionDigitalCertify").html('<table widht="100%" align="center"><tr><td><img src="<?=base_url()?>/assets/images/load.gif"/></td></tr></table>');
 
         var file_path = $(this).data('file_path');
         var faster_shared_doc_id = $(this).data('faster_shared_doc_id');
@@ -360,6 +367,7 @@
         });
         return true;
     });
+
     $(document).on("click", ".btn_token_pdf_certify", function () {
         $.post("<?=base_url()?>/Faster/FasterController/setTokenCertificate", $("#token_certification_form").serialize(),function(result){
             $("#divShowPdf").show();
@@ -368,6 +376,7 @@
         });
         return true;
     });
+
     function showDocumentsList(){
         $.get("<?=base_url()?>/Faster/FasterController/getSharedDocuments",function(result){
             //alert(result);
@@ -398,6 +407,7 @@
 
         });
     }
+
     function showDocumentsListForCertification(){
         $.get("<?=base_url()?>/Faster/FasterController/getSharedDocuments",function(result){
             response = $.parseJSON(result);
@@ -436,7 +446,7 @@
     }
     function showtransactions(step){
         $.get("<?=base_url()?>/Faster/FasterController/getTransactions",{step:step},function(result){
-            //alert(result);
+            // alert(result);
             response = $.parseJSON(result);
             $('#tbl_history tbody').empty();
             $.each(response, function(i, item) {
@@ -451,16 +461,35 @@
 
         });
     }
+
     function downloadAll(){
+        updateCSRFTokenSyncr();
         $("#frmDownload").submit();
         setTimeout(function(){ showtransactions(<?=DOWNLOAD?>); }, 1000);
     }
-    function recipientDetails(){
+
+    // $(document).ready(function () {
+    //     $('#frmDownload').on('submit', function (e) {
+    //         e.preventDefault();
+    //         var url = $(this).attr('action');
+    //         $.ajax({
+    //             type: 'GET',
+    //             url: url,
+    //             data:$("#pdfForm").serialize(),
+    //             success: function (resData){
+    //                 // $('#alert-msg').html(resData);
+    //             }
+    //         })
+
+    //         updateCSRFTokenSyncr();
+    //     });
+    // });
+
+    async function recipientDetails(){
         $("#hiddenEmailIds").empty();
-        updateCSRFTokenSyncr();
         emailIds="";
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var res = await updateCSRFTokenSyncr();
+        var CSRF_TOKEN_VALUE = res.CSRF_TOKEN_VALUE
         $.post("<?=base_url()?>/Faster/FasterController/getRecipientDetails",{CSRF_TOKEN: CSRF_TOKEN_VALUE},function(result){
 
             response = $.parseJSON(result);
@@ -484,6 +513,7 @@
 
         });
     }
+
     function addEmailid(id) {
         if($("#stakeholderDetails").val()==0){
             alert("Please select Stakeholder detail!");
@@ -508,6 +538,7 @@
         });
         return false;
     }
+
     function dodeleteEmail(id){
         var choice = confirm('Do you really want to remove this email?');
         if(choice === true) {
@@ -529,6 +560,7 @@
         }
         return false;
     }
+
     function setClipboard() {
         //alert("Hi"+$("#hiddenEmailIds").val());
         var tempInput = document.createElement("input");
@@ -562,6 +594,7 @@
         }
         return false;
     }
+
     function sendEmail(){
         var choice = confirm('Do you really want to send Email with attched document(s) to recipient(s)?');
         if(choice === true) {
@@ -582,6 +615,9 @@
         return false;
     }
 </script>
-
+</div>
+<?php
+// pr($multiStepFlag);
+?>
 </body>
 </html>

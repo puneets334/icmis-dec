@@ -1,5 +1,15 @@
 <?=view('header'); ?>
     <!-- Main content -->
+     <style>
+        .dt-buttons button {
+            color: #fff !important;
+            background: #004ACB;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            border-radius: 5px !important;
+            border: 0;
+        }
+     </style>
     
     <section class="content " >
     <div class="container-fluid">
@@ -55,7 +65,7 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="view">&nbsp;</label>
-                        <button type="submit"  id="view" name="view" class="btn btn-block btn-primary">View</button>
+                        <button type="button"  id="view" name="view" class="btn btn-block btn-primary">View</button>
                     </div>
                 </div>
                 </div>
@@ -83,7 +93,7 @@
                     </div>
                     <div class="col-sm-3">
                         <label for="view">&nbsp;</label>
-                        <button type="submit"  id="view" name="view" class="btn btn-block btn-primary">View</button>
+                        <button type="button"  id="view" name="view" class="btn btn-block btn-primary">View</button>
                     </div>
 
                 </div>
@@ -91,6 +101,7 @@
 
             </div>
         </form>
+        <center><span id="loader"></span></center>
         <hr>
         <div class="row">
             <div id="diaryNoWise" class="col-sm-12">
@@ -168,7 +179,14 @@
         $(this).alert('close');
     });
 
-
+    $('#view').on('click', function(e){
+        e.preventDefault();
+        $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+        $(this).attr('disabled','disabled');
+        if($('#headerForm').submit()){
+            alert('error');
+        }
+    });
 
     $(document).ready(function()
     {
@@ -220,9 +238,23 @@
         return false;
     }
 
-    function getListedDetails(onload=false){
-//        $("#tblFasterCases").DataTable().clear().draw();
- //       $("#tblFasterCases").DataTable().destroy();
+    async function updateCSRFTokenSyncN() {
+        try {
+            const response = await $.ajax({
+                url: "<?php echo base_url('Csrftoken'); ?>",
+                dataType: 'json'
+            });
+
+            return response.CSRF_TOKEN_VALUE; // Correctly extracting CSRF token
+        } catch (error) {
+            console.error("Error fetching CSRF token:", error);
+            return null;
+        }
+    }
+
+    async function getListedDetails(onload=false){
+        //  $("#tblFasterCases").DataTable().clear().draw();
+        //  $("#tblFasterCases").DataTable().destroy();
 
         causelistDate="";
         if(!onload){
@@ -235,9 +267,9 @@
         else{
             causelistDate=(new Date()).toISOString().split('T')[0];
         }
-        //alert(usercode);
+        var CSRF_TOKEN_VALUE = await updateCSRFTokenSyncN();
         if(causelistDate!=""){
-            $.post("<?=base_url()?>/Faster/FasterController/getCasesMarkedForFaster", {causelistDate: causelistDate},function(result){
+            $.post("<?=base_url()?>/Faster/FasterController/getCasesMarkedForFaster", {CSRF_TOKEN: CSRF_TOKEN_VALUE, causelistDate: causelistDate},function(result){
                 $("#divFasterCases").val(result);
                 response = $.parseJSON(result);
                 $('#tblFasterCases tbody').empty();
@@ -322,6 +354,13 @@
 
                 load_table_row(causelistDate);
                 $('#tblFasterCases').DataTable();
+
+                $("#tblFasterCases_wrapper .dt-buttons").addClass('btn-group flex-wrap');
+                $(".buttons-csv").addClass('btn btn-primary');
+                $(".buttons-excel").addClass('btn btn-primary');
+                $(".buttons-pdf").addClass('btn btn-primary');
+                $(".buttons-print").addClass('btn btn-primary');
+                $(".buttons-collection").addClass('btn btn-primary');
             });
         }
     }
@@ -336,7 +375,8 @@
         var title = function () { return 'Cases Marked For Faster List Date '+causelistDate };
         $('#tblFasterCases').DataTable( {
             dom: 'Bfrtip',
-
+            deferRender: true,
+            bAutoWidth: false,
             buttons: [
                 {
                     extend: 'csv',

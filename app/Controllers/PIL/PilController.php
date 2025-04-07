@@ -16,7 +16,7 @@ use App\Models\Court\CourtMasterModel;
 
 //use Mpdf;
 //use \setasign\Fpdi\PdfParser\StreamReader;
-ini_set('memory_limit','51200M');
+ini_set('memory_limit','-1');
 class PilController extends BaseController
 {
     public $ecPilGroupFile;
@@ -45,7 +45,7 @@ class PilController extends BaseController
         $this->CourtMasterModel = new CourtMasterModel();
 
         $this->PilModel = new PilModel();
-        ini_set('memory_limit','51200M');
+        ini_set('memory_limit','-1');
         define('FPDF_FONTPATH', include(FCPATH.'assets/font/timesb.php'));
 
 
@@ -105,13 +105,14 @@ class PilController extends BaseController
             if ($diaryNo != '' && $diaryYear != '')
             {
                 $ecPilId = $this->PilModel->getPilId($diaryNo, $diaryYear);
-                 
-                if (!empty($ecPilId) && $ecPilId[0] != null) {
+                
+                if (!empty($ecPilId) && $ecPilId['id'] != null) {
  
-                    $rowsaffected = $this->PilModel->addInPilGroup($ecPilGroupId, $ecPilId, $usercode);
- 
+                    $rowsaffected = $this->PilModel->addInPilGroup($ecPilGroupId, $ecPilId['id'], $usercode);
+                    
 
                     if ($rowsaffected > 0) {
+                       
                         $data['msg']="Added Successfully.";
                         $data['casesInPilGroup'] = $this->PilModel->getCasesInPilGroup($ecPilGroupId);
                         $data['ecPilGroupId']=$ecPilGroupId;
@@ -181,11 +182,11 @@ class PilController extends BaseController
 
     }
     public function getPilDetailByDiaryNumber(){
-
+        
         $ecPilId=$this->PilModel->getPilId($_POST['diaryNo'],$_POST['diaryYear']);
 
         if($ecPilId!=null)
-            return redirect()->to('PIL/PilController/editPilData/'.$ecPilId[0]['id']);
+            return redirect()->to('PIL/PilController/editPilData/'.$ecPilId['id']);
         else
         session()->setFlashdata('infomsg', 'No data found!');
             return redirect()->to('PIL/PilController/index/');
@@ -222,6 +223,7 @@ class PilController extends BaseController
                 $columnName=$columnName."address_to,";
                 $valueField=$valueField."'".$this->addSlashinString($addressedto)."',";
             }
+           
             if(!empty($receivedfrom)){
                 $columnName=$columnName."received_from,";
                 $valueField=$valueField."'".$this->addSlashinString($receivedfrom)."',";
@@ -428,6 +430,7 @@ class PilController extends BaseController
             if(!empty($addressedto)){
                 $updateQuery=$updateQuery."address_to='".$this->addSlashinString($addressedto)."',";
             }
+            // pr('rrrrrr_'.$updateQuery);
             if(!empty($receivedfrom)){
                 $updateQuery=$updateQuery."received_from='".$this->addSlashinString($receivedfrom)."',";
             }
@@ -624,7 +627,8 @@ class PilController extends BaseController
     }
 
     private function addSlashinString($str){
-        return addslashes($str);
+        //return addslashes($str);
+        return str_replace("'", "''", $str);
 
     }
 
@@ -1054,10 +1058,7 @@ class PilController extends BaseController
            return $data;
 
         }
-//       var_dump($data['casesInPilGroup']);
-//        echo "<pre>";
-//        print_r($data);
-//        die;
+ 
         return view('PIL/reportPilGroupView', $data);
 
     }
@@ -1137,185 +1138,7 @@ class PilController extends BaseController
             exit;
 
         }
-//        elseif ($reportType==2){
-//            $this->pdf->ln(5);
-//            $this->pdf->SetFont('times','BU',12);
-//            $this->pdf->Cell(0,3,'SUPREME COURT OF INDIA',0,1,'C');
-//            $this->pdf->Cell(0,8,'PIL(ENGLISH) CELL',0,1,'C');
-//            $this->pdf->SetFont('times','',11);
-//            $this->pdf->Cell(0,8,'Dated: '. date('d-m-Y'),0,1,'R');
-//            $this->pdf->Write(5,'              Letter-petition being ');
-//            $this->pdf->SetFont('times','B',11);
-//            $this->pdf->Write(5,'Vernacular ');
-//            $this->pdf->SetFont('times','',11);
-//            $this->pdf->Write(5,' and not covered under PIL Guidelines. Hence, if approved, the same may be filed. ');
-//            $this->pdf->ln(10);
-//            $this->pdf->SetFont('times','',10);
-//            foreach($pilData as $index=>$data){
-//                $this->pdf->Cell(20,8,'',0,0,'L');
-//                $this->pdf->Cell(10,8,($index+1).'.',0,0,'L');
-//                $this->pdf->Cell(50,8,$data['pil_diary_number'],0,0,'L');
-//                $this->pdf->Cell(100,8,$data['received_from'],0,1,'L');
-//            }
-//
-//            $this->pdf->ln(15);
-//            $this->pdf->SetFont('times','B',9);
-//            $this->pdf->Cell(80,8,$userdetail['name'],0,1,'L');
-//            $this->pdf->Cell(80,0,$userdetail['type_name'],0,1,'L');
-//            $this->pdf->ln(15);
-//            $this->pdf->Cell(80,0,'BRANCH OFFICER',0,1,'L');
-//            /*$pdf->Cell(80,0,'Branch Officer',0,1,'L');*/
-//            $this->pdf->ln(15);
-//            $this->pdf->Cell(80,0,'DEPUTY REGISTRAR',0,1,'L');
-//            /* $pdf->Cell(80,0,'Deputy Registrar',0,1,'L');*/
-//            $this->pdf->ln(15);
-//            /*$pdf->Cell(80,0,'Ld.Registrar(PIL E)',0,1,'L');*/
-//            $this->pdf->Cell(80,0,'Ld.REGISTRAR(PIL E)',0,1,'L');
-//        }
-//        elseif ($reportType==3){
-//
-//            foreach($pilData as $index=>$data){
-//                if($index==0){
-//                    $reportContent="    Inward Nos. ";
-//                    $receivedFrom="Received from :- ".$this->common->convertToTitleCase($data['received_from']);
-//                }
-//                $reportContent.=$data['pil_diary_number'].", ";
-//            }
-//            $totalPils=count($pilData);
-//            $reportContent=rtrim($reportContent,', ');
-//            $this->pdf->ln(5);
-//            $this->pdf->SetFont('times','BU',12);
-//            $this->pdf->Cell(0,3,'SUPREME COURT OF INDIA',0,1,'C');
-//            $this->pdf->Cell(0,8,'PIL(ENGLISH) CELL',0,1,'C');
-//            $this->pdf->SetFont('times','',11);
-//            $this->pdf->Cell(0,8,'Dated: '. date('d-m-Y'),0,1,'R');
-//
-//            $this->pdf->MultiCell(0, 8, $reportContent.".");
-//
-//            $this->pdf->SetFont('times','B',11);
-//            $this->pdf->Cell(80,8,$receivedFrom,0,1,'L');
-//            $this->pdf->Cell(80,8,$totalPils.' - letter petitions.',0,1,'L');
-//            /*$pdf->Cell(15,8,'',0,0,'L');*/
-//            $this->pdf->SetFont('times','BU',11);
-//            $this->pdf->Cell(80,8,'Brief History of the case and relief sought',0,1,'L');
-//            $this->pdf->SetFont('times','',11);
-//            $this->pdf->Write(5,'         The above emails have been received from the petitioners. If approved the emails may be filed in view of ');
-//            $this->pdf->SetFont('times','U',11);
-//            $this->pdf->Write(5,'Clause A(i) of the Internal Administrative Procedure approved by Hon\'ble PIL Committee/Hon\'ble CJI vide order dated 28.03.2016.');
-//            $this->pdf->SetFont('times','',11);
-//            $this->pdf->Write(5,'(Not Digitally Signed)');
-//            $this->pdf->ln(10);
-//
-//            $this->pdf->Cell(0,8,'         Await follow up with authentic copy and resubmit',0,1,'L');
-//            $this->pdf->Cell(0,8,'Submitted for order please.',0,1,'L');
-//
-//
-//            $this->pdf->ln(15);
-//            $this->pdf->SetFont('times','B',9);
-//            $this->pdf->Cell(80,8,$userdetail['name'],0,1,'L');
-//            $this->pdf->Cell(80,0,$userdetail['type_name'],0,1,'L');
-//            $this->pdf->ln(15);
-//            $this->pdf->Cell(80,0,'BRANCH OFFICER',0,1,'L');
-//            /*$pdf->Cell(80,0,'Branch Officer',0,1,'L');*/
-//            $this->pdf->ln(15);
-//            $this->pdf->Cell(80,0,'DEPUTY REGISTRAR',0,1,'L');
-//            /* $pdf->Cell(80,0,'Deputy Registrar',0,1,'L');*/
-//            $this->pdf->ln(15);
-//            /*$pdf->Cell(80,0,'Ld.Registrar(PIL E)',0,1,'L');*/
-//            $this->pdf->Cell(80,0,'Ld.REGISTRAR(PIL E)',0,1,'L');
-//        }
-//        else if($reportType==4){
-//            $this->pdf->ln(5);
-//            $this->pdf->SetFont('times','BU',12);
-//            $this->pdf->Cell(0,3,'SUPREME COURT OF INDIA',0,1,'C');
-//            $this->pdf->Cell(0,8,'PIL(ENGLISH) CELL',0,1,'C');
-//            $this->pdf->SetFont('times','',11);
-//            $this->pdf->Cell(0,8,'Dated: '. date('d-m-Y'),0,1,'R');
-//            $this->pdf->Write(5,'              Letter-petition being ');
-//            $this->pdf->SetFont('times','B',11);
-//            $this->pdf->Write(5,'unsigned ');
-//            $this->pdf->SetFont('times','',11);
-//            $this->pdf->Write(5,' and not covered under PIL Guidelines. Hence, if approved, the same may be filed. ');
-//            $this->pdf->ln(10);
-//            $this->pdf->SetFont('times','',10);
-//            foreach($pilData as $index=>$data){
-//                $this->pdf->Cell(20,8,'',0,0,'L');
-//                $this->pdf->Cell(10,8,($index+1).'.',0,0,'L');
-//                $this->pdf->Cell(50,8,$data['pil_diary_number'],0,0,'L');
-//                $this->pdf->Cell(100,8,$data['received_from'],0,1,'L');
-//            }
-//
-//            $this->pdf->ln(15);
-//            $this->pdf->SetFont('times','B',9);
-//            $this->pdf->Cell(80,8,$userdetail['name'],0,1,'L');
-//            $this->pdf->Cell(80,0,$userdetail['type_name'],0,1,'L');
-//            $this->pdf->ln(15);
-//            $this->pdf->Cell(80,0,'BRANCH OFFICER',0,1,'L');
-//            /*$pdf->Cell(80,0,'Branch Officer',0,1,'L');*/
-//            $this->pdf->ln(15);
-//            $this->pdf->Cell(80,0,'DEPUTY REGISTRAR',0,1,'L');
-//            /* $pdf->Cell(80,0,'Deputy Registrar',0,1,'L');*/
-//            $this->pdf->ln(15);
-//            /*$pdf->Cell(80,0,'Ld.Registrar(PIL E)',0,1,'L');*/
-//            $this->pdf->Cell(80,0,'Ld.REGISTRAR(PIL E)',0,1,'L');
-//        }
-//        else if ($reportType==5){
-//
-//            foreach($pilData as $index=>$data){
-//                if($index==0){
-//                    $reportContent="Inward Nos. ";
-//                    /*$receivedFrom="Received from :- ".$this->common->convertToTitleCase($data['received_from']);*/
-//                    $receivedFrom="Received from :- Anonymous petitioners";
-//                }
-//                $reportContent.=$data['pil_diary_number'].", ";
-//            }
-//            $totalPils=count($pilData);
-//            $reportContent=rtrim($reportContent,', ');
-//            $this->pdf->ln(5);
-//            $this->pdf->SetFont('times','BU',12);
-//            $this->pdf->Cell(0,3,'SUPREME COURT OF INDIA',0,1,'C');
-//            $this->pdf->Cell(0,8,'PIL(ENGLISH) CELL',0,1,'C');
-//            $this->pdf->SetFont('times','',11);
-//            $this->pdf->Cell(0,8,'Dated: '. date('d-m-Y'),0,1,'R');
-//
-//            $this->pdf->MultiCell(0, 8, $reportContent.".");
-//
-//            $this->pdf->SetFont('times','B',11);
-//            $this->pdf->Cell(80,8,$receivedFrom,0,1,'L');
-//            $this->pdf->Cell(80,8,$totalPils.' - letter petitions.',0,1,'L');
-//            /*$pdf->Cell(15,8,'    ',0,0,'L');*/
-//            $this->pdf->SetFont('times','BU',11);
-//            $this->pdf->Cell(80,8,'Brief History of the case and relief sought',0,1,'L');
-//            $this->pdf->ln(5);
-//            $this->pdf->SetFont('times','',11);
-//            $this->pdf->Write(5,'          The above letter-petitions have been received from the different petitioners i.e ');
-//            $this->pdf->SetFont('times','B',11);
-//            $this->pdf->Write(5,'Anonymous letter-petitions.');
-//
-//
-//            $this->pdf->ln(5);
-//            $this->pdf->SetFont('times','',11);
-//
-//            $this->pdf->Write(5,'          No action is called for under PIL guidelines. May be filed. ');
-//            $this->pdf->ln(5);
-//            $this->pdf->SetFont('times','',11);
-//            $this->pdf->Write(5,'          Submitted for order please.');
-//
-//            $this->pdf->ln(15);
-//            $this->pdf->SetFont('times','B',9);
-//            $this->pdf->Cell(80,8,$userdetail['name'],0,1,'L');
-//            $this->pdf->Cell(80,0,$userdetail['type_name'],0,1,'L');
-//            $this->pdf->ln(15);
-//            $this->pdf->Cell(80,0,'BRANCH OFFICER',0,1,'L');
-//            /*$pdf->Cell(80,0,'Branch Officer',0,1,'L');*/
-//            $this->pdf->ln(15);
-//            $this->pdf->Cell(80,0,'DEPUTY REGISTRAR',0,1,'L');
-//            /* $pdf->Cell(80,0,'Deputy Registrar',0,1,'L');*/
-//            $this->pdf->ln(15);
-//            /*$pdf->Cell(80,0,'Ld.Registrar(PIL E)',0,1,'L');*/
-//            $this->pdf->Cell(80,0,'Ld.REGISTRAR(PIL E)',0,1,'L');
-//        }
-//        $this->pdf->Output();
+ 
 
 
     }
@@ -1346,7 +1169,7 @@ class PilController extends BaseController
  
             }
             echo view('PIL/queryPilReportData',$data);
-            exit();
+            die;
         }
         return view('PIL/queryPilReport');
     }
@@ -1456,7 +1279,7 @@ class PilController extends BaseController
         else{
             $data['actionTakenText'] =" ";
         }
-
+        
         return view('PIL/rptCompletePilData', $data);
 
     }
@@ -1474,6 +1297,7 @@ class PilController extends BaseController
             $from_date = $_POST['from_date'];
             $to_date = $_POST['to_date'];
             $reportType = $_POST['reportType'];
+            
         }
        
         return view('PIL/pilReport');
@@ -1590,12 +1414,13 @@ class PilController extends BaseController
     public function downloadGeneratedReport($reportType, $ecPilId, $ecPilGroupId)
     {
 
-        error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
+       
         // Load necessary models
         //$this->CourtMasterModel = new \App\Models\Court\CourtMasterModel();
-    
+        if($ecPilGroupId == '' || $ecPilGroupId == 0)
+        {
+            $ecPilGroupId = $_POST['ecPilGroupId'];
+        }
         // Fetch user details and report data
         $userdetail = $this->CourtMasterModel->getUserNameAndDesignation($_SESSION['login']['usercode']);
         $pilGroupData = $this->PilModel->getCasesInPilGroup_asc($ecPilGroupId);
@@ -1618,7 +1443,7 @@ ini_set('display_errors', 1);
             $pdf->SetFont('times', '', 12);
             $pdf->Image(base_url('assets/images/sci_logo_new.jpg'), 90, 15, 20);
             $pdf->Ln(6);
-            $pdf->Cell(0, 65, 'By Registered AD', 0, 0, 'L');
+            $pdf->Cell(120, 65, 'By Registered AD', 0, 0, 'C');
             $pdf->Cell(0, 10, 'SUPREME COURT OF INDIA', 0, 0, 'R');
             $pdf->Cell(0, 20, 'NEW DELHI-110201', 0, 1, 'R');
             $pdf->Ln(20);
@@ -1650,7 +1475,7 @@ ini_set('display_errors', 1);
             $pdf->Ln(6);
             $pdf->SetFont('times', '', 12);
             $pdf->Image(base_url('assets/images/sci_logo_new.jpg'), 90, 15, 20);
-            $pdf->Cell(0, 65, 'By Registered AD', 0, 0, 'L');
+            $pdf->Cell(120, 65, 'By Registered AD', 0, 0, 'C');
             $pdf->Cell(0, 10, 'SUPREME COURT OF INDIA', 0, 0, 'R');
             $pdf->Cell(0, 20, 'NEW DELHI-110201', 0, 1, 'R');
             $pdf->Ln(20);
@@ -1682,7 +1507,7 @@ ini_set('display_errors', 1);
             $pdf->Ln(6);
             $pdf->SetFont('times', '', 12);
             $pdf->Image(base_url('assets/images/sci_logo_new.jpg'), 90, 15, 20);
-            $pdf->Cell(0, 65, 'By Registered AD', 0, 0, 'L');
+            $pdf->Cell(120, 65, 'By Registered AD', 0, 0, 'C');
             $pdf->Cell(0, 10, 'SUPREME COURT OF INDIA', 0, 0, 'R');
             $pdf->Cell(0, 20, 'NEW DELHI-110201', 0, 1, 'R');
             $pdf->Ln(20);
@@ -1711,18 +1536,17 @@ ini_set('display_errors', 1);
     
         }elseif ($reportType=='With_Brief_History'){
 
-           // error_reporting(0);
-           // pr($pilData);
-            /*var_dump($pilGroupData);
-            exit(0);*/
-                    /*foreach($pilData as $index=>$data){*/
-                        foreach($pilGroupData as $index=>$data){
-                        if($index==0){
-                            $reportContent="Inward Nos. ";
-                            $receivedFrom="Received from :- ".$this->common->convertToTitleCase($data['received_from']);
-                        }
+            $reportContent = $receivedFrom = '';
+                   if(!empty($pilGroupData))
+                   {
+                        foreach($pilGroupData as $index=>$data){                           
+                            if($index==0){
+                                $reportContent="Inward Nos. ";
+                                $receivedFrom="Received from :- ".$this->common->convertToTitleCase($data['received_from']);
+                            }
                         $reportContent.=$data['pil_diary_number'].", ";
                     }
+                }
 
                     if(!empty($pilData))
                     $totalPils=count($pilData);
@@ -1782,7 +1606,8 @@ ini_set('display_errors', 1);
     
                 if (ob_get_length()) ob_end_clean();
                     $pdf->Output();
-                    exit();
+                   // exit();
+                   die;
     }
 
 
@@ -1793,19 +1618,19 @@ ini_set('display_errors', 1);
     }
 
     public function getSenderAndAddressForLetterGeneration(){
-        extract($_POST);
+        extract($_GET);
 
         /*var_dump($_POST);*/
         $ecPilId=$this->PilModel->getPilId($diaryNo,$diaryYear);
-
+         
         $data['reportType']=$reportType;
-
-        if(!empty($ecPilId[0]['id']))
-            $data['pilDetails']=$this->PilModel->getPilDataById($ecPilId[0]['id']);
+        $data['pilDetails']= '';
+        if(!empty($ecPilId['id']))
+            $data['pilDetails']=$this->PilModel->getPilDataById($ecPilId['id']);
         else
             $data['message']="No record found!!";
-       // pr($data);
-       /* $data['dataForADToDispatch'] = $this->PilModel->enteredDakToDispatchInRIWithProcessId($_POST);*/
+       
+       // $data['dataForADToDispatch'] = $this->PilModel->enteredDakToDispatchInRIWithProcessId($_POST); 
         return view('PIL/downloadLetters',$data);
       }
 

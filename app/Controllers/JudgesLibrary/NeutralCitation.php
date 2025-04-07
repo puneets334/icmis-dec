@@ -43,10 +43,9 @@ class NeutralCitation extends BaseController
         $data['diaryNumberForSearch'] = $diaryNumberForSearch;
         $DNumber_main = $diaryNumberForSearch['conn_key'];
         $with_all_connected = $diaryNumberForSearch['diary_no'];
-        
+
         if ($DNumber_main != '' && $DNumber_main != null && $DNumber_main != 0) {
             $with_all_connected = $this->JudgesLibraryModel->getWithAllConnected($DNumber_main);
-          
         }
 
         if (!empty($with_all_connected) && !empty($with_all_connected['conn_list'])) {
@@ -154,11 +153,75 @@ class NeutralCitation extends BaseController
 
 
 
-    public function upload_old_judgments()
+    public function upload_old_judgments($usercode = "", $msg = "")
     {
         $usercode = session()->get('login')['usercode'];
-        $data['usercode'] = session()->set('usercode', $usercode);
+        $data['msg'] = $msg;
         $data['caseTypes'] = $this->JudgesLibraryModel->getCaseType();
+        $data['usercode'] = $usercode;
+
+        $diaryNumberForSearch = null;
+
+        if ($this->request->getMethod() === 'post') {
+            pr($_REQUEST);
+            $data['caseDetails'] = null;
+            $optradio = $this->request->getPost('optradio');
+            $caseType = $this->request->getPost('caseType');
+            $caseNo = $this->request->getPost('caseNo');
+            $caseYear = $this->request->getPost('caseYear');
+            $diaryNumber = $this->request->getPost('diaryNumber');
+            $diaryYear = $this->request->getPost('diaryYear');
+
+            if ($optradio === 'C') {
+                $diaryNumberForSearch = model('JudgesLibraryModel')->getSearchDiary($caseType, $caseNo, $caseYear, null, null, $optradio);
+            } elseif ($optradio === 'D') {
+                $diaryNumberForSearch = model('JudgesLibraryModel')->getSearchDiary(null, null, null, $diaryNumber, $diaryYear, $optradio);
+            }
+
+            if ($diaryNumberForSearch !== null) {
+                $data['caseDetails'] = model('JudgesLibraryModel')->getCaseDetailsForReplace($diaryNumberForSearch);
+                if (empty($data['caseDetails'])) {
+                    $data['caseDetails'] = model('JudgesLibraryModel')->getCasesDetails($diaryNumberForSearch);
+                }
+            }
+
+            if (empty($data['caseDetails'])) {
+                $data['msg'] = "No record found!!";
+            }
+        }
+
         return view('JudgesLibrary/NeutralCitation/upload_old_judgments', $data);
+    }
+    public function uploadNewOrder($usercode = "", $msg = "")
+    {
+        $this->session->set_userdata('dcmis_user_idd', $usercode);
+        $data['msg'] = $msg;
+        $data['caseTypes'] = $this->JudgesLibraryModel->getCaseType();
+        $data['usercode'] = $usercode;
+        $diaryNumberForSearch = null;
+        if ($_POST) {
+            $data['caseDetails'] = null;
+            extract($_POST);
+            if ($optradio == 'C') {
+                $diaryNumberForSearch = $this->JudgesLibraryModel->getSearchDiary($caseType, $caseNo, $caseYear, null, null, $optradio);
+            } else if ($optradio == 'D') {
+                $diaryNumberForSearch = $this->JudgesLibraryModel->getSearchDiary(null, null, null, $diaryNumber, $diaryYear, $optradio);
+            }
+            /*echo $diaryNumberForSearch;
+			exit(0);*/
+            if ($diaryNumberForSearch != null) {
+                $data['caseDetails'] = $this->JudgesLibraryModel->getCaseDetailsForReplace($diaryNumberForSearch);
+                if (empty($data['caseDetails'])) {
+                    $data['caseDetails'] = $this->JudgesLibraryModel->getCasesDetails($diaryNumberForSearch);
+                }
+            }
+            if (empty($data['caseDetails'])) {
+                $data['msg'] = "No record found!!";
+            }
+            //var_dump($data['caseDetails']);exit();
+
+        }
+
+        $this->load->view('CourtMaster/uploadNewProceedings', $data);
     }
 }

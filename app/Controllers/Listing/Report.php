@@ -627,7 +627,6 @@ class Report extends BaseController
   {
     //$data['model'] = new Casetype();
     $data['case_result'] = '';
-    //$result_array = $data['model']->monitoring_Error_Dawise_count();
     $result_array = $this->Monitoring->monitoring_Error_Dawise_count();
     $data['case_result'] = $result_array;
     return view('Listing/Report/monitoring_Error_Dawise_count', $data);
@@ -818,7 +817,7 @@ class Report extends BaseController
       $request = service('request');
       $on_date = date('Y-m-d', strtotime($request->getPost('on_date')));
       $result_array = $this->Monitoring->CtRemarks_Changeby_user_data($on_date);
-      $data['case_result'] = $result_array;
+     $data['case_result'] = $result_array;
       $data['on_date1'] = date('d-m-Y', strtotime($request->getPost('on_date')));
     }
     return view('Listing/Report/CtRemarks_changeby_user_count', $data);
@@ -952,20 +951,17 @@ class Report extends BaseController
 
   public function get_filing()
   {
+    $request = \Config\Services::request();
     $chk_users = '';
     $chk_da = '';
-    $ddl_users = $this->request->getPost('ddl_users');
+    $ddl_users = $request->getPost('ddl_users');
     $usercode = (int)session()->get('login')['usercode'];
     $r_section = session()->get('login')['section'];
     $r_usertype =  session()->get('login')['usertype'];
-
-
-   
-   
     $chk_da= $this->Monitoring->getChkDa($usercode , $r_section ,$r_usertype,$ddl_users);
 
-    $frm_dt = date('Y-m-d', strtotime($this->request->getPost('txt_frm_dt')));
-    $to_dt = date('Y-m-d', strtotime($this->request->getPost('txt_to_dt')));
+    $frm_dt = date('Y-m-d', strtotime($request->getPost('txt_frm_dt')));
+    $to_dt = date('Y-m-d', strtotime($request->getPost('txt_to_dt')));
     $model = new Casetype();
     $data['frm_dt'] = $frm_dt;
     $data['to_dt'] = $to_dt;
@@ -996,7 +992,6 @@ class Report extends BaseController
       $data['get_usr_nm'] = "";
     }
 
-    // pr($data['get_usr_nm']);
 
     return view('Listing/Report/get_filling_data', $data);
   }
@@ -1011,6 +1006,9 @@ class Report extends BaseController
     $chk_users = '';
     $ddl_users = $request->getPost('ddl_users');
     $hd_nm_id = $request->getPost('hd_nm_id');
+
+
+   
 
     if ($usercode != '1' && $r_section != '30' && $r_usertype != '4') {
       $chk_users = " and u.usercode='$usercode'";
@@ -1426,11 +1424,10 @@ class Report extends BaseController
     
   }
 
-  public function verify_detail_report_da_wise(){
-
-    
+  public function verify_detail_report_da_wise()
+  {
     $data['list_dt'] = $this->request->getPost('ldates');
-   $data['model']=$this->Monitoring;
+    $data['model']=$this->Monitoring;
     return view('Listing/Report/verify_detail_report_da_wise',$data);
     
   }

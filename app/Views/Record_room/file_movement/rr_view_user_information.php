@@ -1,5 +1,11 @@
 <?= view('header') ?>
+<style>
+ th{
+    background-color: #0d48be !important;
+    color: #fff !important;
+}
 
+</style>
 <?php
 if ($jud_sel == '')
     $judge_selector = "";
@@ -29,18 +35,18 @@ $view_rs = $model->getUsers($dept, $auth_name, $authValue, $secValue, $desg, $us
 if (count($view_rs) > 0) {
 ?>
     <style>
-       table{
+       /* table{
         width: 96% !important;
         font-size: small;
-       }
+       } */
        form hr {
     margin: 4px 0px !important;
     border-top: 1px solid #e0e0e0;
 }
     </style>
-    <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4">
+    <div id="query_builder_wrapper" class="row query_builder_wrapper dataTables_wrapper dt-bootstrap4">
 
-        <table id="query_builder_report" class="query_builder_report table table-bordered table-striped">
+        <table id="query_builder_report" class="table table-striped table-hover table-bordered">
             <?php
             if ($auth_name != '0') {
             ?>
@@ -54,6 +60,7 @@ if (count($view_rs) > 0) {
             <?php
             }
             ?>
+            <thead>
             <tr>
                 <th>S.No.</th>
                 <th>Usercode</th>
@@ -82,12 +89,13 @@ if (count($view_rs) > 0) {
                 <th>Alloted Halls</th>
                 <th>DA Alloted Cases <br> (Except Halls) </th>
             </tr>
+            </thead>
             <?php
             $sno = 1;
             foreach ($view_rs as $row) {
             ?>
                 <tr>
-                    <th><?php echo $sno; ?></th>
+                    <td><?php echo $sno; ?></td>
                     <td><span class="cl_manage" id="cl_manage_f<?php echo $row['usercode']; ?>"><?php echo $row['usercode']; ?></span></td>
                     <?php
                     //onclick="cl_manage_f(this.id)"
@@ -215,8 +223,8 @@ if (count($view_rs) > 0) {
 </div>
 
 <script>
-    $(function() {
-        $("#query_builder_report").DataTable({
+    $(document).ready(function() {
+        var table = $("#query_builder_report").DataTable({     
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
@@ -231,9 +239,10 @@ if (count($view_rs) > 0) {
                     text: 'Show/Hide'
                 }
             ],
-            "processing": true, // Changed "bProcessing" to "processing"
-            "ordering": false, // Added to disable sorting
+            "processing": true,
+            "ordering": true,
+        });
 
-        }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
+        table.buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
     });
 </script>

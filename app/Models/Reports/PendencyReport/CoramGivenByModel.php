@@ -11,8 +11,8 @@ class CoramGivenByModel extends Model
     public function __construct()
     {
         parent::__construct();
-        $this->db_icmis = db_connect();
-        $this->eservicesdb = \Config\Database::connect('eservices');
+        //$this->db_icmis = db_connect();
+        //$this->eservicesdb = \Config\Database::connect('eservices');
     }
 
     public function getJudgesList()

@@ -1,11 +1,17 @@
 <?php if (count($view_rs) > 0) {
    
 ?>
+<style>
+table thead th{
+    background-color: #0d48be !important;
+    color: #fff !important;
+}
+</style>
 
     <table class="table table-bordered table-striped" style="margin-left: auto;margin-right: auto;margin-bottom: 120px;" cellpadding="6" id="mainbtl">
-
+    <thead>
         <tr style="text-align: center;" class="for-print">
-            <td colspan="12">REPORT FOR RECORD ROOM HALLs </td>
+            <th colspan="12">REPORT FOR RECORD ROOM HALLs </th>
         </tr>
         <tr>
             <th>S.No.</th>
@@ -15,6 +21,7 @@
             <th>Status</th>
             <th>Hall Alloted Cases</th>
         </tr>
+        </thead>
         <?php
         $sno = 1;
         foreach ($view_rs as $row) {

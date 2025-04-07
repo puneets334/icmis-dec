@@ -82,6 +82,10 @@
         var dateFrom = $('#from_dt1').val();
         var dateTo = $('#from_dt2').val();
 		var ddl_users = $('#ddl_users').val();
+		if(ddl_users==''){
+			alert('Pleas Select User Type');
+			return false;
+		}
 		$("#dv_res1").html('');
         //$("#dv_res1").html('<center><img src="../images/load.gif"/></center>');
         $.ajax({

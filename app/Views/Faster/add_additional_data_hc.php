@@ -7,19 +7,19 @@ $ck_en_nt = '';
 $db = \Config\Database::connect();
 $builder = $db->table('master.ref_agency_code');
 $query = $builder->select('agency_name, address, cmis_state_id, district_no')
-  ->where('agency_or_court', 1)
+->where("CAST(agency_or_court AS INTEGER)", 1)
   ->where('is_deleted', 'f')
   ->where('state_id !=', '9999')
   ->where('main_branch', '1')
   ->orderBy('state_id')
   ->get();
-if ($chk_status == 1) {
-    $dairy_no = get_diary_case_type_notice($ct, $cn, $cy);
-} else {
-    $dairy_no = $d_no . $d_yr;
-}
+// if ($chk_status == 1) {
+//     $diary_no = get_diary_case_type_notice($ct, $cn, $cy);
+// } else {
+//     $diary_no = $d_no . $d_yr;
+// }
 $date = date('Y-m-d');
-$sql_party =  getParties($dairy_no, $date);
+$sql_party =  getParties($diary_no, $date);
 $row_office = (is_array($sql_party) && !empty($sql_party)) ? $sql_party[0] : '';
 if ($query->getNumRows() > 0) {
   foreach ($query->getResultArray() as $row) {
@@ -329,8 +329,8 @@ if ($query->getNumRows() > 0) {
                   if ($ck_en_nt == '1' || $ck_en_nt == '0') {
                     $s_to_d = '';
                     $sen_cp_to = send_to();
-                    $get_advocates =  get_advocates($dairy_no);
-                    $get_lc_highcourt = get_lc_highcourt($dairy_no);
+                    $get_advocates =  get_advocates($diary_no);
+                    $get_lc_highcourt = get_lc_highcourt($diary_no);
                     if ($sendto_type == 2)
                       $s_to_d = $sen_cp_to;
                     else  if ($sendto_type == 1)

@@ -45,3 +45,34 @@ if (isset($case_result) && sizeof($case_result) > 0 && is_array($case_result)) {
    <span class="text-danger">Record Not Found.</span> 
     </div>
 <?php  }?>
+
+<script>
+     $(function() {
+            $("#reportTable").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "bProcessing": true,
+                "extend": 'colvis',
+                "text": 'Show/Hide',
+                "dom": 'Bfrtip', // Enables the Buttons extension
+                "buttons": [{
+                    extend: 'print',
+                    text: 'Print',
+                    title: 'Edit Delete Dispatch via Process id', // Change title in print view
+                    autoPrint: true, // Automatically trigger print dialog
+                    exportOptions: {
+                        columns: ':visible' // Only print visible columns
+                    },
+                    customize: function (win) {
+                        $(win.document.body)
+                            .css('text-align', 'center') // Center everything
+                            .find('h1')
+                            .css('text-align', 'center') // Specifically center the title
+                            .css('width', '100%')
+                            .css('margin', '0 auto');
+                    }
+                }]
+            }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
+        });
+</script>

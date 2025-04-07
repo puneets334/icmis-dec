@@ -1,3 +1,4 @@
+
 <?php
 if ($jud_sel == '')
     $judge_selector = "";
@@ -15,7 +16,12 @@ if ($view_sta == '-1') {
     $view_status2 = "";
 } else if ($view_sta == '0') {
     $view_status = " WHERE pa_ps LIKE '_ABS' OR to_date != '0000-00-00' OR name IS NULL";
-    $view_status2 = " AND pa_ps LIKE '_ABS' OR to_date != '0000-00-00' OR name IS NULL";
+    $view_status2 = " AND pa_ps LIKE '_ABS' OR to_date != '0000-00-00' OR name<style>
+th{
+    background-color: #0d48be !important;
+    color: #fff !important;
+}
+</style> IS NULL";
 } else if ($view_sta == '1') {
     $view_status = " WHERE pa_ps NOT LIKE '_ABS' AND to_date = '0000-00-00' AND name IS NOT NULL";
     $view_status2 = " AND pa_ps LIKE '_ABS' OR to_date != '0000-00-00' OR name IS NULL";
@@ -25,7 +31,7 @@ $auth_name = 0;
 $view_rs = $model->getUsers($dept, $auth_name, $authValue, $secValue, $desg, $usercode, $cur_user_type, $judge_selector, $orderjud);
 if (count($view_rs) > 0) {
 ?><div class="table-responsive">
-    <table  class="table table-striped custom-table" id="mainbtl">
+    <table class="table table-striped custom-table" id="mainbtl">
         <?php
         if ($auth_name != '0') {
         ?>
