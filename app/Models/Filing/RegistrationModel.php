@@ -462,11 +462,10 @@ class RegistrationModel extends Model
         {
             return 0;
         }
-        
     }
 
-    public function insert_registered_cases($ins_arr){
-
+    public function insert_registered_cases($ins_arr)
+    {
         $builder = $this->db->table("public.registered_cases");
         $query = $builder->insert($ins_arr);
 
@@ -686,7 +685,7 @@ class RegistrationModel extends Model
         $builder = $this->db->table("public.".$tbl_heardt." h");
         $builder->select("h.*");
         $builder->join("public.".$tbl_main." m", "h.diary_no = m.diary_no");
-        $builder->where("h.diary_no",$diary_no);
+        $builder->where("h.diary_no", (int) $diary_no);
         $builder->where("(h.coram is not null or h.coram!='0' or h.coram!='')");
         $builder->where("(m.dacode=NULL or m.dacode!='0' or m.dacode is not null)");
         $query =$builder->get();

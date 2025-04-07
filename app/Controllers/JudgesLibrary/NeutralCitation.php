@@ -41,8 +41,8 @@ class NeutralCitation extends BaseController
         $diaryYear = $this->request->getPost('diaryYear');
         $diaryNumberForSearch = $this->JudgesLibraryModel->getSearchDiaryAllFields($caseType, $caseNo, $caseYear, $diaryNumber, $diaryYear, $optradio);
         $data['diaryNumberForSearch'] = $diaryNumberForSearch;
-        $DNumber_main = $diaryNumberForSearch['conn_key'];
-        $with_all_connected = $diaryNumberForSearch['diary_no'];
+        $DNumber_main = $diaryNumberForSearch['conn_key'] ?? '';
+        $with_all_connected = $diaryNumberForSearch['diary_no'] ?? '';
 
         if ($DNumber_main != '' && $DNumber_main != null && $DNumber_main != 0) {
             $with_all_connected = $this->JudgesLibraryModel->getWithAllConnected($DNumber_main);
@@ -163,7 +163,7 @@ class NeutralCitation extends BaseController
         $diaryNumberForSearch = null;
 
         if ($this->request->getMethod() === 'post') {
-            pr($_REQUEST);
+          
             $data['caseDetails'] = null;
             $optradio = $this->request->getPost('optradio');
             $caseType = $this->request->getPost('caseType');

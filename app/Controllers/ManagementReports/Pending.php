@@ -299,6 +299,13 @@ class Pending extends BaseController
         $data['result_array'] = $this->PendingModel->regular_in_misc_get();
         return view('ManagementReport/Pending/regular_in_misc_get',$data);
     }
+    public function pre_after_notice(){
+        return view('ManagementReport/Pending/pre_after_notice');
+    }
+    public function pre_after_notice_get(){
+        $data['result_array'] = $this->PendingModel->pre_after_notice_get();
+        return view('ManagementReport/Pending/pre_after_notice_get',$data);
+    }
     public function section_pendency(){
         
         $data['result_array'] = $this->PendingModel->section_pendency();
