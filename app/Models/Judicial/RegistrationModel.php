@@ -12,6 +12,33 @@ class RegistrationModel extends Model
         $this->db = db_connect();
     }
 
+    public function get_kounter($year, $hd_casetype_id)
+    {
+        $builder = $this->db->table("master.kounter");
+        $builder->select("knt");
+        $builder->where('year', $year);
+        $builder->where('casetype_id', $hd_casetype_id);
+        $query = $builder->get();
+
+        if ($query->getNumRows() >= 1) {
+            return $result = $query->getResultArray();
+        } else {
+            return [];
+        }
+    }
+
+    public function insert_kounter($ins_arr)
+    {
+        $builder = $this->db->table("master.kounter");
+        $query = $builder->insert($ins_arr);
+
+        if ($query) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     function getBfNbf($tfil_no)
     {
         $builder = $this->db->table('not_before a');
@@ -226,7 +253,7 @@ class RegistrationModel extends Model
         $builder = $this->db->table('main');
         $builder->select('COUNT(diary_no) AS cnt');
         $builder->where("active_fil_no ILIKE '%" . $data['reg_no'] . "%'", null, false);
-         // ILIKE for case-insensitive LIKE
+        // ILIKE for case-insensitive LIKE
         //$builder->like('active_fil_no', "'".$data['reg_no']."'", 'both', false); // 'both' for % on both sides, false to prevent automatic escaping
         $builder->where('active_casetype_id', $data['casetype_id']);
         $builder->where('EXTRACT(YEAR FROM active_fil_dt)', $data['year']);
@@ -319,7 +346,7 @@ class RegistrationModel extends Model
             ->orderBy('order_date', 'DESC')
             ->limit(1);
 
-            // echo $builder->getCompiledSelect();die;
+        // echo $builder->getCompiledSelect();die;
 
         $query = $builder->get();
 
@@ -332,20 +359,20 @@ class RegistrationModel extends Model
         return [];
     }
 
-    function updateMainTrack($data = []) 
+    function updateMainTrack($data = [])
     {
         $builder = $this->db->table('main');
-        
+
         $update_data = [
             'dacode'        => $data['dacode'],
             //'last_usercode' => session()->get('dcmis_user_idd'),
             'last_usercode' => session()->get('login')['usercode'],
             'last_dt'      => date('Y-m-d H:i:s') // Current timestamp
         ];
-        
+
         $builder->set($update_data)
-                ->where('diary_no', $data['diary_no'])
-                ->update();        
+            ->where('diary_no', $data['diary_no'])
+            ->update();
     }
 
     function updateKCounter($data = [])
@@ -424,17 +451,15 @@ class RegistrationModel extends Model
         $builder = $this->db->table('users');
 
         $builder->select('section')
-                ->where('usercode', $dacode)
-                ->where('display', 'Y');
+            ->where('usercode', $dacode)
+            ->where('display', 'Y');
 
         $query = $builder->get();
 
-        if ($query->getNumRows() > 0) 
-        {
+        if ($query->getNumRows() > 0) {
             $da_data = $query->getRowArray(); // Fetch as associative array
 
-            if (isset($da_data['section']) && $da_data['section'] != $matter_section)
-            {
+            if (isset($da_data['section']) && $da_data['section'] != $matter_section) {
                 $builder = $this->db->table('matters_with_wrong_section');
 
                 $add_data = [
@@ -449,7 +474,7 @@ class RegistrationModel extends Model
                 $result = $builder->insert($add_data);
 
                 return false;
-            }            
+            }
         }
 
         return true;
@@ -506,7 +531,7 @@ class RegistrationModel extends Model
         //                      ELSE active_fil_dt 
         //                    END) AS filregdate")
         //     ->where('diary_no', $dairy_no);
-                $sql = "
+        $sql = "
             SELECT 
                 section_id, 
                 dacode, 
@@ -535,10 +560,10 @@ class RegistrationModel extends Model
 
         // Execute the query with binding
         //echo $sql;die;
-        $query = $this->db->query($sql, [$dairy_no]);        
+        $query = $this->db->query($sql, [$dairy_no]);
         // Fetch the results
-        $results = $query->getRowArray();       
-            
+        $results = $query->getRowArray();
+
 
         //$query = $builder->get();
 
@@ -547,16 +572,16 @@ class RegistrationModel extends Model
             $rcasetype = array(1, 3);
             //$row_main = $query->getRowArray(); // Fetch as associative array
             $row_main = $results; // Fetch as associative array
-            
+
             //check if dacode already exist and section is matching with da section  matters_with_wrong_section
             if ($row_main['dacode'] != 0 && $row_main['dacode'] != '') {
                 // check_section($row_main[dacode],$row_main[section_id]);
 
                 if (in_array($row_main['section_id'], $sec_da_upto_disposal)) {
-                    
+
                     $output['success'] = 0;
                     $output['error'] = "DA already alloted";
-                    
+
                     return false;
                 }
             }
@@ -576,11 +601,10 @@ class RegistrationModel extends Model
                     if (!empty($row_da)) {
 
                         $result = $this->check_section($row_da['dacode'], $row_main['section_id']);
-                        if($result === false) 
-                        {
+                        if ($result === false) {
                             $output['success'] = 0;
                             $output['error'] = "DA already alloted";
-                            
+
                             return $output;
                         }
 
@@ -591,44 +615,72 @@ class RegistrationModel extends Model
 
                         $output['success'] = 1;
                         $output['message'] = "SUCCESSFUL, DA ALLOTTED SUCCESSFULLY";
-                    } else 
-                    {
+                    } else {
                         $output['success'] = 0;
                         $output['message'] = "SORRY, DA NOT FOUND BECAUSE FOR CONT,RP,CURT AND MA PREVIOUS RECORD DOES NOT HAVE DA";
-                        
+
                         return false;
                     }
                 } else {
                     $output['success'] = 0;
-                    $output['message'] = "SORRY, DA NOT FOUND BECAUSE FOR CONT,RP,CURT AND MA PREVIOUS RECORD NOT FOUND";                    
-                    
+                    $output['message'] = "SORRY, DA NOT FOUND BECAUSE FOR CONT,RP,CURT AND MA PREVIOUS RECORD NOT FOUND";
+
                     return false;
                 }
-            } 
-            else 
-            {
+            } else {
                 $dacodeallotted = 0;
                 if (in_array($row_main['casetype_id'], $forXandPIL)) {
 
                     $builder = $this->db->table('mul_category');
 
                     $builder->select('submaster_id')
-                            ->where('diary_no', $dairy_no)
-                            ->whereIn('submaster_id', [
-                                349, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 
-                                130, 131, 132, 133, 318, 332, 567, 568, 569, 570, 571, 572, 573, 
-                                574, 575, 576, 577, 578, 579, 580, 581, 582
-                            ])
-                            ->where('display', 'Y');
+                        ->where('diary_no', $dairy_no)
+                        ->whereIn('submaster_id', [
+                            349,
+                            118,
+                            119,
+                            120,
+                            121,
+                            122,
+                            123,
+                            124,
+                            125,
+                            126,
+                            127,
+                            128,
+                            129,
+                            130,
+                            131,
+                            132,
+                            133,
+                            318,
+                            332,
+                            567,
+                            568,
+                            569,
+                            570,
+                            571,
+                            572,
+                            573,
+                            574,
+                            575,
+                            576,
+                            577,
+                            578,
+                            579,
+                            580,
+                            581,
+                            582
+                        ])
+                        ->where('display', 'Y');
 
                     $query = $builder->get();
 
                     if ($query->getNumRows() > 0) {
                         // your code here
                         $result = $this->check_section('690', $row_main['section_id']);
-                        
-                        if($result === false) 
-                        {
+
+                        if ($result === false) {
                             $output['success'] = 0;
                             $output['error'] = "DA already alloted";
                             return false;
@@ -641,21 +693,19 @@ class RegistrationModel extends Model
 
                         $output['success'] = 1;
                         $output['message'] = "SUCCESSFUL, DA ALLOTTED SUCCESSFULLY";
-                        
+
                         $dacodeallotted = 1;
                     } else {
                         $dacodeallotted = 0;
                     }
-                }
-                elseif ($row_main['from_court'] == '5') 
-                {
+                } elseif ($row_main['from_court'] == '5') {
                     $tribunal = '';
 
                     $builder = $this->db->table('ref_agency_code');
 
                     $query = $builder->select('agency_or_court')
-                                    ->where('id', $row_main['ref_agency_code_id'])
-                                    ->get();
+                        ->where('id', $row_main['ref_agency_code_id'])
+                        ->get();
 
                     if ($query->getNumRows() > 0) {
                         $tribunal_sec_arr = $query->getRowArray();
@@ -663,37 +713,31 @@ class RegistrationModel extends Model
                     }
 
                     // $forTribunalsXVII_A = array(40,109,114,169,10085,164,162,177,280,312,10003,10075,10076,10067,142,10095,10017,322,203,247,272,10086,1,190);
-                    if ($tribunal == 5) 
-                    {
+                    if ($tribunal == 5) {
 
                         $builder = $this->db->table('da_case_distribution_tri');
 
                         $currentYear = date('Y');
 
                         $query = $builder->select('dacode')
-                                        ->where('case_type', $row_main['casetype_id'])
-                                        ->where("$currentYear BETWEEN case_f_yr AND case_t_yr")
-                                        ->where('ref_agency IS NOT NULL')
-                                        ->where("ref_agency ILIKE '%{$row_main['ref_agency_code_id']}%'")
-                                        ->where('display', 'Y')
-                                        ->get();
+                            ->where('case_type', $row_main['casetype_id'])
+                            ->where("$currentYear BETWEEN case_f_yr AND case_t_yr")
+                            ->where('ref_agency IS NOT NULL')
+                            ->where("ref_agency ILIKE '%{$row_main['ref_agency_code_id']}%'")
+                            ->where('display', 'Y')
+                            ->get();
 
-                        if ($query->getNumRows() > 0) 
-                        {
-                            if ($query->getNumRows() > 1) 
-                            {
-                                $output['success'] = 0; 
+                        if ($query->getNumRows() > 0) {
+                            if ($query->getNumRows() > 1) {
+                                $output['success'] = 0;
                                 $output['error'] = "ERROR, DA CAN NOT ALLOT BECAUSE MORE THAN ONE DA FOUND";
                                 $dacodeallotted = 0;
-                            } 
-                            else 
-                            {
+                            } else {
                                 $row_da = $query->getRowArray();
 
                                 $result = $this->check_section($row_da['dacode'], $row_main['section_id']);
 
-                                if($result === false) 
-                                {
+                                if ($result === false) {
                                     $output['success'] = 0;
                                     $output['error'] = "DA already alloted";
                                     return false;
@@ -710,14 +754,14 @@ class RegistrationModel extends Model
                                 $dacodeallotted = 1;
                             }
                         } else if (in_array($row_main['casetype_id'], $rcasetype)) {
- 
+
                             $builder = $this->db->table('users');
 
                             $query = $builder->select('usercode')
-                                            ->where('section', 82)
-                                            ->where('usertype', 14)
-                                            ->where('display', 'Y')
-                                            ->get();
+                                ->where('section', 82)
+                                ->where('usertype', 14)
+                                ->where('display', 'Y')
+                                ->get();
 
                             if ($query->getNumRows() > 0) {
                                 $rw_bo = $query->getRowArray();
@@ -725,8 +769,7 @@ class RegistrationModel extends Model
 
                                 $result = $this->check_section($bocode, $row_main['section_id']);
 
-                                if($result === false) 
-                                {
+                                if ($result === false) {
                                     $output['success'] = 0;
                                     $output['error'] = "DA already alloted";
                                     return false;
@@ -743,38 +786,31 @@ class RegistrationModel extends Model
                                 $dacodeallotted = 1;
                             }
                         }
-                    } 
-                    else 
-                    {
+                    } else {
 
                         $builder = $this->db->table('da_case_distribution_tri');
 
                         $currentYear = date('Y');
 
                         $query = $builder->select('dacode')
-                                        ->where('case_type', $row_main['casetype_id'])
-                                        ->where("$currentYear BETWEEN case_f_yr AND case_t_yr")
-                                        ->where('ref_agency IS NOT NULL')
-                                        ->where("ref_agency ILIKE '%{$row_main['ref_agency_code_id']}%'")
-                                        ->where('display', 'Y')
-                                        ->get();
+                            ->where('case_type', $row_main['casetype_id'])
+                            ->where("$currentYear BETWEEN case_f_yr AND case_t_yr")
+                            ->where('ref_agency IS NOT NULL')
+                            ->where("ref_agency ILIKE '%{$row_main['ref_agency_code_id']}%'")
+                            ->where('display', 'Y')
+                            ->get();
 
-                        if ($query->getNumRows() > 0) 
-                        {
-                            if ($query->getNumRows() > 1) 
-                            {
-                                $output['success'] = 0; 
+                        if ($query->getNumRows() > 0) {
+                            if ($query->getNumRows() > 1) {
+                                $output['success'] = 0;
                                 $output['error'] = "ERROR, DA CAN NOT ALLOT BECAUSE MORE THAN ONE DA FOUND";
                                 $dacodeallotted = 0;
-                            } 
-                            else 
-                            {
+                            } else {
                                 $row_da = $query->getRowArray();
 
                                 $result = $this->check_section($row_da['dacode'], $row_main['section_id']);
 
-                                if($result === false) 
-                                {
+                                if ($result === false) {
                                     $output['success'] = 0;
                                     $output['error'] = "DA already alloted";
                                     return false;
@@ -794,10 +830,10 @@ class RegistrationModel extends Model
                             $builder = $this->db->table('users');
 
                             $query = $builder->select('usercode')
-                                            ->where('section', 52)
-                                            ->where('usertype', 14)
-                                            ->where('display', 'Y')
-                                            ->get();
+                                ->where('section', 52)
+                                ->where('usertype', 14)
+                                ->where('display', 'Y')
+                                ->get();
 
                             if ($query->getNumRows() > 0) {
                                 $rw_bo = $query->getRowArray();
@@ -805,8 +841,7 @@ class RegistrationModel extends Model
 
                                 $result = $this->check_section($bocode, $row_main['section_id']);
 
-                                if($result === false) 
-                                {
+                                if ($result === false) {
                                     $output['success'] = 0;
                                     $output['error'] = "DA already alloted";
                                     return false;
@@ -833,25 +868,25 @@ class RegistrationModel extends Model
                     if ($row_main['regyear'] < date("Y") && !in_array($row_main['section_id'], $sec_da_upto_disposal)) {
                         $row_main['regyear'] = date("Y");
                     }
-                    
+
                     $builder = $this->db->table('main');
-                    
+
                     $currentYear = date('Y');
-                    
+
                     // $builder->select('diary_no, fil_dt')
                     //         ->select('ROW_NUMBER() OVER (ORDER BY fil_dt) AS rownum')
                     //         ->where('ref_agency_state_id', $row_main['ref_agency_state_id'])
                     //         ->where('active_casetype_id', $row_main['casetype_id'])
                     //         ->where("EXTRACT(YEAR FROM COALESCE(NULLIF(active_fil_dt, '0000-00-00 00:00:00'), diary_no_rec_date))", $row_main['regyear']);
                     $builder->select('diary_no, fil_dt')
-                            ->select('ROW_NUMBER() OVER (ORDER BY fil_dt) AS rownum', false)
-                            ->where('ref_agency_state_id', $row_main['ref_agency_state_id'])
-                            ->where('active_casetype_id', $row_main['casetype_id'])
-                            ->where("EXTRACT(YEAR FROM COALESCE(NULLIF(active_fil_dt::TEXT, '0000-00-00 00:00:00')::TIMESTAMP, diary_no_rec_date)) =", $row_main['regyear'], false);
+                        ->select('ROW_NUMBER() OVER (ORDER BY fil_dt) AS rownum', false)
+                        ->where('ref_agency_state_id', $row_main['ref_agency_state_id'])
+                        ->where('active_casetype_id', $row_main['casetype_id'])
+                        ->where("EXTRACT(YEAR FROM COALESCE(NULLIF(active_fil_dt::TEXT, '0000-00-00 00:00:00')::TIMESTAMP, diary_no_rec_date)) =", $row_main['regyear'], false);
                     //echo $builder->getCompiledSelect();die;
                     $query = $builder->get();
                     $current_no = 1;
-                    
+
                     foreach ($query->getResultArray() as $row_number_for) {
                         if ($row_number_for['diary_no'] == $dairy_no) {
                             $current_no = $row_number_for['rownum'];
@@ -862,39 +897,39 @@ class RegistrationModel extends Model
 
                     if (in_array($row_main['section_id'], $sec_da_upto_disposal)) {
                         $builder->select('dacode')
-                                ->where('case_type', $row_main['casetype_id'])
-                                ->where('$current_no BETWEEN case_from AND case_to', null, false)
-                                ->where('$row_main[fildate] BETWEEN case_f_yr AND case_t_yr', null, false)
-                                ->groupStart()
-                                    ->where('state', $row_main['ref_agency_state_id'])
-                                    ->orWhere('state', 0)
-                                ->groupEnd()
-                                ->where('display', 'Y');
+                            ->where('case_type', $row_main['casetype_id'])
+                            ->where("$current_no BETWEEN case_from AND case_to", null, false)
+                            ->where("$row_main[fildate] BETWEEN case_f_yr AND case_t_yr", null, false)
+                            ->groupStart()
+                            ->where('state', $row_main['ref_agency_state_id'])
+                            ->orWhere('state', 0)
+                            ->groupEnd()
+                            ->where('display', 'Y');
                     } else {
                         $builder->select('dacode')
-                                ->where('case_type', $row_main['casetype_id'])
-                                ->where('$current_no BETWEEN case_from AND case_to', null, false)
-                                ->where('$row_main[filregdate] BETWEEN case_f_yr AND case_t_yr', null, false)
-                                ->groupStart()
-                                    ->where('state', $row_main['ref_agency_state_id'])
-                                    ->orWhere('state', 0)
-                                ->groupEnd()
-                                ->where('display', 'Y');
+                            ->where('case_type', $row_main['casetype_id'])
+                            ->where("$current_no BETWEEN case_from AND case_to", null, false)
+                            ->where("$row_main[filregdate] BETWEEN case_f_yr AND case_t_yr", null, false)
+                            ->groupStart()
+                            ->where('state', $row_main['ref_agency_state_id'])
+                            ->orWhere('state', 0)
+                            ->groupEnd()
+                            ->where('display', 'Y');
                         //echo $builder->getCompiledSelect();die;
                         $query = $builder->get();
 
                         if ($query->getNumRows() <= 0) {
                             $builder = $this->db->table('da_case_distribution');
-                            
+
                             $builder->select('dacode')
-                                    ->where('case_type', $row_main['casetype_id'])
-                                    ->where('$current_no BETWEEN case_from AND case_to', null, false)
-                                    ->where('$row_main[regyear] BETWEEN case_f_yr AND case_t_yr', null, false)
-                                    ->groupStart()
-                                        ->where('state', $row_main['ref_agency_state_id'])
-                                        ->orWhere('state', 0)
-                                    ->groupEnd()
-                                    ->where('display', 'Y');
+                                ->where('case_type', $row_main['casetype_id'])
+                                ->where("$current_no BETWEEN case_from AND case_to", null, false)
+                                ->where("$row_main[regyear] BETWEEN case_f_yr AND case_t_yr", null, false)
+                                ->groupStart()
+                                ->where('state', $row_main['ref_agency_state_id'])
+                                ->orWhere('state', 0)
+                                ->groupEnd()
+                                ->where('display', 'Y');
                         }
                     }
 
@@ -902,17 +937,15 @@ class RegistrationModel extends Model
 
                     if ($query->getNumRows() > 0) {
                         if ($query->getNumRows() > 1) {
-                            
+
                             $output['success'] = 0;
                             $output['message'] = "ERROR, DA CAN NOT ALLOT BECAUSE MORE THAN ONE DA FOUND";
-
                         } else {
                             $row_da = $query->getRowArray();
 
                             $result = $this->check_section($row_da['dacode'], $row_main['section_id']);
 
-                            if($result === false) 
-                            {
+                            if ($result === false) {
                                 $output['success'] = 0;
                                 $output['error'] = "DA already alloted";
                                 return false;
@@ -925,7 +958,6 @@ class RegistrationModel extends Model
 
                             $output['success'] = 1;
                             $output['message'] = "SUCCESSFUL, DA ALLOTTED SUCCESSFULLY";
-
                         }
                     } else {
                         $output['success'] = 0;
@@ -1201,7 +1233,7 @@ class RegistrationModel extends Model
         $db = db_connect();
 
         $db->getLastQuery();
-        
+
         // echo $this->db->error();
         // echo $this->db->get_compiled_select();
 

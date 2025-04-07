@@ -2,8 +2,54 @@ function f() {
   // alert("hello");
   // $('#direct_contempt').hide();
 }
+
+class FunctionQueue {
+  constructor() {
+    this.queue = [];
+    this.isProcessing = false;
+  }
+
+  add(fn) {
+    
+    console.log(fn);
+
+    return new Promise((resolve, reject) => {
+      this.queue.push({ fn, resolve, reject });
+      this.processQueue();
+    });
+  }
+
+  wait(ms, data) {
+      // console.log('Starting task:', data, ms);
+      return new Promise(resolve => setTimeout(resolve, ms, data));
+  }
+
+  async processQueue() {
+    if (this.isProcessing || this.queue.length === 0) return;
+    
+    this.isProcessing = true;
+    const { fn, resolve, reject } = this.queue.shift();
+    
+    try {
+      
+      let sleep = await this.wait(100, this.queue.length);
+
+      const result = await fn();
+      resolve(result);
+    } catch (error) {
+      reject(error);
+    }
+    
+    this.isProcessing = false;
+    this.processQueue();
+  }
+}
+
+// Define Process Queue
+const process_queue = new FunctionQueue();
+
 async function get_report() {
-  
+
   await updateCSRFTokenSync();
 
   var d_no = document.getElementById("diary_number").value;
@@ -15,7 +61,7 @@ async function get_report() {
     url: base_url + "/ARDRBM/IA/get_lower_report",
     cache: false,
     async: true,
-    data: { d_no: d_no, d_yr: d_yr, old_registration: "Y",CSRF_TOKEN: CSRF_TOKEN_VALUE },
+    data: { d_no: d_no, d_yr: d_yr, old_registration: "Y", CSRF_TOKEN: CSRF_TOKEN_VALUE },
     beforeSend: function () {
       $("#dv_res1").html(
         '<table widht="100%" align="center"><tr><td><img src="' + base_url + '/images/load.gif"/></td></tr></table>'
@@ -49,11 +95,15 @@ async function get_report() {
   //
 }
 
-$(document).ready(function () {
-  $(document).on("click", "#btn_generate", function () {
+async function generate_registration() {
+
     var num = document.getElementById("num").value; // input from the user in case lowercourt details are not updated.
 
     // alert(num);
+    await updateCSRFTokenSync();
+
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
     var chk_clk = 0;
     $reg_chk = 0;
@@ -186,7 +236,7 @@ $(document).ready(function () {
         });
         // var txt_order_dt = $('#txt_order_dt').val();
         $.ajax({
-          url: "../scrutiny/register_case.php",
+          url: base_url + "/Judicial/Registration/register_case",
           cache: false,
           async: true,
           data: {
@@ -197,10 +247,11 @@ $(document).ready(function () {
             txt_order_dt: txt_order_dt,
             num: num,
             reg_for_year: reg_for_year,
+            CSRF_TOKEN: CSRF_TOKEN_VALUE
           },
           beforeSend: function () {
             $("#dv_load").html(
-              '<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>'
+              '<table widht="100%" align="center"><tr><td><img src="' + base_url + '/images/load.gif"/></td></tr></table>'
             );
           },
           type: "POST",
@@ -215,10 +266,14 @@ $(document).ready(function () {
               hd_casetype_id == 26 ||
               hd_casetype_id == 39
             ) {
-              call_listing(d_no, d_yr);
-              find_and_set_da(d_no, d_yr);
+              process_queue.add(() => call_listing(d_no, d_yr));
+              process_queue.add(() => find_and_set_da(d_no, d_yr));
+
+              // call_listing(d_no, d_yr);
+              // find_and_set_da(d_no, d_yr);
             } else {
-              check_if_listed(d_no, d_yr);
+              process_queue.add(() => check_if_listed(d_no, d_yr));
+              // check_if_listed(d_no, d_yr);
             }
           },
           error: function (xhr) {
@@ -227,13 +282,17 @@ $(document).ready(function () {
         });
       }
     }
-  });
+  }
 
-  $(document).on("click", "#btn_generate_r", function () {
+async function generate_registration_r() {
     //   alert("thisis btn_generate_r");
     //  var num=document.getElementById('num').value;   // input from the user in case lowercourt details are not updated.
 
     //alert(num);
+    await updateCSRFTokenSync();
+
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
     var chk_clk = 0;
     $reg_chk = 0;
@@ -365,9 +424,10 @@ $(document).ready(function () {
         });
         // var txt_order_dt = $('#txt_order_dt').val();
         $.ajax({
-          url: "../scrutiny/register_case.php",
+          url: base_url + "/Judicial/Registration/register_case",
           cache: false,
           async: true,
+          dataType: 'json',
           data: {
             d_no: d_no,
             d_yr: d_yr,
@@ -376,15 +436,31 @@ $(document).ready(function () {
             txt_order_dt: txt_order_dt,
             num: 0,
             reg_for_year: reg_for_year,
+            CSRF_TOKEN: CSRF_TOKEN_VALUE
           },
           beforeSend: function () {
             $("#dv_load").html(
-              '<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>'
+              '<table widht="100%" align="center"><tr><td><img src="' + base_url + '/images/load.gif"/></td></tr></table>'
             );
           },
           type: "POST",
           success: function (data, status) {
-            $("#dv_res1").html(data);
+
+            console.log(data);
+
+            $("#dv_res1").html('<div style="text-align: center"><h3>');
+
+            if (data.registration != undefined)
+              $("#dv_res1").append("<br />" + data.registration);
+
+            if (data.track_inserted != undefined)
+              $("#dv_res1").append("<br />" + data.track_inserted);
+
+            if (data.err_msg != undefined)
+              $("#dv_res1").append("<br />" + data.err_msg);
+
+            $("#dv_res1").html('</h3></div>');
+
             if (
               hd_casetype_id == 9 ||
               hd_casetype_id == 10 ||
@@ -394,10 +470,13 @@ $(document).ready(function () {
               hd_casetype_id == 26 ||
               hd_casetype_id == 39
             ) {
-              call_listing(d_no, d_yr);
-              find_and_set_da(d_no, d_yr);
+              process_queue.add(() => call_listing(d_no, d_yr));
+              process_queue.add(() => find_and_set_da(d_no, d_yr));
+              // call_listing(d_no, d_yr);
+              // find_and_set_da(d_no, d_yr);
             } else {
-              check_if_listed(d_no, d_yr);
+              process_queue.add(() => check_if_listed(d_no, d_yr));
+              // check_if_listed(d_no, d_yr);
             }
           },
           error: function (xhr) {
@@ -406,131 +485,148 @@ $(document).ready(function () {
         });
       }
     }
-  });
+  }
 
-  $(document).on("click", "#btn_generate_s", function () {
-    var d_no = document.getElementById("diary_number").value;
-    var d_yr = document.getElementById("diary_year").value;
-    var hd_casetype_id = $("#hd_casetype_id").val();
-    var txt_order_dt = $("#txt_order_dt").val();
-    $reg_chk = 0;
-    //var casetype_check=$('#casetype').is(':checked')
-    //alert($('#casetype').is(':checked'));
-    //alert($('#hd_casetype_id').val());
-    $case_type = $("#hd_casetype_id").val();
-    if (!$("#casetype").is(":checked")) {
-      alert("Please Check Case Type");
-      $("#casetype").focus();
-      exit();
-    }
+async function generate_registration_s() {
+  await updateCSRFTokenSync();
 
-    if (
-      hd_casetype_id == "5" ||
-      hd_casetype_id == "27" ||
-      hd_casetype_id == "6" ||
-      hd_casetype_id == "17" ||
-      hd_casetype_id == "24" ||
-      hd_casetype_id == "32" ||
-      hd_casetype_id == "33" ||
-      hd_casetype_id == "34" ||
-      hd_casetype_id == "35" ||
-      hd_casetype_id == "40" ||
-      hd_casetype_id == "41"
-    ) {
-      $reg_chk = 1;
-    }
-    if (!$("#regnocount").is(":checked") && $reg_chk == 0) {
-      alert("Please Confirm total registration no. to be generated");
-      $("#regnocount").focus();
-      exit();
-    }
+  var CSRF_TOKEN = 'CSRF_TOKEN';
+  var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
-    if (txt_order_dt == "") {
-      alert("Please enter registeration order date");
-      $("#txt_order_dt").focus();
-      exit();
-    } else {
-      //alert(txt_order_dt);
-      compareDate(txt_order_dt);
-    }
+  var d_no = document.getElementById("diary_number").value;
+  var d_yr = document.getElementById("diary_year").value;
+  var hd_casetype_id = $("#hd_casetype_id").val();
+  var txt_order_dt = $("#txt_order_dt").val();
+  $reg_chk = 0;
+  //var casetype_check=$('#casetype').is(':checked')
+  //alert($('#casetype').is(':checked'));
+  //alert($('#hd_casetype_id').val());
+  $case_type = $("#hd_casetype_id").val();
+  if (!$("#casetype").is(":checked")) {
+    alert("Please Check Case Type");
+    $("#casetype").focus();
+    exit();
+  }
 
-    var reg_for_year = 0;
+  if (
+    hd_casetype_id == "5" ||
+    hd_casetype_id == "27" ||
+    hd_casetype_id == "6" ||
+    hd_casetype_id == "17" ||
+    hd_casetype_id == "24" ||
+    hd_casetype_id == "32" ||
+    hd_casetype_id == "33" ||
+    hd_casetype_id == "34" ||
+    hd_casetype_id == "35" ||
+    hd_casetype_id == "40" ||
+    hd_casetype_id == "41"
+  ) {
+    $reg_chk = 1;
+  }
+  if (!$("#regnocount").is(":checked") && $reg_chk == 0) {
+    alert("Please Confirm total registration no. to be generated");
+    $("#regnocount").focus();
+    exit();
+  }
 
-    if ($("#previous_year").val() == "") {
-      alert("Please Select registration year");
+  if (txt_order_dt == "") {
+    alert("Please enter registeration order date");
+    $("#txt_order_dt").focus();
+    exit();
+  } else {
+    //alert(txt_order_dt);
+    compareDate(txt_order_dt);
+  }
+
+  var reg_for_year = 0;
+
+  if ($("#previous_year").val() == "") {
+    alert("Please Select registration year");
+    $("#previous_year").focus();
+    return;
+  } else {
+    reg_for_year = $("#previous_year").val();
+
+    var year = txt_order_dt.substring(6, 10);
+
+    if (reg_for_year != year) {
+      alert(
+        "Registration year and Registration order date year should be same"
+      );
       $("#previous_year").focus();
       return;
-    } else {
-      reg_for_year = $("#previous_year").val();
+    }
+  }
+  var confirmation = confirm("Are you sure you want to register case");
 
-      var year = txt_order_dt.substring(6, 10);
-
-      if (reg_for_year != year) {
-        alert(
-          "Registration year and Registration order date year should be same"
+  if (confirmation == false) {
+    return false;
+  } else {
+    $("#btn_generate_s").attr("disabled", true);
+    $.ajax({
+      url: base_url + "/Judicial/Registration/register_case_supreme",
+      cache: false,
+      async: true,
+      data: {
+        d_no: d_no,
+        d_yr: d_yr,
+        hd_casetype_id: hd_casetype_id,
+        txt_order_dt: txt_order_dt,
+        reg_for_year: reg_for_year,
+        CSRF_TOKEN: CSRF_TOKEN_VALUE
+      },
+      beforeSend: function () {
+        $("#dv_load").html(
+          '<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>'
         );
-        $("#previous_year").focus();
-        return;
-      }
-    }
-    var confirmation = confirm("Are you sure you want to register case");
+      },
+      type: "POST",
+      success: function (data, status) {
+        $("#dv_res1").html(data);
+        if (
+          hd_casetype_id == 9 ||
+          hd_casetype_id == 10 ||
+          hd_casetype_id == 19 ||
+          hd_casetype_id == 20 ||
+          hd_casetype_id == 25 ||
+          hd_casetype_id == 26 ||
+          hd_casetype_id == 39
+        ) {
+          process_queue.add(() => call_listing(d_no, d_yr));
+          process_queue.add(() => find_and_set_da(d_no, d_yr));
 
-    if (confirmation == false) {
-      return false;
-    } else {
-      $("#btn_generate_s").attr("disabled", true);
-      $.ajax({
-        url: "../scrutiny/register_case_supreme.php",
-        cache: false,
-        async: true,
-        data: {
-          d_no: d_no,
-          d_yr: d_yr,
-          hd_casetype_id: hd_casetype_id,
-          txt_order_dt: txt_order_dt,
-          reg_for_year: reg_for_year,
-        },
-        beforeSend: function () {
-          $("#dv_load").html(
-            '<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>'
-          );
-        },
-        type: "POST",
-        success: function (data, status) {
-          $("#dv_res1").html(data);
-          if (
-            hd_casetype_id == 9 ||
-            hd_casetype_id == 10 ||
-            hd_casetype_id == 19 ||
-            hd_casetype_id == 20 ||
-            hd_casetype_id == 25 ||
-            hd_casetype_id == 26 ||
-            hd_casetype_id == 39
-          ) {
-            call_listing(d_no, d_yr);
-            find_and_set_da(d_no, d_yr);
-          } else {
-            check_if_listed(d_no, d_yr);
-          }
-        },
-        error: function (xhr) {
-          alert("Error: " + xhr.status + " " + xhr.statusText);
-        },
-      });
-    }
-  });
-});
+          // call_listing(d_no, d_yr);
+          // find_and_set_da(d_no, d_yr);
+        } else {
+          process_queue.add(() => call_listing(d_no, d_yr));
+          // check_if_listed(d_no, d_yr);
+        }
+      },
+      error: function (xhr) {
+        alert("Error: " + xhr.status + " " + xhr.statusText);
+      },
+    });
+  }
+}
 
-function find_and_set_da(dirno, diryr) {
+async function find_and_set_da(dirno, diryr) {
+  
+  await updateCSRFTokenSync();
+
+  return new Promise((resolve, reject) => {
+
+  var CSRF_TOKEN = 'CSRF_TOKEN';
+  var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
   //alert("hello");
   $.ajax({
     type: "POST",
-    url: "../scrutiny/get_and_set_da.php",
+    url: base_url + "/Judicial/Registration/get_and_set_da",
     /*beforeSend: function (xhr) {
             $("#result1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>");
         },*/
-    data: { dno: dirno, dyr: diryr },
-  })
+    data: { dno: dirno, dyr: diryr, CSRF_TOKEN: CSRF_TOKEN_VALUE },
+    })
     .done(function (msg) {
       alert(msg);
       //chk_section(dirno,diryr);
@@ -538,36 +634,50 @@ function find_and_set_da(dirno, diryr) {
     })
     .fail(function () {
       alert("ERROR, Please Contact Server Room");
+      
+      reject(true);
     });
+
+    resolve(true);
+  });    
 }
 
-function check_if_listed(dirno, diryr) {
+async function check_if_listed(dirno, diryr) {
+
+  await updateCSRFTokenSync();
+
+  var CSRF_TOKEN = 'CSRF_TOKEN';
+  var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
   //var d_no=document.getElementById('t_h_cno').value;
   //var d_yr=document.getElementById('diary_year').value;
   //var dno=d_no+d_yr;
   $.ajax({
     type: "POST",
-    url: "../scrutiny/check_listing.php",
+    url: base_url + "/Judicial/Registration/check_listing",
     /*beforeSend: function (xhr) {
          $("#result1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>");
          },*/
-    data: { dno: dirno, dyr: diryr },
+    data: { dno: dirno, dyr: diryr, CSRF_TOKEN: CSRF_TOKEN_VALUE },
   })
     .done(function (msg) {
       if (msg == "listed") {
         // alert("da called");
-        find_and_set_da(dirno, diryr);
+        process_queue.add(() => updateCSRFTokenSync());
+        process_queue.add(() => find_and_set_da(dirno, diryr));
+
+        // find_and_set_da(dirno, diryr);
       } else {
         alert(msg);
       }
-      document.getElementById("ggg").style.width = "auto";
-      document.getElementById("ggg").style.height = " 500px";
-      document.getElementById("ggg").style.overflow = "scroll";
-      //  margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;
-      document.getElementById("ggg").style.marginLeft = "50px";
-      document.getElementById("ggg").style.marginRight = "50px";
-      document.getElementById("ggg").style.marginBottom = "25px";
-      document.getElementById("ggg").style.marginTop = "1px";
+      // document.getElementById("ggg").style.width = "auto";
+      // document.getElementById("ggg").style.height = " 500px";
+      // document.getElementById("ggg").style.overflow = "scroll";
+      // //  margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;
+      // document.getElementById("ggg").style.marginLeft = "50px";
+      // document.getElementById("ggg").style.marginRight = "50px";
+      // document.getElementById("ggg").style.marginBottom = "25px";
+      // document.getElementById("ggg").style.marginTop = "1px";
       //call_prop_s(dirno,diryr);
     })
 
@@ -576,74 +686,116 @@ function check_if_listed(dirno, diryr) {
     });
 }
 
-function call_listing(dirno, diryr) {
-  //var d_no=document.getElementById('t_h_cno').value;
-  //var d_yr=document.getElementById('diary_year').value;
-  //var dno=d_no+d_yr;
-  $.ajax({
-    type: "POST",
-    url: "../scrutiny/call_listing.php",
-    /*beforeSend: function (xhr) {
-            $("#result1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>");
-        },*/
-    data: { dno: dirno, dyr: diryr },
-  })
-    .done(function (msg) {
-      alert(msg);
-      document.getElementById("ggg").style.width = "auto";
-      document.getElementById("ggg").style.height = " 500px";
-      document.getElementById("ggg").style.overflow = "scroll";
-      //  margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;
-      document.getElementById("ggg").style.marginLeft = "50px";
-      document.getElementById("ggg").style.marginRight = "50px";
-      document.getElementById("ggg").style.marginBottom = "25px";
-      document.getElementById("ggg").style.marginTop = "1px";
-      call_prop_s(dirno, diryr);
+async function call_listing(dirno, diryr) {
+
+  await updateCSRFTokenSync();
+
+  return new Promise((resolve, reject) => {
+
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
+    //var d_no=document.getElementById('t_h_cno').value;
+    //var d_yr=document.getElementById('diary_year').value;
+    //var dno=d_no+d_yr;
+    $.ajax({
+      type: "POST",
+      url: base_url + "/Judicial/Registration/call_listing",
+      /*beforeSend: function (xhr) {
+              $("#result1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>");
+          },*/
+      data: { dno: dirno, dyr: diryr, CSRF_TOKEN: CSRF_TOKEN_VALUE },
     })
-    .fail(function () {
-      alert("ERROR, Please Contact Server Room");
-    });
+      .done(function (msg) {
+        alert(msg);
+        // document.getElementById("ggg").style.width = "auto";
+        // document.getElementById("ggg").style.height = " 500px";
+        // document.getElementById("ggg").style.overflow = "scroll";
+        // //  margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;
+        // document.getElementById("ggg").style.marginLeft = "50px";
+        // document.getElementById("ggg").style.marginRight = "50px";
+        // document.getElementById("ggg").style.marginBottom = "25px";
+        // document.getElementById("ggg").style.marginTop = "1px";
+        
+        process_queue.add(() => call_prop_s(dirno, diryr));
+
+        // const someResult = await call_prop_s(dirno, diryr);
+      })
+      .fail(function () {        
+        alert("ERROR, Please Contact Server Room");
+        
+        reject(true);
+      });
+
+    resolve(true);
+  });
 }
 
-function call_prop_s(dirno, diryr) {
+async function call_prop_s(dirno, diryr) {
+
+  await updateCSRFTokenSync();
+
+  return new Promise((resolve, reject) => {
+
+  var CSRF_TOKEN = 'CSRF_TOKEN';
+  var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
   $.ajax({
     type: "POST",
-    url: "../scrutiny/show_proposal.php",
+    url: base_url + "/Judicial/Registration/show_proposal",
     /*beforeSend: function (xhr) {
             $("#result1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.gif'></div>");
         },*/
-    data: { dno: dirno, dyr: diryr },
+    data: { dno: dirno, dyr: diryr, CSRF_TOKEN: CSRF_TOKEN_VALUE },
   })
     .done(function (msg) {
+      $('#model-show-proposal').modal({ backdrop: 'static', keyboard: false });
+      $('#model-show-proposal').modal('show');
+      $('#ggg').html(msg);
+
       //alert(msg);
-      document.getElementById("dv_fixedFor_P").style.marginTop = "50px";
-      document.getElementById("dv_sh_hd").style.display = "block";
-      document.getElementById("dv_fixedFor_P").style.display = "block";
-      //  document.getElementById('sp_mnb_p').style.width=screen.width/2+'px';
-      document.getElementById("ggg").innerHTML = msg;
+      // document.getElementById("dv_fixedFor_P").style.marginTop = "50px";
+      // document.getElementById("dv_sh_hd").style.display = "block";
+      // document.getElementById("dv_fixedFor_P").style.display = "block";
+      // //  document.getElementById('sp_mnb_p').style.width=screen.width/2+'px';
+      // document.getElementById("ggg").innerHTML = msg;
       /*document.getElementById('tb_clr').style.backgroundColor = 'white';
             if (document.getElementById('tb_clr_n'))
                 document.getElementById('tb_clr_n').style.backgroundColor = 'white';*/
     })
     .fail(function () {
       alert("ERROR, Please Contact Server Room");
+      
+      reject(true);
     });
+
+    resolve(true);
+  });
 }
 
 function closeData() {
-  document.getElementById("dv_fixedFor_P").style.display = "none";
-  document.getElementById("dv_sh_hd").style.display = "none";
-  document.getElementById("sp_close").style.display = "none";
+  
+  $('#model-show-proposal').modal('hide');
+
+  // document.getElementById("dv_fixedFor_P").style.display = "none";
+  // document.getElementById("dv_sh_hd").style.display = "none";
+  // document.getElementById("sp_close").style.display = "none";
 }
 
-function chk_section(dirno, diryr) {
+async function chk_section(dirno, diryr) {
+
+  await updateCSRFTokenSync();
+
+  var CSRF_TOKEN = 'CSRF_TOKEN';
+  var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
   var d_no = document.getElementById("diary_number").value;
   var d_yr = document.getElementById("diary_year").value;
   $.ajax({
-    url: "../scrutiny/chk_section.php",
+    url: base_url + "/Judicial/Registration/chk_section",
     cache: false,
     async: true,
-    data: { d_no: d_no, d_yr: d_yr },
+    data: { d_no: d_no, d_yr: d_yr, CSRF_TOKEN: CSRF_TOKEN_VALUE },
     type: "POST",
     success: function (data, status) {
       if (data == 0) {
