@@ -1265,8 +1265,8 @@ class FasterController extends BaseController
                 $_REQUEST['d_yr'] = $data['dy'];
             }
             else {
-                echo $msg_404 = 404;
-                exit();
+                echo $msg_404 = '404';
+                exit;
             }
         }
         else if (!empty($_REQUEST['optradio'] == 'D')) {
@@ -1275,8 +1275,8 @@ class FasterController extends BaseController
             $diary_no = $dno . $dyr;
         }
         else{
-            echo $msg_404 = 404;
-            exit();
+            echo $msg_404 = '404';
+            exit;
         }
 
         return view('Faster/get_cause_title_request');
