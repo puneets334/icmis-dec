@@ -33,9 +33,9 @@ trait  ScrunityRegistration {
         $s_no = 0;
         $cnt_total = 0;
 
+        // Start the registration process
         $db = \Config\Database::connect();
         $db->transStart();
-        // $this->db->transComplete();
 
         $RegistrationModel = new RegistrationModel();
 
@@ -235,7 +235,9 @@ trait  ScrunityRegistration {
                     }
                 }
 
-
+                // Complete the registration process
+                $db->transComplete();
+                
                 $sms_status = 'R';
 
                 $err_msg_arr = [];
@@ -274,9 +276,9 @@ trait  ScrunityRegistration {
         $s_no = 0;
         $cnt_total = 0;
 
+        // Start the registration process
         $db = \Config\Database::connect();
         $db->transStart();
-        // $this->db->transComplete();
 
         $RegistrationModel = new RegistrationModel();
 
@@ -530,6 +532,8 @@ trait  ScrunityRegistration {
                 }
             }
 
+            // Complete the registration process
+            $db->transComplete();
 
             $sms_status = 'R';
 
