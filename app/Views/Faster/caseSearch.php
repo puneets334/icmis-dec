@@ -9,6 +9,9 @@
             border-radius: 5px !important;
             border: 0;
         }
+        .dt-buttons.btn-group.flex-wrap a {
+            margin-right: 5px;
+        }
      </style>
     
     <section class="content " >
@@ -63,9 +66,9 @@
                             ?>
                         </select>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="padding-top: 31px;">
                         <label for="view">&nbsp;</label>
-                        <button type="button"  id="view" name="view" class="btn btn-block btn-primary">View</button>
+                        <button type="submit"  id="view" name="view" class="btn btn-block btn-primary">View</button>
                     </div>
                 </div>
                 </div>
@@ -91,9 +94,9 @@
                             ?>
                         </select>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3" style="padding-top: 31px;">
                         <label for="view">&nbsp;</label>
-                        <button type="button"  id="view" name="view" class="btn btn-block btn-primary">View</button>
+                        <button type="submit"  id="view" name="view" class="btn btn-block btn-primary">View</button>
                     </div>
 
                 </div>
@@ -113,7 +116,7 @@
                                 placeholder="dd/mm/yyyy" >
                         </div>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-1" style="padding-top: 31px;">
                         <label for="btnFetchRecords">&nbsp;</label>
                         <button type="button" id="btnFetchRecords" name="btnFetchRecords" class="btn btn-block btn-secondary" onclick="return getListedDetails();"><span class="fa fa-search" aria-hidden="true"></span></button>
                     </div>
@@ -179,14 +182,14 @@
         $(this).alert('close');
     });
 
-    $('#view').on('click', function(e){
-        e.preventDefault();
-        $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
-        $(this).attr('disabled','disabled');
-        if($('#headerForm').submit()){
-            alert('error');
-        }
-    });
+    // $('#view').on('click', function(e){
+    //     e.preventDefault();
+    //     $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+    //     $(this).attr('disabled','disabled');
+    //     if($('#headerForm').submit()){
+    //         alert('error');
+    //     }
+    // });
 
     $(document).ready(function()
     {
@@ -375,6 +378,7 @@
         var title = function () { return 'Cases Marked For Faster List Date '+causelistDate };
         $('#tblFasterCases').DataTable( {
             dom: 'Bfrtip',
+            retrieve: true,
             deferRender: true,
             bAutoWidth: false,
             buttons: [

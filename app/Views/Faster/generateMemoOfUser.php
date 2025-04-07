@@ -349,7 +349,7 @@
             data:{CSRF_TOKEN: CSRF_TOKEN_VALUE, d_no:diaryno,d_yr:diaryyear,ct:cstype,cn:csno,optradio:optradio,cy:csyr,tab:'Case Details'},
             success: function (msg){
                 updateCSRFTokenSync();
-                if (msg == 404) {
+                if (msg == '404') {
                     var msg_404 = "<p align=center><font color=red>Case Not Found</font></p>";
                     $("#dv_res1").html(msg_404);
                     $("#action_after_load").hide();
