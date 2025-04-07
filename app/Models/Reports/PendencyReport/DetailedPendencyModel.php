@@ -11,8 +11,8 @@ class DetailedPendencyModel extends Model
     public function __construct()
     {
         parent::__construct();
-        $this->db_icmis = db_connect();
-        $this->eservicesdb = \Config\Database::connect('eservices');
+        //$this->db_icmis = db_connect();
+        //$this->eservicesdb = \Config\Database::connect('eservices');
     }
 
     function getCurrentPendency($mainReportID=null,$subReportID=null,$from_date=null,$to_date=null,$id=null,$reportType1=null)
@@ -2421,7 +2421,7 @@ class DetailedPendencyModel extends Model
             e.reg_no_display AS case_no, 
             concat(pet_name, ' Vs. ', res_name) AS cause_title,
             tentative_section(a.diary_no) AS tentative_section, 
-            tentative_da(a.diary_no) AS tentative_da,
+            tentative_da(a.diary_no::int) AS tentative_da,
             concat(ol.first_name, ' ', ol.sur_name) AS judge_name,
             
             CASE 
@@ -2486,7 +2486,7 @@ class DetailedPendencyModel extends Model
                           50986,56658,810,1066,1221,22353,22536,22614,22799,26856,28230,40930,
                           46169,47848,48374,50047,50091,51877,54866,55435,56643,56678,28868,
                           41711,55804,56477)
-        LEFT JOIN not_before nb ON nb.diary_no = a.diary_no AND nb.notbef = 'N' AND nb.j1 >= 264
+        LEFT JOIN not_before nb ON nb.diary_no:: BIGINT = a.diary_no AND nb.notbef = 'N' AND nb.j1 >= 264
         LEFT JOIN master.judge j ON j.jcode = nb.j1
         WHERE nb.j1 IS NULL 
             AND lg.judge_id IS NOT NULL 
@@ -2498,8 +2498,8 @@ class DetailedPendencyModel extends Model
             $main_head
             AND a.lw_display = 'Y'
         GROUP BY a.diary_no, ol.id, e.diary_no, e.reg_no_display, pet_name, res_name, a.lct_casetype, a.l_state, a.l_dist, a.lct_caseno, a.lct_caseyear, a.ct_code
-        ORDER BY tentative_section(a.diary_no), tentative_da(a.diary_no)";
-
+        ORDER BY tentative_section(a.diary_no), tentative_da(a.diary_no::int)";
+        
         $sqlQuery = $this->db->query($sql);
         if($sqlQuery->getNumRows() >= 1)
         {
@@ -2535,7 +2535,7 @@ class DetailedPendencyModel extends Model
             }
             $html .= '</table>';
             $html .= '</div>';
-            $html .= '<div class="col-md-12" style="text-align: center;"><input name="prnnt1" type="button" id="prnnt1" value="Print"></div>';
+            $html .= '<div class="col-md-12" style="text-align: center;"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary"></div>';
         }
         else
         {

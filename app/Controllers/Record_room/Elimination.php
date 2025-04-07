@@ -52,7 +52,7 @@ class Elimination extends BaseController
 
     function updateElimination()
     {
-        echo "<pre>";
+        // echo "<pre>";
          $result="ERROR";
          $actionRequired = $this->request->getPost('actionRequired');
          $diary_no = $this->request->getPost('diary_no');

@@ -38,7 +38,7 @@
                                             $attribute = array('class' => 'form-horizontal', 'name' => 'dispatchDak', 'id' => 'dispatchDak', 'autocomplete' => 'off');
                                             echo form_open(base_url('#'), $attribute);
                                             ?>
-                                            <?= csrf_field() ?>
+                                            <?//= csrf_field() ?>
                                             <div class="row">
                                                 <div class="col-sm-5">
                                                     <h4 class="box-title">Search By Name Of : </h4><br>

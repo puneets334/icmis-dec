@@ -137,7 +137,8 @@ class PendingModel extends Model
                     rd.fil_no IS NULL
                     AND mc.diary_no IS NOT NULL
                     AND m.c_status = 'P'
-                    AND (m.diary_no = m.conn_key::bigint OR m.conn_key IS NULL OR m.conn_key = '0')
+                    --AND (m.diary_no = m.conn_key::bigint OR m.conn_key IS NULL OR m.conn_key = '0')
+                    AND (m.diary_no = NULLIF(m.conn_key, '')::bigint OR m.conn_key IS NULL OR m.conn_key = '0')
                     AND wd.display = 'Y'
                     AND wd.is_holiday = 0
                     AND wd.is_nmd = 0
@@ -290,7 +291,7 @@ class PendingModel extends Model
             pet_name,
             res_name,
             tentative_section(m.diary_no) AS section_name,
-            tentative_da(m.diary_no) AS da_name,
+            tentative_da(m.diary_no::INT) AS da_name,
             CAST(SUBSTRING(m.diary_no::TEXT, -4) AS BIGINT) AS diary_no_suffix,
             CAST(LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 4) AS BIGINT) AS diary_no_prefix
         FROM main m 
@@ -305,7 +306,7 @@ class PendingModel extends Model
         and h.next_dt IS NOT NULL 
         GROUP BY m.diary_no, l.purpose, s.stagename
         ORDER BY 
-        tentative_section(m.diary_no), tentative_da(m.diary_no),
+        tentative_section(m.diary_no), tentative_da(m.diary_no::INT),
         diary_no_suffix ASC, diary_no_prefix ASC";
         $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1) {
@@ -330,7 +331,7 @@ class PendingModel extends Model
                     pet_name,
                     res_name,
                     tentative_section(m.diary_no) AS section_name,
-                    tentative_da(m.diary_no) AS da_name,
+                    tentative_da(m.diary_no::int) AS da_name,
                     CAST(SUBSTRING(m.diary_no::TEXT, -4) AS BIGINT) AS diary_no_suffix,
                     CAST(LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 4) AS BIGINT) AS diary_no_prefix
                 FROM main m 
@@ -346,7 +347,7 @@ class PendingModel extends Model
                 AND h.subhead IN (824,810,803,802,807,804,808,811,812,813,814,815,816)
                 GROUP BY m.diary_no, l.purpose, s.stagename
                 ORDER BY 
-                tentative_section(m.diary_no), tentative_da(m.diary_no),
+                tentative_section(m.diary_no), tentative_da(m.diary_no::int),
                 diary_no_suffix ASC, diary_no_prefix ASC";
 
         $query = $this->db->query($sql);
@@ -404,7 +405,8 @@ class PendingModel extends Model
                 ->where('mc.display', 'Y')
                 ->where('m.c_status', 'P')
                 ->where('c.list', 'Y')
-                ->where('CAST(m.diary_no AS BIGINT) = CAST(m.conn_key AS BIGINT)')
+                //->where('CAST(m.diary_no AS BIGINT) = CAST(m.conn_key AS BIGINT)')
+                ->where("CAST(m.diary_no AS BIGINT) = CAST(NULLIF(m.conn_key, '') AS BIGINT)")
                 ->where('h.mainhead', $mainhead)
                 ->groupBy('c.conn_key, s.sub_name1')
                 ->having('COUNT(*) >', $grp_hv);
@@ -431,7 +433,7 @@ class PendingModel extends Model
                     active_fil_no, m.pet_name, m.res_name, m.pno, m.rno, casetype_id, ref_agency_state_id, diary_no_rec_date         
                 FROM 
                 (SELECT m.conn_key FROM main m WHERE m.diary_no = '" . $diary_no . "') a
-                INNER JOIN main m ON CAST(m.conn_key AS BIGINT) = CAST(a.conn_key AS BIGINT)
+                INNER JOIN main m ON CAST(NULLIF(m.conn_key, '') AS BIGINT) = CAST(a.conn_key AS BIGINT)
                 INNER JOIN conct c ON c.diary_no = m.diary_no
                 INNER JOIN heardt h ON h.diary_no = m.diary_no
                 LEFT JOIN master.casetype c1 ON m.active_casetype_id = c1.casecode
@@ -614,7 +616,7 @@ class PendingModel extends Model
     }
     public function sc_disposed_cav_verification_table_get($rop_chk_dno)
     {
-        $sql = "SELECT diary_no,jm AS pdfname, dated AS orderdate FROM (SELECT o.diary_no diary_no, o.pdfname jm, TO_CHAR(o.orderdate, 'DD-MM-YYYY') dated, CASE WHEN o.type = 'O' THEN 'ROP' WHEN o.type = 'J' THEN 'Judgement' END AS jo FROM ordernet o WHERE o.diary_no =  ) tbl1 WHERE jo='Judgement' ORDER BY tbl1.dated DESC";
+        $sql = "SELECT diary_no,jm AS pdfname, dated AS orderdate FROM (SELECT o.diary_no diary_no, o.pdfname jm, TO_CHAR(o.orderdate, 'DD-MM-YYYY') dated, CASE WHEN o.type = 'O' THEN 'ROP' WHEN o.type = 'J' THEN 'Judgement' END AS jo FROM ordernet o WHERE o.diary_no =  $rop_chk_dno) tbl1 WHERE jo='Judgement' ORDER BY tbl1.dated DESC";
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;

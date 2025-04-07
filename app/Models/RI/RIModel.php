@@ -3605,19 +3605,45 @@ else '' end as case_no");
             $queryUpdateInactive = "update ec_postal_transactions set is_active='f' where ec_postal_received_id=$ecPostalReceivedId";
             $this->db->query($queryUpdateInactive);
 
-            $query = "insert into ec_postal_transactions set ec_postal_received_id=$ecPostalReceivedId, dispatched_to_user_type='" . $dispatched_to_user_type . "',
-        dispatched_to=$dispatched_to, dispatched_by=$usercode, dispatched_on='" . $dispatched_on . "', is_forwarded='t', is_active='t',  letterPriority='" . $letterPriority . "'";
+          //echo $query = "insert into ec_postal_transactions set ec_postal_received_id=$ecPostalReceivedId, dispatched_to_user_type='" . $dispatched_to_user_type . "',        dispatched_to=$dispatched_to, dispatched_by=$usercode, dispatched_on='" . $dispatched_on . "', is_forwarded='t', is_active='t',  letterPriority='" . $letterPriority . "'";
+          $data = [
+                'ec_postal_received_id'     => $ecPostalReceivedId,
+                'dispatched_to_user_type'   => $dispatched_to_user_type,
+                'dispatched_to'             => $dispatched_to,
+                'dispatched_by'             => $usercode,
+                'dispatched_on'             => $dispatched_on,
+                'is_forwarded'              => 't',
+                'is_active'                 => 't',
+                'letterpriority'            => $letterPriority
+            ];
+
+            //$builder = $this->db->table('ec_postal_transactions');
+            //$builder->insert($data);
+        
         } elseif ($initiatedDakInsertId != "") {
             $queryUpdateInactive = "update ec_postal_transactions set is_active='f' where ec_postal_user_initiated_letter_id=$initiatedDakInsertId";
             $this->db->query($queryUpdateInactive);
 
-            $query = "insert into ec_postal_transactions set ec_postal_user_initiated_letter_id=$initiatedDakInsertId, dispatched_to_user_type='" . $dispatched_to_user_type . "',
-        dispatched_to=$dispatched_to, dispatched_by=$usercode, dispatched_on='" . $dispatched_on . "', is_forwarded='t', is_active='t', letterPriority='" . $letterPriority . "'";
+            //$query = "insert into ec_postal_transactions set ec_postal_user_initiated_letter_id=$initiatedDakInsertId, dispatched_to_user_type='" . $dispatched_to_user_type . "',         dispatched_to=$dispatched_to, dispatched_by=$usercode, dispatched_on='" . $dispatched_on . "', is_forwarded='t', is_active='t', letterPriority='" . $letterPriority . "'";
+            $data = [
+                'ec_postal_user_initiated_letter_id' => $initiatedDakInsertId,
+                'dispatched_to_user_type'            => $dispatched_to_user_type,
+                'dispatched_to'                      => $dispatched_to,
+                'dispatched_by'                      => $usercode,
+                'dispatched_on'                      => $dispatched_on,
+                'is_forwarded'                       => 't',
+                'is_active'                          => 't',
+                'letterpriority'                     => $letterPriority
+            ];
+             
+            
+            
         }
 
         $this->sendForwardedLetterIntimationSMS($letterPriority, $officer);
-        $this->db->query($query);
-        return $this->db->insert_id();
+        $builder = $this->db->table('ec_postal_transactions');
+        $builder->insert($data);
+        return $this->db->insertID();
     }
 
     function sendForwardedLetterIntimationSMS($receivingUser, $letterPriority = 0)
@@ -3638,10 +3664,13 @@ else '' end as case_no");
         $receiving_employee_details_url = 'http://10.25.78.92:81/services/employee_details.php?employeeId=' . $receivingUser;
         $json = file_get_contents($receiving_employee_details_url);
         $obj = @json_decode($json, true);
-
+         
         $tmpArr = array();
-        foreach ($obj as $sub) {
-            $tmpArr[] = $sub['mobileNumbers'];
+        if(!empty($obj))
+        {
+            foreach ($obj as $sub) {
+                $tmpArr[] = $sub['mobileNumbers'];
+            }
         }
 
         $mobile_numbers = implode(',', $tmpArr);

@@ -198,11 +198,7 @@
     </div>
 </section>
 <script>
-     function updateCSRFToken() {
-        $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) {
-            $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-        });
-      }
+     
         // document.addEventListener('DOMContentLoaded', function () {
         //     var csrfToken = document.querySelector('input[name="CSRF_TOKEN"]').value;
         //     var form = document.getElementById('dispatchDakToRIWithoutProcessId');
@@ -266,8 +262,7 @@
 
 
     function check() {
-        var docType = document.getElementById('docType').value;
-        //alert(docType);
+        var docType = document.getElementById('docType').value;        
         var referenceNumber = document.getElementById('referenceNumber').value;
         var optradio = document.querySelector('input[name="optradio"]:checked').value;
         var caseType = document.getElementById('caseType').value;
@@ -332,7 +327,7 @@
             alert("Pincode should not be less than 6 digits.");
             document.getElementById('pincode').focus();
             return false;
-        }updateCSRFToken();
+        }
        // btnDispatchLetter.disabled = true;
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
@@ -352,24 +347,25 @@
             'pincode': pincode,
             CSRF_TOKEN: CSRF_TOKEN_VALUE
         };
-        //var dataToSend = new FormData(form);
-        // dataToSend.append('CSRF_TOKEN', csrfToken);
-        // alert(dataToSend);
+        
 
-        var dynamicUrl = "<?php echo  base_url() ?>/RI/DispatchController/doDispatchFromSectionToRIWithoutProcessId'";
+        var dynamicUrl = "<?php echo  base_url() ?>/RI/DispatchController/doDispatchFromSectionToRIWithoutProcessId";
         $.ajax({
         url: dynamicUrl, 
         type: "POST",
         data: formData, 
+        beforeSend: function () {
+                $('#dataForReceiving').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+            },
          success: function(data) {
-         updateCSRFToken();
-         $('#dispatchDakToRIWithoutProcessId').trigger("reset");
-         $("#dataForReceiving").html(data);
-         //$("#dispatchDakToRI").hide(); 
+            updateCSRFToken();
+            $('#dispatchDakToRIWithoutProcessId').trigger("reset");
+            $("#dataForReceiving").html(data);
+            //$("#dispatchDakToRI").hide(); 
         },
         error: function(xhr, status, error) {
             updateCSRFToken();
-            //$('#dispatchDakToRIWithoutProcessId').trigger("reset");
+            $('#dispatchDakToRIWithoutProcessId').trigger("reset");
             console.log("An error occurred: " + error);
         }
     });

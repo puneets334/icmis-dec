@@ -60,6 +60,6 @@
         "autoWidth": false,
         "dom": 'Bfrtip',
         "bProcessing": true,
-        "buttons": ["excel", "pdf"]
+        "buttons": ["excel", "pdf", "print"]
     });
 </script>

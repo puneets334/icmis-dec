@@ -89,14 +89,14 @@ if (!empty($receiptData)) {
             "lengthChange": false,
             "autoWidth": false,
             "buttons": [
-                {
-                    extend: 'csv',
-                    title: 'Dispatch to Officer/Section'
-                },
-                {
-                    extend: 'excel',
-                    title: 'Dispatch to Officer/Section'
-                },
+                // {
+                //     extend: 'csv',
+                //     title: 'Dispatch to Officer/Section'
+                // },
+                // {
+                //     extend: 'excel',
+                //     title: 'Dispatch to Officer/Section'
+                // },
                 {
                     extend: 'print',
                     title: 'Dispatch to Officer/Section'
@@ -107,15 +107,16 @@ if (!empty($receiptData)) {
                     pageSize: 'LEGAL',
                     autoPrint: true,
                     title: 'Dispatch to Officer/Section'
-                },
-                {
-                    extend: 'colvis',
-                    text: 'Show/Hide'
                 }
+                // ,
+                // {
+                //     extend: 'colvis',
+                //     text: 'Show/Hide'
+                // }
             ],
             "bProcessing": true,
-            "extend": 'colvis',
-            "text": 'Show/Hide'
+            //"extend": 'colvis',
+           // "text": 'Show/Hide'
         }).buttons().container().appendTo('.query_builder_wrapper .col-md-6:eq(0)');
     });
    

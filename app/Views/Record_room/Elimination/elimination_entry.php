@@ -1,7 +1,7 @@
 <?= view('header') ?>
 
-<link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="<?= base_url('/css/aor.css') ?>"> -->
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 </head>
 
 <body>
@@ -13,7 +13,7 @@
                         <div class="card-header heading">
                             <div class="row">
                                 <div class="col-sm-10">
-                                    <h3 class="card-title">Eliminate >>&nbsp; Eliminate Case</h3>
+                                    <h3 class="card-title">Record Room >> Eliminate(Weed Case) >> Eliminate Case</h3>
                                 </div>
                             </div>
                         </div>
@@ -133,6 +133,8 @@
 
 
     <script>
+ 
+
         function checkData(option) {
             if (option == 1) {
                 $('#diary_year').prop('disabled', true).val("");

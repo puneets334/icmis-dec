@@ -1,6 +1,6 @@
 <?= view('header') ?>
 <style>
-    table.dataTable>thead .sorting_disabled,
+    table.dataTable>thead .sorting,
     table.dataTable>thead {
         background-color: #0d48be !important;
         color: #fff !important;
@@ -92,7 +92,7 @@
             "pageLength": 25,
             "dom": 'lBfrtip', // 'l' is the "Show Entries" option, 'B' is the export buttons
             "processing": true, // Changed "bProcessing" to "processing"
-            "ordering": false, // Added to disable sorting
+            "ordering": true, // Added to disable sorting
             "lengthMenu": [10, 25, 50, 100], // Custom length options for "Show Entries"
             "buttons": [
                 "copy", "csv", "excel", {

@@ -1,4 +1,4 @@
-<div class="cl_center" style="color: red;font-weight: bold">
+<div class="cl_center" style="color: red;font-weight: bold;text-align:center;">
     <?= "Is " . $res_casetype_added . " ?"; ?>
     <input type='checkbox' name='casetype' id='casetype' value='<?= $res_p_r['casetype_id']; ?>' required><br>
 </div>
@@ -56,7 +56,7 @@
             <?php endif; ?>
 
             <div style="text-align: center;margin-top: 20px">
-                <input type="button" name="btn_generate_s" id="btn_generate_s" value="Generate" />
+                <input type="button" name="btn_generate_s" id="btn_generate_s" value="Generate" onclick="generate_registration_s()" />
             </div>
             <div id="dv_load"></div>
         <?php endif; ?>
@@ -294,7 +294,7 @@
             <div style="text-align: center;margin-top: 20px">
 
 
-                <input type="button" name="btn_generate_r" id="btn_generate_r" value="Generate" />
+                <input type="button" name="btn_generate_r" id="btn_generate_r" value="Generate" onclick="generate_registration_r()" />
             </div>
             <div id="dv_load"></div>
         <?php
@@ -331,7 +331,7 @@
             </div>
         <?php } ?>
 
-        <div style="text-align: center;margin-top: 20px"> <input type="button" name="btn_generate" id="btn_generate" value="Generate" />
+        <div style="text-align: center;margin-top: 20px"> <input type="button" name="btn_generate" id="btn_generate" value="Generate" onclick="generate_registration()" />
         </div>
         <div id="dv_load"></div>
     <?php

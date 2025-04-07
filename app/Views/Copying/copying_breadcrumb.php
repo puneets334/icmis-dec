@@ -46,7 +46,7 @@ $uri = current_url(true); ?>
              $url_application_search = base_url('copying/Copying/application_search');
             }else{
                 $ColorCode = 'background-color: #169F85;color:#ffffff;';
-                $status_color = 'btn-outline-primary';
+                $status_color = 'btn-secondary';
              $url_application_search = base_url('copying/Copying/application_search');
             }
         ?>
@@ -61,7 +61,7 @@ $uri = current_url(true); ?>
            $url_barcodeconsume = base_url('Copying/Copying/barcodeconsume');
            } else{
                $ColorCode = 'background-color: #169F85;color:#ffffff;';
-               $status_color = 'btn-outline-primary';
+               $status_color = 'btn-secondary';
            $url_barcodeconsume = base_url('Copying/Copying/barcodeconsume');
            }
         ?>
@@ -77,7 +77,7 @@ $uri = current_url(true); ?>
              $url_track = base_url('copying/Copying/track');
             } else{
                 $ColorCode = 'background-color: #169F85;color:#ffffff;';
-                $status_color = 'btn-outline-primary';
+                $status_color = 'btn-secondary';
              $url_track = base_url('copying/Copying/track');
             }
         ?>
@@ -92,7 +92,7 @@ $uri = current_url(true); ?>
             $url_copy_search = base_url('copying/Copying/copy_search');
             } else{
                 $ColorCode = 'background-color: #169F85;color:#ffffff;';
-                $status_color = 'btn-outline-primary';
+                $status_color = 'btn-secondary';
             $url_copy_search = base_url('copying/Copying/copy_search');
             }
          ?>
@@ -107,7 +107,7 @@ $uri = current_url(true); ?>
             $url_dashboard = base_url('copying/Copying/dashboard');
         } else{
             $ColorCode = 'background-color: #169F85;color:#ffffff;';
-            $status_color = 'btn-outline-primary';
+            $status_color = 'btn-secondary';
             $url_dashboard = base_url('copying/Copying/dashboard');
         }
         ?>
@@ -117,12 +117,12 @@ $uri = current_url(true); ?>
     <li>
         <?php
          if ($uri->getSegment(3) == 'request') {
-                $ColorCode = 'background-color: #01ADEF';
-                $status_color = 'btn-primary';
+                $ColorCode ='background-color: #01ADEF';
+                $status_color ='btn-primary';
              $url_request = base_url('copying/Copying/request');
             } else{
-                $ColorCode = 'background-color: #169F85;color:#ffffff;';
-                $status_color = 'btn-outline-primary';
+                $ColorCode ='background-color: #169F85;color:#ffffff;';
+                $status_color ='btn-secondary';
              $url_request = base_url('copying/Copying/request');
             }
         ?>

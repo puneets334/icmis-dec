@@ -123,7 +123,7 @@ class Model_record extends Model
     {
         $builder = $this->db->table('master.bar');
         $builder->select('name');
-        $builder->where('aor_code', $tvap);
+        $builder->where('CAST(aor_code AS TEXT)', $tvap);
         $query = $builder->get();
         $row = $query->getRow();
         if ($row) {
@@ -348,7 +348,7 @@ class Model_record extends Model
         return $this->select("CONCAT(a.aor_code, '#', b.name, '#', a.cname, '#', a.cfname, '#', a.pa_line1, '#', a.pa_line2, '#', a.pa_district, '#', a.pa_pin, '#', a.ppa_line1, '#', a.ppa_line2, '#', a.ppa_district, '#', a.ppa_pin, '#', a.dob, '#', a.place_birth, '#', a.nationality, '#', a.cmobile, '#', a.eq_x, '#', a.eq_xii, '#', a.eq_ug, '#', a.eq_pg, '#', a.regdate, '#', a.id) as result")
             ->from('ac a')
             ->join('master.bar b', 'b.aor_code = a.aor_code', 'left')
-            ->where('a.eino', $tvap)
+            ->where('CAST(a.eino AS TEXT)', $tvap)
             ->get()
             ->getRowArray();
     }
@@ -1333,6 +1333,8 @@ class Model_record extends Model
             ->where('ref_hall_no', $hallNo)
             ->where('display', 'C')
             ->update();
+        //      echo $this->db->getLastQuery();
+        //  die(); 
     }
 
     public function findMapping($usercode, $hallNo,$display = 'C')

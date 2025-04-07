@@ -132,7 +132,7 @@
                         <h4 class="page-header" style="margin-left: 1%">Receive/Return Letters</h4>
                         <br><br>
 
-                        <div id="divReceiptDak">
+                        
                             <?php
                             $attribute = array('class' => 'form-horizontal', 'name' => "frmReceiveDakForSection", 'id' => "frmReceiveDakForSection", 'autocomplete' => 'off');
                             echo form_open(base_url('#'), $attribute);
@@ -189,6 +189,7 @@
                                     </div>
 
                                 </div>
+                        <div id="divReceiptDak">
                         </div>
                         <!--<table id="reportTable1" class="table table-striped table-hover">-->
                         <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4 query_builder_wrapper">
