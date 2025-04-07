@@ -149,7 +149,7 @@ class DynamicReportModel extends Model
                $condition .= " order by " . $sort;
           }
           $sql = "select 
-               row_number() over () as serial_number,
+               row_number() over () as serial_number,p.* from (select distinct
                a.*
                from (
                select distinct
@@ -218,7 +218,7 @@ class DynamicReportModel extends Model
                     on m.diary_no = adv.diary_no 
                     and adv.display = 'Y'
                     $joinCondition $condition
-               ) a;";
+               ) a)p;";
           $query = $this->db->query($sql);
           $rows = $query->getNumRows();
           if ($option == 1) {
