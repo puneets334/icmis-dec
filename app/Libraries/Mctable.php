@@ -1,6 +1,6 @@
 <?php
 namespace App\Libraries;
-
+ 
 use App\Libraries\Fpdf;
   
 class MCTABLE extends FPDF

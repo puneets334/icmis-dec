@@ -9,13 +9,13 @@
                             <div class="col-sm-10">
                                 <h3 class="card-title">Case Type Wise</h3>
                             </div>
-                            <?= view('Filing/filing_filter_buttons'); ?>
+                           
                         </div>
                     </div>
                     <div class="card-body">
-                        <div id="printable" class="box box-danger2">
+                        <div id="printable" class="box-danger2">
                             <caption>
-                                <h3 style="text-align: center;"> Case Type Wise Pendency (Excluding Un-Registered Listed Cases) <br> as on <?php echo date("d-m-Y h:i:s A"); ?></h3>
+                                <h3 style="text-align: center; line-height: 1.5;"> Case Type Wise Pendency (Excluding Un-Registered Listed Cases) <br> as on <?php echo date("d-m-Y h:i:s A"); ?></h3>
                             </caption>
 
 
@@ -67,10 +67,35 @@
 
         var t = $('#reportTable1').DataTable({
             dom: 'Bfrtip',
-            buttons: [
-                'excelHtml5',
-                'pdfHtml5'
-            ],
+			 buttons: [
+					{
+						extend: 'pdfHtml5',
+						text: 'PDF',  
+						title: 'Case Type Wise Pendency (Excluding Un-Registered Listed Cases) as on <?php echo date("d-m-Y h-i-s A"); ?>',  
+						customize: function (doc) {
+							doc.content[0].text = 'Case Type Wise Pendency (Excluding Un-Registered Listed Cases) as on <?php echo date("d-m-Y h:i:s A"); ?>'; 
+							doc.content[0].style = { fontSize: 14, bold: true, alignment: 'center' };  
+						}
+					},
+					{
+						extend: 'excelHtml5',
+						text: 'Excel',  
+						title: 'Case Type Wise Pendency (Excluding Un-Registered Listed Cases) as on <?php echo date("d-m-Y h-i-s A"); ?>',
+						header: true, 
+						customize: function (xlsx) {
+							var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+							// Insert the title in the first row above the table
+							var range = 'A1';
+							
+							var titleRow = '<row r="1"><c t="inlineStr" r="A1"><is><t>' + 'Case Type Wise Pendency (Excluding Un-Registered Listed Cases) as on <?php echo date("d-m-Y h-i-s A"); ?>' + '</t></is></c></row>';
+        
+							// Insert the new row with title into the sheetData section
+							$(sheet).find('sheetData').prepend(titleRow);
+						}
+					}
+				],
+			
             "columnDefs": [{
                 "searchable": false,
                 "orderable": false,
