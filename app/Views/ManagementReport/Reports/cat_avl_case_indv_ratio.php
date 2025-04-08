@@ -93,6 +93,7 @@
             }
         });
     }
+	
     $(document).on("click", "#prnnt", function() {
         var prtContent = $("#prnnt").html();
         var temp_str = prtContent;

@@ -161,7 +161,7 @@ class ReportModel extends Model
                                    FROM ($finalSql) AS final 
                                    ORDER BY final.sno ASC");
 
-        return $query->getResult();
+        return $query->getResultArray();
     }
     public function getJudges()
     {

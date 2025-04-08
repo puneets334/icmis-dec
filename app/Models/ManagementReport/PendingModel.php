@@ -341,7 +341,7 @@ class PendingModel extends Model
                 WHERE 
                 m.c_status = 'P' $diary_reg_un AND 
                 h.board_type = '$board_type' AND h.mainhead = '$mainhead'     
-                AND (m.diary_no = m.conn_key::bigint OR m.conn_key IS NULL OR m.conn_key = '0')
+                AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key IS NULL OR m.conn_key = '0')
                 and (h.coram is null or trim(h.coram) = '' or h.coram = '0')
                 and h.next_dt is not null and h.listorder != 32 and h.clno = 0
                 AND h.subhead IN (824,810,803,802,807,804,808,811,812,813,814,815,816)
@@ -349,7 +349,6 @@ class PendingModel extends Model
                 ORDER BY 
                 tentative_section(m.diary_no), tentative_da(m.diary_no::int),
                 diary_no_suffix ASC, diary_no_prefix ASC";
-
         $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1) {
             $results = $query->getResultArray();
@@ -1897,6 +1896,173 @@ class PendingModel extends Model
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
+    }
+    public function not_ready_get_detail($connt,$dt_flag,$ltype,$list_dt_f)
+    {
+        IF($ltype == 'court_r'){ $logic_flag = " AND h.board_type = 'J' and h.main_supp_flag = 0 "; }
+        IF($ltype == 'court_nr'){  $logic_flag = " AND h.board_type = 'J' and h.main_supp_flag != 0 "; }
+        IF($ltype == 'court'){ $logic_flag = " AND h.board_type = 'J' "; }
+        IF($ltype == 'chamber_r'){ $logic_flag = " AND h.board_type = 'C' and h.main_supp_flag = 0 "; }
+        IF($ltype == 'chamber_nr'){ $logic_flag = " AND h.board_type = 'C' and h.main_supp_flag != 0 "; }
+        IF($ltype == 'chamber'){ $logic_flag = " AND h.board_type = 'C' "; }
+        IF($ltype == 'reg_r'){ $logic_flag = " AND h.board_type = 'R' and h.main_supp_flag = 0 "; }
+        IF($ltype == 'reg_nr'){ $logic_flag = " AND h.board_type = 'R' and h.main_supp_flag != 0 "; }
+        IF($ltype == 'reg'){ $logic_flag = " AND h.board_type = 'R' and h.main_supp_flag = 0 "; }
+        IF($ltype == 'ready'){ $logic_flag = " AND h.main_supp_flag = 0 "; }
+        IF($ltype == 'not_ready'){ $logic_flag = " AND h.main_supp_flag != 0 "; }
+        IF($ltype == 'Total'){ $logic_flag = " AND h.main_supp_flag = 0 "; }
+         $sql = "SELECT 
+                    m.active_fil_no,
+                    m.active_reg_year,
+                    m.reg_no_display,
+                    m.active_casetype_id,
+                    m.fil_no,
+                    m.fil_dt,
+                    EXTRACT(YEAR FROM m.fil_dt) AS fil_year,
+                    m.lastorder,
+                    m.diary_no_rec_date,
+                    h.*,
+                    l.purpose,
+                    STRING_AGG(mc.submaster_id::TEXT, ',') AS cat1
+                FROM
+                    heardt h
+                INNER JOIN
+                    main m ON m.diary_no = h.diary_no
+                LEFT JOIN
+                    master.listing_purpose l ON l.code = h.listorder
+                LEFT JOIN
+                    mul_category mc ON mc.diary_no = m.diary_no AND mc.display = 'Y'
+                LEFT JOIN
+                    not_before nb ON nb.diary_no::INTEGER = m.diary_no::INTEGER
+                LEFT JOIN
+                    docdetails d ON d.diary_no = m.diary_no
+                    AND d.display = 'Y'
+                    AND d.iastat = 'P'
+                    AND d.doccode = 8
+                    AND d.doccode1 IN (7, 66, 29, 56, 57, 28, 103, 133, 226, 3, 309, 73, 99, 40, 48, 72, 71, 27, 124, 2, 16, 41, 49, 71, 72, 102, 118, 131, 211, 309)
+                WHERE 
+                    $connt 
+                    m.c_status = 'P'
+                    AND h.mainhead = 'M' 
+                    $dt_flag $list_dt_f $logic_flag
+                GROUP BY
+                    m.diary_no,
+                    h.diary_no,
+                    m.active_fil_no,
+                    m.active_reg_year,
+                    m.reg_no_display,
+                    m.active_casetype_id,
+                    m.fil_no,
+                    m.fil_dt,
+                    m.lastorder,
+                    m.diary_no_rec_date,
+                    l.purpose,
+                    h.next_dt,
+                    h.board_type,
+                    h.main_supp_flag,
+                    h.listorder,
+                    h.mainhead
+                ORDER BY
+                     CAST(SUBSTRING(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 3) AS INTEGER) ASC,
+                     CAST(LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 4) AS INTEGER) ASC
+                ";
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+
+    }
+    public function ready_not_back_date($connt)
+    {
+            if($connt == 1){
+                $connt2 = "";
+            }
+            else{
+                $connt2 = "(m.diary_no = m.conn_key OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0') AND ";
+            }
+         $sql = "SELECT
+                    a.*
+                FROM
+                    (
+                        SELECT
+                            h.next_dt,
+                            SUM(CASE WHEN h.board_type = 'J' AND h.main_supp_flag = 0 THEN 1 ELSE 0 END) AS court_r,
+                            SUM(CASE WHEN h.board_type = 'J' AND h.main_supp_flag != 0 THEN 1 ELSE 0 END) AS court_nr,
+                            SUM(CASE WHEN h.board_type = 'J' THEN 1 ELSE 0 END) AS court,
+                            SUM(CASE WHEN h.board_type = 'C' AND h.main_supp_flag = 0 THEN 1 ELSE 0 END) AS chamber_r,
+                            SUM(CASE WHEN h.board_type = 'C' AND h.main_supp_flag != 0 THEN 1 ELSE 0 END) AS chamber_nr,
+                            SUM(CASE WHEN h.board_type = 'C' THEN 1 ELSE 0 END) AS chamber,
+                            SUM(CASE WHEN h.board_type = 'R' AND h.main_supp_flag = 0 THEN 1 ELSE 0 END) AS reg_r,
+                            SUM(CASE WHEN h.board_type = 'R' AND h.main_supp_flag != 0 THEN 1 ELSE 0 END) AS reg_nr,
+                            SUM(CASE WHEN h.board_type = 'R' THEN 1 ELSE 0 END) AS reg,
+                            SUM(CASE WHEN h.main_supp_flag = 0 THEN 1 ELSE 0 END) AS ready,
+                            SUM(CASE WHEN h.main_supp_flag != 0 THEN 1 ELSE 0 END) AS not_ready,
+                            COUNT(m.diary_no) AS Total
+                        FROM
+                            heardt h
+                        INNER JOIN
+                            main m ON m.diary_no = h.diary_no
+                        WHERE $connt2 
+                            m.c_status = 'P'
+                            AND h.mainhead = 'M'
+                            AND h.next_dt < CURRENT_DATE
+                        GROUP BY
+                            h.next_dt
+                    ) a
+                ORDER BY
+                    CASE
+                        WHEN a.next_dt IS NULL THEN 2
+                        ELSE 1
+                    END ASC,
+                    a.next_dt ASC";
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+
+    }
+    public function ready_not_future_date()
+    {
+        $sql = "SELECT
+                    a.*
+                FROM
+                    (
+                        SELECT
+                            wd.is_holiday,
+                            h.next_dt,
+                            SUM(CASE WHEN h.board_type = 'J' AND h.main_supp_flag = 0 THEN 1 ELSE 0 END) AS court_r,
+                            SUM(CASE WHEN h.board_type = 'J' AND h.main_supp_flag != 0 THEN 1 ELSE 0 END) AS court_nr,
+                            SUM(CASE WHEN h.board_type = 'J' THEN 1 ELSE 0 END) AS court,
+                            SUM(CASE WHEN h.board_type = 'C' AND h.main_supp_flag = 0 THEN 1 ELSE 0 END) AS chamber_r,
+                            SUM(CASE WHEN h.board_type = 'C' AND h.main_supp_flag != 0 THEN 1 ELSE 0 END) AS chamber_nr,
+                            SUM(CASE WHEN h.board_type = 'C' THEN 1 ELSE 0 END) AS chamber,
+                            SUM(CASE WHEN h.board_type = 'R' AND h.main_supp_flag = 0 THEN 1 ELSE 0 END) AS reg_r,
+                            SUM(CASE WHEN h.board_type = 'R' AND h.main_supp_flag != 0 THEN 1 ELSE 0 END) AS reg_nr,
+                            SUM(CASE WHEN h.board_type = 'R' THEN 1 ELSE 0 END) AS reg,
+                            SUM(CASE WHEN h.main_supp_flag = 0 THEN 1 ELSE 0 END) AS ready,
+                            SUM(CASE WHEN h.main_supp_flag != 0 THEN 1 ELSE 0 END) AS not_ready,
+                            COUNT(m.diary_no) AS Total
+                        FROM
+                            heardt h
+                        INNER JOIN
+                            main m ON m.diary_no = h.diary_no
+                        LEFT JOIN
+                            master.sc_working_days wd ON wd.working_date = h.next_dt
+                        WHERE
+                            m.c_status = 'P'
+                            AND h.mainhead = 'M'
+                            AND h.next_dt >= CURRENT_DATE
+                        GROUP BY
+                            wd.is_holiday, h.next_dt
+                    ) a
+                ORDER BY
+                    CASE
+                        WHEN a.next_dt IS NULL THEN 2
+                        ELSE 1
+                    END ASC,
+                    a.next_dt ASC ";
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+
     }
     public function section_pendency()
     {
