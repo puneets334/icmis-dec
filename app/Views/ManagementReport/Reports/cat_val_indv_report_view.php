@@ -6,9 +6,9 @@
     <title>Report</title>
 </head>
 <body>
-    <h1>Report for <?= date('d-m-Y', strtotime($list_dt)); ?></h1>
-
-    <table border="1" class="table table-bordered">
+<h3 style="text-align: center; line-height: 1.5;"> SUPREME COURT OF INDIA<br>Categoray wise ready cases with roster for dated : <?= date('d-m-Y', strtotime($list_dt)) ?></h3>
+ <div class="table-responsive">
+     <table class="table table-striped custom-table" id="example1">
         <thead>
             <tr>
                 <th>SNo</th>
@@ -41,6 +41,7 @@
             <?php endif; ?>
         </tbody>
     </table>
+</div>	
 
     <input name="prnnt1" type="button" id="prnnt1" value="Print">
 </body>

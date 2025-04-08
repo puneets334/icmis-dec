@@ -317,9 +317,9 @@ class DynamicReport extends BaseController
         }
         if ($sort != 0) {
             if ($sort == 1)
-                $sortOption = "cast(substring(m.diary_no,-4) as unsigned) " . $sortOrder . " ,cast(substr(m.diary_no,1,length(m.diary_no)-4) as unsigned) " . $sortOrder;
+                $sortOption = "substring(m.diary_no::text,-4) " . $sortOrder . " ,substr(m.diary_no::text,1,length(m.diary_no::text)-4) " . $sortOrder;
             else if ($sort == 2)
-                $sortOption = "active_reg_year " . $sortOrder . " ,cast(substring(active_fil_no,1,2) as unsigned) " . $sortOrder . " ,cast(substring(active_fil_no,4,6) as unsigned) " . $sortOrder;
+                $sortOption = "active_reg_year " . $sortOrder . " ,substring(active_fil_no::text,1,2) " . $sortOrder . " ,substring(active_fil_no::text,4,6) " . $sortOrder;
             else if ($sort == 3)
                 $sortOption = "date(diary_no_rec_date) " . $sortOrder;
             else if ($sort == 4)

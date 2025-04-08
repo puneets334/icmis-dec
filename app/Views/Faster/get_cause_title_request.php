@@ -1,86 +1,4 @@
-
-<section class="content " >
-    <div class="container-fluid">
-        <div class="row" >
-        <div class="col-12" >
-        <div class="card" >
-        <div class="card-body" >
 <?php
-// if (!empty($_REQUEST['ct'])) {
-//     $db = \Config\Database::connect();
-//     $builder = $db->table('main');
-
-//     // First query
-//     $builder->select("SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) AS dn, SUBSTR(diary_no, -4) AS dy")
-//         ->where("SUBSTRING_INDEX(fil_no, '-', 1)", $_REQUEST['ct'])
-//         ->where("CAST($_REQUEST[cn] AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no, '-', 2), '-', -1) AND SUBSTRING_INDEX(fil_no, '-', -1)");
-
-//     $builder->groupStart()
-//         ->where("reg_year_mh", 0)
-//         ->orWhere("DATE(fil_dt) >", '2017-05-10')
-//         ->groupEnd()
-//         ->where("YEAR(fil_dt)", $_REQUEST['cy'])
-//         ->orWhere("reg_year_mh", $_REQUEST['cy']);
-
-//     // Execute first query
-//     $query = $builder->get();
-    
-//     if ($query->getNumRows() > 0) {
-//         $get_dno = $query->getRowArray();
-//         $_REQUEST['d_no'] = $get_dno['dn'];
-//         $_REQUEST['d_yr'] = $get_dno['dy'];
-//     } else {
-//         // Second query
-//         $builder = $db->table('main_casetype_history');
-        
-//         $builder->select("SUBSTR(h.diary_no, 1, LENGTH(h.diary_no) - 4) AS dn, 
-//             SUBSTR(h.diary_no, -4) AS dy, 
-//             IF(h.new_registration_number != '', SUBSTRING_INDEX(h.new_registration_number, '-', 1), '') AS ct1, 
-//             IF(h.new_registration_number != '', SUBSTRING_INDEX(SUBSTRING_INDEX(h.new_registration_number, '-', 2), '-', -1), '') AS crf1, 
-//             IF(h.new_registration_number != '', SUBSTRING_INDEX(h.new_registration_number, '-', -1), '') AS crl1")
-//             ->where("h.is_deleted", 'f')
-//             ->groupStart()
-//                 ->where("SUBSTRING_INDEX(h.new_registration_number, '-', 1)", $_REQUEST['ct'])
-//                 ->where("CAST($_REQUEST[cn] AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(h.new_registration_number, '-', 2), '-', -1) AND SUBSTRING_INDEX(h.new_registration_number, '-', -1)")
-//                 ->where("h.new_registration_year", $_REQUEST['cy'])
-//             ->groupEnd()
-//             ->orGroupStart()
-//                 ->where("SUBSTRING_INDEX(h.old_registration_number, '-', 1)", $_REQUEST['ct'])
-//                 ->where("CAST($_REQUEST[cn] AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(h.old_registration_number, '-', 2), '-', -1) AND SUBSTRING_INDEX(h.old_registration_number, '-', -1)")
-//                 ->where("h.old_registration_year", $_REQUEST['cy'])
-//             ->groupEnd();
-
-//         // Execute second query
-//         $query = $builder->get();
-        
-//         if ($query->getNumRows() > 0) {
-//             $get_dno = $query->getRowArray();
-//             $_REQUEST['d_no'] = $get_dno['dn'];
-//             $_REQUEST['d_yr'] = $get_dno['dy'];
-
-//             // Fetch case type description
-//             $caseTypeBuilder = $db->table('casetype');
-//             $caseTypeBuilder->select('short_description')
-//                 ->where('casecode', $_REQUEST['ct'])
-//                 ->where('display', 'Y');
-                
-//             $caseTypeQuery = $caseTypeBuilder->get();
-//             $res_ct_typ = $caseTypeQuery->getRow()->short_description;
-
-//             $t_slpcc = $res_ct_typ . " " . $get_dno['crf1'] . " - " . $get_dno['crl1'] . " / " . $_REQUEST['cy'];
-//         } else {
-//             echo $msg_404 = 404;
-//             exit();
-//         }
-//     }
-// }
-
-// pr($_REQUEST);
-
-
-
-// pr($_REQUEST);
-
 $dno = $_REQUEST["d_no"];
 $dyr = $_REQUEST["d_yr"];
 $diary_no = $dno . $dyr;
@@ -95,20 +13,20 @@ $get_da_sec = $builder->get();
 
 // Check if any rows are returned
 if ($get_da_sec->getNumRows() == 0) {
-    echo $msg_404 = 404;
+    echo $msg_404 = '404';
     exit();
 }
 
 // Fetch the result
 $r_get_da_sec = $get_da_sec->getRowArray();
-
-// pr($r_get_da_sec);
-
-// if ($r_get_da_sec['dacode'] != (isset($_SESSION['dcmis_user_idd']) && $_SESSION['dcmis_user_idd']) && (isset($_SESSION['dcmis_user_idd']) && $_SESSION['dcmis_user_idd']) != 1341 && (isset($_SESSION['dcmis_user_idd']) && $_SESSION['dcmis_user_idd']) != 1) {
-//     echo '<p align="center"><font color="red">Only Concerned Dealing Assistant can generate Amended Cause Title!!!</font></p>';
-//     exit();
-// }
 ?>
+
+<section class="content " >
+    <div class="container-fluid">
+        <div class="row" >
+        <div class="col-12" >
+        <div class="card" >
+        <div class="card-body" >
 
 <!--start view pdf already exist cause title-->
 <?php

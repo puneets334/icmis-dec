@@ -306,8 +306,10 @@
                                                                                     <?php foreach ($row1['conct_matters'] as $row_oc) {
                                                                                         $connected_d = $row_oc['diary_no'];
                                                                                         $reg_no_display =  $row_oc['reg_no_display'];
-                                                                                        $t_conn_type = explode('-', $row_oc["llist"]);
-                                                                                        $conn_type = $t_conn_type[1];
+                                                                                        //$t_conn_type = explode('-', $row_oc["llist"]);
+                                                                                        $t_conn_type = explode('-', is_string($row_oc["llist"]) ? $row_oc["llist"] : '');
+                                                                                        //$conn_type = $t_conn_type[1];
+                                                                                        $conn_type = $t_conn_type[1] ?? '';
                                                                                         if ($conn_type == 'L') {
                                                                                             $t_c_l = "Linked Case";
                                                                                         } elseif ($conn_type == 'C') {
@@ -603,8 +605,8 @@
         }
     }
 
-    function save_rec(opt, cl) {
-        updateCSRFToken();
+    async function save_rec(opt, cl) {
+        await updateCSRFTokenSync();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var url = "/Filing/Tagging/conn_case_update";
@@ -644,11 +646,11 @@
                             alert("Diary no. not correct!!Please enter case no. again");
                             location.reload();
                         } else alert(msg);
-                        updateCSRFToken();
+                        //updateCSRFToken();
                     },
                     error: function() {
                         alert("ERROR");
-                        updateCSRFToken();
+                        //updateCSRFToken();
                     },
                 });
             }
@@ -657,8 +659,8 @@
 
 
 
-    function get_case_status() {
-        updateCSRFToken();
+    async function get_case_status() {
+        await updateCSRFTokenSync();
         var diaryno = "";
         var diaryyear = "";
         var cstype = "";
@@ -749,12 +751,12 @@
                     CSRF_TOKEN: CSRF_TOKEN_VALUE
                 },
                 success: function(data) {
-                    updateCSRFToken();
+                    //updateCSRFToken();
                     $("#loader").html('');
                     $('#ccdiv').html(data);
                 },
                 error: function() {
-                    updateCSRFToken();
+                    //updateCSRFToken();
                     alert("ERROR");
                 },
             });
