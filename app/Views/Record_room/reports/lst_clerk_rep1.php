@@ -26,13 +26,13 @@
         <?php if (empty($records)) : ?>
             <div class='well well-lg'>
                 <div class='col-md-12'>
-                    <a class='btn btn-primary btn-xs' href='#'>Results Found---<span class='badge'>0 </span></a>
+                <button  class='btn btn-primary btn-xs'>Results Found---<span class='badge'>0 </span></button>
                 </div>
             </div>
         <?php else : ?>
             <div class='well well-lg'>
                 <div class='col-md-12'>
-                    <a class='btn btn-primary ' href='#'>Results Found <span class='badge'><?= count($records) ?></span></a>
+                    <button class='btn btn-primary '>Results Found <span class='badge'><?= count($records) ?></span></butto>
                 </div>
             </div> <br>
             <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4">
