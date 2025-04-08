@@ -306,6 +306,69 @@ class Pending extends BaseController
         $data['result_array'] = $this->PendingModel->pre_after_notice_get();
         return view('ManagementReport/Pending/pre_after_notice_get',$data);
     }
+    public function ready_not(){
+        return view('ManagementReport/Pending/ready_not');
+    }
+    public function ready_not_get(){
+        $data['connt'] = $this->request->getPost('connt');
+        $data['future_date'] = $this->PendingModel->ready_not_future_date();
+        $data['back_date'] = $this->PendingModel->ready_not_back_date($data['connt']);
+        return view('ManagementReport/Pending/ready_not_get',$data);
+    }
+    public function not_ready_get_detail(){
+        $ct = $this->request->getGet('ct');
+        $flag = $this->request->getGet('flag');
+        $list_dt_t = $this->request->getGet('list_dt');
+        if($list_dt_t !== '0'){
+            $list_dt = date('Y-m-d', strtotime($this->request->getGet('list_dt')));
+        }
+        else {
+            $list_dt = 0;
+        }
+        
+        $ltype = $this->request->getGet('ltype');
+        IF($ct == '1'){
+            $connt = " ";
+        }
+        IF($ct == '2'){
+            $connt = "(m.diary_no = m.conn_key OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0') AND ";
+        }
+    
+        IF($flag == 'f'){
+            $dt_flag = " AND h.next_dt >= CURRENT_DATE";
+            $headnote1 = " Future Date Cases ";
+        }
+        IF($flag == 'b'){
+            $dt_flag = " AND h.next_dt < CURRENT_DATE";
+            $headnote1 = " Back Date Cases ";
+        }
+    
+        if($list_dt === 0){
+            $list_dt_f = " ";
+            $headnote1 .= " ";
+        }
+        else{
+            $list_dt_f = " AND h.next_dt = '$list_dt'";
+            $headnote1 .= " For Dated ".$list_dt;
+        }
+        IF($ltype == 'court_r'){ $headnote1 .= " Ready to list before Court "; }
+        IF($ltype == 'court_nr'){ $headnote1 .= " Not Ready to list before Court "; }
+        IF($ltype == 'court'){ $headnote1 .= " Ready/Not Ready to list before Court "; }
+        IF($ltype == 'chamber_r'){ $headnote1 .= " Ready to list before Chamber "; }
+        IF($ltype == 'chamber_nr'){ $headnote1 .= " Not Ready to list before Chamber "; }
+        IF($ltype == 'chamber'){ $headnote1 .= " Ready/Not Ready to list before Chamber ";}
+        IF($ltype == 'reg_r'){ $headnote1 .= " Ready to list before Registrar "; }
+        IF($ltype == 'reg_nr'){ $headnote1 .= " Not Ready to list before Registrar ";  }
+        IF($ltype == 'reg'){ $headnote1 .= " Ready/Not Ready to list before Registrar "; }
+        IF($ltype == 'ready'){ $headnote1 .= " Total Ready to list "; }
+        IF($ltype == 'not_ready'){ $headnote1 .= " Total Not Ready to list "; }
+        IF($ltype == 'Total'){ $headnote1 .= " Total Ready/Not Ready to list before "; }
+
+        $data['headnote1'] = $headnote1;
+        $data['headnote2'] = '';
+        $data['result_array'] = $this->PendingModel->not_ready_get_detail($connt,$dt_flag,$ltype,$list_dt_f);
+        return view('ManagementReport/Pending/not_ready_get_detail',$data);
+    }
     public function section_pendency(){
         
         $data['result_array'] = $this->PendingModel->section_pendency();
