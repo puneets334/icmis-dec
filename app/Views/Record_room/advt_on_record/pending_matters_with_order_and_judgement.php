@@ -173,13 +173,13 @@
   $('#download_b').hide();
 
   function fetch_data() {
-
-    // var url = 'Record_room/advt_on_record/getRecord';
     $('#record').hide();
     var aor = $('#aor').val();
     var CSRF_TOKEN = 'CSRF_TOKEN';
     var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
     if (aor != "") {
+      $('#submit_btn').prop('disabled', true);
 
       $.ajax({
         type: "POST",
@@ -188,15 +188,17 @@
           aor: aor,
           CSRF_TOKEN: CSRF_TOKEN_VALUE,
         },
-
-        // cache: false,
         success: function(data) {
           $('#getrecordtable').html(data);
           updateCSRFToken();
+          // Enable the button after data is loaded
+          $('#submit_btn').prop('disabled', false);
           $('#download_b').show();
         },
         error: function() {
           alert('Error');
+          // Re-enable the button in case of an error
+          $('#submit_btn').prop('disabled', false);
         }
       });
     } else {
@@ -204,6 +206,5 @@
       $('#aor').focus();
       return false;
     }
-
   }
 </script>
