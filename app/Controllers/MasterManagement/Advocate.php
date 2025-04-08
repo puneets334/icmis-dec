@@ -41,7 +41,7 @@ public $AORPendingMatters;
 
     public function CasesView()
     {
-     
+      
         $aor = $this->request->getPost('aor');
         $from_dt1 = $this->request->getPost('from_dt1');
         $from_dt2 = $this->request->getPost('from_dt2');
