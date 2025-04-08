@@ -44,7 +44,7 @@
 								<div class="card-body">
 									<div class="tab-content">
 										<div class="active tab-pane">
-											<form name="advanceQuery" id="advanceQuery" action="<?= base_url('DynamicReport/DynamicReport/getResult'); ?>" target="_blank" method="POST" onsubmit="return submitForm();">
+											<form name="advanceQuery" id="advanceQuery" action="<?= base_url('DynamicReport/DynamicReport/getResult'); ?>" method="POST" onsubmit="return submitForm();">
 												<input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf_token" />
 												<table cellpadding="3" cellspacing="0" class="gridtable">
 													<!-- <tr></tr>
@@ -524,3 +524,14 @@
 		});
     }
 </script>
+
+<!-- <script>
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent the default form submission
+            // Here you can handle the form data, e.g., send it to a server
+
+            // Reset the form
+            document.getElementById('advanceQuery').reset();
+            alert('Form submitted and reset!');
+        }
+    </script> -->

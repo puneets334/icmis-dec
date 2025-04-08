@@ -1,45 +1,7 @@
 <?= view('header') ?>
-<style>
-    fieldset {
-        padding: 5px;
-        background-color: #F5FAFF;
-        border: 1px solid #0083FF;
-    }
-
-    legend {
-        background-color: #E2F1FF;
-        width: 100%;
-        text-align: center;
-        border: 1px solid #0083FF;
-        font-weight: bold;
-    }
-
-    .table3,
-    .subct2,
-    .subct3,
-    .subct4,
-    #res_on_off,
-    #resh_from_txt {
-        display: none;
-    }
-
-    .toggle_btn {
-        text-align: left;
-        color: #00cc99;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    div,
-    table,
-    tr,
-    td {
-        font-size: 10px;
-    }
-</style>
-<div class="container-fluid">
-    <div class="row">
+<section class="content">
+    <div class="container-fluid">
+      <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header heading">
@@ -49,86 +11,69 @@
                         </div>
                     </div>
                 </div>
-
-                <form method="post">
-                    <?= csrf_field() ?>
-                    <table border="0" align="center">
-                        <tr valign="middle">
-                            <td>
-                                <fieldset style="padding:5px; background-color:#F5FAFF; border:1px solid #0083FF;">
-                                    <legend style="background-color:#E2F1FF; width:100%; text-align:center; border:1px solid #0083FF;"><b>Board Type</b></legend>
-                                    <select class="ele" name="board_type" id="board_type">
+				<div class="card-body">
+                        <?php
+                        echo form_open();
+                        csrf_token();
+                        ?>
+                        <div class="row">
+                            <div class="col-md-1 mt-4">
+                                <label for=""><b>Board Type </b></label>
+                            </div>
+						    <div class="col-md-2">
+                                 <select class="form-control" name="board_type" id="board_type">
                                         <option value="J">Court</option>
-                                    </select>
-                                </fieldset>
-                            </td>
-                            <td style="display: none;">
-                                <fieldset style="padding:5px; background-color:#F5FAFF; border:1px solid #0083FF;">
-                                    <legend style="background-color:#E2F1FF; width:100%; text-align:center; border:1px solid #0083FF;"><b>Court No.</b></legend>
-                                    <select class="ele" name="court_no" id="court_no">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                        <option value="13">13</option>
-                                        <option value="14">14</option>
-                                    </select>
-                                </fieldset>
-                            </td>
-                            <td>
-                                <fieldset>
-                                    <legend>Date</legend>
-                                    <?php
+                                 </select>
+                            </div>
+						    <div class="col-md-1 mt-4">
+                                <label for=""><b>Date :</b></label>
+                            </div>
+                            <div class="col-md-2">
+									<?php
                                     $cur_ddt = date('Y-m-d', strtotime(' +1 day'));
                                     $next_court_work_day = date("d-m-Y", strtotime($cur_ddt));
                                     ?>
-                                    <input type="text" size="10" class="dtp" name='ldates' id='ldates' value="<?= esc($next_court_work_day) ?>" readonly />
-                                </fieldset>
-                            </td>
-
-                            <td>
-                                <fieldset style="padding:5px; background-color:#F5FAFF; border:1px solid #0083FF;">
-                                    <legend style="background-color:#E2F1FF; width:100%; text-align:center; border:1px solid #0083FF;"><b>Data Save</b></legend>
-                                    <select class="ele" name="data_save" id="data_save">
+                                <input type="text" class="form-control dtp" name='ldates' id='ldates' value="<?= esc($next_court_work_day) ?>"  readonly   >
+                                <input type="hidden" name="hd_from_dt1" id="hd_from_dt1" value="1" />
+                            </div>
+							 <div class="col-md-1 mt-4">
+                                <label for=""><b>Data Save </b></label>
+                            </div>
+						    <div class="col-md-2">
+                                <select class="form-control" name="data_save" id="data_save">
                                         <option value="No">No</option>
                                         <option value="Yes">Yes</option>
-                                    </select>
-                                </fieldset>
-                            </td>
-                            <td id="rs_actio_btn1">
-                                <fieldset>
-                                    <legend>Action</legend>
-                                    <input type="button" name="btn1" id="btn1" value="Submit" />
-                                </fieldset>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
+                                 </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="button" id="btn1" class="btn btn-block_ btn-primary" value="Submit" />
+                            </div>
+                        </div>
+                        <?php echo form_close(); ?>
+                        <br>
+                        <div id="dv_content1">
+                            <div id="dv_res1" style="align-content: center"></div>
+                            <div id="ank"></div>
+                        </div>
+                    </div>
+			</div>
         </div>
-
-        <div id="res_loader"></div>
-    </div>
-
-    <div id="dv_res1"></div>
-</div>
-</div>
+  </div>
+ </div>
 </section>
 
 
 
 <script>
-    $(function() {
-        $("#ldates").datepicker();
+    $(document).on("focus", ".dtp", function() {
+        $('.dtp').datepicker({
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+        });
     });
+
     $(document).on("click", "#btn1", function() {
         get_cl_1();
     });
@@ -145,15 +90,15 @@
             url: '<?php echo base_url('ManagementReports/Report/catAvlCaseIndvGet'); ?>',
             cache: false,
             async: true,
+			beforeSend: function() {
+                $('#dv_res1').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+            },
             data: {
                 list_dt: ldates,
                 board_type: board_type,
                 court_no: court_no,
                 data_save: data_save,
                 CSRF_TOKEN: csrf,
-            },
-            beforeSend: function() {
-                $('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
             },
             type: 'POST',
             success: function(data, status) {

@@ -17,7 +17,7 @@ class Dropdown_list_model extends Model
     {
         $builder = $this->db->table("main");
         $builder->select("main.*");
-        $builder->WHERE('diary_no', $diary_no);
+        $builder->WHERE('diary_no', $diary_no, false);
         $query = $builder->get(1);
         // echo $this->db->getLastQuery();die;
         if ($query->getNumRows() >= 1) {
@@ -26,7 +26,7 @@ class Dropdown_list_model extends Model
         } else {
             $builder2 = $this->db->table("main_a");
             $builder2->select("*");
-            $builder2->WHERE('diary_no', $diary_no);
+            $builder2->WHERE('diary_no', $diary_no, false);
             $query2 = $builder2->get(1);
             if ($query2->getNumRows() >= 1) {
                 $get_main_table2 = $query2->getRowArray();
@@ -71,7 +71,7 @@ class Dropdown_list_model extends Model
                 THEN SPLIT_PART(fil_no, '-', 1)::INTEGER 
                 ELSE 0 
             END)", $ct)
-            ->where("CAST('{$cn}' AS INTEGER) BETWEEN 
+            ->where("CAST({$cn} AS NUMERIC) BETWEEN 
                 (CASE 
                     WHEN SPLIT_PART(fil_no, '-', 2) ~ '^[0-9]+$' 
                     THEN SPLIT_PART(fil_no, '-', 2)::INTEGER 
@@ -97,7 +97,7 @@ class Dropdown_list_model extends Model
                 THEN SPLIT_PART(fil_no_fh, '-', 1)::INTEGER 
                 ELSE 0 
             END)", $ct)
-            ->where("CAST('{$cn}' AS INTEGER) BETWEEN 
+            ->where("CAST({$cn} AS NUMERIC) BETWEEN 
                 (CASE 
                     WHEN SPLIT_PART(fil_no_fh, '-', 2) ~ '^[0-9]+$' 
                     THEN SPLIT_PART(fil_no_fh, '-', 2)::INTEGER 
@@ -119,7 +119,8 @@ class Dropdown_list_model extends Model
             "SUBSTRING(diary_no::TEXT FROM CHAR_LENGTH(diary_no::TEXT) - 3 FOR 4) AS dy"
         ]);
 
-        // pr($builder->getCompiledSelect());die;
+        // pr($builder->getCompiledSelect());
+        // die;
         $result = $builder->get()->getRowArray();
 
         if (!empty($result)) {
@@ -140,7 +141,7 @@ class Dropdown_list_model extends Model
                 "CASE WHEN h.new_registration_number != '' THEN split_part(h.new_registration_number, '-', 2) ELSE '' END as crf1",
                 "CASE WHEN h.new_registration_number != '' THEN split_part(h.new_registration_number, '-', -1) ELSE '' END as crl1"
             ]);
-            $builder->where("((split_part(nullif(h.new_registration_number, ''), '-', 1)::int = $ct AND $cn BETWEEN split_part(nullif(h.new_registration_number, ''), '-', 2)::INTEGER AND split_part(nullif(h.new_registration_number, ''), '-', -1)::INTEGER AND h.new_registration_year = $cy) OR (split_part(nullif(h.old_registration_number, ''), '-', 1) = '$ct' AND $cn BETWEEN split_part(nullif(h.old_registration_number, ''), '-', 2)::INTEGER AND split_part(nullif(h.old_registration_number, ''), '-', -1)::INTEGER AND h.old_registration_year = $cy)) AND h.is_deleted = 'f'");
+            $builder->where("((split_part(nullif(h.new_registration_number, ''), '-', 1)::int = $ct AND CAST({$cn} AS NUMERIC) BETWEEN split_part(nullif(h.new_registration_number, ''), '-', 2)::INTEGER AND split_part(nullif(h.new_registration_number, ''), '-', -1)::INTEGER AND h.new_registration_year = $cy) OR (split_part(nullif(h.old_registration_number, ''), '-', 1) = '$ct' AND CAST({$cn} AS NUMERIC) BETWEEN split_part(nullif(h.old_registration_number, ''), '-', 2)::INTEGER AND split_part(nullif(h.old_registration_number, ''), '-', -1)::INTEGER AND h.old_registration_year = $cy)) AND h.is_deleted = 'f'");
 
             // pr($builder->getCompiledSelect());
 

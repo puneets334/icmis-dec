@@ -2450,7 +2450,8 @@ function getBasePath()
     } elseif (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == '10.40.186.244:81') {
         $path = FCPATH;
     } else {
-        $path = '../../u01-nfs/home';
+        // $path = '../../u01-nfs/home';
+        $path = FCPATH;
     }
     return $path;
 }

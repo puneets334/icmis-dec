@@ -252,6 +252,7 @@ class Tagging extends BaseController
                                     $migration_array = [];
                                 }
                                 $final_array_conct_history = array_merge($data_addon_party, $conct_old_row, $migration_array);
+                                unset($final_array_conct_history['trial059']);                                    
                                 $rs3 = insert('conct_history' . $archived_flag, $final_array_conct_history);
                             }
                         }
@@ -397,6 +398,7 @@ class Tagging extends BaseController
                             $migration_array = [];
                         }
                         $final_array_conct_history = array_merge($data_addon_party, $conct_old_row, $migration_array);
+                        unset($final_array_conct_history['trial059']);
                         $rs3 = insert('conct_history' . $is_archived_flag, $final_array_conct_history);
                     }
                 }
@@ -600,6 +602,8 @@ class Tagging extends BaseController
                         $migration_array = [];
                     }
                     $final_array_conct_history = array_merge($data_addon_party, $conct_old_row, $migration_array);
+                    
+                    unset($final_array_conct_history['trial059']);                    
                     $rs3 = insert('conct_history', $final_array_conct_history);
                 }
             }
@@ -648,6 +652,7 @@ class Tagging extends BaseController
                         $migration_array = [];
                     }
                     $final_array_conct_history = array_merge($data_addon_party, $conct_old_row, $migration_array);
+                    unset($final_array_conct_history['trial059']);
                     $rs3 = insert('conct_history', $final_array_conct_history);
                 }
 
@@ -727,6 +732,7 @@ class Tagging extends BaseController
                                     $migration_array = [];
                                 }
                                 $final_array_conct_history = array_merge($data_addon_party, $conct_old_row, $migration_array);
+                                unset($final_array_conct_history['trial059']);
                                 $rs3 = insert('conct_history', $final_array_conct_history);
                             }
 
