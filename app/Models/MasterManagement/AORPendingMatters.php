@@ -64,8 +64,8 @@ class AORPendingMatters extends Model
               ->where('a.display', 'Y');
       
           if ($from_dt1 && $from_dt2) {
-              $builder->where('DATE(a.diary_no_rec_date) >=', $from_dt1)
-                  ->where('DATE(a.diary_no_rec_date) <=', $from_dt2);
+              $builder->where('DATE(b.diary_no_rec_date) >=', $from_dt1)
+                  ->where('DATE(b.diary_no_rec_date) <=', $from_dt2);
           }
       
           if ($status) {
@@ -80,7 +80,7 @@ class AORPendingMatters extends Model
               ->orderBy('name')
               ->orderBy('dyear')
               ->orderBy('a.diary_no');
-      
+        //   pr($builder->getCompiledSelect());
           // Debugging: Print the SQL query
         //   echo $this->db->getLastQuery();
       
