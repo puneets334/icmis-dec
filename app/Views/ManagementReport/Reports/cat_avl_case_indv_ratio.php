@@ -1,44 +1,7 @@
 <?= view('header') ?>
-<style>
-    fieldset {
-        padding: 5px;
-        background-color: #F5FAFF;
-        border: 1px solid #0083FF;
-    }
 
-    legend {
-        background-color: #E2F1FF;
-        width: 100%;
-        text-align: center;
-        border: 1px solid #0083FF;
-        font-weight: bold;
-    }
-
-    .table3,
-    .subct2,
-    .subct3,
-    .subct4,
-    #res_on_off,
-    #resh_from_txt {
-        display: none;
-    }
-
-    .toggle_btn {
-        text-align: left;
-        color: #00cc99;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-    }
-
-    div,
-    table,
-    tr,
-    td {
-        font-size: 10px;
-    }
-</style>
-<div class="container-fluid">
+<section class="content">
+    <div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -49,50 +12,46 @@
                         </div>
                     </div>
                 </div>
-
-                <form method="post">
-                    <?= csrf_field() ?>
-                    <table border="0" align="center">
-                        <tr valign="middle">
-                            <td>
-                                <fieldset style="padding:5px; background-color:#F5FAFF; border:1px solid #0083FF;">
-                                    <legend style="background-color:#E2F1FF; width:100%; text-align:center; border:1px solid #0083FF;"><b>Board Type</b></legend>
-                                    <select class="ele" name="board_type" id="board_type">
+				<div class="card-body">
+                        <?php
+                        echo form_open();
+                        csrf_token();
+                        ?>
+                        <div class="row">
+                            <div class="col-md-1 mt-4">
+                                <label for=""><b>Board Type </b></label>
+                            </div>
+						    <div class="col-md-3">
+									<select class="form-control" name="board_type" id="board_type">
                                         <option value="J">Court</option>
                                     </select>
-                                </fieldset>
-                            </td>
-
-                            <td>
-                                <fieldset>
-                                    <legend>Date</legend>
-                                    <?php
+                            </div>
+						    <div class="col-md-1 mt-4">
+                                <label for=""><b>Date :</b></label>
+                            </div>
+                            <div class="col-md-3">
+								<?php
                                     $cur_ddt = date('Y-m-d', strtotime(' +1 day'));
                                     $next_court_work_day = date("d-m-Y", strtotime($cur_ddt));
-                                    ?>
-                                    <input type="text" size="10" class="dtp" name='ldates' id='ldates' value="<?= esc($next_court_work_day) ?>" readonly />
-                                </fieldset>
-                            </td>
-
-
-                            <td id="rs_actio_btn1">
-                                <fieldset>
-                                    <legend>Action</legend>
-                                    <input type="button" name="btn1" id="btn1" value="Submit" />
-                                </fieldset>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-            </div>
+                                 ?>
+                                <input type="text" name="ldates" id="ldates" class="form-control dtp" maxsize="10" value="<?= esc($next_court_work_day) ?>"  autocomplete="on" size="9" readonly>
+                                <input type="hidden" name="hd_from_dt1" id="hd_from_dt1" value="1" />
+                            </div>
+                            <div class="col-md-2">
+                                <input type="button" id="btn1" class="btn btn-block_ btn-primary" value="Submit" />
+                            </div>
+                        </div>
+                        <?php echo form_close(); ?>
+                        <br>
+                        <div id="dv_content1">
+                            <div id="dv_res1" style="align-content: center"></div>
+                            <div id="ank"></div>
+                        </div>
+                </div>
+			</div>
         </div>
-
-        <div id="res_loader"></div>
-    </div>
-
-    <div id="dv_res1"></div>
-</div>
-</div>
+     </div>
+   </div>
 </section>
 
 
@@ -121,7 +80,7 @@
                 CSRF_TOKEN: csrf,
             },
             beforeSend: function() {
-                $('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                $('#dv_res1').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             type: 'POST',
             success: function(data, status) {
@@ -134,6 +93,7 @@
             }
         });
     }
+	
     $(document).on("click", "#prnnt", function() {
         var prtContent = $("#prnnt").html();
         var temp_str = prtContent;

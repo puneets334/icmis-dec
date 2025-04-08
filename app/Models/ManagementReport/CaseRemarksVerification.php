@@ -635,17 +635,14 @@ class CaseRemarksVerification extends Model
             ->getResultArray();
     }
 
-    public function getCategoryData($list_dt, $judge_code)
-    {
-        $builder = $this->db->table('master.cat_jud_ratio');
-        return $builder->select('cat_id, cat_name, judge, next_dt, bail_top, orders, fresh, fresh_no_notice, an_fd, cnt, SUM(cnt) AS tot_cnt, ratio_cnt')
-            ->where('next_dt', $list_dt)
-            ->where('judge', $judge_code)
-            ->groupBy('cat_name')
-            ->orderBy('cat_name')
-            ->get()
-            ->getResultArray();
-    }
+    public function getCategoryData($list_dt, $judge_code){
+	  $sql = 'SELECT "cat_id", "cat_name", "judge", "next_dt", "bail_top", "orders", "fresh", "fresh_no_notice", "an_fd", "cnt", SUM(cnt) AS tot_cnt, "ratio_cnt"
+					FROM "master"."cat_jud_ratio" WHERE "next_dt" = '."'".$list_dt."'".' AND "judge" = '."'".$judge_code."'".'
+				GROUP BY "cat_id", "cat_name", "judge", "next_dt", "bail_top", "orders", "fresh", "fresh_no_notice", "an_fd", "ratio_cnt"
+				ORDER BY "cat_name"';
+				
+	    return $this->db->query($sql)->getResultArray();
+	}
 
     public function loosedoc_verify_not_verify($from_date, $to_date, $usercode)
     {

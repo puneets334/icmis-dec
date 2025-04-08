@@ -60,8 +60,7 @@ class Record extends BaseController
             $vcname = $vform[2] . ' ' . $vform[3] . ' ' . $vform[4];
 
             if (empty($vform[0]) || empty($vcname) || empty($vform[5]) || empty($vform[22])) {
-                echo "Please Enter Mandatory * Values";
-                die();
+                return $this->response->setJSON(["error" => "Please Enter Mandatory * Values"]) ;
             }
 
             $aorcode = $vform[0];
@@ -69,8 +68,7 @@ class Record extends BaseController
 
             $numRows = $model->checkExistingData($aorcode, $eino);
             if ($numRows > 0) {
-                echo "Data already exists!!!";
-                die();
+                return $this->response->setJSON(["error" => "Data already exists!!!"]) ;
             }
 
             $data = [

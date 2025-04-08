@@ -10,10 +10,16 @@
 }
 </style>
 <script type="text/javascript">
-    $(function() {
-        $("#crd1").datepicker({
-            dateFormat: "dd-mm-yy"
-        }).val();
+    $(document).ready(function() {
+        $('#crd1').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
     });
 
     $(document).ready(function() {

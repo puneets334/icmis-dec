@@ -30,7 +30,7 @@ class Report extends BaseController
     {
         return view('ManagementReport/Reports/cat_avl_case');
     }
-
+  
     public function catAvlCaseGet()
     {
         $request = service('request');
@@ -138,7 +138,7 @@ class Report extends BaseController
     public function categoryProcessYear()
     {
         $categoryReportData = $this->ReportModel->getCatYearWise();
-        return view('ManagementReport/Reports/get_category_year', $categoryReportData);
+		return view('ManagementReport/Reports/get_category_year', ['categoryReportData' => $categoryReportData]);
     }
 
     public function categoryUi()

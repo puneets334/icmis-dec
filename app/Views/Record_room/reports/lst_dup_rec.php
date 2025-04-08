@@ -29,7 +29,7 @@ table.dataTable>thead {
     <?php if (empty($records)) : ?>
         <div class='well well-lg'>
             <div class='col-md-12'>
-                <a class='btn btn-primary btn-xs' href='#'>Results Found---<span class='badge'><?= count($records) ?></span></a>
+                <button class='btn btn-primary btn-xs'>Results Found---<span class='badge'><?= count($records) ?></span></button>
             </div>
         </div>
     <?php else : ?>

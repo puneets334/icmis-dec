@@ -164,41 +164,49 @@ class AdminusersModel extends Model{
 public function getRosterJudgeData($t_cn = '')
 {
     $sql = "
-        SELECT DISTINCT 
-            rj.roster_id, 
-            mb.board_type_mb
-        FROM roster_judge rj 
-        JOIN roster r ON rj.roster_id = r.id 
-        JOIN roster_bench rb ON rb.id = r.bench_id AND rb.display = 'Y'
-        JOIN master_bench mb ON mb.id = rb.bench_id AND mb.display = 'Y'
-        WHERE r.m_f IN (1, 2)
-            AND rj.display = 'Y' 
-            AND r.display = 'Y'
-            $t_cn
+        SELECT * FROM (
+            SELECT 
+                rj.roster_id, 
+                mb.board_type_mb,
+                r.courtno,
+                rj.judge_id
+            FROM master.roster_judge rj 
+            JOIN master.roster r ON rj.roster_id = r.id 
+            JOIN master.roster_bench rb ON rb.id = r.bench_id AND rb.display = 'Y'
+            JOIN master.master_bench mb ON mb.id = rb.bench_id AND mb.display = 'Y'
+            WHERE r.m_f IN ('1', '2')
+                AND rj.display = 'Y' 
+                AND r.display = 'Y'
+                $t_cn
+        ) AS sub
         ORDER BY 
-            CASE WHEN r.courtno = 0 THEN 9999 ELSE r.courtno END,
+            CASE WHEN sub.courtno = 0 THEN 9999 ELSE sub.courtno END,
             CASE 
-                WHEN mb.board_type_mb = 'J' THEN 1
-                WHEN mb.board_type_mb = 'S' THEN 2
-                WHEN mb.board_type_mb = 'C' THEN 3
-                WHEN mb.board_type_mb = 'CC' THEN 4
-                WHEN mb.board_type_mb = 'R' THEN 5
+                WHEN sub.board_type_mb = 'J' THEN 1
+                WHEN sub.board_type_mb = 'S' THEN 2
+                WHEN sub.board_type_mb = 'C' THEN 3
+                WHEN sub.board_type_mb = 'CC' THEN 4
+                WHEN sub.board_type_mb = 'R' THEN 5
                 ELSE 6
             END,
-            rj.judge_id
+            sub.judge_id
     ";
+
+    // Uncomment this to debug
+    // echo $sql; exit;
 
     $query = $this->db->query($sql);
     return $query->getResultArray();
 }
 
 
+
 public function getCaseBoardList($tdt1, $result, $whereStatus = '')
 {
     $sql = "
     SELECT 
-        SUBSTRING(m.diary_no FROM 1 FOR LENGTH(m.diary_no) - 4) AS case_no,
-        RIGHT(m.diary_no, 4) AS year,  
+        LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 4) AS case_no,
+        RIGHT(m.diary_no::TEXT, 4) AS year,  
         m.diary_no,
         m.reg_no_display,    
         m.conn_key,   
@@ -211,9 +219,9 @@ public function getCaseBoardList($tdt1, $result, $whereStatus = '')
         m.pet_name,
         m.res_name,
         m.c_status,
-        CASE 
+        CASE
             WHEN cl.next_dt IS NULL THEN 'NA'
-            ELSE h.brd_slno
+            ELSE h.brd_slno::text
         END AS brd_prnt,
         h.roster_id,    
         m.casetype_id,
@@ -271,7 +279,7 @@ public function getCaseBoardList($tdt1, $result, $whereStatus = '')
             'Board_Type' AS board_type,  
             t3.part AS clno,
             t3.clno AS brd_slno, 
-            'Main_supp_flag' AS main_supp_flag,
+            NULL AS main_supp_flag,
             'DELETED' AS list_status
         FROM drop_note t3 
         WHERE 
@@ -286,7 +294,7 @@ public function getCaseBoardList($tdt1, $result, $whereStatus = '')
         AND cl.part = h.clno
         AND cl.roster_id = h.roster_id 
         AND cl.display = 'Y'
-    LEFT JOIN casetype c ON m.casetype_id = c.casecode
+    LEFT JOIN master.casetype c ON m.casetype_id = c.casecode
     LEFT JOIN conct ct ON m.diary_no = ct.diary_no AND ct.list = 'Y'  
     WHERE cl.next_dt IS NOT NULL $whereStatus
     GROUP BY 
@@ -296,15 +304,84 @@ public function getCaseBoardList($tdt1, $result, $whereStatus = '')
     ORDER BY 
         CASE WHEN cl.next_dt IS NULL THEN 2 ELSE 1 END,
         h.brd_slno,
-        CASE WHEN m.conn_key = m.diary_no THEN '0000-00-00' ELSE '99' END,
-        COALESCE(ct.ent_dt, 999),
-        CAST(RIGHT(m.diary_no, 4) AS INTEGER),
-        CAST(SUBSTRING(m.diary_no FROM 1 FOR LENGTH(m.diary_no) - 4) AS INTEGER)
+        CASE
+            WHEN m.conn_key IS NULL OR NULLIF(m.conn_key, '') IS NULL THEN '99'
+            WHEN COALESCE(NULLIF(m.conn_key, '')::BIGINT, 0) = m.diary_no THEN ''
+            ELSE '99'
+        END ASC,
+        CAST(SUBSTRING(m.diary_no::text FROM LENGTH(m.diary_no::text) - 3) AS INTEGER) ASC,
+        CAST(SUBSTRING(m.diary_no::text FROM 1 FOR LENGTH(m.diary_no::text) - 4) AS INTEGER) ASC
+ 
     ";
 
     $query = $this->db->query($sql, [$tdt1, $result, $tdt1, $result, $tdt1, $result]);
     return $query->getResultArray();
 }
+
+
+
+public function getEservicesData($diary_no, $list_dt)
+{
+    // Connect to the e_services database (remote)
+    $dbeservices = \Config\Database::connect('eservices');
+
+    // Fetch from the remote library_reference_material table
+    $libData = $dbeservices->table('library_reference_material')
+        ->where('list_date', $list_dt)
+        ->where('diary_no', $diary_no)
+        ->where('is_active', 1)
+        ->get()
+        ->getResultArray();
+    //pr($libData);
+    // Enrich each row with local bar data
+    foreach ($libData as &$row) {
+        $bar = $this->db->table('master.bar')
+            ->select('title, name')
+            ->where('aor_code', $row['aor_code'])
+            ->get()
+            ->getRowArray();
+
+        $row['title'] = $bar['title'] ?? '';
+        $row['name'] = $bar['name'] ?? '';
+    }
+
+    // ✅ Return full data array
+    return $libData;
+}
+
+
+public function getLibraryReferenceMaterialChild($reference_material_id)
+{
+    $deservicesb = \Config\Database::connect('eservices'); // use correct DB group if needed
+
+    $builder = $deservicesb->table('library_referance_material_child a');
+    $builder->select('a.id, a.header_details, a.file_name, a.icmis_file_name, b.name_of_header');
+    $builder->join('library_master_headers b', 'b.id = a.library_master_headers_id');
+    $builder->where('a.library_reference_material_id', $reference_material_id);
+    $builder->where('a.is_active', 1);
+    $builder->orderBy('a.id');
+
+    $query = $builder->get();
+    return $query->getResultArray();
+}
+
+
+public function getCourtRequisition($diary_no, $list_dt)
+{
+    $db = \Config\Database::connect(); // or use a specific connection if needed
+
+    $builder = $db->table('tbl_court_requisition a');
+    $builder->select('a.*, b.file_path');
+    $builder->join('requistion_upload b', 'b.req_id = a.id', 'left');
+    $builder->where('a.diary_no', $diary_no);
+    $builder->where('a.itemdate', $list_dt);
+
+    $query = $builder->get();
+    return $query->getResultArray();
+}
+
+
+
 
 
 

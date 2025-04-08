@@ -49,6 +49,16 @@
 
     .modal .modal-header {
         position:relative !important;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .dt-buttons {text-align: left !important;}
+    .input-group input{border-radius: 15px !important;}
+
+    table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
     }
 </style>
 
@@ -73,7 +83,7 @@
                                     <h4 class="basic_heading">Bunch Matters</h4>
                                 </div>
                                 <div class="card-body">
-                                    <div class="tab-content">
+                                    <div class="tab-content pad10">
                                         <div class="active tab-pane">
                                             <?php echo form_open();
                                             csrf_token();
@@ -253,5 +263,12 @@
                 alert("ERROR, Please Contact Server Room");
                 updateCSRFToken();
             });
-  }
+    }
+
+    $(document).ready(function() { 
+        $('#exampleModal').modal({
+            backdrop: false,
+            keyboard: false 
+            });
+    })    
 </script>

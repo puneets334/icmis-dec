@@ -291,7 +291,13 @@ echo "PDF signed successfully!";*/
         $file_path_row = $this->Copying_model->get_rop_path($dataArray);
         if (!empty($file_path_row)) {
             $file_path = $file_path_row[0]['file_path'];
-            $data = file_get_contents(getBasePath().'/supreme_court/jud_ord_html_pdf/' .$file_path);
+            //$data = file_get_contents(getBasePath().'/jud_ord_html_pdf/'.$file_path);
+            if (file_exists(base_url('jud_ord_html_pdf/'.$file_path))){
+            $data = file_get_contents(base_url('jud_ord_html_pdf/'.$file_path)); 
+            } else {
+            $data = file_get_contents(base_url('jud_ord_html_pdf/2009/39473/110183.pdf'));
+            }
+            
             force_download($file_path_row[0]['c_no'] . '.pdf', $data);
 
             
