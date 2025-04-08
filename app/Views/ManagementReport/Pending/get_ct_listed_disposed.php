@@ -34,28 +34,28 @@
                         ?> <td><?php echo $sno; ?></td>
                         <td><?php echo $ro['short_description']; ?></td>
                         <td><?php
-                            echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],1);' href='#'>" . $ro['listed_misc_main'] . "</a> (+ ";
-                            echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],2);' href='#'>" . $ro['listed_misc_conn'] . "</a>)";
+                            echo "<a data-toggle='modal' data-target='#newcs'' onclick='return call_fcs($ro[casecode],1);' href='#'>" . $ro['listed_misc_main'] . "</a> (+ ";
+                            echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],2);' href='#'>" . $ro['listed_misc_conn'] . "</a>)";
                             ?></td>
                         <td align="left" style='vertical-align: top;'><?php
-                                                                        echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],3);' href='#'>" . $ro['listed_regular_main'] . "</a> (+ ";
-                                                                        echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],4);' href='#'>" . $ro['listed_regular_conn'] . "</a>)";
+                                                                        echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],3);' href='#'>" . $ro['listed_regular_main'] . "</a> (+ ";
+                                                                        echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],4);' href='#'>" . $ro['listed_regular_conn'] . "</a>)";
                                                                         ?></td>
                         <td align="left" style='vertical-align: top;'><?php
-                                                                        echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],5);' href='#'>" . $ro['listed_total_main'] . "</a> (+ ";
-                                                                        echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],6);' href='#'>" . $ro['listed_total_conn'] . "</a>)";
+                                                                        echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],5);' href='#'>" . $ro['listed_total_main'] . "</a> (+ ";
+                                                                        echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],6);' href='#'>" . $ro['listed_total_conn'] . "</a>)";
                                                                         ?></td>
                         <td align="left" style='vertical-align: top;'><?php
-                                                                        echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],7);' href='#'>" . $ro['disposed_misc_main'] . "</a> (+ ";
-                                                                        echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],8);' href='#'>" . $ro['disposed_misc_conn'] . "</a>)";
+                                                                        echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],7);' href='#'>" . $ro['disposed_misc_main'] . "</a> (+ ";
+                                                                        echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],8);' href='#'>" . $ro['disposed_misc_conn'] . "</a>)";
                                                                         ?></td>
                         <td align="left" style='vertical-align: top;'><?php
-                                                                        echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],9);' href='#'>" . $ro['disposed_regular_main'] . "</a> (+ ";
-                                                                        echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],10);' href='#'>" . $ro['disposed_regular_conn'] . "</a>)";
+                                                                        echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],9);' href='#'>" . $ro['disposed_regular_main'] . "</a> (+ ";
+                                                                        echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],10);' href='#'>" . $ro['disposed_regular_conn'] . "</a>)";
                                                                         ?></td>
                         <td align="left" style='vertical-align: top;'><?php
-                                                                        echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],11);' href='#'>" . $ro['disposed_total_main'] . "</a> (+ ";
-                                                                        echo "<a data-animation='fade' data-reveal-id='myModal' onclick='return call_fcs($ro[casecode],12);' href='#'>" . $ro['disposed_total_conn'] . "</a>)";
+                                                                        echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],11);' href='#'>" . $ro['disposed_total_main'] . "</a> (+ ";
+                                                                        echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],12);' href='#'>" . $ro['disposed_total_conn'] . "</a>)";
 
                                                                         $total_listed += $ro['listed_total_main'] + $ro['listed_total_conn'];
                                                                         $total_disposed += $ro['disposed_total_main'] + $ro['disposed_total_conn'];
@@ -78,43 +78,25 @@
 
 </div>
 <br />
-<div id="newcs" style="display:none; margin-top:5%;" class="modal fade">
-    <div class="container">
-        <table width="100%" border="0" style="margin:0 0 0px; border-collapse: collapse">
-            <tr style="background-color: #A9A9A9;">
-                <td align="center">
-                    <b>
-                        <font color="black" style="font-size:14px;">Case Type Wise Listed/Disposed Matters</font>
-                    </b>
-                </td>
-                <td>
-                    <input style="float:right;" type="button" name="close_b" id="close_b" value="CLOSE WINDOW" onclick="close_wcs();" />
-                </td>
-            </tr>
-        </table>
+<!-- Modal -->
+<div class="modal fade" id="newcs" tabindex="-1" role="dialog" aria-labelledby="newcsLabel" aria-hidden="true">
+  <div class="modal-dialog modalXl modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newcsLabel">Case Type Wise Listed/Disposed Matters</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body left" id="modData">
         
+      </div>
     </div>
-    <div class="container">
-        <div id="newcs123" style="overflow:auto; background-color: #FFF;"> </div>
-        <!-- <input name="prnnt1" type="button" id="prnnt2" value="Print"> -->
-    </div>
-    <div class="container">
-        <div id="newcs1" align="center">
-            <table border="0" width="100%">
-                <tr>
-                    <td align="center" width="250px">
-                        <input name="prnnt1" type="button" id="prnnt2" value="Print">
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
+  </div>
 </div>
+
 <div style="width: 100%; padding-bottom:1px; background-color: #ddf1f9; text-align: center; border-top: 1px solid #000; position: fixed; left: 0; right: 0; z-index: 0; display:block;">
     <span id="toggle_hw" style="color: #0066cc; font-weight: bold; cursor: pointer; padding-right: 1px;">
     </span>
     <input name="prnnt1" type="button" id="prnnt1" value="Print">
 </div>
-
-<?php //} 
-?>
