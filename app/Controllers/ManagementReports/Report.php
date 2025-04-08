@@ -34,8 +34,7 @@ class Report extends BaseController
     }
 
     public function catAvlCaseGet() {
-	    $request = service('request');
-        $list_dt = $request->getPost('list_dt');
+	    $list_dt = $this->request->getPost('list_dt');
 		$data = $this->Heardt->getReportData($list_dt);
        
         return view('ManagementReport/Reports/cat_val_report_view', [
@@ -130,11 +129,7 @@ class Report extends BaseController
         $board_type = $request->getPost('board_type');
         $list_dt = $request->getPost('list_dt');
         $list_dt = date('Y-m-d', strtotime($list_dt));
-
-
         $judges = $this->CaseRemarksVerification->getJudges($list_dt);
-
-
         $data = [];
         foreach ($judges as $judge) {
             $categoryData = $this->CaseRemarksVerification->getCategoryData($list_dt, $judge['jcode']);
@@ -155,7 +150,7 @@ class Report extends BaseController
     public function categoryProcessYear()
     {
         $categoryReportData = $this->ReportModel->getCatYearWise();
-        return view('ManagementReport/Reports/get_category_year', $categoryReportData);
+		return view('ManagementReport/Reports/get_category_year', ['categoryReportData' => $categoryReportData]);
     }
 
     public function categoryUi()
