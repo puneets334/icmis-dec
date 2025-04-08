@@ -27,7 +27,6 @@ class Reports extends BaseController
         $dt1 = $this->request->getPost('dt1');
         $dt2 = $this->request->getPost('dt2');
 
-        // Convert date format
         $tdt1 = date('d-m-Y', strtotime($dt1));
         $tdt2 = date('d-m-Y', strtotime($dt2));
         $prev_date = date('Y-m-d', strtotime($dt1 . ' -1 day'));
@@ -35,11 +34,15 @@ class Reports extends BaseController
 
         // Fetch data
         $prev_dt_pendency = $this->pendencyReportsModel->getPrevPendency($prev_date);
+       
         $to_dt_pendency = $this->pendencyReportsModel->getToDatePendency($dt2);
+        
         $inst = $this->pendencyReportsModel->getInstCases($dt1, $dt2);
+     
         $dispose = $this->pendencyReportsModel->getDisposedCases($dt1, $dt2);
+        
         $pendency = $this->pendencyReportsModel->getPendencyCases($dt2);
-
+        
         // Prepare data for the view
         $data = [
             'prev_dt_pendency' => $prev_dt_pendency->prev_dt_pendency ?? 0,
@@ -53,4 +56,22 @@ class Reports extends BaseController
 
         return view('Reports/pendencyReport/pendency_report_process_kk', $data);
     }
+
+    public function pendency_bifurcation()
+    {
+        $data['dtd'] = date("d-m-Y");
+        return view('Reports/pendencyReport/pendency_bifurcation', $data);
+    }
+
+    public function pendency_bifurcation_process()
+    {
+        $dt1=$_POST['dt1'];
+        //$dt2=$_POST['dt2'];
+        $tdt1=date('d-m-Y', strtotime($dt1));
+        //$tdt2=date('d-m-Y', strtotime($dt2));
+        $for_date = date('Y-m-d', strtotime($dt1));
+        return view('Reports/pendencyReport/pendency_bifurcation_process');
+    }
+
+ 
 }

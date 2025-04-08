@@ -24,6 +24,7 @@ class Report extends BaseController
     }
     public function get_listed_notlisted()
     {
+       
         $data['form_dt'] = $this->request->getGet('from_dt');
         $data['to_dt'] = $this->request->getGet('to_dt');
         $data['main_conn'] = $this->request->getGet('mc');
@@ -118,6 +119,7 @@ class Report extends BaseController
             return view('Reports/SubjectCategorywithGroupCountReport', $data);
         }
         if ($id == 6) {
+           
             $data['reports'] = '';
             $data['app_name'] = '';
 
@@ -133,13 +135,16 @@ class Report extends BaseController
                 $data['reports'] = $this->pendency_reports_model->get_pendency($id, NULL, NULL, $from_date, $to_date);
                 $data['app_name'] = 'JudgeWiseMatterListedDisposal';
             }
-            return view('Reports/JudgeWiseMatterListedDisposal.php', $data);
+          
+          
+            
+            return view('ManagementReport/Pending/dataJudgeWiseMatterListedDisposal', $data);
         }
         if ($id == 7) {
             $data['reports'] = '';
             $data['app_name'] = 'AllReportUI';
 
-            return view('Reports/AllReportsUI.php', $data);
+            return view('Reports/AllReportsUI', $data);
         }
         if ($id == 8) {
             $data['reports'] = '';
@@ -147,7 +152,7 @@ class Report extends BaseController
 
             $data['reports'] = $this->pendency_reports_model->get_pendency($id, NULL, NULL, NULL, NULL, NULL, NULL, $fromdate, $todate, $reportType1, $jcode);
             $data['param'] = array($fromdate, $todate, $reportType1, $jcode);
-            return view('Reports/MattersListedAndDisposedDetailedReport.php', $data);
+            return view('Reports/MattersListedAndDisposedDetailedReport', $data);
         }
     }
 }

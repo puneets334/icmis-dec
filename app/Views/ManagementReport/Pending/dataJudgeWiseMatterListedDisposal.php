@@ -1,7 +1,8 @@
 
             <section class="content">
                 <?php
-                if (is_array($reports)) {
+                if (is_array($reports))
+                {
                     ?>
                     <div id="printable" class="box box-danger">
                         <table width="100%" id="reportTable" class="table table-striped table-hover">
