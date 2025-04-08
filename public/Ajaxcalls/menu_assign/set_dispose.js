@@ -1129,7 +1129,7 @@ async function fsubmit() {
     //    var caseno = document.getElementById("caseno").value;
     //    var year = document.getElementById("year").value;
     //    var hd_ud=document.getElementById('hd_ud').value;
-    //    document.getElementById("hint").innerHTML = '<table align=center><tr><td><img src="ajax-preloader.gif"/></td></tr></table>';
+    //    document.getElementById("hint").innerHTML = '<table align=center><tr><td><img src="' + base_url + '/images/load.gif"/></td></tr></table>';
     //    var ajaxRequest; // The variable that makes Ajax possible!
     //    try {
     //        // Opera 8.0+, Firefox, Safari

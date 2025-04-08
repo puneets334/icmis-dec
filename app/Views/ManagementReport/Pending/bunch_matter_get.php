@@ -100,7 +100,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="modData">
+      <div class="modal-body left" id="modData">
       </div>
     </div>
   </div>

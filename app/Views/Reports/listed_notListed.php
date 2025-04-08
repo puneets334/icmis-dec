@@ -105,7 +105,7 @@
     }
 
     function get_listed_notlisted() {
-        // $('#cntnt_pending_app').html('<img src="ajax-preloader.gif"></img>');
+        // $('#cntnt_pending_app').html('<img src="' + base_url + '/images/load.gif"/>');
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
         var csrfName = $('input[name="CSRF_TOKEN"]').attr('name');
