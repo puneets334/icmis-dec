@@ -344,8 +344,6 @@
 				alert("To Date must be greater than From date");
 				return false;
 			}
-			// Reset the form fields
-			this.reset();
 		} else if (advanceQuery.rbtCaseStatus[1].checked == true) {
 			var fromdate = document.forms["advanceQuery"]["registrationDateFrom"].value;
 			if (fromdate == null || fromdate == "") {
@@ -365,8 +363,6 @@
 				alert("To Date must be greater than From date");
 				return false;
 			}
-			// Reset the form fields
-			this.reset();
 		}
 	}
 	$(function() {
