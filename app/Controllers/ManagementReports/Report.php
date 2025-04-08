@@ -33,20 +33,11 @@ class Report extends BaseController
         return view('ManagementReport/Reports/cat_avl_case');
     }
 
-    public function catAvlCaseGet()
-    {
-        $request = service('request');
+    public function catAvlCaseGet() {
+	    $request = service('request');
         $list_dt = $request->getPost('list_dt');
-
-        if (!$list_dt) {
-            return redirect()->back()->with('error', 'Date is required.');
-        }
-
-        $list_dt = (new \DateTime('2024-10-28'))->format('Y-m-d');
-
-        $data = $this->Heardt->getReportData($list_dt);
-
-
+		$data = $this->Heardt->getReportData($list_dt);
+       
         return view('ManagementReport/Reports/cat_val_report_view', [
             'data' => $data,
             'list_dt' => $list_dt

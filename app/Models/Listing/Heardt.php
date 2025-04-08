@@ -1007,7 +1007,6 @@ class Heardt extends Model
 
     public function getReportData($list_dt)
     {
-        // Ensure the date is properly formatted as 'Y-m-d'
         $formattedDate = date('Y-m-d', strtotime($list_dt));
 
         $sql = "
@@ -1106,12 +1105,7 @@ class Heardt extends Model
 
     public function getcatAvlCaseIndvGetReportData($list_dt, $court_no)
     {
-        // $dateObject = \DateTime::createFromFormat('d-m-Y', $list_dt);
-        // $formattedDate = $dateObject ? $dateObject->format('Y-m-d') : null;
-
-        // if (!$formattedDate) {
-        //     throw new \InvalidArgumentException("Invalid date format");
-        // }
+        
         $formattedDate = date('Y-m-d', strtotime($list_dt));
 
 
