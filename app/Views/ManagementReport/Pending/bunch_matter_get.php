@@ -1,6 +1,6 @@
 <div class="table-responsive">
     <?php if ($results) { ?>
-        <div class="font-weight-bold text-center mt-26">
+        <div class="font-weight-bold text-center mt-26" id="report_title">
             <?php echo $mainhead_description; ?>, Bunch Matters as on <?php echo date('d-m-Y'); ?><br />(Group Having More Than <?php echo $grp_hv; ?> Cases)
         </div>
         <table id="example1" class="table table-striped custom-table">
@@ -120,6 +120,8 @@
                 className: 'btn-primary quick-btn',
                 customize: function(win) {
                     $(win.document.body).find('h1').remove();
+                    var title = $("#report_title").html();
+                    $(win.document.body).prepend('<h1 style="text-align:center; font-size:24px;">'+title+'</h1>');                    
                 }
             }]
     });
