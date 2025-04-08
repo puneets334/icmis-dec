@@ -113,7 +113,7 @@
     }
     //function CallPrint(){
     $(document).on("click", "#prnnt1", function() {
-        var prtContent = $("#prnnt").html();
+        var prtContent = $("#prnnt1").html();
         var temp_str = prtContent;
         var WinPrint = window.open('', '', 'left=100,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1,cellspacing=1');
         WinPrint.document.write(temp_str);

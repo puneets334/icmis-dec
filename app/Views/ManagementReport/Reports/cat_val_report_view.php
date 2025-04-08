@@ -41,9 +41,11 @@
             <?php
             $sno = 1;
             $totals = array_fill(0, 12, 0);
-            foreach ($data as $row):
+			$t_tobe_list_all = 0; $t_fresh_head_cnt=0; $t_order_cnt_fd=0; $t_order_cnt =0; $t_notice_cnt_fd=0; $t_notice_cnt =0;  $fixdt=0; $comp_dt=0; $t_fix_dt=0; $t_comp_dt=0; $t_case_cnt=0;
+					
+			foreach ($data as $row):
             ?>
-                <tr>
+             <tr>
                     <td align="center"><?= $sno++ ?></td>
                     <td align="left"><?= esc($row['sub_name1']) ?></td>
                     <td align="center"><?= esc($row['judge']) ?></td>
@@ -51,36 +53,31 @@
                         <?= $total_judges = isset($row['judge']) ? count(explode(",", $row['judge'])) : 0 ?>
                     </td>
 
-                    <td align="center" style='vertical-align: top;' ><?= $row['tobe_list_all'] ?></td>
-                    <td align="center" style='vertical-align: top;'><?= $row['fresh_head_cnt'] ?></td>
-                    <td align="center" style='vertical-align: top;'><?= $row['order_cnt_fd'] ?></td>
-                    <td align="center" style='vertical-align: top;'><?= $row['order_cnt'] ?></td>
-                    <td align="center" style='vertical-align: top;'><?= $row['notice_cnt_fd'] ?></td>
-                    <td align="center" style='vertical-align: top;'><?= $row['notice_cnt'] ?></td>
-                    <td align="center" style='vertical-align: top;'><?= ($fixdt = $row['tobe_list_all'] + $row['order_cnt_fd'] + $row['notice_cnt_fd']) ?></td>
-                    <td align="center" style='vertical-align: top;'><?= ($comp_dt = $row['fresh_head_cnt'] + $row['order_cnt'] + $row['notice_cnt']) ?></td>
-                    <td align="center" style='vertical-align: top;'><?= $row['case_cnt'] ?></td>
-                </tr>
+                    <td align="center" style='vertical-align: top;'><?php $t_tobe_list_all += $row['tobe_list_all']; echo $row['tobe_list_all']; ?></td>
+					<td align="center" style='vertical-align: top;'><?php $t_fresh_head_cnt += $row['fresh_head_cnt']; echo $row['fresh_head_cnt']; ?></td>
+					<td align="center" style='vertical-align: top;'><?php $t_order_cnt_fd += $row['order_cnt_fd']; echo $row['order_cnt_fd']; ?></td>
+					<td align="center" style='vertical-align: top;'><?php $t_order_cnt += $row['order_cnt']; echo $row['order_cnt']; ?></td>        
+					<td align="center" style='vertical-align: top;'><?php $t_notice_cnt_fd += $row['notice_cnt_fd']; echo $row['notice_cnt_fd']; ?></td>
+					<td align="center" style='vertical-align: top;'><?php $t_notice_cnt += $row['notice_cnt']; echo $row['notice_cnt']; ?></td>
+					<td align="center" style='vertical-align: top;'><?php echo $fixdt = $row['tobe_list_all'] + $row['order_cnt_fd'] + $row['notice_cnt_fd']; $t_fix_dt += $fixdt; ?></td>
+					<td align="center" style='vertical-align: top;'><?php echo $comp_dt = $row['fresh_head_cnt'] + $row['order_cnt'] + $row['notice_cnt']; $t_comp_dt += $comp_dt; ?></td>
+					<td align="center" style='vertical-align: top;'><?php $t_case_cnt += $row['case_cnt']; echo $row['case_cnt']; ?></td>
+            </tr>
             <?php
-               foreach ($row as $key => $value) {
-                    if (isset($totals[$key])) {
-                        $totals[$key] += $value;
-                    }
-                }
-            endforeach;
+              endforeach;
             ?>
             <tr style="background: #918788; font-weight: bold;">
                 <td colspan="4" align="right" style='font-weight: bold; vertical-align: top; text-align:right;background: #918788 !important;'>TOTAL</td>
-                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?= $totals[0] ?></td>
-                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?= $totals[1] ?></td>
-                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?= $totals[2] ?></td>
-                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?= $totals[3] ?></td>
-                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?= $totals[4] ?></td>
-                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?= $totals[5] ?></td>
-                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?= $totals[6] ?></td>
-                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?= $totals[7] ?></td>
-                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?= $totals[8] ?></td>
-            </tr>
+                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?php echo $t_tobe_list_all; ?></td>
+                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?php echo $t_fresh_head_cnt; ?></td>
+                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?php echo $t_order_cnt_fd; ?></td>
+                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?php echo $t_order_cnt; ?></td>
+                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?php echo $t_notice_cnt_fd; ?></td>
+                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?php echo $t_notice_cnt; ?></td>
+                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?php echo $t_fix_dt; ?></td>
+                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?php echo $t_comp_dt; ?></td>
+                <td align="center" style='font-weight: bold; vertical-align: top;background: #918788 !important;'><?php echo $t_case_cnt; ?></td>
+			</tr>
         </table>
     <?php }else{ ?>
         <p>No Records Found</p>
