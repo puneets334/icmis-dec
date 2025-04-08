@@ -341,7 +341,7 @@ class PendingModel extends Model
                 WHERE 
                 m.c_status = 'P' $diary_reg_un AND 
                 h.board_type = '$board_type' AND h.mainhead = '$mainhead'     
-                AND (m.diary_no = m.conn_key::bigint OR m.conn_key IS NULL OR m.conn_key = '0')
+                AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key IS NULL OR m.conn_key = '0')
                 and (h.coram is null or trim(h.coram) = '' or h.coram = '0')
                 and h.next_dt is not null and h.listorder != 32 and h.clno = 0
                 AND h.subhead IN (824,810,803,802,807,804,808,811,812,813,814,815,816)
@@ -349,7 +349,7 @@ class PendingModel extends Model
                 ORDER BY 
                 tentative_section(m.diary_no), tentative_da(m.diary_no::int),
                 diary_no_suffix ASC, diary_no_prefix ASC";
-
+        pr($sql);
         $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1) {
             $results = $query->getResultArray();
