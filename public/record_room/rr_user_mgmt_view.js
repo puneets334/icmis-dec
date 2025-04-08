@@ -146,9 +146,11 @@ $(document).ready(function () {
         },
       })
         .done(function (msg) {
+          updateCSRFToken();
           $("#result_main_um").html(msg);
         })
         .fail(function () {
+          updateCSRFToken();
           alert("Error, Please Contact Server Room");
         });
     }
@@ -174,9 +176,13 @@ $(document).on("click", "[id^='cl_manage_f']", function () {
     data: { userid: num[1] },
   })
     .done(function (msg) {
+      updateCSRFToken();
+
       $("#sar").html(msg);
     })
     .fail(function () {
+      updateCSRFToken();
+
       $("#sar").html(
         "<div style='margin:0 auto;margin-top:20px;text-align:center'>ERROR, PLEASE CONTACT SERVER ROOM</div>"
       );
@@ -521,6 +527,7 @@ $(document).on("click", "input[name=mapp_user_hall]", function () {
   })
     .done(function (msg) {
       //alert(msg);
+      updateCSRFToken();
       $("#rkds_block").html(msg);
       $("#sp_close").css("display", "inline");
       $("#dv_fixedFor_P").css("display", "none");
@@ -563,9 +570,11 @@ async function rr_view_user_information(auth, auth_name, dept, sec, desg, cur_us
     },
   })
     .done(function (msg) {
+      updateCSRFToken();
       $("#result_main_um").html(msg);
     })
     .fail(function () {
+      updateCSRFToken();
       alert("Error, Please Contact Server Room");
     });
 }
