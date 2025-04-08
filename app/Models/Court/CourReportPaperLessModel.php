@@ -151,10 +151,11 @@ class CourReportPaperLessModel extends Model
         }else{
             return [];
           }
-        }
+         
     }
 
     public function getCaseType(){
+        
         $builder = $this->db->table("master.casetype");
         $builder->select("casecode, skey, casename,short_description");
         $builder->where("display","Y");
@@ -165,7 +166,9 @@ class CourReportPaperLessModel extends Model
             return $result = $query->getResultArray();
         }else{
             return [];
-        }   
+        } 
+    }
+     
     
 
 
