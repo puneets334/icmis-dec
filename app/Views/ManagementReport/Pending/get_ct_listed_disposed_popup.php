@@ -3,7 +3,15 @@
 if (count($get_ct_listed_disposed_popup) > 0) {
 ?>
     <div id="prnnt2" style="text-align: center; font-size:14px;">
-        <!-- <h3>Case Type Wise Listed/Disposed Cases</h3> -->
+        
+        <div class="container ">
+            <div class="row">
+                <div class="col-md-2 ml-n5"><input name="prnnt2" type="button" id="prnt2" value="Print" class="btn btn-primary bk_out"></div>
+                <div class="col-md-8"><h3 class="mt-2">Case Type Wise Listed/Disposed Cases</h3></div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+        
         <table class="table table-striped custom-table">
             <thead>
                 <tr>
