@@ -1,31 +1,32 @@
 <div class="table-responsive">
     <?php
     if ($results) { ?>
-        
-        <div class="font-weight-bold text-center mt-26">
-            Cases Having No Subject Category
-            <?php
-            $output = '';
-            if ($mainhead === 'M') {
-                $output .= " For Misc. Hearing";
-            } elseif ($mainhead === 'F') {
-                $output .= " For Regular Hearing";
-            }
+        <div id="report_title">
+            <div class="font-weight-bold text-center mt-26" >
+                Cases Having No Subject Category
+                <?php
+                $output = '';
+                if ($mainhead === 'M') {
+                    $output .= " For Misc. Hearing";
+                } elseif ($mainhead === 'F') {
+                    $output .= " For Regular Hearing";
+                }
 
-            if ($board_type === 'J') {
-                $output .= " before Court";
-            } elseif ($board_type === 'C') {
-                $output .= " before Chamber";
-            } elseif ($board_type === 'R') {
-                $output .= " before Registrar";
-            } ?>
+                if ($board_type === 'J') {
+                    $output .= " before Court";
+                } elseif ($board_type === 'C') {
+                    $output .= " before Chamber";
+                } elseif ($board_type === 'R') {
+                    $output .= " before Registrar";
+                } ?>
 
 
 
-        </div>
-        <div class="font-weight-bold text-center">
-            <?php echo $output; ?>
-        </div>
+            </div>
+            <div class="font-weight-bold text-center">
+                <?php echo $output; ?>
+            </div>
+        </div>    
         
         <table id="example1" class="table table-striped custom-table">
             <thead>
@@ -103,6 +104,8 @@
                 className: 'btn-primary quick-btn',
                 customize: function(win) {
                     $(win.document.body).find('h1').remove();
+                    var title = $("#report_title").html();
+                    $(win.document.body).prepend('<h1 style="text-align:center; font-size:24px;">'+title+'</h1>');
                 }
             }
         ]

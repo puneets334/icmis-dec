@@ -15,6 +15,8 @@ class PendencyReportsModel extends Model
     public function get_pendency($reportType, $categoryCode = NULL, $groupCountFrom = NULL, $groupCountTo = NULL, $caseCategory = NULL, $caseStatus = NULL, $caseType = NULL, $fromDate = NULL, $toDate = NULL, $reportType1 = NULL, $jcode = null, $matterType = null, $matterStatus = null)
 
     {
+       
+       
         $sql = "";
         switch ($reportType) {
             case 1: {
@@ -53,6 +55,7 @@ class PendencyReportsModel extends Model
                                     j.jcode, j.jname, j.is_retired
                                 ORDER BY 
                                     j.judge_seniority DESC";
+                                     $query = $this->db->query($sql);
                     break;
                 }
             case 2: {
@@ -85,6 +88,7 @@ class PendencyReportsModel extends Model
                     break;
                 }
             case 3: {
+               
                     $builder = $this->db->table('heardt h');
                     $builder->select('
                         j.jcode,
@@ -93,7 +97,7 @@ class PendencyReportsModel extends Model
                         SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diary_no,
                         SUBSTR(m.diary_no::text, -4) AS diary_year,
                         TO_CHAR(m.diary_no_rec_date, \'YYYY-MM-DD\') AS diary_date,
-                        m.next_dt,
+                         m.next_dt,
                         mainhead,
                         subhead,
                         brd_slno,
@@ -127,7 +131,8 @@ class PendencyReportsModel extends Model
                     $builder->where('judges !=', '0');
                     $builder->where('judges IS NOT NULL');
                     $builder->where('j.jcode', $jcode);
-                    //echo $sql;
+                  echo $builder->getCompiledSelect();
+                    $query = $builder->get();
 
                     break;
                 }
@@ -181,6 +186,7 @@ class PendencyReportsModel extends Model
                     $builder->where('m.c_status', 'P');
                     $builder->where('mc.display', 'Y');
                     $builder->where('sm.category_sc_old', $catregory_code);
+                    $query = $builder->get();
                     break;
                 }
             case 5: {
@@ -271,6 +277,8 @@ class PendencyReportsModel extends Model
                     break;
                 }
             case 6: {
+
+                pr('6');
                     $jCode = $_POST['jCode'];
                     $from_Date = date('Y-m-d', strtotime($_POST['from_date']));
                     $to_Date = date('Y-m-d', strtotime($_POST['to_date']));
@@ -317,13 +325,17 @@ class PendencyReportsModel extends Model
             GROUP BY jcode, jname) disposed
             ON listed.jcode=disposed.jcode ORDER BY listed.jcode";
 
+
                     $sql2 = "SELECT                     
             count(distinct m.diary_no ) AS other_disp FROM main m 
             left JOIN heardt h ON m.diary_no=h.diary_no 
             INNER JOIN dispose d
             ON m.diary_no=d.diary_no INNER JOIN judge j ON FIND_IN_SET (j.jcode, d.jud_id)=1
              WHERE d.ord_dt BETWEEN '" . $from_Date . "' AND '" . $to_Date . "'  AND c_status='D' AND (h.board_type !='J' OR h.diary_no is NULL)";
+                    
                     $query2 = $this->db->query($sql2);
+
+                    $query = $this->db->query($sql);
 
                     break;
                 }
@@ -458,13 +470,14 @@ class PendencyReportsModel extends Model
                     WHERE j.is_retired='N' AND d.ord_dt BETWEEN '" . $fromDate . "' AND '" . $toDate . "'  AND c_status='D'
                     AND h.board_type ='J'  $condition1 $condition2 order by d.ord_dt,r.courtno,h.brd_slno";
                     }
+                    $query = $this->db->query($sql);
                 }
             default:
                 break;
         }
         //echo $sql;
 
-        // $query = $this->db->query($sql);
+        
 
         // if ($reportType == 6) {
         //     $result['other_disposal'] = $query2->result_array();
@@ -473,7 +486,7 @@ class PendencyReportsModel extends Model
         // }
         // $query = $builder->getCompiledSelect();
         // pr($query);
-        $query = $builder->get();
+        //$query = $builder->get();
         //echo ($query->num_rows());
         if ($query->getNumRows() >= 1) {
             return $query->getResultArray();
@@ -512,26 +525,69 @@ class PendencyReportsModel extends Model
 
     public function getPrevPendency($prev_date)
     {
-        $sql = "SELECT COUNT(m.diary_no) as prev_dt_pendency
+        
+        $sql = "SELECT COUNT(diary_no) AS prev_dt_pendency
+        FROM (
+            SELECT m.diary_no, m.fil_dt, m.c_status, d.rj_dt, d.month, d.year, d.disp_dt, m.active_casetype_id, m.casetype_id
             FROM main m
             LEFT JOIN heardt h ON m.diary_no = h.diary_no
             LEFT JOIN dispose d ON m.diary_no = d.diary_no
             LEFT JOIN restored r ON m.diary_no = r.diary_no
             WHERE (
-                CASE
-                    WHEN r.disp_dt IS NOT NULL AND r.conn_next_dt IS NOT NULL
-                         AND '$prev_date' NOT BETWEEN r.disp_dt AND r.conn_next_dt
-                    THEN true
-                    ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL
-                END OR r.fil_no IS NULL
+                CASE 
+                    WHEN r.disp_dt IS NOT NULL AND r.conn_next_dt IS NOT NULL THEN
+                        NOT ('$prev_date' BETWEEN r.disp_dt AND r.conn_next_dt)
+                    ELSE
+                        r.disp_dt IS NULL OR r.conn_next_dt IS NULL
+                END
+                OR r.fil_no IS NULL
             )
             AND (
-                (r.unreg_fil_dt IS NOT NULL AND r.unreg_fil_dt <= m.fil_dt) 
-                OR 
-                (m.fil_dt IS NULL OR m.fil_dt <= '$prev_date')
+                CASE 
+                    WHEN m.unreg_fil_dt IS NOT NULL AND m.unreg_fil_dt <= m.fil_dt THEN
+                        m.unreg_fil_dt <= '$prev_date'
+                    ELSE
+                        m.fil_dt <= '$prev_date'
+                END
             )
-            AND m.c_status = 'P'
-            GROUP BY m.diary_no";
+            AND (
+                m.c_status = 'P'
+                OR (
+                    m.c_status = 'D'
+                    AND (
+                        CASE 
+                            WHEN d.rj_dt IS NOT NULL THEN
+                                d.rj_dt >= '$prev_date' AND d.rj_dt >= '1950-01-01' AND d.rj_dt <= CURRENT_DATE
+                            WHEN d.disp_dt IS NOT NULL THEN
+                                d.disp_dt >= '$prev_date' AND d.disp_dt >= '1950-01-01' AND d.disp_dt <= CURRENT_DATE
+                            ELSE
+                                TO_DATE(d.year || '-' || LPAD(d.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') >= '$prev_date' AND d.disp_dt >= '1950-01-01' AND d.disp_dt <= CURRENT_DATE
+                        END
+                    )
+                    AND (
+                        CASE 
+                            WHEN m.unreg_fil_dt IS NOT NULL AND m.unreg_fil_dt <= m.fil_dt THEN
+                                m.unreg_fil_dt <= '$prev_date'
+                            ELSE
+                                m.fil_dt <= '$prev_date'
+                        END
+                    )
+                    AND (
+                        CASE 
+                            WHEN r.disp_dt IS NOT NULL AND r.conn_next_dt IS NOT NULL THEN
+                                NOT ('$prev_date' BETWEEN r.disp_dt AND r.conn_next_dt)
+                            ELSE
+                                r.disp_dt IS NULL OR r.conn_next_dt IS NULL
+                        END
+                    )
+                )
+            )
+            AND (
+                SUBSTRING(m.fil_no FROM 1 FOR 2) NOT IN ('39') OR m.fil_no = '' OR m.fil_no IS NULL
+            )
+            GROUP BY m.diary_no,d.rj_dt,d.month,d.year,d.disp_dt
+        ) a";
+           
 
         $query = $this->db->query($sql);
         return $query->getRow();
@@ -540,25 +596,70 @@ class PendencyReportsModel extends Model
 
     public function getToDatePendency($dt2)
     {
-        $sql = "SELECT COUNT(m.diary_no) as to_dt_pendency
-                FROM main m
-                LEFT JOIN heardt h ON m.diary_no = h.diary_no
-                LEFT JOIN dispose d ON m.diary_no = d.diary_no
-                LEFT JOIN restored r ON m.diary_no = r.diary_no
-                WHERE (
-                    CASE
-                        WHEN r.disp_dt IS NOT NULL AND r.conn_next_dt IS NOT NULL
-                             AND r.disp_dt <= '$dt2' AND r.conn_next_dt >= '$dt2'
-                        THEN FALSE
-                        ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL
-                    END OR r.fil_no IS NULL
-                )
-                AND (
-                    (r.unreg_fil_dt IS NOT NULL AND r.unreg_fil_dt <= '$dt2') 
-                    OR (r.unreg_fil_dt IS NULL AND (m.fil_dt <= '$dt2' OR m.fil_dt IS NULL))
-                )
-                AND m.c_status = 'P'
-                GROUP BY m.diary_no";
+        
+        $sql = "SELECT COUNT(diary_no) AS to_dt_pendency
+                    FROM (
+                        SELECT m.diary_no, m.fil_dt, m.c_status, d.rj_dt, d.month, d.year, d.disp_dt, m.active_casetype_id, m.casetype_id
+                        FROM main m
+                        LEFT JOIN heardt h ON m.diary_no = h.diary_no
+                        LEFT JOIN dispose d ON m.diary_no = d.diary_no
+                        LEFT JOIN restored r ON m.diary_no = r.diary_no
+                        WHERE (
+                            CASE 
+                                WHEN r.disp_dt IS NOT NULL AND r.conn_next_dt IS NOT NULL THEN
+                                    NOT ('$dt2' BETWEEN r.disp_dt AND r.conn_next_dt)
+                                ELSE
+                                    r.disp_dt IS NULL OR r.conn_next_dt IS NULL
+                            END
+                            OR r.fil_no IS NULL
+                        )
+                        AND (
+                            CASE 
+                                WHEN m.unreg_fil_dt IS NOT NULL AND (m.unreg_fil_dt <= m.fil_dt OR m.fil_dt IS NULL) THEN
+                                    m.unreg_fil_dt <= '$dt2'
+                                ELSE
+                                    (m.fil_dt <= '$dt2' AND m.fil_dt IS NOT NULL)
+                            END
+                        )
+                        AND (
+                            m.c_status = 'P'
+                            OR (
+                                m.c_status = 'D'
+                                AND (
+                                    CASE 
+                                        WHEN d.rj_dt IS NOT NULL THEN
+                                            d.rj_dt >= '$dt2' AND d.rj_dt >= '1950-01-01' AND d.rj_dt <= CURRENT_DATE
+                                        WHEN d.disp_dt IS NOT NULL THEN
+                                            d.disp_dt >= '$dt2' AND d.disp_dt >= '1950-01-01' AND d.disp_dt <= CURRENT_DATE
+                                        ELSE
+                                            TO_DATE(d.year || '-' || LPAD(d.month::TEXT, 2, '0') || '-01', 'YYYY-MM-DD') >= '$dt2'
+                                            AND d.disp_dt >= '1950-01-01'
+                                            AND d.disp_dt <= CURRENT_DATE
+                                    END
+                                )
+                                AND (
+                                    CASE 
+                                        WHEN m.unreg_fil_dt IS NOT NULL AND (m.unreg_fil_dt <= m.fil_dt OR m.fil_dt IS NULL) THEN
+                                            m.unreg_fil_dt <= '$dt2'
+                                        ELSE
+                                            (m.fil_dt <= '$dt2' AND m.fil_dt IS NOT NULL)
+                                    END
+                                )
+                                AND (
+                                    CASE 
+                                        WHEN r.disp_dt IS NOT NULL AND r.conn_next_dt IS NOT NULL THEN
+                                            NOT ('$dt2' BETWEEN r.disp_dt AND r.conn_next_dt)
+                                        ELSE
+                                            r.disp_dt IS NULL OR r.conn_next_dt IS NULL
+                                    END
+                                )
+                            )
+                        )
+                        AND (
+                            SUBSTRING(m.fil_no FROM 1 FOR 2) NOT IN ('39') OR m.fil_no = '' OR m.fil_no IS NULL
+                        )
+                        GROUP BY m.diary_no,d.rj_dt,d.month,d.year,d.disp_dt
+                    ) a";
 
         $query = $this->db->query($sql);
         return $query->getRow();
@@ -567,54 +668,125 @@ class PendencyReportsModel extends Model
 
     public function getInstCases($dt1, $dt2)
     {
-        $sql = "SELECT COUNT(m.diary_no) as inst
-            FROM main m
-            WHERE (
-                DATE(m.unreg_fil_dt) BETWEEN '$dt1' AND '$dt2'
-                OR DATE(m.fil_dt) BETWEEN '$dt1' AND '$dt2'
-            )
-            AND (
-                SUBSTRING(m.fil_no, 1, 2) NOT IN ('39') OR m.fil_no = '' OR m.fil_no IS NULL
-            )
-            GROUP BY m.diary_no";
-
-        $query = $this->db->query($sql);
-        return $query->getRow();
+     
+        $sql = "SELECT COUNT(diary_no) AS inst
+                FROM (
+                    SELECT m.diary_no, m.fil_dt, m.unreg_fil_dt
+                    FROM main m
+                    WHERE (
+                        CASE 
+                            WHEN m.unreg_fil_dt IS NOT NULL
+                                AND (m.unreg_fil_dt <= m.fil_dt OR m.fil_dt IS NULL)
+                            THEN m.unreg_fil_dt BETWEEN DATE '$dt1' AND DATE '$dt2'
+                            ELSE m.fil_dt BETWEEN DATE '$dt1' AND DATE '$dt2'
+                                AND m.fil_dt IS NOT NULL
+                        END
+                    )
+                    AND (
+                        SUBSTRING(m.fil_no FROM 1 FOR 2) NOT IN ('39')
+                        OR m.fil_no = ''
+                        OR m.fil_no IS NULL
+                    )
+                    GROUP BY m.diary_no
+                ) a";
+                
+                $query = $this->db->query($sql);
+                return $query->getRow();
     }
 
 
     public function getDisposedCases($dt1, $dt2)
     {
-        $sql = "SELECT COUNT(diary_no) as dispose
-                FROM dispose d
-                INNER JOIN main m ON m.diary_no = d.diary_no
-                WHERE (
-                    SUBSTRING(m.fil_no, 1, 2) NOT IN (39)
-                    OR m.fil_no = '' OR m.fil_no IS NULL
-                )
-                AND (
-                    DATE(d.rj_dt) BETWEEN '$dt1' AND '$dt2'
-                    OR DATE(d.disp_dt) BETWEEN '$dt1' AND '$dt2'
-                )
-                GROUP BY d.diary_no";
-
-        $query = $this->db->query($sql);
-        return $query->getRow();
+       
+        $sql = "SELECT COUNT(diary_no) AS dispose
+                    FROM (
+                        SELECT 
+                            CASE 
+                                WHEN unreg_fil_dt IS NOT NULL 
+                                    AND unreg_fil_dt <= m.fil_dt 
+                                THEN 'u'
+                                ELSE 'r'
+                            END AS reg_type,
+                            unreg_fil_dt,
+                            fil_dt,
+                            d.diary_no,
+                            d.fil_no,
+                            d.month,
+                            d.year,
+                            d.disp_dt,
+                            d.disp_type,
+                            d.rj_dt
+                        FROM dispose d
+                        INNER JOIN main m ON m.diary_no = d.diary_no
+                        WHERE 
+                            (
+                                SUBSTRING(m.fil_no FROM 1 FOR 2) NOT IN ('39')
+                                OR m.fil_no = ''
+                                OR m.fil_no IS NULL
+                            )
+                            AND (
+                                CASE 
+                                    WHEN d.rj_dt IS NOT NULL 
+                                    THEN d.rj_dt BETWEEN DATE '$dt1' AND DATE '$dt2'
+                                    ELSE d.disp_dt BETWEEN DATE '$dt1' AND DATE '$dt2'
+                                END
+                            )
+                            AND (
+                                CASE 
+                                    WHEN unreg_fil_dt IS NOT NULL 
+                                        AND unreg_fil_dt <= m.fil_dt 
+                                    THEN TRUE
+                                    ELSE m.fil_dt IS NOT NULL
+                                END
+                            )
+                    ) a";
+                    
+                    $query = $this->db->query($sql);
+                    return $query->getRow();
     }
 
     public function getPendencyCases($dt2)
     {
-        $sql = "SELECT COUNT(diary_no) as pendency
-                FROM main m
-                WHERE DATE(unreg_fil_dt) <= '$dt2'
-                AND m.c_status = 'P'
-                AND (
-                    SUBSTRING(m.fil_no, 1, 2) NOT IN (39)
-                    OR m.fil_no = '' OR m.fil_no IS NULL
-                )
-                GROUP BY m.diary_no";
-
-        $query = $this->db->query($sql);
-        return $query->getRow();
+        $sql = "SELECT COUNT(diary_no) AS pendency
+                    FROM (
+                        SELECT 
+                            CASE 
+                                WHEN unreg_fil_dt IS NOT NULL AND unreg_fil_dt <= m.fil_dt 
+                                THEN 'u' 
+                                ELSE 'r' 
+                            END AS reg_type,
+                            unreg_fil_dt,
+                            m.diary_no,
+                            m.fil_dt,
+                            c_status,
+                            d.rj_dt,
+                            d.month,
+                            d.year,
+                            d.disp_dt,
+                            active_casetype_id,
+                            casetype_id
+                        FROM main m
+                        LEFT JOIN heardt h ON m.diary_no = h.diary_no
+                        LEFT JOIN dispose d ON m.diary_no = d.diary_no
+                        LEFT JOIN restored r ON m.diary_no = r.diary_no
+                        WHERE (
+                            CASE 
+                                WHEN unreg_fil_dt IS NOT NULL AND 
+                                    (unreg_fil_dt <= m.fil_dt OR m.fil_dt IS NULL) 
+                                THEN unreg_fil_dt <= CURRENT_DATE
+                                ELSE m.fil_dt IS NOT NULL AND m.fil_dt <= CURRENT_DATE
+                            END
+                        )
+                        AND c_status = 'P'
+                        AND (
+                            SUBSTRING(m.fil_no FROM 1 FOR 2) NOT IN ('39')
+                            OR m.fil_no = ''
+                            OR m.fil_no IS NULL
+                        )
+                        GROUP BY m.diary_no,d.rj_dt,d.month,d.year,d.disp_dt
+                    ) a";
+                    
+                    $query = $this->db->query($sql);
+                    return $query->getRow();
     }
 }

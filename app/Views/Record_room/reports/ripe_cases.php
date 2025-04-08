@@ -145,50 +145,47 @@
     });
 
     $('#view').click(function() {
-
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var from_date = $('#fromDate').val();
-
-     
         var to_date = $('#toDate').val();
-        console.log(to_date);
         var formatted_from_date = getDate(from_date);
         var formatted_to_date = getDate(to_date);
-      
         var diff = new Date(formatted_to_date - formatted_from_date);
-        var days = diff/1000/60/60/24;
-        //var diffTime = Math.abs(formatted_to_date - formatted_from_date);
-        //var days =  Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        //console.log(formatted_to_date);
-        console.log(days);
-        
-        if(days<=1365 && days>=0) {
+        var days = diff / 1000 / 60 / 60 / 24;
+
+        if (days <= 1365 && days >= 0) {
+            $('#view').prop('disabled', true); // Disable the button
             $.ajax({
                 type: 'POST',
                 url: "<?=base_url();?>/Record_room/record/ripe_cases",
                 beforeSend: function (xhr) {
                     $("#divRipeCases").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?=base_url()?>/images/load.gif'></div>");
                 },
-                data: {fromDate: from_date, toDate: to_date, reportType:document.querySelector('input[name="report_type"]:checked').value, hall_no:$('#hall_no').val(),CSRF_TOKEN: CSRF_TOKEN_VALUE }
+                data: {
+                    fromDate: from_date,
+                    toDate: to_date,
+                    reportType: document.querySelector('input[name="report_type"]:checked').value,
+                    hall_no: $('#hall_no').val(),
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE
+                }
             })
-                .done(function (result) {
-                    $("#divRipeCases").html(result);
-                    updateCSRFToken();
-                })
-                .fail(function () {
-                    updateCSRFToken();
-                    alert("ERROR, Please Contact Server Room");
-                    $("#divRipeCases").html();
-                });
+            .done(function (result) {
+                updateCSRFToken();
+                $("#divRipeCases").html(result);
+                $('#view').prop('disabled', false); // Enable the button after data is loaded
+            })
+            .fail(function () {
+                updateCSRFToken();
+                alert("ERROR, Please Contact Server Room");
+                $("#divRipeCases").html();
+                $('#view').prop('disabled', false); // Enable the button in case of failure
+            });
 
-        }
-        else if(days<=0) {
+        } else if (days <= 0) {
             alert("To date cannot be less than from date");
             $("#divRipeCases").html();
-        }
-        else
-        {
+        } else {
             alert("Date differences cannot be exceeded than 1 year(365 days)");
             $("#divRipeCases").html();
         }
