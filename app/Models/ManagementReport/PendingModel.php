@@ -349,7 +349,6 @@ class PendingModel extends Model
                 ORDER BY 
                 tentative_section(m.diary_no), tentative_da(m.diary_no::int),
                 diary_no_suffix ASC, diary_no_prefix ASC";
-        pr($sql);
         $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1) {
             $results = $query->getResultArray();
