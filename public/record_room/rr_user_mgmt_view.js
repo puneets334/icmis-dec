@@ -2,7 +2,7 @@ $(document).ready(function () {
   $("#userCases").hide();
   $("input[type=radio][name=allottment_type]").change(function () {
     selectedVal = $(this).val();
-    if (selectedVal == 2) {
+   if (selectedVal == 2) {
       $("#userCases").show();
     } else {
       $("#userCases").hide();
@@ -98,7 +98,7 @@ $(document).ready(function () {
 
     //alert($("#designation").val());
     allotmentCategory = $("input[name='allottment_type']:checked").val();
-    //alert(allotmentCategory);
+    // alert(allotmentCategory);
     if (allotmentCategory == 1) {
       //hallwise distribution
       $.ajax({

@@ -27,14 +27,14 @@ table.dataTable>thead {
     <?php if (empty($clerkDetails)) : ?>
         <div class='well well-lg'>
             <div class='col-md-12'>
-                <a class='btn btn-primary btn-xs' href='#'>Results Found---<span class='badge'>0 </span></a>
+                <button class='btn btn-primary btn-xs'>Results Found---<span class='badge'>0 </span></button>
             </div>
         </div>
     <?php else : ?>
 
         <div class='well well-lg'>
             <div class='col-md-12'>
-                <a class='btn btn-primary btn-xs' href='#'>Results Found---<span class='badge'><?=count($clerkDetails);?> </span></a>
+                <button class='btn btn-primary btn-xs'>Results Found---<span class='badge'><?=count($clerkDetails);?> </span></button>
             </div>
         </div>
         <div id="query_builder_wrapper" class="query_builder_wrapper dataTables_wrapper dt-bootstrap4">
