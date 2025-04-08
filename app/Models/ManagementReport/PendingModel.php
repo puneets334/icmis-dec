@@ -341,7 +341,7 @@ class PendingModel extends Model
                 WHERE 
                 m.c_status = 'P' $diary_reg_un AND 
                 h.board_type = '$board_type' AND h.mainhead = '$mainhead'     
-                AND (m.diary_no = m.conn_key::bigint OR m.conn_key IS NULL OR m.conn_key = '0')
+                AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key IS NULL OR m.conn_key = '0')
                 and (h.coram is null or trim(h.coram) = '' or h.coram = '0')
                 and h.next_dt is not null and h.listorder != 32 and h.clno = 0
                 AND h.subhead IN (824,810,803,802,807,804,808,811,812,813,814,815,816)
@@ -349,7 +349,6 @@ class PendingModel extends Model
                 ORDER BY 
                 tentative_section(m.diary_no), tentative_da(m.diary_no::int),
                 diary_no_suffix ASC, diary_no_prefix ASC";
-
         $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1) {
             $results = $query->getResultArray();
@@ -689,7 +688,8 @@ class PendingModel extends Model
                             AND (
                                 m.conn_key = '0' 
                                 OR m.conn_key IS NULL 
-                                OR m.conn_key :: int = m.diary_no
+                                --OR m.conn_key :: int = m.diary_no
+                                OR m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             )
                             ) THEN 1 ELSE 0 END
                         ) AS misc_main, 
@@ -699,7 +699,8 @@ class PendingModel extends Model
                             AND (
                                 m.conn_key != '0' 
                                 AND m.conn_key IS NOT NULL 
-                                AND m.conn_key :: int != m.diary_no
+                                --AND m.conn_key :: int != m.diary_no
+                                AND m.diary_no != CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             )
                             ) THEN 1 ELSE 0 END
                         ) AS misc_conn, 
@@ -709,7 +710,8 @@ class PendingModel extends Model
                             AND (
                                 m.conn_key = '0' 
                                 OR m.conn_key IS NULL 
-                                OR m.conn_key :: int = m.diary_no
+                                --OR m.conn_key :: int = m.diary_no
+                                OR m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             )
                             ) THEN 1 ELSE 0 END
                         ) AS regular_main, 
@@ -717,9 +719,11 @@ class PendingModel extends Model
                             CASE WHEN (
                             m.mf_active = 'F' 
                             AND (
-                                m.conn_key :: int != 0 
+                                --m.conn_key :: int != 0 
+                                m.conn_key != '0'
                                 AND m.conn_key IS NOT NULL 
-                                AND m.conn_key :: int != m.diary_no
+                                --AND m.conn_key :: int != m.diary_no
+                                AND m.diary_no != CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             )
                             ) THEN 1 ELSE 0 END
                         ) AS regular_conn, 
@@ -727,14 +731,17 @@ class PendingModel extends Model
                             CASE WHEN (
                             m.conn_key = '0' 
                             OR m.conn_key IS NULL 
-                            OR m.conn_key :: int = m.diary_no
+                            --OR m.conn_key :: int = m.diary_no
+                            OR m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             ) THEN 1 ELSE 0 END
                         ) AS total_main, 
                         SUM(
                             CASE WHEN (
-                            m.conn_key :: int != 0 
+                            --m.conn_key :: int != 0 
+                            m.conn_key != '0'
                             AND m.conn_key IS NOT NULL 
-                            AND m.conn_key :: int != m.diary_no
+                            --AND m.conn_key :: int != m.diary_no
+                            AND m.diary_no != CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             ) THEN 1 ELSE 0 END
                         ) AS total_conn 
                         FROM 
@@ -800,7 +807,8 @@ class PendingModel extends Model
                             AND (
                                 m.conn_key = '0' 
                                 OR m.conn_key IS NULL 
-                                OR m.conn_key :: int = m.diary_no
+                                --OR m.conn_key :: int = m.diary_no
+                                OR m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             )
                             ) THEN 1 ELSE 0 END
                         ) AS misc_main, 
@@ -808,9 +816,11 @@ class PendingModel extends Model
                             CASE WHEN (
                             m.mf_active = 'M' 
                             AND (
-                                m.conn_key :: int != 0 
+                                --m.conn_key :: int != 0 
+                                m.conn_key != '0'
                                 AND m.conn_key IS NOT NULL 
-                                AND m.conn_key :: int != m.diary_no
+                                --AND m.conn_key :: int != m.diary_no
+                                AND m.diary_no != CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             )
                             ) THEN 1 ELSE 0 END
                         ) AS misc_conn, 
@@ -820,7 +830,8 @@ class PendingModel extends Model
                             AND (
                                 m.conn_key = '0' 
                                 OR m.conn_key IS NULL 
-                                OR m.conn_key :: int = m.diary_no
+                                --OR m.conn_key :: int = m.diary_no
+                                OR m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             )
                             ) THEN 1 ELSE 0 END
                         ) AS regular_main, 
@@ -828,24 +839,30 @@ class PendingModel extends Model
                             CASE WHEN (
                             m.mf_active = 'F' 
                             AND (
-                                m.conn_key :: int != 0 
+                                --m.conn_key :: int != 0 
+                                m.conn_key != '0'
                                 AND m.conn_key IS NOT NULL 
-                                AND m.conn_key :: int != m.diary_no
+                                --AND m.conn_key :: int != m.diary_no
+                                AND m.diary_no != CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             )
                             ) THEN 1 ELSE 0 END
                         ) AS regular_conn, 
                         SUM(
                             CASE WHEN (
-                            m.conn_key::int = 0 
+                            --m.conn_key::int = 0 
+                            m.conn_key = '0'
                             OR m.conn_key IS NULL 
-                            OR m.conn_key :: int = m.diary_no
+                            --OR m.conn_key :: int = m.diary_no
+                            OR m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             ) THEN 1 ELSE 0 END
                         ) AS total_main, 
                         SUM(
                             CASE WHEN (
-                            m.conn_key :: int != 0 
+                            --m.conn_key :: int != 0 
+                            m.conn_key != '0'
                             AND m.conn_key IS NOT NULL 
-                            AND m.conn_key :: int != m.diary_no
+                            --AND m.conn_key :: int != m.diary_no
+                            AND m.diary_no != CAST(NULLIF(m.conn_key, '') AS BIGINT)
                             ) THEN 1 ELSE 0 END
                         ) AS total_conn 
                         FROM 
@@ -874,26 +891,32 @@ class PendingModel extends Model
         $with_conn = '';
         $sql = "";
         if ($flag == 1 or $flag == 7) {
-            $with_conn = " AND (m.diary_no = m.conn_key::int or m.conn_key is null or m.conn_key = '' or m.conn_key = '0')";
+            //$with_conn = " AND (m.diary_no = m.conn_key::int or m.conn_key is null or m.conn_key = '' or m.conn_key = '0')";
+            $with_conn = " AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) or m.conn_key is null or m.conn_key = '' or m.conn_key = '0')";
             $mainhead = "and m.mf_active='M'";
         }
         if ($flag == 2 or $flag == 8) {
-            $with_conn = " AND (m.diary_no != m.conn_key::int AND m.conn_key > 0)";
+            //$with_conn = " AND (m.diary_no != m.conn_key::int AND m.conn_key > 0)";
+            $with_conn = " AND (m.diary_no != CAST(NULLIF(m.conn_key, '') AS BIGINT) AND m.conn_key > 0)";
             $mainhead = "and m.mf_active='M'";
         }
         if ($flag == 3 or $flag == 9) {
-            $with_conn = " AND (m.diary_no = m.conn_key::int or m.conn_key is null or m.conn_key = '' or m.conn_key = '0')";
+            //$with_conn = " AND (m.diary_no = m.conn_key::int or m.conn_key is null or m.conn_key = '' or m.conn_key = '0')";
+            $with_conn = " AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) or m.conn_key is null or m.conn_key = '' or m.conn_key = '0')";
             $mainhead = "and m.mf_active='F'";
         }
         if ($flag == 4 or $flag == 10) {
-            $with_conn = " AND (m.diary_no != m.conn_key ::int AND m.conn_key > 0)";
+            //$with_conn = " AND (m.diary_no != m.conn_key ::int AND m.conn_key > 0)";
+            $with_conn = " AND (m.diary_no != CAST(NULLIF(m.conn_key, '') AS BIGINT) AND m.conn_key > 0)";
             $mainhead = "and m.mf_active='F'";
         }
         if ($flag == 5 or $flag == 11) {
-            $with_conn = " AND (m.diary_no = m.conn_key ::int or m.conn_key is null or m.conn_key = '' or m.conn_key = '0')";
+            //$with_conn = " AND (m.diary_no = m.conn_key ::int or m.conn_key is null or m.conn_key = '' or m.conn_key = '0')";
+            $with_conn = " AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) or m.conn_key is null or m.conn_key = '' or m.conn_key = '0')";
         }
         if ($flag == 6 or $flag == 12) {
-            $with_conn = " AND (m.diary_no != m.conn_key::int AND m.conn_key > 0)";
+            //$with_conn = " AND (m.diary_no != m.conn_key::int AND m.conn_key > 0)";
+            $with_conn = " AND (m.diary_no != CAST(NULLIF(m.conn_key, '') AS BIGINT) AND m.conn_key > 0)";
         }
         if ($flag == 1 or $flag == 2 or $flag == 3 or $flag == 4 or $flag == 5 or $flag == 6) {
             $sql = "SELECT 
@@ -943,7 +966,9 @@ class PendingModel extends Model
                         GROUP BY m.diary_no, aa.next_dt,c.short_description
                         ORDER BY 
                             m.conn_key, 
-                            CASE WHEN m.conn_key ::int= m.diary_no THEN 1 ELSE 999 END ASC, m.diary_no";
+                              CASE WHEN m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) THEN 1 ELSE 999 END ASC, m.diary_no
+                            --CASE WHEN m.conn_key ::int= m.diary_no THEN 1 ELSE 999 END ASC, m.diary_no
+                            ";                            
         }
         if ($flag == 7 or $flag == 8 or $flag == 9 or $flag == 10 or $flag == 11 or $flag == 12) {
             $sql = "SELECT 
@@ -968,7 +993,7 @@ class PendingModel extends Model
                     INNER JOIN dispose d ON m.diary_no = d.diary_no 
                     LEFT JOIN master.casetype c ON c.casecode = m.casetype_id 
                     WHERE 
-                        d.ord_dt BETWEEN '2024-01-01' AND '2024-07-01' 
+                        d.ord_dt BETWEEN '$start_dt' AND '$end_dt' 
                         AND m.c_status = 'D' 
                         AND h.board_type = 'J' 
                         AND m.casetype_id = '$ct' $with_conn $mainhead
@@ -976,7 +1001,8 @@ class PendingModel extends Model
                         m.diary_no, h.next_dt, d.ord_dt,c.short_description
                     ORDER BY 
                         m.conn_key, 
-                        CASE WHEN m.conn_key ::int= m.diary_no THEN 1 ELSE 999 END ASC,
+                        --CASE WHEN m.conn_key ::int= m.diary_no THEN 1 ELSE 999 END ASC,
+                        CASE WHEN m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) THEN 1 ELSE 999 END ASC,
                         m.diary_no";
         }
         $query = $this->db->query($sql);
