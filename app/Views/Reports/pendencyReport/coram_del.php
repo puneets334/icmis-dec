@@ -69,67 +69,73 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-2" style="width: 100% !important;">
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                            <?php if (session()->getFlashdata('msg')): ?>
-                                <?= session()->getFlashdata('msg') ?>
-                            <?php endif; ?>
-                            
-                            <?php
-                            $attribute = array(
-                                'class' => 'form-horizontal appearance_search_form',
-                                'id' => 'coramDelFormId',
-                                'autocomplete' => 'off',
-                                'enctype' => 'multipart/form-data',
-                                'method' => 'post',
-                                'target' => '_blank'
-                            );
-                            echo form_open(base_url('#'), $attribute);
-                            ?>
-                            <input type="hidden" name="usercode" id="usercode" value="<?php echo session()->get('login')['usercode']; ?>"/>
-                            <div class="form-group row">
-                                <div class="col-md-2" style="max-width: 9%;">
-                                    <label for="m_dept">Mainhead</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="radio" name="mainhead" id="mainhead" value="M" title="Miscellaneous" checked="checked">M&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="radio" name="mainhead" id="mainhead" value="F" title="Regular">R
-                                </div>
 
-                                <div class="col-md-3">
-                                    <label for="m_dept">Judge</label>
-                                    <select class="form-control" id="judge" name="judge" style="width:400px;">
-                                        <option value="0">Select</option>
-                                        <?php
-                                        foreach ($judges as $ct_rw)
-                                        {
-                                            echo '<option value="' . $ct_rw['jcode'] . '">' . $ct_rw['jname'].' ('.$ct_rw['abbreviation'].')' . '</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="m_dept">Detail</label>
-                                    <select class="form-control" id="crm_dtl" name="crm_dtl" style="width:150px;">
-                                        <option value="0">ALL</option>                    
-                                        <option value="1">Coram Given by CJI</option>
-                                        <option value="2">Special Bench Coram Given by CJI</option>
-                                        <option value="3">Special Bench</option>
-                                        <option value="4">Part Heard</option>
-                                        <option value="5">Other</option>
-                                    </select> 
-                                </div>
-                                <div class="col-md-2" style="overflow: hidden;padding-top: 26px;">
-                                    <input type="button" id="btngetr" name="btngetr" value="Get">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="tab-content">
+                                        <div class="active tab-pane">
+                                            <?php if (session()->getFlashdata('msg')): ?>
+                                                <?= session()->getFlashdata('msg') ?>
+                                            <?php endif; ?>
+                                            
+                                            <?php
+                                            $attribute = array(
+                                                'class' => 'form-horizontal appearance_search_form',
+                                                'id' => 'coramDelFormId',
+                                                'autocomplete' => 'off',
+                                                'enctype' => 'multipart/form-data',
+                                                'method' => 'post',
+                                                'target' => '_blank'
+                                            );
+                                            echo form_open(base_url('#'), $attribute);
+                                            ?>
+                                            <div id="dv_content1">
+                                                <div class="row">
+                                                    <div class="col-md-2"></div>
+                                                    <div class="col-md-1 mt-1">
+                                                        <?php field_mainhead(); ?>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label for="m_dept">Judge</label>
+                                                        <select class="form-control" id="judge" name="judge">
+                                                            <option value="0">Select</option>
+                                                            <?php
+                                                            foreach ($judges as $ct_rw) {
+                                                                echo '<option value="' . $ct_rw['jcode'] . '">' . $ct_rw['jname'].' ('.$ct_rw['abbreviation'].')' . '</option>';
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <label for="m_dept">Detail</label>
+                                                        <select class="form-control" id="crm_dtl" name="crm_dtl">
+                                                            <option value="0">ALL</option>                    
+                                                            <option value="1">Coram Given by CJI</option>
+                                                            <option value="2">Special Bench Coram Given by CJI</option>
+                                                            <option value="3">Special Bench</option>
+                                                            <option value="4">Part Heard</option>
+                                                            <option value="5">Other</option>
+                                                        </select> 
+                                                    </div>
+                                                    <div class="col-md-2 mt-26">
+                                                        <input type="button" class="btn btn-primary" name="btngetr" value="Get" id="btngetr"/>
+                                                    </div>
+                                                </div>
+                                                <div id="res_loader"></div>
+
+                                                <div id="dv_res1"></div>
+                                            </div>
+                                            <?php echo form_close(); ?>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <?= form_close()?>
                         </div>
                     </div>
-                    <center><span id="loader"></span></center>
-                    <div class="row mt-2">
-                        <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                            <div id="dv_res1"></div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -159,34 +165,29 @@
         var judge = $("#judge").val();    
         var crm_dtl = $("#crm_dtl").val();
         var mainhead = get_mainhead();
-        if(judge == 0)
-        {
+        if(judge == 0) {
             alert('Please Select Judge Name');
             return false; 
         }
 
         $.ajax({
             type:"POST",
-            data:
-            {
-                CSRF_TOKEN: CSRF_TOKEN_VALUE,
+            data: {
                 judge: judge,
                 crm_dtl: crm_dtl,
-                mainhead: mainhead
+                mainhead: mainhead,
+                CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             url: "<?= site_url('Reports/PendencyReport/CoramGivenBy/removeCoram') ?>",
-            beforeSend: function(xhr)
-            {
+            beforeSend: function(xhr) {
                 $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
-            success: function(response)
-            {
+            success: function(response) {
                 updateCSRFToken();
                 $("#dv_res1").html('');
-                $("#dv_res1").html(response.data);
+                $('#dv_res1').html(response);
             },
-            error: function(xhr, status, error)
-            {
+            error: function(xhr, status, error) {
                 updateCSRFToken();
                 $("#dv_res1").html('');
                 alert( "Error Occured, contact server room" );
