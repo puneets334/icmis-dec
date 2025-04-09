@@ -107,7 +107,7 @@
                             if ($app_name == 'CategoryWise') {
                                 // var_dump($reports);
                                 ?>
-                                    <div id="printable">
+                                    
                                         <div class="card-header heading">
 
                                             <div class="row">

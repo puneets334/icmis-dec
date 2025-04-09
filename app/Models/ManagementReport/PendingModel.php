@@ -1491,7 +1491,7 @@ class PendingModel extends Model
                         m.pet_name,
                         m.res_name,
                         mainhead_n,
-                        -- m.next_dt,
+                        h.next_dt,
                         m.bench,
                         m.lastorder,
                         h.judges,

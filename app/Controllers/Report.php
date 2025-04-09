@@ -100,22 +100,23 @@ class Report extends BaseController
             $matterType = '';
             $matterStatus = '';
             // pr($_POST);
-            if ($this->request->getVar()) {
-                if (!empty($this->request->getVar('categoryCode')) && !empty($this->request->getVar('groupCount')) && 
-                !empty($this->request->getVar('matterType')) && !empty($this->request->getVar('matterStatus'))) {
-                    $categoryCode = $this->request->getVar('categoryCode');
-                    $groupCount = $this->request->getVar('groupCount');
-                    $matterType = $this->request->getVar('matterType');
-                    $matterStatus = $this->request->getVar('matterStatus');
-                }
-                //var_dump($categoryCode,$matterStatus,$matterType);
+            if ($this->request->getVar('view') == '1') {
+                $categoryCode = $this->request->getVar('categoryCode');
+                $groupCount = $this->request->getVar('groupCount');
+                $matterType = $this->request->getVar('matterType');
+                $matterStatus = $this->request->getVar('matterStatus');
+               
                 $data['reports'] = $this->pendency_reports_model->get_pendency($id, $categoryCode, $groupCount, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $matterType, $matterStatus);
                 $data['app_name'] = 'SubjectCategoryWiseGroupCount';
                 $data['matterType'] = $matterType;
+                $data['groupCount'] = $groupCount;
                 $data['matterStatus'] = $matterStatus;
                 $data['code'] = $categoryCode;
-                print_r($this->request->getVar());die;
+                return view('Reports/SubjectCategorywithGroupCountReport_ajax', $data);
+
+                // echo "<pre>";print_r($data['reports']);die();
             }
+
             $data['forCategory'] = ''; 
             $data['status']  = '';
             $data['Categories'] = $this->pendency_reports_model->getMainSubjectCategory();           

@@ -269,8 +269,9 @@ class PendencyReportsModel extends Model
                                     AND (aa.total_connected IS NULL OR aa.total_connected >= $groupCountFrom)
                                     AND s.display = 'Y'
                                     AND $Type
+                                    AND $Status
                                     AND $code ";
-                                    pr($sql);
+                                    // pr($sql);
                     $query = $this->db->query($sql);
                     $result = $query->getResultArray();
                     return $result;
