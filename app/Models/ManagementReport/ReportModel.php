@@ -161,7 +161,7 @@ class ReportModel extends Model
                                    FROM ($finalSql) AS final 
                                    ORDER BY final.sno ASC");
 
-        return $query->getResult();
+        return $query->getResultArray();
     }
     public function getJudges()
     {
@@ -388,7 +388,6 @@ class ReportModel extends Model
         if ($limit_number > 0) {
             $limit = " limit " . $limit_number;
         }
-
         $order_by = '';
         if ($sortby == 2) {
             $order_by = "ORDER BY 
@@ -398,39 +397,35 @@ class ReportModel extends Model
             CAST(RIGHT(CAST(m.diary_no AS TEXT), 4) AS BIGINT) ASC, 
             CAST(NULLIF(REGEXP_REPLACE(m.active_fil_no, '[^0-9]', '', 'g'), '') AS BIGINT) ASC,
             CAST(LEFT(CAST(m.diary_no AS TEXT), LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS BIGINT) ASC";
-        }
-        
+        }        
         $mainhead_title = '';
         $upto_list_dt = '';
         if ($mainhead == 'M') {
             $mainhead_title = 'Misc. Stage';
             $upto_list_dt = "AND h.next_dt <= '" . date("Y-m-d", strtotime($list_date)) . "'";
-
             $sql = "select * from (select case 
-                        when h.clno > 0 and h.next_dt >= CURRENT_DATE  then 1
-                        when a.diary_no is not null then 2
-                        when h.main_supp_flag = 0 and h.listorder in (4,5) then 3
-                        when h.main_supp_flag = 0 and h.listorder = 7 then 4
-                        when h.main_supp_flag = 0 and h.listorder in (25,8,24,21,48) then 5
-                        else 6 end case_priority,
-                        a.diary_no as advance_list, 
-                        m.pet_name, m.res_name, m.reg_no_display,m.active_casetype_id,m.active_fil_dt,m.active_fil_no,
-                        h.* from main m
-                        inner join heardt h on h.diary_no = m.diary_no
-                        left join advance_allocated a on a.diary_no = m.diary_no and a.next_dt = h.next_dt and h.next_dt >= CURRENT_DATE 
-                        where m.c_status = 'P' 
-                        AND (m.diary_no = m.conn_key::bigint OR m.conn_key='0' OR m.conn_key = '' OR m.conn_key IS NULL)
-                        and m.mf_active != 'F' and h.mainhead = 'M' and h.board_type = 'J' 
-                        and h.listorder != 32 $upto_list_dt
-                        group by m.diary_no, h.clno, h.next_dt, a.diary_no, h.main_supp_flag, h.listorder, h.diary_no
-                        order by case_priority asc, 
-                        h.next_dt, 
-                         CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM LENGTH(CAST(h.diary_no AS TEXT))-3 FOR 4) AS INTEGER) ASC, 
-                        CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(h.diary_no AS TEXT))-4) AS INTEGER) ASC
-                        
-                        $limit) m $order_by";
+                when h.clno > 0 and h.next_dt >= CURRENT_DATE  then 1
+                when a.diary_no is not null then 2
+                when h.main_supp_flag = 0 and h.listorder in (4,5) then 3
+                when h.main_supp_flag = 0 and h.listorder = 7 then 4
+                when h.main_supp_flag = 0 and h.listorder in (25,8,24,21,48) then 5
+                else 6 end case_priority,
+                a.diary_no as advance_list, 
+                m.pet_name, m.res_name, m.reg_no_display,m.active_casetype_id,m.active_fil_dt,m.active_fil_no,
+                h.* from main m
+                inner join heardt h on h.diary_no = m.diary_no
+                left join advance_allocated a on a.diary_no::bigint = m.diary_no and a.next_dt = h.next_dt and h.next_dt >= CURRENT_DATE 
+                where m.c_status = 'P' 
+                AND (m.diary_no = NULLIF(m.conn_key, '')::bigint OR m.conn_key='0' OR m.conn_key = '' OR m.conn_key IS NULL)
+                and m.mf_active != 'F' and h.mainhead = 'M' and h.board_type = 'J' 
+                and h.listorder != 32 $upto_list_dt
+                group by m.diary_no, h.clno, h.next_dt, a.diary_no, h.main_supp_flag, h.listorder, h.diary_no
+                order by case_priority asc, 
+                h.next_dt, 
+                    CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM LENGTH(CAST(h.diary_no AS TEXT))-3 FOR 4) AS INTEGER) ASC, 
+                CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(h.diary_no AS TEXT))-4) AS INTEGER) ASC                
+                $limit) m $order_by";
         }
-
         if ($mainhead == 'F') {
             $mainhead_title = "Regular Stage";
             //$upto_list_dt = "and if(h.listorder in (4,5,7),h.next_dt <= '" . date("Y-m-d", strtotime($list_date)) . "', h.next_dt !='0000-00-00')";
@@ -482,7 +477,6 @@ class ReportModel extends Model
                         CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM LENGTH(CAST(h.diary_no AS TEXT))-3 FOR 4) AS INTEGER) ASC, 
                         CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(h.diary_no AS TEXT))-4) AS INTEGER) ASC $limit) m $order_by";
         }
-        
         $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1) {
             $return['reports'] = $query->getResultArray();

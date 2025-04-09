@@ -52,4 +52,4 @@
         </div>
     </div>
 </section>
-<script src="<?= base_url('/management_reports/sensitive_case.js') ?>"></script>
+<script src="sensitive_case.js"></script>
