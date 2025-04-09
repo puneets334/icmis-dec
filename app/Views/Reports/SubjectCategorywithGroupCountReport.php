@@ -2,26 +2,30 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 mt-3">
+
                 <div class="card">
+                    <div class="card-header heading">
+
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h3 class="card-title">Management Report >> Pending >> Subject Category-wise Group Count</h3>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Main content -->
                     <div class="card-body">
-                        <div class="row">
-                            <?= session()->get('msg'); ?>
-                        </div>
-                        <div class="box box-info">
-                            <form class="form-horizontal" id="push-form" method="post" action="<?= base_url(); ?>/Report/pendency_reports/5">
+
+                        <div class="box box-primary">
+                            <form class="form-horizontal" id="push-form" method="get" action="<?= base_url(); ?>/Report/pendency_reports/5">
                                 <?= csrf_field(); ?>
                                 <div class="box-body col-12">
                                     <div class="row">
-                                        <div class="col-sm-6">
-                                            <label for="category" class="col-sm-6">Select Subject Category:</label>
-                                            <select class="form-control col-sm-6" id="categoryCode" name="categoryCode" placeholder="Subject Category">
+                                        <div class="col-sm-3">
+                                            <label for="category" class="col-sm-12">Select Subject Category:</label>
+                                            <select class="form-control col-sm-12" id="categoryCode" name="categoryCode" placeholder="Subject Category">
                                                 <option value="0">All</option>
                                                 <?php
-                                                $Reports_model = new \App\Models\Reports\PendencyReport\PendencyReportsModel();
-                                                $SCategories = $Reports_model->getMainSubjectCategory();
-                                                // pr(count($SCategories));
                                                 if (!empty($SCategories) > 0) {
                                                     foreach ($SCategories as $SCategory) {
                                                         echo '<option value="' . $SCategory['subcode1'] . '">' . $SCategory['sub_name1'] . '</option>';
@@ -30,30 +34,32 @@
                                                 ?>
                                             </select>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <label for="groupCount" class="col-sm-6 ">Enter Connected Matter in Nos.:</label>
-                                            <input type="number" id="groupCount" name="groupCount" class="form-control col-sm-6" placeholder="Enter Group Count" required="required">
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <label for="type" class="col-sm-6">Matter Type:</label>
-                                            <select class="form-control col-sm-6" id="matterType" name="matterType">
+                                        
+                                        <div class="col-sm-2">
+                                            <label for="type" class="col-sm-12">Matter Type:</label>
+                                            <select class="form-control col-sm-12" id="matterType" name="matterType">
                                                 <option value="MF">All</option>
                                                 <option value="M">Miscellaneous</option>
                                                 <option value="F">Regular</option>
                                             </select>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <label for="type" class="col-sm-6">Matter Status:</label>
-                                            <select class="form-control col-sm-6" id="matterStatus" name="matterStatus">
+                                        <div class="col-sm-2">
+                                            <label for="type" class="col-sm-12">Matter Status:</label>
+                                            <select class="form-control col-sm-12" id="matterStatus" name="matterStatus">
                                                 <option value="NR">All</option>
                                                 <option value="R">Ready</option>
                                                 <option value="N">Not-Ready</option>
                                             </select>
                                         </div>
+                                        <div class="col-sm-3">
+                                            <label for="groupCount" class="col-sm-12">Enter Connected Matter in Nos.:</label>
+                                            <input type="number" id="groupCount" name="groupCount" class="form-control col-sm-12" placeholder="Enter Group Count" required="required">
+                                        </div>
+                                        <div class="col-sm-1 mt-5">
+                                        <button type="submit" id="view" name="view" onclick="check(); " class="btn btn-block btn-primary">View</button>
                                     </div>
-                                    <div class="box-footer mt-2">
-                                        <button type="submit" style="width:15%;float:right" id="view" name="view" onclick="check(); " class="btn btn-block btn-primary">View</button>
                                     </div>
+                                  
                                 </div>
                         </div>
                         </form>
