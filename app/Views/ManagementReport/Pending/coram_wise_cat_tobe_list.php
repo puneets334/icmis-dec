@@ -9,7 +9,6 @@
                             <div class="col-sm-10">
                                 <h3 class="card-title">Coram Wise Cases to be list (with Category)</h3>
                             </div>
-                            <?= view('Filing/filing_filter_buttons'); ?>
                         </div>
                     </div>
                     <div class="card-body">
@@ -28,7 +27,7 @@
                                 <label for="">Date</label>
                                 <?php
                                 $cur_ddt = date('Y-m-d', strtotime(' +1 day'));
-                                $next_court_work_day = date("d-m-Y", strtotime($cur_ddt));
+                                $next_court_work_day = date("d-m-Y", strtotime(chksDate($cur_ddt)));    
                                 ?>
                                 <input type="text" size="10" class="dtp form-control" name='ldates' id='ldates' value="<?php echo $next_court_work_day; ?>" readonly />
                             </div>
@@ -75,7 +74,7 @@
                 board_type: board_type
             },
             beforeSend: function() {
-                $('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../../images/load.gif'></div>");
             },
             type: 'POST',
             success: function(data, status) {
