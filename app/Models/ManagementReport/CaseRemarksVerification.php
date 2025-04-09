@@ -643,6 +643,23 @@ class CaseRemarksVerification extends Model
 				
 	    return $this->db->query($sql)->getResultArray();
 	}
+	
+	public function getCategoryData_judge($list_dt, $judge_code){
+		$sql = "SELECT t2.*, 
+					CASE WHEN new_cnt <= 60 THEN cat_cnt ELSE (t2.cat_cnt * 60) / new_cnt
+					END new_ratio
+					 FROM (SELECT c1.cat_name, c1.bail_top, c1.orders, c1.fresh, c1.fresh_no_notice, c1.an_fd, c1.ratio_cnt, t1.*, c1.cnt, c1.cat_id, 
+					(cnt / (SELECT COUNT(cnt) FROM master.cat_jud_ratio c3 WHERE next_dt = '$list_dt' AND c3.cat_id = c1.cat_id GROUP BY c3.cat_id)) AS cat_cnt,
+					((SELECT sum(ratio_cnt) FROM master.cat_jud_ratio c5 WHERE next_dt = '$list_dt' AND c5.cat_id = c1.cat_id GROUP BY c5.cat_id)) totcatlk,
+					(SELECT COUNT(cnt) FROM master.cat_jud_ratio c5 WHERE next_dt = '$list_dt' AND c5.cat_id = c1.cat_id GROUP BY c5.cat_id) cattlk    
+					FROM 
+					(SELECT 
+					next_dt, judge, SUM(cnt / (SELECT COUNT(cnt) FROM master.cat_jud_ratio c3 WHERE next_dt = '$list_dt' AND c3.cat_id = c1.cat_id GROUP BY c3.cat_id)) new_cnt
+					FROM master.cat_jud_ratio c1 WHERE next_dt ='$list_dt' GROUP BY next_dt, judge) t1
+					INNER JOIN master.cat_jud_ratio c1 ON c1.next_dt = t1.next_dt AND c1.judge = t1.judge WHERE c1.judge = '$judge_code') t2";
+				
+	    return $this->db->query($sql)->getResultArray();
+	}
 
     public function loosedoc_verify_not_verify($from_date, $to_date, $usercode)
     {
