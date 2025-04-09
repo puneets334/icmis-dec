@@ -9,7 +9,6 @@
                             <div class="col-sm-10">
                                 <h3 class="card-title">Management Report >> Pending >> Year - Section wise Pendency</h3>
                             </div>
-                            <?= view('Filing/filing_filter_buttons'); ?>
                         </div>
                     </div>
                     <div class="card-body">

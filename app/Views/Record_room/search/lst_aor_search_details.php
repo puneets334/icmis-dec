@@ -36,9 +36,11 @@ table.dataTable>thead {
                                 $transactions = $model->getTransactions($clerk['id']);
                                 if (!empty($transactions)) :
                                     ?>
-                                    <?php foreach ($transactions as $transaction) : ?>
-                                        <?= $transaction['event_name'] ?> ON: <?= $transaction['remarks'] . '. ' . $transaction['formatted_event_date'] ?><br>
-                                    <?php endforeach; ?>
+                                    <ul>
+                                        <?php foreach ($transactions as $transaction) : ?>
+                                            <li><?= $transaction['event_name'] ?> ON: <?= $transaction['remarks'] . '. ' . $transaction['formatted_event_date'] ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
                                 <?php endif; ?>
                             </td>
                         </tr>

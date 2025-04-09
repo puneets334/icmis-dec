@@ -13,7 +13,6 @@ class PendencyReportsModel extends Model
     }
 
     public function get_pendency($reportType, $categoryCode = NULL, $groupCountFrom = NULL, $groupCountTo = NULL, $caseCategory = NULL, $caseStatus = NULL, $caseType = NULL, $fromDate = NULL, $toDate = NULL, $reportType1 = NULL, $jcode = null, $matterType = null, $matterStatus = null)
-
     {
 
 
@@ -190,6 +189,7 @@ class PendencyReportsModel extends Model
                     break;
                 }
             case 5: {
+               
                     if (strcasecmp($matterType, 'MF') == 0) {
                         $Type = "1=1";
                     } else {
@@ -268,9 +268,10 @@ class PendencyReportsModel extends Model
                                     AND (m.conn_key = '0' OR m.conn_key IS NULL OR COALESCE(NULLIF(m.conn_key, ''), '0')::int = m.diary_no)
                                     AND (aa.total_connected IS NULL OR aa.total_connected >= $groupCountFrom)
                                     AND s.display = 'Y'
-                                    AND  $Type
+                                    AND $Type
                                     AND $Status
                                     AND $code ";
+                                    // pr($sql);
                     $query = $this->db->query($sql);
                     $result = $query->getResultArray();
                     return $result;
