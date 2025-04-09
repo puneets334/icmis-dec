@@ -121,7 +121,7 @@ class Report extends BaseController
         $judges = $this->CaseRemarksVerification->getJudges($list_dt);
         $data = [];
         foreach ($judges as $judge) {
-            $categoryData = $this->CaseRemarksVerification->getCategoryData($list_dt, $judge['jcode']);
+            $categoryData = $this->CaseRemarksVerification->getCategoryData_judge($list_dt, $judge['jcode']);
             $data[$judge['jcode']] = [
                 'judge_name' => $judge['jname'],
                 'categories' => $categoryData
@@ -187,15 +187,16 @@ class Report extends BaseController
     public function category_data_fetch()
     {
         $request = service('request');
-        $selsubcat = $request->getPost('selsubcat');
-        $mainhead = $request->getPost('mainhead');
-        $tdate = $request->getPost('tdate');
-        $fdate = $request->getPost('fdate');
-        $jud_coram = $request->getPost('jud_coram');
-        $dfdate = $request->getPost('dfdate');
-        $dtdate = $request->getPost('dtdate');
-        $judge = $request->getPost('judge');
-        $jud_num = $request->getPost('jud_num');        
+		//print_r($request->getPost()); die;
+        $selsubcat = Array ('1036-SLPs arising out of interlocutory applications in civil proceedings, amendment of pleadings, time limits for pleadings, interim injunction. addition/deletion of parties etc.' ); //$request->getPost('selsubcat');
+        $mainhead = 'a';//$request->getPost('mainhead');
+        $tdate = '2025-01-01';//$request->getPost('tdate');
+        $fdate = '2023-01-01';//$request->getPost('fdate');
+        //$jud_coram = $request->getPost('jud_coram');
+        $dfdate = '2023-01-01';//$request->getPost('dfdate');
+        $dtdate = '2025-01-01';//$request->getPost('dtdate');
+        $judge = Array('219');// $request->getPost('judge');
+        $jud_num = 32;//$request->getPost('jud_num');        
         $jud_num = $jud_num + 1;
         if ($mainhead == 'a') {
             $mainhead = 'IN (\'M\', \'F\')';
@@ -204,87 +205,99 @@ class Report extends BaseController
         }
         $jud_len = count($judge);
         $jud_flag = 0;        
-        if ($jud_num == $jud_len) {
-            $jud_flag = 1;
-        } else {
-            $jud_coram = "";
-            for ($i = 0; $i < $jud_len; $i++) {
-                if ($i == 0) {
-                    if ($judge[$i] == 'b') {
-                        $jud_coram = "(h.coram='' OR h.coram = 0 OR h.coram IS NULL";
-                    } else {
-                        $jud_coram = "(h.coram='" . $judge[$i] . "'";
-                    }
-                } else {
-                    if ($judge[$i] == 'b') {
-                        $jud_coram .= " OR h.coram='' OR h.coram = 0 OR h.coram IS NULL";
-                    } else {
-                        $jud_coram .= " OR h.coram='" . $judge[$i] . "'";
-                    }
-                }
-            }
-            $jud_coram .= ')';
-        }
-        $selcat = "(" . implode(",", array_map(function ($item) {
-            return "'" . explode('-', $item)[0] . "'";
-        }, $selsubcat)) . ")";
-        $query1 = "SELECT row_number() OVER () AS sno, a.* FROM (
-            SELECT DISTINCT 
-                CONCAT(IFNULL(m.reg_no_display, ''), ' @ ', 
-                CONCAT(LEFT(m.diary_no, LENGTH(m.diary_no) - 4), '-', SUBSTRING(m.diary_no, -4))) AS Case_no,
-                CONCAT(m.pet_name, ' Vs. ', m.res_name) AS Cause_title,
-                IFNULL(aa.total_connected, '') AS Group_count,
-                COALESCE((SELECT STRING_AGG(abbreviation, '#' ORDER BY judge_seniority) 
-                            FROM master.judge 
-                            WHERE h.coram LIKE '%' || jcode || '%'), '') AS Coram,
-                CASE 
-                    WHEN (s.category_sc_old IS NOT NULL AND s.category_sc_old != '' AND s.category_sc_old != 0) 
-                        THEN CONCAT('(', s.category_sc_old, ')', s.sub_name1, '-', s.sub_name4)
-                    ELSE CONCAT('(', CONCAT(s.subcode1, '', s.subcode2), ')', s.sub_name1, '-', s.sub_name4)
-                END AS Subject_category,
-                tentative_section(m.diary_no) AS Section, 
-                tentative_da(m.diary_no) AS DA
-            FROM main m
-            INNER JOIN heardt h ON h.diary_no = m.diary_no
-            INNER JOIN master.listing_purpose l ON l.code = h.listorder
-            LEFT JOIN (
-                SELECT n.conn_key, COUNT(*) AS total_connected
-                FROM main m
-                INNER JOIN heardt h ON m.diary_no = h.diary_no
-                INNER JOIN main n ON m.diary_no = n.conn_key 
-                WHERE n.diary_no != n.conn_key AND m.c_status = 'P' 
-                GROUP BY n.conn_key
-            ) aa ON m.diary_no = aa.conn_key
-            LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no AND rd.remove_def = 'N' 
-            LEFT JOIN mul_category mc ON mc.diary_no = m.diary_no AND mc.display = 'Y'
-            LEFT JOIN master.submaster s ON mc.submaster_id = s.id AND s.flag = 's' AND s.display = 'Y'
-            WHERE h.mainhead " . $mainhead . "
-            AND (m.diary_no = m.conn_key OR m.conn_key = 0 OR m.conn_key = '' OR m.conn_key IS NULL)
-            AND h.next_dt != '0000-00-00'
-            AND h.board_type = 'J'
-            AND s.subcode1 IS NOT NULL
-            AND rd.fil_no IS NULL
-            AND m.c_status = 'P'
-            AND h.main_supp_flag = 0 
-            AND h.next_dt BETWEEN '" . $fdate . "' AND '" . $tdate . "'
-            AND s.id IN " . $selcat . "
-        ) AS a";  
-        $query2 = ($dfdate && $dtdate) ? " AND DATE(m.diary_no_rec_date) BETWEEN '" . $dfdate . "' AND '" . $dtdate . "'" : "";
-        $query3 = $jud_coram ? " AND " . $jud_coram : "";
-        $query4 = " AND mc.submaster_id != 911 
-            AND mc.submaster_id != 913 
-            AND (m.lastorder NOT LIKE '%Heard & Reserved%' 
-            OR m.lastorder = '' OR m.lastorder IS NULL) 
-            ORDER BY 
-                CAST(RIGHT(m.diary_no, 4) AS INTEGER) ASC, 
-                CAST(LEFT(m.diary_no, LENGTH(m.diary_no) - 4) AS INTEGER) ASC"; 
-        if ($jud_flag == 1) {
-            $query = $query1 . $query2 . $query4;
-        } else {
-            $query = $query1 . $query2 . $query3 . $query4;
-        }
-        $builder = $this->db->query($query);
-        $results = $builder->getResultArray();
+        $selcat = implode(",", array_map(function ($item) {
+							return "'" . explode('-', $item)[0] . "'";
+						}, $selsubcat));
+	
+		
+		$builder = $this->db->table('main m');
+
+
+			if ($jud_num == $jud_len) {
+				$jud_flag = 1; 
+			} else {
+			   $coramConditions = [];
+
+				foreach ($judge as $i => $j) {
+					if ($j == 'b') {
+						$coramConditions[] = '(h.coram = "" OR h.coram = 0 OR h.coram IS NULL)';
+					} else {
+						$coramConditions[] = "h.coram = '{$j}'";
+					}
+				}
+
+				 if (count($coramConditions) > 0) {
+					$jud_coram = '(' . implode(' OR ', $coramConditions) . ')';
+				}
+			}
+
+
+		$builder->join('heardt h', 'h.diary_no = m.diary_no', 'inner')
+				->join('master.listing_purpose l', 'l.code = h.listorder', 'inner')
+				->join('(SELECT n.conn_key, COUNT(*) AS total_connected
+						 FROM main m
+						 INNER JOIN heardt h ON m.diary_no = h.diary_no
+						 INNER JOIN main n ON m.diary_no = CAST(n.conn_key AS bigint)
+						 WHERE n.diary_no != CAST(n.conn_key AS bigint) AND m.c_status = \'P\'
+						 GROUP BY n.conn_key) aa', 'm.diary_no = CAST(aa.conn_key AS bigint)', 'left')
+				->join('rgo_default rd', 'rd.fil_no = h.diary_no AND rd.remove_def = \'N\'', 'left')
+				->join('mul_category mc', 'mc.diary_no = m.diary_no AND mc.display = \'Y\'', 'left')
+				->join('master.submaster s', 'mc.submaster_id = s.id AND s.flag = \'s\' AND s.display = \'Y\'', 'left');
+
+
+		$builder->select([
+			'ROW_NUMBER() OVER (ORDER BY CAST(m.diary_no AS bigint)) AS sno',
+			'CONCAT(COALESCE(m.reg_no_display, \'\'), \' @ \', CONCAT(LEFT(CAST(m.diary_no AS TEXT), LENGTH(CAST(m.diary_no AS TEXT)) - 4), \'-\', SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 4 FOR 4))) AS Case_no',
+			'CONCAT(m.pet_name, \' Vs. \', m.res_name) AS Cause_title',
+			'COALESCE(aa.total_connected, 0) AS Group_count',
+			'COALESCE((SELECT STRING_AGG(abbreviation, \'#\' ORDER BY judge_seniority)
+					   FROM master.judge
+					   WHERE h.coram LIKE CONCAT(\'%\', jcode, \'%\')), \'\') AS Coram',
+			'CASE 
+				WHEN (s.category_sc_old IS NOT NULL AND s.category_sc_old != \'\' AND s.category_sc_old != \'0\') 
+				THEN CONCAT(\'(\', s.category_sc_old, \')\', s.sub_name1, \'-\', s.sub_name4)
+				ELSE CONCAT(\'(\', CONCAT(s.subcode1, \'\', s.subcode2), \')\', s.sub_name1, \'-\', s.sub_name4)
+			 END AS Subject_category',
+			'tentative_section(m.diary_no) AS Section',
+			'tentative_da(CAST(m.diary_no AS INTEGER)) AS DA'
+		]);
+
+
+		if (isset($jud_coram) && !empty($jud_coram)) {
+			$builder->where($jud_coram);
+		}
+
+
+		$builder->whereIn('h.mainhead', ['M', 'F'])
+			->where('(CAST(m.diary_no AS bigint) = CAST(m.conn_key AS bigint) OR m.conn_key = \'0\' OR m.conn_key = \'\' OR m.conn_key IS NULL)')
+			->where('h.board_type', 'J')
+			->where('s.subcode1 IS NOT NULL')
+			->where('rd.fil_no IS NULL')
+			->where('m.c_status', 'P')
+			->where('h.main_supp_flag', 0)
+			->where('h.next_dt >=', $fdate)
+			->where('h.next_dt <=', $tdate)
+			->whereIn('s.id', [$selcat]);
+
+    if(!empty($dfdate) && !empty($dtdate)){
+		$builder->where('DATE(m.diary_no_rec_date) >=', $dfdate)
+				->where('DATE(m.diary_no_rec_date) <=', $dtdate);
+	}
+
+	$builder->where('mc.submaster_id !=', 911)
+			->where('mc.submaster_id !=', 913)
+			->groupStart()  // Start group for the OR condition
+				->where('m.lastorder NOT LIKE', '%Heard & Reserved%') // Corrected NOT LIKE usage
+				->orWhere('m.lastorder', '')
+				->orWhere('m.lastorder IS NULL')
+			->groupEnd();
+
+		$builder->orderBy('CAST(RIGHT(m.diary_no, 4) AS INTEGER)', 'ASC')
+				->orderBy('CAST(LEFT(CAST(m.diary_no AS text), LENGTH(CAST(m.diary_no AS text)) - 4) AS INTEGER)', 'ASC');
+
+		$query = $builder->get();
+		$results = $query->getResultArray();
+
         return view('ManagementReport/Reports/category_ui_get', ['results' => $results]);
     }
     

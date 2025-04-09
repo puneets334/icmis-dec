@@ -4,7 +4,7 @@
         $(document).ready(function() {
             $('#aorc').focus();
 
-            $("#aorc").change(function() {
+            $("#aorc").on("input", function() {
                 var aorc = $("#aorc").val();
                 var dataString = 'tvap=' + aorc;
                 $.ajax({
@@ -20,20 +20,20 @@
                         } else {
                             $('#aorn').val("AOR CODE " + aorc + " NOT FOUND");
                             $("#aorn").attr("disabled", "disabled");
-                            $('#aorc').val(" ");
+                            $('#aorc').val(""); 
                             $('#aorc').focus();
                         }
                     }
                 });
             });
+            
             $('#case_trap_form').on('submit', function() {
                 var aorc = $("#aorc").val();
                 var aorn = $("#aorn").val();
-                var tvap = '';;
+                var tvap = '';
 
                 tvap = aorc + ";" + aorn;
-
-                // Returns successful data submission message when the entered information is stored in database.
+                $("#result_data").html('');
                 if (!aorc) {
                     alert("Please Enter Mandatory Values");
                     return false;
@@ -52,11 +52,11 @@
                         $('.case_trap_search').prop('disabled', true);
                     },
                     success: function(data) {
+                        updateCSRFToken();
                         $('.case_trap_search').prop('disabled', false);
                         $('.case_trap_search').val('Search');
                         $("#result_data").html(data);
 
-                        updateCSRFToken();
                     },
                     error: function() {
                         updateCSRFToken();

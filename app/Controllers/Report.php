@@ -79,7 +79,7 @@ class Report extends BaseController
         $data = [];
         if ($id >= 1 and $id <= 4) {
             $data['reports'] = $this->pendency_reports_model->get_pendency($id);
-
+            // echo $this->db->getLastQuery();
             if ($id == 1)
                 $data['app_name'] = 'JudgeWise';
             if ($id == 2)
@@ -91,6 +91,7 @@ class Report extends BaseController
 
             return view('Reports/pendency_report', $data);
         }
+
         if ($id == 5) {
             $data['reports'] = '';
             $data['app_name'] = '';
@@ -99,22 +100,26 @@ class Report extends BaseController
             $matterType = '';
             $matterStatus = '';
             // pr($_POST);
-            if ($_POST) {
-                if (!empty($this->request->getPost('categoryCode')) && !empty($this->request->getPost('groupCount')) && !empty($this->request->getPost('matterType')) && !empty($this->request->getPost('matterStatus'))) {
-                    $categoryCode = $this->request->getPost('categoryCode');
-                    $groupCount = $this->request->getPost('groupCount');
-                    $matterType = $this->request->getPost('matterType');
-                    $matterStatus = $this->request->getPost('matterStatus');
-                }
-                //var_dump($categoryCode,$matterStatus,$matterType);
+            if ($this->request->getVar('view') == '1') {
+                $categoryCode = $this->request->getVar('categoryCode');
+                $groupCount = $this->request->getVar('groupCount');
+                $matterType = $this->request->getVar('matterType');
+                $matterStatus = $this->request->getVar('matterStatus');
+               
                 $data['reports'] = $this->pendency_reports_model->get_pendency($id, $categoryCode, $groupCount, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $matterType, $matterStatus);
                 $data['app_name'] = 'SubjectCategoryWiseGroupCount';
                 $data['matterType'] = $matterType;
+                $data['groupCount'] = $groupCount;
                 $data['matterStatus'] = $matterStatus;
                 $data['code'] = $categoryCode;
+                return view('Reports/SubjectCategorywithGroupCountReport_ajax', $data);
+
+                // echo "<pre>";print_r($data['reports']);die();
             }
+
             $data['forCategory'] = ''; 
             $data['status']  = '';
+            $data['Categories'] = $this->pendency_reports_model->getMainSubjectCategory();           
             $data['type']  = '';
             return view('Reports/SubjectCategorywithGroupCountReport', $data);
         }

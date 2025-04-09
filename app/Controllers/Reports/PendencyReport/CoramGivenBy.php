@@ -10,9 +10,9 @@ class CoramGivenBy extends BaseController
   public $CoramGivenByModel;
 
 	function __construct()
-  {
-    $this->CoramGivenByModel = new CoramGivenByModel();
-  }
+	{
+		$this->CoramGivenByModel = new CoramGivenByModel();
+	}
 
 	public function index()
 	{
@@ -22,11 +22,12 @@ class CoramGivenBy extends BaseController
 
 	public function removeCoram()
 	{
-		$result = $this->CoramGivenByModel->removeCoram();
-		return $this->response->setJSON([
-      'status' => true,
-      'data' => $result,
-    ]);
+		$request = \Config\Services::request();
+        $judge = $request->getPost('judge');
+        $crm_dtl = $request->getPost('crm_dtl');
+        $mainhead = $request->getPost('mainhead');
+		$data['result'] = $this->CoramGivenByModel->removeCoram($judge, $crm_dtl, $mainhead);
+		return view('Reports/pendencyReport/remove_coram', $data);
 	}
 }
 ?>
