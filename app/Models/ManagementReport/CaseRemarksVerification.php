@@ -499,7 +499,8 @@ class CaseRemarksVerification extends Model
 
         $query2 = $this->db->query($sql_da);
         $result = $query2->getResultArray();
-        if (sizeof($result) > 0) {
+        
+        if (count($result) > 0) {
             $ut_id = $result[0]['ut_id'];
             $us_id = $result[0]['us_id'];
         }
@@ -558,8 +559,8 @@ class CaseRemarksVerification extends Model
                             AND cl.roster_id = h.roster_id
                             AND cl.display = 'Y'
                         WHERE
-                            cl.next_dt IS NOT NULL
-                            AND h.next_dt >= CURRENT_DATE
+                            cl.next_dt IS NOT NULL AND 
+                            h.next_dt >= CURRENT_DATE
                             AND m.c_status = 'P'
                             AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
 
@@ -602,14 +603,108 @@ class CaseRemarksVerification extends Model
                         ELSE 3
                     END,
                     cl_date DESC";
-                    
         $query = $this->db->query($sql);
-        // $result =  $query->getResultArray();
-        if ($query->getNumRows() >= 1) {
-            return $query->getResultArray();
-        } else {
-            return $query->getResultArray();
+        $result =  $query->getResultArray();
+       
+        return $result;
+        
+        // if ($query->getNumRows() >= 1) {
+        //     return $query->getResultArray();
+        // } else {
+        //     return $query->getResultArray();
+        // }
+    }
+
+    public function loosedoc_verify_not_verify_Details($date,$flag,$section,$usercode)
+    {
+        if($flag=='V')
+        $cond2=" and dc.verified='$flag'";
+     else if($flag=='N')
+         $cond2=" and dc.verified!='V'";
+
+      $sql_da="SELECT
+                    u.name,
+                    u.empid,
+                    COALESCE(string_agg(um.usec::TEXT, NULL), us.id::TEXT) AS us_id,
+                    ut.id AS ut_id
+                FROM
+                    master.users u
+                INNER JOIN
+                    master.user_sec_map um ON u.empid = um.empid AND um.display = 'Y'
+                LEFT JOIN
+                    master.usersection us ON u.section = us.id
+                LEFT JOIN
+                    master.usertype ut ON ut.id = u.usertype
+                WHERE
+                    u.display = 'Y'
+                    AND u.attend = 'P'
+                    AND u.usercode = 1 
+                GROUP BY
+                    u.empid, u.name, us.id, ut.id";
+        $query2 = $this->db->query($sql_da);
+        $result = $query2->getResultArray();
+        if (sizeof($result) > 0) {
+            $ut_id = $result[0]['ut_id'];
+            $us_id = $result[0]['us_id'];
         }
+     
+     $cond = "";
+     if($ut_id==14)
+     {
+         $cond=" and us.id=$us_id";
+     }
+     else if($ut_id==6 OR $ut_id==9 OR $ut_id==4 OR $ut_id==12)
+     {
+         $cond=" and us.id in ($us_id)";
+     }
+     else if($ut_id==1)
+     {
+         $cond="";
+     }
+     else if($ut_id!=14 && $ut_id!=4 && $ut_id!=6 && $ut_id!=9 && $ut_id!=12 && $ut_id!=1)
+     {
+         $cond=" and da.usercode=$usercode";
+     }
+
+    $sql="SELECT
+                    SUBSTRING(dc.diary_no::TEXT ,1 , LENGTH(dc.diary_no::TEXT) - 4) || '/' || SUBSTRING(dc.diary_no::TEXT , LENGTH(dc.diary_no::TEXT) - 3) AS diary_no,
+                    m.reg_no_display || '@ D.No.' || SUBSTRING(m.diary_no::TEXT, 1, LENGTH(m.diary_no::TEXT) - 4) || '/' || SUBSTRING(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 3) AS CaseNo,
+                    pet_name || ' Vs ' || res_name AS causetitle,
+                    docdesc,
+                    docnum || '/' || docyear AS document,
+                    filedby,
+                    u_dak.name AS dak_name,
+                    u_dak.empid AS dak_empid,
+                    dc.ent_dt,
+                    da.name AS da_name,
+                    da.empid AS da_empid,
+                    us.section_name AS da_section
+                FROM
+                    docdetails dc
+                LEFT JOIN
+                    master.docmaster dm ON dc.doccode = dm.doccode AND dc.doccode1 = dm.doccode1
+                INNER JOIN
+                    main m ON dc.diary_no = m.diary_no
+                LEFT JOIN
+                    master.users u_dak ON u_dak.usercode = dc.usercode
+                LEFT JOIN
+                    master.users da ON da.usercode = m.dacode
+                LEFT JOIN
+                    master.usersection us ON us.id = da.section
+                WHERE
+                    m.c_status = 'P'
+                    AND DATE(dc.ent_dt) = '$date'
+                    $cond2 $cond 
+                    AND dm.display = 'Y'
+                    AND dc.display = 'Y'";
+        
+         $query = $this->db->query($sql);
+         //echo $this->db->last_query();
+         if ($query->getNumRows() >= 1) {
+             return $query->getResultArray();
+         } else {
+             return $query->getResultArray();
+         }
     }
 
     public function getJudges($list_dt)
