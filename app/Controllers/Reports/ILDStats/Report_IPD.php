@@ -11,8 +11,9 @@ use App\Models\Court\CourtMasterModel;
 use App\Models\Reports\DefaultReports\DefaultReportsModel;
 use App\Models\Reports\DepartmentWise\DepartmentWiseModel;
 use App\Models\Reports\FilingMonitoring\FilingMonitoringModel;
+// use App\Models\Reports\ILDStats\Report_IPDModel;
 use App\Models\Reports\ILDStats\Report_IPDModel;
-use App\Libraries\MCTABLE;
+use App\Libraries\Mctable;
 
 class Report_IPD extends BaseController
 {
