@@ -59,18 +59,28 @@ class Reports extends BaseController
 
     public function pendency_bifurcation()
     {
-        $data['dtd'] = date("d-m-Y");
-        return view('Reports/pendencyReport/pendency_bifurcation', $data);
+        
+     
+        return view('Reports/pendencyReport/pendency_bifurcation');
     }
 
     public function pendency_bifurcation_process()
     {
-        $dt1=$_POST['dt1'];
-        //$dt2=$_POST['dt2'];
-        $tdt1=date('d-m-Y', strtotime($dt1));
-        //$tdt2=date('d-m-Y', strtotime($dt2));
-        $for_date = date('Y-m-d', strtotime($dt1));
-        return view('Reports/pendencyReport/pendency_bifurcation_process');
+        $data['dt1']=$_POST['dt1'];
+        $data['tdt1']=date('d-m-Y', strtotime($data['dt1']));
+        $data['for_date'] = date('Y-m-d', strtotime($data['dt1']));
+        $data['model'] = $this->pendencyReportsModel;
+        return view('Reports/pendencyReport/pendency_bifurcation_process',$data);
+    }
+
+    public function pendency_bifurcation_process_detail(){
+       
+        $data['for_date'] = date('Y-m-d', strtotime($_REQUEST['ason']));
+        $data['ason_dmy'] = date('d-m-Y', strtotime($_REQUEST['ason']));
+        $data['flag'] = $_REQUEST['flag'];
+        $data['model'] = $this->pendencyReportsModel;
+        return view('Reports/pendencyReport/pendency_bifurcation_process_detail',$data);
+
     }
 
  
