@@ -29,8 +29,8 @@ public $AORcaseReportsModel;
 
         $type  =  $this->request->getPost('type');
         $data['app_name'] = '';
-        $data['reports'] = '';
-        $data['param'] = '';
+        $data['reports'] = [];
+        $data['param'] = [];
         if ($this->request->getPost()) {
             $aorCode = $this->request->getPost('aorCode');
             $resultArray = $this->AORcaseReportsModel->get_aor_detail2($aorCode);
@@ -55,6 +55,7 @@ public $AORcaseReportsModel;
                 $data['list_type'] = "Disposed Cases";
                 break;
         }
+        //pr($data);die();
         return view('MasterManagement/aor_case/aorcasedefault',$data);
     }
 

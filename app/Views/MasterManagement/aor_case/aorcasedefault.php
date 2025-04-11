@@ -123,10 +123,11 @@
                     <div class="container-fluid">
                         <section class="content">
                             <?php
-                            if(isset($reports))
+                            if(count($reports)>0)
                             {
                                 ?>
                                 <div id="printable" class="table-responsive">
+                                <h3 style="text-align: center;" ><strong id="headingData"><?=$list_type?> of <?=$reports[0]['advname']?> AOR Code: <?=$reports[0]['aor_code']?></strong> </h3>
                                     <?php
                                     if($app_name=='AOR CASES')
                                     {
@@ -222,32 +223,21 @@
                             autoclose:true
                         });
                     });
-
+                    var reportTitle = $("#headingData").html();
                     $('#reportTable1').DataTable( {
-                       /* dom: 'Bfrtip',
-                        buttons: [
-                            'excelHtml5',
-                            'pdfHtml5'
-                        ]*/
-
                         "bProcessing"   :   true,
                         dom: 'Bfrtip',
-                        buttons: [
-                            'excelHtml5',
+                        "buttons": [
+                            {
+                                extend: 'excelHtml5',
+                                title: reportTitle
+                            },
                             {
                                 extend: 'pdfHtml5',
-                                pageSize: 'A3',
-                                customize: function ( doc ) {
-                                    doc.content.splice( 0, 0, {
-                                        margin: [ 0, 0, 0, 5 ],
-                                        alignment: 'center',
-                                    });
-                                    doc.watermark = {text: 'SUPREME COURT OF INDIA', color: 'blue', opacity: 0.05}
-                                }
+                                title: reportTitle
                             }
-
                         ]
-
+                       
                     });
                 });
 
