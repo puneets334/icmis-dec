@@ -46,7 +46,7 @@ $uri = current_url(true); ?>
              $url_registration = base_url('Copying/Copying/application');
             }else{
                 $ColorCode = 'background-color: #169F85;color:#ffffff;';
-                $status_color = 'btn-outline-primary';
+                $status_color = 'btn-secondary';
              $url_registration = base_url('Copying/Copying/application');
             }
         ?>
@@ -59,8 +59,8 @@ $uri = current_url(true); ?>
                $status_color = 'btn-primary';
            $url_application_status = base_url('Copying/Copying/application_status');
            } else{
-               $ColorCode = 'background-color: #169F85;color:#ffffff;';
-               $status_color = 'btn-outline-primary';
+            $ColorCode = 'background-color: #169F85;color:#ffffff;';
+            $status_color = 'btn-secondary';
            $url_application_status = base_url('Copying/Copying/application_status');
            }
         ?>
@@ -76,7 +76,7 @@ $uri = current_url(true); ?>
              $url_bulk_status = base_url('copying/Copying/bulk_status');
             } else{
                 $ColorCode = 'background-color: #169F85;color:#ffffff;';
-                $status_color = 'btn-outline-primary';
+                $status_color = 'btn-secondary';
              $url_bulk_status = base_url('copying/Copying/bulk_status');
             }
         ?>
@@ -91,7 +91,7 @@ $uri = current_url(true); ?>
             $url_speciman_signature = base_url('copying/Copying/specimen_signature');
             } else{
                 $ColorCode = 'background-color: #169F85;color:#ffffff;';
-                $status_color = 'btn-outline-primary';
+                $status_color = 'btn-secondary';
             $url_speciman_signature = base_url('copying/Copying/specimen_signature');
             }
          ?>

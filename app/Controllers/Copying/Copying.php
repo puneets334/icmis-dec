@@ -1121,9 +1121,11 @@ shell_exec("java -jar /var/www/html/flattenpdf.jar ".$path_dir.$original_path_re
                
                 $data['copying_order_issuing_application_id'] = $application_details_id;
                 if (!empty($data['app_documents'])) {
-                    foreach ($data['app_documents'] as $app_Docs) {
+                    
+                    foreach ($data['app_documents'] as $app_Docs) {                     
                         $order_type = $app_Docs['order_type'];
                         $data_order_type = is_data_from_table('master.ref_order_type', ['id' => $order_type], 'order_type', 'R');
+                        
                         $data_orderType[$order_type] = $data_order_type['order_type'];
                     }
                 }
