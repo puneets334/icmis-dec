@@ -69,9 +69,6 @@ class ReportModel extends Model
                 ORDER BY 
                     o.orderdate ASC
         ";
-
-        // echo $sql;
-
         $query = $this->db->query($sql);
 
         if ($query->getNumRows() >= 1) {
