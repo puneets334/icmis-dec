@@ -111,7 +111,7 @@ if (!empty($results)) {
                                 $order_dt ? date('d-m-Y', strtotime($order_dt)) : '';
                             
                         ?>
-                            <span class="cl_off_rop" id="<?php echo 'officereport/' . substr($row['diary_no'], -4) . '/' . substr($row['diary_no'], 0, -4) . '/' . $row3['office_repot_name'];  ?>"><?php echo $order_dt; ?></span>
+                            <span class="cl_off_rop" id="<?php echo 'officereport/' . substr($row['diary_no'], -4) . '/' . substr($row['diary_no'], 0, -4) . '/' . $row3['office_repot_name'];  ?>"><?php echo date('d-m-Y', strtotime($order_dt)); ?></span>
                             <?php
                             // }
                         } else {

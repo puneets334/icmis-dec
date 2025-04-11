@@ -104,14 +104,14 @@
 </section>
 
 <script>
-    $("#example1").DataTable({
-        "responsive": true,
-        "lengthChange": false,
-        "autoWidth": false,
-        "dom": 'Bfrtip',
-        "bProcessing": true,
-        "buttons": ["excel", "pdf"]
-    });
+    // $("#example1").DataTable({
+    //     "responsive": true,
+    //     "lengthChange": false,
+    //     "autoWidth": false,
+    //     "dom": 'Bfrtip',
+    //     "bProcessing": true,
+    //     "buttons": ["excel", "pdf", "print"]
+    // });
 
     $(document).on("click", "#rs_actio_btn1", function() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
@@ -146,5 +146,6 @@
                 alert("Error: " + jqXHR.status + " " + errorThrown);
             }
         });
+        updateCSRFToken();
     });
 </script>

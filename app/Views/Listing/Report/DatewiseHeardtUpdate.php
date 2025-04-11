@@ -66,8 +66,7 @@
 								
 								<div class="col-md-4 mt-4">
 								 <button type="submit"  id="view" name="view" onclick="return check(); " class="btn btn-block_ btn-primary">View</button>
-                                <button type="button"  id="print" name="print" onclick="printDiv('printable')" class="btn btn-block_ btn-warning">Print</button>
-
+                                
 								
 								</div>
 								
@@ -75,9 +74,7 @@
                             
                             <?php echo form_close(); ?>
                         </div>
-
-                        <div id="printable">
-                            <?php
+                        <?php
                             $total_mod2 = 0;
                             $total_mod4 = 0;
                             $total_mod5 = 0;
@@ -98,9 +95,14 @@
                             $total_mod99 = 0;
                             $total_total = 0;
 
-                            if (isset($listing_result) && sizeof($listing_result) > 0) {
+                        if (isset($listing_result) && sizeof($listing_result) > 0) {
 
-                            ?>
+                        ?>
+                        <div style="margin-left:20px;"><button type="button"  id="print" name="print" onclick="printDiv('printable')" class="btn btn-block_ btn-warning">Print</button></div>
+
+                        <div id="printable">
+                          
+                           
 							<h1>
                                                 <center><u>Datewise Module Wise Heardt Updation Report</u></center>
                                             </h1>
