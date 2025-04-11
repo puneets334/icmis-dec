@@ -66,6 +66,16 @@
     {
         padding-right: 55px;
     }
+
+    table.dataTable thead th, table.dataTable tfoot th {
+        font-weight: bold !important;
+    }
+
+    div.dt-buttons {
+        float: left;
+        margin-top: 0px;
+    }
+    
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -88,7 +98,7 @@
                                     {
                                         //var_dump($param);
                                     ?>
-                                    <div id="printable" class="box box-danger">
+                                    <div id="printable">
                                         <caption>
                                         <?php
                                        // var_dump($reports);<caption>

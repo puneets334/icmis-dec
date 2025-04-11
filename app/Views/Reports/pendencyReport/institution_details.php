@@ -66,6 +66,15 @@
     {
         padding-right: 55px;
     }
+
+    table.dataTable thead th, table.dataTable tfoot th {
+        font-weight: bold !important;
+    }
+
+    div.dt-buttons {
+        float: left;
+        margin-top: 0px;
+    }
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -97,7 +106,7 @@
                                         if($app_name=='Institution')
                                         {
                                             ?>
-                                        <table id="reportTable1" class="table table-striped table-hover">
+                                        <table width="100%"  id="reportTable1" class="table table-striped table-hover">
                                             <thead>
                                             <tr>
                                                 <th width="5%">S.No.</th>
