@@ -37,7 +37,7 @@ class Report extends BaseController
     {
         $data['list_dt'] = date('d-m-Y', strtotime($this->request->getPost('list_dt')));
         $list_dt_db = date('Y-m-d', strtotime($this->request->getPost('list_dt')));
-        $data['string_heading'] = ", Cause List". $data['list_dt'];
+        $data['string_heading'] = ", Cause List ". $data['list_dt'];
         $data['datetype'] = $this->request->getPost('datetype');
         $data['data'] = $this->CaseRemarksVerification->dropped_cases_get_data($data['list_dt'],$list_dt_db,$data['string_heading'],$data['datetype']);
         return view('ManagementReport/Listing/ddropped_cases_get_view',$data);

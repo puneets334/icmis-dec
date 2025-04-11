@@ -171,10 +171,10 @@
         $(document).on("change","input[name='mainhead']", async function(){
             var mainhead = get_mainhead();
             var board_type = $("#board_type").val();
-            if(board_type == 0){
-                alert('Please select Board Type')
-                $("#board_type").focus();
-            }
+            // if(board_type == 0){
+            //     alert('Please select Board Type')
+            //     $("#board_type").focus();
+            // }
             var res = await updateCSRFTokenSync();
             var CSRF_TOKEN_VALUE = res.CSRF_TOKEN_VALUE;
             $.ajax({

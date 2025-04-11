@@ -1679,6 +1679,7 @@ class CaseRemarksVerification extends Model
                     s.sub_name4, 
                     s.subcode1, 
                     s.subcode2;";
+                    
 
             $query = $this->db->query($sql);
             $result = $query->getResultArray();
@@ -1732,7 +1733,13 @@ class CaseRemarksVerification extends Model
                 WHERE 
                 d.cl_date = '$list_dt_db'
                 AND d.display = 'Y' 
-                AND (m.diary_no = m.conn_key::int OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                -- AND (m.diary_no = m.conn_key::int OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                AND (
+                    (m.conn_key ~ '^[0-9]+$' AND m.diary_no = m.conn_key::int)
+                    OR m.conn_key = ''
+                    OR m.conn_key IS NULL
+                    OR m.conn_key = '0'
+                )
                 GROUP BY 
                 d.diary_no, m.reg_no_display, m.pet_name, m.res_name, d.mf, mb.board_type_mb, d.clno, d.cl_date, d.nrs,
                 s.category_sc_old, s.sub_name1, s.sub_name4, s.subcode1, s.subcode2,m.diary_no,r.courtno
