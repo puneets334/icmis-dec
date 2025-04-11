@@ -413,7 +413,7 @@
         var toDate = document.getElementById('to_date').value;
         date1 = new Date(fromDate.split('-')[2], fromDate.split('-')[1] - 1, fromDate.split('-')[0]);
         date2 = new Date(toDate.split('-')[2], toDate.split('-')[1] - 1, toDate.split('-')[0]);
-        if (date1 > date2) {
+        if (fromDate >toDate) {
             alert("To Date must be greater than or equal to From date");
             return false;
         }
