@@ -19,14 +19,22 @@
 
     ?>
         <br><br>
-       
+
         <div id="prnTable" align="center">
-            
+
             <table class="table table-bordered table-striped table-hover" cellpadding="1" cellspacing="0">
 
                 <tr>
                     <th colspan=13>
-                        <center><font color=blue size=+1><?= $rpt_type ?> Report between :<?php echo $from_date . ' to ' . $to_date; ?></font> </center>
+                        <center>
+                            <font color="blue">
+                                <?= $rpt_type ?> Report between :
+                                <?php echo date('d/m/Y', strtotime($from_date)) . ' to ' . date('d/m/Y', strtotime($to_date)); ?>
+                            </font>
+                        </center>
+
+
+
                     </th>
                 </tr>
                 <tr>
@@ -52,9 +60,10 @@
                     $filed_tot = 0;
                     $not_filed_tot = 0;
                     $defect_ia_tot = 0;
-                    $not_defect_tot=0;
+                    $not_defect_tot = 0;
 
                     foreach ($rs as $row) {
+                        //pr($row);
 
 
                     ?>
@@ -62,7 +71,8 @@
                     <td align=center><?php echo $i; ?></td>
                     <?php if ($rpt_type == 'registration' || $rpt_type == 'institution' || $rpt_type == 'filing' || $rpt_type == 'refiling') {
                     ?>
-                        <td align=right><?php echo $row['fil_dt']; ?></td>
+                      <td align=right><?php echo date('d/m/Y', strtotime($row['fil_dt'])); ?></td>
+
                         <td><?php echo $row['short_description']; ?></td>
                     <?php } ?>
                     <?php
@@ -115,7 +125,7 @@
                 ?>
             </table>
         </div>
-        <center><input  type="button" id="print1"  value="PRINT"></center>
+        <center><input type="button" id="print1" value="PRINT"></center>
     <?php
 
     } else

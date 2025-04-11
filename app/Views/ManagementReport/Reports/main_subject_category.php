@@ -31,6 +31,7 @@
                                 </div>
                                 <div class="card-body">
                                     <table id="reportTable" class="table table-striped custom-table">
+                                        
                                         <thead>
                                             <tr>
                                                 <th>SNo.</th>

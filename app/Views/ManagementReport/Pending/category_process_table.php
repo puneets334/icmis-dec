@@ -1,7 +1,9 @@
 <?php if (count($res) > 0) { ?>
-    <h3 style="text-align:center;">Pendency - Category Wise as on <?= $tdt1; ?> (Morning)</h3>
-    <div class="table-responsive">
-        <table class="table table-striped custom-table" id="diaryReport">
+
+    <div class="table-responsive" id="dv_content1">
+    <h3 style="text-align:center;" >Pendency - Category Wise as on <?= $tdt1; ?> (Morning)</h3>
+        <table class="table table table-bordered table-striped table-hover custom-table" id="diaryReport">
+        
             <thead>
                 <tr style="background: #A9A9A9; text-align: center;">
                     <th rowspan="2" style="font-weight: bold;">SrNo.</th>
@@ -76,7 +78,7 @@
 
                 <!-- Render Grand Total Row -->
                 <tr style="font-weight: bold; background: #D3D3D3;">
-                    <td colspan="3" align="left">TOTAL</td>
+                    <td colspan="3" align="left"><b>TOTAL<b></td>
                     <td style="font-weight: bold; background: #D3D3D3;"><?= $grand_total['main']; ?></td>
                     <td style="font-weight: bold; background: #D3D3D3;"><?= $grand_total['conn']; ?></td>
                     <td style="font-weight: bold; background: #D3D3D3;"><?= $grand_total['pendency']; ?></td>
@@ -89,6 +91,9 @@
                 </tr>
             </tbody>
         </table>
+        <div style="text-align: center;">
+            <input name="print1" type="button" id="print1" value="Print">
+        </div>
     </div>
 <?php
 } else {
@@ -108,4 +113,14 @@
             ]
         });
     });
+
+    $(document).on("click","#print1",function(){
+    var prtContent = $("#dv_content1").html();
+    var temp_str=prtContent;
+    var WinPrint = window.open('','','left=10,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1');
+    WinPrint.document.write(temp_str);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+});
 </script>
