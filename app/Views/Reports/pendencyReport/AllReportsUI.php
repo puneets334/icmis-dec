@@ -71,6 +71,15 @@
     {
         background: #ffffff;
     }
+    
+    table.dataTable thead th, table.dataTable tfoot th {
+        font-weight: bold !important;
+    }
+
+    div.dt-buttons {
+        float: left;
+        margin-top: 0px;
+    }
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -111,7 +120,7 @@
                                     if($data['app_name'] == 'CurrentPendency')
                                     {
                                     ?>
-                                    <div id="printable" class="box box-danger">
+                                    <div id="printable" class="w-100">
                                         <h3 style="text-align: center;"> PENDENCY STATEMENT AS ON <?PHP echo date("d-m-Y h:m:s A")?> </h3>
                                         <table width="100%" id="reportTable1" class="table table-striped table-hover">
                                             <thead>

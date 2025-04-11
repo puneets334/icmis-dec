@@ -943,6 +943,7 @@ class CaseRemarksVerification extends Model
                     m.casetype_id,
                     m.ref_agency_state_id,
                     m.diary_no_rec_date,
+                    m.active_casetype_id,
                     h.*,
                     SPLIT_PART(SPLIT_PART(m.active_fil_no, '-', -1), ' ', 1) as fil_no_order 
                 FROM

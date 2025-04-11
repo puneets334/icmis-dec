@@ -291,8 +291,9 @@ class Pending extends BaseController
 
     public function get_year_head_nature_wise_ason_rpt()
     {
-        $str = '';
-        $results = $this->get_case_type();       
+        // echo "<pre>";
+        
+        $str = $this->get_case_type();       
         
         $bench = '';
         $benchInput = $this->request->getGet('bench');
@@ -313,32 +314,30 @@ class Pending extends BaseController
             $bench = " AND h.judges NOT LIKE '%%,%'";
         }
 
+
         if ($this->request->getGet('ason_type') == 'dt') {
             $til_date = explode("-", $this->request->getGet('til_date'));
             $til_dt = $til_date[2] . "-" . $til_date[1] . "-" . $til_date[0];
 
-            $ason_str = " IF(d.rj_dt != '0000-00-00', d.rj_dt >= '" . $til_dt . "',
-                        IF(d.`disp_dt` != '0000-00-00' AND d.`disp_dt` IS NOT NULL, d.disp_dt >= '" . $til_dt . "', 
-                        CONCAT(d.year, '-', LPAD(d.month, 2, 0), '-01') >= '" . $til_dt . "'))";
+        $ason_str = " IF(d.rj_dt != '0000-00-00', d.rj_dt >= '" . $til_dt . "',
+                    IF(d.`disp_dt` != '0000-00-00' AND d.`disp_dt` IS NOT NULL, d.disp_dt >= '" . $til_dt . "', 
+                    CONCAT(d.year, '-', LPAD(d.month, 2, 0), '-01') >= '" . $til_dt . "'))";
 
-            $ason_str_res = " IF(disp_rj_dt != '0000-00-00', disp_rj_dt >= '" . $til_dt . "',
-                        IF(r.disp_dt != '0000-00-00' AND r.disp_dt IS NOT NULL, r.disp_dt >= '" . $til_dt . "', 
-                        CONCAT(r.disp_year, '-', LPAD(r.disp_month, 2, 0), '-01') >= '" . $til_dt . "'))";
+        $ason_str_res = "IF(disp_rj_dt != '0000-00-00', disp_rj_dt >= '" . $til_dt . "',
+                    IF(r.disp_dt != '0000-00-00' AND r.disp_dt IS NOT NULL, r.disp_dt >= '" . $til_dt . "', 
+                    CONCAT(r.disp_year, '-', LPAD(r.disp_month, 2, 0), '-01') >= '" . $til_dt . "'))";
 
-            $exclude_cond = " CASE 
-                WHEN r.`disp_dt` != '0000-00-00' AND r.`disp_dt` IS NOT NULL 
-                    AND r.conn_next_dt != '0000-00-00' AND r.conn_next_dt IS NOT NULL
-                THEN '" . $til_dt . "' NOT BETWEEN r.disp_dt AND `conn_next_dt` 
-                ELSE r.`disp_dt` = '0000-00-00' OR r.`disp_dt` IS NULL OR r.conn_next_dt = '0000-00-00' OR r.conn_next_dt IS NULL 
-                END 
-                OR r.fil_no IS NULL";
+        $exclude_cond = "CASE WHEN r.`disp_dt` != '0000-00-00' AND r.`disp_dt` IS NOT NULL 
+                AND r.conn_next_dt != '0000-00-00' AND r.conn_next_dt IS NOT NULL
+            THEN '" . $til_dt . "' NOT BETWEEN r.disp_dt AND `conn_next_dt` 
+            ELSE r.`disp_dt` = '0000-00-00' OR r.`disp_dt` IS NULL OR r.conn_next_dt = '0000-00-00' OR r.conn_next_dt IS NULL 
+            END OR r.fil_no IS NULL";
 
-            $exclude_cond_other = " CASE 
-                WHEN r.`disp_dt` != '0000-00-00' AND r.`disp_dt` IS NOT NULL 
-                    AND r.conn_next_dt != '0000-00-00' AND r.conn_next_dt IS NOT NULL
-                THEN '" . $til_dt . "' NOT BETWEEN r.disp_dt AND `conn_next_dt` 
-                ELSE r.`disp_dt` = '0000-00-00' OR r.`disp_dt` IS NULL OR r.conn_next_dt = '0000-00-00' OR r.conn_next_dt IS NULL 
-                END";
+        $exclude_cond_other = " CASE WHEN r.`disp_dt` != '0000-00-00' AND r.`disp_dt` IS NOT NULL 
+                AND r.conn_next_dt != '0000-00-00' AND r.conn_next_dt IS NOT NULL
+            THEN '" . $til_dt . "' NOT BETWEEN r.disp_dt AND `conn_next_dt` 
+            ELSE r.`disp_dt` = '0000-00-00' OR r.`disp_dt` IS NULL OR r.conn_next_dt = '0000-00-00' OR r.conn_next_dt IS NULL END";
+
         }else if ($this->request->getGet('ason_type') == 'month') {
             $til_dt = $this->request->getGet('lst_year') . "-" . str_pad($this->request->getGet('lst_month'), 2, "0", STR_PAD_LEFT) . "-01";
 
@@ -382,6 +381,17 @@ class Pending extends BaseController
             ELSE DATE(r.`disp_ent_dt`) = '0000-00-00' OR r.`disp_ent_dt` IS NULL OR DATE(r.entry_date) = '0000-00-00' OR r.entry_date IS NULL END";
         }
 
+        // print_r($ason_str);
+        // echo "<br><hr>";
+        // print_r($ason_str_res);
+        // echo "<br><hr>";
+        // print_r($exclude_cond);
+        // echo "<br><hr>";
+        // print_r($exclude_cond_other);
+        // echo "<br><hr>";
+        
+
+
         if ($this->request->getGet('rpt_purpose') == 'sw') {
             $subhead_name = "subhead_n";
             $mainhead_name = "mainhead_n";
@@ -389,12 +399,18 @@ class Pending extends BaseController
             $subhead_name = "subhead";
             $mainhead_name = "mainhead";
         }
+        // print_r($subhead_name);
+        // echo "<br><hr>";
+        // print_r($mainhead_name);
+        // echo "<br><hr>";
+        
 
         if ($this->request->getGet('subhead') == 'all,' || $this->request->getGet('subhead') == '') {
             $subhead = '';
             // Removed unused variable $subhead_if_heardt
             $subhead_if_last_heardt = " ";
             $subhead_condition = " ";
+            $head_subhead = " ";
             // Removed unused variable $head_subhead
         } else {
             $subhead = " AND l." . $subhead_name . " IN (" . substr($this->request->getGet('subhead'), 0, -1) . ")";
@@ -412,6 +428,7 @@ class Pending extends BaseController
                 $head_subhead = $this->stagename(substr($this->request->getGet('subhead'), 0, -1));
             }
         }
+
         if ($this->request->getGet('concept') == 'new') {
 
             if ($this->request->getGet('mf') == 'M') {
@@ -440,6 +457,9 @@ class Pending extends BaseController
                 $mf_h_table = "( h." . $mainhead_name . " NOT IN ('M', 'F'))";
             }
         }
+
+
+
         if (trim($this->request->getGet('subject')) != 'all,' || trim($this->request->getGet('act')) != 'all,' || trim($this->request->getGet('act_msc')) != '') {
             $mul_cat_join = " LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no
                               LEFT JOIN submaster s ON mc.submaster_id = s.id";
@@ -530,32 +550,35 @@ class Pending extends BaseController
         $Brep1 = "";
         $act_join ='';
         $registration='';
+        $main_connected='';
         
         $from_fil_dt = $this->request->getGet('from_fil_dt') ? 
             " AND DATE(m.diary_no_rec_date) > '" . date('Y-m-d', strtotime($this->request->getGet('from_fil_dt'))) . "' " : " ";
+        
         
         $upto_fil_dt = $this->request->getGet('upto_fil_dt') ? 
             " AND DATE(m.diary_no_rec_date) < '" . date('Y-m-d', strtotime($this->request->getGet('upto_fil_dt'))) . "' " : " ";
         
         $add_table = '';
-        
+       
         if ($this->request->getGet('case_status_id') == 'all,') {
             $case_status_id = " AND case_status_id IN (1, 2, 3, 6, 7, 9) ";
             $add_table = '';
-        } elseif ($this->request->getGet('case_status_id') == 103) {
+        } elseif ($this->request->getGet('case_status_id') == '103,') {
             $case_status_id = " ";
             $registration = " ";
         } elseif ($this->request->getGet('case_status_id') == 101) {
             $registration = " AND (active_fil_no = '' OR active_fil_no IS NULL) ";
+            
         } elseif ($this->request->getGet('case_status_id') == 102) {
             $registration = " AND !(active_fil_no = '' OR active_fil_no IS NULL) ";
-        } elseif ($this->request->getGet('case_status_id') == 104) {
+        } elseif ($this->request->getGet('case_status_id') == 104 || $this->request->getGet('case_status_id') == '104,') {
+            $case_status_id = " ";
             $Brep = " INNER JOIN
             (SELECT CASE WHEN os.diary_no IS NULL THEN m.diary_no ELSE 0 END AS dd FROM main m
              INNER JOIN docdetails b ON m.diary_no = b.diary_no
              LEFT OUTER JOIN
-            (SELECT DISTINCT diary_no FROM obj_save WHERE
-            (rm_dt IS NULL OR rm_dt = '0000-00-00 00:00:00') AND display = 'Y')
+            (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y')
             os ON m.diary_no = os.diary_no
              WHERE c_status = 'P' AND (active_fil_no IS NULL OR active_fil_no = '')
             AND (
@@ -565,14 +588,14 @@ class Pending extends BaseController
             (doccode = '8' AND doccode1 = '215')
             )
             AND b.iastat = 'P') aa ON m.diary_no = aa.dd ";
+
         }
         elseif ($this->request->getGet('case_status_id') == 105) {
             $Brep = " INNER JOIN
             (SELECT CASE WHEN os.diary_no IS NULL THEN m.diary_no ELSE 0 END AS dd FROM main m
              INNER JOIN docdetails b ON m.diary_no = b.diary_no
              LEFT OUTER JOIN
-            (SELECT DISTINCT diary_no FROM obj_save WHERE
-            (rm_dt IS NULL OR rm_dt='0000-00-00 00:00:00') AND display='Y')
+            (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y')
             os ON m.diary_no=os.diary_no
              WHERE  c_status = 'P' AND (active_fil_no IS NULL OR active_fil_no='')
             AND(
@@ -583,25 +606,21 @@ class Pending extends BaseController
             )
             AND b.iastat='P') aa ON m.diary_no=aa.dd ";
         } elseif ($this->request->getGet('case_status_id') == 106) {
-            $Brep = " LEFT OUTER JOIN
-                                (SELECT DISTINCT diary_no FROM obj_save WHERE
-                                (rm_dt IS NULL OR rm_dt='0000-00-00 00:00:00') AND display='Y')
+            $Brep = " LEFT OUTER JOIN (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y')
                                 os ON m.diary_no=os.diary_no
                                 ";
             $Brep1 = " and os.diary_no IS NOT NULL and c_status = 'P' AND (active_fil_no IS NULL OR  active_fil_no='') AND h.board_type='J'";
         } elseif ($this->request->getGet('case_status_id') == 107) {
             $Brep = " INNER JOIN docdetails b ON m.diary_no=b.diary_no
             INNER JOIN
-            (SELECT DISTINCT diary_no FROM obj_save WHERE
-            (rm_dt IS NULL OR rm_dt='0000-00-00 00:00:00') AND display='Y' AND DATEDIFF(NOW(),save_dt)>60) os
+            (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y' AND DATEDIFF(NOW(),save_dt)>60) os
             ON m.diary_no=os.diary_no ";
             $Brep1 = " and m.c_status = 'P' AND (m.active_fil_no IS NULL OR  m.active_fil_no='')
             AND doccode = '8' AND doccode1 = '226' AND b.iastat='P' ";
         } elseif ($this->request->getGet('case_status_id') == 108) {
             $Brep = " INNER JOIN docdetails b ON m.diary_no=b.diary_no
             INNER JOIN
-            (SELECT DISTINCT diary_no FROM obj_save WHERE
-            (rm_dt IS NULL OR rm_dt='0000-00-00 00:00:00') AND display='Y' AND DATEDIFF(NOW(),save_dt)<=60) os
+            (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y' AND DATEDIFF(NOW(),save_dt)<=60) os
             ON m.diary_no=os.diary_no ";
             $Brep1 = " and  m.c_status = 'P' AND (m.active_fil_no IS NULL OR  m.active_fil_no='')
             AND doccode = '8' AND doccode1 = '226' AND b.iastat='P' ";
@@ -609,8 +628,7 @@ class Pending extends BaseController
             $Brep = " LEFT JOIN (SELECT DISTINCT CASE WHEN os.diary_no IS NULL THEN m.diary_no ELSE 0 END AS dd FROM main m
              INNER JOIN docdetails b ON m.diary_no = b.diary_no
              LEFT OUTER JOIN
-            (SELECT DISTINCT diary_no FROM obj_save WHERE
-            (rm_dt IS NULL OR rm_dt='0000-00-00 00:00:00') AND display='Y')
+            (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y')
             os ON m.diary_no=os.diary_no
              WHERE  c_status = 'P' AND (active_fil_no IS NULL OR active_fil_no='')
             AND (((
@@ -632,6 +650,7 @@ class Pending extends BaseController
                                 (rm_dt IS NULL OR rm_dt='0000-00-00 00:00:00') AND display='Y')
                                 os1 ON m.diary_no=os1.diary_no ";
             $Brep1 = " and m.c_status = 'P' AND IF((m.active_fil_no IS NULL OR m.active_fil_no=''),(aa.dd !=0 OR (os1.diary_no IS NOT NULL AND h.board_type='J')),3=3) ";
+            
         }
         /*elseif($_GET['case_status_id']==101){
         $case_status_id=" and o.rm_dt = '0000-00-00 00:00:00' 
@@ -650,7 +669,7 @@ class Pending extends BaseController
             $case_status_id = " and case_status_id in (" . substr($this->request->getGet('case_status_id'), 0, -1) . ")"; 
             $add_table = '';
         }
-        
+     
         if ($this->request->getGet('mf') != 'ALL') {
             if ($this->request->getGet('til_date') != date('d-m-Y')) {
                 echo '<br>';
@@ -661,11 +680,11 @@ class Pending extends BaseController
                         GROUP BY diary_no";
                 $this->db->query($t);
         
-                echo '<br>';
+                // echo '<br>';
                 $t2 = "CREATE INDEX id_index ON vw2 (diary_no)";
                 $db->query($t2);
         
-                echo '<br>';
+                // echo '<br>';
                 $t3 = "CREATE TEMPORARY TABLE vw3 
                         SELECT l.diary_no, l." . $subhead_name . ", l.judges, med, next_dt, l." . $mainhead_name . "
                         FROM vw2 
@@ -674,7 +693,7 @@ class Pending extends BaseController
                         AND l." . $mainhead_name . " = '" . $this->request->getGet('mf') . "' " . $subhead;
                 $db->query($t3);
         
-                echo '<br>';
+                // echo '<br>';
                 $t4 = "CREATE INDEX id_index2 ON vw3 (diary_no)";
                 $db->query($t4);
             }
@@ -683,7 +702,7 @@ class Pending extends BaseController
         if ($this->request->getGet('mf') != 'ALL') {
             if ($this->request->getGet('til_date') != date('d-m-Y')) {
                 $sql = "
-                SELECT SUBSTR(diary_no::text, -4) AS year " . $str . " FROM 
+                SELECT SUBSTR(diary_no::text, -4) AS year ," . $str . " FROM 
                 (
                     SELECT m.diary_no, m.fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id
                     FROM main m " . $Brep . " 
@@ -708,12 +727,12 @@ class Pending extends BaseController
                         AND DATE(m.diary_no_rec_date) < '" . $til_dt . "' " . $year_main . " " . $from_fil_dt . " " . $upto_fil_dt . " " . $cat_and_act . " " . $bench . " 
                         " . $pc_act . " " . $women . " " . $children . " " . $land . " " . $cr_compound . " " . $commercial_code . " " . $party_name . " " . $pet_res . " " . $act_msc . " AND " . $exclude_cond_other . "
                     )
-                    GROUP BY m.diary_no, d.rj_dt, d.month, d.year, d.disp_dt
+                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id LIMIT 100
                 ) t
                 GROUP BY ROLLUP(SUBSTR(diary_no::text, -4) ) ";
             } else {
                 $sql = "
-                SELECT SUBSTR(diary_no::text, -4) AS year " . $str . " FROM 
+                SELECT SUBSTR(diary_no::text, -4) AS year ," . $str . " FROM 
                 (
                     SELECT m.diary_no, m.fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id
                     FROM main m " . $Brep . " 
@@ -725,7 +744,7 @@ class Pending extends BaseController
                     WHERE " . $registration . " " . $mf_h_table . " " . $cat_and_act . " " . $year_main . " " . $from_fil_dt . " " . $upto_fil_dt . " " . $case_status_id . $Brep1 . "
                     AND case_status_id IN (1, 2, 3, 6, 7, 9) 
                     AND (c_status = 'P' AND DATE(m.diary_no_rec_date) < '" . $til_dt . "') " . $subhead_condition . "
-                    GROUP BY m.diary_no
+                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id LIMIT 100
                 ) t
                 GROUP BY ROLLUP(SUBSTR(diary_no::text, -4) ) ";
             }
@@ -733,7 +752,7 @@ class Pending extends BaseController
         else {
             if ($this->request->getGet('til_date') != date('d-m-Y')) {
                 $sql = "
-                SELECT SUBSTR(diary_no::text, -4) AS year " . $str . " FROM 
+                SELECT SUBSTR(diary_no::text, -4) AS year ," . $str . " FROM 
                 (
                     SELECT m.diary_no, m.fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id
                     FROM main m " . $Brep . " 
@@ -749,12 +768,12 @@ class Pending extends BaseController
                     (
                         c_status = 'D' AND " . $ason_str . " " . $cat_and_act . " " . $year_main . " " . $from_fil_dt . " " . $upto_fil_dt . " AND DATE(m.diary_no_rec_date) < '" . $til_dt . "' AND " . $exclude_cond_other . " " . $main_connected . "
                     )
-                    GROUP BY m.diary_no
+                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id LIMIT 100
                 ) t
                 GROUP BY ROLLUP(SUBSTR(diary_no::text, -4) ) ";
             } else {
                 $sql = "
-                SELECT SUBSTR(diary_no::text, -4) AS year " . $str . " FROM 
+                SELECT SUBSTR(diary_no::text, -4) AS year ," . $str . " FROM 
                 (
                     SELECT m.diary_no, m.fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id
                     FROM main m " . $Brep . " 
@@ -763,20 +782,27 @@ class Pending extends BaseController
                     LEFT JOIN heardt h ON m.diary_no = h.diary_no 
                     LEFT JOIN act_main a ON a.diary_no = m.diary_no " . $add_table . $mul_cat_join . " " . $act_join . "
                     WHERE 2=2 " . $Brep1 . $registration . " " . $bench . " " . $cat_and_act . " " . $year_main . " " . $from_fil_dt . " " . $upto_fil_dt . " " . $case_status_id . " AND (c_status = 'P' AND DATE(m.diary_no_rec_date) <= '" . $til_dt . "')
-                    GROUP BY m.diary_no
+                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id LIMIT 100
                 ) t
                 GROUP BY ROLLUP(SUBSTR(diary_no::text, -4) ) ";
             }
         }
-            
-            $query = $this->db->query($sql);
-            $results = $query->getResultArray();
-            pr($results);
-            die;
-            $tot_row = count($results);
+        // pr($sql);
+        // die;
+        $query = $this->db->query($sql);
+        $data['results'] = $results = $query->getResultArray();
+        // echo "<pre>";print_r($results);die;
+        $data['tot_row'] = count($results);
+        $data['civil_colspan'] = $this->tot_case_in_nature('C');
+        $data['cr_colspan'] = $this->tot_case_in_nature('R');
+        $data['til_dt']   = $til_dt;
+        $data['head_subhead'] = $head_subhead;
+        $data['rpt_type'] = $this->request->getGet('rpt_type');
+        $data['db'] = \Config\Database::connect();
 
-
-        $data['result_array'] = $results;
+        // echo "<pre>";
+        // print_r($this->request->getGet('rpt_type'));
+        // die();
         return view('ManagementReport/Pending/get_year_head_nature_wise_ason_rpt', $data);
     
     }
@@ -797,9 +823,9 @@ class Pending extends BaseController
 
         foreach ($results as $r) {
             if ($j == $aff) {
-                $str .= " SUM(CASE WHEN IF(active_casetype_id=0, casetype_id, active_casetype_id) = '" . $r['casecode'] . "' THEN 1 ELSE 0 END) AS " . $r['skey'] . " ";
+                $str .= " SUM(CASE WHEN (CASE WHEN active_casetype_id = 0 THEN casetype_id ELSE active_casetype_id END) = '" . $r['casecode'] . "' THEN 1 ELSE 0 END) AS " . $r['skey'] . " ";
             } else {
-                $str .= " SUM(CASE WHEN IF(active_casetype_id=0, casetype_id, active_casetype_id) = '" . $r['casecode'] . "' THEN 1 ELSE 0 END) AS " . $r['skey'] . " ,";
+                $str .= " SUM(CASE WHEN (CASE WHEN active_casetype_id = 0 THEN casetype_id ELSE active_casetype_id END) = '" . $r['casecode'] . "' THEN 1 ELSE 0 END) AS " . $r['skey'] . " ,";
             }
             $j++;
         }
@@ -809,7 +835,7 @@ class Pending extends BaseController
     private function tot_case_in_nature($nature)
     {
         $db = \Config\Database::connect();
-        $builder = $db->table('casetype');
+        $builder = $db->table('master.casetype');
         $builder->where('nature', $nature);
         $builder->where('display', 'Y');
         $builder->orderBy('nature', 'ASC');

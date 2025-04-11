@@ -73,8 +73,8 @@ class Reports extends BaseController
         return view('Reports/pendencyReport/pendency_bifurcation_process',$data);
     }
 
-    public function pendency_bifurcation_process_detail(){
-       
+    public function pendency_bifurcation_process_detail()
+    {
         $data['for_date'] = date('Y-m-d', strtotime($_REQUEST['ason']));
         $data['ason_dmy'] = date('d-m-Y', strtotime($_REQUEST['ason']));
         $data['flag'] = $_REQUEST['flag'];

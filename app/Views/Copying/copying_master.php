@@ -46,7 +46,7 @@ $uri = current_url(true); ?>
              $url_reason_rejection_add = base_url('Copying/Copying/reason_rejection_add');
             }else{
                 $ColorCode = 'background-color: #169F85;color:#ffffff;';
-                $status_color = 'btn-outline-primary';
+                $status_color = 'btn-secondary';
              $url_reason_rejection_add = base_url('Copying/Copying/reason_rejection_add');
             }
         ?>
@@ -60,8 +60,8 @@ $uri = current_url(true); ?>
                $status_color = 'btn-primary';
            $url_reason_rejection_del = base_url('Copying/Copying/reason_rejection');
            } else{
-               $ColorCode = 'background-color: #169F85;color:#ffffff;';
-               $status_color = 'btn-outline-primary';
+            $ColorCode = 'background-color: #169F85;color:#ffffff;';
+            $status_color = 'btn-secondary';
            $url_reason_rejection_del = base_url('Copying/Copying/reason_rejection');
            }
         ?>
@@ -74,11 +74,11 @@ $uri = current_url(true); ?>
          if ($uri->getSegment(3) == 'user_role_add') {
                 $ColorCode = 'background-color: #01ADEF';
                 $status_color = 'btn-primary';
-             $url_role_assign = base_url('copying/Copying/user_role_add');
+                $url_role_assign = base_url('copying/Copying/user_role_add');
             } else{
                 $ColorCode = 'background-color: #169F85;color:#ffffff;';
-                $status_color = 'btn-outline-primary';
-             $url_role_assign = base_url('copying/Copying/user_role_add');
+                $status_color = 'btn-secondary';
+                $url_role_assign = base_url('copying/Copying/user_role_add');
             }
         ?>
         <a href="<?=$url_role_assign; ?>"><button  class="btn btn-block <?php echo $status_color; ?>">Role Add</button> </a>
@@ -91,8 +91,8 @@ $uri = current_url(true); ?>
                 $status_color = 'btn-primary';
             $url_role_delete = base_url('copying/Copying/user_role');
             } else{
-                $ColorCode = 'background-color: #169F85;color:#ffffff;';
-                $status_color = 'btn-outline-primary';
+            $ColorCode = 'background-color: #169F85;color:#ffffff;';
+            $status_color = 'btn-secondary';
             $url_role_delete = base_url('copying/Copying/user_role');
             }
          ?>

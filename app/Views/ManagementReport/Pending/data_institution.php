@@ -19,12 +19,14 @@
 
     ?>
         <br><br>
-        <div align="center"><input name="cmdPrnRqs2" type="button" id="cmdPrnRqs2" onClick="CallPrint('prnTable');" value="PRINT"></div>
+       
         <div id="prnTable" align="center">
-            <table cellpadding=1 cellspacing=0 border=1>
+            
+            <table class="table table-bordered table-striped table-hover" cellpadding="1" cellspacing="0">
+
                 <tr>
                     <th colspan=13>
-                        <font color=blue size=+1><?= $rpt_type ?> Report between :<?php echo $from_date . ' to ' . $to_date; ?></font>
+                        <center><font color=blue size=+1><?= $rpt_type ?> Report between :<?php echo $from_date . ' to ' . $to_date; ?></font> </center>
                     </th>
                 </tr>
                 <tr>
@@ -113,7 +115,7 @@
                 ?>
             </table>
         </div>
-        <center><input name="cmdPrnRqs22" type="button" id="cmdPrnRqs22" onClick="CallPrint('prnTable');" value="PRINT"></center>
+        <center><input  type="button" id="print1"  value="PRINT"></center>
     <?php
 
     } else

@@ -112,4 +112,14 @@ class Report extends BaseController
         return view('ManagementReport/Pending/sectionwise_pendency_get_view', $data);
     }
 
+    public function section_pendency()
+    {
+        $ucode = $_SESSION['login']['usercode'];
+        $section1 = $_SESSION['login']['section'];
+        $result_array = $this->PendencyModel->da_rog_report($section1);        
+        $data['da_rog_result'] = $result_array;
+        return view('ManagementReport/Pending/section_pendency_view', $data);
+        
+    }
+
 }

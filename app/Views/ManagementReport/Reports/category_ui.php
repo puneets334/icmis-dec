@@ -367,7 +367,7 @@
         $('#tabl').hide();
         var judge = getSelectedValue('judge');
         var selsubcat = getAllValue('selsubcat');
-        var tdate = document.getElementById('tdate').value;
+		var tdate = document.getElementById('tdate').value;
         var fdate = document.getElementById('fdate').value;
         var mainhead = document.getElementById('mr').value;
         var jud_num = '<?php echo $judge_count; ?>';

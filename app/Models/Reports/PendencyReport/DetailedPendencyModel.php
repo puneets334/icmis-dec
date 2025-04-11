@@ -2506,16 +2506,20 @@ class DetailedPendencyModel extends Model
             $result = $sqlQuery->getResultArray();
             $sno = 1;
             $html .= '<div id="prnnt" style="text-align: center;">';
-            $html .= '<h3 style="text-align:center;">Not Before Verification</h3>';
-            $html .= '<table id="customers">';
+
+            $html .= '<div class="container-fluid"><div class="row"><div class="col-md-2 ml-n4 text-left"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary bk_out"></div><div class="col-md-8 text-center"><h3 class="mt-3" style="text-align:center">Not Before Verification</h3></div><div class="col-md-2"></div></div></div>';
+
+            //$html .= '<div class="col-md-12" style="text-align: center;"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary"></div>';
+            //$html .= '<h3 style="text-align:center;">Not Before Verification</h3>';
+            $html .= '<table id="customers" >';
             $html .= '<tr>
-                <td width="10%" style="font-weight: bold; color: #dce38d; background: #918788;">SrNo.</td>
-                <td width="15%" style="font-weight: bold; color: #dce38d; background: #918788;">Case No. / Diary No.</td>
-                <td width="25%" style="font-weight: bold; color: #dce38d; background: #918788;">Cause Title</td>
-                <td width="15%" style="font-weight: bold; color: #dce38d; background: #918788;">Honble Judge Name</td>
-                <td width="15%" style="font-weight: bold; color: #dce38d; background: #918788;">Lower Court Case No.</td>
-                <td width="15%" style="font-weight: bold; color: #dce38d; background: #918788;">Agency</td>
-                <td width="15%" style="font-weight: bold; color: #dce38d; background: #918788;">Section / DA</td>
+                <td width="10%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">SrNo.</td>
+                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Case No. / Diary No.</td>
+                <td width="25%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Cause Title</td>
+                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Honble Judge Name</td>
+                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Lower Court Case No.</td>
+                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Agency</td>
+                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Section / DA</td>
             </tr>';
             foreach ($result as $key => $ro)
             {
@@ -2535,7 +2539,7 @@ class DetailedPendencyModel extends Model
             }
             $html .= '</table>';
             $html .= '</div>';
-            $html .= '<div class="col-md-12" style="text-align: center;"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary"></div>';
+            //$html .= '<div class="col-md-12" style="text-align: center;"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary"></div>';
         }
         else
         {
@@ -2547,26 +2551,7 @@ class DetailedPendencyModel extends Model
 
     function getDisposal_AsPer_OrderDate($fromDate = null, $toDate = null, $id = null)
     {
-        if($id == 1)
-        {
-            /*$sql="select (SELECT count(*)
-            FROM `main` m
-            WHERE DATE(fil_dt)  between '".$fromDate."' and '".$toDate."') as institution,
-            (SELECT count(*)
-            FROM `main` m
-            WHERE fil_no is not null and fil_no!='' and c_status='P') as current_pendency,
-            sum(case when m.fil_no is not null and m.fil_no !='' then 1 else 0 end) registered_disposal,
-            sum(case when m.fil_no is null or m.fil_no ='' then 1 else 0 end) diary_disposal,
-            SUM(CASE WHEN m.mf_active='M' then 1 else 0 end) misc_disposal,
-            SUM(CASE WHEN m.mf_active='F' then 1 else 0 end) regular_disposal,
-            count(*) total_disposal
-            FROM main m INNER JOIN heardt h
-            ON m.diary_no=h.diary_no INNER JOIN dispose d
-            ON m.diary_no=d.diary_no INNER JOIN judge j ON FIND_IN_SET (j.jcode, d.jud_id)=1
-            WHERE j.is_retired='N' AND d.ord_dt
-            between '".$fromDate."' and '".$toDate."' AND c_status='D' AND h.board_type ='J'
-            and (mf_active='M' OR mf_active='F')";*/
-
+        if($id == 1) {
             $sql = "SELECT 
                 (SELECT COUNT(*)
                  FROM main m
@@ -2596,28 +2581,14 @@ class DetailedPendencyModel extends Model
             AND h.board_type = 'J'
             AND (m.mf_active = 'M' OR m.mf_active = 'F')";
         }
-        if($id == 2)
-        {
-            /*$sql="select sum(case when m.mf_active<>'F' then 1 else 0 end) as admission_matter,
-            sum(case when mf_active<>'F' and main_supp_flag in (0,1,2) then 1 else 0 end) as Total_Complete,
-            sum(case when mf_active<>'F' and (main_supp_flag not in (0,1,2) or main_supp_flag is null) then 1 else 0 end) as Total_Incomplete,
-            sum(case when m.mf_active='F' then 1 else 0 end) as final_matter,
-            sum(case when mf_active='F' and main_supp_flag in (0,1,2) then 1 else 0 end) as Total_Ready,
-            sum(case when mf_active='F' and (main_supp_flag not in (0,1,2) or main_supp_flag is null) then 1 else 0 end) as Total_NotReady,
-            sum(case when (case_grp='C' or case_grp is null) then 1 else 0 end) civil_pendency,
-            sum(case when case_grp='R' then 1 else 0 end) criminal_pendency,
-            sum(case when date(fil_dt) < date(DATE_SUB(now(), INTERVAL 1 YEAR)) then 1 else 0 end) more_than_one_year_old,
-            sum(case when fil_dt >= date(DATE_SUB(now(), INTERVAL 1 YEAR)) then 1 else 0 end) less_than_one_year_old,
-            count(*) as total_pendency from main m left outer join heardt h on m.diary_no=h.diary_no
-            where m.c_status='P' and m.fil_no is not null and m.fil_no !=''";*/
-
+        if($id == 2) {
             $sql = "SELECT 
                 SUM(CASE WHEN m.mf_active <> 'F' THEN 1 ELSE 0 END) AS admission_matter,
-                SUM(CASE WHEN m.mf_active <> 'F' AND m.main_supp_flag IN (0, 1, 2) THEN 1 ELSE 0 END) AS total_complete,
-                SUM(CASE WHEN m.mf_active <> 'F' AND (m.main_supp_flag NOT IN (0, 1, 2) OR m.main_supp_flag IS NULL) THEN 1 ELSE 0 END) AS total_incomplete,
+                SUM(CASE WHEN m.mf_active <> 'F' AND main_supp_flag IN (0, 1, 2) THEN 1 ELSE 0 END) AS total_complete,
+                SUM(CASE WHEN m.mf_active <> 'F' AND (main_supp_flag NOT IN (0, 1, 2) OR main_supp_flag IS NULL) THEN 1 ELSE 0 END) AS total_incomplete,
                 SUM(CASE WHEN m.mf_active = 'F' THEN 1 ELSE 0 END) AS final_matter,
-                SUM(CASE WHEN m.mf_active = 'F' AND m.main_supp_flag IN (0, 1, 2) THEN 1 ELSE 0 END) AS total_ready,
-                SUM(CASE WHEN m.mf_active = 'F' AND (m.main_supp_flag NOT IN (0, 1, 2) OR m.main_supp_flag IS NULL) THEN 1 ELSE 0 END) AS total_notready,
+                SUM(CASE WHEN m.mf_active = 'F' AND main_supp_flag IN (0, 1, 2) THEN 1 ELSE 0 END) AS total_ready,
+                SUM(CASE WHEN m.mf_active = 'F' AND (main_supp_flag NOT IN (0, 1, 2) OR main_supp_flag IS NULL) THEN 1 ELSE 0 END) AS total_notready,
                 SUM(CASE WHEN (m.case_grp = 'C' OR m.case_grp IS NULL) THEN 1 ELSE 0 END) AS civil_pendency,
                 SUM(CASE WHEN m.case_grp = 'R' THEN 1 ELSE 0 END) AS criminal_pendency,
                 SUM(CASE WHEN m.fil_dt::date < CURRENT_DATE - INTERVAL '1 year' THEN 1 ELSE 0 END) AS more_than_one_year_old,
@@ -2629,11 +2600,7 @@ class DetailedPendencyModel extends Model
             AND m.fil_no IS NOT NULL
             AND m.fil_no != ''";
         }
-        if($id == 3)
-        {
-            /*$sql="SELECT SUBSTR(m.diary_no,1,LENGTH(m.diary_no) - 4) AS diary_no, SUBSTR(m.diary_no, - 4) AS diary_year, reg_no_display,pet_name,res_name,fil_dt
-            FROM main m  WHERE DATE(fil_dt) between '".$fromDate."' and '".$toDate."'";*/
-
+        if($id == 3) {
             $sql = "SELECT 
                 SUBSTRING(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS diary_no,
                 SUBSTRING(CAST(m.diary_no AS TEXT), -4) AS diary_year,
@@ -2644,18 +2611,7 @@ class DetailedPendencyModel extends Model
             FROM main m
             WHERE DATE(fil_dt) BETWEEN '".$fromDate."' AND '".$toDate."'";
         }
-        if($id == 4)
-        {
-            /*$sql="SELECT SUBSTR(m.diary_no,1,LENGTH(m.diary_no) - 4) AS diary_no, SUBSTR(m.diary_no, - 4) AS diary_year, reg_no_display,pet_name,res_name,d.disp_dt,d.ent_dt
-            FROM main m 
-            INNER JOIN heardt h ON m.diary_no=h.diary_no
-            INNER JOIN dispose d ON m.diary_no=d.diary_no
-            INNER JOIN master.judge j ON FIND_IN_SET (j.jcode, d.jud_id) = 1
-            WHERE j.is_retired='N' AND d.ord_dt
-            between '".$fromDate."' and '".$toDate."' AND c_status='D' AND h.board_type ='J'
-            and (mf_active='M' OR mf_active='F')
-            and (m.fil_no is null or m.fil_no ='')";*/
-
+        if($id == 4) {
             $sql = "SELECT 
                 SUBSTRING(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS diary_no,
                 SUBSTRING(CAST(m.diary_no AS TEXT), -4) AS diary_year,
@@ -2675,16 +2631,7 @@ class DetailedPendencyModel extends Model
             AND (mf_active = 'M' OR mf_active = 'F')
             AND (m.fil_no IS NULL OR m.fil_no = '')";
         }
-        if($id == 5)
-        {
-            /*$sql=" SELECT SUBSTR(m.diary_no,1,LENGTH(m.diary_no) - 4) AS diary_no, SUBSTR(m.diary_no, - 4) AS diary_year, reg_no_display,pet_name,res_name,d.disp_dt,d.ent_dt
-            FROM main m INNER JOIN heardt h
-            ON m.diary_no=h.diary_no INNER JOIN dispose d
-            ON m.diary_no=d.diary_no INNER JOIN judge j ON FIND_IN_SET (j.jcode, d.jud_id)=1
-            WHERE j.is_retired='N' AND d.ord_dt
-            between '".$fromDate."' and '".$toDate."' AND c_status='D' AND h.board_type ='J'
-            and (mf_active='M' OR mf_active='F')";*/
-
+        if($id == 5) {
             $sql = "SELECT 
                 SUBSTRING(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS diary_no,
                 SUBSTRING(CAST(m.diary_no AS TEXT), -4) AS diary_year,
@@ -2705,13 +2652,9 @@ class DetailedPendencyModel extends Model
             AND (mf_active = 'M' OR mf_active = 'F')";
         }
         $query = $this->db->query($sql);
-        //echo $this->db->last_query();
-        if ($query->getNumRows() >= 1)
-        {
+        if ($query->getNumRows() >= 1) {
             return  $query->getResultArray();
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
