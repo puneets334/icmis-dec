@@ -569,6 +569,84 @@ class PendencyModel extends Model
         $result = $query->getResultArray();
         return $result;
     }
+
+    function da_rog_report($section = 0)
+    {
+        $condition = $section != '0' ? " AND section = $section" : "";
+
+        $sql = "
+            SELECT empid, dacode, name, type_name, section_name,
+                COUNT(DISTINCT total) AS total,
+                COUNT(DISTINCT red) AS red,
+                COUNT(DISTINCT orange) AS orange,
+                COUNT(DISTINCT green) AS green,
+                COUNT(DISTINCT yellow) AS yellow
+            FROM (
+                SELECT empid, dacode, name, type_name, section_name, m.diary_no AS total,
+                    CASE
+                        WHEN (h.tentative_cl_dt IS NOT NULL AND h.tentative_cl_dt::text != '0000-00-00' AND (CURRENT_DATE - h.tentative_cl_dt::DATE) < 2)
+                                AND NOT ((h.mainhead = 'M' AND s.listtype = 'M' AND s.listtype IS NOT NULL AND s.display = 'Y' AND s.display IS NOT NULL)
+                                        OR (h.mainhead = 'S' AND s.listtype = 'S' AND s.listtype IS NOT NULL AND s.display = 'Y' AND s.display IS NOT NULL)
+                                        OR (main_supp_flag = 0 AND clno = 0 AND h.brd_slno = 0 AND (judges = '' OR judges::int = 0) AND roster_id = 0)
+                                        OR (h.next_dt IS NOT NULL AND h.next_dt >= CURRENT_DATE))
+                                AND (lastorder NOT LIKE '%Not Reached%' AND lastorder NOT LIKE '%Case Not Receive%' AND lastorder NOT LIKE '%Heard & Reserved%' OR lastorder IS NULL)
+                                AND (head_code != '5' OR head_code IS NULL)
+                                AND m.diary_no NOT IN (SELECT diary_no FROM public.heardt WHERE main_supp_flag = 3 AND usercode IN (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                                    UNION
+                                                    SELECT fil_no AS diary_no FROM public.rgo_default WHERE remove_def != 'Y')
+                        THEN m.diary_no
+                    END AS red,
+                    CASE
+                        WHEN (CURRENT_DATE - h.tentative_cl_dt) > 1
+                                AND NOT ((h.mainhead = 'M' AND s.listtype = 'M' AND s.listtype IS NOT NULL AND s.display = 'Y' AND s.display IS NOT NULL)
+                                        OR (h.mainhead = 'S' AND s.listtype = 'S' AND s.listtype IS NOT NULL AND s.display = 'Y' AND s.display IS NOT NULL)
+                                        OR (main_supp_flag = 0 AND clno = 0 AND h.brd_slno = 0 AND (judges = '' OR judges::int = 0) AND roster_id = 0)
+                                        OR (h.next_dt IS NOT NULL AND h.next_dt >= CURRENT_DATE))
+                                AND (lastorder NOT LIKE '%Not Reached%' AND lastorder NOT LIKE '%Case Not Receive%' AND lastorder NOT LIKE '%Heard & Reserved%' OR lastorder IS NULL)
+                                AND (head_code != '5' OR head_code IS NULL)
+                                AND m.diary_no NOT IN (SELECT diary_no FROM public.heardt WHERE main_supp_flag = 3 AND usercode IN (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                                    UNION
+                                                    SELECT fil_no AS diary_no FROM public.rgo_default WHERE remove_def != 'Y')
+                        THEN m.diary_no
+                    END AS orange,
+                    CASE
+                        WHEN (h.mainhead = 'M' AND s.listtype = 'M' AND s.listtype IS NOT NULL AND s.display = 'Y' AND s.display IS NOT NULL)
+                                OR (h.mainhead = 'S' AND s.listtype = 'S' AND s.listtype IS NOT NULL AND s.display = 'Y' AND s.display IS NOT NULL)
+                                OR (main_supp_flag = 0 AND clno = 0 AND h.brd_slno = 0 AND (judges = '' OR judges::int = 0) AND roster_id = 0)
+                                OR (h.next_dt IS NOT NULL AND h.next_dt::date >= CURRENT_DATE)
+                                OR (lastorder LIKE '%Not Reached%' OR lastorder LIKE '%Case Not Receive%')
+                                OR head_code = '5'
+                                AND m.diary_no NOT IN (SELECT diary_no FROM public.heardt WHERE main_supp_flag = 3 AND usercode IN (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                                    UNION
+                                                    SELECT fil_no AS diary_no FROM public.rgo_default WHERE remove_def != 'Y')
+                        THEN m.diary_no
+                    END AS green,
+                    CASE
+                        WHEN (h.main_supp_flag = 3 AND h.usercode IN (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762))
+                                OR (rd.remove_def != 'Y')
+                                OR (lastorder LIKE '%Heard & Reserved%')
+                        THEN m.diary_no
+                    END AS yellow
+                FROM public.main m
+                INNER JOIN master.casetype c ON c.casecode = COALESCE(NULLIF(m.active_casetype_id, 0), m.casetype_id)
+                LEFT JOIN public.heardt h ON m.diary_no = h.diary_no
+                LEFT JOIN master.users u ON m.dacode = u.usercode
+                LEFT JOIN master.usertype ut ON ut.id = u.usertype
+                LEFT JOIN public.rgo_default rd ON m.diary_no = rd.fil_no
+                LEFT JOIN master.usersection b ON b.id = u.section
+                LEFT JOIN master.subheading s ON h.subhead = s.stagecode
+                WHERE c_status = 'P'
+            $condition) a
+            GROUP BY empid, dacode, name, type_name, section_name
+            ORDER BY section_name, type_name DESC, total
+        ";
+
+        // echo $sql;
+
+        $query = $this->db->query($sql);
+
+        return $query->getResultArray();
+    }
     
 
     // Shubham Work END
