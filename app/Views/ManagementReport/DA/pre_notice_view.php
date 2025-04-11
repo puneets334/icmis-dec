@@ -104,6 +104,7 @@
 </section>
 
 <script>
+    
 
     $(document).on("click", "#rs_actio_btn1", function() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
