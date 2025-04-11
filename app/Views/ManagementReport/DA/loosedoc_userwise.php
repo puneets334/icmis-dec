@@ -53,7 +53,8 @@
                                             </form>
                                             <?php
                                             //if(is_array($reports))
-                                            if (sizeof($case_result) > 0) {
+                                           
+                                            if (count($case_result) > 0) {
                                             ?>
                                                 <div id="printable1" class="table-responsive">
                                                     <table id="example1" class="table table-striped custom-table">
@@ -73,13 +74,27 @@
                                                             $s_no = 1;
                                                             foreach ($case_result as $result) {
                                                             ?>
+                                                                
                                                                 <tr>
                                                                     <td><?php echo $s_no; ?></td>
-                                                                    <td><?php echo $result['date1']; ?></td>
-                                                                    <!--<td><?php /*echo $result['section_name'];*/ ?></td>-->
+                                                                    <td><?php echo date('d-m-Y',strtotime($result['date1'])); ?></td>
                                                                     <td><?php echo $result['total']; ?></td>
-                                                                    <td><button class="btn btn-default" data-toggle="modal" data-target="#modal-default" onclick="get_detail('<?php echo $result['date1']; ?>','V','<?php echo $result['sec_id']; ?>','<?php echo $_POST['usercode']; ?>');"> <?php echo $result['verify']; ?></button></td>
-                                                                    <td><button class="btn btn-default" data-toggle="modal" data-target="#modal-default" onclick="get_detail('<?php echo $result['date1']; ?>','N','<?php echo $result['sec_id']; ?>','<?php echo $_POST['usercode']; ?>');"> <?php echo $result['not_verify']; ?></button></td>
+                                                                    <?php if(!empty($result['verify'])){ ?>
+                                                                    <td><button class="btn btn-secondary" data-toggle="modal" data-target="#modal-default" onclick="get_detail('<?php echo $result['date1']; ?>','V','<?php echo $result['sec_id']; ?>','<?php echo $_POST['usercode']; ?>');"> <?php echo $result['verify']; ?></button></td>
+                                                                      <?php 
+                                                                    } else {
+                                                                        echo '<td>0</td>';
+                                                                    }
+                                                                    ?>
+                                                                    <?php if(!empty($result['not_verify'])){ ?>
+                                                                        <td><button class="btn btn-secondary" data-toggle="modal" data-target="#modal-default" onclick="get_detail('<?php echo $result['date1']; ?>','N','<?php echo $result['sec_id']; ?>','<?php echo $_POST['usercode']; ?>');"> <?php echo $result['not_verify']; ?></button></td>
+                                                                      <?php 
+                                                                    } else {
+                                                                        echo '<td>0</td>';
+                                                                    }
+                                                                    ?>
+                                                                    
+                                                                    
 
                                                                 </tr>
                                                             <?php
@@ -91,40 +106,69 @@
                                                 </div>
                                             <?PHP
                                             }
+                                            else{  if($value == 1){?>
+                                                <div id="printable1" class="table-responsive">
+                                                
+                                                <table id="example1" class="table table-striped custom-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 5%;" rowspan='1'>SNo.</th>
+                                                                <th style="width: 5%;" rowspan='1'>Date</th>
+                                                                <!--   <th style="width: 5%;" rowspan='1'>Section</th>-->
+                                                                <th style="width: 5%;" rowspan='1'>Total</th>
+
+                                                                <th style="width: 5%;" rowspan='1'>Verfiy</th>
+                                                                <th style="width: 5%;" rowspan='1'>Not Verify</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <td colspan="5">NO RECORD FOUND</td>
+                                                        </tbody>
+                                                    </table>
+                                            </div> 
+                                            <?php
+                                            }
+                                        }
                                             ?>
 
-                                            <div class="modal fade" id="modal-default" style="display: none;">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content" style="width: 170%; overflow-y:scroll;  position:absolute; right:-29%">
-                                                        <div class="modal-header">
-                                                            <button type="button" style="width:15%;float:left" id="print" name="print" onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button>
-                                                            <button type="button" style="float:right" class="btn btn-danger" data-dismiss="modal">X</button>
-                                                        </div>
-                                                        <div class="modal-body table-responsive" id="printable">
-                                                            <table width="100%" id="reportTable2" class="table table-striped custom-table">
-                                                                <thead>
-                                                                    <h3 style="text-align: center;"> Loose Documents Report </h3>
-                                                                    <tr>
-                                                                        <th>S No.</th>
-                                                                        <th>Case No</th>
-                                                                        <th>Section</th>
-                                                                        <th>Doc No</th>
-                                                                        <th>Dealing Assitant</th>
-                                                                        <th>DAK Received By</th>
-                                                                        <th>Entry Date</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                                            <button type="button" style="width:15%;float:left" id="print" name="print" onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button>
-                                                        </div>
-                                                    </div>
+                                            <div class="modal" id="modal-default">
+                                                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" id="print" name="print" class="btn btn-primary">Print</button>
+                                                                        <button type="button" style="float:right" class="btn btn-danger" data-dismiss="modal">X</button>
+                                                                    </div>
+                                                                    <div class="modal-body table-responsive" id="prnnt">
+                                                                        <div class="reportTable"></div>
+                                                                        <table width="100%" id="reportTable2" class="table table-striped custom-table">
+                                                                            <thead>
+                                                                                <h3 style="text-align: center;"> Loose Documents Report </h3>
+                                                                                <tr>
+                                                                                    <th>S No.</th>
+                                                                                    <th>Case No</th>
+                                                                                    <th>Section</th>
+                                                                                    <th>Doc No</th>
+                                                                                    <th>Dealing Assitant</th>
+                                                                                    <th>DAK Received By</th>
+                                                                                    <th>Entry Date</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                                        <button type="button" style="width:15%;float:left" id="print" name="print"  class="btn btn-block btn-warning">Print</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                 </div>
-                                            </div>
+
+
+
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -144,7 +188,16 @@
         "autoWidth": false,
         "dom": 'Bfrtip',
         "bProcessing": true,
-        "buttons": ["excel", "pdf"]
+        "buttons": [
+            {
+                extend: 'excelHtml5',
+                title: 'Verify-Not Verify Loose Documents' // Add your desired Excel heading here
+            },
+            {
+                extend: 'pdfHtml5',
+                title: 'Verify-Not Verify Loose Documents'   // Add your desired PDF heading here
+            }
+        ]
     });
 
     $(document).on("focus", ".dtp", function() {
@@ -171,20 +224,40 @@
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             dataType: 'json',
+            beforeSend: function() {
+            $(".reportTable").html(
+                "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>"
+            );
+        },
             type: "POST",
             success: function(data) {
-
+                updateCSRFToken();
+                $(".reportTable").html('');
                 $('#reportTable2 tbody').empty();
                 sno = 1;
                 $.each(data, function(index) {
-                    $('#reportTable2 tbody').append("<tr><td>" + sno + "</td><td>" + data[index].CaseNo + "</td><td>" + data[index].da_section + "</td><td>" + data[index].document + "-> " + data[index].docdesc + "</td><td>" + data[index].da_empid + "@ " + data[index].da_name + "</td><td>" + data[index].dak_name + "@ " + data[index].dak_empid + "</td><td>" + data[index].ent_dt + "</td></tr>");
+                    $('#reportTable2 tbody').append("<tr><td>" + sno + "</td><td>" + data[index].caseno + "</td><td>" + data[index].da_section + "</td><td>" + data[index].document + "-> " + data[index].docdesc + "</td><td>" + data[index].da_empid + "@ " + data[index].da_name + "</td><td>" + data[index].dak_name + "@ " + data[index].dak_empid + "</td><td>" + data[index].ent_dt + "</td></tr>");
                     sno++;
                 });
                 $("#modal-default").show();
             },
             error: function() {
+                updateCSRFToken();
                 console.log('error');
             }
+            
         });
+        updateCSRFToken();
     }
+    $(document).on("click","#print",function(){    
+        var prtContent = $("#prnnt").html();
+        var temp_str=prtContent;
+        var WinPrint = window.open('','','left=100,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1,cellspacing=1');
+        WinPrint.document.write(temp_str);
+        WinPrint.document.close();
+        WinPrint.focus();
+        WinPrint.print();
+        });
+
+   
 </script>

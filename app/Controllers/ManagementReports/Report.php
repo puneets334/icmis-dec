@@ -14,6 +14,7 @@ class Report extends BaseController
     public $Model_diary;
     public $Heardt;
     public $ReportModel;
+    protected $db;
 
     function __construct()
     {

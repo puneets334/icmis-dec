@@ -7,9 +7,8 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Coram Wise Cases to be list (with Category)</h3>
+                                <h3 class="card-title">Judge Wise Cases to be list (with Category)</h3>
                             </div>
-                            <?= view('Filing/filing_filter_buttons'); ?>
                         </div>
                     </div>
                     <div class="card-body">
@@ -18,7 +17,6 @@
                         csrf_token();
                         ?>
                         <div id="dv_content1">
-                            <div style="text-align: center">
                                 <div class="row">
                                     <div class="col-md-2">
                                         <label for="">Board Type</label>
@@ -41,7 +39,6 @@
                                     </div>
                                 </div>
                                 <div id="res_loader"></div>
-                            </div>
                             <div id="dv_res1"></div>
                         </div>
                         <?php echo form_close(); ?>
@@ -80,7 +77,8 @@
                 board_type: board_type
             },
             beforeSend: function() {
-                $('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                //$('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../../images/load.gif'></div>");
             },
             type: 'POST',
             success: function(data, status) {

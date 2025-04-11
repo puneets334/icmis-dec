@@ -486,24 +486,22 @@ class ReportModel extends Model
     {
         $return = [];
         $sql = "SELECT tentative_section(a.diary_no) ten_sec, a.diary_no, 
-        COALESCE(STRING_AGG(n.j1::TEXT, ','), c.coram) AS coram, nr.res_add,
-        reason, b.pet_name, b.res_name,b.next_dt,active_fil_no,short_description,
-        EXTRACT(YEAR FROM active_fil_dt) AS active_fil_dt,
-        b.reg_no_display 
-        FROM sensitive_cases a JOIN main b ON a.diary_no=b.diary_no 	
-        LEFT JOIN heardt c ON a.diary_no=c.diary_no
-        LEFT JOIN master.casetype d ON d.casecode = CAST(NULLIF(SUBSTRING(b.active_fil_no FROM 1 FOR 2), '') AS BIGINT)
-            AND d.display = 'Y'
-        LEFT JOIN not_before n ON n.diary_no = a.diary_no AND n.notbef = 'B'
-        LEFT JOIN master.not_before_reason nr ON nr.res_id = n.res_id
-        WHERE a.display='Y' AND c_status='P' 
-        GROUP BY a.diary_no, c.coram, nr.res_add, a.reason, b.pet_name, b.res_name, b.next_dt, b.active_fil_no, d.short_description, b.active_fil_dt, b.reg_no_display
-        ORDER BY SUBSTRING(a.diary_no::TEXT FROM LENGTH(a.diary_no::TEXT) - 3 FOR 4),
-         SUBSTRING(a.diary_no::TEXT FROM 1 FOR LENGTH(a.diary_no::TEXT) - 4),
-        next_dt";
-        
-        $query = $this->db->query($sql);
-        
+            COALESCE(STRING_AGG(n.j1::TEXT, ','), c.coram) AS coram, nr.res_add,
+            reason, b.pet_name, b.res_name,c.next_dt,active_fil_no,short_description,
+            EXTRACT(YEAR FROM active_fil_dt) AS active_fil_dt,
+            b.reg_no_display 
+            FROM sensitive_cases a JOIN main b ON a.diary_no=b.diary_no 	
+            LEFT JOIN heardt c ON a.diary_no=c.diary_no
+            LEFT JOIN master.casetype d ON d.casecode = CAST(NULLIF(SUBSTRING(b.active_fil_no FROM 1 FOR 2), '') AS BIGINT)
+                AND d.display = 'Y'
+            LEFT JOIN not_before n ON n.diary_no = a.diary_no::text AND n.notbef = 'B'
+            LEFT JOIN master.not_before_reason nr ON nr.res_id = n.res_id
+            WHERE a.display='Y' AND c_status='P' 
+            GROUP BY a.diary_no, c.coram, nr.res_add, a.reason, b.pet_name, b.res_name, c.next_dt, b.active_fil_no, d.short_description, b.active_fil_dt, b.reg_no_display
+            ORDER BY SUBSTRING(a.diary_no::TEXT FROM LENGTH(a.diary_no::TEXT) - 3 FOR 4),
+            SUBSTRING(a.diary_no::TEXT FROM 1 FOR LENGTH(a.diary_no::TEXT) - 4),
+            next_dt";
+        $query = $this->db->query($sql);        
         if ($query->getNumRows() >= 1) {
             $return = $query->getResultArray();
         }  

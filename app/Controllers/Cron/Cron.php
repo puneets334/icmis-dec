@@ -145,7 +145,7 @@ $applicant_detail = $query->get()->getResultArray();
                 // Check if the application already exists
                 $applicant_detail_chk = $db->table('copying_order_issuing_application_new')
                     ->select('id')
-                    ->where('crn', $data['crn'])
+                    ->where('crn',$data['crn'])
                     ->where('crn !=', '0')
                     ->where('LENGTH(crn)', 15)
                     ->get();
@@ -177,9 +177,11 @@ $applicant_detail = $query->get()->getResultArray();
                         'authorized_by_aor' => $data['authorized_by_aor'],
                         'allowed_request' => $data['allowed_request']
                     ];
-
+                    
                     // Insert into the database
                     $db->table('copying_order_issuing_application_new')->insert($application_data);
+                    //echo $db->error();
+                    //die;
                     $offline_application_id = $db->insertID();
 
                     // Fetch online documents
@@ -413,8 +415,8 @@ $applicant_detail = $query->get()->getResultArray();
                 $json = json_decode($base64Decode, true);
 
                 if ($json['status'] == 'success') {
-                    $mailContent .= "<br><a href='" . $json['slug'] . "' target='_BLANK'>Click Here</a> for further process. Link valid for 7 days.<br>";
-                    $smsContent .= " Click here " . $json['slug'] . " Link Valid for 7 days.";
+                    $mailContent .= "<br><a href='".$json['slug']. "' target='_BLANK'>Click Here</a> for further process. Link valid for 7 days.<br>";
+                    $smsContent .= " Click here ".$json['slug']. " Link Valid for 7 days.";
                 } else {
                     echo "Error: " . $json['status'] . ' Return : ' . $json['slug'];
                     exit();

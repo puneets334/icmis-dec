@@ -1,131 +1,120 @@
-<style>
-    div.dataTables_wrapper div.dataTables_filter label {
-        display: flex;
-        justify-content: end;
-    }
-
-    div.dataTables_wrapper div.dataTables_filter label input.form-control {
-        width: auto !important;
-        padding: 4px;
-    }
-</style>
-<div class="table-responsive">
-    <?php
-    $title = '';
-    if ($reports) { ?>
-        
-        <div class="font-weight-bold text-center mt-26 mrgB10">
-            <?php 
-                $title = $mainhead_title." Cases Listed/To be listed in future dates : Upto ".$_POST['list_date']." (As on ".date('d-m-Y H:i:s')." )";
-                echo $title; 
-            ?>
-    
-        </div>
-        <table id="tab" class="table table-striped custom-table">
-            <thead>
-                <tr>
-                    <th width="10%">SNo.</th>
-                    <th width="20%">Case No.</th>
-                    <th width="30%">Cause Title</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $sno = 1;
-                $is_connected = $print_srno = "";
+<?php
+// function get_display_status_with_date_differnces($tentative_cl_dt)
+// {
+//     $tentative_cl_date_greater_than_today_flag = "F";
+//     $curDate = date('d-m-Y');
+//     $tentativeCLDate = date('d-m-Y', strtotime($tentative_cl_dt));
+//     $datediff = strtotime($tentativeCLDate) - strtotime($curDate);
+//     $noofdays = round($datediff / (60 * 60 * 24));
+//     if (strtotime($tentativeCLDate) > strtotime($curDate)) {
+//         if ($noofdays <= 60 && $noofdays > 0) {
+//             $tentative_cl_date_greater_than_today_flag = 'T';
+//         }
+//     } else {
+//         $tentative_cl_date_greater_than_today_flag = 'F';
+//     }
+//     return $tentative_cl_date_greater_than_today_flag;
+// }
+?>
+<div id="prnnt">
+    <center class="m-1"><h3>SENSITIVE CASES</h3></center>
+    <table id="reportTable" class="table table-striped custom-table">
+        <thead>
+            <tr>
+                <th>S. No.</th>
+                <th>Diary No.</th>
+                <th>Case No.</th>
+                <th>Cause Title</th>
+                <th>Coram</th>
+                <th>Not Before</th>
+                <th>Reason</th>
+                <th>Next Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $sno = 1;
+            if(!empty($reports)) {
                 foreach ($reports as $row) {
-                   if($row['diary_no'] == $row['conn_key'] OR $row['conn_key'] == null OR $row['conn_key'] == '' OR $row['conn_key'] == 0){
-                        $print_srno = $sno;
-                        $is_connected = "";
-                        $sno++;
-                    } else {
-                        $is_connected = "<span style='color:red;'>Conn.</span>";
-                    }
-                   
-                    /*if($is_connected != ''){
-                        $print_srno = "";
-    
-                    } else {
-                        $print_srno = $print_srno;
-                        $sno++;
-                    }*/
-                ?>
+                    ?>
                     <tr>
-                       
-                        <td><?php echo $print_srno.$is_connected; ?></td>
-                        <td><?php echo $row['reg_no_display'].' @ '.$row['diary_no']; ?></td>
-                        <td><?php echo $row['pet_name'].' Vs. '.$row['res_name']; ?></td>
+                        <td data-key="S. No."><?php echo $sno; ?></td>
+                        <td data-key="Diary No.">
+                            <?php echo substr($row['diary_no'], 0, strlen($row['diary_no']) - 4); ?>
+                            -
+                            <?php
+                            echo substr($row['diary_no'], -4);
+                            echo "<br>" . $row['ten_sec'];
+                            ?>
+                        </td>
+                        <td data-key="Case No.">
+                            <?php
+                            if ($row['active_fil_no'] != '') {
+                                if ($row['reg_no_display']) {
+                                    echo $row['reg_no_display'];
+                                } else {
+                                    echo $row['short_description'] . " / " . substr($row['active_fil_no'], 3) . "/" . $row['active_fil_dt'];
+                                }
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?php echo $row['pet_name'] . " Vs. " . $row['res_name']; ?>
+                        </td>
+                        <td>
+                            <?php
+                            $db = \Config\Database::connect();
+                            if ($row['coram'] != '' and $row['coram'] != '0') {
+                                $sq = "select GROUP_CONCAT(abbreviation) abr from master.judge where jcode in (".$row['coram'].") and jtype = 'J' GROUP BY jtype";
+                                // $sqqq =  mysql_query($sq) or die("Error: " . __LINE__ .  mysql_error());
+                                $ros = $db->query($sq);
+                                if ($ros->getNumRows() >= 1) {
+                                    $result = $ros->getResultArray();
+                                } else {
+                                    $result[0]['abr'] = "";
+                                }
+                                echo $result[0]['abr'];
+                            }
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            f_get_ntl_judge($row['diary_no']);
+                            f_get_ndept_judge($row['diary_no']);
+                            f_get_category_judge($row['diary_no']);
+                            f_get_not_before($row['diary_no']);
+                            ?>
+                        </td>
+                        <td>
+                            <?php echo $row['reason']; ?>
+                        </td>
+                        <td>
+                            <?php
+                            if ($row['next_dt'] != '0000-00-00' && $row['next_dt'] != NULL && get_display_status_with_date_differnces($row['next_dt']) == 'T')
+                                echo date('d-m-Y',  strtotime($row['next_dt']));
+                            ?>
+                        </td>
                     </tr>
-                <?php
-                    //$sno++;
+                    <?php
+                    $sno++;
                 }
+            } else {
                 ?>
-            </tbody>
-        </table>
-    <?php
-    } else {
-    ?>
-        <div class="mt-26 red-txt center">No Recrods Found</div>
-    <?php
-    } ?>
+                <div class="cl_center"><b>No Record Found</b></div>
+            <?php } ?>
+        </tbody>
+    </table>
+</div>
+<div>
+    <input name="prnnt1" type="button" id="prnnt1" value="Print">
 </div>
 <script>
-    var filename = '<?=$title?>';
-    var title = '<?=$title?>';
-    $(document).ready(function() {
-        $('#tab').DataTable( {
-            "bProcessing": true,
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    extend: 'excel', className: 'btn btn-primary quick-btn',
-                    filename: filename,
-                    title:title,
-                    text: 'Export to Excel',
-                    autoFilter: true,
-                    sheetName: 'Sheet1'
-
-                },
-
-                {
-                    extend: 'pdf', className: 'btn btn-primary quick-btn',
-                    filename: filename,
-                    title: title,
-                    pageSize: 'A4',
-                    orientation: 'landscape',
-                    text: 'Save as Pdf',
-                    customize: function(doc) {
-                        doc.styles.title = {
-                            fontSize: '18',
-                            alignment: 'left'
-                        }
-                    }
-                },
-                {
-                    extend: 'print',className: 'btn btn-primary quick-btn',
-                    title: title,
-                    pageSize: 'A4',
-                    orientation: 'portrait',
-                    text: 'Print',
-                    autoWidth: false,
-                    columnDefs: [{
-                        "width": "20px", "targets":[0] }],
-
-                    customize: function ( win ) {
-                        $(win.document.body).find('h1').css('font-size', '20px');
-                        $(win.document.body).find('h1').css('text-align', 'left');
-                        $(win.document.body).find('tab').css('width', 'auto');
-
-                    }
-                }
-            ],
-
+    $(document).ready(function () {
+        $('#reportTable').DataTable( {
             paging: true,
             ordering: false,
             info: true,
             searching: true,
-        } );
-
-        $('.dt-buttons').removeClass('dt-buttons btn-group');
-    } );
+        } )
+    });
 </script>
