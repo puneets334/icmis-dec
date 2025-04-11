@@ -294,7 +294,6 @@ class Report extends BaseController
     public function main_subject_categorywise_pendency()
 	{
         $data['reports'] = $this->ReportModel->get_main_subject_categorywise_pending_cases();
-        // $this->data['app_name'] = 'Main Subject Category Wise';
         return view('ManagementReport/Reports/main_subject_category', $data);
 	}    
     
