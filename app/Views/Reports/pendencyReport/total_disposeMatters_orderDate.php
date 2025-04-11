@@ -66,6 +66,14 @@
     {
         padding-right: 55px;
     }
+
+    div.dt-buttons {
+        float: left;
+        margin-top: 0px;
+    }
+    table.dataTable thead th, table.dataTable tfoot th {
+        font-weight: bold !important;
+    }
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -96,16 +104,20 @@
                             );
                             /*echo form_open(base_url('#'), $attribute);*/
                             echo form_open(current_url(), $attribute);
+                            $from_date = isset($from_date) ? $from_date : '';
+                            $to_date = isset($to_date) ? $to_date : '';
+                            $today = date('d-m-Y h:m:s A');
+                            
                             ?>
                             <input type="hidden" name="usercode" id="usercode" value="<?php echo session()->get('login')['usercode']; ?>"/>
                             <div class="form-group row">
                                 <div class="col-sm-2">
                                     <label for="from_date">From Date :</label>
-                                    <input class="form-control dtp" type="text" id="from_date" name="from_date" class="form-control datepick1" placeholder="From Date" required="required">
+                                    <input class="form-control dtp" type="text" id="from_date" name="from_date" class="form-control datepick1" placeholder="From Date" required="required" value="<?= $from_date ?>">
                                 </div>
                                 <div class="col-sm-2">
                                     <label for="to_date">To Date :</label>
-                                    <input class="form-control dtp" type="text" id="to_date" name="to_date" class="form-control datepick2" placeholder="To Date" required="required">
+                                    <input class="form-control dtp" type="text" id="to_date" name="to_date" class="form-control datepick2" placeholder="To Date" required="required" value="<?= $to_date ?>">
                                 </div>
                                 <div class="col-md-2" style="padding-top: 25px;">
                                     <button type="submit" id="view" name="view" class="btn btn-primary" readonly>View</button>
@@ -117,147 +129,132 @@
                     <div class="card-body">
                         <div class="mt-2">
                             <div class="col-12 col-md-12">
-                                <?php
-                                    $from_date = isset($_POST['from_date']) ? $_POST['from_date'] : '';
-                                    $to_date = isset($_POST['to_date']) ? $_POST['to_date'] : '';
-                                ?>
-                                <section class="content">
+                               <section class="content">
                                     <?php
-                                        if (isset($case_result1) && isset($case_result2) && is_array($case_result1) && sizeof($case_result1) > 0)
-                                        {
+                                        if (isset($case_result1) && isset($case_result2) && is_array($case_result1) && sizeof($case_result1) > 0) {
                                     ?>
-                                    <div class="box box-info">
-                                        <table width="100%" id="reportTable1" class="table table-striped table-hover">
-                                            <h3 style="text-align: center;">Total Disposal of Matters as per Order date between <?php echo $_REQUEST['from_date'];?> And <?php echo $_REQUEST['to_date'];?> As on <?php echo date('d-m-Y h:m:s A')?></h3>
+                                    
+                                        <table width="100%" id="reportTable1" class="table table-striped table-hover mrgT20">
+                                            <h3 style="text-align: center;">Total Disposal of Matters as per Order date between <?php echo $from_date;?> And <?php echo $to_date;?> As on <?php echo date('d-m-Y h:m:s A')?></h3>
                                             <thead>
                                                 <tr>
-                                                    <th>
-                                                        Description
-                                                    </th>
+                                                    <th>Description</th>
                                                     <th>Value</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             <?php 
                                             $opening_pendency=0;
-                                            foreach ($case_result1 as $result)
-                                                {
-                                                    if($_REQUEST['from_date'] == '28-08-2017')
-                                                    {
-                                                        $opening_pendency = 58920;
-                                                    }
-                                                    else
-                                                    {
-                                                        $opening_pendency=(int)$result['current_pendency']+(int)$result['total_disposal']-(int)$result['diary_disposal']-(int)$result['institution'];
-                                                    }
-                                                    ?>
-                                                    <tr>
-                                                        <td>Opening Pendency (as on <?php echo date("d-m-Y",$opening_date);?>) </td>
-                                                        <td><?php echo $opening_pendency;?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>(+) Institution (Registered cases)</td>
-                                                        <td>
-                                                            <a href="<?= base_url('Reports/PendencyReport/DetailedPendency/Disposal_AsPer_Order_Details/' . urlencode($_REQUEST['from_date']) . '/' . urlencode($_REQUEST['to_date']) . '/3'); ?>" target="_blank"><?php echo $result['institution']; ?>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>(+) Institution of cases which are disposed between above dates*</td>
-                                                        <td><a href="<?= base_url('Reports/PendencyReport/DetailedPendency/Disposal_AsPer_Order_Details/' . urlencode($_REQUEST['from_date']) . '/' . urlencode($_REQUEST['to_date']) . '/4'); ?>" target="_blank"><?php echo $result['diary_disposal']; ?></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>(-) Total Disposal (Registered  cases + Diary no + un-registered cases (IA's))</td>
-                                                        <td><a href="<?= base_url('Reports/PendencyReport/DetailedPendency/Disposal_AsPer_Order_Details/' . urlencode($_REQUEST['from_date']) . '/' . urlencode($_REQUEST['to_date']) . '/5'); ?>" target="_blank"><?php echo $result['total_disposal']; ?></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><strong>(=) Pendency as on <?php echo date('d-m-Y h:m:s A')?></strong></td>
-                                                        <td><strong><?php echo $result['current_pendency'];?></strong></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><hr></td>
-                                                        <td><hr></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>*Note :- The cases which are listed due to special direction of Diary no and IA's.</td>
-                                                        <td></td>
-                                                    </tr>
-                                                    <?php
+                                            foreach ($case_result1 as $result) {
+                                                if($from_date == '28-08-2017') {
+                                                    $opening_pendency = 58920;
+                                                } else {
+                                                    $opening_pendency=(int)$result['current_pendency']+(int)$result['total_disposal']-(int)$result['diary_disposal']-(int)$result['institution'];
                                                 }
                                                 ?>
+                                                <tr>
+                                                    <td>Opening Pendency (as on <?php echo date("d-m-Y",$opening_date);?>) </td>
+                                                    <td><?php echo $opening_pendency;?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>(+) Institution (Registered cases)</td>
+                                                    <td>
+                                                        <a href="<?= base_url('Reports/PendencyReport/DetailedPendency/Disposal_AsPer_Order_Details/' . urlencode($from_date) . '/' . urlencode($to_date) . '/3'); ?>" target="_blank"><?php echo $result['institution']; ?>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>(+) Institution of cases which are disposed between above dates*</td>
+                                                    <td><a href="<?= base_url('Reports/PendencyReport/DetailedPendency/Disposal_AsPer_Order_Details/' . urlencode($from_date) . '/' . urlencode($to_date) . '/4'); ?>" target="_blank"><?php echo $result['diary_disposal']; ?></a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>(-) Total Disposal (Registered  cases + Diary no + un-registered cases (IA's))</td>
+                                                    <td><a href="<?= base_url('Reports/PendencyReport/DetailedPendency/Disposal_AsPer_Order_Details/' . urlencode($from_date) . '/' . urlencode($to_date) . '/5'); ?>" target="_blank"><?php echo $result['total_disposal']; ?></a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>(=) Pendency as on <?php echo date('d-m-Y h:m:s A')?></strong></td>
+                                                    <td><strong><?php echo $result['current_pendency'];?></strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><hr></td>
+                                                    <td><hr></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>*Note :- The cases which are listed due to special direction of Diary no and IA's.</td>
+                                                    <td></td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
                                             </tbody>
                                         </table>
-                                    <BR><BR>
-                                    <table width="100%" id="reportTable2" class="table table-striped table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>
-                                                Description
-                                            </th>
-                                            <th>Value</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <td>
-                                                <h3 style="text-align: center;">Bifurcation  of Pending matters As on <?php echo date('d-m-Y h:m:s A')?></h3>
-                                            </td>
-                                            <td>&nbsp;</td>
-                                        </tr>
+                                        <BR><BR><BR><BR>
+                                        <table width="100%" id="reportTable2" class="table table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Value</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <h3 style="text-align: center;">Bifurcation  of Pending matters As on <?php echo date('d-m-Y h:m:s A')?></h3>
+                                                </td>
+                                                <td>&nbsp;</td>
+                                            </tr>
 
-                                        <?php foreach ($case_result2 as $result)
-                                        {
-                                            /*$opening_pendency=(int)$result['current_pendency']+(int)$result['total_disposal']-(int)$result['diary_disposal']-(int)$result['institution'];*/
+                                            <?php foreach ($case_result2 as $result)
+                                            {
+                                                /*$opening_pendency=(int)$result['current_pendency']+(int)$result['total_disposal']-(int)$result['diary_disposal']-(int)$result['institution'];*/
 
-                                            $opening_pendency = (int)($result['current_pendency'] ?? 0) + (int)($result['total_disposal'] ?? 0) - (int)($result['diary_disposal'] ?? 0) - (int)($result['institution'] ?? 0);
-                                            ?>
-                                            <tr>
-                                                <td>Number of Admission hearing matters </td>
-                                                <td><?php echo $result['admission_matter'];?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Complete</td>
-                                                <td><?php echo $result['total_complete'];?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Incomplete</td>
-                                                <td><?php echo $result['total_incomplete'];?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Number of Regular hearing matters</td>
-                                                <td><?php echo $result['final_matter'];?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Ready</td>
-                                                <td><?php echo $result['total_ready'];?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Not Ready</td>
-                                                <td><?php echo $result['total_notready'];?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Number of Civil matters</td>
-                                                <td><?php echo $result['civil_pendency'];?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Number of Criminal matters</td>
-                                                <td><?php echo $result['criminal_pendency'];?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>More than 1 year old matters</td>
-                                                <td><?php echo $result['more_than_one_year_old'];?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Less than 1 year old matters</td>
-                                                <td><?php echo $result['less_than_one_year_old'];?></td>
-                                            </tr>
-                                        <?php  }?>
-                                        </tbody>
-                                    </table>
-                                    <?php
-                                    }
-                                    ?>
-                                </section>
+                                                $opening_pendency = (int)($result['current_pendency'] ?? 0) + (int)($result['total_disposal'] ?? 0) - (int)($result['diary_disposal'] ?? 0) - (int)($result['institution'] ?? 0);
+                                                ?>
+                                                <tr>
+                                                    <td>Number of Admission hearing matters </td>
+                                                    <td><?php echo $result['admission_matter'];?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Complete</td>
+                                                    <td><?php echo $result['total_complete'];?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Incomplete</td>
+                                                    <td><?php echo $result['total_incomplete'];?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Number of Regular hearing matters</td>
+                                                    <td><?php echo $result['final_matter'];?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Ready</td>
+                                                    <td><?php echo $result['total_ready'];?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Not Ready</td>
+                                                    <td><?php echo $result['total_notready'];?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Number of Civil matters</td>
+                                                    <td><?php echo $result['civil_pendency'];?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Number of Criminal matters</td>
+                                                    <td><?php echo $result['criminal_pendency'];?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>More than 1 year old matters</td>
+                                                    <td><?php echo $result['more_than_one_year_old'];?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Less than 1 year old matters</td>
+                                                    <td><?php echo $result['less_than_one_year_old'];?></td>
+                                                </tr>
+                                            <?php  }?>
+                                            </tbody>
+                                        </table>
+                                        <?php } ?>
+                                    </section>
                             </div>
                         </div>
                     </div>
@@ -285,7 +282,8 @@
     $(document).ready(function() {
         var fromDate = "<?php echo $from_date; ?>";
         var toDate = "<?php echo $to_date; ?>";
-
+        var today = "<?php echo $today; ?>";
+        
         $('#reportTable1').DataTable({
             "bSort": false,
             dom: 'Bfrtip',
@@ -298,7 +296,7 @@
                     pageSize: 'A4',
                     customize: function (win) {
                         $(win.document.body).find('h1').remove();
-                        var printHeading = '<h3 style="text-align: center;">Total Disposal of Matters as per Order date between ' + fromDate + ' And ' + toDate + ' As on ' + new Date().toLocaleString() + '</h3>';
+                        var printHeading = '<h3 style="text-align: center;">Total Disposal of Matters as per Order date between ' + fromDate + ' And ' + toDate + ' As on ' + today + '</h3>';
                         $(win.document.body).find('table').before(printHeading);
                     }
                 }
@@ -318,7 +316,7 @@
                     customize: function (win) {
                         $(win.document.body).find('h1').remove();
                         $(win.document.body).find('table').before(
-                            '<h3 style="text-align: center;">Bifurcation of Pending matters As on ' + new Date().toLocaleString() + '</h3>'
+                            '<h3 style="text-align: center;">Bifurcation of Pending matters As on ' + today + '</h3>'
                         );
                     }
                 }

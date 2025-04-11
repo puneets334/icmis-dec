@@ -2551,26 +2551,7 @@ class DetailedPendencyModel extends Model
 
     function getDisposal_AsPer_OrderDate($fromDate = null, $toDate = null, $id = null)
     {
-        if($id == 1)
-        {
-            /*$sql="select (SELECT count(*)
-            FROM `main` m
-            WHERE DATE(fil_dt)  between '".$fromDate."' and '".$toDate."') as institution,
-            (SELECT count(*)
-            FROM `main` m
-            WHERE fil_no is not null and fil_no!='' and c_status='P') as current_pendency,
-            sum(case when m.fil_no is not null and m.fil_no !='' then 1 else 0 end) registered_disposal,
-            sum(case when m.fil_no is null or m.fil_no ='' then 1 else 0 end) diary_disposal,
-            SUM(CASE WHEN m.mf_active='M' then 1 else 0 end) misc_disposal,
-            SUM(CASE WHEN m.mf_active='F' then 1 else 0 end) regular_disposal,
-            count(*) total_disposal
-            FROM main m INNER JOIN heardt h
-            ON m.diary_no=h.diary_no INNER JOIN dispose d
-            ON m.diary_no=d.diary_no INNER JOIN judge j ON FIND_IN_SET (j.jcode, d.jud_id)=1
-            WHERE j.is_retired='N' AND d.ord_dt
-            between '".$fromDate."' and '".$toDate."' AND c_status='D' AND h.board_type ='J'
-            and (mf_active='M' OR mf_active='F')";*/
-
+        if($id == 1) {
             $sql = "SELECT 
                 (SELECT COUNT(*)
                  FROM main m
@@ -2600,21 +2581,7 @@ class DetailedPendencyModel extends Model
             AND h.board_type = 'J'
             AND (m.mf_active = 'M' OR m.mf_active = 'F')";
         }
-        if($id == 2)
-        {
-            /*$sql="select sum(case when m.mf_active<>'F' then 1 else 0 end) as admission_matter,
-            sum(case when mf_active<>'F' and main_supp_flag in (0,1,2) then 1 else 0 end) as Total_Complete,
-            sum(case when mf_active<>'F' and (main_supp_flag not in (0,1,2) or main_supp_flag is null) then 1 else 0 end) as Total_Incomplete,
-            sum(case when m.mf_active='F' then 1 else 0 end) as final_matter,
-            sum(case when mf_active='F' and main_supp_flag in (0,1,2) then 1 else 0 end) as Total_Ready,
-            sum(case when mf_active='F' and (main_supp_flag not in (0,1,2) or main_supp_flag is null) then 1 else 0 end) as Total_NotReady,
-            sum(case when (case_grp='C' or case_grp is null) then 1 else 0 end) civil_pendency,
-            sum(case when case_grp='R' then 1 else 0 end) criminal_pendency,
-            sum(case when date(fil_dt) < date(DATE_SUB(now(), INTERVAL 1 YEAR)) then 1 else 0 end) more_than_one_year_old,
-            sum(case when fil_dt >= date(DATE_SUB(now(), INTERVAL 1 YEAR)) then 1 else 0 end) less_than_one_year_old,
-            count(*) as total_pendency from main m left outer join heardt h on m.diary_no=h.diary_no
-            where m.c_status='P' and m.fil_no is not null and m.fil_no !=''";*/
-
+        if($id == 2) {
             $sql = "SELECT 
                 SUM(CASE WHEN m.mf_active <> 'F' THEN 1 ELSE 0 END) AS admission_matter,
                 SUM(CASE WHEN m.mf_active <> 'F' AND main_supp_flag IN (0, 1, 2) THEN 1 ELSE 0 END) AS total_complete,
@@ -2633,11 +2600,7 @@ class DetailedPendencyModel extends Model
             AND m.fil_no IS NOT NULL
             AND m.fil_no != ''";
         }
-        if($id == 3)
-        {
-            /*$sql="SELECT SUBSTR(m.diary_no,1,LENGTH(m.diary_no) - 4) AS diary_no, SUBSTR(m.diary_no, - 4) AS diary_year, reg_no_display,pet_name,res_name,fil_dt
-            FROM main m  WHERE DATE(fil_dt) between '".$fromDate."' and '".$toDate."'";*/
-
+        if($id == 3) {
             $sql = "SELECT 
                 SUBSTRING(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS diary_no,
                 SUBSTRING(CAST(m.diary_no AS TEXT), -4) AS diary_year,
@@ -2648,18 +2611,7 @@ class DetailedPendencyModel extends Model
             FROM main m
             WHERE DATE(fil_dt) BETWEEN '".$fromDate."' AND '".$toDate."'";
         }
-        if($id == 4)
-        {
-            /*$sql="SELECT SUBSTR(m.diary_no,1,LENGTH(m.diary_no) - 4) AS diary_no, SUBSTR(m.diary_no, - 4) AS diary_year, reg_no_display,pet_name,res_name,d.disp_dt,d.ent_dt
-            FROM main m 
-            INNER JOIN heardt h ON m.diary_no=h.diary_no
-            INNER JOIN dispose d ON m.diary_no=d.diary_no
-            INNER JOIN master.judge j ON FIND_IN_SET (j.jcode, d.jud_id) = 1
-            WHERE j.is_retired='N' AND d.ord_dt
-            between '".$fromDate."' and '".$toDate."' AND c_status='D' AND h.board_type ='J'
-            and (mf_active='M' OR mf_active='F')
-            and (m.fil_no is null or m.fil_no ='')";*/
-
+        if($id == 4) {
             $sql = "SELECT 
                 SUBSTRING(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS diary_no,
                 SUBSTRING(CAST(m.diary_no AS TEXT), -4) AS diary_year,
@@ -2679,16 +2631,7 @@ class DetailedPendencyModel extends Model
             AND (mf_active = 'M' OR mf_active = 'F')
             AND (m.fil_no IS NULL OR m.fil_no = '')";
         }
-        if($id == 5)
-        {
-            /*$sql=" SELECT SUBSTR(m.diary_no,1,LENGTH(m.diary_no) - 4) AS diary_no, SUBSTR(m.diary_no, - 4) AS diary_year, reg_no_display,pet_name,res_name,d.disp_dt,d.ent_dt
-            FROM main m INNER JOIN heardt h
-            ON m.diary_no=h.diary_no INNER JOIN dispose d
-            ON m.diary_no=d.diary_no INNER JOIN judge j ON FIND_IN_SET (j.jcode, d.jud_id)=1
-            WHERE j.is_retired='N' AND d.ord_dt
-            between '".$fromDate."' and '".$toDate."' AND c_status='D' AND h.board_type ='J'
-            and (mf_active='M' OR mf_active='F')";*/
-
+        if($id == 5) {
             $sql = "SELECT 
                 SUBSTRING(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS diary_no,
                 SUBSTRING(CAST(m.diary_no AS TEXT), -4) AS diary_year,
@@ -2709,13 +2652,9 @@ class DetailedPendencyModel extends Model
             AND (mf_active = 'M' OR mf_active = 'F')";
         }
         $query = $this->db->query($sql);
-        //echo $this->db->last_query();
-        if ($query->getNumRows() >= 1)
-        {
+        if ($query->getNumRows() >= 1) {
             return  $query->getResultArray();
-        }
-        else
-        {
+        } else {
             return false;
         }
     }

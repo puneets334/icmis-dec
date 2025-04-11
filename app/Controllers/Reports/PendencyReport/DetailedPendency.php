@@ -159,19 +159,19 @@ class DetailedPendency extends BaseController
     $data['case_result1'] = '';
     $data['case_result2'] = '';
     $data['app_name'] = 'Total Disposal as per Updation';
-    if($_POST)
-    {
-    	// pr($_REQUEST);
-      $section = !empty($_REQUEST['section']) ? $_REQUEST['section'] : '';
-      $frm_date = date('Y-m-d', strtotime($_REQUEST['from_date']));
-      $to_date = date('Y-m-d', strtotime($_REQUEST['to_date']));
-      //var_dump($dateType);
+    $request = service('request');
+    //$data['from_date'] = date('d-m-Y');
+    $data['to_date'] = date('d-m-Y');
+    if ($request->getMethod() === 'post') {  
+      $frm_date = date('Y-m-d', strtotime($request->getPost('from_date')));
+      $to_date = date('Y-m-d', strtotime($request->getPost('to_date')));
       $result_array1 = $this->DetailedPendencyModel->getDisposal_AsPer_OrderDate($frm_date, $to_date, 1);
       $result_array2 = $this->DetailedPendencyModel->getDisposal_AsPer_OrderDate($frm_date, $to_date, 2);
       $data['case_result1'] = $result_array1;
       $data['case_result2'] = $result_array2;
       $data['opening_date'] = strtotime ( '-1 day' , strtotime ( $frm_date ));
-      // pr($data);
+      $data['from_date'] = $request->getPost('from_date');
+      $data['to_date'] = $request->getPost('to_date');
     }
 
     return view('Reports/pendencyReport/total_disposeMatters_orderDate',$data);
