@@ -4,17 +4,20 @@ namespace App\Controllers\ManagementReports\PendingReport;
 
 use App\Controllers\BaseController;
 use App\Models\ManagementReport\CaseRemarksVerification;
+use App\Models\ManagementReport\PendencyModel;
 
 class Report extends BaseController
 {
     public $CaseRemarksVerification;
     public $Model_diary;
+    public $PendencyModel;
 
     function __construct()
     {
         set_time_limit(10000000000);
         ini_set('memory_limit', '-1');
         $this->CaseRemarksVerification = new CaseRemarksVerification();
+        $this->PendencyModel = new PendencyModel();
     }
 
     public function imp_ias_pending()
@@ -92,4 +95,31 @@ class Report extends BaseController
         // pr($data['res']);
         return view('ManagementReport/Pending/category_process_table', $data); 
     }
+
+    public function sectionwise_pendency(){
+        $data =[];    
+        return view('ManagementReport/Pending/section_wise_pendency_view', $data);
+    }
+    public function sectionwise_pendency_get()
+    {
+        $ucode = $_SESSION['login']['usercode'];
+        $section1 = $_SESSION['login']['section'];
+        //$sec_id = $this->request->getPost('sec_id');
+        
+        $data['sectionwise_pendency_arr'] = $this->PendencyModel->sectionwise_pendency_get_data();
+        //print_r($data['sectionwise_pendency_arr']);die;
+        // $data['data'] = [];
+        return view('ManagementReport/Pending/sectionwise_pendency_get_view', $data);
+    }
+
+    public function section_pendency()
+    {
+        $ucode = $_SESSION['login']['usercode'];
+        $section1 = $_SESSION['login']['section'];
+        $result_array = $this->PendencyModel->da_rog_report($section1);        
+        $data['da_rog_result'] = $result_array;
+        return view('ManagementReport/Pending/section_pendency_view', $data);
+        
+    }
+
 }

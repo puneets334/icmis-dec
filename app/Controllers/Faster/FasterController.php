@@ -1310,10 +1310,13 @@ class FasterController extends BaseController
         $fileDir = FASTER_STORAGE_PARTY."$year/$diaryNo/";
         // $fileDir = "/reports/$fileFolder";
         $pathDir = getBasePath().$fileDir;
+        exec("chmod -R 0777 ".$pathDir);
         // pr($pathDir);
         if (!is_dir($pathDir)) {
             mkdir($pathDir, 0777, true);
         }
+
+        exec("chmod -R 0777 ".$pathDir);
 
         // Save HTML content to a file
         $dataFile = $pathDir.$date."_".$postDiary.".html";

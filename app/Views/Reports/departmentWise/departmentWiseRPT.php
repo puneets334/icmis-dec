@@ -135,10 +135,10 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-md-1" style="overflow: hidden;padding-top: 26px;">
+                                <div class="col-md-1" style="padding-top: 26px;">
                                     <input type="button" value="Show Cases" name="show" style="padding: 10px;">
                                 </div>
-                                <div class="col-md-2" style="overflow: hidden;padding-top: 26px;">
+                                <div class="col-md-2" style="overflow: hidden;padding-top: 26px;padding-left: 40px;">
                                     <input type="button" value="Export in Excel" name="export" style="padding: 10px;">
                                 </div>
                             </div>

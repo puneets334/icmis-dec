@@ -122,7 +122,7 @@ class Report extends BaseController
         $judges = $this->CaseRemarksVerification->getJudges($list_dt);
         $data = [];
         foreach ($judges as $judge) {
-            $categoryData = $this->CaseRemarksVerification->getCategoryData($list_dt, $judge['jcode']);
+            $categoryData = $this->CaseRemarksVerification->getCategoryData_judge($list_dt, $judge['jcode']);
             $data[$judge['jcode']] = [
                 'judge_name' => $judge['jname'],
                 'categories' => $categoryData
@@ -189,15 +189,16 @@ class Report extends BaseController
     {
         $db = \Config\Database::connect();
         $request = service('request');
-        $selsubcat = $request->getPost('selsubcat');
-        $mainhead = $request->getPost('mainhead');
-        $tdate = $request->getPost('tdate');
-        $fdate = $request->getPost('fdate');
-        $jud_coram = $request->getPost('jud_coram');
-        $dfdate = $request->getPost('dfdate');
-        $dtdate = $request->getPost('dtdate');
-        $judge = $request->getPost('judge');
-        $jud_num = $request->getPost('jud_num');        
+		//print_r($request->getPost()); die;
+        $selsubcat = Array ('1036-SLPs arising out of interlocutory applications in civil proceedings, amendment of pleadings, time limits for pleadings, interim injunction. addition/deletion of parties etc.' ); //$request->getPost('selsubcat');
+        $mainhead = 'a';//$request->getPost('mainhead');
+        $tdate = '2025-01-01';//$request->getPost('tdate');
+        $fdate = '2023-01-01';//$request->getPost('fdate');
+        //$jud_coram = $request->getPost('jud_coram');
+        $dfdate = '2023-01-01';//$request->getPost('dfdate');
+        $dtdate = '2025-01-01';//$request->getPost('dtdate');
+        $judge = Array('219');// $request->getPost('judge');
+        $jud_num = 32;//$request->getPost('jud_num');        
         $jud_num = $jud_num + 1;
         if ($mainhead == 'a') {
             $mainhead = 'IN (\'M\', \'F\')';
@@ -205,7 +206,7 @@ class Report extends BaseController
             $mainhead = "IN ('" . $mainhead . "')";
         }
         $jud_len = count($judge);
-        $jud_flag = 0;        
+        $jud_flag = 0;
         if ($jud_num == $jud_len) {
             $jud_flag = 1;
         } else {

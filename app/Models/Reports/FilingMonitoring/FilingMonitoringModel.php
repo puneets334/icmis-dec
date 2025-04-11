@@ -54,18 +54,20 @@ class FilingMonitoringModel extends Model
 
             $output .= "<body>";
             $output .= '<table width="100%" cellpadding="5" cellspacing="5" style="border: 1px solid #000000; border-collapse: collapse;">
-            <tr style="border: 1px solid #000000; border-collapse: collapse;">
-                <th bgcolor= #CCFFFF rowspan=2 style="border: 1px solid #000000; border-collapse: collapse;">Date</th>
-                <th  bgcolor= #CCFFFF colspan="3" style="border: 1px solid #000000; border-collapse: collapse;">Filed</th>
-                <th  bgcolor= #CCFFFF rowspan= 2 style="border: 1px solid #000000; border-collapse: collapse;">Re-Filed</th>
-                <th bgcolor= #CCFFFF  rowspan= 2 style="border: 1px solid #000000; border-collapse: collapse;">Registered</th>
-                <th bgcolor= #CCFFFF rowspan= 2 style="border: 1px solid #000000; border-collapse: collapse;">Verified</th>
+            <tr style="border: 1px solid #000000; border-collapse: collapse; text-align:center">
+                <th rowspan= 2 style="background-color: #CCFFFF; border: 1px solid #000000; border-collapse: collapse;">Date</th>
+                <th colspan= 3 style="background-color: #CCFFFF; border: 1px solid #000000; border-collapse: collapse;">Filed</th>
+                <th rowspan= 2 style="background-color: #CCFFFF; border: 1px solid #000000; border-collapse: collapse;">Re-Filed</th>
+                <th rowspan= 2 style="background-color: #CCFFFF; border: 1px solid #000000; border-collapse: collapse;">Registered</th>
+                <th rowspan= 2 style="background-color: #CCFFFF; border: 1px solid #000000; border-collapse: collapse;">Verified</th>
             </tr>
-            <tr style="border: 1px solid #000000; border-collapse: collapse;">
-                <th bgcolor= #CCFFFF style="border: 1px solid #000000; border-collapse: collapse;">Total</th>
-                <th bgcolor= #CCFFFF style="border: 1px solid #000000; border-collapse: collapse;">Physical</th>
-                <th  bgcolor= #CCFFFF style="border: 1px solid #000000; border-collapse: collapse;">E-Filing</th>
+            <tr style="border: 1px solid #000000; border-collapse: collapse;text-align:center;">
+                <th style="background-color: #CCFFFF; border: 1px solid #000000; border-collapse: collapse;">Total</th>
+                <th style="background-color: #CCFFFF; border: 1px solid #000000; border-collapse: collapse;">Physical</th>
+                <th style="background-color: #CCFFFF; border: 1px solid #000000; border-collapse: collapse;">E-Filing</th>
             </tr>';
+
+            
 
             foreach ($result as $key => $row)
             {
@@ -75,31 +77,48 @@ class FilingMonitoringModel extends Model
                 $new_date = date("d-m-Y", $timestamp);
 
                 //echo $new_date; // Outputs: 31-03-2019
+                // echo $row['physical_filed'];
+
+                $filed = isset($row['filed']) ? $row['filed'] : '';
+                $physical_filed = isset($row['physical_filed']) ? $row['physical_filed'] : '';
+                $efiled = isset($row['efiled']) ? $row['efiled'] : '';
+                $refiled = isset($row['refiled']) ? $row['refiled'] : '';
+                $registered = isset($row['registered']) ? $row['registered'] : '';
+                $verified = isset($row['verified']) ? $row['verified'] : '';
+
                 $output .= '<tr>'
-                . '<td bgcolor=white style="text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.$new_date.'</td>'
-                . '<td bgcolor=#e6ffe6 style="text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.isset($row['filed']).'</td>'
-                . '<td  bgcolor=#e6ffe6 style="text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.isset($row['physical_filed']).'</td>'
-                . '<td   bgcolor=#e6ffe6 style="text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.isset($row['efiled']).'</td>'
-                . '<td bgcolor= #fff7ee style="text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.isset($row['refiled']).'</td>'
-                . '<td  bgcolor= #fff7ee style="text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.isset($row['registered']).'</td>'
-                . '<td bgcolor= #fff7ee style="text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.isset($row['verified']).'</td>'
+                . '<td style="background-color:white; text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.$new_date.'</td>'
+                . '<td style="background-color:#e6ffe6; text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.$filed.'</td>'
+                . '<td style="background-color:#e6ffe6; text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.$physical_filed.'</td>'
+                . '<td style="background-color:#e6ffe6; text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.$efiled.'</td>'
+                . '<td style="background-color: #fff7ee; text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.$refiled.'</td>'
+                . '<td style="background-color: #fff7ee; text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.$registered.'</td>'
+                . '<td style="background-color: #fff7ee; text-align:center;border: 1px solid #000000; border-collapse: collapse;">'.$verified.'</td>'
                 . '</tr>';
 
-                $tot_filing = $tot_filing + isset($row['filed']);
-                $tot_efiled = $tot_efiled + isset($row['efiled']);
-                $tot_counter = $tot_counter + isset($row['physical_filed']);
-                $tot_refiled = $tot_refiled + isset($row['refiled']) ;
-                $tot_registered = $tot_registered + isset($row['registered']);
-                $tot_verified = $tot_verified + isset($row['verified']);
+                $filed_add = isset($row['filed']) ? $row['filed'] : 0;
+                $efiled_add = isset($row['efiled']) ? $row['efiled'] : 0;
+                $physical_filed_add = isset($row['physical_filed']) ? $row['physical_filed'] : 0;
+                $refiled_add = isset($row['refiled']) ? $row['refiled'] : 0;
+                $registered_add = isset($row['registered']) ? $row['registered'] : 0;
+                $verified_add = isset($row['verified']) ? $row['verified'] : 0;
+
+                $tot_filing = $tot_filing + $filed_add;
+                $tot_efiled = $tot_efiled + $efiled_add;
+                $tot_counter = $tot_counter + $physical_filed_add;
+                $tot_refiled = $tot_refiled + $refiled_add;
+                $tot_registered = $tot_registered + $registered_add;
+                $tot_verified = $tot_verified + $verified_add;
+                // pr($output);
             }
             $output.='<tr>'
-            . '<td bgcolor= #CCFFFF style="text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>TOTAL</B></td>'
-            . '<td bgcolor= #CCFFFF style="text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_filing.'</B></td>'
-            . '<td  bgcolor= #CCFFFF style="text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_counter.'</B></td>'
-            . '<td  bgcolor= #CCFFFF style="text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_efiled.'</B></td>'
-            . '<td bgcolor= #CCFFFF style="text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_refiled.'</B></td>'
-            . '<td bgcolor= #CCFFFF style="text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_registered.'</B></td>'
-            . '<td  bgcolor= #CCFFFF style="text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_verified.'</B></td>'
+            . '<td style="background-color: #CCFFFF; text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>TOTAL</B></td>'
+            . '<td style="background-color: #CCFFFF; text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_filing.'</B></td>'
+            . '<td style=" background-color: #CCFFFF; text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_counter.'</B></td>'
+            . '<td style=" background-color: #CCFFFF; text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_efiled.'</B></td>'
+            . '<td style="background-color: #CCFFFF; text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_refiled.'</B></td>'
+            . '<td style="background-color: #CCFFFF; text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_registered.'</B></td>'
+            . '<td style=" background-color: #CCFFFF; text-align:center;border: 1px solid #000000; border-collapse: collapse;"><B>'.$tot_verified.'</B></td>'
             . '</tr>';
 
             $output .='</table> <BR>';
