@@ -1,3 +1,7 @@
+<style>
+    .custom-table thead th:first-child,.custom-table thead th:last-child,.custom-table tbody td:first-child
+    ,.custom-table tbody td:last-child{border-radius:0px!important;}
+    </style>
 <div class="table-responsive">
     <?php
     if (!empty($data) > 0) {
@@ -5,13 +9,13 @@
         <table id="example1" class="table table-striped custom-table">
             <thead>
                 <tr>
-                    <th>SNo</th>
-                    <th>Case No.</th>
-                    <th>Cause Title</th>
-                    <th>Case Remarks</th>
-                    <th>Listed On (ROP)</th>
-                    <th>Listed Before</th>
-                    <th>Action</th>
+                    <th style="font-size:12px;font-weight:bold;">SNo</th>
+                    <th style="font-size:12px;font-weight:bold;">Case No.</th>
+                    <th style="font-size:12px;font-weight:bold;">Cause Title</th>
+                    <th style="font-size:12px;font-weight:bold;">Case Remarks</th>
+                    <th style="min-width:100px;font-size:12px;font-weight:bold;">Listed On (ROP)</th>
+                    <th style="font-size:12px;font-weight:bold;">Listed Before</th>
+                    <th style="font-size:12px;font-weight:bold;">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -23,10 +27,10 @@
                     $verify_str = $row['diary_no'];
                 ?>
                     <tr id="<?= $verify_str ?>" data-cl_date="<?= $row['cl_date'] ?>">
-                        <td align="left" style='vertical-align: top;'><?php echo $sno++; ?></td>
-                        <td align="left" style='vertical-align: top;'><?php echo $row['case_no']; ?></td>
-                        <td align="left" style='vertical-align: top;'><?php echo $row['cause_title']; ?></td>
-                        <td align="left" style='vertical-align: top;'>
+                        <td align="left" style='font-size:12px;vertical-align: top;'><?php echo $sno++; ?></td>
+                        <td align="left" style='font-size:12px;vertical-align: top;'><?php echo $row['case_no']; ?></td>
+                        <td align="left" style='font-size:12px;vertical-align: top;'><?php echo $row['cause_title']; ?></td>
+                        <td align="left" style='font-size:12px;vertical-align: top;'>
                             <?Php
                             $cr =  $model->get_case_remarks($row['diary_no'], $row['cl_date'], $row['jcodes'], $row['clno']);
                             $cr1 = explode("?", $cr);
@@ -47,7 +51,7 @@
 
 
                         </td>
-                        <td align="left" style='vertical-align: top;'>
+                        <td align="left" style='font-size:12px;vertical-align: top;'>
                             <?php
                             $rop_view = "";
                             $resus = $model->ListedOnROP($row['listing_on'], $row['diary_no']);
@@ -68,9 +72,9 @@
                             echo $rop_view;
                             ?>
                         </td>
-                        <td align="left" style='vertical-align: top;'><?php echo $row['heard_by']; ?></td>
+                        <td align="left" style='font-size:12px;vertical-align: top;'><?php echo $row['heard_by']; ?></td>
 
-                        <td align="left" style='vertical-align: top;'>
+                        <td align="left" style='font-size:12px;vertical-align: top;'>
                             <?php 
                             if ($row['status']) {
                                 if ($row['status'] == 'R') {

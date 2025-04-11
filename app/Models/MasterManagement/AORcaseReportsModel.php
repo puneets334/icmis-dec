@@ -2244,20 +2244,27 @@ function getDisposal_AsPer_Updation($fromDate=null, $toDate=null,$id=null)
 
 
         function get_aor_detail2($aorCode) {
-            $sql = "SELECT SUM(CASE WHEN c_status = 'P' AND (fil_dt IS NULL OR fil_dt = '1970-01-01 00:00:00'::timestamp) THEN 1 ELSE 0 END) AS unreg,
-                        SUM(CASE WHEN c_status = 'P' AND fil_dt IS NOT NULL AND fil_dt <> '1970-01-01 00:00:00'::timestamp THEN 1 ELSE 0 END) AS reg,
+            $sql ="SELECT 
+                        SUM(CASE WHEN c_status = 'P' AND (fil_dt = '1970-01-01 00:00:00' OR fil_dt = '0001-01-01 00:00:00' OR fil_dt = '1900-01-01 00:00:00') THEN 1 ELSE 0 END) AS unreg,
+                        SUM(CASE WHEN c_status = 'P' AND (fil_dt != '1970-01-01 00:00:00' AND fil_dt != '0001-01-01 00:00:00' AND fil_dt != '1900-01-01 00:00:00') THEN 1 ELSE 0 END) AS reg,
                         SUM(CASE WHEN c_status = 'D' THEN 1 ELSE 0 END) AS disposed_cases
                     FROM (
                         SELECT 
-                            m.diary_no, 
-                            m.fil_dt, 
+                            m.diary_no,
+                            m.fil_dt,
                             m.c_status
-                        FROM master.bar b
-                        INNER JOIN advocate a ON b.bar_id = a.advocate_id
-                        INNER JOIN main m ON m.diary_no = a.diary_no
-                        WHERE b.aor_code = '".$aorCode."' AND a.display = 'Y'
-                        GROUP BY m.diary_no, m.fil_dt, m.c_status
-                    ) a;";
+                        FROM
+                            master.bar b
+                        INNER JOIN
+                            advocate a ON b.bar_id = a.advocate_id
+                        INNER JOIN
+                            main m ON m.diary_no = a.diary_no
+                        WHERE
+                            b.aor_code = '".$aorCode."' AND a.display = 'Y'
+                        GROUP BY
+                            m.diary_no, m.fil_dt, m.c_status
+                    ) AS a";
+           
             $query = $this->db->query($sql);
             $result = $query->getResultArray();
             
