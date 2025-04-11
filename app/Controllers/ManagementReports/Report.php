@@ -14,6 +14,7 @@ class Report extends BaseController
     public $Model_diary;
     public $Heardt;
     public $ReportModel;
+    protected $db;
 
     function __construct()
     {
@@ -186,6 +187,7 @@ class Report extends BaseController
 
     public function category_data_fetch()
     {
+        $db = \Config\Database::connect();
         $request = service('request');
         $selsubcat = $request->getPost('selsubcat');
         $mainhead = $request->getPost('mainhead');
@@ -283,7 +285,7 @@ class Report extends BaseController
         } else {
             $query = $query1 . $query2 . $query3 . $query4;
         }
-        $builder = $this->db->query($query);
+        $builder = $db->query($query);
         $results = $builder->getResultArray();
         return view('ManagementReport/Reports/category_ui_get', ['results' => $results]);
     }
