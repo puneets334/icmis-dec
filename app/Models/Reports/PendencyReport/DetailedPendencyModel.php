@@ -2506,16 +2506,20 @@ class DetailedPendencyModel extends Model
             $result = $sqlQuery->getResultArray();
             $sno = 1;
             $html .= '<div id="prnnt" style="text-align: center;">';
-            $html .= '<h3 style="text-align:center;">Not Before Verification</h3>';
-            $html .= '<table id="customers">';
+
+            $html .= '<div class="container-fluid"><div class="row"><div class="col-md-2 ml-n4 text-left"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary bk_out"></div><div class="col-md-8 text-center"><h3 class="mt-3" style="text-align:center">Not Before Verification</h3></div><div class="col-md-2"></div></div></div>';
+
+            //$html .= '<div class="col-md-12" style="text-align: center;"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary"></div>';
+            //$html .= '<h3 style="text-align:center;">Not Before Verification</h3>';
+            $html .= '<table id="customers" >';
             $html .= '<tr>
-                <td width="10%" style="font-weight: bold; color: #dce38d; background: #918788;">SrNo.</td>
-                <td width="15%" style="font-weight: bold; color: #dce38d; background: #918788;">Case No. / Diary No.</td>
-                <td width="25%" style="font-weight: bold; color: #dce38d; background: #918788;">Cause Title</td>
-                <td width="15%" style="font-weight: bold; color: #dce38d; background: #918788;">Honble Judge Name</td>
-                <td width="15%" style="font-weight: bold; color: #dce38d; background: #918788;">Lower Court Case No.</td>
-                <td width="15%" style="font-weight: bold; color: #dce38d; background: #918788;">Agency</td>
-                <td width="15%" style="font-weight: bold; color: #dce38d; background: #918788;">Section / DA</td>
+                <td width="10%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">SrNo.</td>
+                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Case No. / Diary No.</td>
+                <td width="25%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Cause Title</td>
+                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Honble Judge Name</td>
+                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Lower Court Case No.</td>
+                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Agency</td>
+                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Section / DA</td>
             </tr>';
             foreach ($result as $key => $ro)
             {
@@ -2535,7 +2539,7 @@ class DetailedPendencyModel extends Model
             }
             $html .= '</table>';
             $html .= '</div>';
-            $html .= '<div class="col-md-12" style="text-align: center;"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary"></div>';
+            //$html .= '<div class="col-md-12" style="text-align: center;"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary"></div>';
         }
         else
         {
@@ -2613,11 +2617,11 @@ class DetailedPendencyModel extends Model
 
             $sql = "SELECT 
                 SUM(CASE WHEN m.mf_active <> 'F' THEN 1 ELSE 0 END) AS admission_matter,
-                SUM(CASE WHEN m.mf_active <> 'F' AND m.main_supp_flag IN (0, 1, 2) THEN 1 ELSE 0 END) AS total_complete,
-                SUM(CASE WHEN m.mf_active <> 'F' AND (m.main_supp_flag NOT IN (0, 1, 2) OR m.main_supp_flag IS NULL) THEN 1 ELSE 0 END) AS total_incomplete,
+                SUM(CASE WHEN m.mf_active <> 'F' AND main_supp_flag IN (0, 1, 2) THEN 1 ELSE 0 END) AS total_complete,
+                SUM(CASE WHEN m.mf_active <> 'F' AND (main_supp_flag NOT IN (0, 1, 2) OR main_supp_flag IS NULL) THEN 1 ELSE 0 END) AS total_incomplete,
                 SUM(CASE WHEN m.mf_active = 'F' THEN 1 ELSE 0 END) AS final_matter,
-                SUM(CASE WHEN m.mf_active = 'F' AND m.main_supp_flag IN (0, 1, 2) THEN 1 ELSE 0 END) AS total_ready,
-                SUM(CASE WHEN m.mf_active = 'F' AND (m.main_supp_flag NOT IN (0, 1, 2) OR m.main_supp_flag IS NULL) THEN 1 ELSE 0 END) AS total_notready,
+                SUM(CASE WHEN m.mf_active = 'F' AND main_supp_flag IN (0, 1, 2) THEN 1 ELSE 0 END) AS total_ready,
+                SUM(CASE WHEN m.mf_active = 'F' AND (main_supp_flag NOT IN (0, 1, 2) OR main_supp_flag IS NULL) THEN 1 ELSE 0 END) AS total_notready,
                 SUM(CASE WHEN (m.case_grp = 'C' OR m.case_grp IS NULL) THEN 1 ELSE 0 END) AS civil_pendency,
                 SUM(CASE WHEN m.case_grp = 'R' THEN 1 ELSE 0 END) AS criminal_pendency,
                 SUM(CASE WHEN m.fil_dt::date < CURRENT_DATE - INTERVAL '1 year' THEN 1 ELSE 0 END) AS more_than_one_year_old,

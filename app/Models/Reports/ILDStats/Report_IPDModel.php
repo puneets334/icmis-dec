@@ -11,7 +11,8 @@ class Report_IPDModel extends Model
     public function __construct()
     {
         parent::__construct();
-        $this->db_icmis = db_connect();
+        // $this->db_icmis = db_connect();
+        $this->db = db_connect();
         $this->eservicesdb = \Config\Database::connect('eservices');
     }
 
@@ -43,8 +44,8 @@ class Report_IPDModel extends Model
         group by diary_no, roster_id
         ) a where board_type = 'J' group by board_type,main_connected order by main_connected";
 
-        $query = $this->db_icmis->query($sql);
-        //echo  $this->db_icmis->last_query(); exit(0);
+        $query = $this->db->query($sql);
+        //echo  $this->db->last_query(); exit(0);
         return $query->result_array();
     }
 
@@ -55,7 +56,7 @@ class Report_IPDModel extends Model
         inner join main m on d.diary_no=m.diary_no and m.c_status='D'
         and (d.ord_dt) $condition inner join heardt h on m.diary_no=h.diary_no where board_type = 'J' group by h.board_type,main_connected order by main_connected ";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->num_rows() >= 1)
         {
             return $query->result_array();
@@ -70,8 +71,8 @@ class Report_IPDModel extends Model
     {
         $sql = "select count(*) as total_registered from main where active_fil_no!='' and active_fil_no is not null and date(active_fil_dt)!='0000-00-00' and date(active_fil_dt) $condition ";
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1)
         {
@@ -89,7 +90,7 @@ class Report_IPDModel extends Model
 
         $sql = " select count(*) as total from ordernet where orderdate  $condition and type='J'";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->num_rows() >= 1)
         {
             return $query->result_array();
@@ -106,9 +107,9 @@ class Report_IPDModel extends Model
         inner join main m on d.diary_no=m.diary_no and m.c_status='D'
         and (d.ord_dt) $condition inner join heardt h on m.diary_no=h.diary_no where m.casetype_id=39";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
 
-        // echo $this->db_icmis->last_query();exit(0);
+        // echo $this->db->last_query();exit(0);
         if ($query->num_rows() >= 1)
         {
             return $query->result_array();
@@ -122,9 +123,9 @@ class Report_IPDModel extends Model
     function get_IA_Disposed($condition)
     {
         $sql="select count(*) as total from docdetails where date(dispose_date) $condition and doccode=8 and iastat='D'";
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
 
-        // echo $this->db_icmis->last_query();exit(0);
+        // echo $this->db->last_query();exit(0);
         if ($query->num_rows() >= 1)
         {
             return $query->result_array();
@@ -140,7 +141,7 @@ class Report_IPDModel extends Model
 
         $sql = " select count(*) as total from dispose d inner join main m on d.diary_no=m.diary_no and m.c_status='D' and (d.ord_dt) $condition inner join heardt h on m.diary_no=h.diary_no where m.casetype_id in (1,2,3,4)";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->num_rows() >= 1)
         {
             return $query->result_array();
@@ -155,7 +156,7 @@ class Report_IPDModel extends Model
     {
         $sql = "select count(*) as total from dispose d inner join main m on d.diary_no=m.diary_no and m.c_status='D' and (d.ord_dt) $condition inner join heardt h on m.diary_no=h.diary_no where m.casetype_id in (5,6) ; ";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->num_rows() >= 1)
         {
             return $query->result_array();
@@ -170,7 +171,7 @@ class Report_IPDModel extends Model
     {
         $sql = "select count(*) as total from dispose d inner join main m on d.diary_no=m.diary_no and m.c_status='D' and (d.ord_dt) $condition inner join heardt h on m.diary_no=h.diary_no where m.casetype_id in (7,8) ; ";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->num_rows() >= 1)
         {
             return $query->result_array();
@@ -186,7 +187,7 @@ class Report_IPDModel extends Model
 
         $sql = "select count(*) as total from main where date(diary_no_rec_date)  $condition  ";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->num_rows() >= 1) {
             return $query->result_array();
         } else {
@@ -199,7 +200,7 @@ class Report_IPDModel extends Model
         $sql = "select count(DISTINCT diary_no) as total from main where date(diary_no_rec_date)  $condition
              and (casetype_id in (1,2,3,4) or active_casetype_id in (1,2,3,4)) ";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->num_rows() >= 1) {
             return $query->result_array();
         } else {
@@ -213,7 +214,7 @@ class Report_IPDModel extends Model
         $sql = "select count(*) as total from main where date(diary_no_rec_date)  $condition
              and casetype_id=39 ";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->num_rows() >= 1) {
             return $query->result_array();
         } else {
@@ -226,7 +227,7 @@ class Report_IPDModel extends Model
         $sql = "select count(*) as total from docdetails where date(ent_dt)  $condition
              and doccode=8 and display='Y' ";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->num_rows() >= 1) {
             return $query->result_array();
         } else {
@@ -241,7 +242,7 @@ class Report_IPDModel extends Model
     {
         $sql="select count(case when mf_active='M' or mf_active='' then 1 end) as m_total,count(case when mf_active='F' then 1 end ) as r_total from(select distinct mf_active,m.diary_no from dispose d inner join main m on d.diary_no=m.diary_no where m.c_status='D' and date(d.ord_dt) $condition) a";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1)
         {
             return $query->getResultArray();
@@ -284,7 +285,7 @@ class Report_IPDModel extends Model
             ) a
         ) b";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1)
         {
             return $query->getResultArray();
@@ -321,7 +322,7 @@ class Report_IPDModel extends Model
         group by diary_no, roster_id) a
         group by next_dt, roster_id) temp";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->num_rows() >= 1) {
             return $query->result_array();
         } else {
@@ -333,7 +334,7 @@ class Report_IPDModel extends Model
     {
         $sql="select count(*) as total from main where date(diary_no_rec_date) $condition";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
         if ($query->num_rows() >= 1) {
             return $query->result_array();
         } else {
@@ -379,8 +380,8 @@ class Report_IPDModel extends Model
         group by m.diary_no
         order by m.diary_no_rec_date) c, (SELECT @a:= 0) AS b";
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -391,22 +392,22 @@ class Report_IPDModel extends Model
 
     function get_judges_name($jcode)
     {
-        $this->db_icmis->SELECT("jname");
-        $this->db_icmis->FROM('judge');
-        $this->db_icmis->WHERE('jcode', $jcode);
+        $this->db->SELECT("jname");
+        $this->db->FROM('judge');
+        $this->db->WHERE('jcode', $jcode);
 
-        $query = $this->db_icmis->get();
+        $query = $this->db->get();
         return $query->result();
     }
 
     function get_judge_code()
     {
         $ucode=$this->session->userdata('dcmis_user_idd');
-        $this->db_icmis->SELECT("jcode");
-        $this->db_icmis->FROM('users');
-        $this->db_icmis->WHERE('usercode', $ucode);
+        $this->db->SELECT("jcode");
+        $this->db->FROM('users');
+        $this->db->WHERE('usercode', $ucode);
 
-        $query = $this->db_icmis->get();
+        $query = $this->db->get();
 
         return $query->result();
     }
@@ -415,14 +416,14 @@ class Report_IPDModel extends Model
     //Section of Judges Report
     function get_judges_list()
     {
-        $this->db_icmis->SELECT("*");
-        $this->db_icmis->FROM('judge');
-        //$this->db_icmis->WHERE('is_retired', 'N');
-        $this->db_icmis->where('jtype','J');
-        $this->db_icmis->where('display','Y');
-        $this->db_icmis->ORDER_BY("is_retired", "asc");
-        $this->db_icmis->ORDER_BY("jcode", "asc");
-        $query = $this->db_icmis->get();
+        $this->db->SELECT("*");
+        $this->db->FROM('judge');
+        //$this->db->WHERE('is_retired', 'N');
+        $this->db->where('jtype','J');
+        $this->db->where('display','Y');
+        $this->db->ORDER_BY("is_retired", "asc");
+        $this->db->ORDER_BY("jcode", "asc");
+        $query = $this->db->get();
 
         return $query->result();
     }
@@ -430,24 +431,24 @@ class Report_IPDModel extends Model
     //Section of Judges Report
     function get_judges_list_current()
     {
-        $this->db_icmis->SELECT("*");
-        $this->db_icmis->FROM('judge');
-        $this->db_icmis->WHERE('is_retired', 'N');
-        $this->db_icmis->where('jtype','J');
-        $this->db_icmis->where('display','Y');
-        $this->db_icmis->ORDER_BY("jcode", "asc");
-        $query = $this->db_icmis->get();
+        $this->db->SELECT("*");
+        $this->db->FROM('judge');
+        $this->db->WHERE('is_retired', 'N');
+        $this->db->where('jtype','J');
+        $this->db->where('display','Y');
+        $this->db->ORDER_BY("jcode", "asc");
+        $query = $this->db->get();
         return $query->result();
     }
 
     function get_judges_DOA_AOR($jcode)
     {
-        $this->db_icmis->SELECT("*");
-        $this->db_icmis->FROM('judge');
-        $this->db_icmis->where('jtype','J');
-        $this->db_icmis->WHERE('jcode', $jcode);
+        $this->db->SELECT("*");
+        $this->db->FROM('judge');
+        $this->db->where('jtype','J');
+        $this->db->WHERE('jcode', $jcode);
 
-        $query = $this->db_icmis->get();
+        $query = $this->db->get();
         return $query->result();
     }
 
@@ -476,8 +477,8 @@ class Report_IPDModel extends Model
         and h.judges!=0 and h.judges !='' and (h.bench_flag='' or h.bench_flag is null) and h.clno!=0 and h.brd_slno !=0 and cl.next_dt IS NOT NULL and (CHAR_LENGTH(judges) -
         CHAR_LENGTH(REPLACE(judges, ',', '')) )=0 and judges=$jcode) temp;";
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -514,8 +515,8 @@ class Report_IPDModel extends Model
         ) temp";
 
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -555,8 +556,8 @@ class Report_IPDModel extends Model
         ) temp";
 
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -595,8 +596,8 @@ class Report_IPDModel extends Model
         and (find_in_set($jcode,judges)=2 or find_in_set($jcode,judges)=3)
         ) temp";
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -634,8 +635,8 @@ class Report_IPDModel extends Model
         and (find_in_set($jcode,judges)=1)
         ) temp";
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -674,8 +675,8 @@ class Report_IPDModel extends Model
         and (find_in_set($jcode,judges)=2 or find_in_set($jcode,judges)=3) and submaster_id=239
         ) temp";
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -714,8 +715,8 @@ class Report_IPDModel extends Model
         and (find_in_set($jcode,judges)=1) and submaster_id=239
         ) temp";
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -760,8 +761,8 @@ class Report_IPDModel extends Model
         ) temp";
 
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -798,8 +799,8 @@ class Report_IPDModel extends Model
         CHAR_LENGTH(REPLACE(judges, ',', '')) )  >2
         ) temp";
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -832,8 +833,8 @@ class Report_IPDModel extends Model
         and (find_in_set($jcode,judges) )
         ) temp";
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -849,8 +850,8 @@ class Report_IPDModel extends Model
 
         $sql="select count(distinct d.diary_no) as total from dispose d join main m on d.diary_no=m.diary_no where find_in_set($jcode,jud_id) and c_status='D'";
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -865,8 +866,8 @@ class Report_IPDModel extends Model
 
         $sql="select count(distinct d.diary_no) as total from dispose d join main m on d.diary_no=m.diary_no where find_in_set($jcode,jud_id) and c_status='D' and dispjud=$jcode";
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -879,7 +880,7 @@ class Report_IPDModel extends Model
     function fourteen($jcode,$from_dt,$to_dt)
     {
         $sql1="  select sur_name from judge where jcode=$jcode";
-        $query = $this->db_icmis->query($sql1);
+        $query = $this->db->query($sql1);
         $name= $query->result();
         $surname=$name[0]->sur_name;
 
@@ -899,8 +900,8 @@ class Report_IPDModel extends Model
             order by dated desc) temp";
 
 
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1) {
             return $query->result_array();
@@ -913,7 +914,7 @@ class Report_IPDModel extends Model
     {
         $sql = "select count(*) as total_filed from main where date(diary_no_rec_date) $condition ";
 
-        $query = $this->db_icmis->query($sql);
+        $query = $this->db->query($sql);
 
         if ($query->getNumRows() >= 1)
         {
@@ -928,8 +929,8 @@ class Report_IPDModel extends Model
     function get_notice_count($condition)
     {
         $sql="select count(distinct diary_no ,cl_date) as total_notice from case_remarks_multiple where cl_date $condition and r_head in(3,62,181,182,183,184,203)";
-        $query = $this->db_icmis->query($sql);
-        // echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        // echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1)
         {
@@ -948,7 +949,7 @@ class Report_IPDModel extends Model
     {
 
         $sql1="  select sur_name from judge where jcode=$jcode";
-        $query = $this->db_icmis->query($sql1);
+        $query = $this->db->query($sql1);
 
         $name= $query->result();
 
@@ -970,8 +971,8 @@ class Report_IPDModel extends Model
             and o.juddate BETWEEN '$from_dt' and '$to_dt' and o.dn!=0) temp) temp1 where judge_count>3
             order by dated desc";
 
-        $query = $this->db_icmis->query($sql);
-        //echo   $this->db_icmis->last_query();exit(0);
+        $query = $this->db->query($sql);
+        //echo   $this->db->last_query();exit(0);
 
         if ($query->num_rows() >= 1)
         {

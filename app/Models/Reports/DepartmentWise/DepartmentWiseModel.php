@@ -110,15 +110,15 @@ class DepartmentWiseModel extends Model
         {
             if(($_REQUEST['fdate']!='') && ($_REQUEST['tdate']!=''))
             {
-                $dates = " AND c.disp_dt::date BETWEEN '$fdate' AND '$tdate' ";
+                $dates = " AND disp_dt::date BETWEEN '$fdate' AND '$tdate' ";
             }
             else if(($_REQUEST['fdate']=='') && ($_REQUEST['tdate']!=''))
             {
-                $dates = " AND c.disp_dt::date <= '$tdate' ";
+                $dates = " AND disp_dt::date <= '$tdate' ";
             }
             else if(($_REQUEST['fdate']!='') && ($_REQUEST['tdate']==''))
             {
-                $dates = " AND c.disp_dt::date >= '$tdate' ";
+                $dates = " AND disp_dt::date >= '$tdate' ";
             }
         }
 
@@ -182,7 +182,7 @@ class DepartmentWiseModel extends Model
                 <!--<th>OIC<br><span style="font-weight: 500;font-size: 12px;">Name-Desg-Mob</span></th>-->
             </tr>';
 
-            $serial = 0;
+            $serial = 1;
             foreach($maincases_result as $key => $row_main)
             {
                 if($fil_temp != $row_main['diary_no'])
@@ -211,7 +211,7 @@ class DepartmentWiseModel extends Model
                         }
                     }
 
-                    $serial++;
+                    
                     
                     $docinf = "SELECT
                     docnum,
@@ -278,6 +278,7 @@ class DepartmentWiseModel extends Model
                 $html .= '</tr>';
 
                 $fil_temp = $row_main['diary_no'];
+                $serial++;
             }
         }
         else
@@ -340,15 +341,15 @@ class DepartmentWiseModel extends Model
         {
             if(($_REQUEST['hd_for_fdate']!='') && ($_REQUEST['hd_for_tdate']!=''))
             {
-                $dates = " AND c.disp_dt::date BETWEEN '$hd_for_fdate' AND '$hd_for_tdate' ";
+                $dates = " AND disp_dt::date BETWEEN '$hd_for_fdate' AND '$hd_for_tdate' ";
             }
             else if(($_REQUEST['hd_for_fdate']=='') && ($_REQUEST['hd_for_tdate']!=''))
             {
-                $dates = " AND c.disp_dt::date <= '$hd_for_tdate' ";
+                $dates = " AND disp_dt::date <= '$hd_for_tdate' ";
             }
             else if(($_REQUEST['hd_for_fdate']!='') && ($_REQUEST['hd_for_tdate']==''))
             {
-                $dates = " AND c.disp_dt::date >= '$hd_for_tdate' ";
+                $dates = " AND disp_dt::date >= '$hd_for_tdate' ";
             }
         }
 
@@ -412,7 +413,7 @@ class DepartmentWiseModel extends Model
                 <!--<th>OIC<br><span style="font-weight: 500;font-size: 12px;">Name-Desg-Mob</span></th>-->
             </tr>';
 
-            $serial = 0;
+            $serial = 1;
             foreach($maincases_result as $key => $row_main)
             {
                 if($fil_temp != $row_main['diary_no'])
@@ -441,7 +442,7 @@ class DepartmentWiseModel extends Model
                         }
                     }
 
-                    $serial++;
+                    
                     
                     $docinf = "SELECT
                     docnum,
@@ -508,6 +509,7 @@ class DepartmentWiseModel extends Model
                 $html .= '</tr>';
 
                 $fil_temp = $row_main['diary_no'];
+                $serial++;
             }
         }
         else

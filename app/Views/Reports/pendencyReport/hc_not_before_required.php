@@ -194,6 +194,7 @@
         var prtContent = $("#prnnt").html();
         var temp_str=prtContent;
         var WinPrint = window.open('','','left=100,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1,cellspacing=1');
+        WinPrint.document.write("<style> .bk_out {  display:none; } </style>" + prtContent.innerHTML);
         WinPrint.document.write(temp_str);
         WinPrint.document.close();
         WinPrint.focus();

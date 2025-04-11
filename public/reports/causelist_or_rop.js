@@ -28,6 +28,7 @@ $(document).ready(function(){
             }
 
         });
+        updateCSRFToken();
      });
      $(document).on('click','.cl_off_rop',function(){
         var idd=$(this).attr('id');
@@ -113,3 +114,12 @@ function closeData1()
     document.getElementById('dv_fixedFor_P1').style.display="none";
       document.getElementById('dv_sh_hd1').style.display="none";
 } 
+
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            alert("Please enter only numbers.");
+            return false;
+        }
+        return true;
+  }
