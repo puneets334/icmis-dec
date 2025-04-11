@@ -1,8 +1,8 @@
-
 <?php
-
+if(isset($_POST['mainhead']) && (isset($_POST['list_dt']) && ($_POST['list_dt'] !=  0 && $_POST['list_dt'] != -1))  )
+{
     $list_dt = date('d-m-Y', strtotime($_POST['list_dt']));
-
+    $main_supl_head = '';
   
     $mainhead = $_POST['mainhead'];
     if($mainhead == 'M'){
@@ -195,7 +195,7 @@ group by h.diary_no ORDER BY $orderby r.courtno,brd_slno, CASE WHEN us.section_n
 die;
 
 
-"SELECT concat(b1.title,b1.name) as pet_adv_name,concat(b2.title,b2.name) as res_adv_name, r.courtno, u.name, us.section_name, l.purpose, c1.short_description, YEAR(m.active_fil_dt) fyr, active_reg_year, active_fil_dt, active_fil_no, m.reg_no_display, m.pet_name, m.res_name, m.pno, m.rno, casetype_id, ref_agency_state_id, diary_no_rec_date,remark, h.* FROM heardt h INNER JOIN main m ON m.diary_no = h.diary_no INNER JOIN master.listing_purpose l ON l.code = h.listorder AND l.display = 'Y' INNER JOIN master.roster r ON r.id = h.roster_id AND r.display = 'Y' AND r.courtno = '8' LEFT JOIN brdrem br on br.diary_no=m.diary_no left join master.bar b1 on m.pet_adv_id=b1.bar_id left join master.bar b2 on m.res_adv_id=b2.bar_id LEFT JOIN master.casetype c1 ON m.active_casetype_id = c1.casecode LEFT JOIN cl_printed p ON p.next_dt = h.next_dt AND p.m_f = h.mainhead AND p.part = h.clno AND p.roster_id = h.roster_id AND p.display = 'Y' LEFT JOIN master.users u ON u.usercode = m.dacode and (u.display = 'Y' || u.display is null) LEFT JOIN master.usersection us ON us.id = u.section WHERE p.id IS NOT NULL AND h.mainhead = 'M' AND h.main_supp_flag = '2' and h.next_dt = '2025-08-20' and h.listorder = '5' AND h.board_type = 'R' and (h.main_supp_flag = 1 OR h.main_supp_flag = 2) AND h.roster_id > 0 AND m.diary_no IS NOT NULL AND m.c_status = 'P' group by h.diary_no ORDER BY r.courtno,brd_slno, CASE WHEN us.section_name IS NULL THEN 9999 ELSE 0 END ASC, us.section_name, u.name, h.brd_slno, IF(h.conn_key=h.diary_no,'0000-00-00',m.diary_no_rec_date) ASC"
+ "SELECT concat(b1.title,b1.name) as pet_adv_name,concat(b2.title,b2.name) as res_adv_name, r.courtno, u.name, us.section_name, l.purpose, c1.short_description, YEAR(m.active_fil_dt) fyr, active_reg_year, active_fil_dt, active_fil_no, m.reg_no_display, m.pet_name, m.res_name, m.pno, m.rno, casetype_id, ref_agency_state_id, diary_no_rec_date,remark, h.* FROM heardt h INNER JOIN main m ON m.diary_no = h.diary_no INNER JOIN master.listing_purpose l ON l.code = h.listorder AND l.display = 'Y' INNER JOIN master.roster r ON r.id = h.roster_id AND r.display = 'Y' AND r.courtno = '8' LEFT JOIN brdrem br on br.diary_no=m.diary_no left join master.bar b1 on m.pet_adv_id=b1.bar_id left join master.bar b2 on m.res_adv_id=b2.bar_id LEFT JOIN master.casetype c1 ON m.active_casetype_id = c1.casecode LEFT JOIN cl_printed p ON p.next_dt = h.next_dt AND p.m_f = h.mainhead AND p.part = h.clno AND p.roster_id = h.roster_id AND p.display = 'Y' LEFT JOIN master.users u ON u.usercode = m.dacode and (u.display = 'Y' || u.display is null) LEFT JOIN master.usersection us ON us.id = u.section WHERE p.id IS NOT NULL AND h.mainhead = 'M' AND h.main_supp_flag = '2' and h.next_dt = '2025-08-20' and h.listorder = '5' AND h.board_type = 'R' and (h.main_supp_flag = 1 OR h.main_supp_flag = 2) AND h.roster_id > 0 AND m.diary_no IS NOT NULL AND m.c_status = 'P' group by h.diary_no, b1.title, b1.name, b2.title,b2.name, r.courtno, u.name, us.section_name, l.purpose, c1.short_description, m.active_fil_dt, active_reg_year, active_fil_dt, active_fil_no, m.reg_no_display, m.pet_name, m.res_name, m.pno, m.rno, casetype_id, ref_agency_state_id, diary_no_rec_date, br.remark ORDER BY r.courtno,brd_slno, CASE WHEN us.section_name IS NULL THEN 9999 ELSE 0 END ASC, us.section_name, u.name, h.brd_slno, CASE WHEN h.conn_key = h.diary_no THEN to_date('0001-01-01', 'YYYY-MM-DD') ELSE m.diary_no_rec_date END ASC";
 
         $res=mysql_query($sql);
         if(mysql_num_rows($res)>0){
@@ -390,6 +390,7 @@ WHERE case_type=$casetype_displ AND $ten_reg_yr BETWEEN case_f_yr AND case_t_yr 
         else{
             echo "No Recrods Found";
         }
+    }
         ?>
         <BR/><BR/><BR/><BR/> <BR/><BR/><BR/><BR/>
     </div>

@@ -1,8 +1,11 @@
 <?= view('header') ?>
 <?php
+
+if(isset($_POST['mainhead']) && (isset($_POST['list_dt']) && ($_POST['list_dt'] !=  0 && $_POST['list_dt'] != -1))  )
+{
     $list_dt = date('d-m-Y', strtotime($_POST['list_dt']));
 
-
+    $main_supl_head = '';
     $mainhead = $_POST['mainhead'];
     if($mainhead == 'M'){
         $mainhead_descri = "Miscellaneous Hearing";
@@ -13,6 +16,7 @@
     if($mainhead == 'L'){
         $mainhead_descri = "Lok Adalat";
     }
+
     if($_POST['lp'] == "all"){
         $lp = "";
     }
@@ -39,6 +43,7 @@
     else{
         $court_no = "AND r.courtno = '".$_POST['courtno']."'";
     }
+
     if($_POST['board_type'] == "0"){
         $board_type = "";
     }
@@ -223,6 +228,8 @@
         else{
             echo "No Recrods Found";
         }
+    }
+    
         ?>
         <BR/><BR/><BR/><BR/> <BR/><BR/><BR/><BR/>
     </div>
