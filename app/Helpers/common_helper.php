@@ -1154,16 +1154,7 @@ function get_party_mobile_number($diary_no, $party_type)
     }
 }
 
-function component_case_status_process_tab($diary_no = '')
-{
-    $model = new \App\Models\Common\Component\Model_case_status();
-    $html = "";
-    $data = getCaseDetails($diary_no);
-    $data['component'] = 'component_for_case_status_process';
-    $data['Model_case_status'] = $model;
-    $html = view('Common/Component/case_status/case_status_process_tab', $data);
-    return $html;
-}
+
 
 function component_case_status_process_popup($diary_no = '')
 {
@@ -1613,6 +1604,11 @@ function getCaseDetails($diarySearchDetails)
         $flag = "_a";
         $diary_details = is_data_from_table('main_a', ['diary_no' => $main_diary_number], '*', 'R');
         $data['diary_disposal_date'] = json_decode($model->get_diary_disposal_date($main_diary_number), true);
+    }else{
+        if($diary_details['c_status'] == 'D')
+        {
+            $data['diary_disposal_date'] = json_decode($model->get_diary_disposal_date($main_diary_number), true);
+        }
     }
 
     $data['diary_details'] = $diary_details;
@@ -1657,6 +1653,7 @@ function getCaseDetails($diarySearchDetails)
     // pr($data['heardt_case']);
     $last_listed_on = "";
     $last_listed_on_jud = "";
+     
     if (!empty($data['heardt_case'])) {
         //while ($row1 = $data['heardt_case'] ) {
         $row1 = $data['heardt_case'];
@@ -1665,7 +1662,10 @@ function getCaseDetails($diarySearchDetails)
         }
         $mc = $row1["filno"];
         if (!empty($mc)) {
-            $main_case = get_main_case($mc, $flag);
+             
+            //$main_case = get_main_case_in_case_status($mc, $flag)['cn1'];          
+            $main_case = get_main_case($mc, $flag);          
+            
             $data['main_case'] = $main_case;
         }
         $chk_next_dt = $row1["next_dt"];
@@ -1676,6 +1676,7 @@ function getCaseDetails($diarySearchDetails)
         }
         //}
     }
+   
 
     // if (!empty($data['heardt_case'])) {
     //     foreach ($data['heardt_case'] as $row1) {
@@ -1897,12 +1898,44 @@ function getCaseDetails($diarySearchDetails)
         }
     }
     // pr($t_slpcc);
-    $data['case_no'] =  $t_slpcc . $t_fil_no1;
+    $data['case_no'] = $t_fil_no.$t_slpcc.$t_fil_no1; //  $t_slpcc . $t_fil_no1;
     //pr($data);
     //print_r($data);
     //pr($t_fil_no1);
     return $data;
     //return $result_view = view('Common/Component/case_status/case_status_details_tab',$data);
+}
+
+
+function get_main_case_in_case_status($flno,$flag='')
+{
+    $db = \Config\Database::connect();
+
+    $sql = "
+        SELECT 
+            CASE 
+                WHEN NOT (
+                    conn_key = '' OR conn_key IS NULL OR diary_no::TEXT = conn_key
+                ) THEN (
+                    SELECT 
+                        (
+                            SELECT skey 
+                            FROM master.casetype 
+                            WHERE casecode = TRIM(LEADING '0' FROM SUBSTRING(conn_key FROM 3 FOR 3))::integer
+                        ) 
+                        || ' ' || TRIM(LEADING '0' FROM SUBSTRING(conn_key FROM 6 FOR 5)) 
+                        || '/' || SUBSTRING(conn_key FROM 11 FOR 4)
+                    FROM master.casetype 
+                    WHERE casecode = TRIM(LEADING '0' FROM SUBSTRING(diary_no::TEXT FROM 3 FOR 3))::integer
+                )
+                ELSE ''
+            END AS cn1
+        FROM main
+        WHERE diary_no = '$flno'
+    ";
+
+    $query = $db->query($sql);
+    return $query->getRowArray();
 }
 
 //Judicial Hc_Or
@@ -4733,13 +4766,13 @@ function get_district($district)
 
 function send_to_name($id_val, $tw_sn_to)
 {
-
+    
     $db = \Config\Database::connect();
     if ($id_val == 2) {
         $r_sql = is_data_from_table('master.tw_send_to',  " id= $tw_sn_to and display='Y' ", 'desg', $row = '');
     } else if ($id_val == 1) {
         $r_sql = is_data_from_table('master.bar',  " bar_id= $tw_sn_to ", "concat(name,'-',aor_code) desg", $row = '');
-    } else if ($id_val == 2) {
+    } else if ($id_val == 3) {
         $builder = $db->table('lowerct a');
         $builder->select([
             "COALESCE(
@@ -4762,7 +4795,7 @@ function send_to_name($id_val, $tw_sn_to)
         $builder->groupBy('l_dist');
         $builder->groupBy('a.ct_code');
         $builder->groupBy('b.name');
-
+         
         $query = $builder->get();
         $r_sql = $query->getRowArray();
     }

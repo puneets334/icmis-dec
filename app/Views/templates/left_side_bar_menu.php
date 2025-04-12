@@ -239,6 +239,16 @@ $uri = current_url(true);
         var title = $(this).data("menu-title");
         var old_smenu = $(this).data("menu-old_smenu");
 
+        if(url == 'L0NvbW1vbi9DYXNlX3N0YXR1cw==')
+        {
+            var application_nave = document.querySelector('.application_nave');
+            $('.hamburger-icon').toggleClass("hide");
+            $('.sidePanel').toggleClass("hide");
+            $('.mainPanel').toggleClass("hide");
+            $('.sidePanel').show("500");
+            application_nave.style.marginLeft = '200px';
+        }
+
         $(".menu-is-opening").removeClass("menu-is-opening");
         $(".menu-open").removeClass("menu-open");
         $('.nav-treeview').hide();

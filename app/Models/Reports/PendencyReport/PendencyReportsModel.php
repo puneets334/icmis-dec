@@ -277,62 +277,101 @@ class PendencyReportsModel extends Model
                     return $result;
                     break;
                 }
-            case 6: {
+            case 6:
+                {
 
-                    pr('6');
-                    $jCode = $_POST['jCode'];
-                    $from_Date = date('Y-m-d', strtotime($_POST['from_date']));
-                    $to_Date = date('Y-m-d', strtotime($_POST['to_date']));
+                    $jCode = $jcode;
+                   
+                    $from_Date = date('Y-m-d', strtotime($fromDate));
+                    $to_Date = date('Y-m-d', strtotime($toDate));
+                    
+                   
                     if ($jCode != '0')
                         $condition = " and j.jcode=$jCode";
                     else
                         $condition = " and 1=1";
-                    $sql = "SELECT listed.jcode, listed.jname,listed.Misc_Main AS listed_Misc_Main,listed.Misc_Conn AS listed_Misc_Conn,
-            listed.Regular_Main AS listed_Regular_Main,listed.Regular_Conn AS listed_Regular_Conn,
-            listed.total_Main AS listed_total_Main,listed.total_Conn AS listed_total_Conn,
-            disposed.Misc_Main AS disposed_Misc_Main,disposed.Misc_Conn AS disposed_Misc_Conn,
-            disposed.Regular_Main AS disposed_Regular_Main,disposed.Regular_Conn AS disposed_Regular_Conn,
-            disposed.total_Main AS disposed_total_Main,disposed.total_Conn AS disposed_total_Conn
-            FROM
-            (SELECT jcode, jname,
-            count(distinct CASE WHEN (m.mf_active='M' AND (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no)) THEN m.diary_no END) AS Misc_Main,
-            count(distinct CASE WHEN (m.mf_active='M' AND (m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no)) THEN m.diary_no END) AS Misc_Conn,
-            count(distinct CASE WHEN (m.mf_active<>'M' AND (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no)) THEN m.diary_no END) AS Regular_Main,
-            count(distinct CASE WHEN (m.mf_active<>'M' AND (m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no)) THEN m.diary_no END) AS Regular_Conn,
-            count(distinct CASE WHEN (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no) THEN m.diary_no END) AS total_Main,
-            count(distinct CASE WHEN (m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no) THEN m.diary_no END) AS total_Conn FROM main m INNER JOIN
-            (SELECT DISTINCT diary_no,next_dt,judges FROM
-            (SELECT diary_no,next_dt,judges,board_type FROM heardt WHERE next_dt BETWEEN '" . $from_Date . "' AND '" . $to_Date . "' AND
-            clno!=0 AND brd_slno!=0 AND roster_id!=0 AND judges!=0 AND roster_id NOT IN (29,30) AND board_type ='J'
-            UNION ALL
-            SELECT diary_no,next_dt,judges,board_type FROM last_heardt WHERE next_dt BETWEEN '" . $from_Date . "' AND '" . $to_Date . "'
-            AND (bench_flag IS NULL OR bench_flag='') AND clno!=0 AND brd_slno!=0 AND roster_id!=0 AND judges!=0
-            AND roster_id NOT IN (29,30) AND board_type ='J')bb) aa
-            ON m.diary_no=aa.diary_no
-            INNER JOIN judge j ON FIND_IN_SET (j.jcode, aa.judges)=1
-            WHERE 1=1  $condition
-            GROUP BY jcode, jname) listed
-            LEFT JOIN
-            (SELECT  jcode, jname,
-            count(distinct CASE WHEN (m.mf_active='M' AND (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no)) THEN m.diary_no END) AS Misc_Main,
-            count(distinct CASE WHEN (m.mf_active='M' AND (m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no)) THEN m.diary_no END) AS Misc_Conn,
-            count(distinct CASE WHEN (m.mf_active<>'M' AND (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no)) THEN m.diary_no END) AS Regular_Main,
-            count(distinct CASE WHEN (m.mf_active<>'M' AND (m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no)) THEN m.diary_no END) AS Regular_Conn,
-            count(distinct CASE WHEN (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no) THEN m.diary_no END) AS total_Main,
-            count(distinct CASE WHEN (m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no) THEN m.diary_no END) AS total_Conn FROM main m left JOIN heardt h
-            ON m.diary_no=h.diary_no INNER JOIN dispose d
-            ON m.diary_no=d.diary_no INNER JOIN judge j ON FIND_IN_SET (j.jcode, d.jud_id)=1
-             WHERE d.ord_dt BETWEEN '" . $from_Date . "' AND '" . $to_Date . "' $condition  AND c_status='D' AND h.board_type ='J'
-            GROUP BY jcode, jname) disposed
-            ON listed.jcode=disposed.jcode ORDER BY listed.jcode";
+                    $sql = "SELECT 
+                                listed.jcode, 
+                                listed.jname,
+                                listed.Misc_Main AS listed_Misc_Main,
+                                listed.Misc_Conn AS listed_Misc_Conn,
+                                listed.Regular_Main AS listed_Regular_Main,
+                                listed.Regular_Conn AS listed_Regular_Conn,
+                                listed.total_Main AS listed_total_Main,
+                                listed.total_Conn AS listed_total_Conn,
+                                disposed.Misc_Main AS disposed_Misc_Main,
+                                disposed.Misc_Conn AS disposed_Misc_Conn,
+                                disposed.Regular_Main AS disposed_Regular_Main,
+                                disposed.Regular_Conn AS disposed_Regular_Conn,
+                                disposed.total_Main AS disposed_total_Main,
+                                disposed.total_Conn AS disposed_total_Conn
+                            FROM (
+                                SELECT 
+                                    j.jcode, 
+                                    j.jname,
+                                    COUNT(DISTINCT CASE WHEN (m.mf_active = 'M' AND (m.conn_key::text IS NULL OR m.conn_key::text = '0' OR m.conn_key::text = m.diary_no::text)) THEN m.diary_no END) AS Misc_Main,
+                                    COUNT(DISTINCT CASE WHEN (m.mf_active = 'M' AND (m.conn_key::text IS NOT NULL AND m.conn_key::text != '0' AND m.conn_key::text != m.diary_no::text)) THEN m.diary_no END) AS Misc_Conn,
+                                    COUNT(DISTINCT CASE WHEN (m.mf_active <> 'M' AND (m.conn_key::text IS NULL OR m.conn_key::text = '0' OR m.conn_key::text = m.diary_no::text)) THEN m.diary_no END) AS Regular_Main,
+                                    COUNT(DISTINCT CASE WHEN (m.mf_active <> 'M' AND (m.conn_key::text IS NOT NULL AND m.conn_key::text != '0' AND m.conn_key::text != m.diary_no::text)) THEN m.diary_no END) AS Regular_Conn,
+                                    COUNT(DISTINCT CASE WHEN (m.conn_key::text IS NULL OR m.conn_key::text = '0' OR m.conn_key::text = m.diary_no::text) THEN m.diary_no END) AS total_Main,
+                                    COUNT(DISTINCT CASE WHEN (m.conn_key::text IS NOT NULL AND m.conn_key::text != '0' AND m.conn_key::text != m.diary_no::text) THEN m.diary_no END) AS total_Conn
+                                FROM main m
+                                INNER JOIN (
+                                    SELECT DISTINCT diary_no, next_dt, judges
+                                    FROM (
+                                        SELECT diary_no, next_dt, judges, board_type
+                                        FROM heardt
+                                        WHERE next_dt BETWEEN '$from_Date'::date AND '$to_Date'::date
+                                            AND clno != 0 AND brd_slno != 0 AND roster_id != 0 AND judges != '0' AND board_type = 'J'
+                                            AND roster_id NOT IN (29,30)
+
+                                        UNION ALL
+
+                                        SELECT diary_no, next_dt, judges, board_type
+                                        FROM last_heardt
+                                        WHERE next_dt BETWEEN '$from_Date'::date AND '$to_Date'::date
+                                            AND (bench_flag IS NULL OR bench_flag = '')
+                                            AND clno != 0 AND brd_slno != 0 AND roster_id != 0 AND judges != '0'
+                                            AND board_type = 'J' AND roster_id NOT IN (29,30)
+                                    ) AS bb
+                                ) AS aa ON m.diary_no = aa.diary_no
+                                INNER JOIN master.judge j ON j.jcode::text = ANY(string_to_array(aa.judges, ','))
+                                WHERE 1=1  $condition
+                                GROUP BY j.jcode, j.jname
+                            ) AS listed
+                            LEFT JOIN (
+                                SELECT 
+                                    j.jcode, 
+                                    j.jname,
+                                    COUNT(DISTINCT CASE WHEN (m.mf_active = 'M' AND (m.conn_key::text IS NULL OR m.conn_key::text = '0' OR m.conn_key::text = m.diary_no::text)) THEN m.diary_no END) AS Misc_Main,
+                                    COUNT(DISTINCT CASE WHEN (m.mf_active = 'M' AND (m.conn_key::text IS NOT NULL AND m.conn_key::text != '0' AND m.conn_key::text != m.diary_no::text)) THEN m.diary_no END) AS Misc_Conn,
+                                    COUNT(DISTINCT CASE WHEN (m.mf_active <> 'M' AND (m.conn_key::text IS NULL OR m.conn_key::text = '0' OR m.conn_key::text = m.diary_no::text)) THEN m.diary_no END) AS Regular_Main,
+                                    COUNT(DISTINCT CASE WHEN (m.mf_active <> 'M' AND (m.conn_key::text IS NOT NULL AND m.conn_key::text != '0' AND m.conn_key::text != m.diary_no::text)) THEN m.diary_no END) AS Regular_Conn,
+                                    COUNT(DISTINCT CASE WHEN (m.conn_key::text IS NULL OR m.conn_key::text = '0' OR m.conn_key::text = m.diary_no::text) THEN m.diary_no END) AS total_Main,
+                                    COUNT(DISTINCT CASE WHEN (m.conn_key::text IS NOT NULL AND m.conn_key::text != '0' AND m.conn_key::text != m.diary_no::text) THEN m.diary_no END) AS total_Conn
+                                FROM main m
+                                LEFT JOIN heardt h ON m.diary_no = h.diary_no
+                                INNER JOIN dispose d ON m.diary_no = d.diary_no
+                                INNER JOIN master.judge j ON j.jcode::text = ANY(string_to_array(d.jud_id, ','))
+                                WHERE d.ord_dt BETWEEN '$from_Date'::date AND '$to_Date'::date
+                                $condition
+                                    AND m.c_status = 'D'
+                                    AND h.board_type = 'J'
+                                GROUP BY j.jcode, j.jname
+                            ) AS disposed ON listed.jcode = disposed.jcode
+                            ORDER BY listed.jcode";
 
 
                     $sql2 = "SELECT                     
-            count(distinct m.diary_no ) AS other_disp FROM main m 
-            left JOIN heardt h ON m.diary_no=h.diary_no 
-            INNER JOIN dispose d
-            ON m.diary_no=d.diary_no INNER JOIN judge j ON FIND_IN_SET (j.jcode, d.jud_id)=1
-             WHERE d.ord_dt BETWEEN '" . $from_Date . "' AND '" . $to_Date . "'  AND c_status='D' AND (h.board_type !='J' OR h.diary_no is NULL)";
+                                COUNT(DISTINCT m.diary_no) AS other_disp
+                            FROM main m 
+                            LEFT JOIN heardt h ON m.diary_no = h.diary_no 
+                            INNER JOIN dispose d ON m.diary_no = d.diary_no 
+                            INNER JOIN master.judge j ON j.jcode::text = ANY(string_to_array(d.jud_id, ','))
+                            WHERE 
+                                d.ord_dt BETWEEN '$from_Date'::date AND '$to_Date'::date
+                                AND m.c_status = 'D'
+                                AND (h.board_type != 'J' OR h.diary_no IS NULL)";
 
                     $query2 = $this->db->query($sql2);
 
@@ -480,11 +519,11 @@ class PendencyReportsModel extends Model
 
 
 
-        // if ($reportType == 6) {
-        //     $result['other_disposal'] = $query2->result_array();
-        //     $result['disposal'] = $query->result_array();
-        //     return $result;
-        // }
+        if ($reportType == 6) {
+            $result['other_disposal'] = $query2->getResultArray();
+            $result['disposal'] = $query->getResultArray();
+            return $result;
+        }
         // $query = $builder->getCompiledSelect();
         // pr($query);
         //$query = $builder->get();

@@ -180,7 +180,7 @@
 <?php endif;?>
 </div>
 <script>
-    $(function() {
+   /* $(function() {
         $("#lowercourtdata").DataTable({
             "responsive": true,
             "lengthChange": false,
@@ -188,5 +188,5 @@
             "buttons": ["csv", "excel"]
         }).buttons().container().appendTo('#lowercourtdata_wrapper .col-md-6:eq(0)');
 
-    });
+    }); */
 </script>

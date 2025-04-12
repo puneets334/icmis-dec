@@ -240,6 +240,12 @@ $uri = current_url(true);
        // $(".menu-is-opening").removeClass("menu-is-opening");
        // $(".menu-open").removeClass("menu-open");
 
+       if(old_smenu == 999011)
+        {
+            window.open('http://10.25.78.107/library', '_blank');
+            return false;
+        }
+
 
         /*var url_content = "<//?php echo WEB_ROOT; ?>content.php";*/
         var url_content = "<?php echo base_url('Supreme_court/Content');?>";
