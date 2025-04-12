@@ -22,10 +22,10 @@ if(!empty($diary_details)){?>
 </style>
 
 
-<input type="hidden" name="diaryno1" id="diaryno1" value="<?php echo $diary_number; ?>">
+<input type="hidden" name="diary_no1" id="diary_no1" value="<?php echo $diary_number; ?>">
 <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
 <div class="row" style="margin-left: 1%">
-    <div class="nav-tabs-custom">
+    <div class="same-nav-tabs-custom">
         <ul class="nav-breadcrumb">
             <li><a class="first active" href="101" style="z-index:17;" data-parent="#accordion1" data-toggle="tab" aria-expanded="false"><strong>Case Details</strong></a></li>
             <li><a href="102" style="z-index:16;" data-parent="#accordion1" data-toggle="tab" aria-expanded="false"><strong>Earlier Court Details</strong></a></li>
@@ -56,9 +56,7 @@ if(!empty($diary_details)){?>
         </div>
     </div>
 </div>
-<div align="left">
-    <input type="button" id="btnPrint" class="btn btn-primary" value="Print" onclick="printDiv();">
-</div>
+ 
 
 <div id="divPrint">
     <h5 align="center" style="color:green;">Diary No.- <?php echo substr($diary_details['diary_no'], 0, -4) . ' - ' . substr($diary_details['diary_no'], -4); ?> <!--<img src="../images/qr-code.png" width="40px" height="40px" align="right" id="myBtn"style="cursor: pointer;margin-right:20px;">-->
@@ -79,11 +77,11 @@ if(!empty($diary_details)){?>
     <h5 align="center"><?php echo $diary_details['pet_name'] . ' <span style="color:red;">vs</span> ' . $diary_details['res_name'] ?></h5>
 
     <h5 align="right"> </h5>
-    <div id="collapse118">
-        <div id="result118"></div>
+    <div id="collapse119">
+        <div id="result119"></div>
 
     </div>
-    <div id="caseDetails">
+    <div id="caseDetails_same">
         <table border="0" align="left" width="100%" class="table table-bordered table-striped">
             <tbody>
                 <?php if (!empty($filing_stage) && $diary_details['c_status'] != 'D'): ?>
@@ -610,20 +608,20 @@ if(!empty($diary_details)){?>
   
   <div id="overlay" class="overlay" style="display:none;">&nbsp;</div>
 <script>
-    $(".nav-breadcrumb li").click(function(event) {
+    $(".same-nav-tabs-custom .nav-breadcrumb li").click(function(event) {
         updateCSRFToken();
         var url = "";
-        $(".nav-breadcrumb li a").removeClass('active');
+        $(".same-nav-tabs-custom .nav-breadcrumb li a").removeClass('active');
         var activeTab = $(this).find('a').attr('href').split('#')[0];
         var accname = $(this).find('a').attr('data-parent');
         var accname1 = accname.replace("#accordion", "");
-        var diaryno = document.getElementById('diaryno' + accname1).value;
+        var diaryno = document.getElementById('diary_no' + accname1).value;
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
         //var diaryno = document.getElementById('diaryno').value;
         //alert(diaryno);
-        
+               
         if (activeTab == 102) url = "case_status/earlier_court";
         if (activeTab == 103) url = "case_status/get_connected";
         if (activeTab == 104) url = "case_status/get_listings";
@@ -645,13 +643,13 @@ if(!empty($diary_details)){?>
 
 
         if (activeTab != 101) {
-            $("#caseDetails").hide();
+            $("#caseDetails_same").hide();
 
             $.ajax({
                     type: 'POST',
                     url: '<?php echo base_url('Common')?>/'+url,
                     beforeSend: function(xhr) {
-                        $("#collapse" + 118).html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+                        $("#collapse" + 119).html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
                     },
                     data: {
                         diaryno: diaryno,
@@ -660,9 +658,9 @@ if(!empty($diary_details)){?>
                 })
                 .done(function(response) {
                     updateCSRFToken();
-                    $("#collapse" + 118).show();
-                    $("#collapse" + 118).html('');
-                    $("#collapse" + 118).html(response);
+                    $("#collapse" + 119).show();
+                    $("#collapse" + 119).html('');
+                    $("#collapse" + 119).html(response);
                 })
                 .fail(function() {
                     updateCSRFToken();
@@ -670,41 +668,16 @@ if(!empty($diary_details)){?>
                 });
 
         } else {
-            $("#collapse" + 118).hide();
-            $("#caseDetails").show();
+            $("#collapse" + 119).hide();
+            $("#caseDetails_same").show();
             updateCSRFToken();
         }
 
     });
 
-    // Get the modal
-    var modal = document.getElementById("myModal");
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
-    /* var diaryNo = document.getElementById("myBtn").value;
-     alert(diaryNo);*/
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks the button, open the modal
-    btn.onclick = function() {
-        modal.style.display = "block";
-        $("#qr-object").attr('data', '');
-        $("#qr-object").attr('data', 'https://10.25.78.69:44434/api/safe_transit/qr_code/generate/case_file?caseIdCsv=1232023&afterHook=print')
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
+     
+ 
+ 
 
     function printDiv()
 {      
@@ -723,57 +696,7 @@ if(!empty($diary_details)){?>
 }
 
 
-
-function call_f1(d_no,d_yr,ct,cn,cy)
-{
-    var divname = "";
-    divname = "newcs123";
-    document.getElementById(divname).style.display = 'block';
-    document.getElementById(divname).style.width = 'auto';
-    document.getElementById(divname).style.height = '500px';
-    document.getElementById(divname).style.overflow = 'scroll';
-    document.getElementById(divname).style.marginLeft = '18px';
-    document.getElementById(divname).style.marginRight = '18px';
-    document.getElementById(divname).style.marginBottom = '25px';
-    document.getElementById(divname).style.marginTop = '30px';
-    document.getElementById('dv_fixedFor_P').style.display = 'block';
-    document.getElementById('dv_fixedFor_P').style.marginTop = '3px';
-    $('.overlay').height($(window).height());
-    //document.getElementById('overlays').style.display = 'block';
-    $('.overlay').show();
-   
-
-    var CSRF_TOKEN = 'CSRF_TOKEN';
-    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-      $.ajax({
-            type: 'POST',
-            url: base_url+'/Common/Case_status/case_status_same',
-            beforeSend: function (xhr) {
-                $("#newcs123").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
-            },
-            //data:{d_no:d_no,d_yr:d_yr,ct:ct,cn:cn,cy:cy,tab:'Case Details',opt:2,CSRF_TOKEN: CSRF_TOKEN_VALUE}
-            data:{diary_number:d_no,diary_year:d_yr,ct:ct,cn:cn,cy:cy,search_type:'D',opt:2,CSRF_TOKEN: CSRF_TOKEN_VALUE}
-        })
-        .done(function(msg){
-            updateCSRFToken();
-            $("#newcs123").html(msg);           
-           
-        })
-        .fail(function(){
-            updateCSRFToken();
-            alert("ERROR, Please Contact Server Room"); 
-        });
-}
-
-function close_cs()
-{
-    var divname = "";
-    divname = "newcs123";
-    $("#newcs123").html(''); 
-    document.getElementById('dv_fixedFor_P').style.display = "none";
-    document.getElementById(divname).style.display = 'none';
-    $('.overlay').hide();
-}
+ 
 
 function close_w()
 {

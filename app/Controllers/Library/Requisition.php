@@ -131,11 +131,9 @@ class Requisition extends BaseController
                     if($_POST['role_id']==5 || $_POST['role_id']==6 || $_POST['role_id']==7)
                     {
                          
-                        //$icmis_user_id = $_SESSION['dcmis_user_idd'];
-                        //$icmis_user_id = $icmis_user_id;
+                         
 
-
-                        $passWord = md5(trim($_POST['user_password']));
+                        //$passWord = md5(trim($_POST['user_password']));
 
                         $stmt = $this->AdminpermissionModel->getRequisitionLogin($icmis_user_id,$role_id);
                         
@@ -157,20 +155,16 @@ class Requisition extends BaseController
                     }else if($_POST['role_id']==4)
                     {
 
-                       // $icmis_user_id = $_SESSION['dcmis_user_idd'];
-
-                        if(trim($_POST['user_name_other'])=="")
-                        {
+                       if(trim($_POST['user_name_other'])=="")
+                        {                            
                             
-                            //$apermission->icmis_user_id = $icmis_user_id;
                             $stmt = $this->AdminpermissionModel->getRequisitionLogin($icmis_user_id,$_POST['role_id']);
                            
-                            //$count = $stmt->rowCount();
+                         
                         }elseif(trim($_POST['user_name_other'])!=""){
-                            $usr_Name = $_POST['user_name_other'];
+                            $usr_name = $_POST['user_name_other'];
                             $passWord = md5(trim($_POST['user_password']));
-                            $stmt = $this->AdminpermissionModel->getRequiLogin_Other($passWord,$_POST['role_id']);
-                            //$count = $stmt->rowCount();
+                            $stmt = $this->AdminpermissionModel->getRequiLogin_Other($passWord,$_POST['role_id']);                             
                         }
  
                         if(!empty($stmt))
@@ -183,7 +177,7 @@ class Requisition extends BaseController
 
                         if($error==0)
                         {
-                            pr($stmt);
+                            
                             $usr_Name = $stmt['username'];
 
                             $_SESSION['court_number'] = $_POST['court_number'];
@@ -203,20 +197,13 @@ class Requisition extends BaseController
                             $returnArr['status'] = "Error";
                             $returnArr['msg'] = "User not exist";                            
                         }
-
-
                         echo  json_encode($returnArr);
-
-
-
                     }
 
 
                 }else{
                     $returnArr['status'] = "Error";
-                    $returnArr['msg'] = "Token Issue!!! ";
-
-                    
+                    $returnArr['msg'] = "Token Issue!!! ";                    
                 }  
 
 
@@ -245,8 +232,7 @@ class Requisition extends BaseController
                         'appearing_for' => $_POST['appearing_for'],
                         'party_serial_no' => $_POST['party_serial_no']
                         
-                     );
-                    
+                     );                   
 
                     
                     if($lastId =$this->RequisitionModel->create($data)){
@@ -329,7 +315,6 @@ class Requisition extends BaseController
                 $requestid=$_POST['requestid'];
                 $id=$requestid;
                 $requistionReq=$this->RequisitionModel->viewRequistionRequest($id);
-                //$requistionReq=$list_requistionReq->fetch(PDO::FETCH_ASSOC);
                 $requistionReq['remark1']=stripslashes($requistionReq['remark1']);
                 echo json_encode($requistionReq);
 
@@ -337,7 +322,6 @@ class Requisition extends BaseController
             }
             if($mode =="ReuqistionAlert"){
                 $totalReq_Pending=$this->RequisitionModel->view_today_ReqAdminData();
-               // $count = $totalReq_Pending->rowCount();
                 $data = array('total_pendingCase'=>$totalReq_Pending);
                 echo json_encode($data);
 
@@ -481,7 +465,6 @@ class Requisition extends BaseController
                         $req_id = $res['id'];
                         $query11 = "SELECT id, req_id, file_path, remarks FROM requistion_upload where req_id = '".$req_id."' AND is_active = '1' ";
                         $pdo_statement11 = $this->db->query($query11);
-                       // $pdo_statement11->execute();
                         $count11 = $pdo_statement11->getNumRows();
                         $reqArr= [];
                         
@@ -498,7 +481,6 @@ class Requisition extends BaseController
 
                         $requisition_id=$res['id'];
                         $interaction_count=$this->RequisitionModel->view_requistion_interactions($requisition_id);
-                       // $interaction_count = $interactions->rowCount();
                         $created_by=$_POST['username'];
                         $int_assit_readcnt=$this->RequisitionModel->count_Interaction_read_assitant($requisition_id,$created_by);
                         
@@ -618,14 +600,11 @@ class Requisition extends BaseController
 
                 $interaction_by_admin="";
 
-                //$countVal = $stmt->rowCount();
-
                 if(!empty($stmt)){
                     foreach ($stmt as $res){
 
                         $requisition_id=$res['id'];
                         $interaction_count=$this->RequisitionModel->view_requistion_interactions($requisition_id);
-                        //$interaction_count = $interactions->rowCount();
 
                         $created_by=$_SESSION['username'];
                         $interaction_read_cnt=$this->RequisitionModel->count_Interaction_read_libraian($requisition_id,$created_by);
@@ -633,13 +612,8 @@ class Requisition extends BaseController
                         if($_POST['roletype']==5)
                         {
                             $Cnt_inter_by_admin=$this->RequisitionModel->count_Interaction_By_Admin($requisition_id);
-
                             if($Cnt_inter_by_admin) $btncolor="btn-danger";
-
                         }
-
-
-
 
                         $entrytime=strtotime($res['created_on']);
                         $nowtime=date("Y-m-d H:i:s");
@@ -654,8 +628,7 @@ class Requisition extends BaseController
                         {
                             $img_show="<button value='' class='btn btn-secondary'>HURRY UP</button>";
                         }elseif($timeDifference>600){
-                            $img_show="<button class='btn btn-secondary'>TIME OUT</button>";
-                             
+                            $img_show="<button class='btn btn-secondary'>TIME OUT</button>";                             
                         }
 
                         if($res['current_status'] == "pending" || $res['current_status'] == 'Interaction'){
@@ -687,7 +660,6 @@ class Requisition extends BaseController
                         }
 
 
-
                         $contents .= ' <td><b>'.ucwords($res['itemNo']).' </b></td>';
                         $contents .= ' <td><b>'.ucwords($res['section']).' </b></td>';
                         $contents .= ' <td>'.$urgentVal.' </td>';
@@ -709,7 +681,6 @@ class Requisition extends BaseController
                         }else{
                             $contents .=  '<td></td>';
                         }
-
 
                     }
                     $returnArr['html'] = $contents;
@@ -814,18 +785,7 @@ class Requisition extends BaseController
                 echo  json_encode($returnArr);
             }
             if($mode == 'getAdvReqData'){
-
-
-                // $court_number = $_POST['court_number'];
-                // $court_username = $_POST['regId'];
-                // $created_by = $_POST['regId'];
-                // $remark1 = $_POST['remark1'];
-                // $section = 'ADVOCATE';
-                // $user_type = 2;
-                // $itemNo = $_POST['itemNo'];
-                // $itemDate = $_POST['itemDate'];
-                // $user_ip = $_POST['userIp'];
-                // $phoneNo = $_POST['phoneNo'];
+             
 
                 $data = array(
                     'court_number' => $_POST['court_number'],
@@ -911,7 +871,6 @@ class Requisition extends BaseController
 
             if($mode == 'getCaseNo'){
                 $stmt = $this->RequisitionModel->getCaseNo($_POST['item_no'],$_POST['court_no'], $_POST['dateitem']);
-               // $caseDetail = $stmt->fetch(PDO::FETCH_OBJ);
                 echo json_encode($stmt);
             }
 
@@ -927,7 +886,6 @@ class Requisition extends BaseController
         //pr($_SESSION);
         $data['RequisitionModel'] = $this->RequisitionModel;
         $data['AdminusersModel'] = $this->AdminusersModel;
-       // $data['RequisitionModel'] = $this->RequisitionModel;
         $todayDate = date('Y-m-d');
         $court_username = session()->get('login')['name'];
         $sql = "SELECT *  FROM  tbl_court_requisition  where DATE(created_on)='$todayDate' AND court_username='$court_username' ORDER BY id DESC";
@@ -937,8 +895,23 @@ class Requisition extends BaseController
         $data['librarySection'] = $this->RequisitionModel->view_library_section();
         return view('Library/court_dashboard',$data);
     }
-    // public function ajax(){
-    //     pr($this->request->getPost());
 
-    // }
+
+    public function view_court_requisition()
+    {
+        $data['RequisitionModel'] = $this->RequisitionModel;
+        $data['AdminusersModel'] = $this->AdminusersModel;
+
+        if ($_SESSION['role_id'] == '5') {
+            $data['requistionData'] = $this->RequisitionModel->view_today_RequisitionData();
+        } else {
+        
+            $data['requistionData']= $this->RequisitionModel->view_today_ReqAdminData();
+        }
+
+        
+
+        return view('Library/view_court_requisition',$data);
+    }
+   
 }

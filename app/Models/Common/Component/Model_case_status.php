@@ -1603,7 +1603,7 @@ c.name as last_u");
 
         $builder->join('master.state c', 'a.l_state = cast(c.id_no as bigint) AND c.display = \'Y\'','left');
         $builder->join('main d', 'd.diary_no = b.diary_no','left');
-        $builder->join('master.casetype e', "cast(e.casecode AS TEXT) = SUBSTRING(d.fil_no::TEXT FROM 1 FOR '2') AND e.display = 'Y'", 'left');
+        $builder->join('master.casetype e', "e.casecode = SUBSTRING(d.fil_no::TEXT FROM 1 FOR '2')::INTEGER AND e.display = 'Y'", 'left');
         $builder->join('master.m_from_court f', 'f.id = a.ct_code AND f.display = \'Y\'','left');
 
         $builder->where([
@@ -1614,7 +1614,7 @@ c.name as last_u");
         ]);
         $builder->where("a.diary_no !=  b.diary_no");
        
-        //echo $builder->getCompiledSelect();
+       // echo $builder->getCompiledSelect();
         // die;
         $query = $builder->get();
 
@@ -1700,6 +1700,208 @@ c.name as last_u");
         $result = $query->getRowArray(); // Get single row as an associative array
 
         return $result ? $result['pstage'] : ''; // Return stage or empty string if not found
+    }
+
+
+
+    public function getJoinedDetails($diary_no)
+    {
+
+       $sql = "SELECT * FROM (
+                SELECT
+                    o.diary_no AS diary_no,
+                    SUBSTR(o.diary_no::TEXT, 1, LENGTH(o.diary_no::TEXT) - 4) AS d_no,
+                    SUBSTR(o.diary_no::TEXT, LENGTH(o.diary_no::TEXT) - 3) AS d_year,
+                    o.jm AS jm,
+                    TO_CHAR(o.dated::DATE, 'YYYY-MM-DD') AS dated,
+                    m.pet_name,
+                    m.res_name,
+                    pet.name AS pet_adv_id,
+                    res.name AS res_adv_id,
+                    m.active_fil_no,
+                    short_description,
+                    active_casetype_id,
+                    active_reg_year,
+                    CASE
+                        WHEN o.jt = 'rop' THEN 'ROP'
+                        WHEN o.jt = 'judgment' THEN 'Judgement'
+                        WHEN o.jt = 'or' THEN 'Office Report'
+                    END AS jo,
+                    CASE
+                        WHEN (m.diary_no = cast(m.conn_key as BIGINT) OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL) THEN 'M'
+                        ELSE 'C'
+                    END AS main_or_connected
+                FROM
+                    tempo o
+                LEFT JOIN main m ON SUBSTR(o.diary_no::TEXT, 1, LENGTH(o.diary_no::TEXT) - 4) || SUBSTR(o.diary_no::TEXT, LENGTH(o.diary_no::TEXT) - 3) = cast(m.diary_no as TEXT)
+                LEFT JOIN master.bar pet ON m.pet_adv_id = pet.bar_id
+                LEFT JOIN master.bar res ON m.res_adv_id = res.bar_id
+                LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode
+                WHERE
+                    m.diary_no IN (".$diary_no.")
+                    
+                    
+                    
+                union
+                
+                SELECT
+                    o.diary_no AS diary_no,
+                    SUBSTR(o.diary_no::TEXT, 1, LENGTH(o.diary_no::TEXT) - 4) AS d_no,
+                    SUBSTR(o.diary_no::TEXT, LENGTH(o.diary_no::TEXT) - 3) AS d_year,
+                    o.pdfname AS jm,
+                    TO_CHAR(o.orderdate, 'YYYY-MM-DD') AS dated,
+                    m.pet_name,
+                    m.res_name,
+                    pet.name AS pet_adv_id,
+                    res.name AS res_adv_id,
+                    m.active_fil_no,
+                    short_description,
+                    active_casetype_id,
+                    active_reg_year,
+                    CASE
+                        WHEN o.type = 'O' THEN 'ROP'
+                        WHEN o.type = 'J' THEN 'Judgement'
+                    END AS jo,
+                    CASE
+                        WHEN (m.diary_no = m.conn_key::BIGINT OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL) THEN 'M'
+                        ELSE 'C'
+                    END AS main_or_connected
+                FROM
+                    ordernet o
+                LEFT JOIN main m ON o.diary_no = m.diary_no
+                LEFT JOIN master.bar pet ON m.pet_adv_id = pet.bar_id
+                LEFT JOIN master.bar res ON m.res_adv_id = res.bar_id
+                LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode
+                WHERE
+                    o.diary_no IN (".$diary_no.")
+                    
+                    
+                union
+                
+                SELECT
+                    o.dn AS diary_no,
+                    SUBSTR(o.dn::TEXT, 1, LENGTH(o.dn::TEXT) - 4) AS d_no,
+                    SUBSTR(o.dn::TEXT, LENGTH(o.dn::TEXT) - 3) AS d_year,
+                    'ropor/rop/all/' || o.pno || '.pdf' AS jm,
+                    TO_CHAR(o.orderDate, 'YYYY-MM-DD') AS dated,
+                    m.pet_name,
+                    m.res_name,
+                    pet.name AS pet_adv_id,
+                    res.name AS res_adv_id,
+                    m.active_fil_no,
+                    short_description,
+                    active_casetype_id,
+                    active_reg_year,
+                    'ROP' AS jo,
+                    CASE
+                        WHEN (m.diary_no = m.conn_key::BIGINT OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL) THEN 'M'
+                        ELSE 'C'
+                    END AS main_or_connected
+                FROM
+                    rop_text_web.old_rop o
+                LEFT JOIN main m ON o.dn = m.diary_no
+                LEFT JOIN master.bar pet ON m.pet_adv_id = pet.bar_id
+                LEFT JOIN master.bar res ON m.res_adv_id = res.bar_id
+                LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode
+                WHERE
+                    o.dn IN (".$diary_no.")
+                    
+                    
+                UNION
+                SELECT
+                    o.dn AS diary_no,
+                    SUBSTR(o.dn::TEXT, 1, LENGTH(o.dn::TEXT) - 4) AS d_no,
+                    SUBSTR(o.dn::TEXT, LENGTH(o.dn::TEXT) - 3) AS d_year,
+                    'judis/' || o.filename || '.pdf' AS jm,
+                    TO_CHAR(o.juddate::DATE, 'YYYY-MM-DD') AS dated,
+                    m.pet_name,
+                    m.res_name,
+                    pet.name AS pet_adv_id,
+                    res.name AS res_adv_id,
+                    m.active_fil_no,
+                    short_description,
+                    active_casetype_id,
+                    active_reg_year,
+                    'Judgment' AS jo,
+                    CASE
+                        WHEN (m.diary_no = m.conn_key::BIGINT OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL) THEN 'M'
+                        ELSE 'C'
+                    END AS main_or_connected
+                FROM
+                    scordermain o
+                LEFT JOIN main m ON o.dn = m.diary_no
+                LEFT JOIN master.bar pet ON m.pet_adv_id = pet.bar_id
+                LEFT JOIN master.bar res ON m.res_adv_id = res.bar_id
+                LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode
+                WHERE
+                    o.dn IN (".$diary_no.")
+                union
+                
+                SELECT
+                    o.dn AS diary_no,
+                    SUBSTR(o.dn::TEXT, 1, LENGTH(o.dn::TEXT) - 4) AS d_no,
+                    SUBSTR(o.dn::TEXT, LENGTH(o.dn::TEXT) - 3) AS d_year,
+                    'bosir/orderpdf/' || o.pno || '.pdf' AS jm,
+                    TO_CHAR(o.orderdate::DATE, 'YYYY-MM-DD') AS dated,
+                    m.pet_name,
+                    m.res_name,
+                    pet.name AS pet_adv_id,
+                    res.name AS res_adv_id,
+                    m.active_fil_no,
+                    short_description,
+                    active_casetype_id,
+                    active_reg_year,
+                    'ROP' AS jo,
+                    CASE
+                        WHEN (m.diary_no = m.conn_key::BIGINT OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL) THEN 'M'
+                        ELSE 'C'
+                    END AS main_or_connected
+                FROM
+                    rop_text_web.ordertext o
+                LEFT JOIN main m ON o.dn = m.diary_no
+                LEFT JOIN master.bar pet ON m.pet_adv_id = pet.bar_id
+                LEFT JOIN master.bar res ON m.res_adv_id = res.bar_id
+                LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode
+                WHERE
+                    o.dn IN (".$diary_no.") AND o.display = 'Y'
+                    
+                    
+                UNION
+                SELECT
+                    o.dn AS diary_no,
+                    SUBSTR(o.dn::TEXT, 1, LENGTH(o.dn::TEXT) - 4) AS d_no,
+                    SUBSTR(o.dn::TEXT, LENGTH(o.dn::TEXT) - 3) AS d_year,
+                    'bosir/orderpdfold/' || o.pno || '.pdf' AS jm,
+                    TO_CHAR(o.orderdate::DATE, 'YYYY-MM-DD') AS dated,
+                    m.pet_name,
+                    m.res_name,
+                    pet.name AS pet_adv_id,
+                    res.name AS res_adv_id,
+                    m.active_fil_no,
+                    short_description,
+                    active_casetype_id,
+                    active_reg_year,
+                    'ROP' AS jo,
+                    CASE
+                        WHEN (m.diary_no = m.conn_key::BIGINT OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL) THEN 'M'
+                        ELSE 'C'
+                    END AS main_or_connected
+                FROM
+                    rop_text_web.oldordtext o
+                LEFT JOIN main m ON o.dn = m.diary_no
+                LEFT JOIN master.bar pet ON m.pet_adv_id = pet.bar_id
+                LEFT JOIN master.bar res ON m.res_adv_id = res.bar_id
+                LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode
+                WHERE
+                    o.dn IN (".$diary_no.")
+            ) AS tbl1
+            ORDER BY
+                tbl1.dated DESC
+        ";
+
+        
+        $query = $this->db->query($sql);
+        return $query->getResultArray();
     }
 
 

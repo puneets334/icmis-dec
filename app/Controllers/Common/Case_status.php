@@ -109,7 +109,7 @@ class Case_status extends BaseController
 
             }
             //pr($main_diary_number);
-            echo component_case_status_process_tab($main_diary_number);
+            echo $this->component_case_status_process_tab($main_diary_number);
             return true;
         }
         // return true;
@@ -124,7 +124,7 @@ class Case_status extends BaseController
             $diary_info = get_diary_numyear($diary_number);
             $main_diary_number = array('dn' => $diary_info[0] , 'dy' => $diary_info[1]);
             
-            echo component_case_status_process_tab($main_diary_number);
+            echo $this->component_case_status_process_tab($main_diary_number);
         }else{
             echo '<div class="text-center"><b>Diary No. not Found</b></div>';
             die;
@@ -132,6 +132,121 @@ class Case_status extends BaseController
         
         exit();
     }
+
+
+    public function component_case_status_process_tab($diary_no = '')
+    {
+        $model = new \App\Models\Common\Component\Model_case_status();
+        $html = "";
+        $data = getCaseDetails($diary_no);
+        $data['component'] = 'component_for_case_status_process';
+        $data['Model_case_status'] = $model;
+        $html = view('Common/Component/case_status/case_status_process_tab', $data);
+        return $html;
+    }
+
+
+    function case_status_same()
+    {
+       
+        if ($this->request->getMethod() === 'post') {
+            $search_type = $this->request->getPost('search_type');
+            $diary_number = $this->request->getPost('diary_number');
+            $diary_year = $this->request->getPost('diary_year');
+            $case_type = $this->request->getPost('case_type');
+            $case_number = $this->request->getPost('case_number');
+            $case_year = $this->request->getPost('case_year');
+
+            $this->validation->setRule('search_type', 'Select Diary or Case type', 'required');
+            if (!empty($search_type) && $search_type != null) {
+                if ($search_type == 'D') {
+                    $this->validation->setRule('search_type', 'Select Diary or Case type', 'required');
+                    $this->validation->setRule('diary_number', 'Diary number', 'required');
+                    $this->validation->setRule('diary_year', 'Diary year', 'required');
+
+                    $data = [
+                        'search_type' => $search_type,
+                        'diary_number' => $diary_number,
+                        'diary_year' => $diary_year,
+                    ];
+                } else {
+                    $this->validation->setRule('search_type', 'Select Diary or Case type', 'required');
+                    $this->validation->setRule('case_type', 'Case type', 'required');
+                    $this->validation->setRule('case_number', 'Case number', 'required');
+                    $this->validation->setRule('case_year', 'Case year', 'required');
+
+                    $data = [
+                        'search_type' => $search_type,
+                        'case_type' => $case_type,
+                        'case_number' => $case_number,
+                        'case_year' => $case_year,
+                    ];
+                }
+            } else {
+                $data = [
+                    'search_type' => $search_type
+                ];
+            }
+
+            if (!$this->validation->run($data)) {
+                echo '3@@@';
+                echo $this->validation->listErrors();
+                exit();
+            }
+            $is_a = '';
+            if ($search_type != 'D') {
+                $main_diary_number = get_diary_case_type($case_type, $case_number, $case_year,'R','B');
+                //pr($main_diary_number);
+                if(!empty($main_diary_number))
+                {
+                   
+                    $main_diary_number['ct'] = $case_type;
+                    $main_diary_number['cn'] = $case_number;
+                    $main_diary_number['cy'] = $case_year;
+                }else{
+                    echo '<div class="text-center"><b>Case not Found!!</b></div>';
+                    die;
+                }
+            } else {
+                $main_diary_number = $diary_number.$diary_year;
+                $diary_details = is_data_from_table('main', ['diary_no' => $main_diary_number], '*', 'R');
+                $flag = "";
+                if (empty($diary_details)) {
+
+                    $flag = "_a";
+                    $diary_details = is_data_from_table('main_a', ['diary_no' => $main_diary_number], '*', 'R');
+                    
+                }
+                if (!empty($diary_details))
+                {
+                    $main_diary_number = array('dn' => $diary_number , 'dy' => $diary_year);
+                }else{
+                    echo '<div class="text-center"><b>Diary No. not Found</b></div>';
+                    die;
+                }               
+
+            }
+            //pr($main_diary_number);
+            echo $this->case_status_process_tab_same_page($main_diary_number);
+            return true;
+        }
+        // return true;
+    }
+
+    public function case_status_process_tab_same_page($diary_no = '')
+    {
+        $model = new \App\Models\Common\Component\Model_case_status();
+        $html = "";
+        $data = getCaseDetails($diary_no);
+        $data['component'] = 'component_for_case_status_process';
+        $data['Model_case_status'] = $model;
+        $data['diary_number'] = $diary_no['dn'] . $diary_no['dy'];
+        $html = view('Common/Component/case_status/case_status_process_tab_same_page', $data);
+        return $html;
+    }
+
+
+
 
     function earlier_court()
     {
@@ -170,7 +285,7 @@ class Case_status extends BaseController
 
                     $result_conn = $this->Model_case_status->getTagedMattersData($conn_case);
                     if (!empty($result_conn)) {
-                        $output .= '<table border="0" class="table table-bordered table-striped custom-table_ ">';
+                        $output .= '<table border="0" class="table table-bordered table-striped custom-table ">';
                         $output .= '<tr><thead><th>&nbsp;</th><th>&nbsp;</th><th align="center">Case No.</th><th>Petitioner vs. Respondant</th><th>List</th><th>Status</th><th>Stat. Info.</th><th>IA</th><th>DA</th><th>Entry By & Date</th></thead></tr>';
                         $cntt = 0;
                         foreach ($result_conn  as  $row_conn) {
@@ -231,8 +346,7 @@ class Case_status extends BaseController
                             $t_bfnbf = "";
                             ////IA CONN CASES
                             $ia_conn = "";
-                            //$ia = "select * from docdetails where doccode='8' and diary_no='" . $row_conn["diary_no"] . "' and display='Y' order by ent_dt";
-                            //$result_ia = mysql_query($ia) or die(mysql_error().$ia);
+                            
                             $row_conn_diary_no =  $row_conn["diary_no"];
                             $result_ia = is_data_from_table('docdetails', " doccode='8' and diary_no='$row_conn_diary_no' and display='Y' order by ent_dt ", " * ", 'A');
                             if (!empty($result_ia)) {
@@ -242,9 +356,7 @@ class Case_status extends BaseController
                                     $doccode = $row_ia['doccode'];
                                     $doccode1 = $row_ia['doccode1'];
                                     $docdesc1 = $row_ia['other1'];
-                                    //$sql_docm = "select * from docmaster where doccode='" . $doccode . "' and doccode1='" . $doccode1 . "' and display='Y'";
-                                    //$result_docm = mysql_query($sql_docm) or die(mysql_error().$sql_docm);
-                                    $docdesc = "";
+                                     $docdesc = "";
                                     $row_docm = is_data_from_table('master.docmaster', " doccode='" . $doccode . "' and doccode1='" . $doccode1 . "' and display='Y' ", " * ", '');
                                     if (!empty($row_docm)) {
                                         $docdesc = $row_docm['docdesc'];
@@ -267,12 +379,11 @@ class Case_status extends BaseController
                             $t_bfnbf = "";
                             if ($row_conn['c_status'] != 'D') {
                                 $stat_conn = "";
-                                //$stat = "select remark from brdrem where diary_no='" . $row_conn["diary_no"] . "' ";
-                                //$result_stat = mysql_query($stat) or die(mysql_error().$stat);
+                                
                                 $diary_no = $row_conn["diary_no"];
                                 $row_stat = is_data_from_table('brdrem', " diary_no='" . $diary_no . "' ", " remark ", '');
                                 if (!empty($row_stat)) {
-                                    //$row_stat = mysql_fetch_array($result_stat);
+                                    
                                     $t_bfnbf = $row_stat["remark"];
                                 }
                             }
@@ -796,14 +907,9 @@ class Case_status extends BaseController
     {
         if ($this->request->getMethod() === 'post') {
             $diaryno = $this->request->getPost('diaryno');
-            
             $output = "";
-            
-            
 
             $results_notices = $this->Model_case_status->getNoticesData($diaryno);
-            
-            
               
                 if(!empty($results_notices)) {
                         $output.= '<table width="100%" border="1" style="border-collapse: collapse;width:100%;" class="table table-striped custom-table table-hover dt-responsive" >
@@ -849,18 +955,18 @@ class Case_status extends BaseController
                                     $output.= '</td>';
                                     $output.= '<td>
                                             <div style="word-wrap:break-word;width: 90px">';
-                                                if($row['name']!='' && $row['copy_type']==0)
-                                                {
+                                                if(!empty(trim($row['name'])) && $row['copy_type'] == 0)
+                                                {                                                    
                                                     $output.= $row['name'];
                                                 }
                                                 if(trim($row['name'],' ')!='' && $row['tw_sn_to']!=0 && $row['copy_type']==0)
-                                                {
+                                                {                                                   
                                                     $output.=  "<br/>Through ";
                                                 }
                                                 $send_to_name= '';
                                                 if($row['tw_sn_to']!=0)
-                                                {
-                                                    $send_to_name= send_to_name($row['send_to_type'],$row['tw_sn_to']);
+                                                {                                                    
+                                                    $send_to_name= send_to_name($row['send_to_type'],$row['tw_sn_to']);                                                     
                                                 }
                                                 
                                                 $output.=  $send_to_name;
@@ -1011,7 +1117,7 @@ class Case_status extends BaseController
                 else
                     $rd="";
 
-                $output.="</td><td>".$nd."</td><td>".$rd."</td>";
+                $output.="</td><td>".date('d-m-Y',strtotime($nd))."</td><td>".date('d-m-Y',strtotime($rd))."</td>";
                 $output.='</tr>';
                     $sno++;
                 }               
@@ -1064,13 +1170,13 @@ class Case_status extends BaseController
                     if($this_no!=$DNumber_main and  !empty($DNumber_main))
                     {
 
-                        echo "<p align='left'><a href='get_orders.php?diary_no=$DNumber_main' target='_blank'>View Order/Judgments of Main Matter</a></p>";
+                        echo '<p align="left"><a href="'.base_url('/Common/Case_status/get_orders?diary_no='.$DNumber_main).'" target="_blank">View Order/Judgments of Main Matter</a></p>';
 
                         if($connected!=null and $connected!='')
-                            echo "<p align='right'><a href='get_orders.php?diary_no=$connected' target='_blank'>View Order/Judgments of Other connected Matters</a></p></form>";
+                            echo '<p align="right"><a href="'.base_url('/Common/Case_status/get_orders?diary_no='.$connected).'" target="_blank">View Order/Judgments of Other connected Matters</a></p>';
                     }
                     else if(!empty($DNumber_main)) {
-                        echo "<a href='get_orders.php?diary_no=$connected' target='_blank'>View Order/Judgments of connected Matters</a>";
+                         echo '<a href="'.base_url('/Common/Case_status/get_orders?diary_no='.$connected).'" target="_blank">View Order/Judgments of connected Matters</a></p>';
                     }
                     echo "\n";
                     if(isset($_GET['diary_no'])) {
@@ -1394,7 +1500,7 @@ class Case_status extends BaseController
                     $s_no=1;
                 foreach ($sql as $row)
                 {
-                 
+                 //pr($row);
             $output.='<tr><td>'.$s_no.'</td><td><a href="#" onclick="return call_f1(' . substr($row['c_diary'],0,-4). ','.substr($row['c_diary'],-4).',\'\',\'\',\'\');">'.substr($row['c_diary'],0,-4).'-'.  substr($row['c_diary'],-4).'</a></td><td>';
                         $case_no=$row['short_description'];
                         if($row['fil_no']!='')
@@ -1405,7 +1511,7 @@ class Case_status extends BaseController
                         $output.="-";
                         else
                         $output.=$case_no;
-                  $name =   (isset($row['name']) && !empty($row['name'])) ? $row['name'] : "rrrr";
+                  $name =   (isset($row['name']) && !empty($row['name'])) ? $row['name'] : "";
             $output.='</td><td>'.$row['court_name'].'</td><td>'. $name.'</td>';
             $output.='<td>'.$row['agency_name'].'</td><td>';
             $output.=$row['type_sname'].'-'.$row['lct_caseno'].'-'.$row['lct_caseyear'];
@@ -2224,4 +2330,18 @@ class Case_status extends BaseController
         }
         exit();
     }
+
+    public function get_orders()
+    {             
+            
+        $data['diary_no'] =$_GET['diary_no'];
+        $data['result_jo'] = $this->Model_case_status->getJoinedDetails($_GET['diary_no']);
+
+        return view('Common/Component/case_status/get_orders',$data);
+ 
+    }
+
+
+
+
 }

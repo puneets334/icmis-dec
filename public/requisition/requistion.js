@@ -559,12 +559,13 @@ function validateForm() {
             dataType: "json",
             data: values,
             success: function (response) {
-                updateCSRFToken();
-                alert(response);
+                updateCSRFToken();              
+                //console.log(response);
                 if (response.status == 'Success')
-                    {
+                    {     
+                        //alert(response.msg);                 
                         if (role == 5 || role == 6) {
-                            window.location.href = 'view_court_requisition.php';
+                            window.location.href = base_url + '/Library/Requisition/view_court_requisition';
                         }
                         if (role == 4) {
                             window.location.href = base_url + '/Library/Requisition/court_dashboard';
@@ -597,7 +598,7 @@ function getreqForm(){
 }
 
 function getreqHome(){
-    window.location.href = 'view_court_requisition.php'
+    window.location.href = base_url + '/Library/Requisition/view_court_requisition'
 }
 
 
@@ -735,9 +736,11 @@ function formValidation() {
                 processData: false,
                 contentType: false,
                 error: function () {
+                    updateCSRFToken();
                     console.log("error");
                 },
                 success: function (response) {
+                    updateCSRFToken();
                     console.log(response.msg);
                     if (response.status == 'Success') {                       //
                         $('#successMsg').text(response.msg);
@@ -769,6 +772,8 @@ function formValidation() {
 }
 function getToggleView(id) {
     $("#toggle_text" + id).toggle();
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
     $.ajax({
         type: 'POST',
         url: base_url + '/Library/Requisition/frmusrLogin', //'admin/requisition/ajax.php',
@@ -776,9 +781,11 @@ function getToggleView(id) {
         dataType: ' json',
         async: false,
         error: function () {
+            updateCSRFToken();
             console.log("error");
         },
         success: function (response) {
+            updateCSRFToken();
             var encode = atob(response.html);
             $("#getReport" + id).html(encode);
         },
@@ -855,15 +862,27 @@ function backList(){
 function getCaseNo(value){
     let dateitm = $('#dtd').find(":selected").val()
     let courtno = $('#court_no').find(":selected").val()
+    if(dateitm == '')
+        {
+            alert('Please select List Date');
+            return false;
+        }
+    if(courtno == '')
+    {
+        alert('Please select Court No.');
+        return false;
+    }
+
     var CSRF_TOKEN = 'CSRF_TOKEN';
     var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
     $.ajax({
-        type: 'POST',
+        type: 'POSt',
         url: base_url + '/Library/Requisition/frmusrLogin', //'admin/requisition/ajax.php',
         data: {mode: "getCaseNo", item_no: value, 'dateitem': dateitm, court_no: courtno, CSRF_TOKEN :CSRF_TOKEN_VALUE},
         dataType: 'json',
         async: false,
         error: function () {
+            updateCSRFToken();
             console.log("error");
         },
         success: function (response) {
@@ -884,5 +903,9 @@ function getCaseNo(value){
             }
 
         },
+        error: function () {
+            updateCSRFToken();
+            alert("Failure");
+        }
     });
 }
