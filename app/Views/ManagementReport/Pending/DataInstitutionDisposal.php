@@ -42,10 +42,11 @@
             </table>
         </div>
 
-        <div class="text-center mt-3">
+      
+    </div>
+    <div class="text-center mt-3">
             <button type="button" id="print1" class="btn btn-primary">PRINT</button>
         </div>
-    </div>
 <?php
 } else {
     echo "<div class='text-center mt-5'><h4 class='text-danger'>Record Not Found</h4></div>";
