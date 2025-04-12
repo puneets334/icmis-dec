@@ -397,7 +397,6 @@ if ($query->getNumRows() >= 1) {
         }
     }
         ?>
-        <BR/><BR/><BR/><BR/> <BR/><BR/><BR/><BR/>
     </div>
 
 
