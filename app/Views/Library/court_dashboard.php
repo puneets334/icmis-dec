@@ -13,8 +13,9 @@
                             
                         </div>
                     </div>
-                    <div class="card-body">
                     <?= view('Library/court_notification'); ?><br>
+                    <div class="card-body">
+                    
                         <input type="hidden" name="court_username" id="court_username" value="<?php  echo  $_SESSION['username']; 
                                                                                                 ?>">
                         <input type="hidden" name="userrole_id" id="userrole_id" value="<?php  echo $_SESSION['role_id']; 
@@ -25,7 +26,7 @@
                             <center>
                                 <h3><?php  echo $_SESSION['court_number']; 
                                     ?>
-                                    &nbsp;(BENCH:&nbsp;<?php echo $_SESSION['court_bench']; 
+                                    &nbsp;(BENCH:&nbsp;<?php echo $_SESSION['court_bench'] ?? ''; 
                                                         ?>)</h3>
                             </center>
                             <div class="table-responsive">
@@ -46,11 +47,7 @@
                                         <?php
                                         $cnt = 1;
                                         if (count($result) > 0) {
-                                            foreach ($result as $res) {
-                                                // $reqConnection->requisition_id = $res['id'];
-                                                // $interactions = $reqConnection->view_requistion_interactions();
-                                                // $interaction_count = $interactions->rowCount();
-
+                                            foreach ($result as $res) {                                                
                                                 if (
                                                     $res['current_status'] == "closed" || $res['current_status'] == "cancel"
                                                     || $res['current_status'] == "received"
@@ -84,37 +81,8 @@
 
                                                     </td>
                                                     <td><?php echo $urgentVal; ?></td>
-                                                    <?php
-                                                    // $req_id = $res['id'];
-                                                    // $query11 = "SELECT id, req_id, file_path, remarks FROM requistion_upload where req_id = '" . $req_id . "' AND is_active = '1' ";
-                                                    // $pdo_statement11 = $connect->prepare($query11);
-                                                    // $pdo_statement11->execute();
-                                                    // $count11 = $pdo_statement11->rowCount();
-                                                    // $reqArr = [];
-                                                    // // $resu = [];
-                                                    // if ($count11 > 0) {
-                                                    //     $resu = $pdo_statement11->fetchAll(PDO::FETCH_ASSOC);
-                                                    // }
-                                                    // if (!empty($resu)) {
-                                                    //     foreach ($resu as $ve) {
-                                                    //         if ($ve['remarks'] != '') {
-                                                    //             $reqArr[] = $ve['remarks'];
-                                                    //         }
-                                                    //     }
-                                                    // }
-                                                    // echo "<pre>";
-                                                    // print_r($reqArr);
-                                                    ?>
-                                                    <td><?php  //$remark1=str_replace(array("\r", "\n"), '', $res['remark1']);
-                                                        //echo ($remark1);
-                                                        // if (!empty($reqArr)) {
-                                                        //     foreach ($reqArr as $vue) {
-                                                        //         echo $vue . '<br>';
-                                                        //     }
-                                                        // } else {
-                                                        //     echo " ";
-                                                        // }   
-                                                        ?></td>
+                                                    
+                                                    <td></td>
 
                                                     <td><?php
                                                         // pr($res);
@@ -143,9 +111,7 @@
                                                         if ($res['current_status'] == 'cancel') {
                                                             $btnVal = '<button type="button" class="btn btn-secondary">' . strtoupper($res['current_status']) . '</button>';
                                                         }
-                                                        /*if ($res['current_status'] == 'Interaction') {
-                                            $btnVal = '<button type="button" class="btn btn-primary">' . strtoupper($res['current_status']) . '</button>';
-                                            }*/
+                                                        
                                                         echo $btnVal;
                                                         ?></td>
                                                     <td><?php echo ucwords($res['section']);
@@ -214,7 +180,7 @@
                         <input type="hidden" name="court_number" id="court_number" class="form-control" value="<?php  echo $_SESSION['court_number']; ?>">
 
                         <input type="hidden" name="userIp" id="userIp" value="<?php  echo $_SERVER['REMOTE_ADDR']; ?>">
-                        <input type="hidden" name="court_bench" id="court_bench" value="<?php  echo $_SESSION['court_bench'] ?>">
+                        <input type="hidden" name="court_bench" id="court_bench" value="<?php  echo $_SESSION['court_bench'] ?? '' ?>"> 
 
                         <input type="hidden" name="user_type" id="user_type" value="1">
 
@@ -303,15 +269,7 @@
                             </div>
                         </div>
 
-                        <!-- <label for="remark">Requisition</label>
-                    <textarea id="remark1" name="remark1" placeholder="Write something.." style="height:75px" class="form-control" ></textarea> -->
-
-                        <!-- <label for="remark" id="uploadLabel">Upload</label>
-                     <input class="coupon_question" type="checkbox" id="uploadCheck" name="" value="1" onchange="showuploadDiv()"/>
-                    <div class="custom-file" id="queryAdd" style="display:none">
-                        <input type="file" class="custom-file-input" id="remarkImg" name="remarkImg">
-                        <label class="custom-file-label" for="customFile">Upload Image/pdf</label>
-                    </div> -->
+                       
 
                         <div id="recvRemark" style="display:none">
                             <a href="#" id="myAnchor" target="_blank" style="float:right;display:none"><i
@@ -419,7 +377,7 @@
             $('#court_no').val('<?= $_SESSION['court_number'] ?>')
             $('#court_no').attr('disabled', true)
         }
-       /* setInterval(function() {
+        setInterval(function() {
             var CSRF_TOKEN = 'CSRF_TOKEN';
 		    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
             var username = $("#court_username").val();
@@ -445,7 +403,8 @@
                     $("#statusData").html(response.html);
                 },
             });
-        }, 5000); */
+        }, 5000);  
+        
         $("#addRowOther").click(function() {
             let x = Math.floor(Math.random() * 100);
             var html = '';

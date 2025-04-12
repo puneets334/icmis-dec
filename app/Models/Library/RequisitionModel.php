@@ -50,32 +50,8 @@ class RequisitionModel extends Model{
 
     public function create($data){
 
-        // $this->remark1=addslashes($this->remark1);
-        // if($this->user_type=="") $this->user_type=1;
-        // $query = "INSERT INTO  " . $this->db_table . " SET "
-        //     . "court_number='$this->court_number',"
-        //     . "court_userName='$this->court_userName',"
-        //     . "remark1='$this->remark1',"
-        //     . "court_bench='$this->court_bench',"
-        //     . "urgent='$this->urgent',"
-        //     . "section='$this->section',"
-        //     . "request_file='$this->file',"
-        //     . "itemNo='$this->itemNo',"
-        //     . "itemDate='$this->itemDate',"
-        //     . "alternate_number='$this->phoneNo',"
-        //     . "user_type='$this->user_type',"
-        //     . "created_by='$this->created_by',"
-        //     . "user_ip='$this->user_ip',"
-        //     . "diary_no='$this->diary_no',"
-        //     . "advocate_name='$this->advocate_name',"
-        //     . "appearing_for='$this->appearing_for',"
-        //     . "party_serial_no='$this->party_serial_no'";
         
-
         $this->db->table($this->db_table)->insert($data);   
-        //$stmt = $this->conn->prepare($query);
-        //$stmt->execute();
-        //$stmt = $this->conn->lastInsertId();
         $stmt = $this->db->insertID();
         return $stmt;
     }
@@ -83,21 +59,7 @@ class RequisitionModel extends Model{
 
     public function Insert_Interaction($data)
     {
-        // $this->interaction_remarks=htmlspecialchars(strip_tags($this->interaction_remarks));
-        // $this->interaction_ip=$_SERVER['REMOTE_ADDR'];
-        // $query = "INSERT INTO  " . $this->table . " SET "
-        //     . "requisition_id='$this->requisition_id',"
-        //     . "interaction_status='$this->interaction_status',"
-        //     . "interaction_remarks='$this->interaction_remarks',"
-        //     . "request_file='$this->file',"
-        //     . "itemNo='$this->itemNo',"
-        //     . "itemDate='$this->itemDate',"
-        //     . "interaction_ip='$this->interaction_ip',"
-        //     . "created_by='$this->created_by'
-        //          ";
-        // $stmt = $this->conn->prepare($query);
-        // $stmt->execute();
-       return  $this->db->table($this->tables)->insert($data);  
+        return  $this->db->table($this->tables)->insert($data);  
         
 
     }
@@ -145,7 +107,6 @@ class RequisitionModel extends Model{
 
 
         $todayDate=date("Y-m-d");
-        //AND current_status NOT IN('cancel','closed','received' )//AND court_userName='$this->court_userName'
         $query = "SELECT *  FROM " . $this->db_table . " where user_type='1' AND DATE(created_on)='$todayDate'      AND court_number='$court_number' 
                       ORDER BY CASE current_status
                       WHEN 'Pending' then 10
@@ -174,7 +135,6 @@ class RequisitionModel extends Model{
 
         $sqlQuery = "SELECT *  FROM  ". $this->table ." WHERE requisition_id = '$requisition_id' ORDER BY id  $this->sortorder ";
         $stmt = $this->db->query($sqlQuery);
-       // $stmt->bindParam(1, $this->requisition_id);
        return $stmt->getNumRows();
     }
 
@@ -190,8 +150,7 @@ class RequisitionModel extends Model{
 
         $sqlQuery = "SELECT *  FROM  ". $this->table ." WHERE requisition_id = '$requisition_id' ORDER BY id  $this->sortorder ";
         $stmt = $this->db->query($sqlQuery);
-       // $stmt->bindParam(1, $this->requisition_id);
-       return $stmt->getResultArray();
+      return $stmt->getResultArray();
     }
 
 
@@ -224,13 +183,10 @@ class RequisitionModel extends Model{
                         inner join master.roster r on r.id = h.roster_id 
                         inner join cl_printed c on c.next_dt = h.next_dt and c.part = h.clno and c.roster_id = h.roster_id and c.display = 'Y'
                         WHERE (m.diary_no = m.conn_key::BIGINT OR m.conn_key IS NULL OR m.conn_key = '' OR m.conn_key = '0')
-                        and h.next_dt = '".$dateitem."' and clno > 0 and brd_slno = ".$item_no."
-                        and r.courtno = ".$court_no."
-                        group by m.diary_no,m.reg_no_display, m.pet_name, m.res_name, h.next_dt";
+                        and h.next_dt = '".$dateitem."' and clno > 0 and brd_slno = '".$item_no."'
+                        and r.courtno = '".$court_no."'   group by m.diary_no,m.reg_no_display, m.pet_name, m.res_name, h.next_dt";
         $stmt = $this->db->query($sqlQuery);
-        //$stmt->bindParam(1, $this->req_id);
-        //$stmt->execute();
-        return $stmt->getRowArray();
+       return $stmt->getRowArray();
     }
 
     public function view_today_RequisitionData()
@@ -268,6 +224,15 @@ class RequisitionModel extends Model{
     public function advCitationData($data){
 
         return  $this->db->table($this->adv_table)->insert($data);  
+    }
+
+
+    public function view_requistion_department()
+    {
+        $sqlQuery = "SELECT *  FROM  tbl_requisition_department WHERE status=1 ORDER BY id asc";
+        $stmt = $this->db->query($sqlQuery);
+        $stmt->execute();
+        return $stmt;
     }
 
  
