@@ -45,6 +45,7 @@
                                             <?php
                                            if(COUNT($case_result)>0 && is_array($case_result)) {
                                             ?>
+                                            <caption><h3 style="text-align: center;"><strong> Cases Listed in Advance and Daily List</strong> </h3></caption>
                                                 <div class="table-responsive">
                                                     <table id="example1" class="table table-striped custom-table">
                                                         <thead>
@@ -99,13 +100,27 @@
 </section>
 
 <script>
+    var reportTitle = "Cases Listed in Advance and Daily List";
     $("#example1").DataTable({
         "responsive": true,
         "lengthChange": false,
         "autoWidth": false,
         "dom": 'Bfrtip',
         "bProcessing": true,
-        "buttons": ["excel", "pdf"]
+        "buttons": [
+        {
+            extend: 'excelHtml5',
+            title: reportTitle
+        },
+        {
+            extend: 'pdfHtml5',
+            title: reportTitle
+        },
+        {
+            extend: 'print',
+            title: reportTitle
+        }
+    ]
     });
 
     $(document).on("focus", ".dtp", function() {
