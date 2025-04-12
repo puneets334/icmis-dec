@@ -54,14 +54,24 @@ class Report extends BaseController
 
     public function catAvlCaseIndvGet()
     {
-        $request = service('request');
+		$request = service('request');
         $ucode = session()->get('login')['usercode'];
-        $list_dt = $request->getPost('list_dt');
+        $list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
         $court_no = $request->getPost('court_no');
         $data_save = $request->getPost('data_save');
-        $data['reportData'] = $this->Heardt->getcatAvlCaseIndvGetReportData($list_dt, $court_no);
-        $data['list_dt'] = $list_dt;
-        $data['court_no'] = $court_no;
+		$finl_array = array(); $get_judges= array();
+		$data['judges'] = $this->CaseRemarksVerification->getJudgesSaved($list_dt);
+		for($i=1;$i<=12;$i++){
+           $court_no = $i;
+		   $record_list = $this->Heardt->getcatAvlCaseIndvGetReportData($list_dt, $court_no);
+			if(!empty($record_list)){
+				$finl_array[] = $record_list;
+				$get_judges[] = $this->Heardt->getcatAvlCaseIndvGetReportDatajudge($list_dt, $court_no);
+			}
+        }
+		$data['reportData'] = $finl_array;
+		$data['get_judges'] = $get_judges;
+		$data['list_dt'] = $list_dt;
         return view('ManagementReport/Reports/cat_val_indv_report_view', $data);
     }
 
