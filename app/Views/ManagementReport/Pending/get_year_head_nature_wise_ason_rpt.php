@@ -1,30 +1,33 @@
+<style>
+    th{
+        background-color: #0d48be;
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        font-size: 12px;
+    }
+</style>
 <?php
-    echo $sql;
-    $query = $db->query($sql);
-    $results = $query->getResultArray();
-    $tot_row = count($results);
-
     if ($tot_row > 0) {
-        $civil_colspan = tot_case_in_nature('C');
-        $cr_colspan = tot_case_in_nature('R');
+        
         ?>
         <div id="prnTable" align="center">
-            <table cellpadding=1 cellspacing=0 border=1>
+            <table class="table table-bordered table-striped" cellpadding=1 cellspacing=0 border=1>
                 <tr>
-                    <td colspan=<?php echo ($civil_colspan + $cr_colspan + 3); ?> align="center">
-                        <font color=blue size=+1>Year and Nature wise 
+                    <th colspan=<?php echo ($civil_colspan + $cr_colspan + 3); ?> align="center">
+                        Year and Nature wise 
                         <?php 
                         $til_date2 = explode("-", $til_dt);
                         $til_dt2 = $til_date2[2] . "-" . $til_date2[1] . "-" . $til_date2[0];	 
                         echo $head_subhead . ' pending cases as on ' . $til_dt2; ?>
-                        </font>
-                    </td>
+                        
+                    </th>
                 </tr>
                 <tr>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <th colspan=<?php echo $civil_colspan; ?> align="center"><font color=blue>CIVIL CASES</font></th>
-                    <th colspan=<?php echo $cr_colspan; ?> align="center"><font color=blue>CRIMINAL CASES</font></th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th colspan=<?php echo $civil_colspan; ?> align="center">CIVIL CASES</th>
+                    <th colspan=<?php echo $cr_colspan; ?> align="center">CRIMINAL CASES</th>
                     <th>&nbsp;</th>
                 </tr>
                 <?php
@@ -33,19 +36,25 @@
                 echo '</tr><tr><th>Sno</th><th>Year</th>';
 
                 foreach ($results as $row) {
-                    if ($this->request->getGet('rpt_type') == 'bench') {
+                    if ($rpt_type == 'bench') {
                         $bench_or_year = $row['bench'];
                     } else {
-                        $bench_or_year = $row['pend_year'];
+                        $bench_or_year = @$row['pend_year'];
                     }
 
-                    $sql_case = "SELECT skey, nature FROM casetype WHERE display='Y' ORDER BY nature, skey";
-                    $query_case = $db->query($sql_case);
-                    $case_results = $query_case->getResultArray();
+                    $builder = $db->table('master.casetype');
+                    $builder->select('casecode,LOWER(skey) as skey,nature');
+                    $builder->where('display', 'Y');
+                    $builder->orderBy('nature', 'ASC')->orderBy('skey', 'ASC');
+                    $query = $builder->get();
+
+                    // $sql_case = "SELECT skey, nature FROM casetype WHERE display='Y' ORDER BY nature, skey";
+                    // $query_case = $db->query($sql_case);
+                    //  = $query_case->getResultArray();
 
                     if ($i == 1) {
-                        foreach ($case_results as $row_case) {
-                            echo "<th>" . $row_case['skey'] . "</th>";
+                        foreach ($query->getResultArray() as $row_case) {
+                           echo "<th>" . strtoupper($row_case['skey']) . "</th>";
                         }
                         echo "<th>Total</th></tr>";
                     }
@@ -58,12 +67,12 @@
                         $year_wise_tot_str = 'y';
                     }
 
-                    $sql_case1 = "SELECT skey, casecode FROM casetype WHERE display='Y' ORDER BY nature, skey";
-                    $query_case1 = $db->query($sql_case1);
-                    $case_results1 = $query_case1->getResultArray();
+                    // $sql_case1 = "SELECT skey, casecode FROM casetype WHERE display='Y' ORDER BY nature, skey";
+                    // $query_case1 = $db->query($sql_case1);
+                    // $case_results1 = $query_case1->getResultArray();
                     $year_wise_tot = 0;
-
-                    foreach ($case_results1 as $row_case1) {
+                    foreach ($query->getResultArray() as $row_case1) {
+                       
                         $count = $row[$row_case1['skey']] == "0" ? "-" : $row[$row_case1['skey']];
                         $year_wise_tot += $row[$row_case1['skey']] == "0" ? 0 : $row[$row_case1['skey']];
 
@@ -73,24 +82,28 @@
                             if ($tot_row == $i) {
                                 echo "<td align=right><span style='cursor: pointer;'>" . $count . "</span></td>";
                             } else {
-                                echo "<td align=right><span style='cursor: pointer;' id='" . $row['year'] . "_" . $row_case1['casecode'] . "' 
-                                onclick=\"open_tab(
-                                    '" . $this->request->getGet('nature_wise_tot') . "','" . $this->request->getGet('subject') . "','" . $this->request->getGet('subject_length') . "',
-                                    '" . $this->request->getGet('cat') . "','" . $this->request->getGet('cat_length') . "','" . $this->request->getGet('subcat') . "',
-                                    '" . $this->request->getGet('subcat_length') . "','" . $row['year'] . "','" . $row_case1['skey'] . "',
-                                    '" . $this->request->getGet('subhead') . "','" . $this->request->getGet('mf') . "','" . $this->request->getGet('til_date') . "',
-                                    '" . $this->request->getGet('from_year') . "','" . $this->request->getGet('to_year') . "','" . $this->request->getGet('rpt_type') . "',
-                                    '" . $this->request->getGet('pet_res') . "','" . $this->request->getGet('party_name') . "','" . $this->request->getGet('act_msc') . "',
-                                    '" . $this->request->getGet('lst_month') . "','" . $this->request->getGet('lst_year') . "','" . $this->request->getGet('ason_type') . "',
-                                    '" . $this->request->getGet('from_fil_dt') . "','" . $this->request->getGet('upto_fil_dt') . "','" . $this->request->getGet('rpt_purpose') . "',
-                                    '" . $this->request->getGet('spl_case') . "','" . $this->request->getGet('concept') . "','" . $this->request->getGet('main_connected') . "',
-                                    '" . $this->request->getGet('act') . "','" . $this->request->getGet('order_by') . "','" . $this->request->getGet('adv_opt') . "',
-                                    '" . $this->request->getGet('case_status_id') . "','" . $this->request->getGet('subcat2') . "',
-                                    '" . $this->request->getGet('subcat2_length') . "');\" class='ank'>" . $count . "</span></td>";
+                                ?>
+ 
+ <td><span style="cursor: pointer;" id="<?php echo $row['year'] . "_" . $row_case1['casecode']; ?>" 
+                                onclick="open_tab(
+                               '<?php echo @$_GET['nature_wise_tot']?>','<?php echo $_GET['subject']?>','<?php echo $_GET['subject_length'];?>',
+                               '<?php echo $_GET['cat'];?>','<?php echo $_GET['cat_length'];?>','<?php echo $_GET['subcat'];?>',
+                               '<?php echo $_GET['subcat_length'];?>','<?php echo $row['year'];?>','<?php echo $row_case1['skey'];?>',
+                               '<?php echo $_GET['subhead'];?>','<?php echo $_GET['mf'];?>','<?php echo $_GET['til_date'];?>',
+                               '<?php echo $_GET['from_year'];?>','<?php echo $_GET['to_year'];?>','<?php echo $_GET['rpt_type'];?>',
+                               '<?php echo $_GET['pet_res'];?>','<?php echo $_GET['party_name'];?>','<?php echo $_GET['act_msc'];?>',
+                               '<?php echo $_GET['lst_month'];?>','<?php echo $_GET['lst_year'];?>','<?php echo $_GET['ason_type'];?>',
+                               '<?php echo $_GET['from_fil_dt'];?>','<?php echo $_GET['upto_fil_dt'];?>','<?php echo $_GET['rpt_purpose'];?>',
+                               '<?php echo @$_GET['spl_case'];?>','<?php echo $_GET['concept'];?>','<?php echo $_GET['main_connected'];?>',
+                               '<?php echo $_GET['act'];?>','<?php echo $_GET['order_by'];?>','<?php echo $_GET['adv_opt'];?>',
+                               '<?php echo $_GET['case_status_id']?>','<?php echo $_GET['subcat2'];?>',
+                               '<?php echo $_GET['subcat2_length'];?>'); "class="ank"><?php echo $count; ?></span>
+                               </td>
+                                <?php
                             }
                         }
                     }
-                    echo "<th align=right>" . $year_wise_tot . "</th></tr>";
+                    echo "<td align=right>" . $year_wise_tot . "</td></tr>";
                     $i++;
                 }
                 ?>
@@ -113,7 +126,7 @@
         <?php
     } else {
         echo "<center><h2>Record Not Found</h2></center>";
+        echo "<span id='s' align='left'>Date : " . date('d-m-Y H:i:s') . "</span>";
     }
 
-    echo "<span id='s' align='left'>Date : " . date('d-m-Y H:i:s') . "</span>";
-}
+

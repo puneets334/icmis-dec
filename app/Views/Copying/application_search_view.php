@@ -26,7 +26,7 @@
                     <div class="card-header p-2" style="background-color: #fff; border-bottom:none;">
                         <h4 class="basic_heading">Online Applications - Verification Module </h4>
                     </div>
-                    <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
+                    <input type="hidden" name="<?=csrf_token() ?>" value="<?= csrf_hash() ?>">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card card-primary">

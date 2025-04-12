@@ -673,7 +673,9 @@
         spl_case, concept, main_connected,
         act, order_by, adv_opt,
         case_status_id, subcat2, subcat2_length
-    ) {
+    )
+    
+     {
         document.getElementById('ggg').style.width = 'auto';
         document.getElementById('ggg').style.height = ' 550px';
         document.getElementById('ggg').style.overflow = 'scroll';
@@ -684,7 +686,7 @@
         document.getElementById('dv_sh_hd').style.display = 'block';
         document.getElementById('dv_fixedFor_P').style.display = 'block';
         document.getElementById('dv_fixedFor_P').style.marginTop = '3px';
-        document.getElementById('ggg').innerHTML = '<table widht="100%" align="center"><tr><td><img src="preloader.gif"/></td></tr></table>';
+        document.getElementById('ggg').innerHTML = '<table widht="100%" align="center"><tr><td><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>';
         var xhr6 = getXMLHTTP();
         var str = "show_case_for_ason.php?nature_wise_tot=" + nature_wise_tot + "&subject=" + subject + "&subject_length=" + subject_length +
             "&cat=" + cat + "&cat_length=" + cat_length + "&subcat=" + subcat +
