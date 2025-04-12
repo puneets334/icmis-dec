@@ -198,19 +198,20 @@ if(isset($_POST['mainhead']) && (isset($_POST['list_dt']) && ($_POST['list_dt'] 
                       <td width="7%" style="font-weight: bold; color: #dce38d;">Listed Before</td>
                       <td width="8%" style="font-weight: bold; color: #dce38d;">Purpose</td>
                       <td width="10%" style="font-weight: bold; color: #dce38d;">Trap</td>
-                 --> </tr>
+                    --> 
+                </tr>
                 <?php
                 $sno = 1;
 
                 // while($ro = mysql_fetch_array($res)){
                 foreach ($res as $ro) {
                    ?>
-                    <td align="left" style='vertical-align: top;'><?php echo $ro['courtno']?></td>
+                    <td align="center" style='vertical-align: top;'><?php echo $ro['courtno']?></td>
 
-                    <td align="left" style='vertical-align: top;'><?php echo $ro['total']; ?></td>
-                    <td align="left" style='vertical-align: top;'><?php echo $ro['uploaded']; ?></td>
-                    <!--<td align="left" style='vertical-align: top;'><?php /*echo $ro['not_uploaded']; */?></td>-->
-                    <td align="left" style='vertical-align: top;'> <?php echo "<span style='font-weight: bold;color: red;cursor:pointer;vertical-align: top;' id='doc_$ro[courtno]_$_POST[list_dt]_$diarynolist' >".$ro['not_uploaded']."</span>"; ?></td>
+                    <td align="center" style='vertical-align: top;'><?php echo $ro['total']; ?></td>
+                    <td align="center" style='vertical-align: top;'><?php echo $ro['uploaded']; ?></td>
+                    <!--<td align="center" style='vertical-align: top;'><?php /*echo $ro['not_uploaded']; */?></td>-->
+                    <td align="center" style='vertical-align: top;'> <?php echo "<span style='font-weight: bold;color: red;cursor:pointer;vertical-align: top;' id='doc_$ro[courtno]_$_POST[list_dt]_$diarynolist' >".$ro['not_uploaded']."</span>"; ?></td>
 
 
 
@@ -231,18 +232,9 @@ if(isset($_POST['mainhead']) && (isset($_POST['list_dt']) && ($_POST['list_dt'] 
     }
     
         ?>
-        <BR/><BR/><BR/><BR/> <BR/><BR/><BR/><BR/>
     </div>
 
-    <div style="width: 100%; padding-bottom:1px; background-color: #ddf1f9; text-align: center; border-top: 1px solid #000; position: fixed; bottom: 0; left: 0; right: 0; z-index: 0; display:block;">
-        <!--<input name="prnnt1" type="button" id="ebublish" value="e-Publish" >-->
-        <span id="toggle_hw" style="color: #0066cc; font-weight: bold; cursor: pointer; padding-right: 1px;">
-<!--    <input name="sh4" type="button" id="sh4" onClick="toggle_note4(this.id);" value="Header Note">
-    <input name="sh5" type="button" id="sh5" onClick="toggle_note5(this.id);" value="Footer Note">
-    <input name="sh3" type="button" id="sh3" onClick="toggle_note3(this.id);" value="Drop Note">    -->
-</span>
-        
-    </div>
+
 
 
 

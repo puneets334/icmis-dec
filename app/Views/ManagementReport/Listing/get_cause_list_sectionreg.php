@@ -78,6 +78,7 @@ if(isset($_POST['mainhead']) && (isset($_POST['list_dt']) && ($_POST['list_dt'] 
 
 
     ?>
+    <input name="prnnt1" type="button" id="prnnt1" value="Print" >
     <div id="prnnt" style="text-align: center; font-size:10px;">
         <H1>Cause List for  <?php echo $list_dt; ?> (<?php echo $mainhead_descri; ?>)<br><?php echo $main_supl_head; ?>  <?php echo "  Court No. ". $_POST['courtno']?></H1>
 
@@ -171,35 +172,38 @@ group by h.diary_no ORDER BY $orderby r.courtno, IF(us.section_name IS NULL, 999
  */
  
         
-      echo $sql = "SELECT concat(b1.title,b1.name) as pet_adv_name,concat(b2.title,b2.name) as res_adv_name, r.courtno, u.name, us.section_name, l.purpose, c1.short_description, YEAR(m.active_fil_dt) fyr, active_reg_year, active_fil_dt,
-     active_fil_no, m.reg_no_display, m.pet_name, m.res_name, m.pno, m.rno, casetype_id, ref_agency_state_id, diary_no_rec_date,remark,  h.* 
-FROM heardt h 
-INNER JOIN main m ON m.diary_no = h.diary_no 
-INNER JOIN master.listing_purpose l ON l.code = h.listorder AND l.display = 'Y'
-INNER JOIN master.roster r ON r.id = h.roster_id AND r.display = 'Y' $court_no
-LEFT JOIN brdrem br on br.diary_no=m.diary_no
-  left join master.bar b1 on m.pet_adv_id=b1.bar_id
-        left join master.bar b2  on m.res_adv_id=b2.bar_id
-LEFT JOIN master.casetype c1 ON m.active_casetype_id = c1.casecode   
-$cl_print_jo
-LEFT JOIN master.users u ON u.usercode = m.dacode and (u.display = 'Y' || u.display is null)
-LEFT JOIN master.usersection us ON us.id = u.section $sec_id
-WHERE 
-$cl_print_jo2   
-h.mainhead = '$mainhead' $main_suppl $sec_id2 and h.next_dt = '".$_POST['list_dt']."' 
-$mdacode 
-$lp $board_type 
-and (h.main_supp_flag = 1 OR h.main_supp_flag = 2) AND h.roster_id > 0 
-AND m.diary_no IS NOT NULL AND m.c_status = 'P' $section
-group by h.diary_no ORDER BY $orderby r.courtno,brd_slno, CASE WHEN us.section_name IS NULL THEN 9999 ELSE 0 END ASC, us.section_name, u.name, h.brd_slno, IF(h.conn_key=h.diary_no,'0000-00-00',m.diary_no_rec_date) ASC ";
-die;
+//       echo $sql = "SELECT concat(b1.title,b1.name) as pet_adv_name,concat(b2.title,b2.name) as res_adv_name, r.courtno, u.name, us.section_name, l.purpose, c1.short_description, YEAR(m.active_fil_dt) fyr, active_reg_year, active_fil_dt,
+//      active_fil_no, m.reg_no_display, m.pet_name, m.res_name, m.pno, m.rno, casetype_id, ref_agency_state_id, diary_no_rec_date,remark,  h.* 
+// FROM heardt h 
+// INNER JOIN main m ON m.diary_no = h.diary_no 
+// INNER JOIN master.listing_purpose l ON l.code = h.listorder AND l.display = 'Y'
+// INNER JOIN master.roster r ON r.id = h.roster_id AND r.display = 'Y' $court_no
+// LEFT JOIN brdrem br on br.diary_no=m.diary_no
+//   left join master.bar b1 on m.pet_adv_id=b1.bar_id
+//         left join master.bar b2  on m.res_adv_id=b2.bar_id
+// LEFT JOIN master.casetype c1 ON m.active_casetype_id = c1.casecode   
+// $cl_print_jo
+// LEFT JOIN master.users u ON u.usercode = m.dacode and (u.display = 'Y' || u.display is null)
+// LEFT JOIN master.usersection us ON us.id = u.section $sec_id
+// WHERE 
+// $cl_print_jo2   
+// h.mainhead = '$mainhead' $main_suppl $sec_id2 and h.next_dt = '".$_POST['list_dt']."' 
+// $mdacode 
+// $lp $board_type 
+// and (h.main_supp_flag = 1 OR h.main_supp_flag = 2) AND h.roster_id > 0 
+// AND m.diary_no IS NOT NULL AND m.c_status = 'P' $section
+// group by h.diary_no ORDER BY $orderby r.courtno,brd_slno, CASE WHEN us.section_name IS NULL THEN 9999 ELSE 0 END ASC, us.section_name, u.name, h.brd_slno, IF(h.conn_key=h.diary_no,'0000-00-00',m.diary_no_rec_date) ASC ";
+// die;
 
 
- "SELECT concat(b1.title,b1.name) as pet_adv_name,concat(b2.title,b2.name) as res_adv_name, r.courtno, u.name, us.section_name, l.purpose, c1.short_description, YEAR(m.active_fil_dt) fyr, active_reg_year, active_fil_dt, active_fil_no, m.reg_no_display, m.pet_name, m.res_name, m.pno, m.rno, casetype_id, ref_agency_state_id, diary_no_rec_date,remark, h.* FROM heardt h INNER JOIN main m ON m.diary_no = h.diary_no INNER JOIN master.listing_purpose l ON l.code = h.listorder AND l.display = 'Y' INNER JOIN master.roster r ON r.id = h.roster_id AND r.display = 'Y' AND r.courtno = '8' LEFT JOIN brdrem br on br.diary_no=m.diary_no left join master.bar b1 on m.pet_adv_id=b1.bar_id left join master.bar b2 on m.res_adv_id=b2.bar_id LEFT JOIN master.casetype c1 ON m.active_casetype_id = c1.casecode LEFT JOIN cl_printed p ON p.next_dt = h.next_dt AND p.m_f = h.mainhead AND p.part = h.clno AND p.roster_id = h.roster_id AND p.display = 'Y' LEFT JOIN master.users u ON u.usercode = m.dacode and (u.display = 'Y' || u.display is null) LEFT JOIN master.usersection us ON us.id = u.section WHERE p.id IS NOT NULL AND h.mainhead = 'M' AND h.main_supp_flag = '2' and h.next_dt = '2025-08-20' and h.listorder = '5' AND h.board_type = 'R' and (h.main_supp_flag = 1 OR h.main_supp_flag = 2) AND h.roster_id > 0 AND m.diary_no IS NOT NULL AND m.c_status = 'P' group by h.diary_no, b1.title, b1.name, b2.title,b2.name, r.courtno, u.name, us.section_name, l.purpose, c1.short_description, m.active_fil_dt, active_reg_year, active_fil_dt, active_fil_no, m.reg_no_display, m.pet_name, m.res_name, m.pno, m.rno, casetype_id, ref_agency_state_id, diary_no_rec_date, br.remark ORDER BY r.courtno,brd_slno, CASE WHEN us.section_name IS NULL THEN 9999 ELSE 0 END ASC, us.section_name, u.name, h.brd_slno, CASE WHEN h.conn_key = h.diary_no THEN to_date('0001-01-01', 'YYYY-MM-DD') ELSE m.diary_no_rec_date END ASC";
+  $sql = "SELECT concat(b1.title,b1.name) as pet_adv_name,concat(b2.title,b2.name) as res_adv_name, r.courtno, u.name, us.section_name, l.purpose, c1.short_description, YEAR(m.active_fil_dt) fyr, active_reg_year, active_fil_dt, active_fil_no, m.reg_no_display, m.pet_name, m.res_name, m.pno, m.rno, casetype_id, ref_agency_state_id, diary_no_rec_date,remark, h.* FROM heardt h INNER JOIN main m ON m.diary_no = h.diary_no INNER JOIN master.listing_purpose l ON l.code = h.listorder AND l.display = 'Y' INNER JOIN master.roster r ON r.id = h.roster_id AND r.display = 'Y' $court_no LEFT JOIN brdrem br on br.diary_no=m.diary_no left join master.bar b1 on m.pet_adv_id=b1.bar_id left join master.bar b2 on m.res_adv_id=b2.bar_id LEFT JOIN master.casetype c1 ON m.active_casetype_id = c1.casecode LEFT JOIN cl_printed p ON p.next_dt = h.next_dt AND p.m_f = h.mainhead AND p.part = h.clno AND p.roster_id = h.roster_id AND p.display = 'Y' LEFT JOIN master.users u ON u.usercode = m.dacode and (u.display = 'Y' || u.display is null) LEFT JOIN master.usersection us ON us.id = u.section $sec_id WHERE $cl_print_jo2 h.mainhead = '$mainhead' $main_suppl $sec_id2 and h.next_dt = '".$_POST['list_dt']."' $mdacode $lp $board_type and h.main_supp_flag IN ('1', '2') AND h.roster_id > 0 AND m.diary_no IS NOT NULL AND m.c_status = 'P' $section group by h.diary_no, b1.title, b1.name, b2.title,b2.name, r.courtno, u.name, us.section_name, l.purpose, c1.short_description, m.active_fil_dt, active_reg_year, active_fil_dt, active_fil_no, m.reg_no_display, m.pet_name, m.res_name, m.pno, m.rno, casetype_id, ref_agency_state_id, diary_no_rec_date, br.remark ORDER BY $orderby r.courtno,brd_slno, CASE WHEN us.section_name IS NULL THEN 9999 ELSE 0 END ASC, us.section_name, u.name, h.brd_slno, CASE WHEN h.conn_key = h.diary_no THEN to_date('0001-01-01', 'YYYY-MM-DD') ELSE m.diary_no_rec_date END ASC";
+//  die;
 
-        $res=mysql_query($sql);
-        if(mysql_num_rows($res)>0){
+$query = $db->query($sql);
+if ($query->getNumRows() >= 1) {
+    $res = $query->getResultArray();
             ?>
+            <!-- <input name="prnnt1" type="button" id="prnnt1" value="Print" > -->
             <table align="left" width="100%" border="1px;" style="font-size:15px; table-layout: fixed;">
 
                 <tr style="background: #918788;">
@@ -220,7 +224,8 @@ die;
                 <?php
                 $sno = 1;
 
-                while($ro = mysql_fetch_array($res)){
+                // while($ro = mysql_fetch_array($res)){
+                foreach ($res as $ro) {
                     $remark=$ro['remark'];
                     $sno1 = $sno % 2;
                     $dno = $ro['diary_no'];
@@ -312,23 +317,20 @@ die;
                         $res_name = $ro['res_name'];
                     }
                     $padvname = ""; $radvname = ""; $impldname= "";
-                    $advsql = "SELECT a.*, GROUP_CONCAT(a.name,'',(CASE WHEN pet_res = 'R' THEN grp_adv END) ORDER BY adv_type DESC, pet_res_no ASC) r_n,
-GROUP_CONCAT(a.name,'',(CASE WHEN pet_res = 'P' THEN grp_adv END) ORDER BY adv_type DESC, pet_res_no ASC) p_n,
-GROUP_CONCAT(a.name,'',(CASE WHEN pet_res = 'I' THEN grp_adv END) ORDER BY adv_type DESC, pet_res_no ASC) i_n FROM 
-(SELECT a.diary_no, b.name, 
-GROUP_CONCAT(IFNULL(a.adv,'') ORDER BY IF(pet_res = 'I', 99, 0) ASC, adv_type DESC, pet_res_no ASC) grp_adv, 
-a.pet_res, a.adv_type, pet_res_no
-FROM advocate a LEFT JOIN bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y' WHERE a.diary_no='".$ro["diary_no"]."' AND a.display = 'Y' GROUP BY a.diary_no, b.name
-ORDER BY IF(pet_res = 'I', 99, 0) ASC, adv_type DESC, pet_res_no ASC) a GROUP BY diary_no";
-                    $resultsadv = mysql_query($advsql) or die(mysql_error());
-                    if(mysql_num_rows($resultsadv) > 0) {
-                        $rowadv = mysql_fetch_array($resultsadv);
-                        // if($jcd_rp !== "117,210" AND $jcd_rp != "117,198"){
-                        $radvname=  $rowadv["r_n"];
-                        $padvname=  $rowadv["p_n"];
-                        $impldname = $rowadv["i_n"];
-                        // }
-                    }
+
+                    // $advsql = "SELECT a.*, STRING_AGG(CASE WHEN pet_res = 'R' THEN name || grp_adv ELSE NULL END, '' ORDER BY adv_type DESC, pet_res_no ASC) AS r_n, STRING_AGG(CASE WHEN pet_res = 'P' THEN name || grp_adv ELSE NULL END, '' ORDER BY adv_type DESC, pet_res_no ASC) AS p_n, STRING_AGG(CASE WHEN pet_res = 'I' THEN name || grp_adv ELSE NULL END, '' ORDER BY adv_type DESC, pet_res_no ASC ) AS i_n FROM (SELECT a.diary_no, b.name, STRING_AGG(COALESCE(a.adv, ''), '' ORDER BY CASE WHEN pet_res = 'I' THEN 99 ELSE 0 END ASC, adv_type DESC, pet_res_no ASC) AS grp_adv, a.pet_res, a.adv_type, pet_res_no FROM advocate a LEFT JOIN master.bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y' WHERE a.diary_no = '".$ro["diary_no"]."' AND a.display = 'Y' GROUP BY a.diary_no, b.name, a.pet_res, a.adv_type, pet_res_no) a GROUP BY diary_no, a.name, a.grp_adv, a.pet_res, a.adv_type, a.pet_res_no";
+
+                    // $query = $db->query($advsql);
+                    // if ($query->getNumRows() >= 1) {
+                    //     $rowadv = $query->getRowArray();
+                    //     // if($jcd_rp !== "117,210" AND $jcd_rp != "117,198"){
+                    //     $radvname=  $rowadv["r_n"];
+                    //     $padvname=  $rowadv["p_n"];
+                    //     $impldname = $rowadv["i_n"];
+                    //     // }
+                    // }
+
+                    // pr($ro);
 
 
                     if(($ro['section_name'] == null OR $ro['section_name'] == '') AND $ro['ref_agency_state_id'] != '' and $ro['ref_agency_state_id'] != 0 )
@@ -339,18 +341,21 @@ ORDER BY IF(pet_res = 'I', 99, 0) ASC, adv_type DESC, pet_res_no ASC) a GROUP BY
                         else
                             $ten_reg_yr = date('Y',strtotime($ro['diary_no_rec_date']));
 
-                        if($ro['active_casetype_id']!=0)
+                        if(isset($ro['active_casetype_id']) && $ro['active_casetype_id']!=0)
                             $casetype_displ = $ro['active_casetype_id'];
                         else if($ro['casetype_id']!=0)
                             $casetype_displ = $ro['casetype_id'];
 
-                        $section_ten_q = "SELECT dacode,section_name,name FROM da_case_distribution a
-LEFT JOIN users b ON usercode=dacode
-LEFT JOIN usersection c ON b.section=c.id
-WHERE case_type=$casetype_displ AND $ten_reg_yr BETWEEN case_f_yr AND case_t_yr AND state='$ro[ref_agency_state_id]' AND a.display='Y' ";
-                        $section_ten_rs = mysql_query($section_ten_q) or die(__LINE__.'->'.mysql_error());
-                        if(mysql_num_rows($section_ten_rs)>0){
-                            $section_ten_row = mysql_fetch_array($section_ten_rs);
+                        $section_ten_q = "SELECT dacode,section_name,name FROM master.da_case_distribution a LEFT JOIN master.users b ON usercode=dacode LEFT JOIN master.usersection c ON b.section=c.id WHERE case_type=$casetype_displ AND $ten_reg_yr BETWEEN case_f_yr AND case_t_yr AND state='$ro[ref_agency_state_id]' AND a.display='Y' ";
+                                
+
+                        // $section_ten_rs = mysql_query($section_ten_q) or die(__LINE__.'->'.mysql_error());
+                        // if(mysql_num_rows($section_ten_rs)>0){
+                        //     $section_ten_row = mysql_fetch_array($section_ten_rs);
+
+                        $querysub = $db->query($section_ten_q);
+                        if ($querysub->getNumRows() >= 1) {
+                            $section_ten_row = $querysub->getRowArray();
                             if($ro['section_name'] =='')
                             {
                                 $ro['section_name']=  $ro['dno'];
@@ -392,16 +397,7 @@ WHERE case_type=$casetype_displ AND $ten_reg_yr BETWEEN case_f_yr AND case_t_yr 
         }
     }
         ?>
-        <BR/><BR/><BR/><BR/> <BR/><BR/><BR/><BR/>
     </div>
 
-    <div style="width: 100%; padding-bottom:1px; background-color: #ddf1f9; text-align: center; border-top: 1px solid #000; position: fixed; bottom: 0; left: 0; right: 0; z-index: 0; display:block;">
-        <!--<input name="prnnt1" type="button" id="ebublish" value="e-Publish" >-->
-        <span id="toggle_hw" style="color: #0066cc; font-weight: bold; cursor: pointer; padding-right: 1px;">
-<!--    <input name="sh4" type="button" id="sh4" onClick="toggle_note4(this.id);" value="Header Note">
-    <input name="sh5" type="button" id="sh5" onClick="toggle_note5(this.id);" value="Footer Note">
-    <input name="sh3" type="button" id="sh3" onClick="toggle_note3(this.id);" value="Drop Note">    -->
-</span>
-        <input name="prnnt1" type="button" id="prnnt1" value="Print" >
-    </div>
+
 
