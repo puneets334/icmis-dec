@@ -18,7 +18,7 @@
                         ?>
                         <div class="row">
                             <div class="col-md-1 mt-4">
-                                <label for=""><b>User Type </b></label>
+                                <label for=""><b>Board Type </b></label>
                             </div>
 						    <div class="col-md-2">
                                    <select class="ele" name="board_type" id="board_type">
