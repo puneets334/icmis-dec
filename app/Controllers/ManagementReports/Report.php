@@ -335,4 +335,32 @@ class Report extends BaseController
         return view('ManagementReport/Reports/get_sensitive_cases', $data);
     }
 
+    public function special_bench()
+    {
+        //$data['get_section_list'] = $this->ReportModel->get_section_list();
+        return view('ManagementReport/Reports/special_bench');
+    }
+    public function get_special_bench_report()
+    {
+        $request = service('request');
+        $part = $request->getVar('part');
+        $sort = $request->getVar('sort');
+        $order = $request->getVar('order');
+        $sort_sign="&#9650;";
+        if($sort=='J'){
+            if($order=='A'){
+                $sort_sign="&#9650;";
+            }
+            else if($order=='D'){
+                 $sort_sign="&#9660;";
+            }
+            }
+        $data['part'] = $part;
+        $data['sort_sign'] = $sort_sign;
+        $data['result_arr'] = $this->ReportModel->get_special_bench_report($part,$sort,$order);
+        return view('ManagementReport/Reports/get_special_bench_report',$data);
+    }
+    
+    
+
 }

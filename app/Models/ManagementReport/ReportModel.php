@@ -524,6 +524,124 @@ class ReportModel extends Model
         }
         return $tentative_cl_date_greater_than_today_flag;
     }
+    public function get_special_bench_report($part,$sort = null,$order=null )
+    {
+        $orderby_query = "ORDER BY CAST(COALESCE(NULLIF(SPLIT_PART(a.t_jud, ',', 1), ''), '0') AS INTEGER)";
+        
+
+        if($sort=='J'){
+        if($order=='A'){
+               $orderby_query = "ORDER BY CAST(COALESCE(NULLIF(SPLIT_PART(a.t_jud, ',', 1), ''), '0') AS INTEGER)";
+               $sort_sign="&#9650;";
+        }
+        else if($order=='D'){
+               $orderby_query = "ORDER BY CAST(COALESCE(NULLIF(SPLIT_PART(a.t_jud, ',', 1), ''), '0') AS INTEGER) DESC";
+                $sort_sign="&#9660;";
+        }
+        }
+
+        if($part == 1){
+         $sql = "SELECT
+                        S.SUB_NAME1,
+                        A.*,
+                        GROUP_CONCAT (
+                            JNAME
+                            ORDER BY
+                                B.JUDGE_SENIORITY
+                        ) JUDGES,
+                        PET_NAME,
+                        RES_NAME,
+                        C_STATUS,
+                        ACTIVE_FIL_NO,
+                        REG_NO_DISPLAY,
+                        ACTIVE_REG_YEAR
+                    FROM
+                        (
+                            SELECT
+                                M.DIARY_NO,
+                                '' AS T_JUD
+                            FROM
+                                MAIN M
+                            INNER JOIN MUL_CATEGORY MC ON MC.DIARY_NO = M.DIARY_NO
+                            WHERE
+                                M.C_STATUS = 'P'
+                                AND MC.SUBMASTER_ID IN (240, 241, 242, 243)
+                            GROUP BY
+                                M.DIARY_NO
+                            UNION
+                            SELECT
+                                M.DIARY_NO,
+                                GROUP_CONCAT (N.J1) AS T_JUD
+                            FROM
+                                MAIN M
+                            INNER JOIN NOT_BEFORE N ON CAST(N.DIARY_NO AS INTEGER) = CAST(M.DIARY_NO AS INTEGER)
+                            WHERE
+                                M.C_STATUS = 'P'
+                                AND N.NOTBEF = 'B'
+                            GROUP BY
+                                M.DIARY_NO
+                        ) A
+                        LEFT JOIN master.JUDGE B ON POSITION(CAST(B.JCODE AS TEXT) IN A.T_JUD) > 0
+                        LEFT JOIN MAIN M ON A.DIARY_NO = M.DIARY_NO
+                        LEFT JOIN MUL_CATEGORY MC ON MC.DIARY_NO = M.DIARY_NO
+                        AND MC.DISPLAY = 'Y'
+                        LEFT JOIN master.SUBMASTER S ON S.ID = MC.SUBMASTER_ID
+                    GROUP BY
+                        M.DIARY_NO,
+                        S.SUB_NAME1,
+                        A.DIARY_NO,
+                        A.T_JUD,
+                        PET_NAME,
+                        RES_NAME,
+                        C_STATUS,
+                        ACTIVE_FIL_NO,
+                        REG_NO_DISPLAY,
+                        ACTIVE_REG_YEAR
+                        $orderby_query ";
+        }
+        else {
+            $sql = "SELECT t_jud, judges, COUNT(*) AS num
+                    FROM (
+                        SELECT
+                            a.diary_no,
+                            a.t_jud,
+                            string_agg(b.jname, ' ' ORDER BY b.judge_seniority) AS judges,
+                            m.pet_name,
+                            m.res_name,
+                            m.c_status,
+                            m.active_fil_no,
+                            m.active_reg_year
+                        FROM (
+                            SELECT m.diary_no, '' AS t_jud
+                            FROM main m
+                            INNER JOIN mul_category mc ON mc.diary_no = m.diary_no
+                            WHERE m.c_status = 'P'
+                            AND mc.submaster_id IN (240, 241, 242, 243)
+                            GROUP BY m.diary_no
+                            UNION
+                            SELECT m.diary_no, string_agg(CAST(n.j1 AS TEXT), ',' ORDER BY n.j1) AS t_jud
+                            FROM main m
+                            INNER JOIN not_before n ON n.diary_no::INTEGER = m.diary_no::INTEGER
+                            WHERE m.c_status = 'P'
+                            AND n.notbef = 'B'
+                            GROUP BY m.diary_no
+                        ) a
+                        LEFT JOIN master.judge b ON POSITION(CAST(b.jcode AS TEXT) IN a.t_jud) > 0
+                        LEFT JOIN main m ON a.diary_no = m.diary_no
+                        GROUP BY a.diary_no, a.t_jud, m.pet_name, m.res_name, m.c_status, m.active_fil_no, m.active_reg_year
+                    ) h
+                    GROUP BY t_jud, judges
+                    ORDER BY CAST(COALESCE(NULLIF(SPLIT_PART(t_jud, ',', 1), ''), '0') AS INTEGER)";
+        }
+                         //die();
+            $query = $this->db->query($sql);
+            $result =  $query->getResultArray();
+        
+            return $result;
+                         
+            
+
+    }
 
 
 }
