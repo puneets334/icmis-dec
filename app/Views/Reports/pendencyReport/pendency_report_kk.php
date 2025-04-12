@@ -18,12 +18,12 @@
 
 
                     <form name="frm" id="frm">
-                    <?= csrf_field() ?>
+                        <?= csrf_field() ?>
                         <input type="hidden" id="curr_date" value="<?php echo date('Y-m-d'); ?>" />
                         <div id="dv_content1" class="container mt-4">
                             <div class="row justify-content-center">
-                                <div class="col-md-8">
-                                    <div class="text-center">
+                             
+                                    <div class="text-center d-inline w-100">
                                         <?php
                                         $file_list = "";
                                         $cntr = 0;
@@ -33,31 +33,44 @@
                                         ?>
 
                                         <div id="rightcontainer" class="text-center">
-                                            <div id="s_box" class="my-4">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <label for="dtd1" class="font-weight-bold">Between Dates:</label>
-                                                      
+                                            <div id="s_box" align="center" >
+                                                   <div class="row">
+                                                        <div class="col-md-2 offset-md-2 mt-2">Between Dates :</div>
+                                                        <div class="col-md-2">
+                                                            <input class="form-control dtp" type="text"  size="10" name="dtd1" id="dtd1" style="font-family:verdana; font-size:9pt;" readonly="readonly" value="<?= date('d-m-Y') ?>">
+                                                        </div>
+                                                        <div class="col-md-1 mt-2">
+                                                            and
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                         <input class="form-control dtp" type="text"  size="10" name="dtd2" id="dtd2" style="font-family:verdana; font-size:9pt;" readonly="readonly" value="<?= date('d-m-Y') ?>" >
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <button class="btn btn-primary" type="button" name="bt11" onclick="get_pending_data();">Submit</button>       
+                                                        </div>
+                                                   </div> 
 
-                                                        <input class="form-control dtp" type="text"  name="dtd1" id="dtd1"  >
-                                                      
-
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <label for="dtd2" class="font-weight-bold">and</label>
-                                                        <input class="form-control dtp" type="text"  name="dtd2" id="dtd2" >
-                                                    </div>
-                                                </div>
-                                                <div class="mt-3">
+                                                <!-- <table border="0" height="35" width="100%">
+                                                    <tr valign="middle" align="center">
+                                                        <td>
+                                                            Between Dates :
+                                                           <input class="form-control dtp" type="text"  size="10" name="dtd1" id="dtd1" style="font-family:verdana; font-size:9pt;" readonly="readonly" value="<?= date('d-m-Y') ?>">
+                                                            and
+                                                            
+                                                            <input class="form-control dtp" type="text"  size="10" name="dtd2" id="dtd2" style="font-family:verdana; font-size:9pt;" readonly="readonly" value="<?= date('d-m-Y') ?>" >
+                                                            
+                                                        </td>
+                                                    </tr>
+                                                </table> -->
+                                                <!-- <div class="mt-3">
                                                     <button class="btn btn-primary" type="button" name="bt11" onclick="get_pending_data();">Submit</button>
-                                                </div>
+                                                </div> -->
                                             </div>
 
                                             <div id="r_box" class="mt-4"></div>
                                         </div>
                                     </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </form>
@@ -105,9 +118,8 @@
                 dt1: dt_new1,
                 dt2: dt_new2
             },
-           
-            beforeSend: function()
-            {
+
+            beforeSend: function() {
                 $('#r_box').html('<table width="100%" style="margin: 0 auto;"><tr><td style="text-align: center;"><img src="../../../images/load.gif"/></td></tr></table>');
             },
             success: function(msg) {
