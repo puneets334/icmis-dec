@@ -1,6 +1,6 @@
 
 <div id="prnnt1" style="font-size:12px;">
-    <h3 style="text-align: center; line-height: 1.5;"> SUPREME COURT OF INDIA<br>Categoray wise ready cases with roster for dated : <?= date('d-m-Y', strtotime($list_dt)) ?></h3>
+    <h3 style="text-align: center; line-height: 1.5;"> SUPREME COURT OF INDIA<br>Category wise ready cases with roster for dated : <?= date('d-m-Y', strtotime($list_dt)) ?></h3>
     <?php if (!empty($data)){ ?>
        <div class="table-responsive">
 		 <table class="table table-striped custom-table" id="example1">

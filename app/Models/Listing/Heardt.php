@@ -1104,8 +1104,7 @@ class Heardt extends Model
     }
 
 
-    public function getcatAvlCaseIndvGetReportData($list_dt, $court_no)
-    {
+    public function getcatAvlCaseIndvGetReportData($list_dt, $court_no, $ucode, $data_save){
         
         $formattedDate = date('Y-m-d', strtotime($list_dt));
 
@@ -1195,8 +1194,8 @@ SELECT * FROM (
 ) t 
 ORDER BY sub_name1";
 
-        return $this->db->query($sql, ['list_dt' => $formattedDate, 'court_no' => $court_no])->getResultArray();
-        /* if(!empty($result)){
+        $result =  $this->db->query($sql, ['list_dt' => $formattedDate, 'court_no' => $court_no])->getResultArray();
+        if(!empty($result) && $data_save == "Yes"){
 			$this_crt_avl = ""; $total_this_cat_ratio = "";
 			foreach($result as $k=>$row){
 				if(!empty($row['sub_name1'])){
@@ -1205,26 +1204,9 @@ ORDER BY sub_name1";
 				if ($this_crt_avl != 0) {
 					$this_cat_ratio = (int)$row['case_cnt'] * 60 / (float)$this_crt_avl;
 				} else {
-					$this_cat_ratio = 0; // Or whatever value you prefer for this case
+					$this_cat_ratio = 0; 
 				}
-				$ros12 = $this->db->table('master.roster r')
-					->select('jname')
-					->join('master.roster_judge rj', 'rj.roster_id = r.id')
-					->join('master.judge j', 'rj.judge_id = j.jcode')
-					->where('r.display', 'Y')
-					->where('r.m_f', '1')
-					->where('r.from_date', $formattedDate)
-					->where('r.courtno', $court_no)
-					->where('rj.display', 'Y')
-					->orderBy('j.judge_seniority')
-					->limit(1)
-					->get()
-					->getRowArray();
-			   if(!empty($ros12)){
-				   $result[$k]['jname'] = $ros12['jname'];
-			   }
-			   
-				if($data_save == "Yes"){
+				
 					 $sql = "INSERT INTO master.cat_jud_ratio 
 								(cat_id, cat_name, judge, next_dt, bail_top, orders, fresh, fresh_no_notice, an_fd, cnt, ratio_cnt, ent_dt, usercode)
 							VALUES 
@@ -1257,10 +1239,10 @@ ORDER BY sub_name1";
 								round($this_cat_ratio, 2),
 								$ucode
 							];
-                          $this->db->query($sql, $binds); 
+					$this->db->query($sql, $binds); 
 				}
-			}
-		} */
+		}
+				return $result;
 	}
 	
 	function getcatAvlCaseIndvGetReportDatajudge($list_dt, $court_no){

@@ -63,7 +63,7 @@ class Report extends BaseController
 		$data['judges'] = $this->CaseRemarksVerification->getJudgesSaved($list_dt);
 		for($i=1;$i<=12;$i++){
            $court_no = $i;
-		   $record_list = $this->Heardt->getcatAvlCaseIndvGetReportData($list_dt, $court_no);
+		   $record_list = $this->Heardt->getcatAvlCaseIndvGetReportData($list_dt, $court_no, $ucode, $data_save);
 			if(!empty($record_list)){
 				$finl_array[] = $record_list;
 				$get_judges[] = $this->Heardt->getcatAvlCaseIndvGetReportDatajudge($list_dt, $court_no);

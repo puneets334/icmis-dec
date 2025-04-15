@@ -31,7 +31,7 @@
                                 <input type="text" name="from_dt2" id="from_dt2" class="form-control dtp" maxsize="10" value="<?= date('d-m-Y')?>"  autocomplete="on" size="9" />
                                 <input type="hidden" name="hd_from_dt2" id="hd_from_dt2" value="1" />
                             </div>
-                            <div class="col-md-2 mt-4">
+                            <div class="col-md-2">
 							    <input type="hidden" name="submit" value="submit">
                                 <input type="button" id="btnGetDiaryList" class="btn btn-block_ btn-primary" value="Show" />
                             </div>

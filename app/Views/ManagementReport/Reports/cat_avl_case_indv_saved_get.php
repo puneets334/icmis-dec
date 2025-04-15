@@ -27,7 +27,7 @@ th {
         <?php else: ?>
 			<?php foreach ($data as $judgeCode => $judgeData): ?>
                 <div style="page-break-after:always;">
-				 <h3 style="text-align: center; line-height: 1.5;"> SUPREME COURT OF INDIA<br>Categoray wise ready cases with roster for dated : <?= date('d-m-Y', strtotime($list_dt)) ?><br><?php //echo $judgeData['judge_name']; ?></h3>
+				 <h3 style="text-align: center; line-height: 1.5;"> SUPREME COURT OF INDIA<br>Category wise ready cases with roster for dated : <?= date('d-m-Y', strtotime($list_dt)) ?><br><?php //echo $judgeData['judge_name']; ?></h3>
                     <div class="table-responsive">
 					  <table class="table table-striped custom-table" id="example1">
 					    <thead>
