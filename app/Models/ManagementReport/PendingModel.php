@@ -226,7 +226,7 @@ class PendingModel extends Model
                         AND (h.listorder NOT IN (4, 5) OR mc.submaster_id NOT IN (343, 15, 16, 17, 18, 19, 20, 21, 22, 23, 341, 353, 157, 158, 159, 160, 161, 162, 163, 166, 173, 175, 176, 322, 222))
                     LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no AND rd.remove_def = 'N'
                     WHERE rd.fil_no IS NULL AND mc.diary_no IS NOT NULL AND m.c_status = 'P' 
-                    AND (m.diary_no = m.conn_key::bigint OR m.conn_key IS NULL OR m.conn_key = '0')
+                    AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key IS NULL OR m.conn_key = '0')
                     AND h.next_dt = '$list_dt' AND h.board_type = '$board_type' 
                     AND h.mainhead = 'M' AND h.clno = 0 AND h.brd_slno = 0 
                     AND h.main_supp_flag = 0 AND (h.listorder NOT IN (4, 5) OR h.is_nmd = 'N')

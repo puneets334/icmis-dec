@@ -4,6 +4,7 @@
     border-radius: 28px 28px 28px 28px!important;
 }
 </style>
+<input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary mt-5">
 <div id="prnnt">
 <?php
 foreach ($result_array as $ros12) {
@@ -101,5 +102,3 @@ foreach ($result_array as $ros12) {
         } //end of while loop judge
             ?>
 </div>
-
-<input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary">
