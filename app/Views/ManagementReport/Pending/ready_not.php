@@ -26,7 +26,7 @@
                                         <option value="2">Only Main</option>
                                         </select>
                                     </div>
-                                <div class="col-md-2">
+                                <div class="col-md-2 mt-4">
                                     <input type="button" id="btngetr" onclick="fetch_data();" class="btn btn-primary quick-btn" name="btngetr" value=" Get Records " />
                                 </div>
                             </div>
