@@ -7,13 +7,13 @@ use CodeIgniter\Database\BaseBuilder;
 
 class VCModel extends Model
 {
-    protected $db_eFiling;
+    //protected $db_eFiling;
     protected $db;
 
     function __construct()
     {
         parent::__construct();
-        $this->db_eFiling =  \Config\Database::connect('e_filing');
+        //$this->db_eFiling =  \Config\Database::connect('e_filing');
         $this->db = \Config\Database::connect();
     }
 
@@ -410,8 +410,7 @@ and (d.ord_dt) $condition and  mf_active in ('M','F') group by mf_active order b
         $builder->where('jtype', 'J')
                 ->where('display', 'Y')
                 ->orderBy('is_retired', 'ASC')
-                ->orderBy('jcode', 'ASC');
-
+                ->orderBy('jcode', 'ASC');        
         // Execute the query and get the result
         $query = $builder->get();
         

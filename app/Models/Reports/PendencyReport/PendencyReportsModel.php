@@ -1330,6 +1330,7 @@ ORDER BY s.subcode1";
                     AND mcat.e_date <= '$for_date'::date
                     AND $subquert1
                 ORDER BY m.diary_no_rec_date";
+               // pr($qry);
         }
         if ($flag == 'Notice_3' or $flag == 'Notice_181' or $flag == 'Notice_182' or $flag == 'Notice_183' or $flag == 'Notice_184') {
 

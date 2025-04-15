@@ -1,3 +1,15 @@
+<style>
+    .dataTables_filter{padding-right: 55px;}
+    .table-striped tr:nth-child(odd) td {background: #ECEEF2 !important;}
+    .table-striped tr:nth-child(even) td{background: #ffffff;}
+    table.dataTable thead th, table.dataTable tfoot th {font-weight: bold !important;}
+    div.dt-buttons {float: left;margin-top: 0px;}
+</style>
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12 text-center"><h3 class="mt-2"><?php echo $h3_head; ?></h3></div>
+    </div>
+</div>
 <?php if (count($data) > 0) {
 ?>
     <div class="table-responsive">
@@ -128,32 +140,14 @@
         "bProcessing": true,
         "buttons": [
             {
-                extend: 'excel',
-                text: 'Excel'
-            },
-            {
-                extend: 'pdf',
-                text: 'PDF'
-            },
-            {
                 extend: 'print',
                 text: 'Print',
+                title:'',
                 customize: function (win) {
-                  
-                    $(win.document.body)
-                        .css('font-size', '10pt') 
-                        .prepend(
-                            '<h5 style="text-align: center;">Diary Report</h5>' 
-                        );
-
-                    $(win.document.body).find('div').remove(); 
-
-                    $(win.document.body).find('table')
-                        .addClass('display')
-                        .css({
-                            'font-size': '10pt',
-                            'width': '100%'
-                        });
+                    $(win.document.body).css( 'font-size', '12pt');
+                    $(win.document.body).find('table').before(
+                        '<h3 style="text-align: center;"><?php echo $h3_head; ?></h3>'
+                    );
                 },
                 exportOptions: {
                     columns: ':visible', 

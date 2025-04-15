@@ -2414,7 +2414,7 @@ class DetailedPendencyModel extends Model
             $main_head = " AND (e.fil_no_fh IS NOT NULL AND e.fil_no_fh != '') ";
         }
 
-        $html = '';
+        $return = [];
         $sql = "
         SELECT 
             e.diary_no AS diary_no, 
@@ -2501,52 +2501,10 @@ class DetailedPendencyModel extends Model
         ORDER BY tentative_section(a.diary_no), tentative_da(a.diary_no::int)";
         
         $sqlQuery = $this->db->query($sql);
-        if($sqlQuery->getNumRows() >= 1)
-        {
-            $result = $sqlQuery->getResultArray();
-            $sno = 1;
-            $html .= '<div id="prnnt" style="text-align: center;">';
-
-            $html .= '<div class="container-fluid"><div class="row"><div class="col-md-2 ml-n4 text-left"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary bk_out"></div><div class="col-md-8 text-center"><h3 class="mt-3" style="text-align:center">Not Before Verification</h3></div><div class="col-md-2"></div></div></div>';
-
-            //$html .= '<div class="col-md-12" style="text-align: center;"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary"></div>';
-            //$html .= '<h3 style="text-align:center;">Not Before Verification</h3>';
-            $html .= '<table id="customers" >';
-            $html .= '<tr>
-                <td width="10%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">SrNo.</td>
-                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Case No. / Diary No.</td>
-                <td width="25%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Cause Title</td>
-                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Honble Judge Name</td>
-                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Lower Court Case No.</td>
-                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Agency</td>
-                <td width="15%" style="font-weight: bold; color: #fff; background: #0d48be;padding: 10px;">Section / DA</td>
-            </tr>';
-            foreach ($result as $key => $ro)
-            {
-                $sno1 = $sno % 2;
-
-                $html .= "<tr class='".($sno1 == 1 ? 'odd' : 'even')."'>";
-                $html .= "<td align='left' style='vertical-align: top;'>$sno</td>";
-                $html .= "<td align='left' style='vertical-align: top;'>".esc($ro['case_no'])." @ ".esc($ro['diary_no'])."</td>";
-                $html .= "<td align='left' style='vertical-align: top;'>".esc($ro['cause_title'])."</td>";
-                $html .= "<td align='left' style='vertical-align: top;'>".esc($ro['judge_name'])."</td>";
-                $html .= "<td align='left' style='vertical-align: top;'>".esc($ro['type_sname'])." ".esc($ro['lct_caseno'])." / ".esc($ro['lct_caseyear'])."</td>";
-                $html .= "<td align='left' style='vertical-align: top;'>".esc($ro['agency_name'])."</td>";
-                $html .= "<td align='left' style='vertical-align: top;'>".esc($ro['tentative_section'])."<br>".esc($ro['tentative_da'])."</td>";
-                $html .= "</tr>";
-
-                $sno++;
-            }
-            $html .= '</table>';
-            $html .= '</div>';
-            //$html .= '<div class="col-md-12" style="text-align: center;"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary"></div>';
-        }
-        else
-        {
-            $html .= '<div class="nofound" style = "color:red; font-weight:bold; text-align: center;">No Recrods Found</div>';
-            return $html;
-        }
-        return $html;
+        if($sqlQuery->getNumRows() >= 1) {
+            $return = $sqlQuery->getResultArray();
+        }    
+        return $return;
     }
 
     function getDisposal_AsPer_OrderDate($fromDate = null, $toDate = null, $id = null)

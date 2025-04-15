@@ -80,7 +80,7 @@ class VC_Report extends BaseController
             $pdf->AddPage();
             $pdf->Ln(8);
             $pdf->SetFont('Arial', 'B', 16);
-            $pdf->Cell(0, 0, 'Data of Video Conferencing hearing matters ' . date('m-d-Y', strtotime($from_dt)) . ' to ' . date('m-d-Y', strtotime($to_dt)), 0, 1, 'C');
+            $pdf->Cell(0, 0, 'Data of Video Conferencing hearing matters ' . date('d/m/Y', strtotime($from_dt)) . ' to ' . date('d/m/Y', strtotime($to_dt)), 0, 1, 'C');
             $pdf->Ln(4);
             $pdf->SetFont('Arial', 'B', 13);
 
@@ -223,7 +223,7 @@ class VC_Report extends BaseController
             $pdf->SetFont('Arial', '', 10);
             $from_dt = $from_dt ?? '';  
 			$to_dt = $to_dt ?? '';  
-			$pdf->Cell(0, 0, '[Period From : ' . date('d-m-Y', strtotime($from_dt ?: 'now')) . ' to ' . date('d-m-Y', strtotime($to_dt ?: 'now')) . ' ]', 0, 1, 'C');
+			$pdf->Cell(0, 0, '[Period From : ' . date('d/m/Y', strtotime($from_dt ?: 'now')) . ' to ' . date('d/m/Y', strtotime($to_dt ?: 'now')) . ' ]', 0, 1, 'C');
             $pdf->Ln(4);
             $pdf->SetFont('Arial', 'B', 13);
 

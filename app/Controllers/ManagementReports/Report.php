@@ -35,13 +35,13 @@ class Report extends BaseController
     public function catAvlCaseGet()
     {
         $request = service('request');
-        $list_dt = $request->getPost('list_dt');
+        $list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
         if (!$list_dt) {
             return redirect()->back()->with('error', 'Date is required.');
         }
-        $list_dt = (new \DateTime('2024-10-28'))->format('Y-m-d');
+        //$list_dt = (new \DateTime('2024-10-28'))->format('Y-m-d');
         $data = $this->Heardt->getReportData($list_dt);
-        return view('ManagementReport/Reports/cat_val_report_view', [
+		return view('ManagementReport/Reports/cat_val_report_view', [
             'data' => $data,
             'list_dt' => $list_dt
         ]);
@@ -63,7 +63,7 @@ class Report extends BaseController
 		$data['judges'] = $this->CaseRemarksVerification->getJudgesSaved($list_dt);
 		for($i=1;$i<=12;$i++){
            $court_no = $i;
-		   $record_list = $this->Heardt->getcatAvlCaseIndvGetReportData($list_dt, $court_no);
+		   $record_list = $this->Heardt->getcatAvlCaseIndvGetReportData($list_dt, $court_no, $ucode, $data_save);
 			if(!empty($record_list)){
 				$finl_array[] = $record_list;
 				$get_judges[] = $this->Heardt->getcatAvlCaseIndvGetReportDatajudge($list_dt, $court_no);

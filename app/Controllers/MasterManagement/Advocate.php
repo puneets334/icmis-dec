@@ -185,9 +185,9 @@ public $AORPendingMatters;
     {
 
         $this->validation->setRules([
-            'adv_enroll_dt' => 'permit_empty|valid_date[Y-m-d]',
-            'adv_dob' => 'permit_empty|valid_date[Y-m-d]',
-            'adv_enroll_no' => 'required',
+             'adv_enroll_dt' => 'permit_empty|valid_date[d-m-Y]',
+            'adv_dob' => 'permit_empty|valid_date[d-m-Y]',
+            // 'adv_enroll_no' => 'required',
             'adv_state' => 'required',
             'adv_name' => 'required',
         ]);
@@ -200,10 +200,10 @@ public $AORPendingMatters;
            $adv_enroll_dt = $this->request->getPost('adv_enroll_dt');
            $adv_dob = $this->request->getPost('adv_dob');
    
-           $timezone = 'America/New_York'; 
+           //$timezone = 'America/New_York'; 
    
-           $adv_enroll_dt = empty($adv_enroll_dt) ? null : (new Time($adv_enroll_dt, $timezone))->format('Y-m-d');
-           $adv_dob = empty($adv_dob) ? null : (new Time($adv_dob, $timezone))->format('Y-m-d');
+           $adv_enroll_dt = !empty($adv_enroll_dt) ? date('Y-m-d',strtotime($adv_enroll_dt)) : null ;
+           $adv_dob = !empty($adv_dob) ? date('Y-m-d',strtotime($adv_dob)) : null ;
    
            $aor_code = $this->request->getPost('aor_code') ?: 0;
            $adv_year = $this->request->getPost('adv_year');
@@ -249,10 +249,12 @@ public $AORPendingMatters;
             'if_aor' => $this->request->getPost('adv_aor'),
             'state_id' => $this->request->getPost('adv_state'),
             'bentdt' => date('Y-m-d H:i:s'),
-            'bentuser' => $this->session->get('dcmis_user_idd'),
+            'bentuser' => session()->get('login')['usercode'],
             'aor_code' => $code,
             'if_sen' => $this->request->getPost('adv_sen')
         ];
+        // $builder = $this->db->table('master.bar');
+        // $builder->insert($data);
 
         $this->db->table('master.bar')->insert($data);
 

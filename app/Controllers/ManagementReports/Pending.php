@@ -327,16 +327,16 @@ class Pending extends BaseController
                     IF(r.disp_dt != '0000-00-00' AND r.disp_dt IS NOT NULL, r.disp_dt >= '" . $til_dt . "', 
                     CONCAT(r.disp_year, '-', LPAD(r.disp_month, 2, 0), '-01') >= '" . $til_dt . "'))";
 
-        $exclude_cond = "CASE WHEN r.`disp_dt` != '0000-00-00' AND r.`disp_dt` IS NOT NULL 
-                AND r.conn_next_dt != '0000-00-00' AND r.conn_next_dt IS NOT NULL
-            THEN '" . $til_dt . "' NOT BETWEEN r.disp_dt AND `conn_next_dt` 
-            ELSE r.`disp_dt` = '0000-00-00' OR r.`disp_dt` IS NULL OR r.conn_next_dt = '0000-00-00' OR r.conn_next_dt IS NULL 
+        $exclude_cond = "CASE WHEN r.disp_dt IS NOT NULL 
+                AND r.conn_next_dt IS NOT NULL
+            THEN '" . $til_dt . "' NOT BETWEEN r.disp_dt AND conn_next_dt 
+            ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL 
             END OR r.fil_no IS NULL";
 
-        $exclude_cond_other = " CASE WHEN r.`disp_dt` != '0000-00-00' AND r.`disp_dt` IS NOT NULL 
-                AND r.conn_next_dt != '0000-00-00' AND r.conn_next_dt IS NOT NULL
-            THEN '" . $til_dt . "' NOT BETWEEN r.disp_dt AND `conn_next_dt` 
-            ELSE r.`disp_dt` = '0000-00-00' OR r.`disp_dt` IS NULL OR r.conn_next_dt = '0000-00-00' OR r.conn_next_dt IS NULL END";
+        $exclude_cond_other = " CASE WHEN r.disp_dt IS NOT NULL 
+                AND r.conn_next_dt IS NOT NULL
+            THEN '" . $til_dt . "' NOT BETWEEN r.disp_dt AND conn_next_dt 
+            ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL END";
 
         }else if ($this->request->getGet('ason_type') == 'month') {
             $til_dt = $this->request->getGet('lst_year') . "-" . str_pad($this->request->getGet('lst_month'), 2, "0", STR_PAD_LEFT) . "-01";
@@ -369,13 +369,13 @@ class Pending extends BaseController
 
             $ason_str_res = " r.disp_ent_dt >= '" . $til_dt . "'";
 
-            $exclude_cond = " CASE WHEN DATE(r.entry_date) != '0000-00-00' AND r.`entry_date` IS NOT NULL 
+            $exclude_cond = " CASE WHEN  r.`entry_date` IS NOT NULL 
                         AND DATE(r.disp_ent_dt) != '0000-00-00' AND r.disp_ent_dt IS NOT NULL
             THEN '" . $til_dt . "' NOT BETWEEN DATE(r.disp_ent_dt) AND `entry_date` 
             ELSE DATE(r.`disp_ent_dt`) = '0000-00-00' OR r.`disp_ent_dt` IS NULL OR DATE(r.entry_date) = '0000-00-00' OR r.entry_date IS NULL END 
             OR r.fil_no IS NULL";
 
-            $exclude_cond_other = " CASE WHEN DATE(r.entry_date) != '0000-00-00' AND r.`entry_date` IS NOT NULL 
+            $exclude_cond_other = " CASE WHEN  r.`entry_date` IS NOT NULL 
                         AND DATE(r.disp_ent_dt) != '0000-00-00' AND r.disp_ent_dt IS NOT NULL
             THEN '" . $til_dt . "' NOT BETWEEN DATE(r.disp_ent_dt) AND `entry_date` 
             ELSE DATE(r.`disp_ent_dt`) = '0000-00-00' OR r.`disp_ent_dt` IS NULL OR DATE(r.entry_date) = '0000-00-00' OR r.entry_date IS NULL END";
@@ -532,18 +532,18 @@ class Pending extends BaseController
         
         if ($this->request->getGet('from_year') == '' || $this->request->getGet('to_year') == '') {
             if ($this->request->getGet('from_year') == '' && $this->request->getGet('to_year') != '') {
-                $year_main = " AND SUBSTR(m.diary_no, -4) <= '" . $this->request->getGet('to_year') . "' ";
-                $year_lastheardt = " AND SUBSTR(l.diary_no, -4) <= '" . $this->request->getGet('to_year') . "' ";
+                $year_main = " AND SUBSTR(m.diary_no::text, -4) <= '" . $this->request->getGet('to_year') . "' ";
+                $year_lastheardt = " AND SUBSTR(m.diary_no::text, -4) <= '" . $this->request->getGet('to_year') . "' ";
             } elseif ($this->request->getGet('from_year') != '' && $this->request->getGet('to_year') == '') {
-                $year_main = " AND SUBSTR(m.diary_no, -4) >= '" . $this->request->getGet('from_year') . "' ";
-                $year_lastheardt = " AND SUBSTR(l.diary_no, -4) >= '" . $this->request->getGet('from_year') . "' ";
+                $year_main = " AND SUBSTR(m.diary_no::text, -4) >= '" . $this->request->getGet('from_year') . "' ";
+                $year_lastheardt = " AND SUBSTR(m.diary_no::text, -4) >= '" . $this->request->getGet('from_year') . "' ";
             } else {
                 $year_main = " ";
                 $year_lastheardt = " ";
             }
         } else {
-            $year_main = " AND SUBSTR(m.diary_no, -4) BETWEEN '" . $this->request->getGet('from_year') . "' AND '" . $this->request->getGet('to_year') . "' ";
-            $year_lastheardt = " AND SUBSTR(l.diary_no, -4) BETWEEN '" . $this->request->getGet('from_year') . "' AND '" . $this->request->getGet('to_year') . "' ";
+            $year_main = " AND SUBSTR(m.diary_no::text, -4) BETWEEN '" . $this->request->getGet('from_year') . "' AND '" . $this->request->getGet('to_year') . "' ";
+            $year_lastheardt = " AND SUBSTR(m.diary_no::text, -4) BETWEEN '" . $this->request->getGet('from_year') . "' AND '" . $this->request->getGet('to_year') . "' ";
         }
         
         $Brep = "";
@@ -551,10 +551,9 @@ class Pending extends BaseController
         $act_join ='';
         $registration='';
         $main_connected='';
-        
+        $pc_act = $women = $children = $land = $cr_compound = $commercial_code = $party_name = $pet_res = $act_msc = '';
         $from_fil_dt = $this->request->getGet('from_fil_dt') ? 
             " AND DATE(m.diary_no_rec_date) > '" . date('Y-m-d', strtotime($this->request->getGet('from_fil_dt'))) . "' " : " ";
-        
         
         $upto_fil_dt = $this->request->getGet('upto_fil_dt') ? 
             " AND DATE(m.diary_no_rec_date) < '" . date('Y-m-d', strtotime($this->request->getGet('upto_fil_dt'))) . "' " : " ";
@@ -564,13 +563,13 @@ class Pending extends BaseController
         if ($this->request->getGet('case_status_id') == 'all,') {
             $case_status_id = " AND case_status_id IN (1, 2, 3, 6, 7, 9) ";
             $add_table = '';
-        } elseif ($this->request->getGet('case_status_id') == '103,') {
+        } elseif ($this->request->getGet('case_status_id') == '103,' || $this->request->getGet('case_status_id') == 103) {
             $case_status_id = " ";
             $registration = " ";
-        } elseif ($this->request->getGet('case_status_id') == 101) {
+        } elseif ($this->request->getGet('case_status_id') == 101 || $this->request->getGet('case_status_id') == '101,') {
             $registration = " AND (active_fil_no = '' OR active_fil_no IS NULL) ";
             
-        } elseif ($this->request->getGet('case_status_id') == 102) {
+        } elseif ($this->request->getGet('case_status_id') == 102 || $this->request->getGet('case_status_id') == '102,') {
             $registration = " AND !(active_fil_no = '' OR active_fil_no IS NULL) ";
         } elseif ($this->request->getGet('case_status_id') == 104 || $this->request->getGet('case_status_id') == '104,') {
             $case_status_id = " ";
@@ -590,7 +589,7 @@ class Pending extends BaseController
             AND b.iastat = 'P') aa ON m.diary_no = aa.dd ";
 
         }
-        elseif ($this->request->getGet('case_status_id') == 105) {
+        elseif ($this->request->getGet('case_status_id') == 105 || $this->request->getGet('case_status_id') == '105,') {
             $Brep = " INNER JOIN
             (SELECT CASE WHEN os.diary_no IS NULL THEN m.diary_no ELSE 0 END AS dd FROM main m
              INNER JOIN docdetails b ON m.diary_no = b.diary_no
@@ -605,26 +604,26 @@ class Pending extends BaseController
             (doccode = '8' AND doccode1 = '300')
             )
             AND b.iastat='P') aa ON m.diary_no=aa.dd ";
-        } elseif ($this->request->getGet('case_status_id') == 106) {
+        } elseif ($this->request->getGet('case_status_id') == 106 || $this->request->getGet('case_status_id') == '106,') {
             $Brep = " LEFT OUTER JOIN (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y')
                                 os ON m.diary_no=os.diary_no
                                 ";
             $Brep1 = " and os.diary_no IS NOT NULL and c_status = 'P' AND (active_fil_no IS NULL OR  active_fil_no='') AND h.board_type='J'";
-        } elseif ($this->request->getGet('case_status_id') == 107) {
+        } elseif ($this->request->getGet('case_status_id') == 107 || $this->request->getGet('case_status_id') == '107,') {
             $Brep = " INNER JOIN docdetails b ON m.diary_no=b.diary_no
             INNER JOIN
             (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y' AND DATEDIFF(NOW(),save_dt)>60) os
             ON m.diary_no=os.diary_no ";
             $Brep1 = " and m.c_status = 'P' AND (m.active_fil_no IS NULL OR  m.active_fil_no='')
             AND doccode = '8' AND doccode1 = '226' AND b.iastat='P' ";
-        } elseif ($this->request->getGet('case_status_id') == 108) {
+        } elseif ($this->request->getGet('case_status_id') == 108 || $this->request->getGet('case_status_id') == '108,') {
             $Brep = " INNER JOIN docdetails b ON m.diary_no=b.diary_no
             INNER JOIN
             (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y' AND DATEDIFF(NOW(),save_dt)<=60) os
             ON m.diary_no=os.diary_no ";
             $Brep1 = " and  m.c_status = 'P' AND (m.active_fil_no IS NULL OR  m.active_fil_no='')
             AND doccode = '8' AND doccode1 = '226' AND b.iastat='P' ";
-        } elseif ($this->request->getGet('case_status_id') == 109) {
+        } elseif ($this->request->getGet('case_status_id') == 109 || $this->request->getGet('case_status_id') == '109,') {
             $Brep = " LEFT JOIN (SELECT DISTINCT CASE WHEN os.diary_no IS NULL THEN m.diary_no ELSE 0 END AS dd FROM main m
              INNER JOIN docdetails b ON m.diary_no = b.diary_no
              LEFT OUTER JOIN
@@ -727,7 +726,7 @@ class Pending extends BaseController
                         AND DATE(m.diary_no_rec_date) < '" . $til_dt . "' " . $year_main . " " . $from_fil_dt . " " . $upto_fil_dt . " " . $cat_and_act . " " . $bench . " 
                         " . $pc_act . " " . $women . " " . $children . " " . $land . " " . $cr_compound . " " . $commercial_code . " " . $party_name . " " . $pet_res . " " . $act_msc . " AND " . $exclude_cond_other . "
                     )
-                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id LIMIT 100
+                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id
                 ) t
                 GROUP BY ROLLUP(SUBSTR(diary_no::text, -4) ) ";
             } else {
@@ -744,7 +743,7 @@ class Pending extends BaseController
                     WHERE " . $registration . " " . $mf_h_table . " " . $cat_and_act . " " . $year_main . " " . $from_fil_dt . " " . $upto_fil_dt . " " . $case_status_id . $Brep1 . "
                     AND case_status_id IN (1, 2, 3, 6, 7, 9) 
                     AND (c_status = 'P' AND DATE(m.diary_no_rec_date) < '" . $til_dt . "') " . $subhead_condition . "
-                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id LIMIT 100
+                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id 
                 ) t
                 GROUP BY ROLLUP(SUBSTR(diary_no::text, -4) ) ";
             }
@@ -754,7 +753,7 @@ class Pending extends BaseController
                 $sql = "
                 SELECT SUBSTR(diary_no::text, -4) AS year ," . $str . " FROM 
                 (
-                    SELECT m.diary_no, m.fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id
+                    SELECT m.diary_no, m.fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id 
                     FROM main m " . $Brep . " 
                     LEFT JOIN heardt h ON m.diary_no = h.diary_no 
                     LEFT JOIN dispose d ON m.diary_no = d.diary_no 
@@ -768,7 +767,7 @@ class Pending extends BaseController
                     (
                         c_status = 'D' AND " . $ason_str . " " . $cat_and_act . " " . $year_main . " " . $from_fil_dt . " " . $upto_fil_dt . " AND DATE(m.diary_no_rec_date) < '" . $til_dt . "' AND " . $exclude_cond_other . " " . $main_connected . "
                     )
-                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id LIMIT 100
+                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id 
                 ) t
                 GROUP BY ROLLUP(SUBSTR(diary_no::text, -4) ) ";
             } else {
@@ -782,7 +781,7 @@ class Pending extends BaseController
                     LEFT JOIN heardt h ON m.diary_no = h.diary_no 
                     LEFT JOIN act_main a ON a.diary_no = m.diary_no " . $add_table . $mul_cat_join . " " . $act_join . "
                     WHERE 2=2 " . $Brep1 . $registration . " " . $bench . " " . $cat_and_act . " " . $year_main . " " . $from_fil_dt . " " . $upto_fil_dt . " " . $case_status_id . " AND (c_status = 'P' AND DATE(m.diary_no_rec_date) <= '" . $til_dt . "')
-                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id LIMIT 100
+                    GROUP BY m.diary_no, fil_dt, c_status, d.rj_dt, d.month, d.year, d.disp_dt, active_casetype_id, casetype_id 
                 ) t
                 GROUP BY ROLLUP(SUBSTR(diary_no::text, -4) ) ";
             }
@@ -791,7 +790,6 @@ class Pending extends BaseController
         // die;
         $query = $this->db->query($sql);
         $data['results'] = $results = $query->getResultArray();
-        // echo "<pre>";print_r($results);die;
         $data['tot_row'] = count($results);
         $data['civil_colspan'] = $this->tot_case_in_nature('C');
         $data['cr_colspan'] = $this->tot_case_in_nature('R');
@@ -804,8 +802,576 @@ class Pending extends BaseController
         // print_r($this->request->getGet('rpt_type'));
         // die();
         return view('ManagementReport/Pending/get_year_head_nature_wise_ason_rpt', $data);
-    
     }
+
+
+    public function show_case_for_ason()
+    {
+        $act_join = '';
+        $nature_wise_to = $this->request->getGet('nature_wise_tot');
+        $year_wise_tot = $this->request->getGet('year_wise_tot');
+
+        $subject = $this->request->getGet('subject');
+        $subject_length = $this->request->getGet('subject_length');
+        $cat = $this->request->getGet('cat');
+        $cat_length = $this->request->getGet('cat_length');
+        $subcat = $this->request->getGet('subcat');
+        $subcat_length = $this->request->getGet('subcat_length');
+        $year = $this->request->getGet('year');
+        $skey = $this->request->getGet('skey');
+        $subhead = $this->request->getGet('subhead');
+        $mf = $this->request->getGet('mf');
+        $til_date = $this->request->getGet('til_date');
+        $from_year = $this->request->getGet('from_year');
+        $to_year = $this->request->getGet('to_year');
+        $rpt_type = $this->request->getGet('rpt_type');
+        $pet_res = $this->request->getGet('pet_res');
+        $party_name = $this->request->getGet('party_name');
+        $act_msc = $this->request->getGet('act_msc');
+        $lst_month = $this->request->getGet('lst_month');
+        $lst_year = $this->request->getGet('lst_year');
+        $ason_type = $this->request->getGet('ason_type');
+        $from_fil_dt = $this->request->getGet('from_fil_dt');
+        $upto_fil_dt = $this->request->getGet('upto_fil_dt');
+        $rpt_purpose = $this->request->getGet('rpt_purpose');
+        $spl_case = $this->request->getGet('spl_case');
+        $concept = $this->request->getGet('concept');
+        $main_connected = $this->request->getGet('main_connected');
+        $act = $this->request->getGet('act');
+        $order_by = $this->request->getGet('order_by');
+        $adv_opt = $this->request->getGet('adv_opt');
+        $case_status_id = $this->request->getGet('case_status_id');
+        $subcat2 = $this->request->getGet('subcat2');
+        $subcat2_length = $this->request->getGet('subcat2_length');
+       
+       
+        if ($rpt_type == 'year') {
+            if ($nature_wise_to == 'y' || $year_wise_tot == 'all') {
+                $year_condition = " ";
+                $year_condition_last_heardt = " ";
+            } else {
+                $year_condition = " and substr(m.diary_no::text,-4)='" . $year . "' ";
+                $year_condition_last_heardt = " and SUBSTR(m.diary_no::text,-4)='" . $year . "' ";
+            }
+        } else {
+            $year_condition = " ";
+            $year_condition_last_heardt = " ";
+        }
+
+
+        if ($mf == 'all') 
+        $mf = '';
+        else if ($mf == 'N')
+        $mf = " and mainhead not in ('M','F')";
+        else 
+        $mf = " and  mainhead ='" . $mf . "'";
+        $head_bench = '';
+        if ($this->request->getGet('bench') == 'S')      $head_bench = ' Single bench ';
+        elseif ($this->request->getGet('bench') == 'D')  $head_bench = ' Divisional bench ';
+        else if ($this->request->getGet('bench') == 'F') $head_bench = ' Full bench ';
+        else if ($this->request->getGet('bench') == 'all') $head_bench = ' All benches ';
+        else if ($this->request->getGet('bench') == 'B') $head_bench = ' Bench not in (SB, DB, FB) ';
+
+        if ($mf == 'M')      $head_mf = ' Motion Hearing ';
+        elseif ($mf == 'F')  $head_mf = ' Final Hearing ';
+        else if ($mf == 'all') $head_mf = ' All Hearing ';
+        else if ($mf == 'N') $head_mf = ' Mainhead not in (Motion ,Final) ';
+
+        $til_date = explode("-", $til_date);
+        $til_dt = $til_date[2] . "-" . $til_date[1] . "-" . $til_date[0];
+
+        if ($rpt_purpose == 'sw') {
+            $subhead_name = "subhead_n";
+            $mainhead_name = "mainhead_n";
+        } else {
+            $subhead_name = "subhead";
+            $mainhead_name = "mainhead";
+        }
+
+        if ($subhead == 'all,' || $subhead == '') {
+            $subhead = '';
+            $subhead_if_heardt = " ";
+            $subhead_if_last_heardt = " ";
+            $subhead_condition = " ";
+            $head_subhead = ' ';
+        } else {
+            $subhead = "  and l." . $subhead_name . " in (" . substr($subhead, 0, -1) . ")";
+            $subhead_if_heardt = " and h." . $subhead_name . " in (" . substr($subhead, 0, -1) . ") ";
+            $subhead_if_last_heardt = " and f2." . $subhead_name . " in (" . substr($subhead, 0, -1) . ") ";
+
+            $subhead_if_heardt_con = "  h." . $subhead_name . " in (" . substr($subhead, 0, -1) . ") ";
+            $subhead_if_last_heardt_con = "  f2." . $subhead_name . " in (" . substr($subhead, 0, -1) . ") ";
+
+            if ($til_date != date('d-m-Y')) {
+            $subhead_condition = " AND
+        if(date(h.ent_dt)<'" . $til_dt . "' and date(h.ent_dt)>med," . $subhead_if_heardt_con . "," . $subhead_if_last_heardt_con . "  )";
+            $head_subhead = $this->stagename(substr($subhead, 0, -1));
+            } else {
+            $subhead_condition = "  AND " . $subhead_if_heardt_con;
+            $head_subhead = $this->stagename(substr($subhead, 0, -1));
+            }
+        }
+
+        if (trim($subcat2) == 'all,') 
+        {
+            if (trim($subcat) == 'all,') 
+            {
+            if (trim($cat) == 'all,') {
+                if (trim($subject) == 'all,') {
+                $all_category = " ";
+                } else
+                $all_category = "  s.subcode1 in (" . substr($subject, 0, -1) . ")";
+            } else {
+                $head1 = explode(',', $cat);
+                for ($m = 0; $m < $cat_length; $m++) {
+                $head = explode('|', $head1[$m]);
+                if ($m == 0)
+                    $str_all_cat = "  (s.subcode1 =" . $head[0] . " and s.subcode2=" . $head[1] . ")";
+                else
+                    $str_all_cat = " (( s.subcode1 =" . $head[0] . " and s.subcode2=" . $head[1] . ") OR " . $str_all_cat . ")";
+                }
+                $all_category = $str_all_cat;
+            }
+            
+            } else {
+            $head1 = explode(',', $subcat);
+            for ($m = 0; $m < $subcat_length; $m++) {
+                $head = explode('|', $head1[$m]);
+
+                if ($m == 0)
+                $str_all_cat = "  (s.subcode1 =" . $head[0] . " and s.subcode2=" . $head[1] . " and s.subcode3=" . $head[2] . ")";
+                else
+                $str_all_cat = " (( s.subcode1 =" . $head[0] . " and s.subcode2=" . $head[1] . " and s.subcode3=" . $head[2] . ") OR " . $str_all_cat . ")";
+            }
+
+            $all_category = $str_all_cat;
+            }
+        } else {
+            $head1 = explode(',', $subcat2);
+            for ($m = 0; $m < $subcat2_length; $m++) {
+            $head = explode('|', $head1[$m]);
+
+            if ($m == 0)
+                $str_all_cat = "  (s.subcode1 =" . $head[0] . " and s.subcode2=" . $head[1] . " and s.subcode3=" . $head[2] . " and s.subcode4=" . $head[3] . ")";
+            else
+                $str_all_cat = " (( s.subcode1 =" . $head[0] . " and s.subcode2=" . $head[1] . " and s.subcode3=" . $head[2] . " and s.subcode4=" . $head[3] . ") OR " . $str_all_cat . ")";
+            }
+
+            $all_category = $str_all_cat;
+        }
+
+        if (trim($act) == 'all,') {
+            $all_act = " ";
+        } else {
+            if (trim($subject) == 'all,')
+            $all_act = " a.act in (" . substr($act, 0, -1) . ")";
+            else
+            $all_act = " or a.act in (" . substr($act, 0, -1) . ")";
+        }
+
+        if (trim($act) == 'all,' && trim($subject) == 'all,')
+            $cat_and_act = " ";
+        else
+            $cat_and_act = " and ( " . $all_category . " " . $all_act . " )";
+
+
+            if (trim($subject) != 'all,' || trim($act) != 'all,' || trim($act_msc) != '') {
+                $mul_cat_join = " LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no 
+                            LEFT JOIN submaster s ON mc.submaster_id = s.id";
+                $cat_field = " ,mc.submaster_id ";
+            } else {
+                $mul_cat_join = " ";
+                $cat_field = " ";
+            }
+
+            if (empty($from_year) || empty($to_year)) {
+                if (empty($from_year) && !empty($to_year)) {
+                    $year_main = " AND substring( m.diary_no,-4 ) <= '" . $to_year . "' ";
+                    $year_lastheardt = " AND substring( l.diary_no,-4 ) <= '" . $to_year . "' ";
+                } elseif (!empty($from_year) && empty($to_year)) {
+                    $year_main = " AND substring( m.diary_no,-4 ) >= '" . $from_year . "' ";
+                    $year_lastheardt = " AND substring( l.diary_no,-4 ) >= '" . $from_year . "' ";
+                } else {
+                    $year_main = " ";
+                    $year_lastheardt = " ";
+                }
+            } else {
+                $year_main = " AND substring( m.diary_no,-4 ) BETWEEN '" . $from_year . "' AND '" . $to_year . "' ";
+                $year_lastheardt = " AND substring( l.diary_no,-4 ) BETWEEN '" . $from_year . "' AND '" . $to_year . "' ";
+            }
+
+            if (empty($from_fil_dt)) {
+                $from_fil_dt_condition = " ";
+            } else {
+                $from_fil_date = date('Y-m-d', strtotime($from_fil_dt));
+                $from_fil_dt_condition = " AND date( m.diary_no_rec_date) >'" . $from_fil_date . "' ";
+            }
+
+            if (empty($upto_fil_dt)) {
+                $upto_fil_dt_condition = " ";
+            } else {
+                $upto_fil_date = date('Y-m-d', strtotime($upto_fil_dt));
+                $upto_fil_dt_condition = " AND date( m.diary_no_rec_date) <'" . $upto_fil_date . "' ";
+            }
+
+            if (trim($party_name) == '') {
+                $join_party = " ";
+                $party_name_condition = "  ";
+            } else {
+                $join_party = " LEFT JOIN party p ON m.fil_no = p.fil_no ";
+                $party_name_condition = " and (partyname like'%HIGH%COURT%'   OR  partyname like'%registrar%gen%'   )  ";
+            }
+
+            $pet_res_condition = empty($pet_res) ? "  " : " AND pet_res= '" . $pet_res . "' ";
+
+
+            if ($_GET['act_msc'] == '')
+                $act_msc = '';
+            else
+                $act_msc = " and (a.section  like '%" . $_GET['act_msc'] . "%' OR m.act  like '%" . $_GET['act_msc'] . "%'  or usec1  like '%" . $_GET['act_msc'] . "%'  OR usec2  like '%" . $_GET['act_msc'] . "%' OR desc1  like '%" . $_GET['act_msc'] . "%' ) ";
+
+
+            if ($ason_type == 'dt') {
+                $til_date = explode("-", $this->request->getGet('til_date'));
+                $til_dt = $til_date[2] . "-" . $til_date[1] . "-" . $til_date[0];
+
+                $ason_str = " IF(d.rj_dt != '0000-00-00',d.rj_dt >= '" . $til_dt . "',
+                        IF( d.`disp_dt` != '0000-00-00' AND d.`disp_dt` IS NOT NULL ,d.disp_dt >='" . $til_dt . "', concat(d.year,'-',lpad(d.month,2,0),'-01') >= '" . $til_dt . "'	 )    )  ";
+
+                $ason_str_res = " IF(disp_rj_dt != '0000-00-00',disp_rj_dt >= '" . $til_dt . "',
+                        IF( r.disp_dt != '0000-00-00' AND r.disp_dt IS NOT NULL ,r.disp_dt >='" . $til_dt . "', concat(r.disp_year,'-',lpad(r.disp_month,2,0),'-01') >= '" . $til_dt . "'	 )    )  ";
+
+                $exclude_cond = " CASE WHEN r.disp_dt IS NOT NULL 
+                        AND r.conn_next_dt IS NOT NULL
+                THEN '" . $til_dt . "' NOT BETWEEN r.disp_dt AND conn_next_dt
+                ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL 
+                END 
+            OR r.fil_no IS NULL	";
+
+                $exclude_cond_other = " CASE WHEN r.disp_dt IS NOT NULL 
+                        AND r.conn_next_dt IS NOT NULL
+                THEN '" . $til_dt . "' NOT BETWEEN r.disp_dt AND conn_next_dt
+                ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL 
+                END 
+                ";
+            } else
+            if ($ason_type == 'month') {
+                $til_dt = $lst_year . "-" . str_pad($lst_month, 2, "0", STR_PAD_LEFT) . "-01";
+
+                $ason_str = " IF(d.rj_dt != '0000-00-00',d.rj_dt >= '" . $til_dt . "', 
+                            IF(d.month =0,d.disp_dt >='" . $til_dt . "', concat(d.year,'-',lpad(d.month,2,0),'-01' ) >= '" . $til_dt . "' 
+                            ) 
+                        ) ";
+
+                $ason_str_res = " IF(r.disp_rj_dt != '0000-00-00',r.disp_rj_dt >= '" . $til_dt . "', 
+                            IF(r.disp_month =0,r.disp_dt >='" . $til_dt . "', concat(r.disp_year,'-',lpad(r.disp_month,2,0),'-01' ) >= '" . $til_dt . "' 
+                            ) 
+                        ) ";
+
+                $exclude_cond = " CASE 
+            WHEN r.disp_month != '0' AND r.disp_month IS NOT NULL AND r.month != '0' AND r.month IS NOT NULL 
+            THEN '" . $til_dt . "' NOT BETWEEN concat(r.disp_year,'-',lpad(r.disp_month,2,'0'),'-01') AND concat(r.year,'-',lpad(r.month,2,'0'),'-01') 
+            WHEN  r.month != '0' AND r.month IS NOT NULL 
+            THEN concat(r.year,'-',lpad(r.month,2,'0'),'-01')!='" . $til_dt . "'
+            ELSE r.disp_month = '0' OR r.`disp_month` IS NULL OR r.month = '0' OR r.month IS NULL END OR r.fil_no IS NULL 	";
+
+                $exclude_cond_other = " CASE 
+            WHEN r.disp_month != '0' AND r.disp_month IS NOT NULL AND r.month != '0' AND r.month IS NOT NULL 
+            THEN '" . $til_dt . "' NOT BETWEEN concat(r.disp_year,'-',lpad(r.disp_month,2,'0'),'-01') 
+            AND concat(r.year,'-',lpad(r.month,2,'0'),'-01') 
+            WHEN  r.month != '0' AND r.month IS NOT NULL 
+            THEN concat(r.year,'-',lpad(r.month,2,'0'),'-01')!='" . $til_dt . "'
+            ELSE r.disp_month = '0' OR r.`disp_month` IS NULL OR r.month = '0' OR r.month IS NULL END 	";
+            } else
+            if ($ason_type == 'ent_dt') {
+                $til_date = explode("-", $_GET['til_date']);
+                $til_dt = $til_date[2] . "-" . $til_date[1] . "-" . $til_date[0];
+
+                $ason_str = " d.ent_dt >= '" . $til_dt . "' ";
+                $ason_str_res = " r.disp_ent_dt >= '" . $til_dt . "' ";
+
+
+                $exclude_cond = " CASE WHEN r.`entry_date` IS NOT NULL 
+                        AND  r.disp_ent_dt IS NOT NULL
+            THEN '" . $til_dt . "' NOT BETWEEN date(r.disp_ent_dt) AND entry_date
+            ELSE r.`disp_ent_dt` IS NULL OR r.entry_date IS NULL  END 
+            OR r.fil_no IS NULL	";
+
+                $exclude_cond_other = " CASE WHEN  r.`entry_date` IS NOT NULL 
+                        AND  r.disp_ent_dt IS NOT NULL
+            THEN '" . $til_dt . "' NOT BETWEEN date(r.disp_ent_dt) AND `entry_date` 
+            ELSE r.`disp_ent_dt` IS NULL OR r.entry_date IS NULL  END ";
+            }
+
+
+            if ($year_wise_tot == 'y' || $year_wise_tot == 'all') {
+                $year_tot = " ";
+                $year_tot_main = " ";
+            } else {
+                $year_tot = " and substr(l.fil_no,4,2)='" . $this->casetype($skey) . "' ";
+                if(empty($this->casetype($skey)) )
+                $year_tot_main = " and IF(m.active_casetype_id=0,m.casetype_id ,m.active_casetype_id) ='" . $this->casetype($skey) . "' ";
+                else
+                $year_tot_main ="";
+            }
+            $mf_h_table=''; 
+            $mf_f2_table='';
+            if ($concept == 'new') {
+
+                if ($this->request->getGet('mf') == 'M') {
+                    $mf_f2_table = " ( f2." . $mainhead_name . "= '" . $mf . "' AND (admitted='' OR admitted IS NULL) )";
+                    $mf_h_table = " (h." . $mainhead_name . "= '" . $mf . "' AND (admitted='' OR admitted IS NULL) )";
+                }
+                if ($this->request->getGet('mf') == 'F') {
+                    $mf_f2_table = " ( f2." . $mainhead_name . "= '" . $mf . "' OR (admitted!='' AND admitted IS NOT NULL) ) ";
+                    $mf_h_table = " ( h." . $mainhead_name . "= '" . $mf . "' OR (admitted!='' AND admitted IS NOT NULL) )";
+                    //$mf_f2_table=" mainhead_n = 'F' OR (admitted != '' AND admitted IS NOT NULL) ";
+                }
+            } elseif ($concept == 'old') {
+                if ($this->request->getGet('mf') == 'M') {
+                    $mf_f2_table = " f2." . $mainhead_name . "= '" . $mf . "' ";
+                    $mf_h_table = " h." . $mainhead_name . "= '" . $mf . "' ";
+                }
+                if ($this->request->getGet('mf') == 'F') {
+                    $mf_f2_table = " f2." . $mainhead_name . "= '" . $mf . "'  ";
+                    $mf_h_table = " h." . $mainhead_name . "= '" . $mf . "'  ";
+                    //$mh_fh=" mainhead_n = 'F' OR (admitted != '' AND admitted IS NOT NULL) ";
+                }
+            }
+
+            if ($_GET['main_connected'] == 'main')
+                $main_connected = " and ( m.diary_no = m.conn_key OR m.conn_key = '' OR m.conn_key IS NULL ) ";
+            else
+                $main_connected = " ";
+
+            if ($_GET['order_by'] == 'case')
+                $order_by = " order by substr(m.fil_no,3,3),substr(m.fil_no,11,4),substr(m.fil_no,6,5) ";
+            elseif ($_GET['order_by'] == 'fil_dt')
+                $order_by = " order by date(m.active_fil_dt) ";
+            elseif ($_GET['order_by'] == 'da')
+                $order_by = " order by m.dacode ";
+            
+            if ($adv_opt == 'Y') {
+                $adv_field_list = " group_concat(
+            IF(pet_res='P',cast(concat(a2.pet_res_no,' - ',a2.adv,' ') AS char),'') ORDER BY a2.pet_res_no SEPARATOR ' ')pet_adv2, 
+            group_concat(
+            IF (pet_res='R', cast(concat(a2.pet_res_no,' - ',a2.adv,' ' ) AS char ) , '' ) ORDER BY a2.pet_res_no SEPARATOR ' ' )res_adv2, ";
+                $adv_join = " LEFT JOIN advocate a2 ON a2.diary_no = m.diary_no ";
+            } else {
+                $adv_field_list = " '' as pet_adv2, '' as res_adv2, ";
+                $adv_join = " ";
+            }
+
+            $add_table = '';
+            
+            if ($case_status_id == 'all,') {
+                $case_status_id = " and case_status_id in (1, 2, 3, 6, 7, 9 ) ";
+                $add_table = '';
+            } elseif ($case_status_id == 103 || $case_status_id == '103,') {
+                $case_status_id = " ";
+            } elseif ($case_status_id == 101 || $case_status_id == '101,') {
+                $case_status_id = " and o.rm_dt = '0000-00-00 00:00:00' 
+                AND o.display = 'Y' 
+                AND m.c_status = 'P' 
+                AND (m.fil_no IS NULL 
+                OR m.fil_no = '')";
+                $add_table = ' LEFT JOIN obj_save o ON o.diary_no = m.diary_no ';
+            } elseif ($case_status_id == 102 || $case_status_id == '102,') {
+                //$case_status_id=" and m.diary_no NOT IN (SELECT DISTINCT diary_no FROM `obj_save` WHERE rm_dt = '0000-00-00 00:00:00' AND display = 'Y' ) "; 
+                $case_status_id = " and (!(m.fil_no IS NULL OR m.fil_no = '')) ";
+                $add_table = '';
+            } else {
+                $case_status_id = " and case_status_id in (" . substr($_GET['case_status_id'], 0, -1) . ")";
+                $add_table = '';
+            }
+
+
+            //INNER JOIN vw3 f2 ON m.fil_no = f2.fil_no	 
+            // having mainhead = '".$mf."'  and mnd=next_dt
+            if ($mf != 'ALL') {
+                if ($this->request->getGet('til_date') != date('d-m-Y')) {
+                    $t = "CREATE TEMPORARY TABLE vw2 
+                            SELECT MAX(ent_dt) AS med, " . $subhead_name . ", " . $mainhead_name . ", fil_no
+                            FROM `last_heardt` l
+                            WHERE DATE(ent_dt) < '" . $til_dt . "' 
+                            " . $year_condition_last_heardt . " " . $year_tot . "
+                            GROUP BY diary_no";
+
+                    $this->db->query($t);
+
+                    $t2 = "CREATE INDEX id_index ON vw2 (fil_no)";
+                    $this->db->query($t2);
+
+                    $t3 = "CREATE TEMPORARY TABLE vw3 SELECT l.fil_no, l." . $subhead_name . ", l." . $mainhead_name . ", l.jud1, med, next_dt
+                            FROM vw2 
+                            INNER JOIN last_heardt l ON vw2.fil_no = l.fil_no
+                            AND l.ent_dt = med
+                            AND l." . $mainhead_name . " = '" . $mf . "' " . $subhead . " " . $year_condition_last_heardt . " " . $year_tot;
+                    $this->db->query($t3);
+
+                    $t4 = "CREATE INDEX id_index2 ON vw3 (fil_no)";
+                    $this->db->query($t4);
+                }
+
+                if ($this->request->getGet('til_date') != date('d-m-Y')) {
+                    $sql = "
+                        SELECT " . $adv_field_list . " m.diary_no_rec_date,tentative_cl_dt, m.active_fil_no, m.active_fil_dt, m.active_reg_year, m.active_casetype_id, m.casetype_id, c_status, d.rj_dt, d.month, d.year, d.disp_dt,  
+                        r.disp_month, r.disp_year, f2." . $subhead_name . " AS last_subhead, med, h.ent_dt, h." . $mainhead_name . " AS mainhead, r.conn_next_dt, r.disp_dt AS disp_dt_res, m.pet_name, m.res_name, h.next_dt " . $cat_field . ", m.bench, m.lastorder, h.judges, m.diary_no
+                        FROM main m 
+                        LEFT JOIN dispose d ON m.diary_no = d.diary_no  
+                        LEFT JOIN restored r ON m.diary_no = r.diary_no  
+                        LEFT JOIN heardt h ON m.diary_no = h.diary_no  
+                        LEFT JOIN vw3 f2 ON m.diary_no = f2.diary_no
+                        LEFT JOIN act_main a ON a.diary_no = m.diary_no " . $add_table . $mul_cat_join . " " . $act_join . " " . $adv_join . " " . $join_party . "
+                        WHERE 1=1 " . $party_name . " " . $pet_res . " " . $year_main . " " . $from_fil_dt . " " . $upto_fil_dt . " " . $case_status_id . " " . $cat_and_act . " " . $act_msc . " " . $main_connected . "
+                        AND IF(med > h.ent_dt AND f2." . $mainhead_name . " IS NOT NULL, " . $mf_f2_table . " " . $subhead_if_last_heardt . ", " . $mf_h_table . " " . $subhead_if_last_heardt . ")
+                        AND (
+                    CASE WHEN r.disp_dt IS NOT NULL 
+                                AND r.conn_next_dt IS NOT NULL
+                        THEN '".$til_dt."' NOT BETWEEN r.disp_dt AND conn_next_dt
+                        ELSE r.`disp_dt` IS NULL OR r.conn_next_dt IS NULL 
+                        END 
+                    OR r.diary_no IS NULL
+                    )
+                        " . $subhead_condition . " AND
+                        DATE(m.diary_no_rec_date) < '" . $til_dt . "' " . $year_condition . " " . $year_tot_main . " AND (c_status = 'P' AND DATE(m.diary_no_rec_date) < '" . $til_dt . "')
+                        OR (
+                            c_status = 'D' 
+                            AND IF(med > h.ent_dt AND f2." . $mainhead_name . " IS NOT NULL, " . $mf_f2_table . " " . $subhead_if_last_heardt . ", " . $mf_h_table . " " . $subhead_if_last_heardt . ")
+                            AND " . $ason_str . " AND DATE(m.diary_no_rec_date) < '" . $til_dt . "' " . $year_condition . " " . $year_main . " " . $year_tot_main . " " . $from_fil_dt . " " . $upto_fil_dt . " " . $cat_and_act . " " . $party_name . " " . $pet_res . " " . $act_msc . " " . $main_connected . "
+                        )
+                        OR (" . $ason_str_res . " 
+                            AND IF(med > h.ent_dt AND f2." . $mainhead_name . " IS NOT NULL, " . $mf_f2_table . " " . $subhead_if_last_heardt . ", " . $mf_h_table . " " . $subhead_if_last_heardt . ")
+                            AND DATE(m.diary_no_rec_date) < '" . $til_dt . "' " . $year_condition . " " . $year_main . " " . $year_tot_main . " " . $from_fil_dt . " " . $upto_fil_dt . " " . $cat_and_act . " " . $party_name . " " . $pet_res . " " . $act_msc . " " . $main_connected . "
+                        )
+                        GROUP BY m.diary_no,tentative_cl_dt,d.rj_dt,d.month,d.year,d.disp_dt,r.disp_month,r.disp_year,h.ent_dt,h.mainhead_n,r.conn_next_dt,h.next_dt,h.judges,r.disp_dt " . $order_by;
+                } else {
+                    $sql = "
+                        SELECT " . $adv_field_list . " m.diary_no_rec_date,tentative_cl_dt, m.active_fil_no, m.active_fil_dt, m.active_reg_year, m.active_casetype_id, m.casetype_id, c_status, d.rj_dt, d.month, d.year, d.disp_dt, 
+                        r.disp_month, r.disp_year, h.ent_dt, h." . $mainhead_name . " AS mainhead, r.conn_next_dt, r.disp_dt AS disp_dt_res, m.pet_name, m.res_name, h.next_dt " . $cat_field . ", m.bench, m.lastorder, h.judges, m.diary_no
+                        FROM main m 
+                        LEFT JOIN dispose d ON m.diary_no = d.diary_no  
+                        LEFT JOIN restored r ON m.diary_no = r.diary_no  
+                        LEFT JOIN heardt h ON m.diary_no = h.diary_no  
+                        " . $add_table . $mul_cat_join . " " . $act_join . " " . $adv_join . " " . $join_party . "
+                        WHERE " . $mf_h_table . " " . $party_name . " " . $pet_res . " " . $year_main . " " . $from_fil_dt . " " . $upto_fil_dt . " " . $case_status_id . " " . $cat_and_act . " " . $act_msc . " " . $main_connected . "
+                         (
+                    CASE WHEN r.disp_dt IS NOT NULL 
+                                AND r.conn_next_dt IS NOT NULL
+                        THEN '".$til_dt."' NOT BETWEEN r.disp_dt AND conn_next_dt
+                        ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL 
+                        END 
+                    OR r.diary_no IS NULL
+                    )
+                        " . $subhead_condition . " AND
+                        DATE(m.diary_no_rec_date) < '" . $til_dt . "' " . $year_condition . " " . $year_tot_main . " AND (c_status = 'P' AND DATE(m.diary_no_rec_date) < '" . $til_dt . "')
+                        GROUP BY m.diary_no,tentative_cl_dt,d.rj_dt,d.month,d.year,d.disp_dt,r.disp_month,r.disp_year,h.ent_dt,h.mainhead_n,r.conn_next_dt,h.next_dt,h.judges,r.disp_dt " . $order_by;
+                }
+            }
+            else {
+                if ($this->request->getGet('til_date') != date('d-m-Y')) {
+                    $sql = "
+                SELECT {$adv_field_list} m.diary_no_rec_date, m.active_fil_no, tentative_cl_dt,m.active_fil_dt, m.active_reg_year, m.active_casetype_id, m.casetype_id, c_status, d.rj_dt, d.month, d.year, d.disp_dt, 
+                r.disp_month, r.disp_year, r.conn_next_dt, r.disp_dt as res_disp_dt, m.pet_name, m.res_name, {$mainhead_name}, next_dt {$cat_field}, m.bench, m.lastorder, h.judges, m.diary_no
+                FROM main m 
+                LEFT JOIN heardt h ON m.diary_no = h.diary_no 
+                LEFT JOIN dispose d ON m.diary_no = d.diary_no  
+                LEFT JOIN restored r ON m.diary_no = r.diary_no    
+                LEFT JOIN act_main a ON a.diary_no = m.diary_no {$add_table} {$mul_cat_join} {$act_join} {$adv_join} {$join_party}
+                WHERE 1=1 {$party_name} {$pet_res} {$year_main} {$from_fil_dt} {$upto_fil_dt} {$case_status_id} {$cat_and_act} {$act_msc} {$main_connected} AND 
+                (
+                    CASE WHEN r.disp_dt IS NOT NULL 
+                                AND r.conn_next_dt IS NOT NULL
+                        THEN '".$til_dt."' NOT BETWEEN r.disp_dt AND conn_next_dt 
+                        ELSE r.`disp_dt` IS NULL OR r.conn_next_dt IS NULL 
+                        END 
+                    OR r.diary_no IS NULL
+                    )
+                AND
+                DATE(m.diary_no_rec_date) < '{$til_dt}' {$year_condition} {$year_tot_main} AND (c_status = 'P' AND DATE(m.diary_no_rec_date) < '{$til_dt}')
+                OR 
+                (
+                    c_status = 'D' AND {$ason_str} AND DATE(m.diary_no_rec_date) < '{$til_dt}' {$year_condition} {$year_main} {$year_tot_main} {$from_fil_dt} {$upto_fil_dt} {$cat_and_act} {$party_name} {$pet_res} {$act_msc} {$main_connected}
+                )
+                OR ({$ason_str_res} AND DATE(m.diary_no_rec_date) < '{$til_dt}' {$year_condition} {$year_main} {$year_tot_main} {$from_fil_dt} {$upto_fil_dt} {$cat_and_act} {$party_name} {$pet_res} {$act_msc} {$main_connected})
+                GROUP BY m.diary_no,tentative_cl_dt,d.rj_dt,d.month,d.year,d.disp_dt,r.disp_month,r.disp_year,h.ent_dt,h.mainhead_n,r.conn_next_dt,h.next_dt,h.judges,r.disp_dt{$order_by}";
+                } else {
+                    $sql = "
+                SELECT {$adv_field_list} m.diary_no_rec_date,tentative_cl_dt, m.active_fil_no, m.active_fil_dt, m.active_reg_year, m.active_casetype_id, m.casetype_id, c_status, d.rj_dt, d.month, d.year, d.disp_dt,
+                r.disp_month, r.disp_year, r.conn_next_dt, r.disp_dt as res_disp_dt, m.pet_name, m.res_name, {$mainhead_name}, next_dt {$cat_field}, m.bench, m.lastorder, h.judges, m.diary_no
+                FROM main m 
+                LEFT JOIN heardt h ON m.diary_no = h.diary_no 
+                LEFT JOIN dispose d ON m.diary_no = d.diary_no  
+                LEFT JOIN restored r ON m.diary_no = r.diary_no    
+                LEFT JOIN act_main a ON a.diary_no = m.diary_no {$add_table} {$mul_cat_join} {$act_join} {$adv_join} {$join_party}
+                WHERE 1=1 {$party_name} {$pet_res} {$year_main} {$from_fil_dt} {$upto_fil_dt} {$case_status_id} {$cat_and_act} {$act_msc} {$main_connected} AND 
+                (
+                    CASE WHEN r.disp_dt IS NOT NULL 
+                                AND r.conn_next_dt IS NOT NULL
+                        THEN '".$til_dt."' NOT BETWEEN r.disp_dt AND conn_next_dt
+                        ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL 
+                        END 
+                    OR r.diary_no IS NULL
+                    )
+                AND
+                DATE(m.diary_no_rec_date) < '{$til_dt}' {$year_condition} {$year_tot_main} AND (c_status = 'P' AND DATE(m.diary_no_rec_date) < '{$til_dt}')
+                GROUP BY m.diary_no ,d.rj_dt,d.month,d.year,d.disp_dt,r.disp_month,r.disp_year,h.ent_dt,h.mainhead_n,r.conn_next_dt,h.next_dt,h.judges,r.disp_dt,tentative_cl_dt {$order_by}";
+                }
+            }
+            // echo $sql;
+            $query = $this->db->query($sql);
+            $result = $query->getResultArray();
+            $data['table'] = $result;
+            $data['skey'] = $skey;
+            $data['mainhead_name'] = $mainhead_name;
+            $data['subhead_name'] = $subhead_name;
+            $data['til_dt']=$til_dt;
+            $data['year_wise_tot'] = $year_wise_tot;
+            $data['case_status_id'] = $case_status_id;
+            return view('ManagementReport/Pending/show_case_for_ason', $data);
+            }
+
+    
+
+        function casetype($skey)
+        {
+            $db = \Config\Database::connect();
+            $builder = $db->table('master.casetype');
+            $builder->select('casecode');
+            $builder->where('skey', $skey);
+            $query = $builder->get();
+            $result = $query->getRowArray();
+
+            return $result ? $result['casecode'] : " ";
+        }
+
+        function judge($jcode)
+        {
+            $db = \Config\Database::connect();
+            $builder = $db->table('judge');
+            $builder->select('jname');
+            $builder->where('jcode', $jcode);
+            $query = $builder->get();
+            $result = $query->getRowArray();
+
+            return $result ? $result['jname'] : " ";
+        }
+
+        function casetype2($casecode)
+        {
+            $db = \Config\Database::connect();
+            $builder = $db->table('master.casetype');
+            $builder->select('short_description');
+            $builder->where('casecode', $casecode);
+            $query = $builder->get();
+            $result = $query->getRowArray();
+
+            return $result ? $result['short_description'] : " ";
+        }
+    
+
+  
+
     private function get_case_type()
     {
         $builder = $this->db->table('master.casetype');
