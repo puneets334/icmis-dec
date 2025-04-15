@@ -185,7 +185,7 @@ if (!empty($results)) {
 	left:0;
 	width:100%;
 	height:100%;z-index: 105">
-        <div id="sp_close" style="text-align: right;cursor: pointer;width: 40px;float: right" onclick="closeData()"><b><img src="../../images/close_btn.png" style="width:30px;height:30px" /></b></div>
+        <div id="sp_close" style="text-align: right;cursor: pointer;width: 40px;float: right" onclick="closeData()"><b><img src="<?php echo base_url()?>/images/close_btn.png" style="width:30px;height:30px" /></b></div>
 
         <div style="width: auto;background-color: white;overflow: hidden;height: 550px;margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;word-wrap: break-word;width: 100%" id="ggg" onkeypress="return  nb(event)" onmouseup="checkStat()">
             <object id="ob_shw" style="width: 100%;height: 550px" type="application/pdf"></object>
@@ -203,7 +203,7 @@ if (!empty($results)) {
 	left:0;
 	width:100%;
 	height:100%;z-index: 105">
-        <div id="sp_close1" style="text-align: right;cursor: pointer;width: 40px;float: right;margin-right: 30px;" onclick="closeData1()"><b><img src="../../images/close_btn.png" style="width:30px;height:30px" /></b></div>
+        <div id="sp_close1" style="text-align: right;cursor: pointer;width: 40px;float: right;margin-right: 30px;" onclick="closeData1()"><b><img src="<?php echo base_url()?>/images/close_btn.png" style="width:30px;height:30px" /></b></div>
 
         <div style="width: auto;background-color: white;overflow: hidden;height: 550px;margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;word-wrap: break-word;width: 100%" id="ggg1" onkeypress="return  nb(event)" onmouseup="checkStat()">
 
