@@ -69,9 +69,6 @@ class ReportModel extends Model
                 ORDER BY 
                     o.orderdate ASC
         ";
-
-        // echo $sql;
-
         $query = $this->db->query($sql);
 
         if ($query->getNumRows() >= 1) {
@@ -161,7 +158,7 @@ class ReportModel extends Model
                                    FROM ($finalSql) AS final 
                                    ORDER BY final.sno ASC");
 
-        return $query->getResult();
+        return $query->getResultArray();
     }
     public function getJudges()
     {
@@ -388,7 +385,6 @@ class ReportModel extends Model
         if ($limit_number > 0) {
             $limit = " limit " . $limit_number;
         }
-
         $order_by = '';
         if ($sortby == 2) {
             $order_by = "ORDER BY 
@@ -398,39 +394,35 @@ class ReportModel extends Model
             CAST(RIGHT(CAST(m.diary_no AS TEXT), 4) AS BIGINT) ASC, 
             CAST(NULLIF(REGEXP_REPLACE(m.active_fil_no, '[^0-9]', '', 'g'), '') AS BIGINT) ASC,
             CAST(LEFT(CAST(m.diary_no AS TEXT), LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS BIGINT) ASC";
-        }
-        
+        }        
         $mainhead_title = '';
         $upto_list_dt = '';
         if ($mainhead == 'M') {
             $mainhead_title = 'Misc. Stage';
             $upto_list_dt = "AND h.next_dt <= '" . date("Y-m-d", strtotime($list_date)) . "'";
-
             $sql = "select * from (select case 
-                        when h.clno > 0 and h.next_dt >= CURRENT_DATE  then 1
-                        when a.diary_no is not null then 2
-                        when h.main_supp_flag = 0 and h.listorder in (4,5) then 3
-                        when h.main_supp_flag = 0 and h.listorder = 7 then 4
-                        when h.main_supp_flag = 0 and h.listorder in (25,8,24,21,48) then 5
-                        else 6 end case_priority,
-                        a.diary_no as advance_list, 
-                        m.pet_name, m.res_name, m.reg_no_display,m.active_casetype_id,m.active_fil_dt,m.active_fil_no,
-                        h.* from main m
-                        inner join heardt h on h.diary_no = m.diary_no
-                        left join advance_allocated a on a.diary_no = m.diary_no and a.next_dt = h.next_dt and h.next_dt >= CURRENT_DATE 
-                        where m.c_status = 'P' 
-                        AND (m.diary_no = m.conn_key::bigint OR m.conn_key='0' OR m.conn_key = '' OR m.conn_key IS NULL)
-                        and m.mf_active != 'F' and h.mainhead = 'M' and h.board_type = 'J' 
-                        and h.listorder != 32 $upto_list_dt
-                        group by m.diary_no, h.clno, h.next_dt, a.diary_no, h.main_supp_flag, h.listorder, h.diary_no
-                        order by case_priority asc, 
-                        h.next_dt, 
-                         CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM LENGTH(CAST(h.diary_no AS TEXT))-3 FOR 4) AS INTEGER) ASC, 
-                        CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(h.diary_no AS TEXT))-4) AS INTEGER) ASC
-                        
-                        $limit) m $order_by";
+                when h.clno > 0 and h.next_dt >= CURRENT_DATE  then 1
+                when a.diary_no is not null then 2
+                when h.main_supp_flag = 0 and h.listorder in (4,5) then 3
+                when h.main_supp_flag = 0 and h.listorder = 7 then 4
+                when h.main_supp_flag = 0 and h.listorder in (25,8,24,21,48) then 5
+                else 6 end case_priority,
+                a.diary_no as advance_list, 
+                m.pet_name, m.res_name, m.reg_no_display,m.active_casetype_id,m.active_fil_dt,m.active_fil_no,
+                h.* from main m
+                inner join heardt h on h.diary_no = m.diary_no
+                left join advance_allocated a on a.diary_no::bigint = m.diary_no and a.next_dt = h.next_dt and h.next_dt >= CURRENT_DATE 
+                where m.c_status = 'P' 
+                AND (m.diary_no = NULLIF(m.conn_key, '')::bigint OR m.conn_key='0' OR m.conn_key = '' OR m.conn_key IS NULL)
+                and m.mf_active != 'F' and h.mainhead = 'M' and h.board_type = 'J' 
+                and h.listorder != 32 $upto_list_dt
+                group by m.diary_no, h.clno, h.next_dt, a.diary_no, h.main_supp_flag, h.listorder, h.diary_no
+                order by case_priority asc, 
+                h.next_dt, 
+                    CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM LENGTH(CAST(h.diary_no AS TEXT))-3 FOR 4) AS INTEGER) ASC, 
+                CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(h.diary_no AS TEXT))-4) AS INTEGER) ASC                
+                $limit) m $order_by";
         }
-
         if ($mainhead == 'F') {
             $mainhead_title = "Regular Stage";
             //$upto_list_dt = "and if(h.listorder in (4,5,7),h.next_dt <= '" . date("Y-m-d", strtotime($list_date)) . "', h.next_dt !='0000-00-00')";
@@ -482,7 +474,6 @@ class ReportModel extends Model
                         CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM LENGTH(CAST(h.diary_no AS TEXT))-3 FOR 4) AS INTEGER) ASC, 
                         CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(h.diary_no AS TEXT))-4) AS INTEGER) ASC $limit) m $order_by";
         }
-        
         $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1) {
             $return['reports'] = $query->getResultArray();
@@ -495,24 +486,22 @@ class ReportModel extends Model
     {
         $return = [];
         $sql = "SELECT tentative_section(a.diary_no) ten_sec, a.diary_no, 
-        COALESCE(STRING_AGG(n.j1::TEXT, ','), c.coram) AS coram, nr.res_add,
-        reason, b.pet_name, b.res_name,b.next_dt,active_fil_no,short_description,
-        EXTRACT(YEAR FROM active_fil_dt) AS active_fil_dt,
-        b.reg_no_display 
-        FROM sensitive_cases a JOIN main b ON a.diary_no=b.diary_no 	
-        LEFT JOIN heardt c ON a.diary_no=c.diary_no
-        LEFT JOIN master.casetype d ON d.casecode = CAST(NULLIF(SUBSTRING(b.active_fil_no FROM 1 FOR 2), '') AS BIGINT)
-            AND d.display = 'Y'
-        LEFT JOIN not_before n ON n.diary_no = a.diary_no AND n.notbef = 'B'
-        LEFT JOIN master.not_before_reason nr ON nr.res_id = n.res_id
-        WHERE a.display='Y' AND c_status='P' 
-        GROUP BY a.diary_no, c.coram, nr.res_add, a.reason, b.pet_name, b.res_name, b.next_dt, b.active_fil_no, d.short_description, b.active_fil_dt, b.reg_no_display
-        ORDER BY SUBSTRING(a.diary_no::TEXT FROM LENGTH(a.diary_no::TEXT) - 3 FOR 4),
-         SUBSTRING(a.diary_no::TEXT FROM 1 FOR LENGTH(a.diary_no::TEXT) - 4),
-        next_dt";
-        
-        $query = $this->db->query($sql);
-        
+            COALESCE(STRING_AGG(n.j1::TEXT, ','), c.coram) AS coram, nr.res_add,
+            reason, b.pet_name, b.res_name,c.next_dt,active_fil_no,short_description,
+            EXTRACT(YEAR FROM active_fil_dt) AS active_fil_dt,
+            b.reg_no_display 
+            FROM sensitive_cases a JOIN main b ON a.diary_no=b.diary_no 	
+            LEFT JOIN heardt c ON a.diary_no=c.diary_no
+            LEFT JOIN master.casetype d ON d.casecode = CAST(NULLIF(SUBSTRING(b.active_fil_no FROM 1 FOR 2), '') AS BIGINT)
+                AND d.display = 'Y'
+            LEFT JOIN not_before n ON n.diary_no = a.diary_no::text AND n.notbef = 'B'
+            LEFT JOIN master.not_before_reason nr ON nr.res_id = n.res_id
+            WHERE a.display='Y' AND c_status='P' 
+            GROUP BY a.diary_no, c.coram, nr.res_add, a.reason, b.pet_name, b.res_name, c.next_dt, b.active_fil_no, d.short_description, b.active_fil_dt, b.reg_no_display
+            ORDER BY SUBSTRING(a.diary_no::TEXT FROM LENGTH(a.diary_no::TEXT) - 3 FOR 4),
+            SUBSTRING(a.diary_no::TEXT FROM 1 FOR LENGTH(a.diary_no::TEXT) - 4),
+            next_dt";
+        $query = $this->db->query($sql);        
         if ($query->getNumRows() >= 1) {
             $return = $query->getResultArray();
         }  
@@ -534,6 +523,124 @@ class ReportModel extends Model
             $tentative_cl_date_greater_than_today_flag='F';
         }
         return $tentative_cl_date_greater_than_today_flag;
+    }
+    public function get_special_bench_report($part,$sort = null,$order=null )
+    {
+        $orderby_query = "ORDER BY CAST(COALESCE(NULLIF(SPLIT_PART(a.t_jud, ',', 1), ''), '0') AS INTEGER)";
+        
+
+        if($sort=='J'){
+        if($order=='A'){
+               $orderby_query = "ORDER BY CAST(COALESCE(NULLIF(SPLIT_PART(a.t_jud, ',', 1), ''), '0') AS INTEGER)";
+               $sort_sign="&#9650;";
+        }
+        else if($order=='D'){
+               $orderby_query = "ORDER BY CAST(COALESCE(NULLIF(SPLIT_PART(a.t_jud, ',', 1), ''), '0') AS INTEGER) DESC";
+                $sort_sign="&#9660;";
+        }
+        }
+
+        if($part == 1){
+         $sql = "SELECT
+                        S.SUB_NAME1,
+                        A.*,
+                        GROUP_CONCAT (
+                            JNAME
+                            ORDER BY
+                                B.JUDGE_SENIORITY
+                        ) JUDGES,
+                        PET_NAME,
+                        RES_NAME,
+                        C_STATUS,
+                        ACTIVE_FIL_NO,
+                        REG_NO_DISPLAY,
+                        ACTIVE_REG_YEAR
+                    FROM
+                        (
+                            SELECT
+                                M.DIARY_NO,
+                                '' AS T_JUD
+                            FROM
+                                MAIN M
+                            INNER JOIN MUL_CATEGORY MC ON MC.DIARY_NO = M.DIARY_NO
+                            WHERE
+                                M.C_STATUS = 'P'
+                                AND MC.SUBMASTER_ID IN (240, 241, 242, 243)
+                            GROUP BY
+                                M.DIARY_NO
+                            UNION
+                            SELECT
+                                M.DIARY_NO,
+                                GROUP_CONCAT (N.J1) AS T_JUD
+                            FROM
+                                MAIN M
+                            INNER JOIN NOT_BEFORE N ON CAST(N.DIARY_NO AS INTEGER) = CAST(M.DIARY_NO AS INTEGER)
+                            WHERE
+                                M.C_STATUS = 'P'
+                                AND N.NOTBEF = 'B'
+                            GROUP BY
+                                M.DIARY_NO
+                        ) A
+                        LEFT JOIN master.JUDGE B ON POSITION(CAST(B.JCODE AS TEXT) IN A.T_JUD) > 0
+                        LEFT JOIN MAIN M ON A.DIARY_NO = M.DIARY_NO
+                        LEFT JOIN MUL_CATEGORY MC ON MC.DIARY_NO = M.DIARY_NO
+                        AND MC.DISPLAY = 'Y'
+                        LEFT JOIN master.SUBMASTER S ON S.ID = MC.SUBMASTER_ID
+                    GROUP BY
+                        M.DIARY_NO,
+                        S.SUB_NAME1,
+                        A.DIARY_NO,
+                        A.T_JUD,
+                        PET_NAME,
+                        RES_NAME,
+                        C_STATUS,
+                        ACTIVE_FIL_NO,
+                        REG_NO_DISPLAY,
+                        ACTIVE_REG_YEAR
+                        $orderby_query ";
+        }
+        else {
+            $sql = "SELECT t_jud, judges, COUNT(*) AS num
+                    FROM (
+                        SELECT
+                            a.diary_no,
+                            a.t_jud,
+                            string_agg(b.jname, ' ' ORDER BY b.judge_seniority) AS judges,
+                            m.pet_name,
+                            m.res_name,
+                            m.c_status,
+                            m.active_fil_no,
+                            m.active_reg_year
+                        FROM (
+                            SELECT m.diary_no, '' AS t_jud
+                            FROM main m
+                            INNER JOIN mul_category mc ON mc.diary_no = m.diary_no
+                            WHERE m.c_status = 'P'
+                            AND mc.submaster_id IN (240, 241, 242, 243)
+                            GROUP BY m.diary_no
+                            UNION
+                            SELECT m.diary_no, string_agg(CAST(n.j1 AS TEXT), ',' ORDER BY n.j1) AS t_jud
+                            FROM main m
+                            INNER JOIN not_before n ON n.diary_no::INTEGER = m.diary_no::INTEGER
+                            WHERE m.c_status = 'P'
+                            AND n.notbef = 'B'
+                            GROUP BY m.diary_no
+                        ) a
+                        LEFT JOIN master.judge b ON POSITION(CAST(b.jcode AS TEXT) IN a.t_jud) > 0
+                        LEFT JOIN main m ON a.diary_no = m.diary_no
+                        GROUP BY a.diary_no, a.t_jud, m.pet_name, m.res_name, m.c_status, m.active_fil_no, m.active_reg_year
+                    ) h
+                    GROUP BY t_jud, judges
+                    ORDER BY CAST(COALESCE(NULLIF(SPLIT_PART(t_jud, ',', 1), ''), '0') AS INTEGER)";
+        }
+                         //die();
+            $query = $this->db->query($sql);
+            $result =  $query->getResultArray();
+        
+            return $result;
+                         
+            
+
     }
 
 

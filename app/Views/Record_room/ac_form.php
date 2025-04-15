@@ -7,7 +7,7 @@
     $("#cdob").datepicker({
       changeMonth: true,
       changeYear: true,
-      dateFormat: "dd-mm-yy",
+      dateFormat: "dd-mm-yyyy",
       onSelect: function() {
         console.log('s');
       },
@@ -16,8 +16,10 @@
       }
     })
 
+    
+
     $("#crd").datepicker({
-      dateFormat: "dd-mm-yy"
+      dateFormat: "dd-mm-yyyy"
     }).val();
   });
 
@@ -275,7 +277,7 @@
                         </div>
 
                         <div class="form-group row">
-                          <label class="control-label col-sm-2" for="anumber">Educational Qualifications *</label>
+                          <label class="control-label col-sm-2" for="anumber">Educational Qualifications</label>
                           <div class="col-sm-2"><input class="form-control " name="cx" type="text" id="cx" placeholder="X" maxlength="1"></div>
                           <div class="col-sm-2"><input class="form-control " name="cxii" type="text" id="cxii" placeholder="XII" maxlength="3"></div>
                           <div class="col-sm-2"><input class="form-control " name="cug" type="text" id="cug" placeholder="UG" maxlength="10"></div>
@@ -292,7 +294,7 @@
                           <div class="form-group row"> -->
                           <label class="control-label col-sm-2 mt-3" for="anumber">Registration Date *</label>
                           <div class="col-sm-2">
-                            <input class="form-control" name="crd" type="text" id="crd">
+                            <input class="form-control dtp" name="crd" type="text" id="crd">
                           </div>
                         </div>
 
@@ -319,3 +321,16 @@
 
   }
   ?>
+  <script>
+     $(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
+    });
+  </script>

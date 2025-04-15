@@ -1,10 +1,11 @@
-<h4>Report Between <?= $tdt1 ?> AND <?= $tdt2 ?></h4>
 
-<table border="1">
+
+<table border="1" class="table table-bordered table-striped">
+<h4>Report Between <?= $tdt1 ?> AND <?= $tdt2 ?></h4>
     <thead>
         <tr>
-            <th>Description</th>
-            <th>Total</th>
+            <th><b>Description</b></th>
+            <th><b>Total</b></th>
         </tr>
     </thead>
     <tbody>
@@ -35,9 +36,10 @@
     </tbody>
 </table>
 
-<h4>Pendency included: All Registered Cases + Un-Registered Cases Listed Before Court + All Restored Cases</h4>
-<h4>Pendency not included: Un-Registered Cases Listed Before Chamber Judge and Registrar Court + All Misc. Applications (M.A.s filed in Disposed cases)</h4>
+<h4><b>Pendency included: All Registered Cases + Un-Registered Cases Listed Before Court + All Restored Cases<b></h4>
+<br><br>
+<h4><b>Pendency not included: Un-Registered Cases Listed Before Chamber Judge and Registrar Court + All Misc. Applications (M.A.s filed in Disposed cases)</b></h4>
 
 <div>
-    <button id="cmdPrnRqs2" onClick="CallPrint('r_box');">PRINT</button>
+    <button id="cmdPrnRqs2" onClick="CallPrint('r_box');" class="btn btn-primary">PRINT</button>
 </div>

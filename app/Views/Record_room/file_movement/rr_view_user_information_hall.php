@@ -8,7 +8,8 @@ table thead th{
 }
 </style>
 
-    <table class="table table-bordered table-striped" style="margin-left: auto;margin-right: auto;margin-bottom: 120px;" cellpadding="6" id="mainbtl">
+<div class="row col-sm-12 mb-10">
+    <table class="table table-bordered table-striped" style="margin-left: auto;margin-right: auto;width:96%" id="mainbtl">
     <thead>
         <tr style="text-align: center;" class="for-print">
             <th colspan="12">REPORT FOR RECORD ROOM HALLs </th>
@@ -71,6 +72,7 @@ table thead th{
             <td colspan="13"><button onclick="get_print('result_main_um')">PRINT</button></td>
         </tr>
     </table>
+    </div>
 <?php
 } else {
 ?>

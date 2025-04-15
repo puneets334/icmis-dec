@@ -26,6 +26,8 @@ class NoDaCode extends BaseController
     { 
         $section_id = session()->get('login')['section'];
         $data['results'] =  $this->NoDaCodeModel->get_nodacode_report($section_id);
+        // pr($data['results']);
+        // die;
         return view('ManagementReport/nodacode/get_nodacode_report', $data);
     }
     

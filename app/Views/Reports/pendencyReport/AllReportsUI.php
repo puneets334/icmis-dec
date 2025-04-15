@@ -71,6 +71,15 @@
     {
         background: #ffffff;
     }
+    
+    table.dataTable thead th, table.dataTable tfoot th {
+        font-weight: bold !important;
+    }
+
+    div.dt-buttons {
+        float: left;
+        margin-top: 0px;
+    }
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -111,7 +120,7 @@
                                     if($data['app_name'] == 'CurrentPendency')
                                     {
                                     ?>
-                                    <div id="printable" class="box box-danger">
+                                    <div id="printable" class="w-100">
                                         <h3 style="text-align: center;"> PENDENCY STATEMENT AS ON <?PHP echo date("d-m-Y h:m:s A")?> </h3>
                                         <table width="100%" id="reportTable1" class="table table-striped table-hover">
                                             <thead>
@@ -267,10 +276,14 @@
                 exportOptions: {
                     stripHtml: false
                 },
+                title:'',
 
                 customize: function ( win ) {
-                    $(win.document.body)
-                        .css( 'font-size', '12pt' )
+                    $(win.document.body).css( 'font-size', '12pt');
+                    $(win.document.body).find('table').before(
+                        '<h3 style="text-align: center;">PENDENCY STATEMENT AS ON  <?php echo date("d-m-Y h:m:s A")?></h3>'
+                    );
+                    
                         /*.append(
                             '<p style="float:left;width=50%;font-weight: bold;font-size: 20px;word-spacing: 5px;letter-spacing: 1px;color: Blue;margin-left: 150px;">Total Listed :'+gradTotalListed+'</p>' +
                                 '<p style="float:right;width=50%;font-weight: bold;font-size: 20px;word-spacing: 5px;letter-spacing: 1px;color: Blue;margin-right: 150px;">Total Disposed :'+grandTotalDisposed+'</p>'

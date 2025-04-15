@@ -74,7 +74,7 @@
                                 $is_menu_url_avl = " data-page='/Common/Case_status' data-menu-id='".$unique_id_processed."' data-menu-url='".$menu_url."' data-menu-title='".$menu_title."'";
                                 ?>
 
-                        	<a href="#" <?=$is_menu_url_avl;?> class="profile-lnk link-txt nav-link_ custom_page_open" data-menu-old_smenu="0"><i class="material-icons" style="font-size:16px;">local_library</i></a>
+                        	<a href="javascript:void(0);" <?=$is_menu_url_avl;?> class="profile-lnk link-txt nav-link_ custom_page_open" data-menu-old_smenu="0"><i class="material-icons" style="font-size:16px;">local_library</i></a>
 
 
 						<!--	<a target="_BLANK" href="<?= base_url() ?>/Common/Case_status"> 

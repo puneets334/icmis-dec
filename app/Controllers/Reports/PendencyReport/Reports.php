@@ -27,7 +27,6 @@ class Reports extends BaseController
         $dt1 = $this->request->getPost('dt1');
         $dt2 = $this->request->getPost('dt2');
 
-        // Convert date format
         $tdt1 = date('d-m-Y', strtotime($dt1));
         $tdt2 = date('d-m-Y', strtotime($dt2));
         $prev_date = date('Y-m-d', strtotime($dt1 . ' -1 day'));
@@ -35,11 +34,15 @@ class Reports extends BaseController
 
         // Fetch data
         $prev_dt_pendency = $this->pendencyReportsModel->getPrevPendency($prev_date);
+       
         $to_dt_pendency = $this->pendencyReportsModel->getToDatePendency($dt2);
+        
         $inst = $this->pendencyReportsModel->getInstCases($dt1, $dt2);
+     
         $dispose = $this->pendencyReportsModel->getDisposedCases($dt1, $dt2);
+        
         $pendency = $this->pendencyReportsModel->getPendencyCases($dt2);
-
+        
         // Prepare data for the view
         $data = [
             'prev_dt_pendency' => $prev_dt_pendency->prev_dt_pendency ?? 0,
@@ -53,4 +56,32 @@ class Reports extends BaseController
 
         return view('Reports/pendencyReport/pendency_report_process_kk', $data);
     }
+
+    public function pendency_bifurcation()
+    {
+        
+     
+        return view('Reports/pendencyReport/pendency_bifurcation');
+    }
+
+    public function pendency_bifurcation_process()
+    {
+        $data['dt1']=$_POST['dt1'];
+        $data['tdt1']=date('d-m-Y', strtotime($data['dt1']));
+        $data['for_date'] = date('Y-m-d', strtotime($data['dt1']));
+        $data['model'] = $this->pendencyReportsModel;
+        return view('Reports/pendencyReport/pendency_bifurcation_process',$data);
+    }
+
+    public function pendency_bifurcation_process_detail()
+    {
+        $data['for_date'] = date('Y-m-d', strtotime($_REQUEST['ason']));
+        $data['ason_dmy'] = date('d-m-Y', strtotime($_REQUEST['ason']));
+        $data['flag'] = $_REQUEST['flag'];
+        $data['model'] = $this->pendencyReportsModel;
+        return view('Reports/pendencyReport/pendency_bifurcation_process_detail',$data);
+
+    }
+
+ 
 }

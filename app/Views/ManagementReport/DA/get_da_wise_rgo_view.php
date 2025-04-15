@@ -4,7 +4,7 @@
 }
 </style>
 <?php if (sizeof($data) > 0) { ?>
-    <br><br><div align="center"><input name="cmdPrnRqs2" type="button" id="cmdPrnRqs2" onClick="CallPrint('prnTable');" value="PRINT"></div>
+    <br><br><div align="left"><input name="cmdPrnRqs2" type="button" id="cmdPrnRqs2" onClick="CallPrint('prnTable');" value="PRINT"></div>
     <div class="table-responsive" id="prnTable">
         <!-- <table id="customers" class="table table-striped custom-table"> -->
         <table cellpadding="1" cellspacing="0" border="1" align="left">

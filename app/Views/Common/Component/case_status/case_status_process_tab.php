@@ -4,6 +4,24 @@ $db = \Config\Database::connect();
 $ucode = session()->get('login')['usercode'];
 //pr($diary_details);
 if(!empty($diary_details)){?>
+
+<style>
+       #newb { position: fixed; padding: 12px; left: 50%; top: 50%; display: none; color: black; background-color: #D3D3D3; border: 2px solid lightslategrey; height:100%;}
+    #newc { position: fixed; padding: 12px; left: 50%; top: 50%; display: none; color: black; background-color: #D3D3D3; border: 2px solid lightslategrey; height:100%;}
+
+    #overlay {
+    background-color: #000;
+    opacity: 0.7;
+    filter:alpha(opacity=70);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+</style>
+
+
 <input type="hidden" name="diaryno1" id="diaryno1" value="<?php echo $diary_number; ?>">
 <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
 <div class="row" style="margin-left: 1%">
@@ -583,6 +601,14 @@ if(!empty($diary_details)){?>
         </table>
     </div>
 </div>
+
+<div id="dv_fixedFor_P" style="display: none;position: fixed;top:75px;left:10% !important;width:85%;height:100%;z-index: 105;">  
+  <div id="close_s" style="text-align: right;cursor: pointer;width: 40px;float: right" onclick="close_cs()"><b><img src="<?php echo base_url('images/close_btn.png');?>" style="width:30px;height:30px" /></b></div>
+  <div id="newcs123" style="width: auto;background-color: white;overflow: scroll;height: 500px;margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;word-wrap: break-word;">
+  </div>
+  </div>
+  
+  <div id="overlay" class="overlay" style="display:none;">&nbsp;</div>
 <script>
     $(".nav-breadcrumb li").click(function(event) {
         updateCSRFToken();
@@ -695,6 +721,69 @@ if(!empty($diary_details)){?>
       printWindow.close();
     }, 1000)
 }
+
+
+
+function call_f1(d_no,d_yr,ct,cn,cy)
+{
+    var divname = "";
+    divname = "newcs123";
+    document.getElementById(divname).style.display = 'block';
+    document.getElementById(divname).style.width = 'auto';
+    document.getElementById(divname).style.height = '500px';
+    document.getElementById(divname).style.overflow = 'scroll';
+    document.getElementById(divname).style.marginLeft = '18px';
+    document.getElementById(divname).style.marginRight = '18px';
+    document.getElementById(divname).style.marginBottom = '25px';
+    document.getElementById(divname).style.marginTop = '30px';
+    document.getElementById('dv_fixedFor_P').style.display = 'block';
+    document.getElementById('dv_fixedFor_P').style.marginTop = '3px';
+    $('.overlay').height($(window).height());
+    //document.getElementById('overlays').style.display = 'block';
+    $('.overlay').show();
+   
+
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+      $.ajax({
+            type: 'POST',
+            url: base_url+'/Common/Case_status/case_status_same',
+            beforeSend: function (xhr) {
+                $("#newcs123").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+            },
+            //data:{d_no:d_no,d_yr:d_yr,ct:ct,cn:cn,cy:cy,tab:'Case Details',opt:2,CSRF_TOKEN: CSRF_TOKEN_VALUE}
+            data:{diary_number:d_no,diary_year:d_yr,ct:ct,cn:cn,cy:cy,search_type:'D',opt:2,CSRF_TOKEN: CSRF_TOKEN_VALUE}
+        })
+        .done(function(msg){
+            updateCSRFToken();
+            $("#newcs123").html(msg);           
+           
+        })
+        .fail(function(){
+            updateCSRFToken();
+            alert("ERROR, Please Contact Server Room"); 
+        });
+}
+
+function close_cs()
+{
+    var divname = "";
+    divname = "newcs123";
+    $("#newcs123").html(''); 
+    document.getElementById('dv_fixedFor_P').style.display = "none";
+    document.getElementById(divname).style.display = 'none';
+    $('.overlay').hide();
+}
+
+function close_w()
+{
+    var divname = "";
+    divname = "newb";
+    document.getElementById(divname).style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+
 </script>
 
 <?php }else{?>

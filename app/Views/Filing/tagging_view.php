@@ -180,7 +180,8 @@
                                                         <font color='red' style='font-size:16px;'>Case is Disposed</font>
                                                     </b></center>-->
                                                 <?php // }else{
-                                                if ($reslt_validate_verification > 0 && $section != 19) { ?>
+                                                
+                                                if (!empty($reslt_validate_verification) && $reslt_validate_verification > 0 && $section != 19) { ?>
                                                     <center><b>
                                                             <font color='red' style='font-size:16px;'>Verification Pending From IB Section</font>
                                                         </b></center>

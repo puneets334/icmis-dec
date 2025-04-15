@@ -1,90 +1,97 @@
+<?= view('header') ?>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 mt-3">
 
-            <section class="content">
-                <?php
-                if (is_array($reports)) {
-                    ?>
-                    <div id="printable" class="box box-danger">
-                        <table width="100%" id="reportTable" class="table table-striped table-hover">
-                            <thead>
-                                <?php
-                                if ($app_name == 'JudgeWiseMatterListedDisposal') {
-                                    if ($_POST['jCode'] == '0') { ?>
-                                        <h3 style="text-align: center;">
-                                            Hon'ble Judge wise Matters Listed and Disposed between 
-                                            <strong><?= $_POST['from_date'] ?></strong> and 
-                                            <strong><?= $_POST['to_date'] ?></strong>
-                                        </h3>
-                                    <?php } else { ?>
-                                        <h3 style="text-align: center;">
-                                            <strong><?= $reports['disposal'][0]['jname'] ?> </strong> Matters Listed and Disposed between 
-                                            <strong><?= $_POST['from_date'] ?></strong> and 
-                                            <strong><?= $_POST['to_date'] ?></strong>
-                                        </h3>
-                                    <?php } ?>
-                                <tr>
-                                    <th>Hon'ble Judge Name</th>
-                                    <th>Listed <br/>Misc</th>
-                                    <th>Listed <br/>Regular</th>
-                                    <th>Listed <br/>Total</th>
-                                    <th>Disposed <br/>Misc</th>
-                                    <th>Disposed <br/>Regular</th>
-                                    <th>Disposed <br/>Total</th>
-                                </tr><?php } ?>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $total_listed_misc_main = $total_listed_misc_conn = $total_listed_regular_main = $total_listed_regular_conn = 0;
-                                $total_disposed_misc_main = $total_disposed_misc_conn = $total_disposed_regular_main = $total_disposed_regular_conn = 0;
-
-                                $s_no = 1;
-                                $other_disposal = $reports['other_disposal'][0]['other_disp'];
-                                foreach ($reports['disposal'] as $result) {
-                                    $total_listed_judge_wise = $result['listed_total_main'] + $result['listed_total_conn'];
-                                    $total_disposed_judge_wise = $result['disposed_total_main'] + $result['disposed_total_conn'];
-
-                                    $total_listed_misc_main += $result['listed_misc_main'];
-                                    $total_listed_misc_conn += $result['listed_misc_conn'];
-                                    $total_listed_regular_main += $result['listed_regular_main'];
-                                    $total_listed_regular_conn += $result['listed_regular_conn'];
-
-                                    $total_disposed_misc_main += $result['disposed_misc_main'];
-                                    $total_disposed_misc_conn += $result['disposed_misc_conn'];
-                                    $total_disposed_regular_main += $result['disposed_regular_main'];
-                                    $total_disposed_regular_conn += $result['disposed_regular_conn'];
-                                    ?>
-                                    <tr>
-                                        <td><?= $result['jname']; ?> (<?= $result['jcode']; ?>)</td>
-                                        <td><?= $result['listed_misc_main']; ?> (+ <?= $result['listed_misc_conn']; ?>)</td>
-                                        <td><?= $result['listed_regular_main']; ?> (+ <?= $result['listed_regular_conn']; ?>)</td>
-                                        <td><?= $result['listed_total_main']; ?> (+ <?= $result['listed_total_conn']; ?>) = <?= $total_listed_judge_wise; ?></td>
-                                        <td><?= $result['disposed_misc_main']; ?> (+ <?= $result['disposed_misc_conn']; ?>)</td>
-                                        <td><?= $result['disposed_regular_main']; ?> (+ <?= $result['disposed_regular_conn']; ?>)</td>
-                                        <td><?= $result['disposed_total_main']; ?> (+ <?= $result['disposed_total_conn']; ?>) = <?= $total_disposed_judge_wise; ?></td>
-                                    </tr>
-                                    <?php
-                                    $s_no++;
-                                } // foreach
-
-                                $total_misc_listed = $total_listed_misc_main + $total_listed_misc_conn;
-                                $total_regular_listed = $total_listed_regular_main + $total_listed_regular_conn;
-                                $total_misc_disposed = $total_disposed_misc_main + $total_disposed_misc_conn;
-                                $total_regular_disposed = $total_disposed_regular_main + $total_disposed_regular_conn;
-                                ?>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="3">Other Disposal :</th>
-                                    <td colspan="3"><?= $other_disposal; ?></td>
-                                </tr>
-                                <tr>
-                                    <th colspan="3">Total Listed :</th>
-                                    <td colspan="3"><?= $total_misc_listed + $total_regular_listed; ?></td>
-                                    <th colspan="3">Total Disposed :</th>
-                                    <td colspan="3"><?= $total_misc_disposed + $total_regular_disposed; ?></td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                <div class="card">
+                    <div class="card-header heading">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <h3 class="card-title">Management Report >> Pending >> Subject Category-wise Group Count</h3>
+                            </div>
+                        </div>
                     </div>
-                <?php } ?>
-            </section>
+                    <!-- Main content -->
+                    <div class="card-body">
+
+                        <!-- <div class="box box-primary"> -->
+                            <form class="form-horizontal" id="push-form">
+                                <?= csrf_field(); ?>
+                                <div class="box-body col-12">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label for="category" class="col-sm-12">From Date :</label>
+                                            <input type="text" id="from_date" name="from_date" class="form-control dtp"  placeholder="From Date" required="required">
+                                        </div>
+
+                                        <div class="col-sm-2">
+                                            <label for="type" class="col-sm-12">To Date :</label>
+                                            <input type="text" id="to_date" name="to_date" class="form-control dtp"  placeholder="To Date" required="required">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <label for="type" class="col-sm-12">Matter Status</label>
+                                            <select class="form-control col-sm-4" id="jCode" name="jCode" placeholder="Judges">
+                                                <option value="0">All</option>
+                                                
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="col-sm-1 mt-5">
+                                            <button type="button" id="subject_category_view" name="view" class="btn btn-block btn-primary">View</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                            <div id="loader" style="text-align: center;"></div>
+                            <div id="reportTableContainer"></div>
+                        <!-- </div> -->
+                    </div>
+                   
+
+</section>
+</div>
+</div>
+</div>
+
+<script>
+    $('#subject_category_view').on('click', function() {
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
+        var jCode = $('#jCode').val();
+
        
+        $('#subject_category_view').prop('disabled', true);
+        $('#reportTableContainer').html("");
+
+        $.ajax({
+            url: '<?= base_url('/Report/pendency_reports/6');?>',
+            type: 'GET',
+            data: {
+                from_date: from_date,
+                to_date: to_date,
+                jCode: jCode,
+                view: '1',
+            },
+            beforeSend: function() {
+                $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:25%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+            },
+            success: function(response) {
+                $('#reportTableContainer').html(response);
+            },
+            error: function(xhr, status, error) {
+                alert('An error occurred: ' + error);
+            },
+            complete: function() {
+                $("#loader").html("");
+                $('#subject_category_view').prop('disabled', false);
+            }
+        });
+    });    
+</script>
+
+
+</body>
+
+</html>

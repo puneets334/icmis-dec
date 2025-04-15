@@ -446,20 +446,19 @@ async function generate_registration_r() {
           type: "POST",
           success: function (data, status) {
 
-            console.log(data);
+            // console.log(data);
 
-            $("#dv_res1").html('<div style="text-align: center"><h3>');
+            $("#dv_res1").html('<div id="result-registration-info" style="text-align: center"></div>');
 
             if (data.registration != undefined)
-              $("#dv_res1").append("<br />" + data.registration);
+              $("#result-registration-info").append("<br /><h3>" + data.registration + "</h3>");
 
             if (data.track_inserted != undefined)
-              $("#dv_res1").append("<br />" + data.track_inserted);
+              $("#result-registration-info").append("<br />" + data.track_inserted);
 
             if (data.err_msg != undefined)
-              $("#dv_res1").append("<br />" + data.err_msg);
+              $("#result-registration-info").append("<br />" + data.err_msg);
 
-            $("#dv_res1").html('</h3></div>');
 
             if (
               hd_casetype_id == 9 ||
@@ -581,8 +580,23 @@ async function generate_registration_s() {
         );
       },
       type: "POST",
+      dataType: 'json',
       success: function (data, status) {
-        $("#dv_res1").html(data);
+
+        // console.log(data);
+
+        $("#dv_res1").html('<div id="result-registration-info" style="text-align: center"></div>');
+
+        if (data.registration != undefined)
+          $("#result-registration-info").append("<br /><h3>" + data.registration + "</h3>");
+
+        if (data.track_inserted != undefined)
+          $("#result-registration-info").append("<br />" + data.track_inserted);
+
+        if (data.err_msg != undefined)
+          $("#result-registration-info").append("<br />" + data.err_msg);
+
+          
         if (
           hd_casetype_id == 9 ||
           hd_casetype_id == 10 ||

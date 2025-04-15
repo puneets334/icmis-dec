@@ -19,7 +19,7 @@ class Model_copying extends Model
         $builder->select('*');
         $builder->where('diary_no',(INT)$data['diary']);
         $builder->where('diary_year', (INT)$data['diary_year']);
-        $builder->where('rop', $data['order_date']);
+        $builder->where('rop',$data['order_date']);
         //echo $builder->getCompiledSelect();
         //die;
         $query = $builder->get();
@@ -58,7 +58,8 @@ class Model_copying extends Model
            // ->where('date(dispatch_delivery_date) >=', '2020-08-01')
             ->groupBy(['c.id', 'c.diary', 'c.copy_category', 'c.application_reg_number', 'c.application_reg_year'])
             ->orderBy('application_receipt');
-
+            //echo $builder->getCompiledSelect();
+            //die;
         $query = $builder->get();
        //echo $this->db->getLastQuery();
       
@@ -108,10 +109,11 @@ class Model_copying extends Model
     }
     
     public function getUserVerficationDetails($mobile,$email,$diary_no){
-        $builder = $this->db->table("e_services.user_assets as u");
+        
+        $builder = $this->eservicesdb->table("user_assets as u");
         $builder->select('u.asset_type, a.asset_name, u.id_proof_type, i.id_name, u.file_path, u.verify_status, u.verify_on, u.video_random_text');
-        $builder->join('e_services.user_asset_type_master a', 'a.id = u.asset_type');
-        $builder->join('e_services.id_proof_master i', "i.id = u.id_proof_type and i.display = 'Y'", 'left');
+        $builder->join('user_asset_type_master a', 'a.id = u.asset_type');
+        $builder->join('id_proof_master i', "i.id = u.id_proof_type and i.display = 'Y'", 'left');
         $builder->where('u.mobile',$mobile);
         $builder->where('u.email', $email);
         $builder->where('u.verify_status', 2);

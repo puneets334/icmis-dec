@@ -66,6 +66,15 @@
     {
         padding-right: 55px;
     }
+
+    table.dataTable thead th, table.dataTable tfoot th {
+        font-weight: bold !important;
+    }
+
+    div.dt-buttons {
+        float: left;
+        margin-top: 0px;
+    }
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -89,15 +98,15 @@
                                         //var_dump($param);
                                     ?>
                                     <div id="printable" class="box box-danger">
-                                        <caption>
+                                        <div id="caption">
                                                 <h3 style="text-align: center;">Total Institution matters between <?php echo date('d-m-Y', strtotime($param[0])); ?> and <?php echo date('d-m-Y', strtotime($param[1])); ?></h3>
-                                        </caption>
+                                        </div>
 
                                         <?php
                                         if($app_name=='Institution')
                                         {
                                             ?>
-                                        <table id="reportTable1" class="table table-striped table-hover">
+                                        <table width="100%"  id="reportTable1" class="table table-striped table-hover">
                                             <thead>
                                             <tr>
                                                 <th width="5%">S.No.</th>
@@ -131,7 +140,9 @@
 
                                     </div>
                                     <?PHP
-                                    }
+                                    } else {
+                                        echo "No Data Found";   
+                                   } 
                                    ?>
                                 </section>
                             </div>
@@ -173,7 +184,16 @@
             "scrollX": true,
             "pageLength":15,
             buttons: [
-                'print','pageLength'
+                {   
+                    extend:'print',
+                    title:'',
+                    customize: function ( win ) {
+                        $(win.document.body).css('font-size', '12pt');
+                        const captionHTML = $('#caption').html();
+                        $(win.document.body).find('table').before('<div style="text-align:center; margin-bottom:20px;">' + captionHTML + '</div>');
+                    }
+                },
+                'pageLength'
             ],
             lengthMenu: [
                 [ 10, 25, 50, -1 ],

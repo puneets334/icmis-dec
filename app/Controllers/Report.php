@@ -24,6 +24,7 @@ class Report extends BaseController
     }
     public function get_listed_notlisted()
     {
+       
         $data['form_dt'] = $this->request->getGet('from_dt');
         $data['to_dt'] = $this->request->getGet('to_dt');
         $data['main_conn'] = $this->request->getGet('mc');
@@ -75,10 +76,12 @@ class Report extends BaseController
 	
     public function pendency_reports($id, $reportType1 = null, $fromdate = null, $todate = null, $jcode = null)
     {
+        // pr($_POST);
+        // die();
         $data = [];
         if ($id >= 1 and $id <= 4) {
             $data['reports'] = $this->pendency_reports_model->get_pendency($id);
-
+            // echo $this->db->getLastQuery();
             if ($id == 1)
                 $data['app_name'] = 'JudgeWise';
             if ($id == 2)
@@ -90,6 +93,7 @@ class Report extends BaseController
 
             return view('Reports/pendency_report', $data);
         }
+
         if ($id == 5) {
             $data['reports'] = '';
             $data['app_name'] = '';
@@ -98,48 +102,70 @@ class Report extends BaseController
             $matterType = '';
             $matterStatus = '';
             // pr($_POST);
-            if ($_POST) {
-                if (!empty($this->request->getPost('categoryCode')) && !empty($this->request->getPost('groupCount')) && !empty($this->request->getPost('matterType')) && !empty($this->request->getPost('matterStatus'))) {
-                    $categoryCode = $this->request->getPost('categoryCode');
-                    $groupCount = $this->request->getPost('groupCount');
-                    $matterType = $this->request->getPost('matterType');
-                    $matterStatus = $this->request->getPost('matterStatus');
-                }
-                //var_dump($categoryCode,$matterStatus,$matterType);
+            if ($this->request->getVar('view') == '1') {
+                $categoryCode = $this->request->getVar('categoryCode');
+                $groupCount = $this->request->getVar('groupCount');
+                $matterType = $this->request->getVar('matterType');
+                $matterStatus = $this->request->getVar('matterStatus');
+               
                 $data['reports'] = $this->pendency_reports_model->get_pendency($id, $categoryCode, $groupCount, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $matterType, $matterStatus);
                 $data['app_name'] = 'SubjectCategoryWiseGroupCount';
                 $data['matterType'] = $matterType;
+                $data['groupCount'] = $groupCount;
                 $data['matterStatus'] = $matterStatus;
                 $data['code'] = $categoryCode;
+                return view('Reports/SubjectCategorywithGroupCountReport_ajax', $data);
+
+                // echo "<pre>";print_r($data['reports']);die();
             }
+
             $data['forCategory'] = ''; 
             $data['status']  = '';
+            $data['Categories'] = $this->pendency_reports_model->getMainSubjectCategory();           
             $data['type']  = '';
             return view('Reports/SubjectCategorywithGroupCountReport', $data);
         }
         if ($id == 6) {
+           
             $data['reports'] = '';
             $data['app_name'] = '';
+            $categoryCode = '';
+            $groupCount = '';
+            $matterType = '';
+            $matterStatus = '';
+            // pr($_POST);
+            if ($this->request->getVar('view') == '1') {
+                $from_date = $this->request->getVar('from_date');
+                $to_date = $this->request->getVar('to_date');
+                $jCode = $this->request->getVar('jCode');
+              
+               
+               // $data['reports'] = $this->pendency_reports_model->get_pendency($id, $categoryCode, $groupCount, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $matterType, $matterStatus);
 
-            if ($_POST) {
-                if (isset($_POST['from_date']) && isset($_POST['to_date'])) {
-                    $from_date = date('Y-m-d', strtotime($this->request->getPost('from_date')));
-                    $to_date = date('Y-m-d', strtotime($this->request->getPost('to_date')));
-                } else {
-                    $from_date = date('Y-m-d');
-                    $to_date = date('Y-m-d');
-                }
-
-                $data['reports'] = $this->pendency_reports_model->get_pendency($id, NULL, NULL, $from_date, $to_date);
+                $data['reports'] = $this->pendency_reports_model->get_pendency($id, NULL, NULL, NULL, NULL, NULL, NULL, $from_date, $to_date, $reportType1, $jCode);
                 $data['app_name'] = 'JudgeWiseMatterListedDisposal';
+                $data['jCode'] = $jCode;
+                $data['from_date'] = $from_date;
+                $data['to_date'] = $to_date;
+                $data['code'] = $categoryCode;
+
+               
+                return view('ManagementReport/Pending/dataJudgeWiseMatterListedDisposal_get', $data);
+
+                // echo "<pre>";print_r($data['reports']);die();
             }
-            return view('Reports/JudgeWiseMatterListedDisposal.php', $data);
+
+            $data['forCategory'] = ''; 
+            $data['status']  = '';
+            $data['Categories'] = $this->pendency_reports_model->getMainSubjectCategory();           
+            $data['type']  = '';
+            return view('ManagementReport/Pending/dataJudgeWiseMatterListedDisposal', $data);
         }
         if ($id == 7) {
             $data['reports'] = '';
             $data['app_name'] = 'AllReportUI';
 
-            return view('Reports/AllReportsUI.php', $data);
+            return view('Reports/AllReportsUI', $data);
         }
         if ($id == 8) {
             $data['reports'] = '';
@@ -147,7 +173,7 @@ class Report extends BaseController
 
             $data['reports'] = $this->pendency_reports_model->get_pendency($id, NULL, NULL, NULL, NULL, NULL, NULL, $fromdate, $todate, $reportType1, $jcode);
             $data['param'] = array($fromdate, $todate, $reportType1, $jcode);
-            return view('Reports/MattersListedAndDisposedDetailedReport.php', $data);
+            return view('Reports/MattersListedAndDisposedDetailedReport', $data);
         }
     }
 }

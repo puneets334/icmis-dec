@@ -171,7 +171,8 @@
 }
 .row.mx-0{margin-left: 0!important;margin-right: 0!important;}
 </style>
-<div class="container-fluid">
+<section class="content">
+   <div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -182,8 +183,11 @@
                         </div>
                     </div>
                 </div>
-                <form method="post">
-                    <?= csrf_field() ?>
+				<div class="card-body">
+                <?php
+                        echo form_open();
+                        csrf_token();
+                        ?>
 
                     <div id="dv_content1">
 
@@ -193,10 +197,10 @@
                         <div id="errmsg2"></div>
                         <div id="errmsg1"></div>
 
-                        <div id="div2" class="card-body">
+                        <div id="div2">
                             <div class="row">
                                 <div class="mb-3 col-sm-12 col-md-4 col-lg-4">
-                                    <label for="category" id="cat" class="form-label">Category</label>
+                                    <label for="category" id="cat" class="form-label"><b>Category</b></label>
 
                                     <?php
                                     $uniqueCategories = [];
@@ -208,7 +212,7 @@
                                     ?>
 
                                     <select id="category" name="category" class="form-select cus-form-ctrl">
-                                        <option value="a">Select Category</option>
+                                        <option value="a"><b>Select Category</b></option>
 
                                         <?php if (!empty($categories)): ?>
                                             <?php foreach ($categories as $category): ?>
@@ -220,7 +224,7 @@
                                     </select>  
                                 </div>
                                 <div class="mb-3 col-sm-12 col-md-4 col-lg-4">
-                                    <label for="subcategory" id="subcat"  class="form-label">Subcategory</label>
+                                    <label for="subcategory" id="subcat"  class="form-label"><b>Subcategory</b></label>
                                     <select class="form-select cus-form-multiselect" id="subcategory" name="subcategory[]" size="6" multiple>
                                         </select>
                                     <div class="subcategory-buttons">
@@ -229,7 +233,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-3 col-sm-12 col-md-4 col-lg-4">
-                                <label for="selsubcat" id="selsub"  class="form-label">Selected subcategory</label>
+                                <label for="selsubcat" id="selsub"  class="form-label"><b>Selected subcategory</b></label>
                                     <select class="form-select cus-form-multiselect" id="selsubcat" name="selsubcat[]" size="6" multiple>
                                     </select>
                                 </div>     
@@ -241,7 +245,7 @@
                             <div id="div3">
                                 <div class="row">
                                     <div class="mb-3 col-sm-12 col-md-4 col-lg-4">
-                                        <label for='mr' id="p"  class="form-label">Mainhead</label>
+                                        <label for='mr' id="p"  class="form-label"><b>Mainhead</b></label>
                                         <select id="mr" name="mr"  class="form-select cus-form-ctrl">
                                             <option value="l">Select</option>
                                             <option value="a">All</option>
@@ -252,24 +256,32 @@
                                     <div class="mb-3 col-sm-12 col-md-4 col-lg-4">
                                         <div class="row mx-0">
                                             <div class="col-12 col-md-6">
-                                                <label for="fdate" id="datef" class="form-label">Tentative Date</label>
-                                                <input type="date" id="fdate" name="fdate" class="form-control cus-form-ctrl">
+                                                <label for="fdate" id="datef" class="form-label"><b>Tentative Date</b></label>
+												<input type="text" name="fdate" id="fdate" class="form-control dtp" maxsize="10" value="<?= date('d-m-Y') ?>"  autocomplete="on" size="9" readonly>
+												<input type="hidden" name="hd_from_dt1" id="hd_from_dt1" value="1" />
+                                                <!--<input type="date" id="fdate" name="fdate" class="form-control cus-form-ctrl">-->
                                             </div>
                                             <div class="col-12 col-md-6">
-                                                <label id="sp" class="form-label">to</label>
-                                                <input type="date" id="tdate" name="tdate" class="form-control cus-form-ctrl">
+                                                <label id="sp" class="form-label"><b>to</b></label>
+												<input type="text" name="tdate" id="tdate" class="form-control dtp" maxsize="10" value="<?= date('d-m-Y') ?>"  autocomplete="on" size="9" readonly>
+												<input type="hidden" name="hd_to_dt1" id="hd_to_dt1" value="1" />
+                                                <!--<input type="date" id="tdate" name="tdate" class="form-control cus-form-ctrl">-->
                                             </div>
                                         </div>
                                     </div>
                                     <div class="mb-3 col-sm-12 col-md-4 col-lg-4">
                                         <div class="row mx-0">
                                             <div class="col-12 col-md-6">
-                                                <label for="dfdate" id="ddatef" class="form-label">Diary Date</label>
-                                                <input type="date" id="dfdate" name="dfdate" class="form-control cus-form-ctrl">
+                                                <label for="dfdate" id="ddatef" class="form-label"><b>Diary Date</b></label>
+												<input type="text" name="dfdate" id="dfdate" class="form-control dtp" maxsize="10" value="<?= date('d-m-Y') ?>"  autocomplete="on" size="9" readonly>
+												<input type="hidden" name="hdd_from_dt1" id="hdd_from_dt1" value="1" />
+                                                <!--<input type="date" id="dfdate" name="dfdate" class="form-control cus-form-ctrl">-->
                                             </div>
                                             <div class="col-12 col-md-6">
-                                                <label id="sp" class="form-label">to</label>
-                                                <input type="date" id="dtdate" name="dtdate" class="form-control cus-form-ctrl">
+                                                <label id="sp" class="form-label"><b>to</b></label>
+												<input type="text" name="dtdate" id="dtdate" class="form-control dtp" maxsize="10" value="<?= date('d-m-Y') ?>"  autocomplete="on" size="9" readonly>
+												<input type="hidden" name="hdd_to_dt1" id="hdd_to_dt1" value="1" />
+                                                <!--<input type="date" id="dtdate" name="dtdate" class="form-control cus-form-ctrl">-->
                                             </div>
                                         </div>    
                                     </div>
@@ -287,14 +299,14 @@
                                     <div id="div1">
                                         <div class="row">
                                             <div class="mb-3 col-sm-12 col-md-4 col-lg-4">
-                                                <label for="judge" id="judgeLabel">Hon'ble Judge Name</label>
+                                                <label for="judge" id="judgeLabel"><b>Hon'ble Judge Name</b></label>
                                                 <select id="judge" name="judge[]" multiple class="form-select cus-form-multiselect">
                                                     <option value="0" onclick="return selectAll('judge', true)">Select All</option>
                                                     <option value="0" onclick="return selectAll('judge', false)">Deselect All</option>
                                                     <option value="b">Blank</option>
                                                     <?php if (!empty($judges)): ?>
                                                         <?php foreach ($judges as $judge): ?>
-                                                            <option value=""><?= esc($judge['jname']) ?></option>
+                                                            <option value="<?= esc($judge['jcode']) ?>"><?= esc($judge['jname']) ?></option>
                                                         <?php endforeach; ?>
                                                     <?php else: ?>
                                                         <option value="">No judges found</option>
@@ -305,9 +317,7 @@
                                                 <button type="button" id="judgebtn" onclick="select_judge()" class="quick-btn">Select Judge</button>
                                             </div>
                                         </div>
-
-                                       
-                                    </div>
+									</div>
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 col-lg-12">
                                             <div class="center-buttons">
@@ -315,22 +325,22 @@
                                             </div>
 
                                         </div>
-                                    </div>                    
-
-                                    <img id='image' src="/supreme_court/images/load.gif" style='display:none;'></img>
-                                    <div class="center" id="tabl"></div>
-
-                                </div>
-                </form>
-            </div>
-        </div>
-
-        <div id="res_loader"></div>
+                                    </div> 
+								</div>
+							</div>	
+						</div>
+                    </div>						
+						<?php echo form_close(); ?>
+                        <br>
+                        <div id="dv_content1">
+                            <div id="dv_res1" style="align-content: center"></div>
+                            <div id="ank"></div>
+                        </div>									
+				</div>
+         </div>
     </div>
-
-    <div id="dv_res1"></div>
-</div>
-</div>
+</div>	
+</div>	
 </section>
 
 
@@ -357,7 +367,7 @@
         $('#tabl').hide();
         var judge = getSelectedValue('judge');
         var selsubcat = getAllValue('selsubcat');
-        var tdate = document.getElementById('tdate').value;
+		var tdate = document.getElementById('tdate').value;
         var fdate = document.getElementById('fdate').value;
         var mainhead = document.getElementById('mr').value;
         var jud_num = '<?php echo $judge_count; ?>';
@@ -438,7 +448,6 @@
 
             $.ajax({
                 type: "POST",
-               
                 url: '<?php echo base_url('ManagementReports/Report/category_data_fetch'); ?>',
                 data: {
                     selsubcat: selsubcat,
@@ -451,47 +460,26 @@
                     jud_num: jud_num,
                     CSRF_TOKEN: csrf,
                 },
-
-                beforeSend: function() {
-                    $('#image').show();
-                    $('#tabl').hide();
-
-
+				
+				beforeSend: function() {
+                  $('#dv_res1').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
                 },
-
-                complete: function() {
-                    $('#image').hide();
-                },
-
+				
                 success: function(data) {
-                    updateCSRFToken();
-
-                    $('.center').html(data);
-                    document.getElementById("tabl").style.visibility = 'visible';
-                    $('#tabl').show();
+                   updateCSRFToken();
+					$('#dv_res1').html(data);
                 },
                 error: function() {
                     updateCSRFToken();
-                    alert("ERROR");
+                    alert("Error: " + xhr.status + " " + xhr.statusText);
                 }
+          });
 
-            });
+ }
+}
 
-
-        }
-
-
-
-
-
-    }
-
-
-    function remove_data()
-
-    {
+function remove_data(){
         var temp = getSelectedValue('selsubcat');
-        //alert(temp);
         for (var p = temp.length - 1; p >= 0; p--) {
             for (var t = 0; t < subcate.length; t++) {
                 if (temp[p] == subcate[t]) {
@@ -509,14 +497,12 @@
 
         }
         $("#selsubcat").html(options);
-
-    }
-
+}
 
 
-    function data_select() {
 
-        var options = '';
+function data_select() {
+      var options = '';
         var temp = getSelectedValue('subcategory');
         for (var p = 0; p < temp.length; p++) {
             if ($.inArray(temp[p], subcate) == -1) {
@@ -533,8 +519,6 @@
     }
 
 
-
-
     function select_judge() {
         var judge = getSelectedValue('judge');
     }
@@ -545,7 +529,6 @@
     function getSelectedValue(id) {
         var result = [];
         var options = document.getElementById(id);
-        //alert(options)
         var opt;
         for (var i = 0, iLen = options.length; i < iLen; i++) {
             opt = options[i];
@@ -573,8 +556,7 @@
 
 
     $(function() {
-
-        $('#category').change(function() {
+       $('#category').change(function() {
             var options = '';
             $("#subcategory").html(options);
             fetchsubcat();

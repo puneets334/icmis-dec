@@ -80,7 +80,7 @@ class VC_Report extends BaseController
             $pdf->AddPage();
             $pdf->Ln(8);
             $pdf->SetFont('Arial', 'B', 16);
-            $pdf->Cell(0, 0, 'Data of Video Conferencing hearing matters ' . date('m-d-Y', strtotime($from_dt)) . ' to ' . date('m-d-Y', strtotime($to_dt)), 0, 1, 'C');
+            $pdf->Cell(0, 0, 'Data of Video Conferencing hearing matters ' . date('d/m/Y', strtotime($from_dt)) . ' to ' . date('d/m/Y', strtotime($to_dt)), 0, 1, 'C');
             $pdf->Ln(4);
             $pdf->SetFont('Arial', 'B', 13);
 
@@ -98,10 +98,25 @@ class VC_Report extends BaseController
             $pdf->Row(array('Main matter', 'Connected Matters', 'Total'), 1);
             $pdf->SetWidths(array(35, 35, 35, 35, 25, 25));
             $pdf->Row(array('Taken up', 'Disposed', 'Taken up', 'Disposed', 'Taken up', 'Disposed'), 1);
-            $total_takenup = $main_taken_up[0]['total'] + $main_taken_up[1]['total'];
-            $total_disposed = $main_disposal[0]['total'] + $main_disposal[1]['total'];
-            $pdf->Row(array($main_taken_up[1]['total'], $main_disposal[1]['total'], $main_taken_up[0]['total'],
-            $main_disposal[0]['total'], $total_takenup, $total_disposed), 1);
+			if(count($main_taken_up)!=0){
+				$total_takenup = $main_taken_up[0]['total'] + $main_taken_up[1]['total'];
+			}else{
+				$total_takenup = 0;
+			}
+			
+			if(count($main_disposal)!=0){
+				$total_disposed = $main_disposal[0]['total'] + $main_disposal[1]['total'];
+			}else{
+				$total_disposed = 0;
+			}
+			
+			if(count($main_taken_up)!=0 AND count($main_disposal)!=0){
+				$pdf->Row(array($main_taken_up[1]['total'], $main_disposal[1]['total'], $main_taken_up[0]['total'], $main_disposal[0]['total'], $total_takenup, $total_disposed), 1);
+			}else{
+				$pdf->Row(array(0, 0, 0, 0, $total_takenup, $total_disposed), 1);
+			}
+            
+            
 
             //Chambers matters
             $pdf->Ln(7);
@@ -208,7 +223,7 @@ class VC_Report extends BaseController
             $pdf->SetFont('Arial', '', 10);
             $from_dt = $from_dt ?? '';  
 			$to_dt = $to_dt ?? '';  
-			$pdf->Cell(0, 0, '[Period From : ' . date('d-m-Y', strtotime($from_dt ?: 'now')) . ' to ' . date('d-m-Y', strtotime($to_dt ?: 'now')) . ' ]', 0, 1, 'C');
+			$pdf->Cell(0, 0, '[Period From : ' . date('d/m/Y', strtotime($from_dt ?: 'now')) . ' to ' . date('d/m/Y', strtotime($to_dt ?: 'now')) . ' ]', 0, 1, 'C');
             $pdf->Ln(4);
             $pdf->SetFont('Arial', 'B', 13);
 

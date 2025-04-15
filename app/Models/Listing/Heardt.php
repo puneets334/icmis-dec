@@ -1005,208 +1005,298 @@ class Heardt extends Model
     }
 
 
-    public function getReportData($list_dt)
-    {
-        $formattedDate = date('Y-m-d', strtotime($list_dt));
+    public function getReportData($list_dt) {
+      $formattedDate = date('Y-m-d', strtotime($list_dt));
 
-        $sql = "
-        SELECT
-          SUM(CASE 
-            WHEN (subhead IN (824, 810, 803, 802, 807, 804) OR 
-                  (subhead IN (824, 810, 803, 802, 807, 804, 811, 812) AND listorder IN (4, 5, 7, 25, 32, 8))) 
-            THEN 1 ELSE 0 END) AS tobe_list_all,
-          SUM(CASE 
-            WHEN subhead IN (811, 812) AND listorder NOT IN (4, 5, 7, 25, 32, 8) 
-            THEN 1 ELSE 0 END) AS fresh_head_cnt,
-          SUM(CASE 
-            WHEN subhead = 808 AND listorder IN (4, 5, 7, 25, 32, 8) 
-            THEN 1 ELSE 0 END) AS order_cnt_fd,
-          SUM(CASE 
-            WHEN subhead = 808 AND listorder NOT IN (4, 5, 7, 25, 32, 8) 
-            THEN 1 ELSE 0 END) AS order_cnt,
-          SUM(CASE 
-            WHEN subhead IN (813, 814, 815, 816) AND listorder IN (4, 5, 7, 25, 32, 8) 
-            THEN 1 ELSE 0 END) AS notice_cnt_fd,
-          SUM(CASE 
-            WHEN subhead IN (813, 814, 815, 816) AND listorder NOT IN (4, 5, 7, 25, 32, 8) 
-            THEN 1 ELSE 0 END) AS notice_cnt,
-          SUM(CASE 
-            WHEN subhead IN (824, 810, 803, 802, 807, 804, 808, 811, 812, 813, 814, 815, 816) 
-            THEN 1 ELSE 0 END) AS case_cnt,
-          d.sub_name1,
-          d.subcode1,
-          d.judge
-        FROM
-          (SELECT
-            c.sub_name1,
-            c.subcode1,
-            c.courtno,
-            STRING_AGG(c.judge_id, ',') AS judge,
-            STRING_AGG(c.courtno::text, ',') AS cno
-          FROM
-            (SELECT a.sub_name1, a.subcode1, b.courtno, b.judge_id 
-             FROM
-               (SELECT s.sub_name1, s.subcode1 
-                FROM master.submaster s 
-                WHERE s.display = 'Y' AND s.flag = 's' AND s.subcode1 != 8888 
-                GROUP BY s.sub_name1, s.subcode1) a
-             LEFT JOIN
-               (SELECT
-                  (SELECT STRING_AGG(rj.judge_id::text, ',' ORDER BY rj.id) 
-                   FROM master.roster_judge rj 
-                   WHERE rj.roster_id = r.id AND rj.display = 'Y') AS judge_id,
-                  r.courtno,
-                  ss.sub_name1,
-                  ss.subcode1
-                FROM master.roster r
-                INNER JOIN category_allottment c ON c.ros_id = r.id
-                INNER JOIN master.roster_judge rj ON rj.roster_id = r.id
-                INNER JOIN master.submaster s ON s.id = c.submaster_id
-                LEFT JOIN master.submaster ss ON ss.subcode1 = s.subcode1
-                WHERE ss.display = 'Y' 
-                  AND rj.display = 'Y' 
-                  AND s.display = 'Y' 
-                  AND c.display = 'Y' 
-                  AND r.display = 'Y'
-                  AND r.m_f = '1' 
-                  AND r.from_date = ?
-               ) b ON b.sub_name1 = a.sub_name1
-            ) c
-          GROUP BY c.sub_name1, c.subcode1, c.courtno
-        ) d
-        LEFT JOIN (
-          SELECT 
-            m.diary_no,
-            h.subhead,
-            h.listorder,
-            (SELECT SUBSTRING(h.coram FROM '^[^,]*')) AS coram,
-            s.subcode1 AS subcd1
-          FROM mul_category mc
-          INNER JOIN master.submaster s ON s.id = mc.submaster_id
-          INNER JOIN main m ON m.diary_no = mc.diary_no
-          INNER JOIN heardt h ON m.diary_no = h.diary_no
-          WHERE m.c_status = 'P' 
-            AND (m.diary_no = m.conn_key::bigint OR m.conn_key IS NULL OR m.conn_key = '' OR m.conn_key = '0')
-            AND h.mainhead = 'M' 
-            AND h.board_type = 'J' 
-            AND clno = 0 
-            AND h.brd_slno = 0 
-            AND main_supp_flag = 0 
-            AND h.next_dt = ?
-          GROUP BY h.diary_no, m.diary_no, s.subcode1
-        ) t ON t.subcd1 = d.subcode1
-        GROUP BY d.sub_name1, d.subcode1, d.judge
-        ORDER BY d.sub_name1";
-
-        // Execute the query with parameter binding
-        return $this->db->query($sql, [$formattedDate, $formattedDate])->getResultArray();
-    }
+		$subQuery1 = $this->db->table('master.submaster s')
+			->select('s.id, s.sub_name1, s.subcode1')
+			->where('s.display', 'Y')
+			->where('s.flag', 's')
+			->where('s.subcode1 !=', 8888)
+			->groupBy(['s.id', 's.sub_name1', 's.subcode1'])
+			->getCompiledSelect();
 
 
-    public function getcatAvlCaseIndvGetReportData($list_dt, $court_no)
-    {
+		$subQuery2 = $this->db->table('master.roster r')
+			->select([
+				"(SELECT SPLIT_PART(STRING_AGG(rj.judge_id::text, ',' ORDER BY rj.id), ',', 1)
+				  FROM master.roster_judge rj 
+				  WHERE rj.roster_id = r.id AND rj.display = 'Y') AS judge_id",
+				'r.courtno',
+				'ss.sub_name1',
+				'ss.subcode1'
+			])
+			->join('category_allottment c', 'c.ros_id = r.id')
+			->join('master.roster_judge rj', 'rj.roster_id = r.id')
+			->join('master.submaster s', 's.id = c.submaster_id')
+			->join('master.submaster ss', 'ss.subcode1 = s.subcode1', 'left')
+			->where([
+				'ss.display' => 'Y',
+				'rj.display' => 'Y',
+				's.display' => 'Y',
+				'c.display' => 'Y',
+				'r.display' => 'Y',
+				'r.m_f' => '1',
+				'r.from_date' => $formattedDate
+			])
+			->getCompiledSelect();
+
+
+		$cSub = $this->db->table("($subQuery1) a")
+			->select('a.*, b.courtno, b.judge_id')
+			->join("($subQuery2) b", 'b.sub_name1 = a.sub_name1', 'left')
+			->groupBy(['a.sub_name1', 'a.subcode1', 'a.id', 'b.courtno', 'b.judge_id'])
+			->getCompiledSelect();
+
+
+		$dTable = $this->db->table("($cSub) c")
+			->select("
+				c.sub_name1, 
+				c.subcode1, 
+				STRING_AGG(c.courtno::text, ',') AS cno, 
+				STRING_AGG(c.judge_id::text, ',') AS judge
+			")
+			->groupBy(['c.sub_name1', 'c.subcode1'])
+			->getCompiledSelect();
+
+		$caseSub = $this->db->table('mul_category mc')
+			->select([
+				'm.diary_no',
+				'h.subhead',
+				'h.listorder',
+				"SPLIT_PART(h.coram, ',', 1) AS coram",
+				's.subcode1 AS subcd1'
+			])
+			->join('master.submaster s', 's.id = mc.submaster_id')
+			->join('main m', 'm.diary_no = mc.diary_no')
+			->join('heardt h', 'm.diary_no = h.diary_no')
+			->where([
+				'm.c_status' => 'P',
+				'h.mainhead' => 'M',
+				'h.board_type' => 'J',
+				'clno' => 0,
+				'brd_slno' => 0,
+				'main_supp_flag' => 0,
+				'h.next_dt' => $formattedDate
+			])
+			->groupStart()
+				->where('m.diary_no = CAST(m.conn_key AS BIGINT)', null, false)
+				->orWhere('m.conn_key IS NULL')
+				->orWhere('m.conn_key', '')
+				->orWhere('CAST(m.conn_key AS BIGINT) = 0', null, false)
+			->groupEnd()
+			->groupBy('h.diary_no, m.diary_no, s.subcode1, h.subhead, h.listorder, h.coram')
+			->getCompiledSelect();
+
+
+		$final = $this->db->table("($dTable) d")
+			->select([
+				"SUM(CASE WHEN (subhead IN (824,810,803,802,807,804) 
+					 OR (subhead IN (824,810,803,802,807,804,811,812) 
+					 AND listorder IN (4,5,7,25,32,8))) THEN 1 ELSE 0 END) AS tobe_list_all",
+				"SUM(CASE WHEN subhead IN (811,812) AND listorder NOT IN (4,5,7,25,32,8) THEN 1 ELSE 0 END) AS fresh_head_cnt",
+				"SUM(CASE WHEN subhead = 808 AND listorder IN (4,5,7,25,32,8) THEN 1 ELSE 0 END) AS order_cnt_fd",
+				"SUM(CASE WHEN subhead = 808 AND listorder NOT IN (4,5,7,25,32,8) THEN 1 ELSE 0 END) AS order_cnt",
+				"SUM(CASE WHEN subhead IN (813,814,815,816) AND listorder IN (4,5,7,25,32,8) THEN 1 ELSE 0 END) AS notice_cnt_fd",
+				"SUM(CASE WHEN subhead IN (813,814,815,816) AND listorder NOT IN (4,5,7,25,32,8) THEN 1 ELSE 0 END) AS notice_cnt",
+				"SUM(CASE WHEN subhead IN (824,810,803,802,807,804,808,811,812,813,814,815,816) THEN 1 ELSE 0 END) AS case_cnt",
+				"d.sub_name1", "subcode1", "judge"
+			])
+			->join("($caseSub) t", 't.subcd1 = d.subcode1', 'left')
+			->groupBy(['d.sub_name1', 'subcode1', 'judge'])
+			->orderBy('d.sub_name1')
+			->get()
+			->getResultArray();
+			
+		if(!empty($final)){
+			foreach($final as $k=>$vals){
+				$string_array = array();
+				if($vals['judge']!=''){
+					$judgeCodes =  explode(',', $vals['judge']);
+					$judgeCodes = array_unique($judgeCodes);
+					
+					$builder = $this->db->table('master.judge');
+					$builder->select("STRING_AGG(abbreviation, ',' ORDER BY judge_seniority) as abr");
+					$builder->whereIn('jcode', $judgeCodes);
+					$builder->where('jtype', 'J');
+					$builder->groupBy('jtype');
+
+					$query = $builder->get();
+					$result = $query->getRowArray();
+					
+					$final[$k]['roster_listing'] = isset($result['abr']) ? str_replace(",", ", ", $result['abr']) : '';
+				}else{
+					$final[$k]['roster_listing'] = '';
+				}
+			}
+		}
+		return $final;
+	}
+
+
+    public function getcatAvlCaseIndvGetReportData($list_dt, $court_no, $ucode, $data_save){
         
         $formattedDate = date('Y-m-d', strtotime($list_dt));
 
 
-        $sql = "
+  $sql = "
+SELECT * FROM (
+    SELECT       
+        SUM(CASE WHEN subhead IN (824,810,803,802,807,804) THEN 1 ELSE 0 END) AS tobe_list_all,
+        SUM(CASE WHEN subhead = 808 THEN 1 ELSE 0 END) AS order_cnt,
+        SUM(CASE WHEN subhead IN (811,812) AND listorder = 32 THEN 1 ELSE 0 END) AS fresh_cnt,
+        SUM(CASE WHEN subhead IN (811,812) AND listorder != 32 THEN 1 ELSE 0 END) AS fresh_head_cnt,
+        SUM(CASE WHEN subhead IN (813,814,815,816) THEN 1 ELSE 0 END) AS notice_cnt,       
+        SUM(CASE WHEN subhead IN (824,810,803,802,807,804,808,811,812,813,814,815,816) THEN 1 ELSE 0 END) AS case_cnt,      
+        d.sub_name1, d.subcode1, d.judge
+    FROM (
         SELECT 
-            SUM(CASE WHEN subhead IN (824, 810, 803, 802, 807, 804) THEN 1 ELSE 0 END) AS tobe_list_all,
-            SUM(CASE WHEN subhead = 808 THEN 1 ELSE 0 END) AS order_cnt,
-            SUM(CASE WHEN subhead IN (811, 812) AND listorder = 32 THEN 1 ELSE 0 END) AS fresh_cnt,
-            SUM(CASE WHEN subhead IN (811, 812) AND listorder != 32 THEN 1 ELSE 0 END) AS fresh_head_cnt,
-            SUM(CASE WHEN subhead IN (813, 814, 815, 816) THEN 1 ELSE 0 END) AS notice_cnt,
-            SUM(CASE WHEN subhead IN (824, 810, 803, 802, 807, 804, 808, 811, 812, 813, 814, 815, 816) THEN 1 ELSE 0 END) AS case_cnt,
-            d.sub_name1,
-            d.subcode1,
-            d.judge
-        FROM
-        (
+            c.id,
+            c.sub_name1,
+            c.subcode1,
+            STRING_AGG(c.courtno::text, ',') AS cno,
+            STRING_AGG(c.judge_id::text, ',') AS judge
+        FROM (
             SELECT 
-                c.sub_name1,
-                c.subcode1,
-                STRING_AGG(c.judge_id::text, ',') AS judge
-            FROM
-            (
+                a.id, 
+                a.sub_name1, 
+                a.subcode1, 
+                b.courtno, 
+                b.judge_id 
+            FROM (
+                SELECT s.id, s.sub_name1, s.subcode1 
+                FROM master.submaster s 
+                WHERE s.display = 'Y' AND s.flag = 's' AND s.subcode1 != 8888 
+                GROUP BY s.id, s.sub_name1, s.subcode1
+            ) a 
+            LEFT JOIN (
                 SELECT 
-                    a.sub_name1, 
-                    a.subcode1, 
-                    b.courtno, 
-                    b.judge_id 
-                FROM
-                (
-                    SELECT 
-                        s.sub_name1, 
-                        s.subcode1 
-                    FROM 
-                        master.submaster s 
-                    WHERE 
-                        s.display = 'Y' AND 
-                        s.flag = 's' AND 
-                        s.subcode1 != 8888 
-                    GROUP BY 
-                        s.sub_name1, s.subcode1
-                ) a
-                LEFT JOIN
-                (
-                    SELECT 
-                        r.courtno,
-                        ss.sub_name1,
-                        ss.subcode1,
-                        STRING_AGG(rj.judge_id::text, ',') AS judge_id
-                    FROM 
-                        master.roster r
-                    INNER JOIN 
-                        category_allottment c ON c.ros_id = r.id
-                    INNER JOIN 
-                        master.roster_judge rj ON rj.roster_id = r.id
-                    INNER JOIN 
-                        master.submaster s ON s.id = c.submaster_id
-                    LEFT JOIN 
-                        master.submaster ss ON ss.subcode1 = s.subcode1
-                    WHERE 
-                        ss.display = 'Y' AND 
-                        r.display = 'Y' AND 
-                        r.m_f = '1' AND 
-                        r.from_date = :list_dt: AND 
-                        r.courtno = :court_no:
-                    GROUP BY 
-                        r.courtno, ss.sub_name1, ss.subcode1
-                ) b ON b.sub_name1 = a.sub_name1
-            ) c
-            GROUP BY 
-                c.sub_name1, c.subcode1
-        ) d 
-        LEFT JOIN 
-        (
-            SELECT 
-                m.diary_no,
-                h.subhead,
-                h.listorder,
-                s.subcode1 AS subcd1
-            FROM 
-                mul_category mc
-            INNER JOIN 
-                master.submaster s ON s.id = mc.submaster_id
-            INNER JOIN 
-                main m ON m.diary_no = mc.diary_no
-            INNER JOIN 
-                heardt h ON m.diary_no = h.diary_no
-            WHERE 
-                m.c_status = 'P' AND 
-                (m.diary_no = m.conn_key::bigint OR m.conn_key IS NULL OR m.conn_key = '' OR m.conn_key = '0') AND 
-                h.mainhead = 'M' AND 
-                h.board_type = 'J' AND 
-                h.brd_slno = 0 AND     
-                h.main_supp_flag = 0 AND 
-                h.next_dt = :list_dt:
-        ) t ON t.subcd1 = d.subcode1
-        GROUP BY 
-            d.sub_name1, d.subcode1, d.judge
-        ";
+                    SPLIT_PART(STRING_AGG(rj.judge_id::text, ',' ORDER BY rj.id), ',', 1) AS judge_id,
+                    r.courtno, 
+                    ss.sub_name1, 
+                    ss.subcode1 
+                FROM master.roster r 
+                INNER JOIN category_allottment c ON c.ros_id = r.id 
+                INNER JOIN master.roster_judge rj ON rj.roster_id = r.id 
+                INNER JOIN master.submaster s ON s.id = c.submaster_id 
+                LEFT JOIN master.submaster ss ON ss.subcode1 = s.subcode1               
+                WHERE ss.display = 'Y' 
+                    AND rj.display = 'Y' 
+                    AND s.display = 'Y' 
+                    AND c.display = 'Y' 
+                    AND r.display = 'Y' 
+                    AND r.m_f = '1' 
+                    AND r.from_date = :list_dt: 
+                    AND r.courtno = :court_no:
+                GROUP BY r.id, r.courtno, ss.sub_name1, ss.subcode1
+            ) b ON b.sub_name1 = a.sub_name1 
+            WHERE b.sub_name1 IS NOT NULL 
+            GROUP BY a.id, a.sub_name1, a.subcode1, b.courtno, b.judge_id
+        ) c 
+        GROUP BY c.id, c.sub_name1, c.subcode1
+    ) d 
+    LEFT JOIN (
+        SELECT 
+            m.diary_no, 
+            h.subhead, 
+            h.listorder, 
+            SPLIT_PART(h.coram, ',', 1) AS coram, 
+            s.subcode1 AS subcd1 
+        FROM mul_category mc
+        INNER JOIN master.submaster s ON s.id = mc.submaster_id    
+        INNER JOIN main m ON m.diary_no = mc.diary_no 
+        INNER JOIN heardt h ON m.diary_no = h.diary_no 
+        WHERE m.c_status = 'P' 
+            AND (
+                m.conn_key IS NULL 
+                OR m.conn_key = '' 
+                OR m.conn_key::bigint = 0 
+                OR m.diary_no = m.conn_key::bigint
+            )
+            AND h.mainhead = 'M' 
+            AND h.board_type = 'J' 
+            AND clno = 0 
+            AND brd_slno = 0 
+            AND main_supp_flag = 0 
+            AND h.next_dt = :list_dt:
+    ) t ON t.subcd1 = d.subcode1
+    GROUP BY d.sub_name1, d.subcode1, d.judge
+) t 
+ORDER BY sub_name1";
 
-        return $this->db->query($sql, ['list_dt' => $formattedDate, 'court_no' => $court_no])->getResultArray();
-    }
+        $result =  $this->db->query($sql, ['list_dt' => $formattedDate, 'court_no' => $court_no])->getResultArray();
+        if(!empty($result) && $data_save == "Yes"){
+			$this_crt_avl = ""; $total_this_cat_ratio = "";
+			foreach($result as $k=>$row){
+				if(!empty($row['sub_name1'])){
+                    $this_crt_avl = $row['case_cnt'];
+                }
+				if ($this_crt_avl != 0) {
+					$this_cat_ratio = (int)$row['case_cnt'] * 60 / (float)$this_crt_avl;
+				} else {
+					$this_cat_ratio = 0; 
+				}
+				
+					 $sql = "INSERT INTO master.cat_jud_ratio 
+								(cat_id, cat_name, judge, next_dt, bail_top, orders, fresh, fresh_no_notice, an_fd, cnt, ratio_cnt, ent_dt, usercode)
+							VALUES 
+								(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)
+							ON CONFLICT (cat_id, judge, next_dt) 
+							DO UPDATE 
+								SET bail_top = EXCLUDED.bail_top, 
+									orders = EXCLUDED.orders,
+									fresh = EXCLUDED.fresh,
+									fresh_no_notice = EXCLUDED.fresh_no_notice,
+									an_fd = EXCLUDED.an_fd,
+									cnt = EXCLUDED.cnt,
+									ratio_cnt = EXCLUDED.ratio_cnt,
+									ent_dt = EXCLUDED.ent_dt,
+									usercode = EXCLUDED.usercode;
+							";
+							$judge = $row['judge'] ?? '0';
+							$subcode1 = $row['subcode1']??'0';
+							$binds = [
+								$subcode1,
+								$row['sub_name1'],
+								$judge,
+								$formattedDate,
+								$row['tobe_list_all'],
+								$row['order_cnt'],
+								$row['fresh_cnt'],
+								$row['fresh_head_cnt'],
+								$row['notice_cnt'],
+								$row['case_cnt'],
+								round($this_cat_ratio, 2),
+								$ucode
+							];
+					$this->db->query($sql, $binds); 
+				}
+		}
+				return $result;
+	}
+	
+	function getcatAvlCaseIndvGetReportDatajudge($list_dt, $court_no){
+		 $formattedDate = date('Y-m-d', strtotime($list_dt));
+		$ros12 = $this->db->table('master.roster r')
+					->select('jname')
+					->join('master.roster_judge rj', 'rj.roster_id = r.id')
+					->join('master.judge j', 'rj.judge_id = j.jcode')
+					->where('r.display', 'Y')
+					->where('r.m_f', '1')
+					->where('r.from_date', $formattedDate)
+					->where('r.courtno', $court_no)
+					->where('rj.display', 'Y')
+					->orderBy('j.judge_seniority')
+					->limit(1)
+					->get()
+					->getRowArray();
+			   if(!empty($ros12)){
+				   return  $ros12['jname'];
+			   }else{
+				   return '';
+			   }
+	}
+	
 
     private function isValidDate($date)
     {

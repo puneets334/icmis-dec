@@ -63,6 +63,10 @@ class Tagging extends BaseController
 
 
         $diary_details_connected = $this->Model_TaggingModel->getDiaryDetails($diary_no, 'V', $is_archived_flag);
+        if(empty($diary_details_connected))
+        {
+            $diary_details_connected = $this->Model_TaggingModel->getDiaryDetails($diary_no, 'V', '');
+        }
 
         if (!empty($diary_details_connected['connto'])) {
             $conct_data_diary = $this->get_connected_diary_details($diary_details_connected['connto'], $is_archived_flag);

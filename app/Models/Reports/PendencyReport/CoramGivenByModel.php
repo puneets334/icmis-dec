@@ -31,17 +31,10 @@ class CoramGivenByModel extends Model
         }
     }
 
-    public function removeCoram()
+    public function removeCoram($judge, $crm_dtl, $mainhead)
     {
-        $ucode = session()->get('login')['usercode'];
-        $judge = $_POST['judge'];
-        $crm_dtl = $_POST['crm_dtl'];
-        // pr($crm_dtl);
-        $mainhead = $_POST['mainhead'];
-        $html = '';
-
-        if($crm_dtl == 1)
-        {
+        $return = [];
+        if($crm_dtl == 1) {
             //Coram Given by CJI
             $sql = "SELECT 
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3 FOR 4) AS INTEGER) AS dyr,
@@ -59,16 +52,14 @@ class CoramGivenByModel extends Model
                 main m ON m.diary_no = h.diary_no
             WHERE 
                 m.c_status = 'P'
-                AND (m.diary_no = CAST(m.conn_key AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
                 AND h.mainhead = '$mainhead'
                 AND CAST($judge AS TEXT) = ANY (STRING_TO_ARRAY(h.coram, ','))
                 AND h.list_before_remark = 11
             ORDER BY 
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3 FOR 4) AS INTEGER) ASC,
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS INTEGER) ASC";
-        }
-        else if($crm_dtl == 2)
-        {
+        } else if($crm_dtl == 2) {
             //Special Bench asigned by CJ
             $sql = "SELECT m.*, 
                    STRING_AGG(CAST(n.j1 AS TEXT), ',') AS coram, 
@@ -85,16 +76,16 @@ class CoramGivenByModel extends Model
                     m.lastorder
                 FROM heardt h
                 INNER JOIN main m ON m.diary_no = h.diary_no
-                INNER JOIN not_before n ON m.diary_no = n.diary_no
+                INNER JOIN not_before n ON m.diary_no = CAST(n.diary_no AS BIGINT)
                 WHERE
                     m.c_status = 'P'
                     AND h.mainhead = '$mainhead'
-                    AND (m.diary_no = CAST(m.conn_key AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                    AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
                     AND n.notbef = 'B'
                     AND n.res_id = 11
                     AND n.j1 = $judge
             ) m
-            INNER JOIN not_before n ON n.diary_no = m.diary_no
+            INNER JOIN not_before n ON CAST(n.diary_no AS BIGINT) = m.diary_no
             GROUP BY
                 m.diary_no,
                 m.dyr,
@@ -106,9 +97,7 @@ class CoramGivenByModel extends Model
             ORDER BY
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3 FOR 4) AS INTEGER) ASC,
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS INTEGER) ASC";
-        }
-        else if($crm_dtl == 3)
-        {
+        } else if($crm_dtl == 3) {
             //Special Bench
             $sql = "SELECT m.*, 
                    STRING_AGG(CAST(n.j1 AS TEXT), ',') AS coram, 
@@ -125,16 +114,16 @@ class CoramGivenByModel extends Model
                     m.lastorder
                 FROM heardt h
                 INNER JOIN main m ON m.diary_no = h.diary_no 
-                INNER JOIN not_before n ON m.diary_no = n.diary_no
+                INNER JOIN not_before n ON m.diary_no = CAST(n.diary_no AS BIGINT)
                 WHERE 
                     m.c_status = 'P' 
                     AND h.mainhead = '$mainhead'
-                    AND (m.diary_no = CAST(m.conn_key AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                    AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
                     AND n.notbef = 'B' 
                     AND n.res_id != 11 
                     AND n.j1 = $judge
             ) m
-            INNER JOIN not_before n ON n.diary_no = m.diary_no
+            INNER JOIN not_before n ON CAST(n.diary_no AS BIGINT) = m.diary_no
             GROUP BY 
                 m.diary_no, 
                 m.dyr, 
@@ -146,9 +135,7 @@ class CoramGivenByModel extends Model
             ORDER BY 
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3 FOR 4) AS INTEGER) ASC,
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS INTEGER) ASC"; 
-        }
-        else if($crm_dtl == 4)
-        {
+        } else if($crm_dtl == 4) {
             //Part Heard
             $sql = "SELECT 
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3 FOR 4) AS INTEGER) AS dyr,
@@ -169,7 +156,7 @@ class CoramGivenByModel extends Model
             WHERE 
                 m.c_status = 'P'
                 AND h.mainhead = '$mainhead'
-                AND (m.diary_no = CAST(m.conn_key AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
                 AND CAST($judge AS TEXT) = ANY (STRING_TO_ARRAY(h.coram, ','))
                 AND (h.subhead = '824' OR mc.submaster_id = '913')
             GROUP BY 
@@ -183,9 +170,7 @@ class CoramGivenByModel extends Model
             ORDER BY 
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3 FOR 4) AS INTEGER) ASC,
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS INTEGER) ASC";   
-        }
-        else if($crm_dtl == 5)
-        {
+        } else if($crm_dtl == 5) {
             //Other
             $sql = "SELECT 
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3 FOR 4) AS INTEGER) AS dyr,
@@ -204,12 +189,12 @@ class CoramGivenByModel extends Model
             LEFT JOIN 
                 mul_category mc ON mc.diary_no = m.diary_no AND mc.display = 'Y'
             LEFT JOIN 
-                not_before n ON n.diary_no = m.diary_no AND n.notbef = 'B' AND n.j1 = CAST($judge AS INTEGER)
+                not_before n ON CAST(n.diary_no AS BIGINT) = m.diary_no AND n.notbef = 'B' AND n.j1 = CAST($judge AS INTEGER)
             WHERE 
                 n.j1 IS NULL 
                 AND m.c_status = 'P' 
                 AND h.mainhead = CAST('$mainhead' AS TEXT)
-                AND (m.diary_no = CAST(m.conn_key AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
                 AND CAST($judge AS TEXT) = ANY (STRING_TO_ARRAY(h.coram, ','))
                 AND (h.subhead != '824' AND mc.submaster_id != '913') 
                 AND h.list_before_remark != '11'
@@ -218,9 +203,7 @@ class CoramGivenByModel extends Model
             ORDER BY 
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3 FOR 4) AS INTEGER) ASC,
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS INTEGER) ASC"; 
-        }
-        else
-        {
+        } else {
             //All
             $sql = "SELECT 
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3 FOR 4) AS INTEGER) AS dyr,
@@ -239,62 +222,19 @@ class CoramGivenByModel extends Model
             WHERE 
                 m.c_status = 'P'
                 AND h.mainhead = CAST('$mainhead' AS TEXT)
-                AND (m.diary_no = CAST(m.conn_key AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
                 AND CAST($judge AS TEXT) = ANY (STRING_TO_ARRAY(h.coram, ','))
             ORDER BY
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3 FOR 4) AS INTEGER) ASC,
                 CAST(SUBSTRING(CAST(m.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS INTEGER) ASC";
 
         }
-
+        //pr($sql);
         $sqlString = $this->db->query($sql);
-        if($sqlString->getNumRows() >= 1)
-        {
-            $result = $sqlString->getResultArray();
-            $sno = 1;
-            $theadRowStyle = 'style="font-weight: bold; color: #dce38d; background-color: #918788;"';
-            $html .= '<div class = "table-responsive" id="prnnt" style="text-align: center; font-size:13px;">
-                <table align="left" width="100%" border="0px;" style="padding: 10px; font-size:13px; table-layout: fixed;">
-                <thead>
-                    <tr>
-                        <td width="5%" '.$theadRowStyle.'>SrNo.</td>
-                        <td width="25%" '.$theadRowStyle.'>Case No. # Diary No.</td>
-                        <td width="40%" '.$theadRowStyle.'>Cause Title</td>
-                        <td width="10%" '.$theadRowStyle.'>Coram</td>
-                        <td width="20%" '.$theadRowStyle.'>Last order</td>
-                    </tr>
-                </thead>';
-            $html .= '<tbody>';
-            foreach($result as $key => $value)
-            {
-                $sno1 = $sno % 2;
-                $backgroundColor = ($sno1 == 1) ? '#ececec' : '#f6e0f3';
-
-                $html .= '<tr style="padding: 10px; background-color: ' . $backgroundColor . ';">';
-                $html .= '<td align="left" style="vertical-align: top;">' . $sno . '</td>';
-                $html .= '<td align="left" style="vertical-align: top;">' . $value['reg_no_display'];
-
-                if ($value['reg_no_display'])
-                {
-                    $html .= ' # ';
-                }
-
-                $html .= $value['dno'] . '-' . $value['dyr'] . '</td>';
-                $html .= '<td align="left" style="vertical-align: top;">' . $value['pet_name'] . ' Vs ' . $value['res_name'] . '</td>';
-                $html .= '<td align="left" style="vertical-align: top;">' . f_get_judge_names_inshort($value['coram']) . '</td>';
-                $html .= '<td align="left" style="vertical-align: top;">' . $value['lastorder'] . '</td>';
-                $html .= '</tr>';
-
-                $sno++;
-            }
-            $html .= '</tbody></table></div>';
-            $html .= '<div class="col-md-12" style="text-align: left; padding-bottom:10px;"><input name="prnnt1" type="button" id="prnnt1" value="Print"></div>';
-            return $html;
+        if($sqlString->getNumRows() >= 1) {
+            $return = $sqlString->getResultArray();
         }
-        else
-        {
-            $html .= '<p align="center"><font color=red>No Recrods Found</font></p>';
-            return $html;
-        }
+        
+        return $return;   
     }
 }

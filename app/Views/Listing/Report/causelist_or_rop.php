@@ -34,7 +34,7 @@
 						<div class="col-md-2">
 							<div class="form-group row">
 							<label class="col-form-label">&nbsp;</label>
-							<input type="text" name="txt_aor_code" class="form-control" id="txt_aor_code"/>
+							<input type="text" name="txt_aor_code" class="form-control" id="txt_aor_code"  placeholder="Enter Only digits"  onkeypress="return isNumberKey(event)"/>
 						 </div>
 						</div>
 				   
@@ -78,3 +78,5 @@
         <!-- /.container-fluid -->
     </section>
 	<script type="text/javascript" src="<?php echo base_url();?>/reports/causelist_or_rop.js" defer="defer"></script> 
+
+	

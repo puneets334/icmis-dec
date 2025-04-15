@@ -1,6 +1,11 @@
 <?php
 
 ?>
+<style>
+    .center-text {
+        text-align: center;
+    }
+</style>
 <html>
 
 <head>
@@ -19,29 +24,39 @@
 
     ?>
         <br><br>
-        <div align="center"><input name="cmdPrnRqs2" type="button" id="cmdPrnRqs2" onClick="CallPrint('prnTable');" value="PRINT"></div>
+
         <div id="prnTable" align="center">
-            <table cellpadding=1 cellspacing=0 border=1>
+
+            <table class="table table-bordered table-striped table-hover" cellpadding="1" cellspacing="0">
+
                 <tr>
                     <th colspan=13>
-                        <font color=blue size=+1><?= $rpt_type ?> Report between :<?php echo $from_date . ' to ' . $to_date; ?></font>
+                        <center>
+                            <font color="blue">
+                                <?= $rpt_type ?> Report between :
+                                <?php echo date('d/m/Y', strtotime($from_date)) . ' to ' . date('d/m/Y', strtotime($to_date)); ?>
+                            </font>
+                        </center>
+
+
+
                     </th>
                 </tr>
                 <tr>
-                    <th>Sno</th>
+                    <th colspan="1" class="center-text">Sno</th>
 
-                    <th colspan="1">Date</th>
-                    <th colspan="1">Case Type</th>
+                    <th colspan="1" class="center-text">Date</th>
+                    <th colspan="1" class="center-text">Case Type</th>
                     <?php
                     ?>
 
                     <?php
                     ?>
-                    <?php if ($rpt_type == 'defect') { ?> <th>Defective(IA)</th>
-                        <th>Defective(Without IA)</th>
-                        <th>Total Defective</th>
-                        <th>Registered</th><?php } ?>
-                    <th colspan="1">Total</th>
+                    <?php if ($rpt_type == 'defect') { ?> <th class="center-text">Defective(IA)</th>
+                        <th class="center-text">Defective(Without IA)</th>
+                        <th class="center-text">Total Defective</th>
+                        <th class="center-text">Registered</th><?php } ?>
+                    <th colspan="1" class="center-text" >Total</th>
                     <?php
                     $i = 1;
                     $total = 0;
@@ -50,9 +65,10 @@
                     $filed_tot = 0;
                     $not_filed_tot = 0;
                     $defect_ia_tot = 0;
-                    $not_defect_tot=0;
+                    $not_defect_tot = 0;
 
                     foreach ($rs as $row) {
+                        //pr($row);
 
 
                     ?>
@@ -60,24 +76,25 @@
                     <td align=center><?php echo $i; ?></td>
                     <?php if ($rpt_type == 'registration' || $rpt_type == 'institution' || $rpt_type == 'filing' || $rpt_type == 'refiling') {
                     ?>
-                        <td align=right><?php echo $row['fil_dt']; ?></td>
-                        <td><?php echo $row['short_description']; ?></td>
+                      <td align=center><?php echo date('d/m/Y', strtotime($row['fil_dt'])); ?></td>
+
+                        <td align=center><?php echo $row['short_description']; ?></td>
                     <?php } ?>
                     <?php
 
                         if ($rpt_type == 'defect') { ?>
-                        <td align=right><?php echo "<a href= JavaScript:newPopup('show_case_for_institution.php?ia=Y&defect=Y&from_date=" . $from_date . "&to_date=" . $to_date . "&rpt_type=" . $rpt_type . "&fil_dt=" . $row['fil_dt'] . "')>" . $row['defect_ia'] . "</a>"; ?>
+                        <td align=center><?php echo "<a href= JavaScript:newPopup('show_case_for_institution.php?ia=Y&defect=Y&from_date=" . $from_date . "&to_date=" . $to_date . "&rpt_type=" . $rpt_type . "&fil_dt=" . $row['fil_dt'] . "')>" . $row['defect_ia'] . "</a>"; ?>
                         </td>
-                        <td align=right>
+                        <td align=center>
                             <?php echo "<a href= JavaScript:newPopup('show_case_for_institution.php?ia=N&&defect=Y&from_date=" . $from_date . "&to_date=" . $to_date . "&rpt_type=" . $rpt_type . "&fil_dt=" . $row['fil_dt'] . "')>" . ($row['defect'] - $row['defect_ia']) . "</a>"; ?>
                         </td>
-                        <td align=right><?php echo "<a href= JavaScript:newPopup('show_case_for_institution.php?ia=all&defect=all&from_date=" . $from_date . "&to_date=" . $to_date . "&rpt_type=" . $rpt_type . "&fil_dt=" . $row['fil_dt'] . "')>" . $row['defect'] . "</a>"; ?> </td>
-                        <td align=right><?php echo $row['not_defect']; ?></td>
+                        <td align=center><?php echo "<a href= JavaScript:newPopup('show_case_for_institution.php?ia=all&defect=all&from_date=" . $from_date . "&to_date=" . $to_date . "&rpt_type=" . $rpt_type . "&fil_dt=" . $row['fil_dt'] . "')>" . $row['defect'] . "</a>"; ?> </td>
+                        <td align=center><?php echo $row['not_defect']; ?></td>
 
 
                 <?php
                         }
-                        echo "<td align=right><b>" . $row['cnt'] . "</b></td>
+                        echo "<td align=center><b>" . $row['cnt'] . "</b></td>
                        
 					</tr>";
 
@@ -106,14 +123,14 @@
                     echo "<tr style='color:#0000FF'>
 					<td " . $colspan . "><b>Grand Total</b></td> ";
                     if ($rpt_type == 'defect')
-                        echo "<td align=right><b>" . $defect_ia_tot . "</b></td><td align=right><b>" . ($defect_tot - $defect_ia_tot) . "</b></td><td align=right><b>" . $defect_tot . "</b></td><td align=right><b>" . $not_defect_tot . "</b></td>";
+                        echo "<td align=center><b>" . $defect_ia_tot . "</b></td><td align=center><b>" . ($defect_tot - $defect_ia_tot) . "</b></td><td align=center><b>" . $defect_tot . "</b></td><td align=center><b>" . $not_defect_tot . "</b></td>";
 
-                    echo "<td  align=right><b>" . $tot . "</b></td>					</tr>";
+                    echo "<td  align=center><b>" . $tot . "</b></td>					</tr>";
 
                 ?>
             </table>
         </div>
-        <center><input name="cmdPrnRqs22" type="button" id="cmdPrnRqs22" onClick="CallPrint('prnTable');" value="PRINT"></center>
+        <center><input type="button" id="print1" value="PRINT"></center>
     <?php
 
     } else

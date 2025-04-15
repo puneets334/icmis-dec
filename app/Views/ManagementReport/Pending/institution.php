@@ -87,12 +87,12 @@
 
                                 <div class="form-group col-sm-2">
                                 <label for="caseType" class="text-right">From Date</label>
-                                   <td><input type="date" name="from_date" id="from_date" value="<?php echo date('Y-m-d'); ?>" required></td>
+                                   <td><input type="text" name="from_date" id="from_date" class="dtp"></td>
                                 </div>
 
                                 <div class="form-group col-sm-2">
                                     <label for="caseNo" class="text-right">To Date</label>
-                                    <td><input type="date" name="to_date" id="to_date" value="<?php echo date('Y-m-d'); ?>" required></td>
+                                    <td><input type="text" name="to_date" id="to_date" class="dtp"></td>
                                 </div>
 
                                 <div class="form-group col-sm-2">
@@ -113,7 +113,7 @@
 
                             <div class="row col-md-2">
                                     <label for="button" class="text-right">&nbsp;</label>
-                                    <button type="button" style="text-align:center;" id="view" name="view" onclick="check(); " class="btn btn-block btn-primary">SHOW REPORT</button>
+                                    <center><button type="button" style="text-align:center;" id="view" name="view" onclick="check(); " class="btn btn-block btn-primary">SHOW REPORT</button></center>
                             </div>
                         </form>
                         <div></div>
@@ -127,49 +127,53 @@
 
 
 <script>
-    $(function () {
-        $('.datepick').datepicker({
-            format: 'dd-mm-yyyy',
-            todayHighlight: true,
+    // $(function () {
+    //     $('.datepick').datepicker({
+    //         format: 'dd-mm-yyyy',
+    //         todayHighlight: true,
 
-            autoclose:true
-        });
-    });
+    //         autoclose:true
+    //     });
+    // });
   function updateCSRFToken() {
         $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) {
             $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
         });
       }
 
-    function check()
-    {
-            var CSRF_TOKEN = 'CSRF_TOKEN';
-            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-            var from_date = $('#from_date').val();
-            var to_date = $('#to_date').val();
-            var rpt_type = $('#rpt_type').val();
-       
-            $.ajax({
-            type: "POST",
-            data: $("#dispatchQuery").serialize(),  
-            dataType: 'html', 
-            beforeSend: function()
-            {
-                $('#printable').html('<table width="100%" style="margin: 0 auto;"><tr><td style="text-align: center;"><img src="../../images/load.gif"/></td></tr></table>');
-            },
-            url: "<?php echo base_url('/ManagementReports/Pending/institution_report_post'); ?>",
-            success: function(data)
-            {
-                $("#printable").html(data);  
-                $("#dispatchDakFromRI").hide(); 
-                updateCSRFToken();  
-            },
-            error: function() {
-                alert('No Data Found');
-                updateCSRFToken();  
-            }
-        });
+      function check() {
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    var from_date = $('#from_date').val();
+    var to_date = $('#to_date').val();
+    var rpt_type = $('#rpt_type').val();
+
+    // Basic validation
+    if (!from_date || !to_date || !rpt_type) {
+        alert("Please select From Date, To Date, and Report Type.");
+        return false;
     }
+
+    $.ajax({
+        type: "POST",
+        data: $("#dispatchQuery").serialize(),  
+        dataType: 'html', 
+        beforeSend: function() {
+            $('#printable').html('<table width="100%" style="margin: 0 auto;"><tr><td style="text-align: center;"><img src="../../images/load.gif"/></td></tr></table>');
+        },
+        url: "<?php echo base_url('/ManagementReports/Pending/institution_report_post'); ?>",
+        success: function(data) {
+            $("#printable").html(data);  
+            $("#dispatchDakFromRI").hide(); 
+            updateCSRFToken();  
+        },
+        error: function() {
+            alert('No Data Found');
+            updateCSRFToken();  
+        }
+    });
+}
+
     function check_error(fromDate, toDate, param) {
         date1 = new Date(fromDate.split('-')[2], fromDate.split('-')[1] - 1, fromDate.split('-')[0]);
         date2 = new Date(toDate.split('-')[2], toDate.split('-')[1] - 1, toDate.split('-')[0]);
@@ -221,6 +225,16 @@
             }
         }
     }
+
+    $(document).on("click","#print1",function(){
+    var prtContent = $("#prnTable").html();
+    var temp_str=prtContent;
+    var WinPrint = window.open('','','left=10,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1');
+    WinPrint.document.write(temp_str);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+});
 
 </script>
 

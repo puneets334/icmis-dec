@@ -499,7 +499,8 @@ class CaseRemarksVerification extends Model
 
         $query2 = $this->db->query($sql_da);
         $result = $query2->getResultArray();
-        if (sizeof($result) > 0) {
+        
+        if (count($result) > 0) {
             $ut_id = $result[0]['ut_id'];
             $us_id = $result[0]['us_id'];
         }
@@ -558,8 +559,8 @@ class CaseRemarksVerification extends Model
                             AND cl.roster_id = h.roster_id
                             AND cl.display = 'Y'
                         WHERE
-                            cl.next_dt IS NOT NULL
-                            AND h.next_dt >= CURRENT_DATE
+                            cl.next_dt IS NOT NULL AND 
+                            h.next_dt >= CURRENT_DATE
                             AND m.c_status = 'P'
                             AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
 
@@ -602,14 +603,108 @@ class CaseRemarksVerification extends Model
                         ELSE 3
                     END,
                     cl_date DESC";
-                    
         $query = $this->db->query($sql);
-        // $result =  $query->getResultArray();
-        if ($query->getNumRows() >= 1) {
-            return $query->getResultArray();
-        } else {
-            return $query->getResultArray();
+        $result =  $query->getResultArray();
+       
+        return $result;
+        
+        // if ($query->getNumRows() >= 1) {
+        //     return $query->getResultArray();
+        // } else {
+        //     return $query->getResultArray();
+        // }
+    }
+
+    public function loosedoc_verify_not_verify_Details($date,$flag,$section,$usercode)
+    {
+        if($flag=='V')
+        $cond2=" and dc.verified='$flag'";
+     else if($flag=='N')
+         $cond2=" and dc.verified!='V'";
+
+      $sql_da="SELECT
+                    u.name,
+                    u.empid,
+                    COALESCE(string_agg(um.usec::TEXT, NULL), us.id::TEXT) AS us_id,
+                    ut.id AS ut_id
+                FROM
+                    master.users u
+                INNER JOIN
+                    master.user_sec_map um ON u.empid = um.empid AND um.display = 'Y'
+                LEFT JOIN
+                    master.usersection us ON u.section = us.id
+                LEFT JOIN
+                    master.usertype ut ON ut.id = u.usertype
+                WHERE
+                    u.display = 'Y'
+                    AND u.attend = 'P'
+                    AND u.usercode = 1 
+                GROUP BY
+                    u.empid, u.name, us.id, ut.id";
+        $query2 = $this->db->query($sql_da);
+        $result = $query2->getResultArray();
+        if (sizeof($result) > 0) {
+            $ut_id = $result[0]['ut_id'];
+            $us_id = $result[0]['us_id'];
         }
+     
+     $cond = "";
+     if($ut_id==14)
+     {
+         $cond=" and us.id=$us_id";
+     }
+     else if($ut_id==6 OR $ut_id==9 OR $ut_id==4 OR $ut_id==12)
+     {
+         $cond=" and us.id in ($us_id)";
+     }
+     else if($ut_id==1)
+     {
+         $cond="";
+     }
+     else if($ut_id!=14 && $ut_id!=4 && $ut_id!=6 && $ut_id!=9 && $ut_id!=12 && $ut_id!=1)
+     {
+         $cond=" and da.usercode=$usercode";
+     }
+
+    $sql="SELECT
+                    SUBSTRING(dc.diary_no::TEXT ,1 , LENGTH(dc.diary_no::TEXT) - 4) || '/' || SUBSTRING(dc.diary_no::TEXT , LENGTH(dc.diary_no::TEXT) - 3) AS diary_no,
+                    m.reg_no_display || '@ D.No.' || SUBSTRING(m.diary_no::TEXT, 1, LENGTH(m.diary_no::TEXT) - 4) || '/' || SUBSTRING(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 3) AS CaseNo,
+                    pet_name || ' Vs ' || res_name AS causetitle,
+                    docdesc,
+                    docnum || '/' || docyear AS document,
+                    filedby,
+                    u_dak.name AS dak_name,
+                    u_dak.empid AS dak_empid,
+                    dc.ent_dt,
+                    da.name AS da_name,
+                    da.empid AS da_empid,
+                    us.section_name AS da_section
+                FROM
+                    docdetails dc
+                LEFT JOIN
+                    master.docmaster dm ON dc.doccode = dm.doccode AND dc.doccode1 = dm.doccode1
+                INNER JOIN
+                    main m ON dc.diary_no = m.diary_no
+                LEFT JOIN
+                    master.users u_dak ON u_dak.usercode = dc.usercode
+                LEFT JOIN
+                    master.users da ON da.usercode = m.dacode
+                LEFT JOIN
+                    master.usersection us ON us.id = da.section
+                WHERE
+                    m.c_status = 'P'
+                    AND DATE(dc.ent_dt) = '$date'
+                    $cond2 $cond 
+                    AND dm.display = 'Y'
+                    AND dc.display = 'Y'";
+        
+         $query = $this->db->query($sql);
+         //echo $this->db->last_query();
+         if ($query->getNumRows() >= 1) {
+             return $query->getResultArray();
+         } else {
+             return $query->getResultArray();
+         }
     }
 
     public function getJudges($list_dt)
@@ -635,17 +730,31 @@ class CaseRemarksVerification extends Model
             ->getResultArray();
     }
 
-    public function getCategoryData($list_dt, $judge_code)
-    {
-        $builder = $this->db->table('master.cat_jud_ratio');
-        return $builder->select('cat_id, cat_name, judge, next_dt, bail_top, orders, fresh, fresh_no_notice, an_fd, cnt, SUM(cnt) AS tot_cnt, ratio_cnt')
-            ->where('next_dt', $list_dt)
-            ->where('judge', $judge_code)
-            ->groupBy('cat_name')
-            ->orderBy('cat_name')
-            ->get()
-            ->getResultArray();
-    }
+    public function getCategoryData($list_dt, $judge_code){
+	  $sql = 'SELECT "cat_id", "cat_name", "judge", "next_dt", "bail_top", "orders", "fresh", "fresh_no_notice", "an_fd", "cnt", SUM(cnt) AS tot_cnt, "ratio_cnt"
+					FROM "master"."cat_jud_ratio" WHERE "next_dt" = '."'".$list_dt."'".' AND "judge" = '."'".$judge_code."'".'
+				GROUP BY "cat_id", "cat_name", "judge", "next_dt", "bail_top", "orders", "fresh", "fresh_no_notice", "an_fd", "ratio_cnt"
+				ORDER BY "cat_name"';
+				
+	    return $this->db->query($sql)->getResultArray();
+	}
+	
+	public function getCategoryData_judge($list_dt, $judge_code){
+		$sql = "SELECT t2.*, 
+					CASE WHEN new_cnt <= 60 THEN cat_cnt ELSE (t2.cat_cnt * 60) / new_cnt
+					END new_ratio
+					 FROM (SELECT c1.cat_name, c1.bail_top, c1.orders, c1.fresh, c1.fresh_no_notice, c1.an_fd, c1.ratio_cnt, t1.*, c1.cnt, c1.cat_id, 
+					(cnt / (SELECT COUNT(cnt) FROM master.cat_jud_ratio c3 WHERE next_dt = '$list_dt' AND c3.cat_id = c1.cat_id GROUP BY c3.cat_id)) AS cat_cnt,
+					((SELECT sum(ratio_cnt) FROM master.cat_jud_ratio c5 WHERE next_dt = '$list_dt' AND c5.cat_id = c1.cat_id GROUP BY c5.cat_id)) totcatlk,
+					(SELECT COUNT(cnt) FROM master.cat_jud_ratio c5 WHERE next_dt = '$list_dt' AND c5.cat_id = c1.cat_id GROUP BY c5.cat_id) cattlk    
+					FROM 
+					(SELECT 
+					next_dt, judge, SUM(cnt / (SELECT COUNT(cnt) FROM master.cat_jud_ratio c3 WHERE next_dt = '$list_dt' AND c3.cat_id = c1.cat_id GROUP BY c3.cat_id)) new_cnt
+					FROM master.cat_jud_ratio c1 WHERE next_dt ='$list_dt' GROUP BY next_dt, judge) t1
+					INNER JOIN master.cat_jud_ratio c1 ON c1.next_dt = t1.next_dt AND c1.judge = t1.judge WHERE c1.judge = '$judge_code') t2";
+				
+	    return $this->db->query($sql)->getResultArray();
+	}
 
     public function loosedoc_verify_not_verify($from_date, $to_date, $usercode)
     {
@@ -834,6 +943,7 @@ class CaseRemarksVerification extends Model
                     m.casetype_id,
                     m.ref_agency_state_id,
                     m.diary_no_rec_date,
+                    m.active_casetype_id,
                     h.*,
                     SPLIT_PART(SPLIT_PART(m.active_fil_no, '-', -1), ' ', 1) as fil_no_order 
                 FROM
@@ -1570,6 +1680,7 @@ class CaseRemarksVerification extends Model
                     s.sub_name4, 
                     s.subcode1, 
                     s.subcode2;";
+                    
 
             $query = $this->db->query($sql);
             $result = $query->getResultArray();
@@ -1623,7 +1734,13 @@ class CaseRemarksVerification extends Model
                 WHERE 
                 d.cl_date = '$list_dt_db'
                 AND d.display = 'Y' 
-                AND (m.diary_no = m.conn_key::int OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                -- AND (m.diary_no = m.conn_key::int OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                AND (
+                    (m.conn_key ~ '^[0-9]+$' AND m.diary_no = m.conn_key::int)
+                    OR m.conn_key = ''
+                    OR m.conn_key IS NULL
+                    OR m.conn_key = '0'
+                )
                 GROUP BY 
                 d.diary_no, m.reg_no_display, m.pet_name, m.res_name, d.mf, mb.board_type_mb, d.clno, d.cl_date, d.nrs,
                 s.category_sc_old, s.sub_name1, s.sub_name4, s.subcode1, s.subcode2,m.diary_no,r.courtno

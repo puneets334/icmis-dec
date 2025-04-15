@@ -2,14 +2,13 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 mt-3">
                 <div class="card">
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Year and Nature wise as on pending report of particular head</h3>
+                                <h3 class="card-title">Management Report >> Pending >> Year and Nature wise as on pending report of particular head</h3>
                             </div>
-                            <?= view('Filing/filing_filter_buttons'); ?>
                         </div>
                     </div>
                     <div class="card-body">
@@ -21,7 +20,7 @@
                         ?>
                         <div id="dv_content1">
                             <div class="row">
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-6 mt-2">
                                     <label for="">SELECT M/F </label>
                                     <select name="mf" id="mf" class="form-control" onChange="return get_subhead();">
                                         <option value="ALL">[M/F BOTH]</option>
@@ -30,7 +29,7 @@
                                         <option value="N">Not in Motion & Final</option>
                                     </select>
                                 </div>
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-6 mt-2">
                                     <label for="">Sub Heading</label>
                                     <div id="subhead_div">
                                         <select name="subhead[]" id="subhead" class="form-control" multiple="multiple" size="3" style="width:700px">
@@ -38,7 +37,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-6 mt-2">
                                     <label for="">Subject</label>
                                     <select name="subject[]" id="subject" class="form-control" style="width:700px" multiple="multiple" size="3" onChange="getcat(this.value)">
                                         <option value="all" selected="selected">ALL Subhead</option>
@@ -62,7 +61,7 @@
                                         ?>
                                     </select>
                                 </div>
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-6 mt-2">
                                     <label for="">Subcat1</label>
                                     <div id="catdiv">
                                         <select name="cat[]" id="cat" style="width:700px" class="form-control" multiple="multiple" size="3">
@@ -70,7 +69,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-6 mt-2">
                                     <label for="">Subcat2</label>
                                     <div id="subcatdiv">
                                         <select name="subcat[]" id="subcat" class="form-control" style="width:700px" multiple="multiple" size="4">
@@ -78,7 +77,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-12 mt-2">
+                                <div class="col-md-6 mt-2">
                                     <label for="">Subcat3</label>
                                     <div id="subcat2div">
                                         <select name="subcat2[]" id="subcat2" class="form-control" style="width:700px" multiple="multiple" size="4">
@@ -87,7 +86,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 mt-2">
+                            <div class="col-md-6 mt-2">
                                 <label for="">Or Select Act</label>
                                 <div id="subcatdiv">
                                     <select name="act[]" id="act" class="form-control" style="width:700px" multiple="multiple" size="4">
@@ -100,7 +99,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-12 mt-2">
+                            <div class="col-md-12 mt-5">
                                 <label for="">Case Stage</label>
                                 <select name="case_status_id[]" id="case_status_id" class="form-control" style="width:100%">
                                     <option value='103' selected="selected">All Pending</option>
@@ -167,7 +166,7 @@
                                     <div class="col-md-5">
                                         <label for="">Party Name</label>
                                         <input type="text" name="party_name" class="form-control" id="party_name" value="<?php //echo $_POST['res'];  
-                                                                                                                            ?>" size="40">
+                                                                                                                            12                                                     ?>" size="40">
                                     </div>
                                 </div>
                             </div>
@@ -338,7 +337,7 @@
                 return false;
             }
             var xhr1 = getXMLHTTP();
-            var str = "<?php echo base_url('ManagementReports/Pending/getcat_multiple');?>?subject=" + subject_val + "&subject_length=" + subject_count;
+            var str = "<?php echo base_url('ManagementReports/Pending/getcat_multiple'); ?>?subject=" + subject_val + "&subject_length=" + subject_count;
             xhr1.open("GET", str, true);
             xhr1.onreadystatechange = function() {
                 if (xhr1.readyState == 4 && xhr1.status == 200) {
@@ -376,7 +375,7 @@
                 cat.focus();
                 return false;
             }
-            var str = "<?php echo base_url('ManagementReports/Pending/getsubcat_mul');?>?subject=" + subject_val + "&subject_length=" + subject_count + "&cat=" + cat_val + "&cat_length=" + cat_count;
+            var str = "<?php echo base_url('ManagementReports/Pending/getsubcat_mul'); ?>?subject=" + subject_val + "&subject_length=" + subject_count + "&cat=" + cat_val + "&cat_length=" + cat_count;
             xhr2.open("GET", str, true);
             xhr2.onreadystatechange = function() {
                 if (xhr2.readyState == 4 && xhr2.status == 200) {
@@ -428,7 +427,7 @@
                 cat.focus();
                 return false;
             }
-            var str = "<?php echo base_url('ManagementReports/Pending/getsubcat2_mul');?>?subcat=" + subcat_val + "&subcat_length=" + subcat_count;
+            var str = "<?php echo base_url('ManagementReports/Pending/getsubcat2_mul'); ?>?subcat=" + subcat_val + "&subcat_length=" + subcat_count;
             xhr5.open("GET", str, true);
             xhr5.onreadystatechange = function() {
                 if (xhr5.readyState == 4 && xhr5.status == 200) {
@@ -445,7 +444,7 @@
     function get_subhead() {
         var xhr3 = getXMLHTTP();
         with(document.frm) {
-            var str = "<?php echo base_url('ManagementReports/Pending/get_subhead_for_ason');?>?m_f=" + mf.value;
+            var str = "<?php echo base_url('ManagementReports/Pending/get_subhead_for_ason'); ?>?m_f=" + mf.value;
             xhr3.open("GET", str, true);
             xhr3.onreadystatechange = function() {
                 if (xhr3.readyState == 4 && xhr3.status == 200) {
@@ -578,10 +577,10 @@
                 return false;
             }
 
-            var str = "<?php echo base_url('ManagementReports/Pending/get_year_head_nature_wise_ason_rpt');?>?subhead=" + subhead_val + "&mf=" + mf.value + "&til_date=" + til_date.value + "&subject=" + subject_val + "&subject_length=" + subject_count + "&cat=" + cat_val + "&cat_length=" + cat_count + "&subcat=" + subcat_val + "&subcat_length=" + subcat_count + "&subcat2=" + subcat2_val + "&subcat2_length=" + subcat2_count + "&from_year=" + from_year.value + "&to_year=" + to_year.value + "&bench=" + bench.value + "&rpt_type=" + rpt_type.value + "&pet_res=" + pet_res.value + "&party_name=" + party_name.value + "&act_msc=" + act_msc.value + "&ason_type=" + ason_type.value + "&lst_month=" + lst_month.value + "&lst_year=" + lst_year.value + "&from_fil_dt=" + from_fil_dt.value + "&upto_fil_dt=" + upto_fil_dt.value + "&rpt_purpose=" + rpt_purpose.value + "&concept=" + concept.value + "&main_connected=" + main_connected.value + "&act=" + act_val + "&act_length=" + act_count + "&order_by=" + order_by.value +
+            var str = "<?php echo base_url('ManagementReports/Pending/get_year_head_nature_wise_ason_rpt'); ?>?subhead=" + subhead_val + "&mf=" + mf.value + "&til_date=" + til_date.value + "&subject=" + subject_val + "&subject_length=" + subject_count + "&cat=" + cat_val + "&cat_length=" + cat_count + "&subcat=" + subcat_val + "&subcat_length=" + subcat_count + "&subcat2=" + subcat2_val + "&subcat2_length=" + subcat2_count + "&from_year=" + from_year.value + "&to_year=" + to_year.value + "&bench=" + bench.value + "&rpt_type=" + rpt_type.value + "&pet_res=" + pet_res.value + "&party_name=" + party_name.value + "&act_msc=" + act_msc.value + "&ason_type=" + ason_type.value + "&lst_month=" + lst_month.value + "&lst_year=" + lst_year.value + "&from_fil_dt=" + from_fil_dt.value + "&upto_fil_dt=" + upto_fil_dt.value + "&rpt_purpose=" + rpt_purpose.value + "&concept=" + concept.value + "&main_connected=" + main_connected.value + "&act=" + act_val + "&act_length=" + act_count + "&order_by=" + order_by.value +
                 "&adv_opt=" + adv_opt.value + "&case_status_id=" + case_status_id_val + "&case_status_id_length=" + case_status_id_count;
 
-            document.getElementById('cntnt_pending_app').innerHTML = '<img src="ajax-preloader.gif"></img>';
+            document.getElementById('cntnt_pending_app').innerHTML = '<img src="' + base_url + '/images/load.gif"/>';
             xhr4.open("GET", str, true);
             xhr4.onreadystatechange = function() {
                 if (xhr4.readyState == 4 && xhr4.status == 200) {
@@ -674,7 +673,9 @@
         spl_case, concept, main_connected,
         act, order_by, adv_opt,
         case_status_id, subcat2, subcat2_length
-    ) {
+    )
+    
+     {
         document.getElementById('ggg').style.width = 'auto';
         document.getElementById('ggg').style.height = ' 550px';
         document.getElementById('ggg').style.overflow = 'scroll';
@@ -685,7 +686,7 @@
         document.getElementById('dv_sh_hd').style.display = 'block';
         document.getElementById('dv_fixedFor_P').style.display = 'block';
         document.getElementById('dv_fixedFor_P').style.marginTop = '3px';
-        document.getElementById('ggg').innerHTML = '<table widht="100%" align="center"><tr><td><img src="preloader.gif"/></td></tr></table>';
+        document.getElementById('ggg').innerHTML = '<table widht="100%" align="center"><tr><td><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>';
         var xhr6 = getXMLHTTP();
         var str = "show_case_for_ason.php?nature_wise_tot=" + nature_wise_tot + "&subject=" + subject + "&subject_length=" + subject_length +
             "&cat=" + cat + "&cat_length=" + cat_length + "&subcat=" + subcat +
