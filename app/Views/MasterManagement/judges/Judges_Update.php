@@ -125,7 +125,7 @@
 
                                             <div class="control-label col-md-4  requiredField">
                                                 <label class="col-sm-6">FIRST NAME:</label>
-                                                <input class="form-control" type="TEXT" id="first_name" name="first_name" required="required">
+                                                <input class="form-control" type="TEXT" maxlength="50" id="first_name" name="first_name" required="required">
                                             </div>
 
 
@@ -348,6 +348,44 @@
             alert("Blank Data can't be inserted !");
         }
     });
+    
+    let alerted = false;
+    
+    $('#first_name').on('input', function() {
+        let value = $(this).val();
+
+        if (value.length > 50) {
+            $(this).val(value.substring(0, 49));
+        } else if (value.length >= 49 && !alerted) {
+            alert("Please enter first name with maximum 50 characters");
+            alerted = true;
+        } else if (value.length < 49) {
+            alerted = false;
+        }
+    });
+    $('#abbreviation').on('input', function() {
+        let value = $(this).val();
+        if (value.length > 15) {
+            $(this).val(value.substring(0, 14));
+        } else if (value.length >= 14 && !alerted) {
+            alert("Please enter first name with maximum 15 characters");
+            alerted = true;
+        } else if (value.length < 14) {
+            alerted = false;
+        }
+    });
+    $('#judge_seniority').on('input', function() {
+        let value = $(this).val();
+        if (value.length > 5) {
+            $(this).val(value.substring(0, 5));
+        } else if (value.length >= 5 && !alerted) {
+            alert("Please enter first name with maximum 5 characters");
+            alerted = true;
+        } else if (value.length < 5) {
+            alerted = false;
+        }
+    });
+
 
     // $("#jname").change(function(){
     //     var jcode = $("#jname").val();
