@@ -87,9 +87,9 @@ $last_date= date('t-m-Y', strtotime($dt1));
 ?>
 <br/>
 
-<table cellpadding=1 cellspacing=0 border=1 class="col-md-10">
+<table cellpadding=1 cellspacing=0 border=1  class="table table-bordered table-striped col-md-10">
     <tr >
-        <th colspan="4"> Constitution Bench Matters Classification</th>
+        <th colspan="4" class="text-center"> Constitution Bench Matters Classification</th>
     </tr>
     <tr><td>&nbsp;</td><td>Total</td><td>Main</td><td>Connected</td></tr>
     <?php
@@ -106,9 +106,9 @@ $last_date= date('t-m-Y', strtotime($dt1));
 </table>
 <br>
 
-<table cellpadding=1 cellspacing=0 border=1 class="col-md-10" >
+<table cellpadding=1 cellspacing=0 border=1 class=" table table-bordered table-striped col-md-10" >
     <tr >
-        <th colspan="2"> <?php echo "Total Cases between $first_date and $last_date";?></th>
+        <th colspan="2" class="text-center"> <?php echo "Total Cases between $first_date and $last_date";?></th>
     </tr>
     <?php
 
