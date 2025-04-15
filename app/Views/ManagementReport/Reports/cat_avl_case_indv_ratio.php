@@ -26,7 +26,7 @@
                                         <option value="J">Court</option>
                                     </select>
                             </div>
-						    <div class="col-md-1 mt-4">
+						    <div class="col-md-1 mt-4" style="text-align: right;">
                                 <label for=""><b>Date :</b></label>
                             </div>
                             <div class="col-md-3">
