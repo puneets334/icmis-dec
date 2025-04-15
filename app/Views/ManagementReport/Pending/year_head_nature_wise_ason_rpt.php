@@ -688,7 +688,7 @@
         document.getElementById('dv_fixedFor_P').style.marginTop = '3px';
         document.getElementById('ggg').innerHTML = '<table widht="100%" align="center"><tr><td><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>';
         var xhr6 = getXMLHTTP();
-        var str = "show_case_for_ason.php?nature_wise_tot=" + nature_wise_tot + "&subject=" + subject + "&subject_length=" + subject_length +
+        var str = "<?php echo base_url('ManagementReports/Pending/show_case_for_ason'); ?>?nature_wise_tot=" + nature_wise_tot + "&subject=" + subject + "&subject_length=" + subject_length +
             "&cat=" + cat + "&cat_length=" + cat_length + "&subcat=" + subcat +
             "&subcat_length=" + subcat_length + "&year=" + year + "&skey=" + skey +
             "&subhead=" + subhead + "&mf=" + mf + "&til_date=" + til_date +
