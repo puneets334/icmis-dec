@@ -170,6 +170,10 @@
     margin: 5px 0;
 }
 .row.mx-0{margin-left: 0!important;margin-right: 0!important;}
+
+.alert.alert-danger.text-danger {
+    color: #fff !important;
+}
 </style>
 <section class="content">
    <div class="container-fluid">
@@ -190,13 +194,13 @@
                         ?>
 
                     <div id="dv_content1">
-
-
-                        <div id="errmsg3"></div>
-                        <div id="errmsg4"></div>
-                        <div id="errmsg2"></div>
-                        <div id="errmsg1"></div>
-
+						  <div class="alert alert-danger text-danger">
+									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									 <div id="errmsg3"></div>
+								<div id="errmsg4"></div>
+								<div id="errmsg2"></div>
+								<div id="errmsg1"></div>
+						  </div>
                         <div id="div2">
                             <div class="row">
                                 <div class="mb-3 col-sm-12 col-md-4 col-lg-4">
@@ -353,7 +357,8 @@
             dateFormat: 'dd-mm-yy',
             changeMonth: true,
             changeYear: true,
-            yearRange: '1950:2050'
+            yearRange: '1950:2050',
+			maxDate: '+0d'  
         });
     });
 
