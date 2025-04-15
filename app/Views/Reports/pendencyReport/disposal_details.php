@@ -262,6 +262,8 @@
                                                     </tbody>
                                                 </table>
                                             <?php
+                                            } else {
+                                                 echo "No Data Found";   
                                             }
                                         }?>
                                     </div>

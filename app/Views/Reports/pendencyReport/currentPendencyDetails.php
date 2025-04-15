@@ -94,15 +94,12 @@
                             <div class="col-12 col-md-12">
                                 <section class="content">
                                     <?php
-                                    if(is_array($reports))
-                                    {
-                                        //var_dump($param);
+                                    if(is_array($reports)) {
+                                        
                                     ?>
                                     <div id="printable">
-                                        <caption>
+                                        <div id="caption">
                                         <?php
-                                       // var_dump($reports);<caption>
-
                                         if($param[4]=='A')
                                         {
                                          ?>
@@ -166,7 +163,7 @@
 
 
                                             ?>
-                                        </caption>
+                                        </div>
                                         <?php
                                         if($app_name=='CurrentPendencyDetailed')
                                         {
@@ -276,7 +273,15 @@
             "scrollX": true,
             "pageLength":15,
             buttons: [
-                'print','pageLength'
+                {   
+                    extend:'print',
+                    title:'',
+                    customize: function ( win ) {
+                        $(win.document.body).css('font-size', '12pt');
+                        const captionHTML = $('#caption').html();
+                        $(win.document.body).find('table').before('<div style="text-align:center; margin-bottom:20px;">' + captionHTML + '</div>');
+                    }
+                },'pageLength'
             ],
             lengthMenu: [
                 [ 10, 25, 50, -1 ],

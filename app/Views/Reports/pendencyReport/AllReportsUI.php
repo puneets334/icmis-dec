@@ -276,10 +276,14 @@
                 exportOptions: {
                     stripHtml: false
                 },
+                title:'',
 
                 customize: function ( win ) {
-                    $(win.document.body)
-                        .css( 'font-size', '12pt' )
+                    $(win.document.body).css( 'font-size', '12pt');
+                    $(win.document.body).find('table').before(
+                        '<h3 style="text-align: center;">PENDENCY STATEMENT AS ON  <?php echo date("d-m-Y h:m:s A")?></h3>'
+                    );
+                    
                         /*.append(
                             '<p style="float:left;width=50%;font-weight: bold;font-size: 20px;word-spacing: 5px;letter-spacing: 1px;color: Blue;margin-left: 150px;">Total Listed :'+gradTotalListed+'</p>' +
                                 '<p style="float:right;width=50%;font-weight: bold;font-size: 20px;word-spacing: 5px;letter-spacing: 1px;color: Blue;margin-right: 150px;">Total Disposed :'+grandTotalDisposed+'</p>'
