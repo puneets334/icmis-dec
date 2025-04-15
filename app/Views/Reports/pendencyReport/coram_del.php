@@ -180,15 +180,19 @@
             },
             url: "<?= site_url('Reports/PendencyReport/CoramGivenBy/removeCoram') ?>",
             beforeSend: function(xhr) {
+                $("#btngetr").attr("disabled", true);
                 $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             success: function(response) {
                 updateCSRFToken();
+                $("#btngetr").attr("disabled", false);
                 $("#dv_res1").html('');
                 $('#dv_res1').html(response);
+                
             },
             error: function(xhr, status, error) {
                 updateCSRFToken();
+                $("#btngetr").attr("disabled", false);
                 $("#dv_res1").html('');
                 alert( "Error Occured, contact server room" );
                 return false;
