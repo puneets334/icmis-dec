@@ -41,7 +41,7 @@ class Report extends BaseController
         }
         //$list_dt = (new \DateTime('2024-10-28'))->format('Y-m-d');
         $data = $this->Heardt->getReportData($list_dt);
-        return view('ManagementReport/Reports/cat_val_report_view', [
+		return view('ManagementReport/Reports/cat_val_report_view', [
             'data' => $data,
             'list_dt' => $list_dt
         ]);
