@@ -115,7 +115,7 @@ if ($flag == 'Total_22') {
     $headnote1 = " Total Nine Judges Bench Matter ";
 }
 if ($flag == 'Total_23') {
-    $subquert1 = " and s.subcode1 in (23) ";
+    $subquert1 = "s.subcode1 in (23) ";
     $headnote1 = " Total Eleven Judges Bench Matter ";
 }
 if ($flag == 'Main_20') {
@@ -126,14 +126,14 @@ AND m.conn_key::BIGINT <> m.diary_no)";
     $headnote1 = " Five Judges Bench Main Matter ";
 }
 if ($flag == 'Main_21') {
-    $subquert1 = " and s.subcode1 in (21) AND (m.conn_key IS NOT NULL 
+    $subquert1 = " s.subcode1 in (21) AND (m.conn_key IS NOT NULL 
 AND m.conn_key <> '' 
 AND m.conn_key::BIGINT <> 0 
 AND m.conn_key::BIGINT <> m.diary_no)";
     $headnote1 = " Seven Judges Bench Main Matter ";
 }
 if ($flag == 'Main_22') {
-    $subquert1 = " and s.subcode1 in (22) AND (m.conn_key IS NOT NULL 
+    $subquert1 = " s.subcode1 in (22) AND (m.conn_key IS NOT NULL 
 AND m.conn_key <> '' 
 AND m.conn_key::BIGINT <> 0 
 AND m.conn_key::BIGINT <> m.diary_no)";
@@ -147,7 +147,7 @@ AND m.conn_key::BIGINT <> m.diary_no)";
     $headnote1 = " Eleven Judges Bench Main Matter ";
 }
 if ($flag == 'conn_20') {
-    $subquert1 = "  s.subcode1 IN (20) AND (
+    $subquert1 = "s.subcode1 IN (20) AND (
                 m.conn_key IS NOT NULL 
                 AND m.conn_key <> '' 
                 AND m.conn_key::BIGINT <> 0 
@@ -155,15 +155,30 @@ if ($flag == 'conn_20') {
     $headnote1 = " Five Judges Bench Connected Matter ";
 }
 if ($flag == 'conn_21') {
-    $subquert1 = "  s.subcode1 in (21) AND (m.conn_key <> m.diary_no and m.conn_key is not null and m.conn_key <> '' and m.conn_key <> 0)";
+    //$subquert1 = "  s.subcode1 in (21) AND (m.conn_key <> m.diary_no and m.conn_key is not null and m.conn_key <> '' and m.conn_key <> 0)";
+    $subquert1 = "s.subcode1 IN (21) AND (
+        m.conn_key IS NOT NULL 
+        AND m.conn_key <> '' 
+        AND m.conn_key::BIGINT <> 0 
+        AND m.conn_key::BIGINT <> m.diary_no)";
     $headnote1 = " Seven Judges Bench Connected Matter ";
 }
 if ($flag == 'conn_22') {
-    $subquert1 = "  s.subcode1 in (22) AND (m.conn_key <> m.diary_no and m.conn_key is not null and m.conn_key <> '' and m.conn_key <> 0)";
+    //$subquert1 = "  s.subcode1 in (22) AND (m.conn_key <> m.diary_no and m.conn_key is not null and m.conn_key <> '' and m.conn_key <> 0)";
+    $subquert1 = "s.subcode1 IN (22) AND (
+        m.conn_key IS NOT NULL 
+        AND m.conn_key <> '' 
+        AND m.conn_key::BIGINT <> 0 
+        AND m.conn_key::BIGINT <> m.diary_no)";
     $headnote1 = " Nine Judges Bench Connected Matter ";
 }
 if ($flag == 'conn_23') {
-    $subquert1 = "  s.subcode1 in (23) AND (m.conn_key <> m.diary_no and m.conn_key is not null and m.conn_key <> '' and m.conn_key <> 0)";
+    //$subquert1 = "  s.subcode1 in (23) AND (m.conn_key <> m.diary_no and m.conn_key is not null and m.conn_key <> '' and m.conn_key <> 0)";
+    $subquert1 = "s.subcode1 IN (23) AND (
+        m.conn_key IS NOT NULL 
+        AND m.conn_key <> '' 
+        AND m.conn_key::BIGINT <> 0 
+        AND m.conn_key::BIGINT <> m.diary_no)";
     $headnote1 = " Eleven Judges Bench Connected Matter ";
 }
 

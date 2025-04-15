@@ -323,80 +323,67 @@
 </section>
 <script src="<?= base_url() ?>assets/js/Reports.js"></script>
 <script>
-$(document).ready(function () {
-    
-    var today = new Date();
-    var formattedDate = today.toLocaleDateString('en-GB'); 
-    var reportTitle = "Judges Wise Pendency as on " + formattedDate;
+    $(document).ready(function()
+    {
+        
+        //var reportTitle = "Cases Listed in Advance and Daily List";
+        var t = $('#reportTable1,#reportTable2,#reportTable3,#reportTable4').DataTable({
+            dom: 'Bfrtip',
+            pageLength: 25,
+            buttons: [
+                'print', 'pageLength'
+            ],
+            lengthMenu: [
+                [10, 25, 50, -1],
+                ['10 rows', '25 rows', '50 rows', 'Show all']
+            ],
 
-    var t = $('#reportTable1,#reportTable2,#reportTable3,#reportTable4').DataTable({
-        dom: 'Bfrtip',
-        pageLength: 25,
-        buttons: [
-            {
-                extend: 'print',
-                title: reportTitle
+            "footerCallback": function(row, data, start, end, display) {
+                var api = this.api(),
+                    data;
+
+                
+                var intVal = function(i) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '') * 1 :
+                        typeof i === 'number' ?
+                        i : 0;
+                };
+                total = api
+                    .column(4)
+                    .data()
+                    .reduce(function(a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+                pageTotal = api
+                    .column(4, {
+                        page: 'current'
+                    })
+                    .data()
+                    .reduce(function(a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+                $(api.column(4).footer()).html(pageTotal + ' (' + total + ' Total)');
             },
-            {
-                extend: 'pdfHtml5',
-                title: reportTitle,
-                orientation: 'landscape',
-                pageSize: 'A4'
-            },
-            'pageLength'
-        ],
-        lengthMenu: [
-            [10, 25, 50, -1],
-            ['10 rows', '25 rows', '50 rows', 'Show all']
-        ],
-        footerCallback: function (row, data, start, end, display) {
-            var api = this.api();
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            }],
+            "order": [
+                [1, 'asc']
+            ]
 
-            var intVal = function (i) {
-                return typeof i === 'string'
-                    ? i.replace(/[\$,]/g, '') * 1
-                    : typeof i === 'number'
-                    ? i
-                    : 0;
-            };
-
-            var total = api
-                .column(4)
-                .data()
-                .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0);
-
-            var pageTotal = api
-                .column(4, { page: 'current' })
-                .data()
-                .reduce(function (a, b) {
-                    return intVal(a) + intVal(b);
-                }, 0);
-
-            $(api.column(4).footer()).html(pageTotal + ' (' + total + ' Total)');
-        },
-        columnDefs: [
-            {
-                searchable: false,
-                orderable: false,
-                targets: 0
-            }
-        ],
-        order: [[1, 'asc']]
-    });
-
-    // Auto-increment Serial No.
-    t.on('order.dt search.dt', function () {
-        t.column(0, { search: 'applied', order: 'applied' })
-            .nodes()
-            .each(function (cell, i) {
+        });
+        t.on('order.dt search.dt', function() {
+            t.column(0, {
+                search: 'applied',
+                order: 'applied'
+            }).nodes().each(function(cell, i) {
                 cell.innerHTML = i + 1;
                 t.cell(cell).invalidate('dom');
             });
-    }).draw();
-});
+        }).draw();
 
-
-
+    });
 </script>
