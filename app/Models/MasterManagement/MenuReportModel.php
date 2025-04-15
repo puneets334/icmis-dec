@@ -401,7 +401,7 @@ class MenuReportModel extends Model
 
     public function getRoleById($id)
     {
-        return $this->db->query('SELECT role_desc, id FROM master.role_master WHERE id = ?', [$id])->getRowArray();
+        return $this->db->query('SELECT role_desc, id FROM master.role_master WHERE id = ?', [$id])->getResultArray();
     }
 
 
@@ -418,7 +418,7 @@ class MenuReportModel extends Model
                             FROM master.menu c 
                             WHERE SUBSTRING(c.menu_id FROM 1 FOR 2) = SUBSTRING(b.menu_id FROM 1 FOR 2) 
                             AND c.display = 'Y' 
-                            AND SUBSTRING(c.menu_id FROM 3 FOR 10) = '0000000000'
+                            AND SUBSTRING(c.menu_id FROM 3 FOR 10) = '0000000000'  LIMIT 1
                         ) AS main_menu 
                     FROM 
                         master.role_menu_mapping a

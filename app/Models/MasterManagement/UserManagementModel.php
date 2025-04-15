@@ -848,12 +848,14 @@ class UserManagementModel extends Model
             $checker = 0;
         
             $checker2 = 0;
-        
+       
         if($checker == 0 && $checker2 == 0){           
              
             if($service == 'J')
                 $name = 'Justice '.$name;
-            
+
+
+               //$pass = md5(concat($employee,$employee));
                 $insert = "INSERT INTO master.users(userpass,name,empid,service,usertype,section,udept,entdt,entuser) 
                 VALUES('$employee','".$name."','$employee','$service',$utype,$usec,$udept,NOW(),$user)";
                 $this->db->query($insert);
@@ -871,7 +873,8 @@ class UserManagementModel extends Model
     public function check_EMP_ID($emp_id, $ucode = NULL){
         $check = "SELECT * FROM master.users WHERE empid = '$emp_id' AND display = 'Y'";
         $check = $this->db->query($check);
-        if(!empty($check)){
+        $check_row = $check->getRowArray();
+        if(!empty($check_row)){
             if($ucode == NULL)
                 return 1;
             else{
