@@ -92,7 +92,7 @@
                                     <hr>
                                     <div id="printable" class="box box-success" style="box-sizing: border-box";>
                                         <div class="table-responsive">
-                                        <table width="100%" id="reportTable1" class="table table-striped table-hover table-bordered">
+                                        <table id="reportTable1"class="table table-striped custom-table">
                                             <h3 style="text-align: center;"> Menu Privilege details of : <strong><?=$menu_list[0]['name'];?></strong> (<strong><?=$menu_list[0]['empid'];?>)</strong></h3>
                                             <thead>
                                             <tr>
@@ -194,6 +194,8 @@
                 {
                     extend: 'pdfHtml5',
                     pageSize: 'A4',
+                    title: "Menu Privileges",
+                    filename: "Menu Privileges of the User  <?php echo date('d-m-Y'); ?>",
                     customize: function ( doc ) {
                         doc.content.splice( 0, 0, {
                             margin: [ 0, 0, 0, 5 ],
