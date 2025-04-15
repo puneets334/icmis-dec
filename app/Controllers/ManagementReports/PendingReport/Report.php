@@ -44,13 +44,12 @@ class Report extends BaseController
 
     public function get_inperson()
     {
-        // pr($_REQUEST);
         $sec_id = $this->request->getPost('sec_id');
         $board_type = $this->request->getPost('board_type');
-        $h3_head = "IN-PERSON CASES";
         $mainhead = $this->request->getPost('mainhead');
         $ucode = $_SESSION['login']['usercode'];
         $usertype = $_SESSION['login']['usertype'];
+        $data['h3_head'] = "IN-PERSON CASES";
         $data['model'] = $this->CaseRemarksVerification;
         $data['data'] = $this->CaseRemarksVerification->get_inperson($mainhead, $ucode, $usertype, $sec_id, $board_type);
 

@@ -139,19 +139,19 @@
                 CSRF_TOKEN: CSRF_TOKEN_VALUE,
             },
             url: "<?= site_url('Reports/PendencyReport/DetailedPendency/pendency') ?>",
-            beforeSend: function(xhr)
-            {
+            beforeSend: function(xhr) {
+                $("#btnGetR").attr("disabled", true);
                 $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
-            success: function(response)
-            {
+            success: function(response) {
                 updateCSRFToken();
+                $("#btnGetR").attr("disabled", false);
                 $("#dv_res1").html('');
                 $("#dv_res1").html(response.data);
             },
-            error: function(xhr, status, error)
-            {
+            error: function(xhr, status, error) {
                 updateCSRFToken();
+                $("#btnGetR").attr("disabled", false);
                 $("#dv_res1").html('');
                 alert( "Error Occured, contact server room" );
                 return false;

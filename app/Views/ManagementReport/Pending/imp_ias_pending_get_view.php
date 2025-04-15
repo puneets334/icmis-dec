@@ -1,6 +1,12 @@
-<?php if (count($data) > 0) {
-?>
-    <h3 style="text-align:center;">IMPORTANT IAs PENDING As On <?php echo date("d-m-Y h:i:s a"); ?></h3>
+<style>
+    .dataTables_filter{padding-right: 55px;}
+    .table-striped tr:nth-child(odd) td {background: #ECEEF2 !important;}
+    .table-striped tr:nth-child(even) td{background: #ffffff;}
+    table.dataTable thead th, table.dataTable tfoot th {font-weight: bold !important;}
+    div.dt-buttons {float: left;margin-top: 0px;}
+</style>
+<?php if (count($data) > 0) { ?>
+    <h3 style="text-align:center;" id="caption">IMPORTANT IAs PENDING As On <?php echo date("d-m-Y h:i:s a"); ?></h3>
     <div class="table-responsive">
         <table id="customers" class="table table-striped custom-table">
             <!--<table align="left" width="100%" border="0px;" style=" padding: 10px; font-size:13px; table-layout: fixed;">-->
@@ -46,7 +52,7 @@
             </tbody>
         </table>
     </div>
-    <input name="prnnt1" type="button" id="prnnt1" value="Print">
+    
 <?php
 } else {
     echo "No Recrods Found";
@@ -60,6 +66,17 @@
         "autoWidth": false,
         "dom": 'Bfrtip',
         "bProcessing": true,
-        "buttons": ["excel", "pdf", "print"]
+        "buttons": [
+            {
+                extend: 'print',
+                text: 'Print',
+                title:'',
+                customize: function (win) {
+                    $(win.document.body).css( 'font-size', '12pt');
+                    const captionHTML = $('#caption').html();
+                    $(win.document.body).find('table').before('<h3 style="text-align: center;">' + captionHTML + '</h3>');
+                },
+            }
+        ]
     });
 </script>
