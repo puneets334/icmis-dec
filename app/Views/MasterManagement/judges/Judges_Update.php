@@ -85,7 +85,7 @@
 
                                             <div class="control-label col-md-4  requiredField">
                                             <label class="col-sm-6">JNAME:</label>
-                                            <select class="form-control" id="jname" name="jname">
+                                            <select class="form-control" id="jname" name="jname" required>
                                                 <option value="">--Select Name--</option>
                                         <!--   --><?php
                                         //   foreach($judges_name as $dd) {
@@ -139,7 +139,7 @@
 
                                             <div class="control-label col-md-4  requiredField">
                                                 <label class="col-sm-6">JCOURT:</label>
-                                                <select class="form-control" id="jcourt" name="jcourt">
+                                                <select class="form-control" id="jcourt" name="jcourt" required>
                                                     <option value="">---select---</option>
                                                     <?php
                                                     for ($x = 1; $x <= 15; $x++) {
@@ -269,8 +269,9 @@
 
     } );
 
-    $('#jtype').on('change', function(){
-        updateCSRFToken();
+    $('#jtype').on('change', async function(){
+        //updateCSRFToken();
+        await updateCSRFTokenSync();
         var selectedValue = $(this).val();
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         $.ajax({
@@ -354,11 +355,17 @@
     //     //alert(jname);
     // });
 
-    $("#jname").change(function(){
+    //$("#jname").change(function(){
+    $('#jname').on('change', async function(){    
         //debugger
-       
+        await updateCSRFTokenSync();
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var CSRF_TOKEN = 'CSRF_TOKEN';        
         var jcodeid = $("#jname").val();
+        if(jcodeid == '' ){
+            alert("Please Select Jname");
+            return false;
+        }
         document.getElementById('jcode').value=jcodeid;
         $.ajax
         ({
@@ -366,14 +373,13 @@
             cache: false,
             async: true,
             dataType: 'json',
-            data: {jcodeid: jcodeid},
+            data: {jcodeid: jcodeid,
+                CSRF_TOKEN: CSRF_TOKEN_VALUE 
+            },
             type: 'POST',
-            headers: {
-                'X-CSRF-Token': CSRF_TOKEN_VALUE  
-                },
             success: function (data) {
                 updateCSRFToken();
-                debugger;
+                //debugger;
                 console.log(data);
 
                 $('#dv_res1').html(data);
