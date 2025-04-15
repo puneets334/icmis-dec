@@ -110,7 +110,7 @@
     });
     $('#getCauseDetail').on('click', function(e) {
         e.preventDefault();
-
+        
         var cl_date = $('#cause_date').val();
         var list_type = $('#flist').val();
         var sorting = $('#sort').val();
@@ -207,4 +207,16 @@
     function resetval() {
         document.getElementById("sort").value = '';
     }
+
+
+    function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
 </script>

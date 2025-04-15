@@ -1,232 +1,3 @@
-<?= view('header') ?>
-
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/menu_assign.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/style.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/all.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('assets/vendor/fontawesome-free/css/all.min.css'); ?>">
-
-<style> 
-.treename1{
-    margin-left: 30px;
-    margin-top: -31px;
-}
-
-#menuIds{
-        margin-left: -49%;
-}
-#example_filter{float: right;}
-</style>
-
-<section class="content">
-<div class="container-fluid">
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header heading">
-
-                <div class="row">
-                    <div class="col-sm-10">
-                        <h3 class="card-title">Master Management >> Role >> Report</h3>
-                    </div>
-                    <div class="col-sm-2"> </div>
-                </div>
-            </div>
-            <br /><br />
-            <input type="hidden" name="<?= csrf_token(); ?>" value="<?= csrf_hash(); ?>">
-            <!--start menu programming-->
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12"> <!-- Right Part -->
-                        <div class="form-div">
-                            <div class="d-block text-center">
-
-
-
-
-
-
-
-
-                      <!-- Main content --> 
-                      <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-12 text-center">
-                                <h2>
-                                    Role Details <span class="text-danger font-weight-bold">&#8628;</span>
-                                </h2>
-                            </div>
-                        </div>
-                        <div class="table-responsive">
-                            <div class="col-md-4 offset-md-8 dropdown mb-3">
-                                <select class="form-control" id="menu-dropdown" onchange="location = this.value;">
-                                    <option value="">Select Role</option>
-                                    <?php foreach ($roles as $role): ?>
-                                        <option value="?rmid=<?= $role['id']; ?>" <?= $rmid == $role['id'] ? 'style="color:#dc3545;font-weight:bold;" disabled selected' : ''; ?>>
-                                            <?= $role['role_desc']; ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <table id="example" class="table table-bordered" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Role Name</th>
-                                        <th>Menu Details</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php $count = 0; ?>
-                                    <?php foreach ($rolename as $role): ?>
-                                        <?php $count++; ?>
-                                        <tr>
-                                            <td class="text-danger"><?= $count; ?></td>
-                                            <td class="text-success"><?= esc($role['role_desc']); ?></td>
-                                            <td>
-                                                <?php if (!empty($rolename)): ?>
-                                                    <div class="table-responsive">
-                                                    <table class="table" id="inner-table">
-                                                        <thead>
-                                                            <tr class="table-active">
-                                                                <th>Menu Name</th>
-                                                                <th>URL</th>
-                                                                <th>Old Sub Menu ID</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php
-                                                            $old_main_menu_heading = '';
-                                                            $menus = $MenuReportModel->getMenuByRoleId($role['id']);
-                                                            
-                                                            foreach ($menus as $menu):
-                                                             
-                                                                $main_menu_heading = trim($menu['main_menu']);
-                                                                $menu_heading = $menu['menu_nm'];
-                                                                $rmenu_id = $menu['menu_id'];
-                                                                $class = '';
-
-                                                                switch (strlen($rmenu_id)) {
-                                                                    case 2: $class = 'text-danger main'; break;
-                                                                    case 4: $class = 'text-success level1'; break;
-                                                                    case 6: $class = 'text-primary level2'; break;
-                                                                    case 8: $class = 'text-warning level3'; break;
-                                                                    case 10: $class = 'text-info level4'; break;
-                                                                    case 12: $class = 'text-secondary level5'; break;
-                                                                }
-
-                                                                if ($main_menu_heading !== $old_main_menu_heading && $main_menu_heading !== '') {
-                                                                    echo '<tr>
-                                                                            <td><span class="text-danger main">' . esc($main_menu_heading) . '<small>[main]</small></span></td>
-                                                                            <td><font class="url">' . esc($menu['url']) . '</font></td>
-                                                                            <td><font class="oldsmid">' . esc($menu['old_smenu_id']) . '</font></td>
-                                                                        </tr>';
-                                                                }
-
-                                                                if ($main_menu_heading !== $menu_heading) {
-                                                                    echo '<tr>
-                                                                            <td><span class="' . esc($class) . '">' . esc($menu_heading) . '<small>[' . substr($class, strpos($class, ' ')) . ']</small></span></td>
-                                                                            <td><font class="url">' . esc($menu['url']) . '</font></td>
-                                                                            <td><font class="oldsmid">' . esc($menu['old_smenu_id']) . '</font></td>
-                                                                        </tr>';
-                                                                }
-
-                                                                $old_main_menu_heading = $main_menu_heading;
-                                                            endforeach;
-                                                            ?>
-                                                        </tbody>
-                                                    </table>
-                                                    </div>
-                                                <?php else: ?>
-                                                    No menu found.
-                                                <?php endif; ?>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-
-                                <tfoot>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Role Name</th>
-                                        <th>Menu Details</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-          
-                    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</section>
-
-<!-- <script src="<?= base_url('/Ajaxcalls/menu_assign/menu_assign.js') ?>"></script>
-<script src="<?=base_url()?>/assets/plugins/datatables/pdfmake.min.js"></script>
-<script src="<?=base_url()?>/assets/plugins/datepicker/bootstrap-datepicker.js"></script>
-<script src="<?=base_url()?>/assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?=base_url()?>/assets/plugins/datatables/dataTables.buttons.min.js"></script>
-<script src="<?=base_url()?>/assets/plugins/datatables/buttons.print.min.js"></script>
-<script src="<?=base_url()?>/assets/plugins/datatables/buttons.html5.min.js"></script>
-<script src="<?=base_url()?>/assets/plugins/datatables/buttons.html5.min.js"></script> -->
-<!-- <script src="<?=base_url()?>/js/select2.min.js"></script> -->
-<!-- Include Select2 and DataTables JS/CSS -->
-
-<script>
-
-$(document).ready(function () {
-$(".e1").select2();
-});
-
-$(function() {
-            $("#example").DataTable({                
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": false,
-                "dom": 'Blfrtip',
-                "buttons": ["copy", "csv", "excel", "print",{extend: 'pdfHtml5',orientation: 'landscape',pageSize: 'LEGAL' }]
-            }).buttons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
-
-        });
-
- 
- 
-
-
-
 $(function () {
     var host_docroot='';
     //host_docroot='http://10.40.186.34/icmis_docroot/';
@@ -532,7 +303,7 @@ $(function () {
         }
 
         $.ajax({
-            url: host_docroot+'roleparameter.php',
+            url: base_url +'/MasterManagement/RolesController/roleparameter',
             type: 'post',
             data:  data_form,
             contentType: false,
@@ -543,6 +314,7 @@ $(function () {
                 $('input[type="submit"]').attr('disabled', true).val('Request under proccess');
             },
             success: function(resp){
+                updateCSRFToken();
               if(action_type != 'Create' && resp.data=='success') {
                 alert('User profile updated successfully.');
                 window.location.href='./';
@@ -557,6 +329,7 @@ $(function () {
               }
             },
             error: function(){
+                updateCSRFToken();
                 alert('Ajax error found');
                 $('input[type="submit"]').removeAttr('disabled').val(action_type);
             }             
@@ -585,7 +358,7 @@ $(function () {
         e.preventDefault();
         emp_id=$(this).val();
         $.ajax({
-            url: host_docroot+'roleparameter.php',
+            url: base_url +'/MasterManagement/RolesController/roleparameter',
             type: 'post',
             data: { empid: emp_id, action: 'empVerify'},
             dataType: 'json',
@@ -593,6 +366,7 @@ $(function () {
                 $('input[type="submit"]').attr('disabled', true);
             },
             success: function(resp){
+                updateCSRFToken();
                 if(resp.data=='found'){
                     alert("Emp. id already exists,\r\nKindly verify it & tray again");
                     $('input[type="submit"]').removeAttr('disabled');
@@ -604,6 +378,7 @@ $(function () {
                 }
             },
             error: function(){
+                updateCSRFToken();
                 alert('Ajax error');
             }
         });
@@ -628,7 +403,7 @@ $(function () {
         data_form.append('menuIds',selected_smenus);
         if (selected_smenus) {
             $.ajax({
-                url: host_docroot+'roleparameter.php',
+                url: base_url +'/MasterManagement/RolesController/roleparameter',
                 type: 'post',
                 data: data_form,                
                 processData: false,
@@ -638,6 +413,7 @@ $(function () {
                     $("input[type='submit']").val('Request under proccess').attr('disabled', true);
                 },
                 success: function(resp){
+                    updateCSRFToken();
                     if(resp.data=='success') {
                         msg='Role created successfully';
                         if(action=='updateRole') {
@@ -650,6 +426,8 @@ $(function () {
                     }
                 },
                 error: function(){
+                    updateCSRFToken();
+                    $("input[type='submit']").val('Update').attr('disabled', false);
                     alert('Error in Ajax');
                 }
             });
@@ -664,7 +442,7 @@ $(function () {
         activeid=$(this).attr('id');
 
         if(activeid=='roleList'){
-            debugger;
+            //debugger;
             $('#addroleDiv').addClass('hide');
             $('#roleListDiv').removeClass('hide');
         }
@@ -674,8 +452,13 @@ $(function () {
         }
     });
 
-    $('a#roleDelete, a#roleEdit').click(function(e){
-        var id,action,rtnType='json', postUrl=host_docroot+'roleparameter.php', roleDesc='';
+    $('a#roleDelete, a#roleEdit').click(function(e)
+    {
+        var id,
+        action,
+        rtnType='json', 
+        postUrl= base_url +'/MasterManagement/RolesController/roleparameter', 
+        roleDesc='';
         id=$(this).attr('data-id'), action=$(this).attr('id'), roleDesc=$(this).attr('role-desc');
         if(action == 'roleEdit') {
             action='GetAllMenus', rtnType='html', postUrl=host_docroot+'menusTreeView.php';
@@ -688,7 +471,7 @@ $(function () {
                 data: {menu_id:id, action: action},
                 dataType: rtnType,
                 success: function(resp){
-
+                    updateCSRFToken();
                     if(action == 'roleDelete') {
                         if(resp.data == 'success') {
                             alert('Selected role has been deleted successfully');
@@ -709,6 +492,7 @@ $(function () {
                     }
                 },
                 error: function(){
+                    updateCSRFToken();
                     alert('Server busy, try later');
                 }
             });
@@ -722,11 +506,12 @@ $(function () {
             selected_smenus += $(this).val()+',';  
         });
         $.ajax({
-            url: host_docroot+'roleparameter.php',
+            url: base_url +'/MasterManagement/RolesController/roleparameter',
             type: 'post',
             data: { menu_id:roleId, menuIds:selected_smenus, rheading: roleCaption, action: 'roleUpdate' },
             dataType: 'json',
             success: function(resp) {
+                updateCSRFToken();
                 if(resp.data=='success') {
                     alert('Role Updated successfully');
                     window.location.reload(true);                    
@@ -736,6 +521,7 @@ $(function () {
                 }
             },
             error: function(){
+                updateCSRFToken();
                 alert('URL not found.');
             }
         });
@@ -791,6 +577,3 @@ function moveMenu(chk) {
         $('input[type="submit"]').val('Update').removeClass('btn-danger').addClass('btn-success');
     }
 }
-
-
-</script>
