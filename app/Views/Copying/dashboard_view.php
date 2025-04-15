@@ -113,108 +113,101 @@
     <!-- /.container-fluid -->
 </section>
 <script>
-    function check() {
-        var fromDate = document.getElementById('from_date').value;
-        var toDate = document.getElementById('to_date').value;
-        date1 = new Date(fromDate.split('-')[2], fromDate.split('-')[1] - 1, fromDate.split('-')[0]);
-        date2 = new Date(toDate.split('-')[2], toDate.split('-')[1] - 1, toDate.split('-')[0]);
-        if (date1 > date2) {
-            alert("To Date must be greater than or equal to From date");
-            return false;
-        }
-        return true;
+    function validateDates(fromDate,toDate) {
+        //console.log('from date:'+fromDate+' todate'+toDate)
+        //const date1 = new Date(fromDate.split('-')[2], fromDate.split('-')[1] - 1, fromDate.split('-')[0]);
+        //const date2 = new Date(toDate.split('-')[2], toDate.split('-')[1] - 1, toDate.split('-')[0]);
+        //console.log('after from date:'+date1+' todate'+date2)
+        return fromDate <= toDate;
     }
 
+    function showAlert(message) {
+        $('#result').html("");
+        $('#result').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>' + message + '</strong></div>');
+    }
+    $(document).on('click', '#btn_search',function() {
+        const from_date = $("#from_date").val();
+        const to_date = $("#to_date").val();
+        const CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
-    $(document).on('click', '#btn_search', function() {
-        var from_date = $("#from_date").val();
-        var to_date = $("#to_date").val();
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-
-
-        if (from_date == '') {
-            $('#result').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>From Date Required</strong></div>');
+        if (!from_date) {
+            showAlert("From Date Required");
             $("#from_date").focus();
             return false;
         }
-        if (to_date == '') {
-            $('#result').html("");
-            $('#result').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>To Date Required</strong></div>');
+        if (!to_date) {
+            showAlert("To Date Required");
             $("#to_date").focus();
             return false;
         }
-        date1 = new Date(from_date.split('-')[2], from_date.split('-')[1] - 1, from_date.split('-')[0]);
-        date2 = new Date(to_date.split('-')[2], to_date.split('-')[1] - 1, to_date.split('-')[0]);
-        if (date1 > date2) {
-            $('#result').html("");
-            $('#result').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>To Date must be greater than or equal to From date</strong></div>');
+        if (!validateDates(from_date, to_date)) {
+            showAlert("To Date must be greater than or equal to From date");
             $("#to_date").focus();
             return false;
         }
+
         $.ajax({
             url: '<?php echo base_url('Copying/Copying/dashboard_count'); ?>',
-            cache: false,
-            async: true,
-            beforeSend: function() {
-                $('#result').html('<table widht="100%" align="center"><tr><td>Loading...</td></tr></table>');
-            },
+            type: 'POST',
             data: {
                 from_date: from_date,
                 to_date: to_date,
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
-            type: 'POST',
-            success: function(data, status) {
+            beforeSend: function() {
+                $('#result').html('<table width="100%" align="center"><tr><td>Loading...</td></tr></table>');
+            },
+            success: function(data) {
                 $('#result').html(data);
                 updateCSRFToken();
             },
             error: function(xhr) {
+                showAlert("An error occurred while processing your request.");
                 updateCSRFToken();
             }
         });
     });
 
+    $(document).on('click', '.dashboard_modal', function() {
+        const from_date = $("#from_date").val();
+        const to_date = $("#to_date").val();
+        const flag = $(this).data('flag');
+        const CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
-    $(document).on('click','.dashboard_modal',function(){
-        var from_date = $("#from_date").val();
-        var to_date = $("#to_date").val();
-        var flag = $(this).data('flag');
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-       
-        if (from_date == '') {
-            $('#result').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>From Date Required</strong></div>');
+        if(!from_date){
+            showAlert("From Date Required");
             $("#from_date").focus();
             return false;
         }
-        if (to_date == '') {
-            $('#result').html("");
-            $('#result').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>To Date Required</strong></div>');
+        if (!to_date) {
+            showAlert("To Date Required");
             $("#to_date").focus();
             return false;
         }
-        date1 = new Date(from_date.split('-')[2], from_date.split('-')[1] - 1, from_date.split('-')[0]);
-        date2 = new Date(to_date.split('-')[2], to_date.split('-')[1] - 1, to_date.split('-')[0]);
-        if (date1 > date2) {
-            $('#result').html("");
-            $('#result').append('<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>To Date must be greater than or equal to From date</strong></div>');
+        if (!validateDates(from_date, to_date)) {
+            showAlert("To Date must be greater than or equal to From date");
             $("#to_date").focus();
             return false;
         }
 
-        $("#myModal").modal({backdrop: false});
+        $("#myModal").modal({ backdrop: false });
         $.ajax({
             type: "POST",
             url: "<?php echo base_url('Copying/Copying/dashboard_details'); ?>",
-            data:{flag:flag,from_date:from_date,to_date:to_date,CSRF_TOKEN: CSRF_TOKEN_VALUE},
-            cache: false,
-            success: function (data) {
+            data: {
+                flag: flag,
+                from_date: from_date,
+                to_date: to_date,
+                CSRF_TOKEN: CSRF_TOKEN_VALUE
+            },
+            success: function(data) {
                 $(".myModal_content").html(data);
                 updateCSRFToken();
             },
-           
+            error: function(xhr) {
+                showAlert("An error occurred while fetching the details.");
+                updateCSRFToken();
+            }
         });
     });
-
 </script>
