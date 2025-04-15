@@ -1157,10 +1157,10 @@ class PendingModel extends Model
                                                     309)
                                 WHERE 
                                     mc.display = 'Y' 
-                                    AND (m.diary_no = m.conn_key::int 
-                                        OR m.conn_key = '' 
-                                        OR m.conn_key IS NULL 
-                                        OR m.conn_key = '0')
+                                    AND (m.diary_no::TEXT = m.conn_key::TEXT 
+                                        OR m.conn_key::TEXT = '' 
+                                        OR m.conn_key::TEXT IS NULL 
+                                        OR m.conn_key::TEXT = '0')
                                     AND h.next_dt = '$list_dt'
                                     AND clno > 0 
                                     AND h.brd_slno > 0 
@@ -1190,10 +1190,10 @@ class PendingModel extends Model
                                                     309)
                                 WHERE 
                                     mc.display = 'Y' 
-                                    AND (m.diary_no = m.conn_key::int 
-                                        OR m.conn_key = '' 
-                                        OR m.conn_key IS NULL 
-                                        OR m.conn_key = '0')
+                                    AND (m.diary_no::TEXT = m.conn_key::TEXT 
+                                        OR m.conn_key::TEXT = '' 
+                                        OR m.conn_key::TEXT IS NULL 
+                                        OR m.conn_key::TEXT = '0')
                                     AND h.next_dt = '$list_dt'
                                     AND clno > 0 
                                     AND h.brd_slno > 0 
@@ -1244,10 +1244,10 @@ class PendingModel extends Model
                                                     309)
                                 WHERE 
                                     mc.display = 'Y' 
-                                    AND (t.diary_no = t.conn_key 
-                                        OR t.conn_key IS NOT NULL 
-                                        OR t.conn_key IS NULL 
-                                        OR t.conn_key = '0')
+                                    AND (t.diary_no::TEXT = t.conn_key::TEXT 
+                                        OR t.conn_key::TEXT IS NOT NULL 
+                                        OR t.conn_key::TEXT IS NULL 
+                                        OR t.conn_key::TEXT = '0')
                                     AND next_dt_old = '$list_dt'
                                     AND next_dt_new > next_dt_old 
                                     AND h.board_type = 'J' 
@@ -1277,10 +1277,10 @@ class PendingModel extends Model
                                 WHERE 
                                     m.c_status = 'P' 
                                     AND mc.display = 'Y' 
-                                    AND (m.diary_no = m.conn_key::int 
-                                        OR m.conn_key = '' 
-                                        OR m.conn_key IS NULL 
-                                        OR m.conn_key = '0')
+                                    AND (m.diary_no::TEXT = m.conn_key::TEXT 
+                                        OR m.conn_key::TEXT = '' 
+                                        OR m.conn_key::TEXT IS NULL 
+                                        OR m.conn_key::TEXT = '0')
                                     AND h.next_dt = '$list_dt'
                                     AND h.board_type = 'J' 
                                     AND h.mainhead = 'M' 
@@ -1977,9 +1977,9 @@ class PendingModel extends Model
                 $connt2 = "";
             }
             else{
-                $connt2 = "(m.diary_no = m.conn_key OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0') AND ";
+                $connt2 = "(m.diary_no::TEXT = m.conn_key::TEXT OR m.conn_key::TEXT = '' OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = '0') AND ";
             }
-         $sql = "SELECT
+        $sql = "SELECT
                     a.*
                 FROM
                     (
@@ -2014,6 +2014,7 @@ class PendingModel extends Model
                         ELSE 1
                     END ASC,
                     a.next_dt ASC";
+                   
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
