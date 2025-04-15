@@ -3,6 +3,7 @@
 if(!empty($result)) {        
     $theadRowStyle = 'style="font-weight: bold; color: #fff; background-color: #0d48be;"';
 ?>
+<input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary">
 <div id="prnnt" style="text-align: center;">
 <table align="left" width="100%" border="0px;" style="padding: 10px; font-size:13px;">
 <tr>
@@ -38,7 +39,7 @@ if(!empty($result)) {
         ?>
     </table>
      </div> 
-    <input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary">
+    
     <?php
     } else {
         echo "No Recrods Found";
