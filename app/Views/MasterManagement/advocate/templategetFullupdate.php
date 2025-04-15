@@ -89,7 +89,7 @@
             <td><input type='text' id="adv_dob" name="adv_dob" onkeypress="return onlynumbersadv(event)" 
             onkeyup="checkDate(this.value,this.id)" maxlength="10" placeholder="DD-MM-YYYY" 
             value="<?php 
-            if($record['dob']!='0000-00-00')
+            if(!empty($record['dob']))
             echo date('d-m-Y',strtotime($record['dob']));?>"/></td>
             <td><h7>Practice City:</h7></td>
             <td><input type='text' size='20' id="adv_p_p" onkeyup="upper(this.id)" value="<?php echo $record['pp'];?>"/></td>
