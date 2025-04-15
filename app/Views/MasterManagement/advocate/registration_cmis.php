@@ -113,9 +113,9 @@
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group row">
-                                                                            <label for="adv_enroll_dt" class="col-sm-4 col-form-label">Enrollment Date</label>
+                                                                            <label for="adv_enroll_dt" class="col-sm-4 col-form-label required-field">Enrollment Date</label>
                                                                             <div class="col-sm-8">
-                                                                                <input type="text" class="form-control datepicker" name="adv_enroll_dt" id="adv_enroll_dt" maxlength="10" placeholder="DD-MM-YYYY">
+                                                                                <input type="text" class="form-control dtp" name="adv_enroll_dt" id="adv_enroll_dt" maxlength="10" placeholder="DD-MM-YYYY" required />
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -142,7 +142,7 @@
                                                                         <div class="form-group row">
                                                                             <label for="adv_name" class="col-sm-4 col-form-label required-field">Name</label>
                                                                             <div class="col-sm-8">
-                                                                                <input type="text" class="form-control toUpperCase onlyalpha" name="adv_name" id="adv_name" required>
+                                                                                <input type="text" class="form-control toUpperCase " name="adv_name" id="adv_name" required>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -154,7 +154,7 @@
                                                                         <div class="form-group row">
                                                                             <label for="adv_fhnm" class="col-sm-4 col-form-label">Father's/Husband's Name</label>
                                                                             <div class="col-sm-8">
-                                                                                <input type="text" class="form-control toUpperCase onlyalpha" name="adv_fhnm" id="adv_fhnm">
+                                                                                <input type="text" class="form-control toUpperCase " name="adv_fhnm" id="adv_fhnm">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -190,6 +190,7 @@
                                                                                     <option value='0'>Select</option>
                                                                                     <option value='M'>Male</option>
                                                                                     <option value='F'>Female</option>
+                                                                                    
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -214,9 +215,9 @@
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group row">
-                                                                            <label for="adv_year" class="col-sm-4 col-form-label">Passing Year</label>
+                                                                            <label for="adv_year" class="col-sm-4 col-form-label required-field">Passing Year</label>
                                                                             <div class="col-sm-8">
-                                                                                <input type="text" class="form-control onlyNumbers" name="adv_year" id="adv_year" maxlength="4" pattern="\d{4}" title="Please enter a 4-digit year" >
+                                                                                <input type="text" class="form-control onlyNumbers" name="adv_year" id="adv_year" maxlength="4" pattern="\d{4}" title="Please enter a 4-digit year" required>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -228,15 +229,15 @@
                                                                         <div class="form-group row">
                                                                             <label for="adv_dob" class="col-sm-4 col-form-label">Date of Birth</label>
                                                                             <div class="col-sm-8">
-                                                                                <input type="text" class="form-control datepicker"  id="date" name="adv_dob" maxlength="10" placeholder="DD-MM-YYYY">
+                                                                                <input type="text" class="form-control dtp"  id="date" name="adv_dob" maxlength="10" placeholder="DD-MM-YYYY">
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-group row">
-                                                                            <label for="adv_pp" class="col-sm-4 col-form-label">Practice City</label>
+                                                                            <label for="adv_pp" class="col-sm-4 col-form-label required-field">Practice City</label>
                                                                             <div class="col-sm-8">
-                                                                                <input type="text" class="form-control toUpperCase" name="adv_pp"  id="adv_pp">
+                                                                                <input type="text" class="form-control toUpperCase" name="adv_pp"  id="adv_pp" required>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -266,9 +267,9 @@
                                                                 <div class="form-row mb-3">
                                                                     <div class="col-md-6">
                                                                         <div class="form-group row">
-                                                                            <label for="adv_mob" class="col-sm-4 col-form-label">Mobile No.</label>
+                                                                            <label for="adv_mob" class="col-sm-4 col-form-label required-field">Mobile No.</label>
                                                                             <div class="col-sm-8">
-                                                                                <input type="text" class="form-control" name="adv_mob" id="adv_mob" maxlength="10">
+                                                                                <input type="text" class="form-control" name="adv_mob" id="adv_mob" maxlength="10" required>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -324,9 +325,15 @@
 <script>
 
 
- $( function() {
-    $( ".datepicker" ).datepicker();
-  } );
+
+  $(document).on("focus", ".dtp", function() {
+		$('.dtp').datepicker({
+			dateFormat: 'dd-mm-yy',
+			changeMonth: true,
+			changeYear: true,
+			yearRange: '1950:2050'
+		});   
+	});
 
 
   $('.toUpperCase').on('blur', function(){
@@ -409,24 +416,33 @@ $(document).ready(function() {
         if ($('#adv_aor').val() === '') {
             alert('Please Select AOR/NAOR');
             $('#adv_aor').focus();
+        }
+
+        if ($('#adv_enroll_dt').val() == ''){
+            alert('Please Enter  Enrollment Date');
+            $('#adv_enroll_dt').focus();
             return false;
         }
+
         if ($('#adv_title').val() === '0') {
             alert('Please Select Title');
             $('#adv_title').focus();
             return false;
         }
+        
         if ($('#adv_name').val() === '' || /^[\s]+$/.test($('#adv_name').val())) {
             alert('Please fill Advocate Name');
             $('#adv_name').focus();
             return false;
         }
+
+       
         
-        if ($('#adv_relation').val() === '0' && $('#adv_f_h_name').val() !== '') {
-            alert('Please Select Advocate Relation');
-            $('#adv_relation').focus();
-            return false;
-        }
+        // if ($('#adv_relation').val() === '0' && $('#adv_f_h_name').val() !== '') {
+        //     alert('Please Select Advocate Relation');
+        //     $('#adv_relation').focus();
+        //     return false;
+        // }
         if ($('#adv_address').val() === '' || /^[\s]+$/.test($('#adv_address').val())) {
             alert('Please fill Address');
             $('#adv_address').focus();
