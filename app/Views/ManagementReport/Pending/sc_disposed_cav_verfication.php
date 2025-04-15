@@ -9,7 +9,6 @@
                             <div class="col-sm-10">
                                 <h3 class="card-title">Cases Filed against Judgement</h3>
                             </div>
-                            <?= view('Filing/filing_filter_buttons'); ?>
                         </div>
                     </div>
                     <div class="card-body">
@@ -18,11 +17,13 @@
                         csrf_token();
                         ?>
                         <div class="row">
-                            <label for="" class="mt-2"> Mainhead :</label>&nbsp;
-                            <input type="radio" name="mainhead" id="mainhead" value="M" title="Miscellaneous" checked="checked"><span class="mt-2">M</span>&nbsp;
-                            <input type="radio" name="mainhead" id="mainhead" value="F" title="Regular"><span class="mt-2">R</span>&nbsp;
-                            <input type="button" id="btngetr" class="btn btn-primary quick-btn" name="btngetr" value=" Get " />
-                            <div id="res_loader"></div>
+                            <div class="col-md-12">
+                                <label for="" class="mt-2"> Mainhead</label>&nbsp;
+                                <input type="radio" name="mainhead" id="mainhead" value="M" title="Miscellaneous" checked="checked">M&nbsp;
+                                <input type="radio" name="mainhead" id="mainhead" value="F" title="Regular">R&nbsp;
+                                <input type="button" id="btngetr" class="btn btn-primary quick-btn" name="btngetr" value="Get" />
+                                <div id="res_loader"></div>
+                            </div> 
                         </div>
                         <div id="dv_res1"></div>
                     </div>
@@ -48,15 +49,18 @@
                 mainhead: mainhead
             },
             beforeSend: function() {
-                $('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                $("#btngetr").attr("disabled", true);
+                $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             type: 'POST',
             success: function(data, status) {
-                updateCSRFToken();     
+                updateCSRFToken();
+                $("#btngetr").attr("disabled", false);     
                 $('#dv_res1').html(data);
             },
             error: function(xhr) {
                 updateCSRFToken();
+                $("#btngetr").attr("disabled", false);
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
@@ -76,6 +80,7 @@
         var prtContent = $("#prnnt").html();
         var temp_str = prtContent;
         var WinPrint = window.open('', '', 'left=100,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1,cellspacing=1');
+        WinPrint.document.write("<style> .bk_out {  display:none; } </style>");
         WinPrint.document.write(temp_str);
         WinPrint.document.close();
         WinPrint.focus();
