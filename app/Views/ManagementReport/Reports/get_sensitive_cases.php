@@ -1,23 +1,33 @@
-<?php
-// function get_display_status_with_date_differnces($tentative_cl_dt)
-// {
-//     $tentative_cl_date_greater_than_today_flag = "F";
-//     $curDate = date('d-m-Y');
-//     $tentativeCLDate = date('d-m-Y', strtotime($tentative_cl_dt));
-//     $datediff = strtotime($tentativeCLDate) - strtotime($curDate);
-//     $noofdays = round($datediff / (60 * 60 * 24));
-//     if (strtotime($tentativeCLDate) > strtotime($curDate)) {
-//         if ($noofdays <= 60 && $noofdays > 0) {
-//             $tentative_cl_date_greater_than_today_flag = 'T';
-//         }
-//     } else {
-//         $tentative_cl_date_greater_than_today_flag = 'F';
-//     }
-//     return $tentative_cl_date_greater_than_today_flag;
-// }
-?>
+<style media="print">
+    
+   .dataTables_filter,
+    .dataTables_paginate,
+    .dataTables_info,
+    .dataTables_length {
+        display: none !important;
+    }
+		
+	.dataTables_wrapper .dataTables_filter,
+		.dataTables_wrapper .dataTables_paginate,
+		.dataTables_wrapper .dataTables_info,
+		.dataTables_wrapper .dataTables_length {
+			display: none !important;
+    }
+	
+	.card-header {
+		 display: none !important;
+	}
+	
+	 #prnnt1 {
+		 display: none !important;
+	  }
+	  
+	  #btn_sensetive {
+		 display: none !important;
+	  } 
+</style>
 <div id="prnnt">
-    <center class="m-1"><h3>SENSITIVE CASES</h3></center>
+    <center class="m-1"><h3 style="margin-top: 45px;">SENSITIVE CASES</h3></center>
     <table id="reportTable" class="table table-striped custom-table">
         <thead>
             <tr>
@@ -117,4 +127,8 @@
             searching: true,
         } )
     });
+	
+	$('#prnnt1').on('click', function() {
+    window.print(); // after filtering
+});
 </script>
