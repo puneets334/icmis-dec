@@ -2643,13 +2643,15 @@ function da()
             $db = \Config\Database::connect();
 
             // Query to get the conn_key
-            $connKeyQuery = $db->table('main')->select('conn_key')->where('diary_no', $dn)->get();
-
-            if ($connKeyQuery->getNumRows() > 0) {
-                $connKey = $connKeyQuery->getRow()->conn_key;
-
+            // $connKeyQuery = $db->table('main')->select('conn_key')->where('diary_no', $dn)->get();
+            $connKeyQuery = is_data_from_table('main',"diary_no = $dn","conn_key",'');
+            $connKey = $connKeyQuery['conn_key'];
+        //   pr($connKey['conn_key']);
+            if (!empty($connKey)) {
+               
                 // Prepare the main query based on the conn_key
                 if ($connKey == $dn) {
+                   
                     $sql = "SELECT m.diary_no, 
                                CASE 
                                    WHEN m.conn_key::text = m.diary_no::text THEN 'M' 
