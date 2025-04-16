@@ -630,7 +630,8 @@ class PendingModel extends Model
             else
                 $lct_caseno = $lct_caseno . ',' . $ex_explode[$index];
         }
-        $sql = "SELECT DISTINCT diary_no FROM lowerct WHERE lct_casetype = '437' AND lct_caseno IN ('288') AND lct_caseyear = '2009' AND lw_display = 'Y' AND ct_code = 4";
+        $sql = "SELECT DISTINCT diary_no FROM lowerct WHERE lct_casetype = $c_type AND lct_caseno::int IN ($lct_caseno)  AND lct_caseno ~ '^\d+$' AND lct_caseyear = '$c_yr' AND lw_display = 'Y' AND ct_code = 4";
+        
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
 
@@ -642,8 +643,9 @@ class PendingModel extends Model
         }
         return $outer_array;
     }
-    public function case_status($in_array_var)
+    public function case_status($diary_no)
     {
+        $return = [];
         $sql = "SELECT 
                         m.diary_no, 
                         m.reg_no_display, 
@@ -658,7 +660,12 @@ class PendingModel extends Model
                     INNER JOIN 
                         heardt h ON h.diary_no = m.diary_no
                     WHERE 
-                        m.diary_no = 22015";
+                        m.diary_no =". $diary_no;
+        $query = $this->db->query($sql);
+        if ($query->getNumRows() >= 1) {
+            $return = $query->getRowArray();
+        }
+        return $return;
     }
     public function get_ct_listed_disposed($start_dt, $end_dt)
     {
@@ -1157,10 +1164,10 @@ class PendingModel extends Model
                                                     309)
                                 WHERE 
                                     mc.display = 'Y' 
-                                    AND (m.diary_no = m.conn_key::int 
-                                        OR m.conn_key = '' 
-                                        OR m.conn_key IS NULL 
-                                        OR m.conn_key = '0')
+                                    AND (m.diary_no::TEXT = m.conn_key::TEXT 
+                                        OR m.conn_key::TEXT = '' 
+                                        OR m.conn_key::TEXT IS NULL 
+                                        OR m.conn_key::TEXT = '0')
                                     AND h.next_dt = '$list_dt'
                                     AND clno > 0 
                                     AND h.brd_slno > 0 
@@ -1190,10 +1197,10 @@ class PendingModel extends Model
                                                     309)
                                 WHERE 
                                     mc.display = 'Y' 
-                                    AND (m.diary_no = m.conn_key::int 
-                                        OR m.conn_key = '' 
-                                        OR m.conn_key IS NULL 
-                                        OR m.conn_key = '0')
+                                    AND (m.diary_no::TEXT = m.conn_key::TEXT 
+                                        OR m.conn_key::TEXT = '' 
+                                        OR m.conn_key::TEXT IS NULL 
+                                        OR m.conn_key::TEXT = '0')
                                     AND h.next_dt = '$list_dt'
                                     AND clno > 0 
                                     AND h.brd_slno > 0 
@@ -1244,10 +1251,10 @@ class PendingModel extends Model
                                                     309)
                                 WHERE 
                                     mc.display = 'Y' 
-                                    AND (t.diary_no = t.conn_key 
-                                        OR t.conn_key IS NOT NULL 
-                                        OR t.conn_key IS NULL 
-                                        OR t.conn_key = '0')
+                                    AND (t.diary_no::TEXT = t.conn_key::TEXT 
+                                        OR t.conn_key::TEXT IS NOT NULL 
+                                        OR t.conn_key::TEXT IS NULL 
+                                        OR t.conn_key::TEXT = '0')
                                     AND next_dt_old = '$list_dt'
                                     AND next_dt_new > next_dt_old 
                                     AND h.board_type = 'J' 
@@ -1277,10 +1284,10 @@ class PendingModel extends Model
                                 WHERE 
                                     m.c_status = 'P' 
                                     AND mc.display = 'Y' 
-                                    AND (m.diary_no = m.conn_key::int 
-                                        OR m.conn_key = '' 
-                                        OR m.conn_key IS NULL 
-                                        OR m.conn_key = '0')
+                                    AND (m.diary_no::TEXT = m.conn_key::TEXT 
+                                        OR m.conn_key::TEXT = '' 
+                                        OR m.conn_key::TEXT IS NULL 
+                                        OR m.conn_key::TEXT = '0')
                                     AND h.next_dt = '$list_dt'
                                     AND h.board_type = 'J' 
                                     AND h.mainhead = 'M' 
@@ -1977,9 +1984,9 @@ class PendingModel extends Model
                 $connt2 = "";
             }
             else{
-                $connt2 = "(m.diary_no = m.conn_key OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0') AND ";
+                $connt2 = "(m.diary_no::TEXT = m.conn_key::TEXT OR m.conn_key::TEXT = '' OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = '0') AND ";
             }
-         $sql = "SELECT
+        $sql = "SELECT
                     a.*
                 FROM
                     (
@@ -2014,6 +2021,7 @@ class PendingModel extends Model
                         ELSE 1
                     END ASC,
                     a.next_dt ASC";
+                   
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;

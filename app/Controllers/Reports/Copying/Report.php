@@ -18,9 +18,11 @@ class Report extends BaseController
 
         $this->ReportModel= new ReportModel();
     }
-    public function index(){
-        return view('Reports/copying/report');
+    public function index($type){
+		return view('Reports/copying/report', ['type' => $type]);
     }
+	
+	
     public function get_search_view(){
 
         $sessionData = $this->session->get();

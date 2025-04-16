@@ -2,7 +2,15 @@
 if (count($result_array) > 0) {
 ?>
 <div id="prnnt" style="text-align: center;">
-    <h3 style="text-align:center;">Judgement Given Cases to be verify coram in disposed and pending cases</h3>
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-md-2 ml-n4 text-left"><input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary bk_out"></div>
+            <div class="col-md-8 text-center">
+                <h3 class="mt-3" style="text-align:center">Judgement Given Cases to be verify coram in disposed and pending cases</h3>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
     <table id="customers" class="table table-striped custom-table">
         <thead>
             <tr>
@@ -60,18 +68,18 @@ if (count($result_array) > 0) {
                     }
                     if (!(empty($in_array_var))) {
                         for ($i = 0; $i < count($in_array_var); $i++) {
-                            $results12 = $this_result->case_status($in_array_var[$i][0]);
-                            if ($results12 > 0) {
+                            $row_12 = $this_result->case_status($in_array_var[$i][0]);
+                            if ($row_12) {
                                 if ($i >= 1) {
                     ?>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <?php
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <?php
                                 }
-                                $row_12 = $results12;
+                                
                                 if ($row_12['c_status'] == 'P') {
                                     $case_status = "Pending";
                                 } else {
@@ -114,7 +122,7 @@ if (count($result_array) > 0) {
         </tbody>
     </table>
 </div>
-<input name="prnnt1" type="button" id="prnnt1" value="Print">
+
 <?php
 } else {
     echo "No Recrods Found";

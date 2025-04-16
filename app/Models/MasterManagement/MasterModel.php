@@ -216,8 +216,8 @@ class MasterModel extends Model
     
         // Handle the toDate logic
         if ($toDate == '') {
-            $toDate = '0000-00-00';
-            $to_dt_ent_dt = '0000-00-00';
+            $toDate = NULL;
+            $to_dt_ent_dt = NULL;
             $to_dt_usercode = 0;
         } else {
             $toDate = date('Y-m-d', strtotime($toDate));
@@ -232,7 +232,7 @@ class MasterModel extends Model
     
             // Insert a new record
             $sql_update = "INSERT INTO master.judge_category (j1, submaster_id, priority, from_dt, ent_dt, usercode, display, to_dt, to_dt_ent_dt, to_dt_usercode, m_f) 
-                           VALUES (?, ?, ?, date(now()), now(), ?, 'Y', '0000-00-00', '0000-00-00', 0, ?)";
+                           VALUES (?, ?, ?, date(now()), now(), ?, 'Y', NULL, NULL, 0, ?)";
             $this->db->query($sql_update, [$jcode, $subject, $priority, $usercode, $mf]);
         } else {
             $sql_close = "UPDATE master.judge_category SET to_dt = ?, to_dt_usercode = ?, to_dt_ent_dt = now() WHERE id = ?";

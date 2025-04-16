@@ -31,6 +31,10 @@ div.dataTables_wrapper {
 thead{
     color: rgb(169, 68, 66);
 }
+.dataTables_paginate.paging_simple_numbers{min-height:85px;}
+.dataTables_paginate .previous::before,.dataTables_paginate .next::before{
+    background:#f9f9f9 !important;margin-top:14px;
+}
  </style>
 <section class="content">
     <div class="container-fluid">
@@ -176,6 +180,19 @@ thead{
             
             if($('#updated_for').val() == 0){
                 alert("Please select Updated for.");
+                return false;
+            }
+            if($('input[name=from_date]').val() == ''){
+                alert("Please select From Date.");
+                return false;
+            }
+            if($('input[name=to_date]').val() == ''){
+                alert("Please select To Date.");
+                return false;
+            }
+            if ($('#description').val().trim() === '') {
+                alert("Please Enter Description.");
+                return false;                
             }
             
            // debugger;
@@ -226,7 +243,7 @@ thead{
             else
             {
                 updateCSRFToken();
-                alert("Blank Data can't be inserted !");
+                //alert("Blank Data can't be inserted !");
             }
         });
 

@@ -41,7 +41,7 @@
                         </tr>
                         <tr>
                             <td><b>Mobile</b></td>
-                            <td><input type="text" class="form-control" value="<?= esc($bar['mobile']) ?>" id="adv_mob" maxlength="10"/></td>
+                            <td><input type="text" class="form-control" value="<?= esc($bar['mobile']) ?>" id="adv_mob" maxlength="10" required /></td>
                         </tr>
                         <tr>
                             <td><b>Email</b></td>

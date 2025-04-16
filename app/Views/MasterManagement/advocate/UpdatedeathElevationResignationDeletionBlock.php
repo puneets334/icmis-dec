@@ -20,6 +20,17 @@
     padding-right: 13px;
     margin-top: 4px;
 }
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 </style>
 <div class="container mt-4">
 
@@ -93,12 +104,12 @@
 
                                                         <!-- Enrollment No -->
                                                         <div class="col-md-2">
-                                                            <input type="text" class="form-control" maxlength="6" id="enrol" name="enrol" placeholder="Enrollment No." disabled>
+                                                            <input type="number" class="form-control" maxlength="6" id="enrol" name="enrol" placeholder="Enrollment No." disabled>
                                                         </div>
 
                                                         <!-- Year -->
                                                         <div class="col-md-2">
-                                                            <input type="text" class="form-control" maxlength="4" id="year" name="year" placeholder="Year" disabled>
+                                                            <input type="number" class="form-control" maxlength="4" id="year" name="year" placeholder="Year" disabled>
                                                         </div>
 
                                                         <!-- Radio AOR Code -->
@@ -111,7 +122,7 @@
 
                                                         <!-- AOR Code -->
                                                         <div class="col-md-2">
-                                                            <input type="text" class="form-control" name="aor_code" id="aor_code" maxlength="6" placeholder="AOR Code" disabled>
+                                                            <input type="number" class="form-control" name="aor_code" id="aor_code" maxlength="6" placeholder="AOR Code" disabled>
                                                         </div>
 
                                                         <!-- Get Details Button -->
