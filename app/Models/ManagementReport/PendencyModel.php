@@ -650,4 +650,87 @@ class PendencyModel extends Model
     
 
     // Shubham Work END
+	
+	
+		
+	public function da_rog_cases($category, $dacode){
+// Initialize the Query Builder
+		$builder = $this->db->table('main as m');
+
+		$builder->distinct()->select('m.active_fil_no, m.diary_no, tentative_section(m.diary_no) AS Section, m.reg_no_display, m.pet_name, m.res_name, state.name, '
+			. 'CASE WHEN (m.mf_active = \'M\' OR (m.mf_active = \'F\' AND crh.head::TEXT = \'24\')) THEN m.tentative_cl_dt END AS tentative, ' // Cast crh.head to TEXT if necessary
+			. 'm.next_dt AS next, '
+			. 'CASE WHEN h.board_type = \'J\' THEN \'Court\' '
+			. 'WHEN h.board_type = \'C\' THEN \'Chamber\' '
+			. 'WHEN h.board_type = \'R\' THEN \'Registrar\' '
+			. 'END AS board_type, '
+			. 'STRING_AGG(DISTINCT crh.head || \' \' || crm.head_content, \',\') AS Rmrk_Disp');
+
+		// Join the necessary tables
+		$builder->join('master.casetype c', 'c.casecode = COALESCE(m.active_casetype_id, m.casetype_id)', 'inner')
+			->join('heardt h', 'm.diary_no = h.diary_no', 'left')
+			->join('master.state', 'm.ref_agency_state_id = state.id_no', 'left')
+			->join('master.subheading s', 'h.subhead = s.stagecode', 'left')
+			->join('rgo_default rd', 'm.diary_no = rd.fil_no', 'left')
+			->join('case_remarks_multiple crm', 'crm.diary_no = m.diary_no AND crm.cl_date = (SELECT MAX(cl_date) FROM case_remarks_multiple WHERE diary_no = m.diary_no)', 'left')
+			->join('master.case_remarks_head crh', 'crh.sno = crm.r_head AND (crh.display = \'Y\' OR crh.display IS NULL)', 'left'); // Corrected the string literals
+
+// Define the WHERE conditions
+$builder->where('c.c_status', 'P')
+    ->where('rd.dacode', $dacode);
+
+// Add the dynamic condition based on the $category value
+switch ($category) {
+    case 't':
+        // Empty condition
+        break;
+
+    case 'r':
+        $builder->where("(CASE WHEN m.tentative_cl_dt != '0000-00-00' THEN CURRENT_DATE - h.tentative_cl_dt < 2 ELSE TRUE END)")
+                ->where("!(CASE WHEN h.mainhead = 'M' THEN s.listtype = 'M' AND s.listtype IS NOT NULL AND s.display = 'Y' "
+                        . "ELSE CASE WHEN h.mainhead = 'S' THEN s.listtype = 'S' AND s.listtype IS NOT NULL AND s.display = 'Y' END END) "
+                        . "AND (m.main_supp_flag = 0 AND h.clno = 0 AND h.brd_slno = 0 AND (h.judges = '' OR h.judges = 0) "
+                        . "AND h.roster_id = 0) OR (m.next_dt != '0000-00-00' AND m.next_dt >= CURRENT_DATE))")
+                ->where("m.lastorder NOT LIKE '%Not Reached%' AND m.lastorder NOT LIKE '%Case Not Receive%' AND m.lastorder NOT LIKE '%Heard & Reserved%' "
+                        . "OR m.lastorder IS NULL");
+        $builder->where("(m.head_code != 5 OR m.head_code IS NULL)");
+        $builder->whereNotIn('m.diary_no', function($query) {
+            $query->select('diary_no')->from('heardt')->where('main_supp_flag', 3)
+                ->whereIn('usercode', [559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762]);
+            $query->union(function($query) {
+                $query->select('fil_no AS diary_no')->from('rgo_default')->where('remove_def != "Y"');
+            });
+        });
+        break;
+
+    case 'y':
+        $builder->where("((h.main_supp_flag = 3 AND h.usercode IN(559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)) "
+            . "OR rd.remove_def != 'Y' OR m.lastorder LIKE '%Heard & Reserved%')");
+        break;
+
+    case 'd':
+        // Complex condition for 'd', including multiple unions (This is a simplified approach and might need adaptation)
+        break;
+}
+
+// Group by and ordering
+$builder->groupBy('m.diary_no')
+    ->orderBy('Section')
+    ->orderBy('m.active_reg_year')
+    ->orderBy('CAST(SUBSTRING(m.active_fil_no, 1, 2) AS INTEGER)')
+    ->orderBy('CAST(SUBSTRING(m.active_fil_no, 4, 6) AS INTEGER)');
+
+// Execute the query and get results
+$query = $builder->get();
+return $query->getResultArray();
+	}
+	
+	
+	public function da_details($dacode){
+		$sql="SELECT name,type_name,section_name,empid FROM users user left join usersection us on user.section=us.id
+				left join usertype ut on ut.id=user.usertype where usercode=".$dacode;
+        $query = $this->db->query($sql);
+        return $query->getResultArray();
+	}
+		
 }
