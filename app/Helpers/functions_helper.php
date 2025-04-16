@@ -4429,3 +4429,22 @@ function case_verification_report_popup_inside_details($id){
     return $t_adv;
 }
 
+function get_display_status_with_date_differences_new($tentative_cl_dt)
+{
+    $tentative_cl_date_greater_than_today_flag = "F";
+
+    if (!empty($tentative_cl_dt)) {
+        $curDate = date('d-m-Y');
+        $tentativeCLDate = date('d-m-Y', strtotime($tentative_cl_dt));
+        $datediff = strtotime($tentativeCLDate) - strtotime($curDate);
+        $noofdays = round($datediff / (60 * 60 * 24));
+
+        if (strtotime($tentativeCLDate) > strtotime($curDate)) {
+            if ($noofdays <= 60 && $noofdays > 0) {
+                $tentative_cl_date_greater_than_today_flag = 'T';
+            }
+        }
+    }
+
+    return $tentative_cl_date_greater_than_today_flag;
+}
