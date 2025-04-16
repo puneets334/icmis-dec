@@ -641,7 +641,7 @@ class PendencyModel extends Model
             ORDER BY section_name, type_name DESC, total
         ";
 
-        // echo $sql;
+        //echo $sql;die;
 
         $query = $this->db->query($sql);
 
@@ -654,81 +654,165 @@ class PendencyModel extends Model
 	
 		
 	public function da_rog_cases($category, $dacode){
-// Initialize the Query Builder
-		$builder = $this->db->table('main as m');
+        switch ($category)
+        {            
 
-		$builder->distinct()->select('m.active_fil_no, m.diary_no, tentative_section(m.diary_no) AS Section, m.reg_no_display, m.pet_name, m.res_name, state.name, '
-			. 'CASE WHEN (m.mf_active = \'M\' OR (m.mf_active = \'F\' AND crh.head::TEXT = \'24\')) THEN m.tentative_cl_dt END AS tentative, ' // Cast crh.head to TEXT if necessary
-			. 'm.next_dt AS next, '
-			. 'CASE WHEN h.board_type = \'J\' THEN \'Court\' '
-			. 'WHEN h.board_type = \'C\' THEN \'Chamber\' '
-			. 'WHEN h.board_type = \'R\' THEN \'Registrar\' '
-			. 'END AS board_type, '
-			. 'STRING_AGG(DISTINCT crh.head || \' \' || crm.head_content, \',\') AS Rmrk_Disp');
+            case 't':{$condition=" "; break;}
+            case 'r':{$condition=" and if(tentative_cl_dt!='0000-00-00',DATEDIFF(h.tentative_cl_dt,date(now()))<2,1=1) and !( if(h.mainhead='M',s.listtype='M' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL , if(h.mainhead='S',s.listtype='S' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL, 1=1)) and (main_supp_flag=0 AND h.clno =0 AND brd_slno =0 AND (judges='' OR judges=0) and roster_id=0) OR (next_dt!='0000-00-00' and next_dt >= date(now()) ) ) and ( lastorder not like '%Not Reached%' and lastorder not like '%Case Not Receive%' and lastorder not like '%Heard & Reserved%'  OR lastorder IS NULL ) and (head_code!=5 OR head_code IS NULL) and m.diary_no not in (select diary_no from heardt where main_supp_flag=3 and usercode in(559,146,744,747,469,1485,742,1486,935,757,49,762) union select fil_no as diary_no from rgo_default where remove_def!='Y')"; break;}
+            case 'o':{$condition=" and DATEDIFF(h.tentative_cl_dt,date(now()))>1 and !( if(h.mainhead='M',s.listtype='M' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL ,  if(h.mainhead='S',s.listtype='S' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL, 1=1)) and (main_supp_flag=0 AND h.clno =0 AND brd_slno =0 AND (judges='' OR judges=0) and roster_id=0) OR (next_dt!='0000-00-00' and next_dt >= date(now()) ) ) and ( lastorder not like '%Not Reached%' and lastorder not like '%Case Not Receive%' and lastorder not like '%Heard & Reserved%' OR lastorder IS NULL ) and (head_code!=5 OR head_code IS NULL) and m.diary_no not in (select diary_no from heardt where main_supp_flag=3 and usercode in(559,146,744,747,469,1485,742,1486,935,757,49,762) union select fil_no as diary_no from rgo_default where remove_def!='Y') "; break;}
+            case 'g':{$condition=" and ( if(h.mainhead='M',s.listtype='M' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL ,if(h.mainhead='S',s.listtype='S' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL, 1=1))) and ((main_supp_flag=0 AND h.clno =0 AND brd_slno =0 AND (judges='' OR judges=0) and roster_id=0 ) OR (next_dt!='0000-00-00' and next_dt >= date(now()) ) OR ( lastorder like '%Not Reached%' OR lastorder like '%Case Not Receive%' ) OR head_code=5) and m.diary_no not in (select diary_no from heardt where main_supp_flag=3 and usercode in(559,146,744,747,469,1485,742,1486,935,757,49,762) union select fil_no as diary_no from rgo_default where remove_def!='Y' )"; break;}
+            case 'y':{$condition=" and ((h.main_supp_flag=3 and h.usercode in(559,146,744,747,469,1485,742,1486,935,757,49,762)) or rd.remove_def !='Y' OR lastorder like '%Heard & Reserved%' )";break;}
+            case 'd': {$condition=" and m.diary_no not in  (
+            select m.diary_no from main m left join heardt h on m.diary_no=h.diary_no LEFT JOIN subheading s ON h.subhead = s.stagecode where c_status='P' and dacode=".$dacode." and if(tentative_cl_dt!='0000-00-00',DATEDIFF(h.tentative_cl_dt,date(now()))<2,1=1) and !( if(h.mainhead='M',s.listtype='M' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL , if(h.mainhead='S',s.listtype='S' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL, 1=1)) and (main_supp_flag=0 AND h.clno =0 AND brd_slno =0 AND (judges='' OR judges=0) and roster_id=0) OR (next_dt!='0000-00-00' and next_dt >= date(now()) ) ) and ( lastorder not like '%Not Reached%' and lastorder not like '%Case Not Receive%' and lastorder not like '%Heard & Reserved%'  OR lastorder IS NULL ) and (head_code!=5 OR head_code IS NULL) and m.diary_no not in (select diary_no from heardt where main_supp_flag=3 and usercode in(559,146,744,747,469,1485,742,1486,935,757,49,762) union select fil_no as diary_no from rgo_default where remove_def!='Y') 
+            union all
+            select m.diary_no from main m left join heardt h on m.diary_no=h.diary_no LEFT JOIN subheading s ON h.subhead = s.stagecode where c_status='P' and dacode=".$dacode." and DATEDIFF(h.tentative_cl_dt,date(now()))>1 and !( if(h.mainhead='M',s.listtype='M' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL ,  if(h.mainhead='S',s.listtype='S' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL, 1=1)) and (main_supp_flag=0 AND h.clno =0 AND brd_slno =0 AND (judges='' OR judges=0) and roster_id=0) OR (next_dt!='0000-00-00' and next_dt >= date(now()) ) ) and ( lastorder not like '%Not Reached%' and lastorder not like '%Case Not Receive%' and lastorder not like '%Heard & Reserved%' OR lastorder IS NULL ) and (head_code!=5 OR head_code IS NULL) and m.diary_no not in (select diary_no from heardt where main_supp_flag=3 and usercode in(559,146,744,747,469,1485,742,1486,935,757,49,762) union select fil_no as diary_no from rgo_default where remove_def!='Y') 
+            union all
+            select m.diary_no from main m left join heardt h on m.diary_no=h.diary_no LEFT JOIN subheading s ON h.subhead = s.stagecode where c_status='P' and dacode=".$dacode." and ( if(h.mainhead='M',s.listtype='M' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL ,if(h.mainhead='S',s.listtype='S' AND s.listtype IS NOT NULL and s.display='Y' AND s.display IS NOT NULL, 1=1))) and ((main_supp_flag=0 AND h.clno =0 AND brd_slno =0 AND (judges='' OR judges=0) and roster_id=0 ) OR (next_dt!='0000-00-00' and next_dt >= date(now()) ) OR ( lastorder like '%Not Reached%' OR lastorder like '%Case Not Receive%') OR head_code=5) and m.diary_no not in (select diary_no from heardt where main_supp_flag=3 and usercode in(559,146,744,747,469,1485,742,1486,935,757,49,762) union select fil_no as diary_no from rgo_default where remove_def!='Y')
+            union all
+            select m.diary_no from main m left join heardt h on m.diary_no=h.diary_no where c_status='P' and dacode=".$dacode." and ((h.main_supp_flag=3 and h.usercode in(559,146,744,747,469,1485,742,1486,935,757,49,762)) or rd.remove_def !='Y'))"; break;}
+        }
+        
+        // $sql = "SELECT DISTINCT
+        //         active_fil_no,
+        //         m.diary_no,
+        //         tentative_section(m.diary_no) AS Section,
+        //         reg_no_display,
+        //         pet_name,
+        //         res_name,
+        //         state.name,
+        //         CASE 
+        //             WHEN m.mf_active = 'M' OR (m.mf_active = 'F' AND CAST(NULLIF(crh.head, '') AS INTEGER) = 24)
+        //             THEN tentative_cl_dt 
+        //         END AS tentative,
+        //         next_dt AS NEXT,
+        //         CASE 
+        //             WHEN h.board_type = 'J' THEN 'Court' 
+        //             WHEN h.board_type = 'C' THEN 'Chamber' 
+        //             WHEN h.board_type = 'R' THEN 'Registrar' 
+        //         END AS board_type,
+        //         STRING_AGG(DISTINCT CONCAT(crh.head, ' ', crm.head_content), ',') AS Rmrk_Disp,
+        //         m.active_reg_year,
+        //         CAST(NULLIF(SUBSTRING(active_fil_no, 1, 2), '') AS INTEGER) AS afn_prefix,
+        //         CAST(NULLIF(SUBSTRING(active_fil_no, 4, 6), '') AS INTEGER) AS afn_number
+        //     FROM main m
+        //     INNER JOIN master.casetype c 
+        //         ON c.casecode = CASE 
+        //             WHEN m.active_casetype_id IS NOT NULL AND m.active_casetype_id != 0 
+        //             THEN m.active_casetype_id 
+        //             ELSE casetype_id 
+        //         END
+        //     LEFT JOIN heardt h ON m.diary_no = h.diary_no
+        //     LEFT JOIN master.state ON m.ref_agency_state_id = state.id_no
+        //     LEFT JOIN master.subheading s ON h.subhead = s.stagecode
+        //     LEFT JOIN rgo_default rd ON m.diary_no = rd.fil_no
+        //     LEFT JOIN public.case_remarks_multiple crm 
+        //         ON crm.diary_no = m.diary_no 
+        //     AND crm.cl_date = (
+        //             SELECT MAX(cl_date) 
+        //             FROM public.case_remarks_multiple 
+        //             WHERE diary_no = m.diary_no
+        //         )
+        //     LEFT JOIN master.case_remarks_head crh 
+        //         ON crh.sno = crm.r_head 
+        //     AND (crh.display = 'Y' OR crh.display IS NULL)
+        //     WHERE c_status = 'P' 
+        //     AND dacode = ".$dacode.$condition."
+        //     GROUP BY 
+        //         active_fil_no,
+        //         m.diary_no,
+        //         reg_no_display,
+        //         pet_name,
+        //         res_name,
+        //         state.name,
+        //         tentative_cl_dt,
+        //         next_dt,
+        //         m.mf_active,
+        //         crh.head,
+        //         h.board_type,
+        //         m.active_reg_year
+        //     ORDER BY 
+        //         Section,
+        //         m.active_reg_year,
+        //         afn_prefix,
+        //         afn_number;
+        //     ";
+        
+        $sql = "SELECT DISTINCT
+                    active_fil_no,
+                    m.diary_no,
+                    tentative_section(m.diary_no) AS Section,
+                    reg_no_display,
+                    pet_name,
+                    res_name,
+                    state.name,
+                    CASE
+                        WHEN m.mf_active = 'M' THEN tentative_cl_dt
+                        WHEN m.mf_active = 'F' AND crh.head ~ '^\d+$' AND CAST(crh.head AS INTEGER) = 24 THEN tentative_cl_dt
+                        ELSE NULL
+                    END AS tentative,
+                    next_dt AS NEXT,
+                    CASE
+                        WHEN h.board_type = 'J' THEN 'Court'
+                        WHEN h.board_type = 'C' THEN 'Chamber'
+                        WHEN h.board_type = 'R' THEN 'Registrar'
+                    END AS board_type,
+                    STRING_AGG(DISTINCT CONCAT(crh.head, ' ', crm.head_content), ',') AS Rmrk_Disp,
+                    m.active_reg_year,
+                    CAST(NULLIF(SUBSTRING(active_fil_no, 1, 2), '') AS INTEGER) AS afn_prefix,
+                    CAST(NULLIF(SUBSTRING(active_fil_no, 4, 6), '') AS INTEGER) AS afn_number
+                FROM main m
+                INNER JOIN master.casetype c
+                    ON c.casecode = CASE
+                        WHEN m.active_casetype_id IS NOT NULL AND m.active_casetype_id != 0 THEN m.active_casetype_id
+                        ELSE casetype_id
+                    END
+                LEFT JOIN heardt h ON m.diary_no = h.diary_no
+                LEFT JOIN master.state ON m.ref_agency_state_id = state.id_no
+                LEFT JOIN master.subheading s ON h.subhead = s.stagecode
+                LEFT JOIN rgo_default rd ON m.diary_no = rd.fil_no
+                LEFT JOIN public.case_remarks_multiple crm
+                    ON crm.diary_no = m.diary_no
+                    AND crm.cl_date = (
+                        SELECT MAX(cl_date)
+                        FROM public.case_remarks_multiple
+                        WHERE diary_no = m.diary_no
+                    )
+                LEFT JOIN master.case_remarks_head crh
+                    ON crh.sno = crm.r_head
+                    AND (crh.display = 'Y' OR crh.display IS NULL)
+                WHERE c_status = 'P'
+                AND dacode = ".$dacode.$condition."
+                GROUP BY
+                    active_fil_no,
+                    m.diary_no,
+                    reg_no_display,
+                    pet_name,
+                    res_name,
+                    state.name,
+                    tentative_cl_dt,
+                    next_dt,
+                    m.mf_active,
+                    crh.head,
+                    h.board_type,
+                    m.active_reg_year
+                ORDER BY
+                    Section,
+                    m.active_reg_year,
+                    afn_prefix,
+                    afn_number";        
+        $query = $this->db->query($sql);        
+        return $query->getResultArray();
 
-		// Join the necessary tables
-		$builder->join('master.casetype c', 'c.casecode = COALESCE(m.active_casetype_id, m.casetype_id)', 'inner')
-			->join('heardt h', 'm.diary_no = h.diary_no', 'left')
-			->join('master.state', 'm.ref_agency_state_id = state.id_no', 'left')
-			->join('master.subheading s', 'h.subhead = s.stagecode', 'left')
-			->join('rgo_default rd', 'm.diary_no = rd.fil_no', 'left')
-			->join('case_remarks_multiple crm', 'crm.diary_no = m.diary_no AND crm.cl_date = (SELECT MAX(cl_date) FROM case_remarks_multiple WHERE diary_no = m.diary_no)', 'left')
-			->join('master.case_remarks_head crh', 'crh.sno = crm.r_head AND (crh.display = \'Y\' OR crh.display IS NULL)', 'left'); // Corrected the string literals
-
-// Define the WHERE conditions
-$builder->where('c.c_status', 'P')
-    ->where('rd.dacode', $dacode);
-
-// Add the dynamic condition based on the $category value
-switch ($category) {
-    case 't':
-        // Empty condition
-        break;
-
-    case 'r':
-        $builder->where("(CASE WHEN m.tentative_cl_dt != '0000-00-00' THEN CURRENT_DATE - h.tentative_cl_dt < 2 ELSE TRUE END)")
-                ->where("!(CASE WHEN h.mainhead = 'M' THEN s.listtype = 'M' AND s.listtype IS NOT NULL AND s.display = 'Y' "
-                        . "ELSE CASE WHEN h.mainhead = 'S' THEN s.listtype = 'S' AND s.listtype IS NOT NULL AND s.display = 'Y' END END) "
-                        . "AND (m.main_supp_flag = 0 AND h.clno = 0 AND h.brd_slno = 0 AND (h.judges = '' OR h.judges = 0) "
-                        . "AND h.roster_id = 0) OR (m.next_dt != '0000-00-00' AND m.next_dt >= CURRENT_DATE))")
-                ->where("m.lastorder NOT LIKE '%Not Reached%' AND m.lastorder NOT LIKE '%Case Not Receive%' AND m.lastorder NOT LIKE '%Heard & Reserved%' "
-                        . "OR m.lastorder IS NULL");
-        $builder->where("(m.head_code != 5 OR m.head_code IS NULL)");
-        $builder->whereNotIn('m.diary_no', function($query) {
-            $query->select('diary_no')->from('heardt')->where('main_supp_flag', 3)
-                ->whereIn('usercode', [559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762]);
-            $query->union(function($query) {
-                $query->select('fil_no AS diary_no')->from('rgo_default')->where('remove_def != "Y"');
-            });
-        });
-        break;
-
-    case 'y':
-        $builder->where("((h.main_supp_flag = 3 AND h.usercode IN(559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)) "
-            . "OR rd.remove_def != 'Y' OR m.lastorder LIKE '%Heard & Reserved%')");
-        break;
-
-    case 'd':
-        // Complex condition for 'd', including multiple unions (This is a simplified approach and might need adaptation)
-        break;
-}
-
-// Group by and ordering
-$builder->groupBy('m.diary_no')
-    ->orderBy('Section')
-    ->orderBy('m.active_reg_year')
-    ->orderBy('CAST(SUBSTRING(m.active_fil_no, 1, 2) AS INTEGER)')
-    ->orderBy('CAST(SUBSTRING(m.active_fil_no, 4, 6) AS INTEGER)');
-
-// Execute the query and get results
-$query = $builder->get();
-return $query->getResultArray();
 	}
 	
 	
 	public function da_details($dacode){
-		$sql="SELECT name,type_name,section_name,empid FROM users user left join usersection us on user.section=us.id
-				left join usertype ut on ut.id=user.usertype where usercode=".$dacode;
+		// $sql="SELECT name,type_name,section_name,empid FROM users user left join usersection us on user.section=us.id
+		// 		left join usertype ut on ut.id=user.usertype where usercode=".$dacode;
+        $sql ="SELECT u.name,us.section_name,ut.type_name,u.empid from master.users u 
+        left join master.usersection us on u.section=us.id 
+        left join master.usertype ut on ut.id=u.usertype
+        where u.usercode=".$dacode;        
         $query = $this->db->query($sql);
         return $query->getResultArray();
 	}

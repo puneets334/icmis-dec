@@ -36,7 +36,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="card-header p-2" style="background-color: #fff; border-bottom:none;">
-                                    <h4 class="basic_heading">Sectionwise Pendency Not Ready Incomplete
+                                    <h4 class="basic_heading">Section Wise Pendency Not Ready Incomplete
                                     </h4>
                                 </div>
                             <div class="card-body">
