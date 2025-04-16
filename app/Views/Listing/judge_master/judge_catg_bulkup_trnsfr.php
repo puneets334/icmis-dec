@@ -9,7 +9,7 @@
                                 <div class="col-12 m-0 p-0">
                                     <p id="show_error"></p>
                                     <div class="card">
-                                        <div class="card-header bg-info text-white font-weight-bolder"> Judge Category Bulk Close </div>
+                                        <div class="card-header bg-info text-white font-weight-bolder"> Judge Category Bulk Update </div>
                                         <div class="card-body">
                                             <?php
                                             $attributes = 'class="row g-3"';
