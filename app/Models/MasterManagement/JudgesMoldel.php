@@ -13,37 +13,40 @@ class JudgesMoldel extends Model
     }
 
 
-    function insert_judges_data($jtype=null,$jcode=null,$jname=null,$first_name=null,$title=null,$sur_name=null,$jcourt=null,$abbreviation=null, $from_date=null,$to_date=null, $usercode=null,$judge_seniority=null)
+    public function insert_judges_data($jtype = null, $jcode = null, $jname = null, $first_name = null, $title = null, $sur_name = null, $jcourt = null, $abbreviation = null, $from_date = null, $to_date = null, $usercode = null, $judge_seniority = null)
     {
-
-        $inserted=null;
-        echo $to_date;
-        if($to_date=='1970-01-01')
-        {$to_date='0000-00-00';}
-        if($from_date=='1970-01-01')
-        {$from_date='0000-00-00';}
-        if($jtype!='J')
-        {
-            $title='REGISTRAR';
+        $inserted = null;
+    
+        if ($jtype != 'J') {
+            $title = 'REGISTRAR';
         }
-        $sql="INSERT INTO master.judge (jcode, jname, first_name, title, sur_name, jcourt, abbreviation, is_retired, display, 
-                  appointment_date, to_dt, cji_date, jtype, entuser, entdt, judge_seniority)
-                  VALUES ($jcode,'$jname','$first_name','$title','$sur_name',$jcourt,'$abbreviation','N','Y',
-                  '$from_date','$to_date','0000-00-00','$jtype',$usercode,now(),$judge_seniority);";
-
+    
+        // Properly handle null values without quotes
+        $from_date_val = ($from_date == '1970-01-01' || empty($from_date)) ? "NULL" : "'$from_date'";
+        $to_date_val = ($to_date == '1970-01-01' || empty($to_date)) ? "NULL" : "'$to_date'";
+        $jcode_val = ($jcode === null) ? "NULL" : $jcode;
+        $jcourt_val = ($jcourt === null) ? "NULL" : $jcourt;
+        $usercode_val = ($usercode === null) ? "NULL" : $usercode;
+        $judge_seniority_val = ($judge_seniority === null) ? "NULL" : $judge_seniority;
+    
+        $sql = "INSERT INTO master.judge (
+                    jcode, jname, first_name, title, sur_name, jcourt, abbreviation, is_retired, display, 
+                    appointment_date, to_dt, cji_date, jtype, entuser, entdt, judge_seniority
+                ) VALUES (
+                    $jcode_val, '$jname', '$first_name', '$title', '$sur_name', $jcourt_val, '$abbreviation', 'N', 'Y',
+                    $from_date_val, $to_date_val, NULL, '$jtype', $usercode_val, now(), $judge_seniority_val
+                );";
+    
         $query = $this->db->query($sql);
-        if ($query->getNumRows() > 0){
-            return   $inserted=1;
-        }else{
-            return $inserted=0;
-        }
-
+        return ($this->db->affectedRows() > 0) ? 1 : 0;
     }
+    
 
 
     
     function jcodesearch($jtype=null)
     {
+
         $sql="select max(jcode)+1 as jcode,max(judge_seniority)+1 as sen from master.judge where jtype='$jtype' and jcode<2000";
         $query = $this->db->query($sql);
         if ($query->getNumRows() > 0) {
