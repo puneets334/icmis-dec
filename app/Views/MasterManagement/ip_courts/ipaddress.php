@@ -6,30 +6,14 @@
 <link rel="stylesheet" href="<?php echo base_url('assets/vendor/fontawesome-free/css/all.min.css'); ?>">
 
 <style>
-    #reportTable1_filter {
-        padding-right: 84%
+    div.dataTables_wrapper div.dataTables_filter label {
+        display: flex;
+        justify-content: end;
     }
 
-    .dataTables_filter {
-        display: table;
-    }
-
-    div.dt-buttons {
-        margin-bottom: -38px;
-        margin-right: -80%;
-    }
-
-    div.dataTables_wrapper {
-        position: relative;
-        margin-top: 24px;
-    }
-
-    .dataTables_info {
-        margin-top: 34px;
-    }
-
-    #grid_paginate {
-        margin-top: 25px;
+    div.dataTables_wrapper div.dataTables_filter label input.form-control {
+        width: auto !important;
+        padding: 4px;
     }
 </style>
 <section class="content">
@@ -52,7 +36,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-12"> <!-- Right Part -->
-                                <div class="form-div">
+                                <div class="">
                                     <div class="d-block text-center">
 
 
@@ -66,7 +50,7 @@
                                                     </b></div>
                                             </div>
 
-                                            <div class="box box-info">
+                                            <div class="">
 
                                                 <form id="form1" class="form-horizontal" method="post" action="">
                                                     <div class="card-body">
@@ -169,67 +153,69 @@
                                                             IP Address in Courts as on <?php echo date('d-m-Y h:m:s A') ?>
                                                         </h2>
                                                     </caption>
-                                                    <table id="grid" class="table table-striped table-hover">
+                                                    <div class="table-responsive">
+                                                        <table id="grid" class="table table-striped custom-table">
 
-                                                        <thead>
-                                                            <tr style="color:#a94442">
-                                                                <th style="width: 5%;" rowspan='1'>SNo.</th>
-                                                                <th style="width: 5%;" rowspan='1'>Court No.</th>
-                                                                <th style="width: 10%;" rowspan='1'>IP Address</th>
-                                                                <th style="width: 30%;" rowspan='1'>IP Entered By</th>
-                                                                <th style="width: 30%;" rowspan='1'>IP Entered On</th>
-                                                                <th style="width: 10%;" rowspan='1'>IP Entered By IP</th>
-
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php
-                                                            $s_no = 1;
-                                                            $court = 0;
-                                                            $virtualcourt = 0;
-                                                            foreach ($ip_list as $result) {
-
-                                                            ?>
+                                                            <thead>
                                                                 <tr>
-                                                                    <td><?= $s_no; ?></td>
-                                                                    <td><?php
-                                                                        if ($result['court_no'] <= 17) {
-                                                                            echo $result['court_no'];
-                                                                        }
-                                                                        if ($result['court_no'] >= 31 && $result['court_no'] <= 47) {
-                                                                            echo "Virtual Court " . ($result['court_no'] - 30);
-                                                                        }
-                                                                        if ($result['court_no'] == 21 || $result['court_no'] == 22) {
-                                                                            echo "Registrar Court " . ($result['court_no'] - 20);
-                                                                        }
-                                                                        if ($result['court_no'] == 61 || $result['court_no'] == 62) {
-                                                                            echo "Virtual Registrar Court " . ($result['court_no'] - 60);
-                                                                        }
+                                                                    <th style="width: 5%;" rowspan='1'>SNo.</th>
+                                                                    <th style="width: 5%;" rowspan='1'>Court No.</th>
+                                                                    <th style="width: 10%;" rowspan='1'>IP Address</th>
+                                                                    <th style="width: 30%;" rowspan='1'>IP Entered By</th>
+                                                                    <th style="width: 30%;" rowspan='1'>IP Entered On</th>
+                                                                    <th style="width: 10%;" rowspan='1'>IP Entered By IP</th>
 
-
-                                                                        ?></td>
-                                                                    <td><?php echo $result['ip_address']; ?></td>
-                                                                    <td><?php echo $result['entered_by']; ?></td>
-                                                                    <td><?php
-                                                                        if (isset($result['entered_on']) && !empty($result['entered_on'])) {
-                                                                            $newformat = date('d-m-Y', strtotime($result['entered_on']));
-                                                                            if ($newformat == '30-11-0001') {
-                                                                                echo "";
-                                                                            } else {
-                                                                                echo $newformat;
-                                                                            }
-                                                                        } else {
-                                                                            echo "";
-                                                                        }
-                                                                        ?></td>
-                                                                    <td><?php echo $result['entered_ip']; ?></td>
                                                                 </tr>
-                                                            <?php
-                                                                $s_no++;
-                                                            }
-                                                            ?>
-                                                        </tbody>
-                                                    </table>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php
+                                                                $s_no = 1;
+                                                                $court = 0;
+                                                                $virtualcourt = 0;
+                                                                foreach ($ip_list as $result) {
+
+                                                                ?>
+                                                                    <tr>
+                                                                        <td><?= $s_no; ?></td>
+                                                                        <td><?php
+                                                                            if ($result['court_no'] <= 17) {
+                                                                                echo $result['court_no'];
+                                                                            }
+                                                                            if ($result['court_no'] >= 31 && $result['court_no'] <= 47) {
+                                                                                echo "Virtual Court " . ($result['court_no'] - 30);
+                                                                            }
+                                                                            if ($result['court_no'] == 21 || $result['court_no'] == 22) {
+                                                                                echo "Registrar Court " . ($result['court_no'] - 20);
+                                                                            }
+                                                                            if ($result['court_no'] == 61 || $result['court_no'] == 62) {
+                                                                                echo "Virtual Registrar Court " . ($result['court_no'] - 60);
+                                                                            }
+
+
+                                                                            ?></td>
+                                                                        <td><?php echo $result['ip_address']; ?></td>
+                                                                        <td><?php echo $result['entered_by']; ?></td>
+                                                                        <td><?php
+                                                                            if (isset($result['entered_on']) && !empty($result['entered_on'])) {
+                                                                                $newformat = date('d-m-Y', strtotime($result['entered_on']));
+                                                                                if ($newformat == '30-11-0001') {
+                                                                                    echo "";
+                                                                                } else {
+                                                                                    echo $newformat;
+                                                                                }
+                                                                            } else {
+                                                                                echo "";
+                                                                            }
+                                                                            ?></td>
+                                                                        <td><?php echo $result['entered_ip']; ?></td>
+                                                                    </tr>
+                                                                <?php
+                                                                    $s_no++;
+                                                                }
+                                                                ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 <?php
                                                 }
                                                 ?>
@@ -321,36 +307,25 @@
 
 
     $(document).ready(function() {
-        $('#grid').DataTable({
-            /* dom: 'Bfrtip',
-             buttons: [
-                 'excelHtml5',
-                 'pdfHtml5'
-             ]*/
-
-            "bProcessing": true,
-            "pageLength": 25,
-
-            dom: 'Bfrtip',
-            buttons: [
-                'csv',
-                'excel',
-                {
-                    extend: 'print',
-                    customize: function(win) {
-                        $(win.document.body)
-                            .css('font-size', '10pt');
-
-                        $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('text-align', 'center');
-
-                        $(win.document.body).find('table').addClass('display').css('margin', '5px');
-                        $(win.document.body).find('th').addClass('display').css('text-align', 'center');
-                        $(win.document.body).find('h1').css('text-align', 'center');
+        $(function() {
+            $("#grid").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", {
+                        extend: 'pdfHtml5',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL'
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'Show/Hide'
                     }
-                }
-            ]
+                ],
+                "bProcessing": true,
+                "extend": 'colvis',
+                "text": 'Show/Hide'
+            }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
 
         });
     });
