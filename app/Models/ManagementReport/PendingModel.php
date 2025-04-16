@@ -630,7 +630,8 @@ class PendingModel extends Model
             else
                 $lct_caseno = $lct_caseno . ',' . $ex_explode[$index];
         }
-        $sql = "SELECT DISTINCT diary_no FROM lowerct WHERE lct_casetype = '437' AND lct_caseno IN ('288') AND lct_caseyear = '2009' AND lw_display = 'Y' AND ct_code = 4";
+        $sql = "SELECT DISTINCT diary_no FROM lowerct WHERE lct_casetype = $c_type AND lct_caseno::int IN ($lct_caseno)  AND lct_caseno ~ '^\d+$' AND lct_caseyear = '$c_yr' AND lw_display = 'Y' AND ct_code = 4";
+        
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
 
@@ -642,8 +643,9 @@ class PendingModel extends Model
         }
         return $outer_array;
     }
-    public function case_status($in_array_var)
+    public function case_status($diary_no)
     {
+        $return = [];
         $sql = "SELECT 
                         m.diary_no, 
                         m.reg_no_display, 
@@ -658,7 +660,12 @@ class PendingModel extends Model
                     INNER JOIN 
                         heardt h ON h.diary_no = m.diary_no
                     WHERE 
-                        m.diary_no = 22015";
+                        m.diary_no =". $diary_no;
+        $query = $this->db->query($sql);
+        if ($query->getNumRows() >= 1) {
+            $return = $query->getRowArray();
+        }
+        return $return;
     }
     public function get_ct_listed_disposed($start_dt, $end_dt)
     {

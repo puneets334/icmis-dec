@@ -168,6 +168,7 @@ class Report extends BaseController
             return view('Reports/AllReportsUI', $data);
         }
         if ($id == 8) {
+            pr('hello');
             $data['reports'] = '';
             $data['app_name'] = 'JudgesWiseMattersListedAndDisposedDetailed';
 
