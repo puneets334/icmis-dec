@@ -85,12 +85,12 @@
                                                             <tr>
                                                                 <td><?php echo $i;?></td>
                                                                 <td><?php echo $result['name']."(".$result['empid'].")<br/>".$result['type_name']." / ".$result['section_name'];?></td>
-                                                                <td><a target="_blank" href="<?php echo base_url() ?>index.php/Reports/cases?category=t&dacode=<?php echo $result['dacode'];?>"><?php echo $result['total'];?></td>
-                                                                <td><a target="_blank" href="<?php echo base_url() ?>index.php/Reports/cases?category=r&dacode=<?php echo $result['dacode'];?>"><?php echo $result['red'];?></td>
-                                                                <td><a target="_blank" href="<?php echo base_url() ?>index.php/Reports/cases?category=o&dacode=<?php echo $result['dacode'];?>"><?php echo $result['orange'];?></td>
-                                                                <td><a target="_blank" href="<?php echo base_url() ?>index.php/Reports/cases?category=g&dacode=<?php echo $result['dacode'];?>"><?php echo $result['green'];?></td>
-                                                                <td><a target="_blank" href="<?php echo base_url() ?>index.php/Reports/cases?category=y&dacode=<?php echo $result['dacode'];?>"><?php echo $result['yellow'];?></td>
-                                                                <td><a target="_blank" href="<?php echo base_url() ?>index.php/Reports/cases?category=d&dacode=<?php echo $result['dacode'];?>"><?php echo $diff;?></td>
+                                                                <td><a target="_blank" href="<?php echo base_url() ?>/ManagementReports/PendingReport/Report/cases?category=t&dacode=<?php echo $result['dacode'];?>"><?php echo $result['total'];?></td>
+                                                                <td><a target="_blank" href="<?php echo base_url() ?>/ManagementReports/PendingReport/Report/cases?category=r&dacode=<?php echo $result['dacode'];?>"><?php echo $result['red'];?></td>
+                                                                <td><a target="_blank" href="<?php echo base_url() ?>/ManagementReports/PendingReport/Report/cases?category=o&dacode=<?php echo $result['dacode'];?>"><?php echo $result['orange'];?></td>
+                                                                <td><a target="_blank" href="<?php echo base_url() ?>/ManagementReports/PendingReport/Report/cases?category=g&dacode=<?php echo $result['dacode'];?>"><?php echo $result['green'];?></td>
+                                                                <td><a target="_blank" href="<?php echo base_url() ?>/ManagementReports/PendingReport/Report/cases?category=y&dacode=<?php echo $result['dacode'];?>"><?php echo $result['yellow'];?></td>
+                                                                <td><a target="_blank" href="<?php echo base_url() ?>/ManagementReports/PendingReport/Report/cases?category=d&dacode=<?php echo $result['dacode'];?>"><?php echo $diff;?></td>
                                                             </tr>
 
                                                             <?php
