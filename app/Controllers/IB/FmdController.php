@@ -200,4 +200,71 @@ class FmdController extends BaseController
           
         }
     }
+
+    public function get_coram(){
+        $diary_no = $_POST['diary_no'];
+        $cl_date = $_POST['cl_dt'];
+        $cl_date = date('Y-m-d', strtotime($cl_date));
+    
+        if ($diary_no != '' AND $cl_date != '') {
+         
+              $sql = $this->db->query("SELECT j.jcode, j.jname
+                            FROM master.judge j
+                            JOIN (
+                                SELECT string_to_array(judges, ',') AS judge_codes
+                                FROM last_heardt
+                                WHERE diary_no = '$diary_no'
+                                AND clno != 0
+                                AND brd_slno != 0
+                                AND roster_id != 0
+                                AND judges != ''
+                                AND (bench_flag = '' OR bench_flag IS NULL)
+                                AND next_dt = '$cl_date'
+                                GROUP BY judges
+                            ) sub
+                            ON j.jcode::text = ANY(sub.judge_codes)");
+              
+              $result = $sql->getResultArray();
+            
+            // $result=mysql_query($sql) or die("Error: " . __LINE__ . mysql_error());
+            $output="";
+            if(!empty($result)) {
+                $count=1;
+                foreach($result as $row ){
+                    //$val=$row['jcode']."||".str_replace("\\","",$row2["jname"]);
+                    $output.='<tr><td><input type="checkbox" id="hd_chk_jd'.$count.'" value="'.$row["jcode"].'||'.str_replace("\\","",$row["jname"]).'" checked><label style="color: red; font-weight: bold;">'.$row["jname"].'</label></td></tr>';
+                }
+    
+            }
+            else {
+    
+               $sql = $this->db->query("SELECT j.jcode, j.jname
+                        FROM master.judge j
+                        JOIN (
+                            SELECT string_to_array(judges, ',') AS judge_codes
+                            FROM heardt
+                            WHERE diary_no = '$diary_no'
+                            AND clno != 0
+                            AND brd_slno != 0
+                            AND roster_id != 0
+                            AND judges != ''
+                            AND next_dt = '$cl_date'
+                            GROUP BY judges
+                        ) sub
+                        ON j.jcode::text = ANY(sub.judge_codes)");
+                      
+                $result =  $sql->getResultArray();;
+                $output = "";
+                if (!empty($result)) {
+                    $count = 1;
+                    foreach ($result as $row ) {
+                        //$val=$row['jcode']."||".str_replace("\\","",$row2["jname"]);
+                        $output .= '<tr><td><input type="checkbox" id="hd_chk_jd' . $count . '" value="' . $row["jcode"] . '||' . str_replace("\\", "", $row["jname"]) . '" checked><label style="color: red; font-weight: bold;">' . $row["jname"] . '</label></td></tr>';
+                    }
+    
+                }
+            }
+            echo $output;
+        }
+    }
 }

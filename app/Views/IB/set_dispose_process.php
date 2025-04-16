@@ -256,7 +256,9 @@ if ($d_no != '' and $d_yr != '') {
                     $row_rj = $model->getJudgmentDetails($filno['diary_no']);
                      $disp_str = '';
                     if (!empty($row_rj)) {
-                        $disp_str = " (Order Date: " . $row_rj["odt"] . " and Updated on " . $row_rj["ddt"] . ")<br> JUDGES: " . stripslashes($row_rj["judges"]);
+
+                        $judges = stripslashes($row_rj["judges"] ?? '');
+                        $disp_str = " (Order Date: " . $row_rj["odt"] . " and Updated on " . $row_rj["ddt"] . ")<br> JUDGES: " . $judges;
 
                         $judgeNames = $model->getJudgeNames($filno['diary_no']);
 
@@ -929,7 +931,7 @@ if ($d_no != '' and $d_yr != '') {
                         <tr>
                             <td align="center"><b>
                                     <font size="+1">Disposal/Hearing Date : </font>
-                                </b>&nbsp;<input class="dtp" type="text" name="hdate" id="hdate" value="<?php echo $cldate; ?>" size="12" readonly="readonly"></td>
+                                </b>&nbsp;<input class="dtp" type="text" name="hdate" id="hdate" value="<?php echo $cldate; ?>" maxlength="10" size="10" readonly="readonly"></td>
                         </tr>
                         <tr>
                             <td align="center"><b>
@@ -1047,8 +1049,13 @@ if ($d_no != '' and $d_yr != '') {
     }
 }
 ?>
-
-
-</body>
-
-</html>
+<script>
+$(document).on("focus", ".dtp", function() {
+		$('.dtp').datepicker({
+			dateFormat: 'dd-mm-yy',
+			changeMonth: true,
+			changeYear: true,
+			yearRange: '1950:2050'
+		});   
+	});
+</script>
