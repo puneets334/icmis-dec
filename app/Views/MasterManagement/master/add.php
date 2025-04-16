@@ -75,7 +75,7 @@ thead{
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="enroll_no">Enroll No</label>
-                                                        <input type="text" id="enroll_no" name="enroll_no" class="form-control" maxlength="10">
+                                                        <input type="text" id="enroll_no" name="enroll_no" class="form-control" maxlength="12">
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="enroll_yr">Year</label>
@@ -283,7 +283,8 @@ function get_adv_by_enroll_no() {
                     document.getElementById('result1').innerHTML = aa[1];
                     document.getElementById('cmd_save').disabled = false;    
                 } else if (aa[0] == 0) {
-                    document.getElementById('result1').innerHTML = aa[1];
+                    document.getElementById('result1').innerHTML = "";
+                    alert("No Record Found");
                     document.getElementById('cmd_save').disabled = true;    
                 }
             } else {
@@ -366,7 +367,7 @@ var str="<?= base_url(); ?>/MasterManagement/MasterController/lawfirmaddprocess?
 +"&state_id="+document.getElementById('state_id').value
 +"&from_date="+document.getElementById('from_date').value
 +"&to_date="+document.getElementById('to_date').value;
-	 alert(str);
+	 //alert(str);
 	 xhr4.open("GET",str,true);
 		xhr4.onreadystatechange=function()
 		{	

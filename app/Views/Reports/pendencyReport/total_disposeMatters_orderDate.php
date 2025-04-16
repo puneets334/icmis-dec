@@ -323,4 +323,14 @@
             ]
         });
     } );
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('disposalAsPerOrderDate');
+        const submitBtn = document.getElementById('view');
+
+        form.addEventListener('submit', function () {
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'View';
+        });
+    });
 </script>
