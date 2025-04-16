@@ -77,17 +77,19 @@
                 board_type: board_type
             },
             beforeSend: function() {
-                //$('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                $("#btn1").attr("disabled", true);
                 $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../../images/load.gif'></div>");
             },
             type: 'POST',
             success: function(data, status) {
                 updateCSRFToken();
                 $('#dv_res1').html(data);
+                $("#btn1").attr("disabled", false);
             },
             error: function(xhr) {
                 updateCSRFToken();
                 alert("Error: " + xhr.status + " " + xhr.statusText);
+                $("#btn1").attr("disabled", false);
             }
         });
         updateCSRFToken();
