@@ -109,15 +109,13 @@ if ($ucode == 1 || $ucode == 1124) {
 
                 <div id="rightcontainer" align="center">
                     <div id="s_box" align="center">
-                        <table border="0" height="35" width="100%">
-                            <tr valign="middle" align="center">
-                                <div class="col-md-6">
+                        
+                                <div class="col-md-4">
                                     <label for="dtd1" class="font-weight-bold">Dated :</label>
-                                    <input type="text" class="form-control dtp" name="dtd1" id="dtd1" readonly />
+                                    <input type="text" class="form-control dtp" name="dtd1" id="dtd1"  />
                                     <input class="button" type="button" name="bt11" value="Submit" onclick='get_pending_data();'>
                                 </div>
-                            </tr>
-                        </table>
+                          
 
                     </div>
                     <div id="r_box" align="center"></div>

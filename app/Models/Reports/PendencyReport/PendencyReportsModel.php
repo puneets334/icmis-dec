@@ -1209,9 +1209,9 @@ ORDER BY s.subcode1";
                             m.case_grp, reg_no_display, pet_name, res_name
                         ORDER BY m.diary_no
                     ) m 
-                    $whr
+                    $whr";
                     
-                    LIMIT 100"; // remove limit
+                    
         }
 
         if ($flag == 'Total_Connected' or $flag == 'Pendency_after_excluding_connected') {
