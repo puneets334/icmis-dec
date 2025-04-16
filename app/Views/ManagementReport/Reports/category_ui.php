@@ -131,7 +131,6 @@
     #errmsg3,
     #errmsg4 {
         display: none;
-        color: red;
         margin-left: 3%;
         font-size: 15px;
         margin-top: 0px;
@@ -194,9 +193,8 @@
                         ?>
 
                     <div id="dv_content1">
-						  <div class="alert alert-danger text-danger">
-									<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-									 <div id="errmsg3"></div>
+						  <div class="alert alert-danger text-danger" id="main_error_part" style="display:none;">
+								<div id="errmsg3"></div>
 								<div id="errmsg4"></div>
 								<div id="errmsg2"></div>
 								<div id="errmsg1"></div>
@@ -365,6 +363,7 @@
 
     function fetch_data() {
 
+        $('#main_error_part').hide();
         $('#errmsg1').hide();
         $('#errmsg2').hide();
         $('#errmsg3').hide();
@@ -400,49 +399,57 @@
         if (judge == '' || tdate == '' || fdate == '' || selsubcat == '' || mainhead == 'l' || (dt_chkf > dt_chkt) || (dt_dchkf > dt_dchkt)) {
            // debugger;
             if (judge == '') {
-                document.getElementById('errmsg1').innerHTML = 'Error: Please select Judge';
+                document.getElementById('errmsg1').innerHTML = '<b>*</b> Please select Judge';
                 $('#errmsg1').show();
+				$('#main_error_part').show();
 
             }
 
             if (tdate == '' || fdate == '') {
-                document.getElementById('errmsg2').innerHTML = 'Error: Please Enter Tentative date';
+                document.getElementById('errmsg2').innerHTML = '<b>*</b> Please Enter Tentative date';
                 $('#errmsg2').show();
+				$('#main_error_part').show();
 
             } else if (dt_chkf > dt_chkt) {
-                document.getElementById('errmsg2').innerHTML = 'Error: Tentative From date should be smaller or equal to Todate';
+                document.getElementById('errmsg2').innerHTML = '<b>*</b> Tentative From date should be smaller or equal to Todate';
                 $('#errmsg2').show();
+				$('#main_error_part').show();
             }
 
 
             if (dt_dchkf > dt_dchkt) {
-                document.getElementById('errmsg2').innerHTML = 'Error: Diary From date should be smaller or equal to Todate';
+                document.getElementById('errmsg2').innerHTML = '<b>*</b> Diary From date should be smaller or equal to Todate';
                 $('#errmsg2').show();
+				$('#main_error_part').show();
             }
 
             if (selsubcat == '') {
-                document.getElementById('errmsg3').innerHTML = 'Error: Please select subcategory';
+                document.getElementById('errmsg3').innerHTML = '<b>*</b> Please select subcategory';
                 $('#errmsg3').show();
+				$('#main_error_part').show();
 
             }
 
             if (mainhead == 'l') {
-                document.getElementById('errmsg4').innerHTML = 'Error: Please select Mainhead';
+                document.getElementById('errmsg4').innerHTML = '<b>*</b> Please select Mainhead';
                 $('#errmsg4').show();
+				$('#main_error_part').show();
             }
 
         } else {
             //debugger;
             if (dfdate != '') {
                 if (dtdate == '') {
-                    document.getElementById('errmsg2').innerHTML = 'Error: Enter Diary To date';
+                    document.getElementById('errmsg2').innerHTML = '<b>*</b> Enter Diary To date';
                     $('#errmsg2').show();
+					$('#main_error_part').show();
                     return;
                 }
             } else if (dtdate != '') {
                 if (dfdate == '') {
-                    document.getElementById('errmsg2').innerHTML = 'Error: Enter Diary From date';
+                    document.getElementById('errmsg2').innerHTML = '<b>*</b> Enter Diary From date';
                     $('#errmsg2').show();
+					$('#main_error_part').show();
                     return;
                 }
             }
