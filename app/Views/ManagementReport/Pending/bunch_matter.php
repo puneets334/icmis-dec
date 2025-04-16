@@ -152,16 +152,19 @@
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             beforeSend: function() {
+                $("#btnSubmit").attr("disabled", true);
                 $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../../images/load.gif'></div>");
             },
             type: 'POST',
             success: function(data, status) {
-                $('#dv_res1').html(data);
                 updateCSRFToken();
+                $('#dv_res1').html(data);
+                $("#btnSubmit").attr("disabled", false);
             },
             error: function(xhr) {
-                alert("Error: " + xhr.status + " " + xhr.statusText);
                 updateCSRFToken();
+                alert("Error: " + xhr.status + " " + xhr.statusText);
+                $("#btnSubmit").attr("disabled", false);
             }
         });
     }

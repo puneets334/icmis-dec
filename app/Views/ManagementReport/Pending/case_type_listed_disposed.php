@@ -177,17 +177,19 @@
                 end_dt: end_dt
             },
             beforeSend: function() {
-                //$('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                $("#btn1").attr("disabled", true);
                 $("#dv_res1").html("<center><img src='../../images/load.gif' alt='Loading...' title='Loading...' /></center>");
             },
             type: 'POST',
             success: function(data, status) {
                 updateCSRFToken();
                 $('#dv_res1').html(data);
+                $("#btn1").attr("disabled", false);
             },
             error: function(xhr) {
                 updateCSRFToken();
                 alert("Error: " + xhr.status + " " + xhr.statusText);
+                $("#btn1").attr("disabled", false);
             }
         });
         updateCSRFToken();
