@@ -319,7 +319,8 @@ $(document).ready(function() {
     }*/
 
 
-    function update($id) {
+    async function update($id) {
+        await updateCSRFTokenSync();
 
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var priority=$('#priority_'+$id).val();
@@ -345,7 +346,7 @@ $(document).ready(function() {
                 },
                 success: function (result) {
                     if (!alert(result)) {
-                        location.reload();
+                        //location.reload();
                     }
                 },
                 error: function (xhr, status, error) {
