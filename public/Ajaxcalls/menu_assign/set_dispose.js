@@ -656,9 +656,9 @@ function save_rec(cnt) {
         $.ajax({
             type: "POST",
             url: url,
-            data: {parameters,CSRF_TOKEN: CSRF_TOKEN_VALUE},
+            data: { parameters, CSRF_TOKEN: CSRF_TOKEN_VALUE },
             success: function (response) {
-                
+
                 if (response) {
                     updateCSRFToken();
                     alert(response);
@@ -1036,7 +1036,7 @@ function change_judge() {
     }
 }
 async function fsubmit() {
-    updateCSRFTokenSync() 
+    updateCSRFTokenSync()
     var diaryno, diaryyear, cstype, csno, csyr;
     var regNum = new RegExp('^[0-9]+$');
 
@@ -1114,14 +1114,14 @@ async function fsubmit() {
         data: { d_no: diaryno, d_yr: diaryyear, ct: cstype, cn: csno, cy: csyr }
     })
         .done(function (msg) {
-           
+
             $("#dv_res1").html(msg);
             // get_subheading();
             //            $("#result2").html("");
             //get_subheading();
         })
         .fail(function () {
-           
+
             alert("ERROR, Please Contact Server Room");
         });
     //    document.getElementById("rslt").innerHTML = '';
@@ -1170,6 +1170,7 @@ var ck_subhead = 0;
 var ck_subhead_s = 0;
 function getSlide() {
     var ck_ca_sb = 0;
+
     if (document.getElementById('hd_ssno').value != '0') {
         cnt_data1 = parseInt(document.getElementById('hd_ssno').value) + 1;
         document.getElementById('hd_ssno').value = '0';
@@ -1285,7 +1286,13 @@ function getDone_upd_cat(str) {
 }
 
 function getSlide() {
+    var judgeVal = $('#djudge').val();
+    if (!judgeVal || judgeVal === '0') {
+        alert('Please select the judge first');
+        return false;
+    }
     $('#btn_coram').hide();
+
     var cnt_data = parseInt(document.getElementById('djcnt').value);
     var cnt_data1 = cnt_data + 1;
     var mf_select = document.getElementById('djudge').value;
@@ -1372,98 +1379,38 @@ function chk_checkbox() {
 }
 
 
-
 $(document).ready(function () {
+
+    // Toggle fields when selecting Diary Search
     $("#search_type_d").click(function () {
-        $("#diary_number").removeProp('disabled');
-        $("#diary_year").removeProp('disabled');
-        $("#case_type").prop('disabled', true);
-        $("#case_number").prop('disabled', true);
-        $("#case_year").prop('disabled', true);
+        $("#diary_number, #diary_year").prop('disabled', false);
+        $("#case_type, #case_number, #case_year").prop('disabled', true);
+
         $("#case_type").val("-1");
         $("#case_number").val("");
         $("#case_year").val("");
     });
 
-    $("#radioct").click(function () {
-        $("#diary_number").prop('disabled', true);
-        $("#diary_year").prop('disabled', true);
+    // Toggle fields when selecting Case Search
+    $("#search_type_c").click(function () {
+        $("#diary_number, #diary_year").prop('disabled', true);
         $("#diary_number").val("");
         $("#diary_year").val("");
-        $("#case_type").removeProp('disabled');
-        $("#case_number").removeProp('disabled');
-        $("#case_year").removeProp('disabled');
+
+        $("#case_type, #case_number, #case_year").prop('disabled', false);
     });
 
+    // Main form validation + AJAX on button click
     $("input[name=btnGetR]").click(function () {
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-        var diaryno, diaryyear, cstype, csno, csyr;
-        var regNum = new RegExp('^[0-9]+$');
-
-        if ($("#radioct").is(':checked')) {
-            cstype = $("#case_type").val();
-            csno = $("#case_number").val();
-            csyr = $("#case_year").val();
-
-            if (!regNum.test(cstype)) {
-                alert("Please Select Casetype");
-                $("#case_type").focus();
-                return false;
-            }
-            if (!regNum.test(csno)) {
-                alert("Please Fill Case No in Numeric");
-                $("#case_number").focus();
-                return false;
-            }
-            if (!regNum.test(csyr)) {
-                alert("Please Fill Case Year in Numeric");
-                $("#case_year").focus();
-                return false;
-            }
-            if (csno == 0) {
-                alert("Case No Can't be Zero");
-                $("#case_number").focus();
-                return false;
-            }
-            if (csyr == 0) {
-                alert("Case Year Can't be Zero");
-                $("#case_year").focus();
-                return false;
-            }
-            /*if(cstype.length==1)
-                cstype = '00'+cstype;
-            else if(cstype.length==2)
-                cstype = '0'+cstype;*/
-        }
-        else if ($("#search_type_d").is(':checked')) {
-            diaryno = $("#diary_number").val();
-            diaryyear = $("#diary_year").val();
-            if (!regNum.test(diaryno)) {
-                alert("Please Enter Diary No in Numeric");
-                $("#diary_number").focus();
-                return false;
-            }
-            if (!regNum.test(diaryyear)) {
-                alert("Please Enter Diary Year in Numeric");
-                $("#diary_year").focus();
-                return false;
-            }
-            if (diaryno == 0) {
-                alert("Diary No Can't be Zero");
-                $("#diary_number").focus();
-                return false;
-            }
-            if (diaryyear == 0) {
-                alert("Diary Year Can't be Zero");
-                $("#diary_year").focus();
-                return false;
-            }
-        }
-        else {
-            alert('Please Select Any Option');
+        if (!validateForm()) {
             return false;
         }
+
+        const diaryno = $("#diary_number").val();
+        const diaryyear = $("#diary_year").val();
+        const cstype = $("#case_type").val();
+        const csno = $("#case_number").val();
+        const csyr = $("#case_year").val();
 
         $.ajax({
             type: 'GET',
@@ -1471,22 +1418,113 @@ $(document).ready(function () {
             beforeSend: function () {
                 $('#dv_res1').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
             },
-            data: { d_no: diaryno, d_yr: diaryyear, ct: cstype, cn: csno, cy: csyr}
-        })
-            .done(function (msg) {
-               
-                $("#dv_res1").html(msg);
-            })
-            .fail(function () {
-               
+            data: {
+                d_no: diaryno,
+                d_yr: diaryyear,
+                ct: cstype,
+                cn: csno,
+                cy: csyr
+            },
+            success: function (response) {
+                $("#dv_res1").html(response);
+            },
+            error: function () {
                 alert("ERROR, Please Contact Server Room");
-            });
+            }
+        });
     });
+
+    // Field visibility toggle on radio click
+    $(document).on('click', '.search_type', function () {
+        let search_type = $("input[name=search_type]:checked").val();
+        if (search_type === 'C') {
+            $('.casetype_section').show();
+            $('.diary_section').hide();
+            $('.diary_section input, .diary_section select').val('');
+            $('#case_year').prop('selectedIndex', 1);
+        } else {
+            $('.casetype_section').hide();
+            $('.diary_section').show();
+            $('.casetype_section input, .casetype_section select').val('');
+            $('#diary_year').prop('selectedIndex', 1);
+        }
+    });
+
+    // Set default view based on PHP component type
+    search_type('<?= $component_type; ?>');
+
+    function search_type(search_type) {
+        if (search_type === 'C') {
+            $('.casetype_section_action').show();
+            $('.diary_section_action').hide();
+            $('.casetype_section').show();
+            $('.diary_section').hide();
+        } else if (search_type === 'D') {
+            $('.casetype_section_action').hide();
+            $('.diary_section_action').show();
+            $('.casetype_section').hide();
+            $('.diary_section').show();
+        } else {
+            $('.casetype_section_action').show();
+            $('.diary_section_action').show();
+            $('.casetype_section').hide();
+            $('.diary_section').show();
+        }
+    }
+
+    // Form validation function
+    function validateForm() {
+        const regNum = /^[0-9]+$/;
+        let cstype, csno, csyr, diaryno, diaryyear;
+
+        if ($("#search_type_c").is(':checked')) {
+            cstype = $("#case_type").val();
+            csno = $("#case_number").val();
+            csyr = $("#case_year").val();
+
+            if (!regNum.test(cstype)) {
+                alert("Please select a valid Case Type.");
+                $("#case_type").focus();
+                return false;
+            }
+            if (!regNum.test(csno) || csno == 0) {
+                alert("Please enter a valid Case No (non-zero number).");
+                $("#case_number").focus();
+                return false;
+            }
+            if (!regNum.test(csyr) || csyr == 0) {
+                alert("Please enter a valid Case Year (non-zero number).");
+                $("#case_year").focus();
+                return false;
+            }
+
+        } else if ($("#search_type_d").is(':checked')) {
+            diaryno = $("#diary_number").val();
+            diaryyear = $("#diary_year").val();
+
+            if (!regNum.test(diaryno) || diaryno == 0) {
+                alert("Please enter a valid Diary No (non-zero number).");
+                $("#diary_number").focus();
+                return false;
+            }
+            if (!regNum.test(diaryyear) || diaryyear == 0) {
+                alert("Please enter a valid Diary Year (non-zero number).");
+                $("#diary_year").focus();
+                return false;
+            }
+        } else {
+            alert("Please select a search type (Case or Diary).");
+            return false;
+        }
+
+        return true;
+    }
 });
+
 
 function get_coram(diary_no) {
     var CSRF_TOKEN = 'CSRF_TOKEN';
-var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
     var cl_dt = $('#cldate').val();
     //alert (diary_no);
     //alert(cl_dt);
@@ -1495,7 +1533,7 @@ var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         url: base_url + "/IB/FmdController/get_coram",
         cache: false,
         async: true,
-        data: { cl_dt: cl_dt, diary_no: diary_no,CSRF_TOKEN: CSRF_TOKEN_VALUE },
+        data: { cl_dt: cl_dt, diary_no: diary_no, CSRF_TOKEN: CSRF_TOKEN_VALUE },
         beforeSend: function () {
             //$('#rs_jg').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
         },
