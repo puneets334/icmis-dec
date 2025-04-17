@@ -474,7 +474,7 @@ class Model_record extends Model
     {
         $builder = $this->db->table('master.users a')
             ->select("a.usercode, a.name, a.empid, a.service, a.udept, a.section, a.usertype, a.log_in, a.jcode, a.attend, b.dept_name,
-             c.section_name, d.type_name, a.entdt,  e.usertype AS fil_usertype")
+             c.section_name, d.type_name, a.entdt,  e.usertype AS fil_usertype,c.isda")
             ->join('master.userdept b', 'a.udept = b.id', 'left')
             ->join('master.usersection c', 'a.section = c.id', 'left')
             ->join('master.usertype d', 'a.usertype = d.id', 'left')
@@ -718,14 +718,14 @@ class Model_record extends Model
     public function getState()
     {
         $builder = $this->db->table('master.state')
-            ->select('State_code, Name, id_no')
-            ->where('District_code', 0)
-            ->where('Sub_Dist_code', 0)
-            ->where('Village_code', 0)
+            ->select('state_code, name, id_no')
+            ->where('district_code', 0)
+            ->where('sub_dist_code', 0)
+            ->where('village_code', 0)
             ->where('display', 'Y')
-            ->where('State_code <', 100)
-            ->where('State_code !=', 50)
-            ->orderBy('Name');
+            ->where('state_code <', 100)
+            ->where('state_code !=', 50)
+            ->orderBy('name');
         $query = $builder->get();
         $results = $query->getResultArray();
         return $results;
