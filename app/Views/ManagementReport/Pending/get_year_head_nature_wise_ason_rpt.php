@@ -11,7 +11,7 @@
     if ($tot_row > 0) {
         
         ?>
-        <div id="prnTable" align="center">
+        <div id="prnTable" align="center" class="table-responsive row">
             <table class="table table-bordered table-striped" cellpadding=1 cellspacing=0 border=1>
                 <tr>
                     <th colspan=<?php echo ($civil_colspan + $cr_colspan + 3); ?> align="center">
@@ -19,8 +19,7 @@
                         <?php 
                         $til_date2 = explode("-", $til_dt);
                         $til_dt2 = $til_date2[2] . "-" . $til_date2[1] . "-" . $til_date2[0];	 
-                        echo $head_subhead . ' pending cases as on ' . $til_dt2; ?>
-                        
+                        echo $head_subhead . ' pending cases as on ' . $til_dt2; ?>                        
                     </th>
                 </tr>
                 <tr>

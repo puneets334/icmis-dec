@@ -142,11 +142,11 @@
                                     </div>
                                     <div class="col-md-2">
                                         <label for=""> From filling date:</label>
-                                        <input type="text" name="from_fil_dt" id="from_fil_dt" class="form-control" size="10" maxlength="10">
+                                        <input type="text" name="from_fil_dt " id="from_fil_dt" class="form-control dtp" size="10" maxlength="10">
                                     </div>
                                     <div class="col-md-3">
                                         <label for="">UPTO filling date:</label>
-                                        <input type="text" name="upto_fil_dt" class="form-control" id="upto_fil_dt" size="10" maxlength="10">
+                                        <input type="text" name="upto_fil_dt" class="form-control dtp" id="upto_fil_dt" size="10" maxlength="10">
                                     </div>
                                 </div>
                                 <div class="row mt-2">
@@ -287,6 +287,18 @@
 </section>
 
 <script type="text/javascript">
+     $(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
+    });
+
     function newPopup(url) {
         var popupWindow2 = window.open(
             url, 'popUpWindow2', 'height=700,width=800,left=10,top=10,resizable=yes,scrollbars=yes,toolbar=yes,menubar=yes,location=no,directories=no,status=yes')
