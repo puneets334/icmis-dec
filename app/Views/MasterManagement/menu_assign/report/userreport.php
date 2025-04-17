@@ -91,6 +91,10 @@ label, h2 {
         left: 65%;
         margin-top: -30px;
     }
+    table.dataTable thead th{font-weight: bold!important;}
+    #example_filter > label > input[type="search"] {
+        border: #000 1px solid!important;
+    }
 
 </style>
 <section class="content">
@@ -172,53 +176,61 @@ label, h2 {
                                                     <th>Old Sub Menu ID</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                            <?php                               
-                                    $dbo = db_connect();                                  
-                                    $count = 0;
-                                    foreach ($user_list as $key => $rows) {
-                                       $count++;
-                                        $parentIds = array(); 
-                                        echo '<tr>
-                                                <td class="text-danger">' . $count . '</td>
-                                                <td class="text-success">' . $rows['role_desc'] . '</td>';
-                                        
-                                        $html = '';
-                                        $role_master_id = $rows['id'];
-                                        $query =  $models->RoleMenuMapping($role_master_id);
-                                                            if ($query->getNumRows() > 0) {
-                                                                foreach ($query->getResultArray() as $menus) {
-                                                                    $rmenu_id = $menus['menu_id']; 
-                                                                    if (checkDisplayForSelfNParents($rmenu_id, $dbo) == false) {
-                                                                        continue;  
-                                                                    }                               
-                                                                    $menu_heading = $menus['menu_nm'];
-                                                                    $rmenu_parent_id = getParentId($rmenu_id);
-                                                                    if (!in_array($rmenu_parent_id, $parentIds) && $rmenu_parent_id != '') {
-                                                                    
-                                                                        $html .= getAllParentMenuRows($rmenu_id, $dbo,$parentIds);
-                                                                        
-                                                                        $parentIds = array_unique(array_merge($parentIds, getAllParentId($rmenu_id)));
-                                                                    }
-                                                                    $submenuids = array();
-                                                                    $html .= getAllSubMenuRows($rmenu_id, $menu_heading, $menus['url'], $menus['old_smenu_id'], $dbo,$submenuids);
-                                                                    unset($submenuids);
-                                                                }
-                                                                $html = trimTags($html);  
-                                                                echo $html;  
-                                                                echo '</tr>';
-                                                            } else {
-                                                                echo '<td class="text-danger">No Menu Found</td>
-                                                                    </tr>';
-                                                            }
-                                                            unset($parentIds); 
-                                                        }
+                                                    <tbody>
+                                                        <?php                               
+                                                            $dbo = db_connect();
+                                                            $count = 0;
+                                                            foreach ($user_list as $key => $rows)
+                                                            {
+                                                                $count++;
+                                                                $parentIds = array();
+                                                                echo '<tr>
+                                                                <td class="text-danger">' . $count . '</td>
+                                                                <td class="text-success">' . $rows['role_desc'] . '</td>
+                                                                
+                                                                ';
+                                                                $html = '';
+                                                                $role_master_id = $rows['id'];
+                                                                $query =  $models->RoleMenuMapping($role_master_id);
+                                                                if ($query->getNumRows() > 0) {
 
-                                                        $dbo = null; 
+                                                                        foreach ($query->getResultArray() as $menus) {
+                                                                            $rmenu_id = $menus['menu_id']; 
+                                                                            if (checkDisplayForSelfNParents($rmenu_id, $dbo) == false) {
+                                                                                continue;  
+                                                                            }                               
+                                                                            $menu_heading = $menus['menu_nm'];
+                                                                            $rmenu_parent_id = getParentId($rmenu_id);
+                                                                            if (!in_array($rmenu_parent_id, $parentIds) && $rmenu_parent_id != '') {
+                                                                            
+                                                                                $html .= getAllParentMenuRows($rmenu_id, $dbo,$parentIds);
+                                                                                
+                                                                                $parentIds = array_unique(array_merge($parentIds, getAllParentId($rmenu_id)));
+                                                                            }
+                                                                            $submenuids = array();
+                                                                            $html .= getAllSubMenuRows($rmenu_id, $menu_heading, $menus['url'], $menus['old_smenu_id'], $dbo,$submenuids);
+                                                                            unset($submenuids);
+                                                                        }
+                                                                        $html = trimTags($html);  
+                                                                                echo $html;  
+                                                                                echo '</tr>';
+
+
+                                                                }
+                                                                else {
+                                                                    echo '<td class="text-danger">No Menu Found</td>
+                                                                            <td></td>
+						                                                <td></td>
+                                                                        </tr>';
+                                                                }
+                                                                unset($parentIds); 
+
+                                                            }
+                                                            $dbo = null; 
                                                         ?>
 
                                                     </tbody>
-                                                </table>
+                                            </table>
                                             <?php endif; ?>
 
                                             <?php if (isset($menu_html)): ?>
@@ -429,6 +441,7 @@ label, h2 {
 
 <script src="<?= base_url('/Ajaxcalls/menu_assign/menu_assign.js') ?>"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/pdfmake.min.js"></script>
+<script src="<?=base_url()?>/assets/plugins/datatables/vfs_fonts.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datepicker/bootstrap-datepicker.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/dataTables.buttons.min.js"></script>
@@ -449,7 +462,41 @@ $(document).ready(function() {
         scrollY: 400,               // Set the vertical scroll height
         paging: false,              // Disable paging
         ordering: false,            // Disable column ordering
-        buttons: ['copy', 'excel', 'pdf', 'colvis', 'print'] // Specify buttons
+        buttons: [
+            {
+                extend: 'copy',
+                title: 'User Report',
+                filename: 'userreport',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excel',
+                title: 'User Report',
+                filename: 'userreport',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdf',
+                title: 'User Report',
+                filename: 'userreport',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'print',
+                title: 'User Report',
+                filename: 'userreport',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'colvis'
+        ]
     });
  
     table.buttons().container()
