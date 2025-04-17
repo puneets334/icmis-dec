@@ -81,10 +81,10 @@ if ($keyValue == 1) {
                 Name- <?php echo $currentUser['name']; ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Last Login- <?php echo revertDate_hiphen($currentUser['log_in']); ?>
+                Last Login- <?php echo (!empty($currentUser['log_in'])) ? revertDate_hiphen(date('Y-m-d', strtotime($currentUser['log_in']))) : ''; ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Active From- <?php echo revertDate_hiphen(date('Y-m-d', strtotime($currentUser['entdt']))); ?>
+                Active From- <?php echo (!empty($currentUser['entdt'])) ? revertDate_hiphen(date('Y-m-d', strtotime($currentUser['entdt']))) : ''; ?>
             </div>
         </div>
 
@@ -160,7 +160,7 @@ if ($keyValue == 1) {
         <hr>
         <!--for rr_user_hall_mapping start-->
         <div id="rkds_block" style="overflow: hidden;margin-left: auto;margin-right: auto;margin-top: 20px;margin-bottom: 20px;
-             display: <?php echo $rkds_blk; ?>">
+             display: <?php echo $rkds_blk ?? ''; ?>">
             <div style="margin: 0 auto;overflow: hidden">
                 <div style="font-size: 18px;text-align: center">D.A. Record Room Hall and Case Group Allotment </div>
                 <br>
@@ -217,7 +217,7 @@ if ($keyValue == 1) {
                     }
                     ?>
                 </div>
-                <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case; ?>" />
+                <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case ?? ''; ?>" />
             </div>
             <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
                 <input type="button" name="mapp_user_hall" value="ALLOT Hall" /><!--onclick="allotCase_rkds()"-->
@@ -230,7 +230,8 @@ if ($keyValue == 1) {
         <?php
 
         $rkds_blk = "none";
-        if ($currentUser['isda'] == 'Y' && $user_stat == 1)
+        
+        if ((!empty($currentUser)) && $currentUser['isda'] == 'Y' && $user_stat == 1)
             $rkds_blk = "block";
         ?>
         <div id="rkds_block" style="overflow: hidden;margin-left: auto;margin-right: auto;margin-top: 20px;margin-bottom: 20px;
@@ -297,7 +298,7 @@ if ($keyValue == 1) {
                             <?php
                             foreach ($state as $row_s) {
                             ?>
-                                <option value="<?php echo $row_s['id_no']; ?>"><?php echo $row_s['Name']; ?></option>
+                                <option value="<?php echo $row_s['id_no']; ?>"><?php echo $row_s['name']; ?></option>
                             <?php
                             }
                             ?>
@@ -344,7 +345,7 @@ if ($keyValue == 1) {
 
                     ?>
                 </div>
-                <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case; ?>" />
+                <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case ?? ''; ?>" />
             </div>
             <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
                 <input type="button" name="al-rkd-case" value="ALLOT CASE" />
@@ -382,8 +383,7 @@ if ($keyValue == 1) {
                 </div>
                 <div id="cmp_type_area" style="margin: 0 auto;overflow: hidden;font-size: 14px;float: left;margin: 2px 0px 0px 20px; border: 0px solid black;text-align: center">
                     <?php
-                    /*$chk_case = "SELECT a.casecode,bailno,IF(bailno = '0',skey,IF(a.casecode='52',IF(bailno='2',CONCAT(skey,' > ','1'),skey),skey))skey 
-                                FROM chk_case a LEFT JOIN casetype b ON a.casecode = b.casecode WHERE chkcode = '$userid' AND a.display = 'Y'";*/
+                    
                     $chk_case = $model->get_rkdcmpda_case($userid);
                     if (count($chk_case) > 0) {
                         foreach ($chk_case as $row_chk) {
@@ -400,7 +400,7 @@ if ($keyValue == 1) {
                     }
                     ?>
                 </div>
-                <input type="hidden" id="rkdcmpda_cases" value="<?php echo $hidden_rkdcmpda_case; ?>" />
+                <input type="hidden" id="rkdcmpda_cases" value="<?php echo $hidden_rkdcmpda_case ?? ''; ?>" />
             </div>
             <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
                 <input type="button" value="ALLOT CASE" onclick="allotCase_rkdcmpda()" />
@@ -414,7 +414,7 @@ if ($keyValue == 1) {
         <div id="judge_block" style="margin: 0 auto; overflow: hidden;margin-left: 30px;padding: 10px 10px 10px 10px;background-color: #ffa186;margin-top: 20px;margin-bottom: 20px;
             display: <?php echo $jud_blk; ?>">
             <div style="margin: 0 auto;overflow: hidden">
-                <div style="font-size: 18px;text-align: center;margin-bottom: 5px;">Judge Allotment For <?php echo $userdept; ?> Department</div>
+                <div style="font-size: 18px;text-align: center;margin-bottom: 5px;">Judge Allotment For <?php echo $userdept ?? ''; ?> Department</div>
                 <div style="overflow: hidden;margin: 0 auto;font-size: 16px;margin: 0px 10px 0px 20px; border: 0px solid black">
                     <?php
                     $cuirrent_working_judge = $model->getJudge();

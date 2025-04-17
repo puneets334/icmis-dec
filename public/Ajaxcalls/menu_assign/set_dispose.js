@@ -793,7 +793,7 @@ function set_ele() {
     $("#hdremp59").datepicker({ dateFormat: "dd/mm/yy", numberOfMonths: 2 });
     $("#hdremp70").datepicker({ dateFormat: "dd/mm/yy", numberOfMonths: 2 });
     $("#hdate").datepicker({ dateFormat: "dd-mm-yy", numberOfMonths: 2, changeMonth: true, changeYear: true, maxDate: d });
-    $("#cldate").datepicker({ dateFormat: "dd-mm-yy", numberOfMonths: 2, changeMonth: true, changeYear: true, maxDate: d });
+    // $("#cldate").datepicker({ dateFormat: "dd-mm-yy", numberOfMonths: 2, changeMonth: true, changeYear: true, maxDate: d });
     $("#rjdate").datepicker({ dateFormat: "dd-mm-yy", changeMonth: true, changeYear: true, maxDate: d });
     //$( "#datepicker" ).datepicker({  maxDate: new Date() });
     $("#rjdate").keyup(function (e) {
@@ -1485,21 +1485,23 @@ $(document).ready(function () {
 });
 
 function get_coram(diary_no) {
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
     var cl_dt = $('#cldate').val();
     //alert (diary_no);
     //alert(cl_dt);
     $('#td_coram').hide();
     $.ajax({
-        url: './get_coram.php',
+        url: base_url + "/IB/FmdController/get_coram",
         cache: false,
         async: true,
-        data: { cl_dt: cl_dt, diary_no: diary_no },
+        data: { cl_dt: cl_dt, diary_no: diary_no,CSRF_TOKEN: CSRF_TOKEN_VALUE },
         beforeSend: function () {
             //$('#rs_jg').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
         },
         type: 'POST',
         success: function (data, status) {
-
+            updateCSRFToken();
             if (data != '') {
                 $('#jud_coram').html(data);
             }
@@ -1509,6 +1511,7 @@ function get_coram(diary_no) {
             }
         },
         error: function (xhr) {
+            updateCSRFToken();
             alert("Error: " + xhr.status + " " + xhr.statusText);
         }
     });

@@ -51,7 +51,7 @@
                                         ?>
                                     </select>
                                 </div>
-                                <div class="col-md-1 mt-4">
+                                <div class="col-md-2 mt-4">
                                     <input type="submit" id="searchButton" name="searchButton" value="Search">
                                 </div>
                                 <div class="col-md-1 mt-4">
@@ -63,8 +63,8 @@
                             <?php
                             $fromDate = $fromDate ?? date('d-m-Y');
                             echo '<div class="printme">';
-                            $title = 'Diary Entry Module User Performance Data for Dated ' . $fromDate;
-                            echo '<h1>' . $title . '</h1>';
+                            $title = 'Diary Entry Module User Performance Data for Dated ' . date('d-m-Y', strtotime($fromDate));
+                            echo '<h3 style="text-align:center">' . $title . '</h3>';
                             echo ' <table class="table table-striped custom-table display" id="diaryTable">
                                 <thead>
                                     <tr>

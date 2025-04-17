@@ -120,5 +120,18 @@ class Report extends BaseController
         return view('ManagementReport/Pending/section_pendency_view', $data);
         
     }
+	
+	public function cases(){
+        $category=  $this->request->getGet('category');
+		$dacode= $this->request->getGet('dacode');
+        $da_rog_matters = $this->PendencyModel->da_rog_cases($category,$dacode);                
+        $da_details = $this->PendencyModel->da_details($dacode);        
+        $data['da_details']=$da_details;        
+        $data['dacode']=$dacode;
+        $data['da_cases'] = $da_rog_matters;
+        $data['category']=$category;
+        return view('ManagementReport/Pending/da_rog_cases', $data);        
+    }
+	
 
 }

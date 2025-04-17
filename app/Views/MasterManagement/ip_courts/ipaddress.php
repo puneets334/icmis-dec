@@ -1,10 +1,5 @@
 <?= view('header') ?>
 
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/menu_assign.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/style.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/all.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('assets/vendor/fontawesome-free/css/all.min.css'); ?>">
-
 <style>
     div.dataTables_wrapper div.dataTables_filter label {
         display: flex;
@@ -25,7 +20,7 @@
 
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Master Management >> Case Block for Loose Doc</h3>
+                                <h3 class="card-title">Master Management >> List of IP Address in Courts</h3>
                             </div>
                             <div class="col-sm-2"> </div>
                         </div>
@@ -45,8 +40,8 @@
                                         <!-- Main content -->
                                         <section class="content_">
                                             <div class="box-heading">
-                                                <div class="box-title" style="background-color: #537881;"><b>
-                                                        <h2 style="background-color: #537881; color: white; text-align: center; font-size: 20px;font-weight: bold">List of IP Address in Courts</h2>
+                                                <div class="box-title" style="background: #0d48be;"><b>
+                                                        <h2 style="background: #0d48be; color: white; text-align: center; font-size: 20px;font-weight: bold">List of IP Address in Courts</h2>
                                                     </b></div>
                                             </div>
 
@@ -149,7 +144,7 @@
 
                                                 ?>
                                                     <caption>
-                                                        <h2 style="background-color: #537881; color: white; text-align: center; font-size: 20px;font-weight: bold">
+                                                        <h2 style="background: #0d48be; color: white; text-align: center; font-size: 20px;font-weight: bold">
                                                             IP Address in Courts as on <?php echo date('d-m-Y h:m:s A') ?>
                                                         </h2>
                                                     </caption>
@@ -236,16 +231,6 @@
         </div>
 </section>
 
-<script src="<?= base_url('/Ajaxcalls/menu_assign/menu_assign.js') ?>"></script>
-<script src="<?= base_url() ?>/assets/plugins/datatables/pdfmake.min.js"></script>
-<script src="<?= base_url() ?>/assets/plugins/datepicker/bootstrap-datepicker.js"></script>
-<script src="<?= base_url() ?>/assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?= base_url() ?>/assets/plugins/datatables/dataTables.buttons.min.js"></script>
-<script src="<?= base_url() ?>/assets/plugins/datatables/buttons.print.min.js"></script>
-<script src="<?= base_url() ?>/assets/plugins/datatables/buttons.html5.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
-
 <script>
     $(document).ready(function() {
         // Initial setup
@@ -306,28 +291,30 @@
 
 
 
-    $(document).ready(function() {
-        $(function() {
-            $("#grid").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", {
-                        extend: 'pdfHtml5',
-                        orientation: 'landscape',
-                        pageSize: 'LEGAL'
-                    },
-                    {
-                        extend: 'colvis',
-                        text: 'Show/Hide'
-                    }
-                ],
-                "bProcessing": true,
-                "extend": 'colvis',
-                "text": 'Show/Hide'
-            }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
-
-        });
+    $(function() {
+        $("#grid").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "bProcessing": true,
+            "extend": 'colvis',
+            "text": 'Show/Hide',
+            "dom": 'Bfrtip', // Enables the Buttons extension
+            "buttons": [{
+                    extend: "csv",
+                    title: "IP Address in Courts as on\n(As on <?php echo date('d-m-Y'); ?>)"
+                },
+                {
+                    extend: "excel",
+                    title: "IP Address in Courts as on\n(As on <?php echo date('d-m-Y'); ?>)"
+                },
+                {
+                    extend: "print",
+                    title: "",
+                    messageTop: "<h3 style='text-align:center;'>IP Address in Courts as on<br>(As on <?php echo date('d-m-Y'); ?>)</h3>"
+                }
+            ]
+        }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
     });
 
 

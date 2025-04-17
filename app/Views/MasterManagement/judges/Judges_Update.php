@@ -1,10 +1,5 @@
 <?= view('header') ?>
 
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/menu_assign.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/style.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/all.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('assets/vendor/fontawesome-free/css/all.min.css'); ?>">
-
 <style> 
      a:hover{
             color: red;
@@ -52,7 +47,6 @@
                         </div>
                     </div>
                     <br /><br />
-                    <input type="hidden" name="<?= csrf_token(); ?>" value="<?= csrf_hash(); ?>">
                     <!--start menu programming-->
                     <div class="container-fluid">
                         <div class="row">
@@ -74,8 +68,8 @@
                                         <div id="row1" class="row required">
 
                                             <div class="control-label col-md-4  requiredField">
-                                                <label class="col-sm-6">Catg.</label>
-                                                <select class="form-control" id="jtype" name="jtype">
+                                                <label class="col-sm-6">Catg.<font color="red">*</font></label>
+                                                <select class="form-control" id="jtype" name="jtype" required>
                                                     <option value="">--Select--</option>
                                                     <option value="J">Justice</option>
                                                     <option value="R">Registrar</option>
@@ -84,7 +78,7 @@
                                             </div>
 
                                             <div class="control-label col-md-4  requiredField">
-                                            <label class="col-sm-6">JNAME:</label>
+                                            <label class="col-sm-6">JNAME<font color="red">*</font>:</label>
                                             <select class="form-control" id="jname" name="jname" required>
                                                 <option value="">--Select Name--</option>
                                         <!--   --><?php

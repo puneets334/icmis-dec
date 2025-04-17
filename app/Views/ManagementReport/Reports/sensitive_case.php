@@ -53,7 +53,7 @@
         $(document).on('click', '#btn_sensetive', function () {
             get_report();
         });
-        $(document).on("click", "#prnnt1", function () {
+       /*  $(document).on("click", "#prnnt1", function () {
             var prtContent = $("#prnnt").html();
             var temp_str = prtContent;
             var WinPrint = window.open('', '', 'left=100,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1,cellspacing=5, cellpadding=5');
@@ -61,14 +61,16 @@
             WinPrint.document.close();
             WinPrint.focus();
             WinPrint.print();
-        });
+        }); */
+		
         $('#reportTable').DataTable( {
             paging: true,
             ordering: false,
             info: true,
             searching: true,
-        } )
+        });
     });
+	
     function get_report() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
