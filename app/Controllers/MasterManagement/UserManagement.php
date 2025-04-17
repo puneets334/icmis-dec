@@ -375,12 +375,13 @@ class UserManagement extends BaseController
         $userObj = $this->UserManagementModel;
         $result_message = '';
         $ucode=$_SESSION['login']['usercode'];
-
+        
         if ($_REQUEST['mat'] == 1) {
 
             switch ($_REQUEST['func']) {
                 case 1:
                     $result = $userObj->add_user($_REQUEST['udept'], $_REQUEST['usec'], $_REQUEST['utype'], $_REQUEST['empid'], $_REQUEST['temp_empid'], $_REQUEST['name'], $_REQUEST['service'], $ucode);
+                   
                     $result_message = "USER ADDED SUCCESSFULLY";
                     break;
                 case 2:
@@ -394,7 +395,7 @@ class UserManagement extends BaseController
                 default:
                     break;
             }
-
+          
             if ($result == '1')
                 echo "1~" . $result_message;
             else
@@ -426,23 +427,19 @@ class UserManagement extends BaseController
             echo $userid[5];
         } else if ($_REQUEST['mat'] == 7) {
             $result = $userObj->getAllUserTypefull_fromNewUser();
-            if ($result > 0) {
-            ?>
-                <option value="0">Select</option>
-                <?php
+            $option = '';
+            if ($result > 0) {            
+              $option .=  '<option value="0">Select</option>';                
                 foreach($result as $row) {
                     if ($_REQUEST['udept'] != 1)
                         if ($row['id'] == 1)
-                            continue;
-                ?>
-                    <option value="<?php echo $row['id']; ?>"><?php echo $row['type_name']; ?></option>
-                <?php
+                            continue;                 
+                   $option .= '<option value="'.$row['id'].'">'.$row['type_name'].'</option>';                 
                 }
-            } else {
-                ?>
-                <option value="0">Select</option>
-                <?php
+            } else {                
+                $option .= '<option value="0">Select</option>';                 
             }
+            echo $option;
         }
     }
 }

@@ -15,16 +15,16 @@ if ($view_sta == '-1') {
     $view_status = "";
     $view_status2 = "";
 } else if ($view_sta == '0') {
-    $view_status = " WHERE pa_ps LIKE '_ABS' OR to_date != '0000-00-00' OR name IS NULL";
-    $view_status2 = " AND pa_ps LIKE '_ABS' OR to_date != '0000-00-00' OR name<style>
+    $view_status = " WHERE pa_ps LIKE '_ABS' OR to_date IS NOT NULL OR name IS NULL";
+    $view_status2 = " AND pa_ps LIKE '_ABS' OR to_date IS NOT NULL OR name<style>
 th{
     background-color: #0d48be !important;
     color: #fff !important;
 }
 </style> IS NULL";
 } else if ($view_sta == '1') {
-    $view_status = " WHERE pa_ps NOT LIKE '_ABS' AND to_date = '0000-00-00' AND name IS NOT NULL";
-    $view_status2 = " AND pa_ps LIKE '_ABS' OR to_date != '0000-00-00' OR name IS NULL";
+    $view_status = " WHERE pa_ps NOT LIKE '_ABS' AND to_date IS NULL AND name IS NOT NULL";
+    $view_status2 = " AND pa_ps LIKE '_ABS' OR to_date IS NOT NULL OR name IS NULL";
 }
 $auth_name = 0;
 
@@ -199,7 +199,7 @@ if (count($view_rs) > 0) {
         ?>
         </tbody>
         <tr style="text-align: center" class="notfor-print">
-            <td colspan="13"><button onclick="get_print('result_main_um')">PRINT</button></td>
+            <td colspan="13"><button class="btn btn-primary" onclick="get_print('result_main_um')">PRINT</button></td>
         </tr>
     </table>
   </div>
@@ -278,4 +278,7 @@ if (count($view_rs) > 0) {
                 alert("Error, Please Contact Server Room");
             });
     });
+
+
+ 
 </script>

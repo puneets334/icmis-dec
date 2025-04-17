@@ -9,7 +9,7 @@
                             <div class="col-sm-10">
                                 <h3 class="card-title">New User</h3>
                             </div>
-                            <?= view('Filing/filing_filter_buttons'); ?>
+                            <?//= view('Filing/filing_filter_buttons'); ?>
                         </div>
                     </div>
                     <div class="container mt-4">
@@ -33,7 +33,7 @@
                                                     Existing</label>
                                             </div>
                                             <div class="col-md-3">
-                                                <select id="for_up_users" class="form-control" disabled 
+                                                <select id="for_up_users"  class="form-control select2" disabled 
                                                     onchange="edit_user_set_fields(this.value)">
                                                     <option value="0">Select</option>
                                                     <?php
@@ -113,8 +113,7 @@
                                                 </tr>
                                             </table>
                                             <input type="button" value="Add New" id="btnMain" onclick="add_user()" />
-                                            <input type="button" value="Cancel" id="btnCan"
-                                                onclick="cancel_op_newuser()" />
+                                            <input type="button" value="Cancel" id="btnCan" onclick="cancel_op_newuser()" style="background-color:#ffc107 !important;" />
                                         </div>
                                     </div>
                                     <div class="add_result"></div>
@@ -131,6 +130,9 @@
         </div>
 </section>
 <script>
+
+    $('#for_up_users').select2();
+
     function onlyalphab(evt) {
         evt = (evt) ? evt : window.event;
         var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -674,7 +676,7 @@
         $("#_username_name_nu").removeAttr("disabled");
         $("#btnMain").val("Add New");
         $("#btnMain").attr("onclick", "add_user()");
-        $("#btnCan").css("display", "none");
+       // $("#btnCan").css("display", "none");
         $(".add_result").slideUp();
     }
 </script>

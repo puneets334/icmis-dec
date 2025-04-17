@@ -4036,4 +4036,26 @@ else '' end as case_no");
         $query = $this->db->query($sql, array($id));
         return $query->getResultArray();
     }
+
+    public function archiveEfiledCase($ucode,$diaryNo)
+    {
+        $sql = "
+            INSERT INTO efiled_cases_history (
+                id, efiling_no, efiled_type, diary_no, created_at, created_by, display, 
+                deleted_at, deleted_by, updated_by_ip, updated_by, updated_on, 
+                create_modify, create_by
+            )
+            SELECT 
+                id, efiling_no, efiled_type, diary_no, created_at, created_by, display, 
+                NULL, NULL, updated_by_ip, updated_by, updated_on, 
+                NOW(), ?
+            FROM 
+                efiled_cases 
+            WHERE 
+                diary_no = ?
+        ";
+
+        return $this->db->query($sql, [$ucode,$diaryNo]);
+    }
+
 }

@@ -86,7 +86,7 @@ $(document).ready(function () {
     var calcda = 0;
     if ($("#calc-da-code").is(":checked")) calcda = 1;
 
-    alert($("#designation").val());
+    //alert($("#designation").val());
     $.ajax({
       type: "GET",
       url: base_url + "/MasterManagement/UserManagement/view_user_information",

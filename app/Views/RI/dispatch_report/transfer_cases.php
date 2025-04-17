@@ -166,17 +166,15 @@
                                         <label for="to">To Date</label>
                                         <input type="date" name="txt_to_dt" id="txt_to_dt" class="form-control datepick" placeholder="To Date" autocomplete="off">
                                     </div>
+
+                                    <div class="form-group col-sm-3 pull-right">
+                             
+                                    <input type="button" name="btn_submit" id="btn_submit" class="mt-4" value="Submit"/>
+                                    </div>
                                     
                                 </div> 
                                 
-                                <div class="form-group col-sm-3 pull-right">
-                                <!-- &nbsp;&nbsp;<b>From Date</b>
-                                    <input type="text" name="txt_frm_dt" id="txt_frm_dt" class="dtp" maxlength="10" size="9" value="<?php echo date('d-m-Y'); ?>"/>
-                                    <b>To Date</b>
-                                    <input type="text" name="txt_to_dt" id="txt_to_dt" class="dtp" maxlength="10" size="9" value="<?php echo date('d-m-Y'); ?>"/>
-                                    &nbsp;&nbsp; -->
-                                    <input type="button" name="btn_submit" id="btn_submit" value="Submit"/>
-                                    </div>
+                                
                                     <div id="dv_data" style="margin-top: 15px"></div>
                                         <div id="dv_load" style="text-align: left"></div>
                                     </div>
@@ -225,11 +223,12 @@
             data:{idd: idd, CSRF_TOKEN:CSRF_TOKEN_VALUE},
             dataType: 'html', 
             success: function(data) {
-                
-                $('#ddl_users_nm').html(data);
                 updateCSRFToken();
+                $('#ddl_users_nm').html(data);
+               
             },
             error: function(xhr, status, error) {
+                updateCSRFToken();
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
@@ -282,21 +281,23 @@
         var txt_frm_dt = $('#txt_frm_dt').val();
         var txt_to_dt = $('#txt_to_dt').val();
         var ddl_users_nm=$('#ddl_users_nm').val();
-
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
     $.ajax({
-            url: 'transfer_cases_user.php',
+            url: "<?php echo base_url('RI/DispatchController/transfer_cases_user'); ?>",
             cache: false,
             async: true,
             beforeSend: function() {
-                $('#dv_load').html('<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
+                $('#dv_load').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
             },
-            data: {diary_no: diary_no, users: users, txt_to_dt: txt_to_dt,ddl_users_nm:ddl_users_nm,txt_frm_dt:txt_frm_dt,ddl_users:ddl_users},
+            data: {diary_no: diary_no, users: users, txt_to_dt: txt_to_dt,ddl_users_nm:ddl_users_nm,txt_frm_dt:txt_frm_dt,ddl_users:ddl_users,CSRF_TOKEN:CSRF_TOKEN_VALUE},
             type: 'POST',
             success: function(data, status) {
                 $('#dv_load').html(data);
                 get_records();
             },
             error: function(xhr) {
+                updateCSRFToken();
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
 
@@ -428,10 +429,11 @@
     });
     });
     //////
-    function  get_records()
-    {    updateCSRFToken();
-            var CSRF_TOKEN = 'CSRF_TOKEN';
-            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
+  async  function  get_records()
+    {   
+        await updateCSRFTokenSync();
+          
             var ddl_users = $('#ddl_users').val();
             var txt_frm_dt = $('#txt_frm_dt').val();
             var txt_to_dt = $('#txt_to_dt').val();
@@ -446,20 +448,25 @@
                 }
                 else 
                     {
+
+                        var CSRF_TOKEN = 'CSRF_TOKEN';
+                        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
             
             $.ajax({
                 type: "POST",
                 url: "<?php echo base_url('RI/DispatchController/getuser_for_transfer_case_alloted'); ?>",
                 beforeSend: function() {
-                    $('#dv_data').html('<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
+                    $('#dv_data').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
                 },
                 data: {ddl_users: ddl_users, txt_frm_dt: txt_frm_dt, txt_to_dt: txt_to_dt,ddl_users_nm:ddl_users_nm,CSRF_TOKEN:CSRF_TOKEN_VALUE},
                 dataType: 'html', 
                 success: function(data) {
-                    $('#dv_data').html(data);
                     updateCSRFToken();
+                    $('#dv_data').html(data);
+                    
                 },
                 error: function(xhr, status, error) {
+                    updateCSRFToken();
                     alert("Error: " + xhr.status + " " + xhr.statusText);
                 }
             });
@@ -475,4 +482,4 @@
    
 </script>
 
- <?=view('sci_main_footer') ?>
+ <?//=view('sci_main_footer') ?>
