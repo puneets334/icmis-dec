@@ -7,6 +7,13 @@ $(document).ready(function () {
       $("#judges_id").val("");
     }
 
+    if(val == 'ALL')
+    {
+      $("#section").html("<option value='ALL'>ALL</option>");
+      $("#designation").html("<option value='ALL'>ALL</option>");
+      return false;
+    }
+
     $.ajax({
       type: "GET",
       url: base_url + "/MasterManagement/UserManagement/user_mgmt_multiple?key=1",
@@ -86,7 +93,7 @@ $(document).ready(function () {
     var calcda = 0;
     if ($("#calc-da-code").is(":checked")) calcda = 1;
 
-    alert($("#designation").val());
+    //alert($("#designation").val());
     $.ajax({
       type: "GET",
       url: base_url + "/MasterManagement/UserManagement/view_user_information",
@@ -127,10 +134,10 @@ $(document).on("click", "[id^='cl_manage_f']", function () {
   $("#dv_fixedFor_P").css("display", "block");
   $.ajax({
     type: "GET",
-    url: base_url + "/MasterManagement/UserManagement/user_mgmt_multiple?key=3",
+    url: base_url + "/MasterManagement/UserManagement/user_mgmt_multiple?key=22",
     beforeSend: function (xhr) {
       $("#sar").html(
-        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+ base_url +"/images/load.gif'></div>"
       );
     },
     data: { userid: num[1] },
@@ -241,7 +248,7 @@ $(document).on("click", "input[name=add-da-for]", function () {
     "-" +
     $("#da_c_t option:selected").text() +
     "\
-<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./close-button.gif' onclick=removeCase_rkds('" +
+<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='"+base_url+"/images/close-button.gif' onclick=removeCase_rkds('" +
     rkds_id +
     "')></div>";
 
@@ -270,10 +277,10 @@ $(document).on("click", "input[name=al-rkd-case]", function () {
       $("#dv_sh_hd").css("display", "none");
       $.ajax({
         type: "POST",
-        url: "./view_user_information.php",
+        url: base_url + "/MasterManagement/UserManagement//view_user_information.php",
         beforeSend: function (xhr) {
           $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+base_url+"/images/load.gif'></div>"
           );
         },
         data: {
@@ -372,7 +379,7 @@ function showDetails() {
     url: $("#hd_folder").val() + "/view_user_information.php",
     beforeSend: function (xhr) {
       $("#result_main_um").html(
-        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+        "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+ base_url +"/images/load.gif'></div>"
       );
     },
     data: {
@@ -516,17 +523,15 @@ function allotFunction() {
       $("#dv_fixedFor_P").css("display", "none");
       $("#dv_sh_hd").css("display", "none");
       $.ajax({
-        type: "POST",
-        url: "./view_user_information.php",
+        type: "get",
+        url: base_url + "/MasterManagement/UserManagement/view_user_information",
         beforeSend: function (xhr) {
           $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+base_url+"/images/load.gif'></div>"
           );
         },
         data: {
-          /*auth:$("#authority").val(),auth_name:$("#auth_name").val(),*/ dept: $(
-            "#department"
-          ).val(),
+           dept: $("#department").val(),
           sec: $("#section").val(),
           desg: $("#designation").val(),
           cur_user_type: $("#cur_user_type").val(),
@@ -552,7 +557,7 @@ function press_add() {
     "'>" +
     $("#c_csty option:selected").text() +
     "\
-<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./close-button.gif' onclick=removeCase('" +
+<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='"+ base_url +"/images/close-button.gif' onclick=removeCase('" +
     $("#c_csty").val() +
     "')></div>";
 
@@ -576,7 +581,7 @@ function press_add_rkdcmpda() {
     "'>" +
     $("#cmp_csty option:selected").text() +
     "\
-<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./usermgmt/close-button.gif' onclick=removeCase_rkdcmpda('" +
+<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='"+ base_url +"/images/close-button.gif' onclick=removeCase_rkdcmpda('" +
     $("#cmp_csty").val() +
     "')></div>";
 
@@ -639,7 +644,7 @@ function allotCase() {
         // url: $("#hd_folder").val() + "/view_user_information.php",
         beforeSend: function (xhr) {
           $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+ base_url +"/images/load.gif'></div>"
           );
         },
         data: {
@@ -690,7 +695,7 @@ function allotCase_rkdcmpda() {
         url: $("#hd_folder").val() + base_url + "/MasterManagement/UserManagement/view_user_information",
         beforeSend: function (xhr) {
           $("#result_main_um").html(
-            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+            "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+ base_url +"/images/load.gif'></div>"
           );
         },
         data: {
@@ -725,7 +730,7 @@ function getEmpINFO() {
     url: $("#hd_folder").val() + base_url + "/MasterManagement/UserManagement/user_mgmt_multiple?key=8",
     beforeSend: function () {
       $("#waiting").html(
-        "<div style='margin:0 auto;margin-top:20px;width:15%;display: none' ><img src='../images/load.jpg'></div>"
+        "<div style='margin:0 auto;margin-top:20px;width:15%;display: none' ><img src='"+ base_url +"/images/load.gif'></div>"
       );
     },
     data: { empid: $("#emp_id").val(), service: radio },
@@ -767,7 +772,7 @@ function allotUserToDesg() {
     url: $("#hd_folder").val() + base_url + "/MasterManagement/UserManagement/user_mgmt_multiple?key=9",
     beforeSend: function () {
       $("#waiting").html(
-        "<div style='margin:0 auto;margin-top:20px;width:15%;display: none' ><img src='../images/load.jpg'></div>"
+        "<div style='margin:0 auto;margin-top:20px;width:15%;display: none' ><img src='"+ base_url +"/images/load.gif'></div>"
       );
     },
     data: {
@@ -790,7 +795,7 @@ function allotUserToDesg() {
           url: $("#hd_folder").val() + "/view_user_information.php",
           beforeSend: function (xhr) {
             $("#result_main_um").html(
-              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+ base_url +"/images/load.gif'></div>"
             );
           },
           data: {
@@ -830,17 +835,13 @@ function relieve_user() {
         else alert("!!!Error Occured!!!");
 
         $.ajax({
-          type: "POST",
-          url: "./view_user_information.php",
+          type: "get",
+          url: base_url + "/MasterManagement/UserManagement/view_user_information",
           beforeSend: function (xhr) {
-            $("#result_main_um").html(
-              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
-            );
+            $("#result_main_um").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+base_url+"/images/load.gif'></div>");
           },
           data: {
-            /*auth:$("#authority").val(),auth_name:$("#auth_name").val(),*/ dept: $(
-              "#department"
-            ).val(),
+            dept: $("#department").val(),
             sec: $("#section").val(),
             desg: $("#designation").val(),
             cur_user_type: $("#cur_user_type").val(),
@@ -884,7 +885,7 @@ function save_judge_info() {
           url: $("#hd_folder").val() + "/view_user_information.php",
           beforeSend: function (xhr) {
             $("#result_main_um").html(
-              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../images/load.jpg'></div>"
+              "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+base_url+"/images/load.gif'></div>"
             );
           },
           data: {

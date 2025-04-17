@@ -101,7 +101,7 @@
 
                         </div>
                     </form>
-                    <div id="result_main_um" class="mt-3"></div>
+                    <div id="result_main_um" class="row mt-3"></div>
 
 
 

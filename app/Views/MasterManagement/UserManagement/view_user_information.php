@@ -15,16 +15,16 @@ if ($view_sta == '-1') {
     $view_status = "";
     $view_status2 = "";
 } else if ($view_sta == '0') {
-    $view_status = " WHERE pa_ps LIKE '_ABS' OR to_date != '0000-00-00' OR name IS NULL";
-    $view_status2 = " AND pa_ps LIKE '_ABS' OR to_date != '0000-00-00' OR name<style>
+    $view_status = " WHERE pa_ps LIKE '_ABS' OR to_date IS NOT NULL OR name IS NULL";
+    $view_status2 = " AND pa_ps LIKE '_ABS' OR to_date IS NOT NULL OR name<style>
 th{
     background-color: #0d48be !important;
     color: #fff !important;
 }
 </style> IS NULL";
 } else if ($view_sta == '1') {
-    $view_status = " WHERE pa_ps NOT LIKE '_ABS' AND to_date = '0000-00-00' AND name IS NOT NULL";
-    $view_status2 = " AND pa_ps LIKE '_ABS' OR to_date != '0000-00-00' OR name IS NULL";
+    $view_status = " WHERE pa_ps NOT LIKE '_ABS' AND to_date IS NULL AND name IS NOT NULL";
+    $view_status2 = " AND pa_ps LIKE '_ABS' OR to_date IS NOT NULL OR name IS NULL";
 }
 $auth_name = 0;
 
@@ -81,8 +81,8 @@ if (count($view_rs) > 0) {
         foreach ($view_rs as $row) {
         ?>
             <tr>
-                <th><?php echo $sno; ?></th>
-                <td><span class="cl_manage" id="cl_manage_f<?php echo $row['usercode']; ?>"><?php echo $row['usercode']; ?></span></td>
+                <td><?php echo $sno; ?></td>
+                <td><a href="javascript:void(0);" class="cl_manage" id="cl_manage_f<?php echo $row['usercode']; ?>"><?php echo $row['usercode']; ?></a></td>
                 <?php
                 //onclick="cl_manage_f(this.id)"
                 if ($dept == 'ALL') {
@@ -110,7 +110,7 @@ if (count($view_rs) > 0) {
                 <td><?php echo $row['empid']; ?></td>
                 <td><?php /*echo revertDate_hiphen($row['log_in']);*/
                     $log_date = $model->displayLastLogin($row['usercode']);
-                    if ($log_date != '0000-00-00')
+                    if ($log_date != '')
                         echo date('d-M-Y', strtotime($log_date));
                     else
                         echo ''; ?></td>
@@ -199,7 +199,7 @@ if (count($view_rs) > 0) {
         ?>
         </tbody>
         <tr style="text-align: center" class="notfor-print">
-            <td colspan="13"><button onclick="get_print('result_main_um')">PRINT</button></td>
+            <td colspan="13"><button class="btn btn-primary" onclick="get_print('result_main_um')">PRINT</button></td>
         </tr>
     </table>
   </div>
@@ -216,7 +216,7 @@ if (count($view_rs) > 0) {
 
     <div id="sar1" style="background-color: white;overflow: auto;margin: 60px 300px 30px 300px;height: 60%;">
         <div id="sp_close" style="text-align: right;cursor: pointer;float: right">
-            <img src="./close-button.gif" style="width: 20px;height: 20px;">
+            <img src="<?php echo base_url();?>/images/close-button.gif" style="width: 20px;height: 20px;">
         </div>
         <div id="sar" style="border: 0px solid red"></div>
     </div>
@@ -278,4 +278,7 @@ if (count($view_rs) > 0) {
                 alert("Error, Please Contact Server Room");
             });
     });
+
+
+ 
 </script>
