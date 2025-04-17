@@ -81,8 +81,8 @@ if (count($view_rs) > 0) {
         foreach ($view_rs as $row) {
         ?>
             <tr>
-                <th><?php echo $sno; ?></th>
-                <td><span class="cl_manage" id="cl_manage_f<?php echo $row['usercode']; ?>"><?php echo $row['usercode']; ?></span></td>
+                <td><?php echo $sno; ?></td>
+                <td><a href="javascript:void(0);" class="cl_manage" id="cl_manage_f<?php echo $row['usercode']; ?>"><?php echo $row['usercode']; ?></a></td>
                 <?php
                 //onclick="cl_manage_f(this.id)"
                 if ($dept == 'ALL') {
@@ -110,7 +110,7 @@ if (count($view_rs) > 0) {
                 <td><?php echo $row['empid']; ?></td>
                 <td><?php /*echo revertDate_hiphen($row['log_in']);*/
                     $log_date = $model->displayLastLogin($row['usercode']);
-                    if ($log_date != '0000-00-00')
+                    if ($log_date != '')
                         echo date('d-M-Y', strtotime($log_date));
                     else
                         echo ''; ?></td>
@@ -216,7 +216,7 @@ if (count($view_rs) > 0) {
 
     <div id="sar1" style="background-color: white;overflow: auto;margin: 60px 300px 30px 300px;height: 60%;">
         <div id="sp_close" style="text-align: right;cursor: pointer;float: right">
-            <img src="./close-button.gif" style="width: 20px;height: 20px;">
+            <img src="<?php echo base_url();?>/images/close-button.gif" style="width: 20px;height: 20px;">
         </div>
         <div id="sar" style="border: 0px solid red"></div>
     </div>
