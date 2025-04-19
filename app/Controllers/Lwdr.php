@@ -125,4 +125,80 @@ class Lwdr extends BaseController
         }
     }
 
+    public function section_reg()
+    {
+        $data['app_name'] = 'S Report';
+        $result_array = $this->LwdrModel->Section_Reg_Report();
+        $data['case_result'] = $result_array;
+        return view('lwdr/section_regunreg_matter', $data);
+    }
+
+    public function section_reg_data()
+    {
+            
+        $data['target'] =$section = trim($this->request->getPost('sect'));
+        $data['case_result_unregistered'] = $this->LwdrModel->Section_Reg_Report_Result($section);
+        $data['case_result_registered'] = $this->LwdrModel->Section_Unreg_Report_Result($section);
+        $data['case_state_unregistered'] = $this->LwdrModel->Pend_Report_Mod($section);
+        $data['case_state_registered'] = $this->LwdrModel->Pend_Report_Mod1($section);
+        return view('lwdr/section_regunreg_matter_data', $data);
+    }   
+
+    public function section_reg2()
+    {
+        $data['case_result_unregistered'] = $data['Unregistered_C_List'] = $data['state_year_result'] = $data['Registered_C_List'] = '';
+        $data['diary_year'] = $d_year = $this->request->getGet('d_year');
+        $data['sec'] = $section = $this->request->getGet('sect');
+        $data['title_head'] = $d_year . " REGISTERED MATTERS OF SECTION " . $section . " AS ON: " . date("d-m-Y");
+        $data['case_result'] = $this->LwdrModel->Matters_List($section, $d_year);
+        return view('lwdr/resultset', $data);
+    }
+
+
+    public function state_reg2()
+    {
+        $data['case_result_unregistered'] = $data['Unregistered_C_List'] = $data['state_year_result'] = $data['case_result'] = '';
+        $state = $this->request->getGet('state');
+        $section = $this->request->getGet('sect');
+        $court = $this->request->getGet('court');
+        $data['title_head'] = $state . " REGISTERED MATTERS OF SECTION " . $section . " AS ON: " . date("d-m-Y");
+        $data['Registered_C_List']= $this->LwdrModel->Registered_State_List($section, $state, $court);
+        return view('lwdr/resultset', $data);
+    }
+
+    public function section_unreg2()
+    {
+        $data['Registered_C_List'] = $data['Unregistered_C_List'] = $data['state_year_result'] = $data['case_result'] = '';
+        $d_year =$this->request->getGet('d_year');
+        $section = $this->request->getGet('sect');
+        $data['title_head'] = $d_year . " UNREGISTERED MATTERS OF SECTION " . $section . " AS ON: " . date("d-m-Y");
+        $data['case_result_unregistered'] = $this->LwdrModel->Unregistered_Matters_List($section, $d_year);
+        return view('lwdr/resultset', $data);
+    }
+
+    public function state_unreg2()
+    {
+        $data['case_result_unregistered'] = $data['Registered_C_List'] = $data['state_year_result'] = $data['case_result'] = '';
+        $state = $this->request->getGet('state');
+        $section = $this->request->getGet('sect');
+        $court = $this->request->getGet('court');
+        $data['title_head'] = $state . " UNREGISTERED MATTERS OF SECTION " . $section . " AS ON: " . date("d-m-Y");
+        $data['Unregistered_C_List'] = $this->LwdrModel->Unregistered_State_List($section, $state, $court);
+        return view('lwdr/resultset', $data);
+    }
+
+    public function section_report()
+    {
+        $data['sections'] = $this->LwdrModel->sectionwise_name();
+        return view('lwdr/section_report', $data);
+    }
+    
+    public function section_report_data()
+    {
+        $section_id = 0;
+        if ($this->request->getPost('section') != 0) {
+            $section_id = $this->request->getPost('section');
+        }
+        $data['report'] = $this->LwdrModel->sectionwise_report($section_id);
+    }
 }
