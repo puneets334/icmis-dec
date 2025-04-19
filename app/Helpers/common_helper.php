@@ -626,6 +626,9 @@ function f_advance_cl_allocation($q_diary_no, $q_conn_key, $q_next_dt, $subhead,
 
     $result = 0;
     $q_brd_slno = 1;
+    if($q_conn_key == null && $q_conn_key == ''){
+        $q_conn_key = 0;
+    }
     $sql_m = "SELECT MAX(brd_slno) AS max_brd_slno 
                 FROM advance_allocated 
                 WHERE next_dt = '$q_next_dt' ";
@@ -651,6 +654,7 @@ function f_advance_cl_allocation($q_diary_no, $q_conn_key, $q_next_dt, $subhead,
     $res = $db->affectedRows();
     if ($res > 0) {
         if ($q_diary_no == $q_conn_key) {
+           
             $sql2 = "INSERT  INTO advance_allocated (diary_no,conn_key,next_dt,subhead,board_type,clno,brd_slno,j1,j2,j3,listorder,usercode,ent_dt,main_supp_flag)
             SELECT a.* FROM (SELECT distinct c.diary_no AS conc_diary_no,
                 m.conn_key::int, '$q_next_dt'::date as next_dt, '$subhead'::int as subhead, '$board_type' AS board_type, '$q_clno'::int as clno, '$q_brd_slno'::int AS brd_slno, '$q_j1'::int AS j1, 
