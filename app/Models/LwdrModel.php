@@ -137,11 +137,10 @@ class LwdrModel extends Model
 
     function getSection_Pending_Reports($category, $section, $reportType, $listCourtType, $dateType, $fromDate, $toDate, $mcat)
     {
-        
+
         $sql = "";
 
-        if ($reportType == 0 && ($category != "" || isset($category)) && ($section != "" || isset($section)))
-         {
+        if ($reportType == 0 && ($category != "" || isset($category)) && ($section != "" || isset($section))) {
             $condition = "sm.id ='$category'";
             if ($category == 0 && $mcat != 100) {
                 $condition = " subcode1=$mcat";
@@ -150,8 +149,8 @@ class LwdrModel extends Model
             } else {
                 $condition = " sm.id ='$category'";
             }
-            
-           
+
+
             $builder = $this->db->table('main m');
             $builder->select("m.active_fil_dt,m.diary_no_rec_date,us.section_name AS user_section,
                 CASE WHEN mf_active = 'F' THEN 'Regular' ELSE 'Misc.' END AS casestage,aa.total_connected AS group_count,
@@ -165,7 +164,7 @@ class LwdrModel extends Model
                 TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,m.pet_name,m.res_name,m.reg_no_display,m.c_status,
                 CONCAT(m.reg_no_display, '@ D.No.', SUBSTRING(m.diary_no::text FROM 1 FOR LENGTH(m.diary_no::text) - 4), '/', SUBSTRING(m.diary_no::text FROM LENGTH(m.diary_no::text) - 3 FOR 4)) AS CaseNo,
                 CASE WHEN h.main_supp_flag = 0 THEN 'Ready' ELSE 'Not Ready' END AS Ready_status,h.next_dt AS Hearing_Date");
-            
+
             $builder->join("heardt h", "m.diary_no = h.diary_no", "left");
             $builder->join("master.users u", "u.usercode = m.dacode AND (u.display = 'Y' OR u.display IS NULL)", 'left');
             $builder->join("master.usersection us", "us.id = u.section AND us.display = 'Y'", "left");
@@ -176,21 +175,19 @@ class LwdrModel extends Model
                              INNER JOIN main n ON CAST(m.diary_no AS TEXT) = n.conn_key
                              WHERE n.diary_no::TEXT != n.conn_key AND m.c_status = 'P'
                              GROUP BY n.conn_key) aa", 'm.diary_no::text = aa.conn_key', 'left', false);
-            $builder->join("mul_category mc","mc.diary_no = m.diary_no AND mc.display = 'Y'", 'inner');
+            $builder->join("mul_category mc", "mc.diary_no = m.diary_no AND mc.display = 'Y'", 'inner');
             $builder->join("master.submaster sm", "mc.submaster_id = sm.id AND (sm.display = 'Y' OR sm.display IS NULL)", 'inner');
             $builder->where('m.c_status', 'P');
-            $builder->where('us.id',$section);
-            if(!empty($condition))
+            $builder->where('us.id', $section);
+            if (!empty($condition))
                 $builder->where($condition);
             $builder->orderBy('m.diary_no_rec_date', 'asc');
-            $sql = $builder->get();            
-            
-        } 
+            $sql = $builder->get();
+        }
         // SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diary_no,m.c_status, h.board_type
         //  SUBSTR(m.diary_no::text, -4) AS diary_year,TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date, m.reg_no_display,
 
-        else if($reportType == 1 && ($section!="" || isset($section))&& ($listCourtType!="" || isset($listCourtType)))
-        {
+        else if ($reportType == 1 && ($section != "" || isset($section)) && ($listCourtType != "" || isset($listCourtType))) {
             $builder = $this->db->table('main m');
             $builder->select("m.active_fil_dt, m.diary_no_rec_date,sm.sub_name1,us.section_name AS user_section,
                 CASE WHEN mf_active = 'F' THEN 'Regular' ELSE 'Misc.' END AS casestage,
@@ -206,7 +203,7 @@ class LwdrModel extends Model
                 h.next_dt AS Hearing_Date");
             $builder->join("heardt h", "m.diary_no = h.diary_no", 'left');
             $builder->join("master.users u", "u.usercode = m.dacode AND (u.display = 'Y' OR u.display IS NULL)", 'left');
-            $builder->join("master.usersection us","us.id = u.section AND us.display = 'Y'", 'left');
+            $builder->join("master.usersection us", "us.id = u.section AND us.display = 'Y'", 'left');
             $builder->join("master.users u1", "u1.usercode = m.usercode AND u1.display = 'Y'", 'left');
             $builder->join("(SELECT n.conn_key, COUNT(*) AS total_connected 
                              FROM main m
@@ -269,10 +266,9 @@ class LwdrModel extends Model
         //                 WHERE m.c_status = 'P' AND us.id=$section order by m.diary_no_rec_date asc";
 
         // }
-        else if($reportType == 4 && ($section!="" || isset($section)))
-        {
-                $builder = $this->db->table('main m');
-                $builder->select("m.diary_no_rec_date,us.section_name AS user_section,
+        else if ($reportType == 4 && ($section != "" || isset($section))) {
+            $builder = $this->db->table('main m');
+            $builder->select("m.diary_no_rec_date,us.section_name AS user_section,
                     CASE WHEN mf_active = 'F' THEN 'Regular' ELSE 'Misc.' END AS casestage,aa.total_connected AS group_count, 
                     sm.category_sc_old, u.name AS alloted_to_da, SUBSTRING(m.diary_no::text FROM 1 FOR LENGTH(m.diary_no::text) - 4) AS diary_no, 
                     SUBSTRING(m.diary_no::text FROM LENGTH(m.diary_no::text) - 3 FOR 4) AS diary_year, TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,
@@ -283,26 +279,26 @@ class LwdrModel extends Model
                     CASE WHEN h.main_supp_flag = 0 THEN 'Ready' ELSE 'Not Ready' END AS Ready_status, 
                     m.c_status, rc.agency_name,h.next_dt AS Hearing_Date, h.board_type, d.disp_dt");
 
-                $builder->join("master.ref_agency_code rc", "rc.id = m.ref_agency_code_id", "inner");
-                $builder->join("heardt h", "m.diary_no = h.diary_no", "left");
-                $builder->join("master.users u", "u.usercode = m.dacode AND (u.display = 'Y' OR u.display IS NULL)", "left");
-                $builder->join("master.usersection us", "us.id = u.section AND us.display = 'Y'", "left");
-                $builder->join("master.users u1", "u1.usercode = m.usercode AND u1.display = 'Y'", "left");
-                $builder->join("(SELECT n.conn_key, COUNT(*) AS total_connected 
+            $builder->join("master.ref_agency_code rc", "rc.id = m.ref_agency_code_id", "inner");
+            $builder->join("heardt h", "m.diary_no = h.diary_no", "left");
+            $builder->join("master.users u", "u.usercode = m.dacode AND (u.display = 'Y' OR u.display IS NULL)", "left");
+            $builder->join("master.usersection us", "us.id = u.section AND us.display = 'Y'", "left");
+            $builder->join("master.users u1", "u1.usercode = m.usercode AND u1.display = 'Y'", "left");
+            $builder->join("(SELECT n.conn_key, COUNT(*) AS total_connected 
                                 FROM main m INNER JOIN heardt h ON m.diary_no = h.diary_no
                                 INNER JOIN main n ON m.diary_no::text = n.conn_key 
                                 WHERE n.diary_no::text != n.conn_key GROUP BY n.conn_key) aa", "m.diary_no::text = aa.conn_key", "left", false);
-                $builder->join("mul_category mc", "mc.diary_no = m.diary_no AND mc.display = 'Y'", "left");
-                $builder->join("dispose d", "m.diary_no = d.diary_no", "inner");
-                $builder->join("master.submaster sm", "mc.submaster_id = sm.id AND (sm.display = 'Y' OR sm.display IS NULL)", "left");
-                $builder->join("master.subheading c", "h.subhead = c.stagecode AND (c.display = 'Y' OR c.display IS NULL)", "left");
-                $builder->where("m.c_status", "D");
-                $builder->where("(m.diary_no::text = m.conn_key OR m.conn_key IS NULL)", null, false);
-                $builder->where("us.id", $section);
-                $builder->where("disp_dt >=", $fromDate);
-                $builder->where("disp_dt <=", $toDate);
-                $builder->orderBy("m.diary_no_rec_date", "ASC");
-                $sql = $builder->get();
+            $builder->join("mul_category mc", "mc.diary_no = m.diary_no AND mc.display = 'Y'", "left");
+            $builder->join("dispose d", "m.diary_no = d.diary_no", "inner");
+            $builder->join("master.submaster sm", "mc.submaster_id = sm.id AND (sm.display = 'Y' OR sm.display IS NULL)", "left");
+            $builder->join("master.subheading c", "h.subhead = c.stagecode AND (c.display = 'Y' OR c.display IS NULL)", "left");
+            $builder->where("m.c_status", "D");
+            $builder->where("(m.diary_no::text = m.conn_key OR m.conn_key IS NULL)", null, false);
+            $builder->where("us.id", $section);
+            $builder->where("disp_dt >=", $fromDate);
+            $builder->where("disp_dt <=", $toDate);
+            $builder->orderBy("m.diary_no_rec_date", "ASC");
+            $sql = $builder->get();
         }
         if ($sql->getNumRows() > 0) {
             return $sql->getResultArray();
@@ -312,7 +308,7 @@ class LwdrModel extends Model
     }
 
 
-    function getcases_nb_gr_90days($section,$da)
+    function getcases_nb_gr_90days($section, $da)
     {
         $builder = $this->db->table('main m');
         $builder->distinct();
@@ -327,7 +323,7 @@ class LwdrModel extends Model
         $builder->where('m.c_status', 'P');
         $builder->where('us.id', $section);
         if ($da != 0)
-        $builder->where('m.dacode', $da);        
+            $builder->where('m.dacode', $da);
 
         $builder->where("(CURRENT_DATE - lh.next_dt >= 90 AND CURRENT_DATE - h.next_dt >= 90)", null, false);
         $query = $builder->get();
@@ -351,5 +347,356 @@ class LwdrModel extends Model
         $builder->orderBy('type_name, empid');
         $query = $builder->get();
         return $query->getResultArray();
+    }
+
+    function Section_Reg_Report()
+    {
+        $builder = $this->db->table('master.usersection');
+        $builder->select('section_name');
+        $builder->where('isda', 'Y');
+        $query = $builder->get();
+
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
+    }
+
+    function Section_Reg_Report_Result($section = null)
+    {
+        $builder = $this->db->table('main');
+        $builder->select("SUBSTR(diary_no::text, -4) AS diary_year, COUNT(diary_no) AS numb");
+        $builder->whereIn('dacode', function ($subQuery) use ($section) {
+            $subQuery->select('usercode')
+                ->from('master.users')
+                ->whereIn('section', function ($innerSubQuery) use ($section) {
+                    $innerSubQuery->select('id')
+                        ->from('master.usersection')
+                        ->where('section_name', $section);
+                });
+        });
+        $builder->where('fil_no IS NULL')->where('reg_no_display IS NULL')->where('c_status', 'P')->where('fil_dt IS NULL');
+        $builder->groupBy("SUBSTR(diary_no::text, -4)");
+        $builder->orderBy("SUBSTR(diary_no::text, -4) ASC");
+        $query = $builder->get();
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
+    }
+
+    function Section_Unreg_Report_Result($section = null)
+    {
+        $builder = $this->db->table('main');
+        $builder->select("SUBSTR(diary_no::text, -4) AS diary_year, COUNT(diary_no) AS numb");
+        $builder->whereIn('dacode', function ($subQuery) use ($section) {
+            $subQuery->select('usercode')
+                ->from('master.users')
+                ->whereIn('section', function ($innerSubQuery) use ($section) {
+                    $innerSubQuery->select('id')
+                        ->from('master.usersection')
+                        ->where('section_name', $section);
+                });
+        });
+        $builder->where('c_status', 'P')->where('fil_no IS NOT NULL')->where('reg_no_display IS NOT NULL');
+        $builder->where('fil_dt IS NOT NULL');
+        $builder->groupBy("SUBSTR(diary_no::text, -4)");
+        $builder->orderBy("SUBSTR(diary_no::text, -4) ASC");
+        $query = $builder->get();
+
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
+    }
+
+
+    function Pend_Report_Mod($section = null)
+    {
+        $builder = $this->db->table('main m');
+        $builder->select("rs.name as state, GROUP_CONCAT(DISTINCT rc.agency_name) as agency_name, us.section_name,
+         COUNT(DISTINCT m.diary_no) as total_pendency, MAX(m.fil_dt) AS latest_fil_dt");
+        $builder->join("master.casetype c", "m.casetype_id = c.casecode", "left");
+        $builder->join("master.ref_agency_code rc", "rc.id = m.ref_agency_code_id", "left");
+        $builder->join("master.state rs", "rs.id_no = m.ref_agency_state_id AND rs.display = 'Y'", "left");
+        $builder->join("master.users u", "u.usercode = m.dacode", "left");
+        $builder->join("master.usersection us", "us.id = u.section", "left");
+        $builder->where('m.c_status', 'P');
+        $builder->where('m.fil_no IS NULL');
+        $builder->where('(m.reg_no_display IS NULL OR m.reg_no_display = \'\' )');
+        $builder->where('m.fil_dt IS NULL');
+        $builder->whereIn('m.dacode', function ($subQuery) use ($section) {
+            $subQuery->select('usercode')
+            ->from('master.users')
+            ->whereIn('section', function ($innerSubQuery) use ($section) {
+                $innerSubQuery->select('id')
+                ->from('master.usersection')
+                ->where('section_name', $section);
+            });
+        });
+        $builder->groupBy(['rs.name', 'us.section_name']);
+        $builder->orderBy('latest_fil_dt');
+        $query = $builder->get();
+
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
+    }
+
+    function Pend_Report_Mod1($section = null)
+    {
+        $builder = $this->db->table('main m');
+        $builder->select("rs.name as state, GROUP_CONCAT(DISTINCT rc.agency_name) as agency_name, us.section_name, 
+        COUNT(DISTINCT m.diary_no) as total_pendency, MAX(m.fil_dt) AS latest_fil_dt");
+        $builder->join("master.casetype c", "m.casetype_id = c.casecode", "left");
+        $builder->join("master.ref_agency_code rc", "rc.id = m.ref_agency_code_id", "left");
+        $builder->join("master.state rs", "rs.id_no = m.ref_agency_state_id AND rs.display = 'Y'", "left");
+        $builder->join("master.users u", "u.usercode = m.dacode", "left");
+        $builder->join("master.usersection us", "us.id = u.section", "left");
+        $builder->where('m.c_status', 'P');
+        $builder->where("m.fil_no IS NOT NULL");
+        $builder->where("m.reg_no_display IS NOT NULL");
+        $builder->where('m.fil_dt IS NOT NULL');
+        $builder->whereIn('m.dacode', function ($subQuery) use ($section) {
+            $subQuery->select('usercode')
+                ->from('master.users')
+                ->whereIn('section', function ($innerSubQuery) use ($section) {
+                    $innerSubQuery->select('id')
+                        ->from('master.usersection')
+                        ->where('section_name', $section);
+                });
+        });
+        $builder->groupBy(['rs.name', 'us.section_name']);
+        $builder->orderBy('latest_fil_dt');
+        $query = $builder->get();
+
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
+    }
+
+    function Matters_List($section=null,$d_year=null)
+    {
+        $builder = $this->db->table('main m');
+        $builder->select("SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diary_no,
+            SUBSTR(m.diary_no::text, -4) AS diary_year,m.reg_no_display,
+            CONCAT(m.pet_name,
+            CASE 
+                WHEN m.pno = 2 THEN 'and anr.'
+                WHEN m.pno > 2 THEN 'and ors.'
+                ELSE ''
+            END,
+            ' vs ',
+            m.res_name,
+            CASE
+                WHEN m.rno = 2 THEN 'and anr.'
+                WHEN m.rno > 2 THEN 'and ors.'
+                ELSE ''
+            END
+            ) AS cause,u.name");
+        $builder->join('master.users u', 'm.dacode = u.usercode', 'inner');
+        $builder->whereIn('m.dacode', function ($subQuery) use ($section) {
+            $subQuery->select('usercode')
+            ->from('master.users')
+            ->whereIn('section', function ($innerSubQuery) use ($section) {
+                $innerSubQuery->select('id')
+                ->from('master.usersection')
+                ->where('section_name', $section);
+            });
+        });
+        $builder->where('m.c_status', 'P');
+        $builder->where('m.fil_no IS NOT NULL');
+        $builder->where('m.reg_no_display IS NOT NULL');
+        $builder->where('m.fil_dt IS NOT NULL');
+        $builder->groupBy(['SUBSTR(m.diary_no::text, -4)', 'm.diary_no', 'm.reg_no_display', 'm.pet_name', 'm.res_name', 'm.pno', 'm.rno', 'u.name']);
+        $builder->having('SUBSTR(m.diary_no::text, -4)', $d_year);
+        $builder->orderBy('SUBSTR(m.diary_no::text, -4) ASC');
+
+        $query = $builder->get();
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
+    }
+
+    function Unregistered_Matters_List($section=null,$d_year=null)
+    {
+        $builder = $this->db->table('main m');
+        $builder->select("SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diary_no,
+            SUBSTR(m.diary_no::text, -4) AS diary_year,
+            m.diary_no,
+            m.reg_no_display,
+            CONCAT(
+            m.pet_name,
+            CASE
+                WHEN m.pno = 2 THEN 'and anr.'
+                WHEN m.pno > 2 THEN 'and ors.'
+                ELSE ''
+            END,
+            ' vs ',
+            m.res_name,
+            CASE
+                WHEN m.rno = 2 THEN 'and anr.'
+                WHEN m.rno > 2 THEN 'and ors.'
+                ELSE ''
+            END
+            ) AS cause,
+            u.name");
+        $builder->groupBy(['m.diary_no','m.reg_no_display','m.pet_name','m.res_name','m.pno','m.rno','u.name']);
+        $builder->join('master.users u', 'm.dacode = u.usercode', 'inner');
+        $builder->whereIn('m.dacode', function ($subQuery) use ($section) {
+            $subQuery->select('usercode')
+            ->from('master.users')
+            ->whereIn('section', function ($innerSubQuery) use ($section) {
+                $innerSubQuery->select('id')
+                ->from('master.usersection')
+                ->where('section_name', $section);
+            });
+        });
+        $builder->where('m.fil_no IS NULL');
+        $builder->where('m.reg_no_display IS NULL');
+        $builder->where('m.c_status', 'P');
+        $builder->where('m.fil_dt IS NULL');
+        $builder->having('SUBSTR(m.diary_no::text, -4)', $d_year);
+        $builder->orderBy('SUBSTR(m.diary_no::text, -4) ASC');
+
+        $query = $builder->get();
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
+    }
+
+    function Unregistered_State_List($section=null,$state=null,$court=null)
+    {
+        $builder = $this->db->table('main m');
+        $builder->distinct();
+        $builder->select("SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diary_number,
+            SUBSTR(m.diary_no::text, -4) AS diary_year,
+            m.diary_no,m.reg_no_display,m.fil_dt,
+            CONCAT(
+            m.pet_name,
+            CASE
+                WHEN m.pno = 2 THEN 'and anr.'
+                WHEN m.pno > 2 THEN 'and ors.'
+                ELSE ''
+            END,
+            ' vs ',
+            m.res_name,
+            CASE
+                WHEN m.rno = 2 THEN 'and anr.'
+                WHEN m.rno > 2 THEN 'and ors.'
+                ELSE ''
+            END
+            ) AS cause,
+            u.name");
+        $builder->join("master.casetype c", "m.casetype_id = c.casecode", "left");
+        $builder->join("master.ref_agency_code rc", "rc.id = m.ref_agency_code_id", "left");
+        $builder->join("master.state rs", "rs.id_no = m.ref_agency_state_id AND rs.display = 'Y'", "left");
+        $builder->join("master.users u", "u.usercode = m.dacode", "left");
+        $builder->join("master.usersection us", "us.id = u.section", "left");
+        $builder->where("m.c_status", "P");
+        $builder->where("m.fil_no IS NULL");
+        $builder->where("m.reg_no_display IS NULL");
+        $builder->where("m.fil_dt IS NULL");
+
+        if (!empty($state)) {
+            $builder->where("rs.name", $state);
+        } else {
+            $builder->where("rs.name IS NULL", null, false);
+        }
+
+        $builder->whereIn("m.dacode", function ($subQuery) use ($section) {
+            $subQuery->select("usercode")
+            ->from("master.users")
+            ->whereIn("section", function ($innerSubQuery) use ($section) {
+                $innerSubQuery->select("id")
+                ->from("master.usersection")
+                ->where("section_name", $section);
+            });
+        });
+
+        $builder->orderBy("m.fil_dt", "ASC");
+        $builder->groupBy(["m.diary_no","m.reg_no_display","m.fil_dt","m.pet_name","m.res_name","m.pno","m.rno","u.name","rs.name"]);
+
+        $query = $builder->get();
+
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
+    }
+    
+
+    function Registered_State_List($section=null,$state=null,$court=null)
+    {
+        $builder = $this->db->table('main m');
+        $builder->distinct();
+        $builder->select("SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diary_number,
+            SUBSTR(m.diary_no::text, -4) AS diary_year,
+            m.diary_no,
+            m.reg_no_display,
+            m.fil_dt,
+            CONCAT(
+            m.pet_name,
+            CASE
+                WHEN m.pno = 2 THEN 'and anr.'
+                WHEN m.pno > 2 THEN 'and ors.'
+                ELSE ''
+            END,
+            ' vs ',
+            m.res_name,
+            CASE
+                WHEN m.rno = 2 THEN 'and anr.'
+                WHEN m.rno > 2 THEN 'and ors.'
+                ELSE ''
+            END
+            ) AS cause,
+            u.name
+        ");
+        $builder->join("master.casetype c", "m.casetype_id = c.casecode", "left");
+        $builder->join("master.ref_agency_code rc", "rc.id = m.ref_agency_code_id", "left");
+        $builder->join("master.state rs", "rs.id_no = m.ref_agency_state_id AND rs.display = 'Y'", "left");
+        $builder->join("master.users u", "u.usercode = m.dacode", "left");
+        $builder->join("master.usersection us", "us.id = u.section", "left");
+        $builder->where("m.c_status", "P");
+        $builder->where("m.fil_no IS NOT NULL");
+        $builder->where("m.reg_no_display IS NOT NULL");
+        $builder->where("m.fil_dt IS NOT NULL");
+
+        if (!empty($state)) {
+            $builder->where('rs.name', $state);
+        } else {
+            $builder->where('rs.name IS NULL', null, false);
+        }
+
+        $builder->whereIn('m.dacode', function ($subQuery) use ($section) {
+            $subQuery->select('usercode')
+            ->from('master.users')
+            ->whereIn('section', function ($innerSubQuery) use ($section) {
+                $innerSubQuery->select('id')
+                ->from('master.usersection')
+                ->where('section_name', $section);
+            });
+        });
+
+        $builder->orderBy('m.fil_dt', 'ASC');
+        $query = $builder->get();
+
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
     }
 }
