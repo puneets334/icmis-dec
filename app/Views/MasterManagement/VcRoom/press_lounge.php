@@ -35,6 +35,9 @@
         text-align: center;
         cursor: all-scroll;
     }
+    input#btn_search {
+        border-radius: 20px!important;
+    }
 
     grid-item:hover {
         background-color: #223094;
@@ -57,27 +60,25 @@
                     <?= csrf_field() ?>
                     <div class="card">
                         <div class="card-body">
+                            
+
                             <div class="row">
                                 <div class="col-sm-3 col-xs-12"></div>
                                 
                                 <div class="col-sm-6 col-xs-12">
                                         <div class="row ml-1">
-                                            <div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" style="margin:7px 0;">Select Date<span style="color:red;">*</span></span>
-                                                    </div>
-                                                    <input type="text" class="form-control datepick_" id="txtfuturedate" name="txtfuturedate" placeholder="Selcet Date">
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <div class="input-group mb-3">
-                                                    <div>
+                                            <div class="col-md-12">
+                                                <div>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" style="margin:7px 0;">Select Date<span style="color:red;">*</span></span>
+                                                        </div>                                                        
+                                                        <input type="text" class="form-control datepick_" id="txtfuturedate" name="txtfuturedate" placeholder="Selcet Date">
                                                         <input id="btn_search" name="btn_search" type="button" class="btn btn-success" value="show Links" onClick="getvc_links()">
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 <div class="col-sm-3 col-xs-12"></div>
@@ -135,14 +136,15 @@
 
 
     function open_link(id) {
-        updateCSRFToken();
-        if(id != '')
-        {
-            window.open(id, '_blank');
-        }else{
-            alert('Please contact to Computer Cell!!');
-            return false;
-        }
+        //updateCSRFToken();
+
+        // if(id != '')
+        // {
+        //     window.open(id, '_blank');
+        // }else{
+        //     alert('Please contact to Computer Cell!!');
+        //     return false;
+        // }
     }
     $("#txtfuturedate").datepicker({
         maxDate: 0
