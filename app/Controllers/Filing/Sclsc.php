@@ -96,13 +96,14 @@ class SCLSC extends BaseController
         // if ($session) {
         $data = [];
         session()->set('dcmis_user_idd', $session);
-
+      
         if ($this->request->getMethod() === 'post') {
             $status = $this->request->getPost('status');
             $data['status'] = $status;
-
+           
             // Assuming SCLSCModel is loaded or autoloaded
             $data['result'] = $this->SCLSC_model->diaryGeneratedByAPIreport($status);
+            
         }
 
         return view('Filing/SCLSC/diary_generated_by_api', $data);
