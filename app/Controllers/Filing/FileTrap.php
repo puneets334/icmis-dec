@@ -557,7 +557,7 @@ class FileTrap extends BaseController
 
     public function getFilTrapData()
     {
-        // pr($_REQUEST);
+         
         $ucode = $_SESSION['login']['usercode'];
         $usection = $_SESSION['login']['section'];
         $data['icmic_empid'] = $_SESSION['login']['empid'];

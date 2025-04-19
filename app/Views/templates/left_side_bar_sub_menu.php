@@ -240,11 +240,12 @@ $uri = current_url(true);
        // $(".menu-is-opening").removeClass("menu-is-opening");
        // $(".menu-open").removeClass("menu-open");
 
-       if(old_smenu == 999011)
+       if(old_smenu == 999011 || old_smenu == 999010)
         {
             window.open('http://10.25.78.107/library', '_blank');
             return false;
         }
+         
 
 
         /*var url_content = "<//?php echo WEB_ROOT; ?>content.php";*/

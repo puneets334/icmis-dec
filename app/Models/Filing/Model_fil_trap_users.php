@@ -137,7 +137,7 @@ class Model_fil_trap_users extends Model
                             FROM (
                                 SELECT diary_no, d_by_empid, disp_dt, remarks, rece_dt, comp_dt, other, 'C' AS sendto 
                                 FROM fil_trap 
-                                WHERE r_by_empid = (SELECT empid FROM master.users WHERE usertype = 59 remarksAND name ILIKE '%CATEGORIZATION%') 
+                                WHERE r_by_empid = (SELECT empid FROM master.users WHERE usertype = 59 AND name ILIKE '%CATEGORIZATION%') 
                                 AND comp_dt::date BETWEEN '".revertDate_hiphen($_REQUEST['from'])."' AND '".revertDate_hiphen($_REQUEST['to'])."'
                                                     AND other=$icmic_empid
                                 UNION
