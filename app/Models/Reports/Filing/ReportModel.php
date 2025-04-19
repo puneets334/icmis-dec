@@ -20,7 +20,7 @@ class ReportModel extends Model
 
         $builder = $this->db->table("main m");
         //$builder->selectDistinct();
-        $builder->select("m.ack_id, m.diary_no_rec_date, case when c_status='P' then 'Pending' else 'Disposed' end as status");
+        $builder->select("m.ack_id, m.diary_no_rec_date, case when c_status='P' then 'Pending' else 'Disposed' end as status,short_description");
         $builder->select("CASE 
                     WHEN m.ack_id <> 0 THEN 'e-filed'
                     WHEN efiled_type = 'new_case' THEN 'e-filed'
@@ -126,7 +126,7 @@ class ReportModel extends Model
 
         $builder2 = $this->db->table("main_a m");
         //$builder->selectDistinct();
-        $builder2->select("m.ack_id, m.diary_no_rec_date, case when c_status='P' then 'Pending' else 'Disposed' end as status");
+        $builder2->select("m.ack_id, m.diary_no_rec_date, case when c_status='P' then 'Pending' else 'Disposed' end as status,short_description");
         $builder2->select("CASE 
                     WHEN m.ack_id <> 0 THEN 'e-filed'
                     WHEN efiled_type = 'new_case' THEN 'e-filed'

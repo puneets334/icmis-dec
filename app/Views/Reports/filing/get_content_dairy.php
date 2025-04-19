@@ -23,7 +23,21 @@
                         <tr>
                             <td><?= $sno++ ?></td>
                             <td><?= $row->diary_no.'/'.$row->diary_year?><br><?php echo date('d-m-Y',strtotime($row->diary_no_rec_date));?></td>
-                            <td><?= $row->fil_no ?><br><?php ($row->active_fil_dt) ? date('d-m-Y',strtotime($row->active_fil_dt)) : ''?></td>
+                            <td>
+                            <?php
+                            if(trim($row->fil_no)=='')
+                            {
+                                echo $row->short_description;
+                            }
+                            else
+                            {
+                                echo $row->fil_no;
+                            }?>
+                            <br><?php if($row->active_fil_dt != '') echo  "<b>".date('d-m-Y',strtotime($row->active_fil_dt))."</b>"; ?>
+                            
+                            <?= $row->fil_no ?><br><?php ($row->active_fil_dt) ? date('d-m-Y',strtotime($row->active_fil_dt)) : ''?>
+                        
+                        </td>
                             <td><?= $row->pet_name ?> Vs. <?= $row->res_name ?></td>
                             <td><?= $row->pet_adv_id ?></td>
                             <td><?= $row->diary_user_id ?></td>            <td><?= $row->ref_agency_state_id?> # <?= $row->ref_agency_code_id?></td>

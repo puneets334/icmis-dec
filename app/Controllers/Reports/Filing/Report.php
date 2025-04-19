@@ -19,7 +19,7 @@ class Report extends BaseController
 
     function __construct()
     {
-        //ini_set('memory_limit', '1024M'); // This also needs to be increased in some cases. )
+        ini_set('memory_limit', '10024M'); // This also needs to be increased in some cases. )
         $this->Dropdown_list_model = new Dropdown_list_model();
         $this->Model_diary = new Model_diary();
     }
@@ -168,8 +168,8 @@ class Report extends BaseController
     public function diary_search()
     {
         $ReportModel = new ReportModel();
-        $data['from_date'] = $this->request->getPost('from_date');
-        $data['to_date'] = $this->request->getPost('to_date');
+        $data['from_date'] = date('Y-m-d',strtotime($this->request->getPost('from_date')));
+        $data['to_date'] = date('Y-m-d',strtotime($this->request->getPost('to_date')));
         $data['diary_no'] = $this->request->getPost('diary_no') . $this->request->getPost('diary_year');
         $data['isma'] = $this->request->getPost('isma');
         $data['is_inperson'] = $this->request->getPost('is_inperson');
