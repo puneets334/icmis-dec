@@ -5,7 +5,8 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <form class="form-horizontal" id="push-form" method="post" action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+                <form class="form-horizontal" id="push-form" method="post" action="<?php echo base_url('Filing/Sclsc/diaryGeneratedByAPI'); ?>">
+                <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
                     <p id="show_error"></p> <!-- This Segment Displays The Validation Rule -->
                     <div class="card">
 

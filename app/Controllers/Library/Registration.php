@@ -39,17 +39,55 @@ class Registration extends BaseController
         ]);
     }
 
+    public function getEmployees_()
+    {
+        $search = $this->request->getVar('val');
+
+        $builder = $this->db->table('master.users');
+        $builder->select('empid, usercode, name');
+
+        // Group display + search conditions
+        $builder->groupStart()
+            ->where('display', 'Y')
+            ->groupStart()
+                ->orLike('name', $search)
+                ->orLike('empid', $search)
+            ->groupEnd()
+        ->groupEnd();
+        if (is_numeric($search)) {
+            $builder->Like('empid', $search);
+        }else{
+            $builder->Like('empid', $search);
+        }
+
+
+        $builder->orderBy('name', 'ASC');
+        pr($builder->getCompiledSelect());
+        $query = $builder->get();
+
+        return $this->response->setJSON($query->getResultArray());
+    }
+
     public function getEmployees()
     {
-        $employees = $this->db->table('master.users')
-            ->select('empid, usercode, name')
-            ->where('display', 'Y')
-            ->orderBy('name', 'ASC')
-            ->get()
-            ->getResultArray();
+        $search = $this->request->getVar('val');
 
-        return $this->response->setJSON($employees);
+        $builder = $this->db->table('master.users');
+        $builder->select('empid, usercode, name') 
+            ->where('display', 'Y');        
+        if (is_numeric($search)) {
+            $builder->where('empid', $search);
+        }else{
+            $builder->Like('lower(name)', $search);
+        }
+        $builder->orderBy('name', 'ASC');
+         
+        $query = $builder->get();
+
+        return $this->response->setJSON($query->getResultArray());
     }
+
+
 
     public function searchData()
     {
