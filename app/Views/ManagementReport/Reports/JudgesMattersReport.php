@@ -31,6 +31,7 @@
                                                         <option  value="<?php echo ($dataRes['jcode'].'|'. $dataRes['jname']); ?>"><?php echo $dataRes['jname']; ?> </option>
                                                     <?php } ?>
                                                 </select>
+                                                <div id="judgeselect_err" class="text-danger text-center"></div>
                                             </div>
                                                 <div class="col-md-2">
                                                     <button type="submit" id="btn1" class="btn btn-block btn-primary btn-flat pull-left ml-3" >
@@ -52,13 +53,32 @@
                     </div>
                     </div>
 <script>
+    $(document).on('change', '#judges_list', function(){
+        var judges_list = $('#judges_list').val(); 
+        if(judges_list == ''){            
+            $('#judgeselect_err').text('Please Select a Judge');             
+        }
+        else{            
+            $('#judgeselect_err').text('');            
+        }
+    });
  $(document).on("click", "#btn1", async function(e) {
     e.preventDefault(); 
         await updateCSRFTokenSync();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var judges_list = $('#judges_list').val(); 
-        //var newWin = window.open('', '_blank');        
+        //var newWin = window.open('', '_blank');   
+        var judges_list = $('#judges_list').val();
+        if(judges_list == ''){            
+            $('#judgeselect_err').text('Please Select a Judge'); 
+            return false;
+        }
+        else{            
+            $('#judgeselect_err').text('');            
+        }
+
+        
 
         $.ajax({
             url: "<?php echo base_url('ManagementReports/JudgesMatters/judges_matter_list_ajax'); ?>",

@@ -474,7 +474,7 @@ class Model_record extends Model
     {
         $builder = $this->db->table('master.users a')
             ->select("a.usercode, a.name, a.empid, a.service, a.udept, a.section, a.usertype, a.log_in, a.jcode, a.attend, b.dept_name,
-             c.section_name, d.type_name, a.entdt,  e.usertype AS fil_usertype,c.isda")
+             c.section_name, d.type_name, a.entdt,  e.usertype AS fil_usertype,c.isda,e.user_type")
             ->join('master.userdept b', 'a.udept = b.id', 'left')
             ->join('master.usersection c', 'a.section = c.id', 'left')
             ->join('master.usertype d', 'a.usertype = d.id', 'left')
@@ -736,8 +736,8 @@ class Model_record extends Model
         $builder = $this->db->table('master.judge');
         $builder->select('jcode, jname');
         $builder->where('display', 'Y');
-        $builder->where('working', 'Y');
-        $builder->whereIn('bldg', ['HCJBP', 'HCIND', 'HCGWL']);
+        //$builder->where('working', 'Y');
+        //$builder->whereIn('bldg', ['HCJBP', 'HCIND', 'HCGWL']);
         $builder->orderBy('judge_seniority', 'ASC');
         $query = $builder->get();
         return $query->getResultArray();
@@ -1441,4 +1441,30 @@ class Model_record extends Model
             ->where('display', 'C')
             ->update();
     }
+
+    public function getChkCase($userid)
+    {
+        return $this->db->table('chk_case a')
+            ->select('a.casecode, skey')
+            ->join('master.casetype b', 'a.casecode = b.casecode', 'left')
+            ->where('chkcode', $userid)
+            ->where('a.display', 'Y')
+            ->get()
+            ->getResultArray();
+    }
+
+    public function getCaseDistribution($userid)
+{
+    return $this->db->table('master.da_case_distribution a')
+        ->select('a.case_type, a.case_from, a.case_f_yr, a.case_to, a.case_t_yr, a.state, a.type, b.short_description, c.name')
+        ->join('master.casetype b', 'a.case_type = b.casecode', 'left')
+        ->join('master.state c', 'a.state = c.id_no', 'left')
+        ->where('a.dacode', $userid)
+        ->where('a.display', 'Y')
+        ->orderBy('a.case_f_yr', 'ASC')
+        ->get()
+        ->getResultArray();
+}
+
+
 }

@@ -73,11 +73,13 @@ class SCLSC_model extends Model
         }
 
         $sql = "SELECT b.aor_code, b.title AS aor_title, b.name AS aor_name, sc.paperbook_url, m.*
-            FROM sclsc_cases sc 
-            INNER JOIN sclsc_details sd ON CONCAT(sd.sclsc_diary_no, sd.sclsc_diary_year) = sc.diary_no
+            FROM e_filing.sclsc_cases sc 
+            INNER JOIN sclsc_details sd ON cast(CONCAT(sd.sclsc_diary_no, sd.sclsc_diary_year) as BIGINT) = sc.diary_no
             INNER JOIN main m ON m.diary_no = sd.diary_no  
             INNER JOIN master.bar b ON b.aor_code = sc.aor_code
-            WHERE sc.is_filed_in_sci = 1 AND sd.display = 'Y'
+            WHERE 
+            --sc.is_filed_in_sci = 1 AND 
+            sd.display = 'Y'
             $sub_query
             ORDER BY m.diary_no_rec_date";
 
