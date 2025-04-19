@@ -340,13 +340,270 @@ class ReportModel extends Model
 							 m.res_name, m.reg_no_display, m.c_status, h.main_supp_flag, bb.name, bb.mobile, lp.question_of_law, 
 							 h.next_dt, sm.sub_name4, category_sc_old, subcode1, subcode2, aa_subquery.total_connected";
 		}
+  
+        $query = $this->db->query($sql);
+		return $query->getResultArray();
+   }
+   
+    function Da_Pendency($section=null){
+        $sql="select distinct main.dacode as usercode, users.name, count(diary_no) as pendency from main 
+						inner join master.users on users.usercode=main.dacode
+						where users.section = (select id from master.usersection where section_name='$section')
+						and main.c_status='P' and users.display='Y'
+						group by main.dacode, users.name;";
+
+        $query=$this->db->query($sql);
+        return $query->getResultArray();
+    }
+	
+	function Da_Pendency_result($usercode){
+				$sql = "SELECT distinct 
+						substr(diary_no::text, 1, length(diary_no::text) - 4) AS diary_number, 
+						substr(diary_no::text, -4) as diary_year, 
+						reg_no_display, 
+						CONCAT(pet_name, ' ', 
+							(CASE
+								WHEN pno = 2 THEN 'and anr.'
+								WHEN pno > 2 THEN 'and ors.'
+								ELSE ''
+							END),
+							' vs ',
+							res_name, ' ',
+							(CASE
+								WHEN rno = 2 THEN 'and anr.'
+								WHEN rno > 2 THEN 'and ors.'
+								ELSE ''
+							END)
+						) as cause 
+				FROM main 
+				WHERE dacode = '$usercode' AND c_status = 'P';";
 
 		$query = $this->db->query($sql);
-		return $query->getResultArray();
-   
-      
+        return $query->getResultArray();
     }
     
+	
+	function Not_Listed_Report($sect=null){
+		  $sql = "SELECT 
+			SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diaryno,
+			SUBSTR(m.diary_no::text, -4) AS diaryyear,
+			m.reg_no_display, 
+			u.name, 
+			us.section_name, 
+			mc.mul_category_idd,
+			CONCAT(m.pet_name,
+				(CASE
+					WHEN m.pno = 2 THEN 'and anr.'
+					WHEN m.pno > 2 THEN 'and ors.'
+					ELSE ''
+				END),
+				' vs ',
+				m.res_name,
+				(CASE
+					WHEN m.rno = 2 THEN 'and anr.'
+					WHEN m.rno > 2 THEN 'and ors.'
+					ELSE ''
+				END)) AS cause,
+			m.active_fil_dt,
+			CASE
+				WHEN (m.conn_key = '0' OR m.conn_key IS NULL OR m.conn_key = m.diary_no::text)
+				THEN 'M'
+				ELSE CASE
+					WHEN (m.conn_key != '0' AND m.conn_key IS NOT NULL AND m.conn_key != m.diary_no::text)
+					THEN 'C'
+				END
+			END AS mainorconn
+		FROM
+			main m
+			INNER JOIN master.users u ON m.dacode = u.usercode
+			INNER JOIN master.usersection us ON u.section = us.id
+			INNER JOIN mul_category mc ON m.diary_no = mc.diary_no
+		WHERE
+			m.c_status = 'P' 
+			AND m.fil_no IS NOT NULL
+			AND m.fil_no != ''
+			AND m.dacode IN (
+				SELECT usercode 
+				FROM master.users 
+				WHERE section = (
+					SELECT id 
+					FROM master.usersection 
+					WHERE section_name = '$sect'
+				)
+			) 
+			AND m.diary_no NOT IN (
+				SELECT h.diary_no
+				FROM heardt h
+				WHERE (h.clno != 0 AND h.clno IS NOT NULL)
+					AND (h.brd_slno != 0 AND h.brd_slno IS NOT NULL)
+				UNION
+				SELECT h.diary_no
+				FROM last_heardt h
+				WHERE (h.clno != 0 AND h.clno IS NOT NULL)
+					AND (h.brd_slno != 0 AND h.brd_slno IS NOT NULL AND 
+						(bench_flag = '' OR bench_flag IS NULL))
+			)
+		ORDER BY m.active_fil_dt;";
+
+        $query = $this->db->query($sql);
+		return $query->getResultArray();
+    }
+	
+	
+	function CaseType_Count($section=null){
+
+        $sql="SELECT 
+				MAX(SUBSTRING(CAST(m.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(m.diary_no AS TEXT)) - 4)) AS diary_number,
+				GROUP_CONCAT(DISTINCT TRIM(rs.Name)) AS state,
+				GROUP_CONCAT(DISTINCT rc.agency_name) AS agency,
+				m.ref_agency_state_id AS stateid,
+				MAX(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3)) AS diary_year,
+				COALESCE(c.short_description, 'Total') AS short_description,
+				m.active_casetype_id, 
+				COUNT(DISTINCT m.diary_no) AS total_pendency
+			FROM main m 
+			LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode 
+			LEFT JOIN master.ref_agency_code rc ON rc.id = m.ref_agency_code_id 
+			LEFT JOIN master.state rs ON rs.id_no = m.ref_agency_state_id AND rs.display = 'Y' 
+			LEFT JOIN master.users u ON u.usercode = m.dacode 
+			LEFT JOIN master.usersection us ON us.id = u.section 
+			WHERE m.c_status = 'P' 
+				AND (fil_no IS NOT NULL AND fil_no != '') 
+				AND (reg_no_display IS NOT NULL AND reg_no_display != '') 
+				AND fil_dt IS NOT NULL
+				AND section_name = '$section' 
+			GROUP BY short_description, m.ref_agency_state_id,m.active_casetype_id
+			ORDER BY total_pendency;";
+
+        $query=$this->db->query($sql);
+        return $query->getResultArray();
+    }
+	
+    function UnRegCases_Count($section=null){
+
+        $sql="SELECT 
+				MAX(SUBSTRING(CAST(m.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(m.diary_no AS TEXT)) - 4)) AS diary_number,
+				STRING_AGG(DISTINCT TRIM(rs.Name), ', ') AS state,
+				STRING_AGG(DISTINCT rc.agency_name, ', ') AS agency,
+				m.ref_agency_state_id AS stateid,
+				MAX(SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3)) AS diary_year,
+				'Un-Registered' AS short_description,
+				COUNT(DISTINCT m.diary_no) AS total_pendency
+			FROM main m 
+			LEFT JOIN master.ref_agency_code rc ON rc.id = m.ref_agency_code_id 
+			LEFT JOIN master.state rs ON rs.id_no = m.ref_agency_state_id AND rs.display = 'Y' 
+			LEFT JOIN master.users u ON u.usercode = m.dacode 
+			LEFT JOIN master.usersection us ON us.id = u.section 
+			WHERE m.c_status = 'P' 
+				AND (fil_no IS NULL OR fil_no = '') 
+				AND (reg_no_display IS NULL OR reg_no_display = '') 
+				AND section_name = '$section'
+			GROUP BY m.ref_agency_state_id, short_description
+			ORDER BY total_pendency;";
+
+        $query=$this->db->query($sql);
+        return $query->getResultArray();
+    }
+
+    function Misc_Reg_Count($section=null){
+       $sql="SELECT 
+				SUM(CASE WHEN m.mf_active = 'M' THEN 1 ELSE 0 END) AS Misc_count,
+				SUM(CASE WHEN m.mf_active = 'F' THEN 1 ELSE 0 END) AS Reg_count,
+				COUNT(*) AS total
+			FROM main m
+			LEFT JOIN master.users u ON u.usercode = m.dacode 
+			LEFT JOIN master.usersection us ON us.id = u.section 
+			WHERE m.c_status = 'P' 
+			  AND section_name = '$section';";
+
+        $query=$this->db->query($sql);
+        return $query->getResultArray();
+    }
+	
+	function CaseType_YearWise_Count($section=null,$casetype=null){
+        if($casetype == null || $casetype == '' || $casetype == 0) {
+			$active_cond = 'm.active_casetype_id = 0,';
+			$join_Reg = "";
+			$condition = " AND (fil_no IS NULL) AND (reg_no_display IS NULL OR reg_no_display = '')";
+		} else {
+			$active_cond = "m.active_casetype_id, c.short_description,";
+			$join_Reg = "LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode";
+			$condition = "AND (fil_no IS NOT NULL) 
+						  AND (reg_no_display IS NOT NULL AND reg_no_display != '') 
+						  AND (fil_dt IS NOT NULL) 
+						  AND m.active_casetype_id = $casetype";
+		}
+
+		$sql = "SELECT 
+					$active_cond 
+					us.section_name,
+					SUBSTRING(CAST(m.diary_no AS TEXT) FROM LENGTH(CAST(m.diary_no AS TEXT)) - 3) AS diary_year,
+					COUNT(DISTINCT m.diary_no) AS total_pendency 
+				FROM main m
+				$join_Reg
+				LEFT JOIN master.users u ON u.usercode = m.dacode
+				LEFT JOIN master.usersection us ON us.id = u.section AND us.display = 'Y'
+				WHERE m.c_status = 'P' 
+				$condition
+				AND section_name = '$section'";
+				if ($casetype == null || $casetype == '' || $casetype == 0) {
+				$sql.= " GROUP BY diary_year, us.section_name , m.active_casetype_id,m.active_casetype_id";
+			}else{
+				$sql.= " GROUP BY diary_year, us.section_name , m.active_casetype_id,m.active_casetype_id, c.short_description";
+			}	
+				
+			$sql.= " ORDER BY diary_year;";
+
+		$query = $this->db->query($sql);
+         return $query->getResultArray();
+    }
+	
+	function CaseType_StateWise_Count($section=null,$casetype=null) {
+        if ($casetype == null || $casetype == '' || $casetype == 0) {
+			$active_cond = 'm.active_casetype_id = 0,';
+			$join_Reg = "";
+			$condition = " AND (fil_no IS NULL) AND (reg_no_display IS NULL OR reg_no_display = '')";
+		} else {
+			$active_cond = "m.active_casetype_id, c.short_description,";
+			$join_Reg = "LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode";
+			$condition = "AND (fil_no IS NOT NULL) 
+						  AND (reg_no_display IS NOT NULL AND reg_no_display != '') 
+						  AND (fil_dt IS NOT NULL) 
+						  AND m.active_casetype_id = $casetype";
+		}
+
+		$sql = "SELECT 
+					$active_cond 
+					us.section_name,
+					rc.agency_name,
+					m.from_court,
+					m.ref_agency_code_id,
+					m.ref_agency_state_id AS stateid,
+					SUBSTRING(CAST(MAX(m.diary_no) AS TEXT) FROM LENGTH(CAST(MAX(m.diary_no) AS TEXT)) - 3) AS diary_year,
+					COUNT(DISTINCT m.diary_no) AS total_pendency
+				FROM main m
+				$join_Reg
+				LEFT JOIN master.ref_agency_code rc ON rc.id = m.ref_agency_code_id
+				LEFT JOIN master.state rs ON rs.id_no = m.ref_agency_state_id AND rs.display = 'Y'
+				LEFT JOIN master.users u ON u.usercode = m.dacode
+				LEFT JOIN master.usersection us ON us.id = u.section
+				WHERE m.c_status = 'P' 
+				$condition
+				AND section_name = '$section'";
+			if ($casetype == null || $casetype == '' || $casetype == 0) {
+				$sql.= " GROUP BY agency_name, m.active_casetype_id, us.section_name, m.from_court, m.ref_agency_code_id, m.ref_agency_state_id";
+			}else{
+				$sql.= " GROUP BY agency_name, m.active_casetype_id, us.section_name, m.from_court, m.ref_agency_code_id, m.ref_agency_state_id, c.short_description";
+			}	
+				
+			$sql.= " ORDER BY total_pendency;";
+
+		$query = $this->db->query($sql);
+
+        return $query->getResultArray();
+    }
+
+
 	 
 	 
 	 
