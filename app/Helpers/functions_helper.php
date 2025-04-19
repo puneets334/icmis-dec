@@ -2643,13 +2643,15 @@ function da()
             $db = \Config\Database::connect();
 
             // Query to get the conn_key
-            $connKeyQuery = $db->table('main')->select('conn_key')->where('diary_no', $dn)->get();
-
-            if ($connKeyQuery->getNumRows() > 0) {
-                $connKey = $connKeyQuery->getRow()->conn_key;
-
+            // $connKeyQuery = $db->table('main')->select('conn_key')->where('diary_no', $dn)->get();
+            $connKeyQuery = is_data_from_table('main',"diary_no = $dn","conn_key",'');
+            $connKey = $connKeyQuery['conn_key'];
+        //   pr($connKey['conn_key']);
+            if (!empty($connKey)) {
+               
                 // Prepare the main query based on the conn_key
                 if ($connKey == $dn) {
+                   
                     $sql = "SELECT m.diary_no, 
                                CASE 
                                    WHEN m.conn_key::text = m.diary_no::text THEN 'M' 
@@ -4427,3 +4429,22 @@ function case_verification_report_popup_inside_details($id){
     return $t_adv;
 }
 
+function get_display_status_with_date_differences_new($tentative_cl_dt)
+{
+    $tentative_cl_date_greater_than_today_flag = "F";
+
+    if (!empty($tentative_cl_dt)) {
+        $curDate = date('d-m-Y');
+        $tentativeCLDate = date('d-m-Y', strtotime($tentative_cl_dt));
+        $datediff = strtotime($tentativeCLDate) - strtotime($curDate);
+        $noofdays = round($datediff / (60 * 60 * 24));
+
+        if (strtotime($tentativeCLDate) > strtotime($curDate)) {
+            if ($noofdays <= 60 && $noofdays > 0) {
+                $tentative_cl_date_greater_than_today_flag = 'T';
+            }
+        }
+    }
+
+    return $tentative_cl_date_greater_than_today_flag;
+}

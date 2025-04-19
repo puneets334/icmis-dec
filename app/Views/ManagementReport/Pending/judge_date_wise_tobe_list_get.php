@@ -2,8 +2,11 @@
     .custom-table thead th:last-child {
     border-radius: 28px 28px 28px 28px!important;
 }
+.main_prnt_header {position: relative;z-index:17;}
+.main_prnt_header > input{position: absolute; margin-top: -3px;}
 </style>
 <br>
+<!--<input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary">-->
 <div id="prnnt">
     <?php
     if (count($result_array) > 0) {
@@ -13,21 +16,27 @@
                     <thead>
                         <tr>
                             <th colspan="4" style="text-align: center; font-weight: bold;">
-                                <?php echo $ros12['jname']; ?><br>
-                                Misc. Date Wise Cases to be list
+                                <div class="row mt-2">
+                                    <div class="col-md-12 text-left ml-n4">
+                                        <div class="main_prnt_header">
+                                            <input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary bk_out">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <?php echo $ros12['jname']; ?><br>
+                                        Misc. Date Wise Cases to be list
+                                    </div>
+                                </div>
                             </th>
                         </tr>
                     </thead>
                 </table>
-                <?php
-                             if (count($result_array2) > 0) {
-
-                ?>
-                <table class="table table-striped custom-table">
+                <?php if (count($result_array2) > 0) { ?>
+                <table class="border-collapse:collapse; border-color:black; font-size:11px; table-layout: fixed;">
                     
                         <tr>
                             <td width="10%" style="text-align: center; font-weight: bold;">SNo</td>
-                            <td width="40%" style="text-align: center; font-weight: bold;">Listing Date</td>            
+                            <td width="30%" style="text-align: center; font-weight: bold;">Listing Date</td>      
                             <td width="10%" style="text-align: center; font-weight: bold;">Court Dt (FX)</td>
                             <td width="10%" style="text-align: center; font-weight: bold;">Court Dt (AW)</td>
                             <td width="20%" style="text-align: center; font-weight: bold;">Comp Gen Fix Dt as per scheme</td>    
@@ -68,7 +77,7 @@
                               }
                             ?>
                             <td align="center" style='vertical-align: top;'><?php  echo $sno++; ?></td>
-                            <td align="center" style='text-align: left; vertical-align: top;'><?php echo date('d-m-Y', strtotime($row['next_dt']));?></td>
+                            <td align="center" style='text-align: center; vertical-align: top;'><?php echo date('d-m-Y', strtotime($row['next_dt']));?></td>
                             <td align="center" style='vertical-align: top;'><?php $t_fd_not_listed += $row['fd_not_listed']; echo $row['fd_not_listed']; ?></td>
                             <td align="center" style='vertical-align: top;'><?php  $t_aw_not_listed += $row['aw_not_listed']; echo $row['aw_not_listed']; ?></td>
                             <td align="center" style='vertical-align: top;'><?php  $t_imp_ia_not_listed += $row['imp_ia_not_listed']; echo $row['imp_ia_not_listed']; ?></td>
@@ -102,5 +111,3 @@
                     ?>
 
 </div>
-
-<input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary">

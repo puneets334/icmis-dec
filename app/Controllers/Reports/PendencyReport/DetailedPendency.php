@@ -147,11 +147,8 @@ class DetailedPendency extends BaseController
 
 	public function hcNotBeforeRequiredGet()
 	{
-		$result = $this->DetailedPendencyModel->hc_not_before_required_get();
-		return $this->response->setJSON([
-      'status' => true,
-      'data' => $result,
-    ]);
+		$data['result'] = $this->DetailedPendencyModel->hc_not_before_required_get();
+    return view('Reports/pendencyReport/hc_not_before_required_get', $data);
 	}
 
 	public function Disposal_AsPer_Orderdate()

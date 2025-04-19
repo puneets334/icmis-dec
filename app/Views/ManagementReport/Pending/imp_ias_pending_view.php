@@ -90,6 +90,7 @@
             url: "<?php echo base_url('ManagementReports/PendingReport/Report/imp_ias_pending_get'); ?>",
             method: 'POST',
             beforeSend: function() {
+                $("#btn1").attr("disabled", true);
                 $('#dv_res1').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             data: {
@@ -100,10 +101,12 @@
             success: function(data) {
                 updateCSRFToken();
                 $('#dv_res1').html(data);
+                $("#btn1").attr("disabled", false);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 updateCSRFToken();
                 alert("Error: " + jqXHR.status + " " + errorThrown);
+                $("#btn1").attr("disabled", false);
             }
         });
     });

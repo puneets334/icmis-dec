@@ -716,8 +716,7 @@ class DispatchController extends BaseController
                 $txt_l_h_s_3 = '';
 
 
-                //    echo $_REQUEST['bhejo'];
-
+                
                 if (($rec[7] == '' && $rec[2] != 0) || $rec[7] != '') {
 
                     $update = "Update tw_comp_not set serve='$rec[2]',ser_type='$rec[3]',ser_date='$rec[4]', ser_dt_ent_dt=now(),ack_user_id='$ucode',ack_id='$res_inc_ack',remark='$rec[6]' where id='$rec[0]' and display='Y'";
@@ -728,12 +727,10 @@ class DispatchController extends BaseController
                         //   echo $rec[7];
                         if ($rec[7] != '') {
                             $ex_rec7 = explode('@', $rec[7]);
-                            //    echo "aaaa".count($ex_rec7).'aaaa';
+                            
                             for ($j = 0; $j < count($ex_rec7); $j++) {
                                 $in_ex_rec =  explode('$', $ex_rec7[$j]);
-                                //$chk_rec = "Select count(id) from lct_record_dis_rec where  lowerct_id='$in_ex_rec[0]' and tw_comp_not_id='$rec[0]' and display='Y'";
-                                //$chk_rec = mysql_query($chk_rec) or die("Error: " . __LINE__ . mysql_error());
-
+                                
                                 $chk_rec = is_data_from_table('lct_record_dis_rec', " lowerct_id='$in_ex_rec[0]' and tw_comp_not_id='$rec[0]' and display='Y' " , 'count(id) as total','');
                                 $res_chk_rec = $chk_rec['total'];
                                 if ($res_chk_rec <= 0) {
@@ -766,9 +763,7 @@ class DispatchController extends BaseController
     }
 
     public function get_serve_type()
-    {
-        //$servetype = "select id,name from tw_serve where serve_stage=$_REQUEST[val] and serve_type!=0 and display='Y'";
-        //$servetype = mysql_query($servetype);
+    {         
 
         $servetype = is_data_from_table('master.tw_serve', " serve_stage=$_REQUEST[val] and serve_type!=0 and display='Y' " , 'id,name','A');
         
@@ -794,7 +789,7 @@ class DispatchController extends BaseController
 
     public function get_notice_ack_report()
     {
-        //    pr($_POST);
+         
         $txtFromDate = $_POST['txtFromDate'];
         $txtToDate   = $_POST['txtToDate'];
         $ddl_cas_nature    = $_POST['ddl_cas_nature'];
@@ -802,7 +797,7 @@ class DispatchController extends BaseController
 
         $ucode = session()->get('login')['usercode'];
         $results['results'] = $this->RIModel->get_notice_ack_report($txtFromDate, $txtToDate, $ddl_cas_nature, $serveType, $ucode);
-        //print_r($results);
+        
         if (!empty($results)) {
             return view('RI/Notices/data_notice_ack_report', $results);
         } else {
@@ -949,8 +944,7 @@ class DispatchController extends BaseController
             if($_REQUEST['ln_nl_val']=='0')
             {
                 $sql = is_data_from_table('master.tw_max_process', " year='$yr' ", "'.$ORA.'", '');
-                //$sql=  mysql_query("select $ORA from  tw_max_process where year='$yr'") or die("Error:".  mysql_error());
-
+                
                 $res_sq=   $sql[$ORA] ?? 0;
                 $res_sq=$res_sq+1;
             }
@@ -961,8 +955,7 @@ class DispatchController extends BaseController
 
              
             $chk_bcr_sql = is_data_from_table('tw_comp_not', " barcode='$_REQUEST[txt_bar_cd]' and  display='Y' ", "count(barcode) as total", '');
-            //exit(0);
-           
+             
             $res_barcode = $chk_bcr_sql['total'];
             if ($res_barcode <= 0) {
 
@@ -1005,7 +998,7 @@ class DispatchController extends BaseController
         return view('RI/Notices/dispatch_report', $data);
     }
     public function post_dispatch_report()
-    { //pr($_POST);die;
+    {  
         $result['result'] = '';
         $result['result'] = $this->RIModel->post_dispatch_report(
             $_POST['ddlOR_x'],
@@ -1015,7 +1008,7 @@ class DispatchController extends BaseController
             $_POST['district'],
             $_POST['ddl_cas_nature']
         );
-        //pr($result['result']);die;
+       
         return view('RI/Notices/data_dispatch_report', $result);
     }
     public function transfer_cases()
@@ -1042,7 +1035,7 @@ class DispatchController extends BaseController
             if ($row1['display'] == 'Y') {
                 $displayText .= '[Retired]';
             }
-            $options .= '<option value="' . htmlspecialchars($row1['empid']) . '">' . htmlspecialchars($displayText) . '</option>';
+            $options .= '<option value="'.$row1['empid'].'">'.$displayText.'</option>';
         }
         $this->response->setHeader('Content-Type', 'text/html');
         return $options;
@@ -1050,7 +1043,7 @@ class DispatchController extends BaseController
 
     public function getuser_for_transfer_case_alloted()
     {
-        //dd($_POST);die;
+       
         $ddl_users  = $_POST['ddl_users'];
         $txt_frm_dt = $_POST['txt_frm_dt'];
         $txt_to_dt  = $_POST['txt_to_dt'];
@@ -1058,14 +1051,97 @@ class DispatchController extends BaseController
 
 
         $emp_id['emp_id'] = $this->RIModel->getemp_id_for_transfer_case_alloted($ddl_users, $ddl_users_nm);
-
-
-        $result['result'] = $this->RIModel->getuser_for_transfer_case_alloted($ddl_users, $txt_frm_dt, $txt_to_dt, $ddl_users_nm);
-
-        //$data = array_merge($emp_id, $result);
-        // pr($data);die;
+        $result['result'] = $this->RIModel->getuser_for_transfer_case_alloted($ddl_users, $txt_frm_dt, $txt_to_dt, $ddl_users_nm);    
 
         return view('RI/dispatch_report/data_transfer_cases', array_merge($result, $emp_id));
+    }
+
+
+    public function transfer_cases_user()
+    {
+       
+        $diary_no=$_REQUEST['diary_no'];
+        $users=$_REQUEST['users'];
+        $first_user='';
+        $remarks = '';
+        $tot_users=count($users);
+        for ($index1 = 0; $index1 < count($users); $index1++) {
+            $first_user=$users[0];
+        }
+        if($_REQUEST['ddl_users']=='103')
+        {
+            $remarks=" AND (remarks='DE -> SCR' or remarks = 'AOR -> SCR' or remarks = 'FDR -> SCR')";
+        }
+            else  if($_REQUEST['ddl_users']=='107')
+        {
+            $remarks=" AND (remarks='SCN -> IB-Ex')";
+        }
+
+        $usercode = session()->get('login')['usercode'];
+    
+        for ($index = 0; $index < count($diary_no); ) {
+            for ($index1 = 0; $index1 < count($users); $index1++) {
+            $ind_rec= $users[$index1];
+            $ex_ind_rec=explode(',',$ind_rec);
+            
+            $tot_case=$ex_ind_rec[1];
+            $first_user= $ex_ind_rec[0];
+          //  for ($index2 = 0; $index2 < count($tot_case); $index2++) {
+    
+    
+                $ex_diary = $diary_no[$index];
+    
+                if ($_REQUEST['ddl_users'] == 101){
+                    $chk_record = "Select count(*) from efiled_cases where diary_no='$ex_diary' and created_by=(select usercode from master.users where empid=$_REQUEST[ddl_users_nm]) $remarks";
+                    $chk_record = $this->db->query($chk_record);
+                    $r_chk_record = $chk_record->getNumRows();
+                    
+                    if ($r_chk_record > 0) {
+                      //echo  $move_to_history="insert into efiled_cases_history select *,now(),$usercode from efiled_cases where diary_no='$ex_diary'";
+                      $this->RIModel->archiveEfiledCase($usercode,$ex_diary);
+                    //  die;
+                       // $this->db->query($move_to_history);
+                        $up_record = "Update efiled_cases set created_by=(select usercode from master.users where empid='$first_user') where diary_no='$ex_diary'";
+                        if (!$this->db->query($up_record)) {
+                            die("Error: Please contact to Computre cell");
+                        } else {
+                            ?>
+                            <div style="text-align: center">
+                                Diary No <?php echo substr($ex_diary, 0, strlen($ex_diary) - 4); ?> - <?php echo substr($ex_diary, -4) ?> alloted to <?php
+
+                                
+                                $allot_user = is_data_from_table("master.users"," empid='$first_user' and display='Y' "," name ",'');
+                                echo $allot_user['name'] ?? '';
+                                ?>
+                            </div>
+                            <?php
+                        }
+                    }
+                }else{
+                    $chk_record = "Select count(uid) from fil_trap where diary_no='$ex_diary' and d_to_empid='$_REQUEST[ddl_users_nm]' $remarks";
+                $chk_record = $this->db->query($chk_record);
+                $r_chk_record = $chk_record->getNumRows();
+                if ($r_chk_record > 0) {
+                    $up_record = "Update fil_trap set d_to_empid='$first_user',r_by_empid=if(r_by_empid!=0,$first_user,0) where diary_no='$ex_diary'";
+                    if (!$this->db->query($up_record)) {
+                        die("Error: Please contact to Computre cell");
+                    } else {
+                        ?>
+                        <div style="text-align: center">
+                            Diary No <?php echo substr($ex_diary, 0, strlen($ex_diary) - 4); ?> - <?php echo substr($ex_diary, -4) ?> alloted to <?php
+                           
+                            $allot_user = is_data_from_table("master.users"," empid='$first_user' and display='Y' "," name ",'');
+                            echo $allot_user['name'] ?? '';
+                            ?>
+                        </div>
+                        <?php
+                    }
+                }
+            }
+            $index++;
+           // }
+        }
+        }
     }
 
     public function nt_type_get()

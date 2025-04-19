@@ -90,7 +90,20 @@ label, h2 {
         left: 65%;
         margin-top: -30px;
     }
- 
+    #example {
+    table-layout: fixed;
+    width: 100% !important;
+}
+#example th, #example td {
+    word-wrap: break-word;
+    text-align: center;
+}
+    .select2-container--default .select2-selection--multiple{border:1px solid #000 !important}
+    .select2-search__field{
+        border:none!important;
+    }
+    .dataTables_length,div#example_info,div#example_paginate{display:none;} 
+    /* for purpose ordering */
 
 </style>
 <section class="content">
@@ -132,7 +145,7 @@ label, h2 {
                                         <input type="hidden" name="<?= csrf_token(); ?>" value="<?= csrf_hash(); ?>">
                                         <div class="col-sm-12" align="center">
                                             <label for="roles_list">Search Roles:
-                                                <select class="form-control e1" id="roles_list" name="roles_list[]" multiple>
+                                                <select class="form-control e1" id="roles_list" name="roles_list[]" multiple required>
                                                     <?php foreach ($roles as $role): ?>
                                                         <option value="<?= $role['id']; ?>" <?php if (!empty($Roleslist) && in_array($role['id'], $Roleslist)): ?>selected<?php endif; ?>><?= $role['role_desc']; ?></option>
                                                     <?php endforeach; ?>
@@ -152,7 +165,7 @@ label, h2 {
                                         <div class="col-md-12"></div>
                                     </div>
                                     <div class="table-responsive">
-                                    <table id="example" class="table table-bordered" width="100%">
+                                    <table id="example" class="table table-bordered table-responsive table-striped" width="100%">
                                     <thead>
                                                 <tr>
                                                     <th>#</th>
@@ -419,6 +432,7 @@ label, h2 {
 
 <script src="<?= base_url('/Ajaxcalls/menu_assign/menu_assign.js') ?>"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/pdfmake.min.js"></script>
+<script src="<?=base_url()?>/assets/plugins/datatables/vfs_fonts.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datepicker/bootstrap-datepicker.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/dataTables.buttons.min.js"></script>
@@ -436,12 +450,46 @@ $(document).ready(function () {
 
 $(document).ready(function() {
     var table = $('#example').DataTable({
-        scrollY: 400,               // Set the vertical scroll height
-        paging: false,              // Disable paging
-        ordering: false,            // Disable column ordering
-        buttons: ['copy', 'excel', 'pdf', 'colvis', 'print'] // Specify buttons
+        scrollY: 400,
+        scrollX: true,
+        ordering: false,
+        buttons: [
+            {
+                extend: 'copy',
+                title: 'Role Report',
+                filename: 'rolereport',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excel',
+                title: 'Role Report',
+                filename: 'rolereport',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdf',
+                title: 'Role Report',
+                filename: 'rolereport',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'print',
+                title: 'Role Report',
+                filename: 'rolereport',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            'colvis'
+        ]
     });
- 
+
     table.buttons().container()
         .appendTo('#example_wrapper .col-md-12:eq(0)');
 });

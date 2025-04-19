@@ -17,12 +17,7 @@ $user_id = session()->get('login')['usercode'];
 if ($user_id != $dacode && $user_id != 663 && $user_id != 1) {
 
     // Get the user's section from the 'users' table
-    // $builder = $db->table('master.users');
-    // $builder->select('section');
-    // $builder->where('usercode', $user_id);
-    // $query = $builder->get();
-    // $row = $query->getRowArray();
-
+    
     $row = is_data_from_table('master.users', 'usercode = $user_id', 'section', '');
     // Fetch the user's section
     if ($row) {
@@ -669,7 +664,7 @@ if ($row) {
                                     }
                                 }
                                 $tw_send_to = $noticesModel->get_tw_o_r($ck_en_nt_x);
-                                if (count($tw_send_to) > 0) {
+                                if (!empty($tw_send_to)) {
                                     foreach ($tw_send_to as $row4) {
                                         $row_data = $row4['del_type'] . '~' . $row4['tw_sn_to'] . '~' . $row4['sendto_state'] . '~' . $row4['sendto_district'] . '~' . $row4['send_to_type'];
 
@@ -681,7 +676,7 @@ if ($row) {
                                     }
                                 }
                                 $tw_cp_send_to = $noticesModel->get_tw_cp_send_to($ck_en_nt_x);
-                                if (count($tw_cp_send_to) > 0) {
+                                if (!empty($tw_cp_send_to)) {
                                     foreach ($tw_cp_send_to as $row5) {
                                         if ($main_id != $row5['id']) {
                                             $row_data = $row5['del_type'] . '~' . $row5['tw_sn_to'] . '~' . $row5['sendto_state'] . '~' . $row5['sendto_district'] . '~' . $row5['send_to_type'];
@@ -1043,11 +1038,11 @@ if ($row) {
                     <table width="100%">
                         <tr>
                             <th style="text-align: left">Name</th>
-                            <td><?= esc($row['pet_name']); ?></td>
+                            <td><?= $row['pet_name'] ?? ''; ?></td>
                         </tr>
                         <tr>
                             <th style="text-align: left">Advocate Name</th>
-                            <td><?= esc($row['name']); ?></td>
+                            <td><?= $row['name'] ?? ''; ?></td>
                         </tr>
                     </table>
                 </fieldset>
@@ -1069,7 +1064,7 @@ if ($row) {
             </div>
         </div>
         <?php
-        $sql_tal_ck = $noticesModel->countRecords($diary_no, $date);
+        $sql_tal_ck = $noticesModel->countRecords($dairy_no, $date);
         if ($sql_tal_ck > 0) {
             $ck_mul_re_st = '1';
         } else {
@@ -1109,7 +1104,8 @@ if ($row) {
                     <th>Amount</th>
                 </tr>
                 <?php
-                $sql_party1 = $noticesModel->get_sql_party($dairy_no, $date);
+                $sql_party = $noticesModel->get_sql_party($dairy_no, $date);
+                
                 $sno = 0;
                 //        $res_p='';
                 $c_pet = 0;
@@ -1120,13 +1116,15 @@ if ($row) {
                 $c_add_res_add = 0;
                 $c_other = 0;
                 $ct_tt = 0;
-                foreach ($sql_party as $row1) {
+                foreach ($sql_party as $row1) 
+                {
                     $ck_en_nt = '0';
                     $sq_ck_en_pr_nt = $noticesModel->get_tw_tal_del($dairy_no, $row1, $date);
+                    
                     if ($row1['sr_no'] != '0') {
                         $sq_ck_en_pr_nt = $noticesModel->getDetails($dairy_no, $row1['sr_no'], $row1['pet_res'], $date);
-
-                        if (count($sq_ck_en_pr_nt) > 0) {
+                       
+                        if (!empty($sq_ck_en_pr_nt)) {
                             $ck_en_nt = '1';
                             $ck_en_nt_x = $sq_ck_en_pr_nt;
                         }
@@ -1134,49 +1132,51 @@ if ($row) {
                         $ck_en_nt_x = '';
                     }
 
+                    
+
                     if ($row1['sr_no'] == '0') {
                         $ck_en_nt = '1';  // Set flag or value
                     }
 
                     // Populate $ck_en_nt_x if fields are empty
                     if (empty($ck_en_nt_x['name'])) {
-                        $ck_en_nt_x['name'] = $row1['partyname'];
+                        $ck_en_nt_x['name'] = $row1['partyname'] ?? '';
                     }
 
                     if (empty($ck_en_nt_x['address'])) {
-                        $ck_en_nt_x['address'] = $row1['addr1'];
+                        $ck_en_nt_x['address'] = $row1['addr1'] ?? '';
                     }
 
                     if (empty($ck_en_nt_x['nt_type'])) {
-                        $ck_en_nt_x['nt_type'] = $row1['nt_type'];
+                        $ck_en_nt_x['nt_type'] = $row1['nt_type'] ?? '';
                     }
 
                     if (empty($ck_en_nt_x['del_type'])) {
-                        $ck_en_nt_x['del_type'] = $row1['del_type'];
+                        $ck_en_nt_x['del_type'] = $row1['del_type'] ?? '';
                     }
 
                     if (empty($ck_en_nt_x['send_to'])) {
-                        $ck_en_nt_x['send_to'] = $row1['send_to'];
+                        $ck_en_nt_x['send_to'] = $row1['send_to'] ?? '';
                     }
 
                     if (empty($ck_en_nt_x['cp_sn_to'])) {
-                        $ck_en_nt_x['cp_sn_to'] = $row1['cp_sn_to'];
+                        $ck_en_nt_x['cp_sn_to'] = $row1['cp_sn_to'] ?? '';
                     }
 
                     if (empty($ck_en_nt_x['id'])) {
-                        $ck_en_nt_x['id'] = $row1['id'];
+                        $ck_en_nt_x['id'] = $row1['id'] ?? '';
                     }
 
                     if (empty($ck_en_nt_x['jud1'])) {
-                        $ck_en_nt_x['jud1'] = $row1['jud1'];
+                        $ck_en_nt_x['jud1'] = $row1['jud1'] ?? '';
                     }
 
                     if (empty($ck_en_nt_x['jud2'])) {
-                        $ck_en_nt_x['jud2'] = $row1['jud2'];
+                        $ck_en_nt_x['jud2'] = $row1['jud2'] ?? '';
                     }
 
                     if (empty($ck_en_nt_x['note'])) {
-                        $ck_en_nt_x['note'] = $row1['note'];
+                        $ck_en_nt_x['note'] = $row1['note'] ?? '';
                     }
 
                     // Uncomment the mobile number check if needed
@@ -1185,9 +1185,9 @@ if ($row) {
                     // }
 
                     if (empty($ck_en_nt_x['amount'])) {
-                        $ck_en_nt_x['amount'] = $row1['amount'];
+                        $ck_en_nt_x['amount'] = $row1['amount'] ?? '';
                     }
-                ?>
+                    ?>
                     <?php if ($row1['pet_res'] == 'P' && $c_pet == 0 && $row1['sr_no'] == 1): ?>
                         <tr>
                             <td colspan="6" style="text-align: center">
@@ -1264,7 +1264,7 @@ if ($row) {
                         <td style="width: 23%;" id="td_cell_s<?= $sno; ?>">
                             <!-- Textarea for displaying partyname -->
                             <textarea id="sp_nm<?= $sno; ?>" style="resize:none;width: 80%" onfocus="clear_data(this.id)">
-        <?php
+                    <?php
                     if ($ck_en_nt == '0') {
                         echo trim($row1['partyname']);
 
@@ -1284,8 +1284,8 @@ if ($row) {
                         // Fetch advocates (you can implement this as a function in the controller if needed)
                         // $get_advocates = get_advocates($dairy_no);
                     }
-        ?>
-    </textarea>
+                            ?>
+                        </textarea>
 
                             <!-- Enrollment details if available -->
                             <?php if ($row1['enrol_no'] != '' && $row1['enrol_yr'] != ''): ?>
@@ -1302,14 +1302,14 @@ if ($row) {
                         <td style="width: 23%;">
                             <!-- Textarea for displaying address -->
                             <textarea id="sp_add<?= $sno; ?>" style="resize:none;width: 80%" onfocus="clear_data(this.id)">
-        <?php
+                    <?php
                     if ($ck_en_nt == '0') {
                         echo trim($row1['addr1'] . ' ' . $row1['addr2']);
                     } elseif ($ck_en_nt == '1') {
                         echo $ck_en_nt_x['address'];
                     }
-        ?>
-    </textarea>
+                        ?>
+                    </textarea>
                         </td>
                         <td style="width: 9%;">
                             <div>
@@ -1332,12 +1332,17 @@ if ($row) {
                                 <!-- Dropdown for selecting city -->
                                 <select name="ddlCity<?= $sno; ?>" id="ddlCity<?= $sno; ?>" style="width: 100%" onfocus="clear_data(this.id)">
                                     <option value="">Select</option>
-                                    <?php foreach ($get_districts as $district):
+                                    <?php 
+                                   $get_districts = get_citys($row1['state']);
+                                   if(!empty($get_districts))
+                                   {
+                                    foreach ($get_districts as $district):
                                         $key2 = explode('^', $district); ?>
                                         <option value="<?= $key2[0]; ?>" <?= ($key2[0] == $row1['city']) ? 'selected="selected"' : ''; ?>>
                                             <?= $key2[1]; ?>
                                         </option>
-                                    <?php endforeach; ?>
+                                    <?php endforeach; 
+                                    }?>
                                     <?php if (($row1['state'] == NULL || $row1['state'] == 0) && $ck_en_nt == '1'): ?>
                                         <option value="0" selected="selected">None</option>
                                     <?php endif; ?>
@@ -1410,6 +1415,7 @@ if ($row) {
                                 $del_tw_send_to = '';
                                 $del_tw_copysend_to = '';
                                 $ex_c_st = '';
+                               
                                 $tw_o_r_s = $noticesModel->get_tw_o_r_s($ck_en_nt_x);
                                 if (!empty($tw_o_r_s)) {
                                     foreach ($tw_o_r_s as $row) {
@@ -1421,7 +1427,7 @@ if ($row) {
                                     }
                                 }
                                 $tw_send_to = $noticesModel->get_tw_o_r($ck_en_nt_x);
-                                if (count($tw_send_to) > 0) {
+                                if (!empty($tw_send_to)) {
                                     foreach ($tw_send_to as $row4) {
                                         $row_data = $row4['del_type'] . '~' . $row4['tw_sn_to'] . '~' . $row4['sendto_state'] . '~' . $row4['sendto_district'] . '~' . $row4['send_to_type'];
 
@@ -1433,7 +1439,7 @@ if ($row) {
                                     }
                                 }
                                 $tw_cp_send_to = $noticesModel->get_tw_cp_send_to($ck_en_nt_x);
-                                if (count($tw_cp_send_to) > 0) {
+                                if (!empty($tw_cp_send_to)) {
                                     foreach ($tw_cp_send_to as $row5) {
                                         if ($main_id != $row5['id']) {
                                             $row_data = $row5['del_type'] . '~' . $row5['tw_sn_to'] . '~' . $row5['sendto_state'] . '~' . $row5['sendto_district'] . '~' . $row5['send_to_type'];
@@ -1708,7 +1714,7 @@ if ($row) {
 
                         </td>
                     </tr>
-                <?php
+                    <?php
                     $sno++;
                 } ?>
                 <tr>

@@ -1488,7 +1488,7 @@ else
             $connt = " ";
         }
         if ($ct == '2') {
-            $connt = "(m.diary_no = m.conn_key OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0') AND ";
+            $connt = "(m.diary_no::TEXT = m.conn_key::TEXT OR m.conn_key::TEXT = '' OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = '0') AND ";
         }
 
         if ($flag == 'f') {

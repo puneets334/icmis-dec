@@ -652,7 +652,7 @@ class NoticesModel extends Model
         //     CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(CONCAT(sr_no, '.0.0.0'), '.', 4), '.', -1) AS UNSIGNED), 
         //     pet_res
         // ";
-        $sql = "
+         $sql = "
     SELECT null as id, partyname, addr1, addr2, sr_no_show as sr_no, pet_res, sonof, prfhname,
            null as nt_type, null as amount, state, city, null as enrol_no, null as enrol_yr
     FROM party  
@@ -690,12 +690,18 @@ class NoticesModel extends Model
 
     public function get_tw_o_r_s($ck_en_nt_x)
     {
-        $builder = $this->db->table('tw_o_r');
-        $builder->select('del_type');
-        $builder->where('tw_org_id', $ck_en_nt_x['id']);
-        $builder->where('display', 'Y');
-        $query = $builder->get();
-        return $query->getRowArray();
+        if(!empty($ck_en_nt_x['id']))
+        {
+            $builder = $this->db->table('tw_o_r');
+            $builder->select('del_type');
+            $builder->where('tw_org_id', $ck_en_nt_x['id']);
+            $builder->where('display', 'Y');
+            $query = $builder->get();
+            return $query->getRowArray();
+        }else{
+            return '';
+        }
+
     }
 
     public function getCities($state)
@@ -738,30 +744,40 @@ class NoticesModel extends Model
 
     public function get_tw_o_r($ck_en_nt_x)
     {
-        $builder = $this->db->table('tw_o_r a');
-        $builder->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type');
-        $builder->join('tw_comp_not b', 'a.id = b.tw_o_r_id');
-        $builder->where('tw_org_id', $ck_en_nt_x['id']);
-        $builder->where('a.display', 'Y');
-        $builder->where('b.display', 'Y');
-        $builder->where('copy_type', 0);
-        $query = $builder->get();
-        return $query->getResultArray();
+        if(!empty($ck_en_nt_x['id']))
+        {
+            $builder = $this->db->table('tw_o_r a');
+            $builder->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type');
+            $builder->join('tw_comp_not b', 'a.id = b.tw_o_r_id');
+            $builder->where('tw_org_id', $ck_en_nt_x['id']);
+            $builder->where('a.display', 'Y');
+            $builder->where('b.display', 'Y');
+            $builder->where('copy_type', 0);
+            $query = $builder->get();
+            return $query->getResultArray();
+        }else{
+            return '';
+        }
     }
 
     public function get_tw_cp_send_to($ck_en_nt_x)
     {
-        $builder = $this->db->table('tw_o_r a');
-        $builder->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type');
-        $builder->join('tw_comp_not b', 'a.id = b.tw_o_r_id');
-        $builder->where('tw_org_id', $ck_en_nt_x['id']);
-        $builder->where('a.display', 'Y');
-        $builder->where('b.display', 'Y');
-        $builder->where('copy_type', 1);
-        $builder->orderBy('a.id, del_type, copy_type');
-        // Execute the query
-        $query = $builder->get();
-        return $query->getResultArray();
+        if(!empty($ck_en_nt_x['id']))
+        {
+            $builder = $this->db->table('tw_o_r a');
+            $builder->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type');
+            $builder->join('tw_comp_not b', 'a.id = b.tw_o_r_id');
+            $builder->where('tw_org_id', $ck_en_nt_x['id']);
+            $builder->where('a.display', 'Y');
+            $builder->where('b.display', 'Y');
+            $builder->where('copy_type', 1);
+            $builder->orderBy('a.id, del_type, copy_type');
+            // Execute the query
+            $query = $builder->get();
+            return $query->getResultArray();
+        }else{
+            return '';
+        }
     }
 
     public function countRecords($diary_no, $date)

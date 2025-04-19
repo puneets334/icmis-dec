@@ -843,19 +843,21 @@ class UserManagementModel extends Model
         else if($tempid != 0){
             $checker = $this->check_EMP_ID($tempid);
             $employee = $tempid;
-        }
-        else
+        }else{        
             $checker = 0;
+        }
         
             $checker2 = 0;
-        
+       
         if($checker == 0 && $checker2 == 0){           
              
             if($service == 'J')
                 $name = 'Justice '.$name;
-            
-                $insert = "INSERT INTO master.users(userpass,name,empid,service,usertype,section,udept,entdt,entuser) 
-                VALUES('$employee','".$name."','$employee','$service',$utype,$usec,$udept,NOW(),$user)";
+
+          
+              $pass = md5($employee.$employee);
+               $insert = "INSERT INTO master.users(userpass,name,empid,service,usertype,section,udept,entdt,entuser,upuser,updt) 
+                VALUES('$pass','".$name."','$employee','$service',$utype,$usec,$udept,NOW(),$user,0,NOW())";              
                 $this->db->query($insert);
      
             return "1";
@@ -871,7 +873,8 @@ class UserManagementModel extends Model
     public function check_EMP_ID($emp_id, $ucode = NULL){
         $check = "SELECT * FROM master.users WHERE empid = '$emp_id' AND display = 'Y'";
         $check = $this->db->query($check);
-        if(!empty($check)){
+        $check_row = $check->getRowArray();
+        if(!empty($check_row)){
             if($ucode == NULL)
                 return 1;
             else{
@@ -1403,6 +1406,61 @@ public function checkCoramChange($nextDt, $rosterId)
         ";
 
         return $db->query($sql, [$vcQryFrom, $templateId, $vcQryFrom]);
+    }
+
+
+
+    public function getUser_mgmt_range($val){
+        $query = "SELECT ut.id, ut.type_name, mgmt_flag, low, up FROM master.usertype ut LEFT JOIN master.user_range ur ON ut.id = utype AND ur.display = 'Y' WHERE ut.id = $val";
+        $result = $this->db->query($query);
+        $row = $result->getRowArray();
+        
+        $low = $row['low'];
+        if($low == '')
+            $low = 1;
+        
+         
+        
+        $newusercode = $this->getNewUserCode($low);
+        
+        if($low == 1){
+            $range = "SELECT * FROM user_range WHERE display = 'Y'";
+            $range_rs = $this->db->query($range);
+            $range_rs = $range_rs->getResultArray();
+            if(!empty($range_rs)){
+                foreach($range_rs as $row_range){
+                    
+                    if(($newusercode >= $row_range['low']) && ($newusercode <= $row_range['up'])){
+                        $newusercode = $this->getNewUserCode($row_range['up']);
+                    }   
+                }
+            }
+        }
+        return $row['id'].'~'.$row['type_name'].'~'.$row['mgmt_flag'].'~'.$row['low'].'~'.$row['up'].'~'.$newusercode;
+    }
+
+
+    public function getNewUserCode($low)
+    {
+        $sql = "
+            SELECT t.*, cur_num - last_num - 1 AS new_usercode FROM (
+                SELECT 
+                    ROW_NUMBER() OVER (ORDER BY usercode) AS numb,
+                    usercode,
+                    name,
+                    usercode AS cur_num,
+                    LAG(usercode) OVER (ORDER BY usercode) AS last_num
+                FROM master.users
+                WHERE usercode > ?
+            ) t
+            WHERE (cur_num - last_num - 1) > 0 AND usercode > 10
+            LIMIT 1
+        ";
+    
+        $query = $this->db->query($sql, [$low]);
+        $result = $query->getRowArray();
+    
+        return $result['new_usercode'] ?? null;
     }
 
 

@@ -228,7 +228,9 @@
 
                                     </div>
                                     <?PHP
-                                    }
+                                    } else {
+                                        echo "No Data Found";   
+                                   }
                                    ?>
                                 </section>
                             </div>

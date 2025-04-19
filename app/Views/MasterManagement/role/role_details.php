@@ -14,6 +14,7 @@
 #menuIds{
         margin-left: -49%;
 }
+#example_filter{float: right;}
 </style>
 
 <section class="content">
@@ -25,7 +26,7 @@
 
                 <div class="row">
                     <div class="col-sm-10">
-                        <h3 class="card-title">Master Management >> Menu Privilege</h3>
+                        <h3 class="card-title">Master Management >> Role >> Report</h3>
                     </div>
                     <div class="col-sm-2"> </div>
                 </div>
@@ -77,7 +78,7 @@
                                 </thead>
                                 <tbody>
                                     <?php $count = 0; ?>
-                                    <?php foreach ($roles as $role): ?>
+                                    <?php foreach ($rolename as $role): ?>
                                         <?php $count++; ?>
                                         <tr>
                                             <td class="text-danger"><?= $count; ?></td>
@@ -96,6 +97,8 @@
                                                         <tbody>
                                                             <?php
                                                             $old_main_menu_heading = '';
+                                                            $menus = $MenuReportModel->getMenuByRoleId($role['id']);
+                                                            
                                                             foreach ($menus as $menu):
                                                              
                                                                 $main_menu_heading = trim($menu['main_menu']);
@@ -191,15 +194,15 @@
 </div>
 </section>
 
-<script src="<?= base_url('/Ajaxcalls/menu_assign/menu_assign.js') ?>"></script>
+<!-- <script src="<?= base_url('/Ajaxcalls/menu_assign/menu_assign.js') ?>"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/pdfmake.min.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datepicker/bootstrap-datepicker.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/dataTables.buttons.min.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/buttons.print.min.js"></script>
 <script src="<?=base_url()?>/assets/plugins/datatables/buttons.html5.min.js"></script>
-<script src="<?=base_url()?>/assets/plugins/datatables/buttons.html5.min.js"></script>
-<script src="<?=base_url()?>/js/select2.min.js"></script>
+<script src="<?=base_url()?>/assets/plugins/datatables/buttons.html5.min.js"></script> -->
+<!-- <script src="<?=base_url()?>/js/select2.min.js"></script> -->
 <!-- Include Select2 and DataTables JS/CSS -->
 
 <script>
@@ -208,16 +211,19 @@ $(document).ready(function () {
 $(".e1").select2();
 });
 
+$(function() {
+            $("#example").DataTable({                
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "dom": 'Blfrtip',
+                "buttons": ["copy", "csv", "excel", "print",{extend: 'pdfHtml5',orientation: 'landscape',pageSize: 'LEGAL' }]
+            }).buttons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
 
-$(document).ready(function() {
-var table = $('#roleTable').DataTable({
-lengthChange: true,
-dom: 'Blfrtip',
-buttons: [
-    'copy', 'csv', 'excel', 'pdf', 'print'
-]
-});
-});
+        });
+
+ 
+ 
 
 
 

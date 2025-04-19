@@ -74,8 +74,7 @@ public $JudgesMoldel;
        
 
     function Getjcodejs(){
-
-        $jtype = $this->request->getPost('jtypeid');
+        $jtype = $this->request->getGet('jtypeid');
         //$data =array();
         $j_result=$this->JudgesMoldel->jcodesearch($jtype);
         echo json_encode($j_result);

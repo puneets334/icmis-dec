@@ -37,11 +37,11 @@
                             if ($app_name == 'JudgeWise') {
                         ?>
                                 <div id="printable" class="table-responsive">
-                                    <div class="card-header heading">
+                                    <div class="">
 
                                         <div class="row">
                                             <div class="col-sm-10">
-                                                <h3 class="card-title">Judges Wise Pendency as on <?php echo date("d-m-Y"); ?></h3>
+                                                <h2 class="card-title">Judges Wise Pendency as on <?php echo date("d-m-Y"); ?></h2>
                                             </div>
                                         </div>
                                     </div>
@@ -322,12 +322,12 @@ $(document).ready(function () {
                 extend: 'print',
                 title: reportTitle
             },
-            {
-                extend: 'pdfHtml5',
-                title: reportTitle,
-                orientation: 'landscape',
-                pageSize: 'A4'
-            },
+            // {
+            //     extend: 'pdfHtml5',
+            //     title: reportTitle,
+            //     orientation: 'landscape',
+            //     pageSize: 'A4'
+            // },
             'pageLength'
         ],
         lengthMenu: [

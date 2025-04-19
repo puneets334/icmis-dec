@@ -129,7 +129,7 @@
                                                             <td hidden id="td_<?php echo $i + 1; ?>"><?php echo htmlspecialchars($result['id']); ?></td>
                                                             <td width="50%"><?php echo htmlspecialchars($result['catg']); ?></td>
                                                             <td>
-                                                                <input type="text" value="<?php echo htmlspecialchars($result['priority']); ?>" name="priority_<?php echo $i + 1; ?>" id="priority_<?php echo $i + 1; ?>">
+                                                                <input type="number" value="<?php echo htmlspecialchars($result['priority']); ?>" name="priority_<?php echo $i + 1; ?>" id="priority_<?php echo $i + 1; ?>">
                                                             </td>
                                                             <td>
                                                                 <input type="text" class="form-control datepick" value="<?php 
@@ -298,12 +298,12 @@ $(document).ready(function() {
 
 
 
-     function update($id)
+    /* function update($id)
     {
        // debugger;
       
         if (!isEmpty(priority) && !isEmpty(idDb) && !isEmpty(usercode)) {
-            $.post("<?=base_url();?>/MasterManagement/MasterController/update_judge_category", {
+            $.post("<?php //echo base_url();?>/MasterManagement/MasterController/update_judge_category", {
                 priority: priority,
                 id: idDb,
                 toDate: toDate,
@@ -316,10 +316,11 @@ $(document).ready(function() {
             });
         }
 
-    }
+    }*/
 
 
-    function update($id) {
+    async function update($id) {
+        await updateCSRFTokenSync();
 
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var priority=$('#priority_'+$id).val();
@@ -345,7 +346,7 @@ $(document).ready(function() {
                 },
                 success: function (result) {
                     if (!alert(result)) {
-                        location.reload();
+                        //location.reload();
                     }
                 },
                 error: function (xhr, status, error) {
@@ -354,6 +355,17 @@ $(document).ready(function() {
                     alert("An error occurred. Please try again.");
                 }
             });
+        }
+        else{
+            if(isEmpty(priority)){ $('#priority_' + $id).css({ // Use the dynamic ID selector
+                'background-color': 'rgb(255 0 0 / 40%)',
+                'color': 'darkgreen',
+                'border': '2px solid blue',
+                'padding': '8px',
+                'font-weight': 'bold'
+            }); }
+             
+            alert("Please enter required values.");
         }
     }
  

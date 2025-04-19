@@ -44,13 +44,12 @@ class Report extends BaseController
 
     public function get_inperson()
     {
-        // pr($_REQUEST);
         $sec_id = $this->request->getPost('sec_id');
         $board_type = $this->request->getPost('board_type');
-        $h3_head = "IN-PERSON CASES";
         $mainhead = $this->request->getPost('mainhead');
         $ucode = $_SESSION['login']['usercode'];
         $usertype = $_SESSION['login']['usertype'];
+        $data['h3_head'] = "IN-PERSON CASES";
         $data['model'] = $this->CaseRemarksVerification;
         $data['data'] = $this->CaseRemarksVerification->get_inperson($mainhead, $ucode, $usertype, $sec_id, $board_type);
 
@@ -121,5 +120,18 @@ class Report extends BaseController
         return view('ManagementReport/Pending/section_pendency_view', $data);
         
     }
+	
+	public function cases(){
+        $category=  $this->request->getGet('category');
+		$dacode= $this->request->getGet('dacode');
+        $da_rog_matters = $this->PendencyModel->da_rog_cases($category,$dacode);                
+        $da_details = $this->PendencyModel->da_details($dacode);        
+        $data['da_details']=$da_details;        
+        $data['dacode']=$dacode;
+        $data['da_cases'] = $da_rog_matters;
+        $data['category']=$category;
+        return view('ManagementReport/Pending/da_rog_cases', $data);        
+    }
+	
 
 }

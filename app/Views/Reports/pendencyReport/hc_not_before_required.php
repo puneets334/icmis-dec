@@ -159,20 +159,22 @@
                 mainhead: mainhead
             },
             url: "<?= site_url('Reports/PendencyReport/DetailedPendency/hcNotBeforeRequiredGet') ?>",
-            beforeSend: function(xhr)
-            {
+            beforeSend: function(xhr) {
+                $("#btngetr").attr("disabled", true);
                 $("#dv_res1").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             success: function(response)
             {
                 updateCSRFToken();
+                $("#btngetr").attr("disabled", false);
                 $("#dv_res1").html('');
-                $("#dv_res1").html(response.data);
+                $("#dv_res1").html(response);
             },
             error: function(xhr, status, error)
             {
                 updateCSRFToken();
                 $("#dv_res1").html('');
+                $("#btngetr").attr("disabled", false);
                 alert( "Error Occured, contact server room" );
                 return false;
             }
@@ -194,7 +196,7 @@
         var prtContent = $("#prnnt").html();
         var temp_str=prtContent;
         var WinPrint = window.open('','','left=100,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1,cellspacing=1');
-        WinPrint.document.write("<style> .bk_out {  display:none; } </style>" + prtContent.innerHTML);
+        WinPrint.document.write("<style> .bk_out {  display:none; } </style>");
         WinPrint.document.write(temp_str);
         WinPrint.document.close();
         WinPrint.focus();

@@ -49,19 +49,18 @@
         if(!empty($serve_status)) {
 
             ?>
+            <input type="button" onclick="printDiv('r')" value="print " />
  <div id ="r">
-<CENTER> List of  matters <b>Fresh</b> for  Causelist Dated :  <?php echo   date('d-m-Y', $date1); ?> <br>   </CENTER><input type="button" onclick="printDiv('r')" value="print " />
+<CENTER> List of  matters <b>Fresh</b> for  Causelist Dated :  <?php echo   date('d-m-Y', $date1); ?> <br>   </CENTER>
 
             <BR>
-            <table align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
+            <table class="table table-striped custom-table" align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
 
                 <tr style="background: #918788;">
-
                     <td width="5%" style="font-weight: bold; color: #dce38d;">SrNo.</td>
                     <td width="10%" style="font-weight: bold; color: #dce38d;">Diary No</td>
                     <td width="20%" style="font-weight: bold; color: #dce38d;">Registration No.</td>
-                    <td width="20%" style="font-weight: bold; color: #dce38d;">IA No.</td>
-                     
+                    <td width="20%" style="font-weight: bold; color: #dce38d;">IA No.</td>                     
                 </tr>
 
                 <?php
@@ -107,7 +106,7 @@
 
 
               $purpose = $ro['purpose'];
-              $IA=$ro['IA'];
+              $IA=$ro['IA'] ?? '';
 
 
 
@@ -212,11 +211,12 @@
         if(!empty($serve_status)) {
 
             ?>
+            <input type="button" onclick="printDiv('r')" value="print " />
  <div id ="r">
-<CENTER> List of  matters <b>except fresh</b> for  Causelist Dated :  <?php echo   date('d-m-Y', $date1); ?> <br>   </CENTER><input type="button" onclick="printDiv('r')" value="print " />
+<CENTER> List of  matters <b>except fresh</b> for  Causelist Dated :  <?php echo   date('d-m-Y', $date1); ?> <br>   </CENTER>
 
             <BR>
-            <table align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
+            <table  class="table table-striped custom-table" align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
 
                 <tr style="background: #918788;">
 
@@ -370,11 +370,12 @@
         if(!empty($serve_status)) {
 
             ?>
+            <input type="button" onclick="printDiv('r')" value="print " />
  <div id ="r">
- <CENTER> Consolidated List of  matters  for  Causelist Dated :  <?php echo   date('d-m-Y', $date1); ?> <br>   </CENTER><input type="button" onclick="printDiv('r')" value="print " />
+ <CENTER> Consolidated List of  matters  for  Causelist Dated :  <?php echo   date('d-m-Y', $date1); ?> <br>   </CENTER>
 
             <BR>
-            <table align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
+            <table class="table table-striped custom-table" align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
 
                 <tr style="background: #918788;">
                     <td width="5%" style="font-weight: bold; color: #dce38d;">SrNo.</td>
@@ -541,11 +542,12 @@
         if(!empty($serve_status)) {
 
             ?>
-  <div id ="r">
-<CENTER> Consolidated List of <b> Review/Curative/Contempt matters</b>  for  Causelist Dated :  <?php echo   date('d-m-Y', $date1); ?> <br>   </CENTER><input type="button" onclick="printDiv('r')" value="print " />
+<input type="button" onclick="printDiv('r')" value="print " />
+<div id ="r">
+<CENTER> Consolidated List of <b> Review/Curative/Contempt matters</b>  for  Causelist Dated :  <?php echo   date('d-m-Y', $date1); ?> <br>   </CENTER>
 
             <BR>
-            <table align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
+            <table class="table table-striped custom-table" align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
 
                 <tr style="background: #918788;">
 
@@ -692,7 +694,7 @@
               <CENTER> Consolidated List of  <b>Unallocated matters </b>  for  Causelist Dated :  <?php echo   date('d-m-Y', $date1); ?> <br>   </CENTER>
 
             <BR>
-            <table align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
+            <table class="table table-striped custom-table" align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
 
                 <tr style="background: #918788;">
 
@@ -841,7 +843,7 @@
 
 
                        <BR>
-             <table align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
+             <table class="table table-striped custom-table" align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
 
 <tr style="background: #918788;">
 
@@ -994,7 +996,7 @@ if($list_type==7)
 
 
                        <BR>
-             <table align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
+             <table class="table table-striped custom-table" align="left" width="100%" border="0px;" style="font-size:10px; table-layout: fixed;">
 
 <tr style="background: #918788;">
 

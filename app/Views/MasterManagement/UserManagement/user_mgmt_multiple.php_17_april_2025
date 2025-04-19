@@ -1,0 +1,1056 @@
+<?php
+if ($keyValue == 1) {
+    if ($keyValue != 'L') {
+        $section = $model->getSections($cur_user_type, $deptname, $usercode);
+        // echo $section;
+        if (count($section) > 0) {
+?>
+            <option value="ALL">ALL</option>
+            <?php
+            foreach ($section as $row_sec) {
+            ?>
+                <option value="<?php echo $row_sec['section']; ?>">
+                    <?php echo $row_sec['section_name']; ?></option>
+            <?php
+            }
+        } else {
+            echo "RESET";
+            if ($cur_user_type == 1) {
+            ?>
+                <option value="ALL">ALL</option>
+            <?php
+            } else {
+            ?>
+                <option value="0">SELECT</option>
+            <?php
+            }
+        }
+    } else if ($keyValue == 'L') {
+        //$section = "SELECT utype FROM user_d_t_map WHERE udept = (SELECT id FROM userdept WHERE dept_name like '$deptname') ORDER BY utype";
+        $section = $model->getUserTypes($deptname);
+        if (count($section) > 0) {
+            ?>
+            <option value="0">SELECT</option>
+            <?php
+            foreach ($section as $row_sec) {
+            ?>
+                <option value="<?php echo $row_sec['utype']; ?>"><?php echo displayUsertype($row_sec['utype']); ?></option>
+            <?php
+            }
+        } else {
+            ?>
+            <option value="0">SELECT</option>
+    <?php
+        }
+    }
+} else if ($keyValue == 2) {
+    $section = $model->getUserTypesData($cur_user_type, $deptname, $section);
+    //if(mysql_num_rows($section)>0){
+    ?>
+    <option value="ALL">ALL</option>
+    <?php
+    foreach ($section as $row_sec) {
+    ?>
+        <option value="<?php echo $row_sec['usertype']; ?>"><?php echo $row_sec['type_name']; ?></option>
+    <?php
+    }
+} else if ($keyValue == 3) {
+    $currentUser = $model->getCurrentUser($userid);
+    ?>
+    <input type="hidden" value="<?php echo $currentUser['usertype']; ?>" id="usertype_based_on_current_user" />
+    <input type="hidden" value="<?php echo $currentUser['section']; ?>" id="usersection_based_on_current_user" />
+    <input type="hidden" value="<?php echo $currentUser['empid']; ?>" id="hd_emp_id_for_transfer" />
+    <input type="hidden" value="<?php echo $currentUser['service']; ?>" id="hd_service_for_transfer" />
+    <input type="hidden" value="<?php echo $userid; ?>" id="hd_usercode" />
+    <div style="overflow: hidden;margin: 0 auto;margin-top: 30px;border: 0px solid red">
+        <div style="width: 94%;border:0px solid blue;overflow: auto;margin-left: auto;margin-right: auto;background-color: lightblue">
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Department- <?php echo $currentUser['dept_name']; //$usertype_temp[0];
+                            ?>
+            </div>
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Section- <?php echo $currentUser['section_name']; //displayUsertype($row1['usertype']);
+                            ?>
+            </div>
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Designation- <?php echo $currentUser['type_name']; ?>
+            </div>
+        </div>
+        <div style="width: 94%;border:0px solid blue;overflow: auto;margin-left: auto;margin-right: auto">
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Name- <?php echo $currentUser['name']; ?>
+            </div>
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Last Login- <?php echo (!empty($currentUser['log_in'])) ? revertDate_hiphen(date('Y-m-d', strtotime($currentUser['log_in']))) : ''; ?>
+            </div>
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Active From- <?php echo (!empty($currentUser['entdt'])) ? revertDate_hiphen(date('Y-m-d', strtotime($currentUser['entdt']))) : ''; ?>
+            </div>
+        </div>
+
+        <table style="margin-left: auto;margin-right: auto;margin-top: 20px;">
+            <tr>
+                <td style="font-size: 20px">Status- </td>
+                <td>
+                    <?php
+                    $user_stat = 1;
+                    //if(strpos($currentUser['pa_ps'], '_ABS'))
+                    if ($currentUser['attend'] == 'A')
+                        $user_stat = 0;
+                    ?>
+                    <select id="change_user_stat"><!-- onchange="setTransfer(this.value)"-->
+                        <option value="1" <?php if ($user_stat == 1) echo "Selected"; ?>>Available</option>
+                        <option value="0" <?php if ($user_stat == 0) echo "Selected"; ?>>Not Available</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <div id="transfer_block" style="overflow: hidden;margin-top: 20px;display: <?php if ($currentUser['section'] == 19) echo "block";
+                                                                                    else echo "none"; ?>">
+            <div style="overflow: hidden;margin: 0 auto">
+                <div style="font-size: 18px;text-align: center">Filing-Trap Designation</div>
+                <div style="overflow: hidden;font-size: 16px;">
+                    <?php
+                    $fil_t_d = $model->getFilteredUserTypes();
+                    ?>
+                    <select id="fil_trap_desg" style="margin-left: auto;margin-right: auto">
+                        <option value="0">SELECT</option>
+                        <?php
+                        foreach ($fil_t_d as $row_fil_t_d) {
+                        ?>
+                            <option value="<?php echo $row_fil_t_d['id']; ?>"
+                                <?php
+                                if ($currentUser['fil_usertype'] != null) {
+                                    if ($currentUser['fil_usertype'] == $row_fil_t_d['id'])
+                                        echo "selected";
+                                }
+                                ?>><?php echo $row_fil_t_d['type_name']; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin: 0 auto;overflow: hidden;text-align: center;display: <?php
+                                                                                if ($currentUser['name'] == '')
+                                                                                    echo "none";
+                                                                                else
+                                                                                    echo "block";
+                                                                                ?>;margin-top: 20px;border: 0px solid firebrick">
+            <input type='button' value='SAVE' id='btn_allot' style="margin: 0 auto" onclick="allotFunction()" />
+        </div>
+
+        <div id="relieve_block" style="overflow: hidden;margin-left: auto;margin-right: auto;padding: 5px;margin-top: 20px;
+             display: <?php if ($user_stat == 1) echo "block";
+                        else echo "none"; ?>">
+            <div style="overflow: hidden;margin: 0 auto">
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;text-align: center">
+                    <input type="button" id="btn_relieve" onclick="relieve_user()" value="Retire User" style="width: 200px; height:30px;background-color: red;color: #F2F1EF;font-size: 16px; font-weight: bold" />
+                </div>
+            </div>
+        </div>
+
+
+        <?php
+        $chk_blk = "none";
+
+        ?>
+        <hr>
+        <!--for rr_user_hall_mapping start-->
+        <div id="rkds_block" style="overflow: hidden;margin-left: auto;margin-right: auto;margin-top: 20px;margin-bottom: 20px;
+             display: <?php echo $rkds_blk ?? ''; ?>">
+            <div style="margin: 0 auto;overflow: hidden">
+                <div style="font-size: 18px;text-align: center">D.A. Record Room Hall and Case Group Allotment </div>
+                <br>
+                <div style="margin: 0 auto;overflow: hidden">
+                    <div style="float:left;margin-left: 20px">
+                        <?php
+                        $record_room_halls = $model->getRoomHalls();
+                        ?>
+                        Hallo No
+                        <select style="display: block;width: 300px;" id="hall_no" name="hall_no">
+                            <option value="">Select</option>
+                            <?php
+                            foreach ($record_room_halls as $record_room_hall) {
+                            ?>
+                                <option value="<?php echo $record_room_hall['hall_no']; ?>">Hall No.<?php echo $record_room_hall['hall_no']; ?> - <?php echo $record_room_hall['Description']; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div style="float:left;margin-left: 10px">
+                        Case Group
+                        <select style="display: block;width: 90px;" id="case_group">
+                            <option value="">Select</option>
+                            <option value="C">Civil</option>
+                            <option value="R">Criminal</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;float: left;margin: 7px 10px 0px 20px">
+                    <input type="button" name="user_hall_mapping1" value="Add->" />
+                </div>
+                <div id="r_type_area" style="margin: 0 auto;overflow: hidden;font-size: 14px;float: left;margin: 2px 0px 0px 20px; border: 0px solid black;text-align: center">
+                    <?php
+                    $chk_case = $model->checkCase($userid);
+                    if (count($chk_case) > 0) {
+                        foreach ($chk_case as $row_chk) {
+                            $forCaseGroup = '';
+                            if ($row_chk['for_caseGroup'] == 'C')
+                                $forCaseGroup = 'Civil';
+                            else
+                                $forCaseGroup = 'Criminal';
+
+                            $one_rkd_case = $row_chk['ref_hall_no'] . '_' . $row_chk['for_caseGroup'];
+                    ?>
+                            <div class="cl_chk_case" id="r_r_<?php echo $one_rkd_case;  ?>">Hall No-<?php echo $row_chk['ref_hall_no'] . '(' . $row_chk['Description'] . ')-' . $forCaseGroup; ?>
+
+                                <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='<?= base_url();?>/images/close_btn.png'
+                                    onclick="removeCase_rkds('<?php echo $one_rkd_case;  ?>')">
+                            </div>
+                    <?php
+                            $hidden_rkds_case .= ',' . $one_rkd_case;
+                        }
+                    }
+                    ?>
+                </div>
+                <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case ?? ''; ?>" />
+            </div>
+            <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
+                <input type="button" name="mapp_user_hall" value="ALLOT Hall" /><!--onclick="allotCase_rkds()"-->
+            </div>
+        </div>
+        <!--for rr_user_hall_mapping end-->
+
+        <hr>
+        <!--for da case allotment exclusing hall allotment start-->
+        <?php
+
+        $rkds_blk = "none";
+        
+        if ((!empty($currentUser)) && $currentUser['isda'] == 'Y' && $user_stat == 1)
+            $rkds_blk = "block";
+        ?>
+        <div id="rkds_block" style="overflow: hidden;margin-left: auto;margin-right: auto;margin-top: 20px;margin-bottom: 20px;
+             display: <?php echo $rkds_blk; ?>">
+            <div style="margin: 0 auto;overflow: hidden">
+                <div style="font-size: 18px;text-align: center">D.A. Cases Range Allotment </div>
+                <br>
+                <div style="margin: 0 auto;overflow: hidden">
+                    <div style="float:left;margin-left: 20px">
+                        <?php
+                        $c_casetype = $model->getCaseType();
+                        ?>
+                        Case Type
+                        <select style="display: block;width: 90px;" id="r_csty">
+                            <option value="">Select</option>
+                            <?php
+                            foreach ($c_casetype as $row_c) {
+                            ?>
+                                <option value="<?php echo $row_c['casecode']; ?>"><?php echo $row_c['short_description']; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div style="float:left;margin-left: 10px">
+                        From No <input id="r_frmno" type="text" style="display: block;width: 60px;" />
+                    </div>
+                    <div style="float:left;margin-left: 10px">
+                        From Year
+                        <select style="width: 60px" id="r_frmyr">
+                            <option value="0000">0000</option>
+                            <?php
+                            for ($i = 2018; $i >= 1956; $i--) {
+                            ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div style="float:left;margin-left: 15px">
+                        To No <input id="r_tono" type="text" style="display: block;width: 60px;" />
+                    </div>
+                    <div style="float:left;margin-left: 10px">
+                        To Year
+                        <select style="width: 60px" id="r_toyr">
+                            <option value="0000">0000</option>
+                            <?php
+                            for ($i = 2018; $i >= 1956; $i--) {
+                            ?>
+                                <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div style="float:left;margin-left: 10px">
+                        <?php
+                        $state = $model->getState();
+                        ?>
+                        <select style="display: block;width: 90px;" id="state">
+                            <option value="">Select</option>
+                            <option value="0">ALL</option>
+                            <?php
+                            foreach ($state as $row_s) {
+                            ?>
+                                <option value="<?php echo $row_s['id_no']; ?>"><?php echo $row_s['name']; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div style="float:left;margin-left: 10px">
+                        Type
+                        <select style="display: block;width: 90px;" id="da_c_t">
+                            <option value="">Select</option>
+                            <option value="M">Miscellaneous</option>
+                            <option value="F">Regular</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;float: left;margin: 7px 10px 0px 20px">
+                    <input type="button" name="add-da-for" value="Add->" /><!--onclick="press_add_rkds()"-->
+                </div>
+                <div id="r_type_area" style="margin: 0 auto;overflow: hidden;font-size: 14px;float: left;margin: 2px 0px 0px 20px; border: 0px solid black;text-align: center">
+                    <?php
+
+                    $currentYear = date("Y");
+                    $chk_case = $model->checkCaseDistribution($userid);
+                    if (count($chk_case) > 0) {
+                        foreach ($chk_case as $row_chk) {
+
+                            $one_rkd_case = $row_chk['casetype'] . '_' . $row_chk['case_from'] . '_' . $row_chk['caseyear_from'] . '_' . $row_chk['case_to'] . '_' . $row_chk['caseyear_to'];
+                    ?>
+                            <div class="cl_chk_case_da" id="r_r_<?php echo $one_rkd_case; ?>">
+                                <?php
+                                if ($row_chk['case_from'] == 1 and $row_chk['case_to'] == 555555  and $row_chk['caseyear_from'] == 1950 and $row_chk['caseyear_to'] == $currentYear) {
+                                    echo $row_chk['short_description'] . 'ALL';
+                                } else {
+                                    echo $row_chk['short_description'] . '-' . $row_chk['case_from'] . '-' . $row_chk['caseyear_from'] . '-' . $row_chk['case_to'] . '-' . $row_chk['caseyear_to'];
+                                }
+                                echo '-' . $type_de_case; ?>
+                                <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='<?php echo base_url(); ?>/close-button.gif'
+                                    onclick="removeCase_rkhall('<?php echo $one_rkd_case; ?>')">
+                            </div>
+                    <?php
+                            $hidden_rkds_case .= ',' . $one_rkd_case;
+                        }
+                    }
+
+
+                    ?>
+                </div>
+                <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case ?? ''; ?>" />
+            </div>
+            <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
+                <input type="button" name="al-rkd-case" value="ALLOT CASE" />
+            </div>
+        </div>
+        <!--for da case allotment exclusing hall allotment end-->
+
+        <?php
+        $rkdcmpda_blk = "none";
+        /*if($currentUser['usertype'] == 61 && $user_stat == 1)
+            $rkdcmpda_blk = "block";*/
+        ?>
+        <div id="rkdcmpda_block" style="margin: 0 auto; overflow: hidden;margin-left: 30px;padding: 10px 10px 10px 10px;background-color: #819FF7;margin-top: 20px;margin-bottom: 20px;
+             display: <?php echo $rkdcmpda_blk; ?>">
+            <div style="margin: 0 auto;overflow: hidden">
+                <div style="font-size: 18px;text-align: center">Compliance D.A. Nature Allotment</div>
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;float: left;margin: 0px 10px 0px 20px; border: 0px solid black">
+                    <label>Nature</label>
+                    <?php
+                    $c_casetype = $model->get_c_casetype();
+                    ?>
+                    <select style="display: block;width: 90px;" id="cmp_csty">
+                        <option value="">Select</option>
+                        <?php
+                        foreach ($c_casetype as $row_c) {
+                        ?>
+                            <option value="<?php echo $row_c['casecode']; ?>"><?php echo $row_c['skey']; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;float: left;margin: 7px 10px 0px 20px">
+                    <input type="button" value="Add->" onclick="press_add_rkdcmpda()" />
+                </div>
+                <div id="cmp_type_area" style="margin: 0 auto;overflow: hidden;font-size: 14px;float: left;margin: 2px 0px 0px 20px; border: 0px solid black;text-align: center">
+                    <?php
+                  /*  
+                    $chk_case = $model->get_rkdcmpda_case($userid);
+                    if (count($chk_case) > 0) {
+                        foreach ($chk_case as $row_chk) {
+                    ?>
+                            <div class="cl_chk_case" id="cmp_cmp_<?php echo $row_chk['nature'];  ?>"><?php echo $row_chk['skey']; ?>
+                                <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='usermgmt/close-button.gif'
+                                    onclick="removeCase_rkdcmpda('<?php echo $row_chk['nature']; ?>')">
+                            </div>
+                    <?php
+                            $hidden_rkdcmpda_case .= ',' . $row_chk['nature'];
+                           
+                        }
+                    }  */
+                    ?>
+                </div>
+                <input type="hidden" id="rkdcmpda_cases" value="<?php echo $hidden_rkdcmpda_case ?? ''; ?>" />
+            </div>
+            <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
+                <input type="button" value="ALLOT CASE" onclick="allotCase_rkdcmpda()" />
+            </div>
+        </div>
+        <?php
+        $jud_blk = "none";
+        /*if(($currentUser['dept_name'] == 'COURT' || $currentUser['dept_name'] == 'PAPS' ) && ($user_stat == 1) && ($currentUser['name'] != ''))
+            $jud_blk = "block";*/
+        ?>
+        <div id="judge_block" style="margin: 0 auto; overflow: hidden;margin-left: 30px;padding: 10px 10px 10px 10px;background-color: #ffa186;margin-top: 20px;margin-bottom: 20px;
+            display: <?php echo $jud_blk; ?>">
+            <div style="margin: 0 auto;overflow: hidden">
+                <div style="font-size: 18px;text-align: center;margin-bottom: 5px;">Judge Allotment For <?php echo $userdept ?? ''; ?> Department</div>
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;margin: 0px 10px 0px 20px; border: 0px solid black">
+                    <?php
+                    $cuirrent_working_judge = $model->getJudge();
+                    $if_available_rs = $model->getUsersJcode($userid);
+                    $if_available = $if_available_rs['jcode'];
+                    ?>
+                    <select style="display: block;width: 400px; float: left" id="judge_for_user">
+                        <option value="0">Select</option>
+                        <?php
+                        foreach ($cuirrent_working_judge as $row_jud) {
+                        ?>
+                            <option value="<?php echo $row_jud['jcode']; ?>"
+                                <?php if ($if_available != 0) {
+                                    if ($if_available == $row_jud['jcode']) echo "selected";
+                                }  ?>><?php echo $row_jud['jname']; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                    <input type="button" onclick="save_judge_info()" style="margin-left: 30px;" value="SAVE JUDGE" />
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+} else if ($keyValue == 4) {
+    $section = $model->getUsers1($deptname, $section, $userValue);
+?>
+    <option value="0">SELECT</option>
+    <?php
+    foreach ($section as $row_sec) {
+    ?>
+        <option value="<?php echo $row_sec['usercode']; ?>"><?php echo $row_sec['username']; ?></option>
+    <?php
+    }
+} else if ($keyValue == 5) {
+    $section = $model->get_users_history($userid);
+    if ($section) {
+        echo "0~" . $section['name'] . '~' . revertDate_hiphen($section['from_date']);
+    } else
+        echo "1";
+} else if ($keyValue == 6) { {
+        if ($statusValue == 1) {
+            $updateData = [
+                'attend' => 'P',
+                'upuser' => $usercode,
+                'updt' => date('Y-m-d H:i:s')
+            ];
+            $model->updateUser($userValue, $updateData);
+        } else if ($statusValue == 0) {
+            $updateData = [
+                'attend' => 'A',
+                'upuser' => $usercode,
+                'updt' => date('Y-m-d H:i:s')
+            ];
+
+            if ($utypeValue == 13) {
+                $updateData['jcode'] = 0;
+            }
+
+            $model->updateUser($userValue, $updateData);
+        }
+
+        // Check if the update was successful
+        if ($model->affectedRows() > 0) {
+            if ($fil_t != '') {
+                $chk_fil_t = $model->checkFilTrapUser($userValue);
+
+                if ($chk_fil_t->getNumRows() > 0) {
+                    if ($fil_t == 0) {
+                        $updateFilT = [
+                            'display' => 'N',
+                            'upuser' => $usercode,
+                            'updt' => date('Y-m-d H:i:s')
+                        ];
+                        $model->updateFilTrapUser($userValue, $updateFilT);
+                    } else {
+                        $chk_before_f_t = $model->checkFilTrapBefore($userValue, $fil_t);
+
+                        if ($chk_before_f_t->getNumRows() == 0) {
+                            $updateFilT = [
+                                'display' => 'N',
+                                'upuser' => $usercode,
+                                'updt' => date('Y-m-d H:i:s')
+                            ];
+                            $model->updateFilTrapUser($userValue, $updateFilT);
+
+                            $insertFilT = [
+                                'usertype' => $fil_t,
+                                'usercode' => $userValue,
+                                'entuser' => $usercode,
+                                'ent_dt' => date('Y-m-d H:i:s')
+                            ];
+                            $model->insertFilTrapUser($insertFilT);
+                        }
+                    }
+                } else {
+                    $insertFilT = [
+                        'usertype' => $fil_t,
+                        'usercode' => $userValue,
+                        'entuser' => $usercode,
+                        'ent_dt' => date('Y-m-d H:i:s')
+                    ];
+                    $model->insertFilTrapUser($insertFilT);
+                }
+            }
+
+            echo '<div style="margin: 0 auto;margin-top: 20px;text-align: center;color: green">SUCCESSFULLY UPDATED</div>';
+        } else {
+            echo '<div style="margin: 0 auto;margin-top: 20px;text-align: center;color: red">' . $this->db->getLastError() . '</div>';
+        }
+    }
+} else if ($keyValue == 7) {
+    $total = explode(',', ltrim($totalValue, ','));
+
+    $model->updateDisplay($chk_code);
+    foreach ($total as $value) {
+        $value_up = explode('~', $value);
+        $casecode = $value_up[0];
+
+        if ($casecode == '0' || $casecode == '') {
+            continue;
+        }
+
+        $existingCases = $model->checkCaseExists($chk_code, $casecode);
+
+        if (empty($existingCases)) {
+            // Insert new case
+            $data = [
+                'chkcode' => $chk_code,
+                'casecode' => $casecode,
+                'usercode' => $userValue,
+                'ent_dt' => date('Y-m-d H:i:s'),
+            ];
+            $model->insertCheckCase($data);
+        } else {
+            // Update existing case display to 'Y'
+            $model->updateCaseDisplay($chk_code, $casecode);
+        }
+    }
+    $model->setDisplayToN($chk_code);
+    ?>
+    <div style="text-align: center;font-size: 16px;color: #229c96;font-weight: bold">Successfully Allotted</div>
+    <?php
+} else if ($keyValue == 8) {
+    $employee = $model->getEmployeeName($empid, $serviceValue);
+
+    if ($employee) {
+        echo $employee['name'];
+    } else {
+        echo "0";
+    }
+} else if ($keyValue == 9) {
+    if ($model->checkEmployeeRegistered($empid)) {
+        echo "0";
+    } else {
+        $model->insertNewUserHistory($userValue, $empname, $empid, $service);
+        echo "1";
+    }
+} else if ($keyValue == 10) {
+    $updateData = [
+        'attend' => 'A',
+        'display' => 'N',
+        'upuser' => $usercode,
+        'updt' => date('Y-m-d H:i:s')
+    ];
+    $up_cr_blk = $model->updateUser($userValue, $updateData);
+} else if ($keyValue == 11) {
+    if ($utypeValue == 13) {
+        $message = $model->checkReader($judge, $userValue);
+        if ($message) {
+            echo "One Judge Can have One Reader Only";
+            exit();
+        }
+    }
+    $updateData = [
+        'jcode' => $judge,
+        'updt' => date('Y-m-d H:i:s')
+    ];
+    $up_cr_blk = $model->updateUser($userValue, $updateData);
+} else if ($keyValue == 12) {
+    $section = $model->getUserOptions($authValue);
+    if (count($section) > 0) {
+
+        $options = "<option value='0'>SELECT</option>";
+        if (!empty($section)) {
+            foreach ($section as $row) {
+                $options .= "<option value='{$row['user']}'>{$row['username']} - {$row['name']}</option>";
+            }
+        }
+    } else {
+    ?>
+        <option value="0">SELECT</option>
+        <?php
+    }
+} else if ($keyValue == 13) {
+    if ($section != 0) {
+        $leave = $model->getLeaveTypes();
+        if (count($leave) > 0) {
+        ?>
+            <option value="0">SELECT</option>
+            <?php
+            foreach ($leave as $leave_row) {
+            ?>
+                <option value="<?php echo $leave_row['id']; ?>"><?php echo $leave_row['name'] . '-' . $leave_row['s_name']; ?></option>
+            <?php
+            }
+        } else {
+            ?>
+            <option value="0">SELECT</option>
+        <?php
+        }
+        echo "<<<<>>>>";
+        $desg = $model->getUserDetails($deptValue, $section);
+        if (count($desg) > 0) {
+        ?>
+            <option value="0">ALL</option>
+            <?php
+            foreach ($desg as $desg_row) {
+            ?>
+                <option value="<?php echo $desg_row['usercode']; ?>">
+                    <?php echo $desg_row['username'] . '-' . $desg_row['name']; //.'-'.$desg_row['s_name']; 
+                    ?></option>
+            <?php
+            }
+        } else {
+            ?>
+            <option value="0">ALL</option>
+        <?php
+        }
+    } else {
+        ?>
+        <option value="0">SELECT</option>
+        <?php
+        echo "<<<<>>>>";
+        ?>
+        <option value="0">ALL</option>
+        <?php
+    }
+} else if ($keyValue == 14) {
+    if ($ltypeValue != 0) {
+        $extra = "";
+
+        $ford_auth_rs = $model->getUsersByDepartment($deptValue);
+
+        if (count($ford_auth_rs) > 0) {
+        ?>
+            <option value="0">SELECT</option>
+            <?php
+            foreach ($ford_auth_rs as $ford_auth_row) {
+            ?>
+                <option value="<?php echo $ford_auth_row['usercode']; ?>"><?php echo $ford_auth_row['username']; ?></option>
+            <?php
+            }
+        } else {
+            ?>
+            <option value="0">SELECT</option>
+        <?php
+        }
+    } else {
+        ?>
+        <option value="0">SELECT</option>
+        <?php
+    }
+} else if ($keyValue == 15) {
+    if ($f_auth != 0) {
+        $ford_auth_rs = $model->getAuthorizedUsers();
+        if (count($ford_auth_rs) > 0) {
+        ?>
+            <option value="0">SELECT</option>
+            <?php
+            foreach ($ford_auth_rs as $ford_auth_row) {
+            ?>
+                <option value="<?php echo $ford_auth_row['usercode']; ?>"><?php echo $ford_auth_row['username']; ?></option>
+            <?php
+            }
+        } else {
+            ?>
+            <option value="0">SELECT</option>
+        <?php
+        }
+    } else {
+        ?>
+        <option value="0">SELECT</option>
+    <?php
+    }
+} else if ($keyValue == 16) {
+    // Assuming this is within a method of your controller
+
+    if ($aname != '0') {
+        if ($authValue == 'F') {
+            $dept = $model->get_user_l_map($aname);
+        } else if ($authValue == 'A') {
+            $dept = $model->get_user_l_map2($aname);
+        }
+
+        if (count($dept) > 0) {
+            echo '<option value="ALL">ALL</option>';
+            foreach ($dept as $row_sec) {
+                echo '<option value="' . esc($row_sec['dept_name']) . '">' . esc($row_sec['dept_name']) . '</option>';
+            }
+        } else {
+            echo '<option value="0">SELECT</option>';
+        }
+    } else {
+
+        $deptQuery = $model->getDeptBuilder();
+
+        echo '<option value="ALL">ALL</option>';
+        foreach ($deptQuery as $dept_row) {
+            echo '<option value="' . esc($dept_row['udept']) . '">' . esc($dept_row['udept']) . '</option>';
+        }
+    }
+} else if ($keyValue == 17) {
+    $model->update_display($da_code, $usercode);
+
+    $total = explode(',', ltrim($totalValue, ','));
+
+    foreach ($total as $value) {
+        $value_up = explode('_', $value);
+        $value = $value_up[0];
+
+        if ($value == '0' || $value == '') {
+            continue;
+        }
+
+        $case = $model->findCase($da_code, $value, $value_up);
+        if (!$case) {
+            $data = [
+                'dacode' => $da_code,
+                'case_type' => $value,
+                'case_from' => $value_up[1],
+                'case_f_yr' => $value_up[2],
+                'case_to' => $value_up[3],
+                'case_t_yr' => $value_up[4],
+                'state' => $value_up[5],
+                'type' => $value_up[6],
+                'entuser' => $usercode,
+                'entdt' => date('Y-m-d H:i:s'),
+                'display' => 'C',
+            ];
+            $model->insertCase($data);
+        } else {
+            $model->updateCase($da_code, $value, $value_up, $usercode);
+        }
+    }
+    $model->setDisplayToNo($rkds_code, $usercode);
+    ?>
+    <div style="text-align: center;font-size: 16px;color: #229c96;font-weight: bold">Successfully Allotted</div>
+<?php
+} else if ($keyValue == 18) {
+    $model->updateDisplayToC($rkdcmpda_code);
+
+    $total = explode(',', ltrim($totalValue, ','));
+
+    foreach ($total as $value) {
+        $value_up = explode('-', $value);
+        $nature = $value_up[0];
+
+        if ($nature == '0' || $nature == '') {
+            continue;
+        }
+
+        $case = $model->find_case($rkdcmpda_code, $nature);
+        if (!$case) {
+            // Insert new case
+            $data = [
+                'rkdcmpda' => $rkdcmpda_code,
+                'nature' => $nature,
+                'usercode' => $userValue,
+                'ent_dt' => date('Y-m-d H:i:s'),
+            ];
+            $model->insert_case($data);
+        } else {
+            $model->updateCaseToY($rkdcmpda_code, $nature);
+        }
+    }
+
+    $model->set_displayToN($rkdcmpda_code);
+?>
+    <div style="text-align: center;font-size: 16px;color: #229c96;font-weight: bold">Successfully Allotted</div>
+<?php
+} else if ($keyValue == 19) {
+    $currentUser = $model->get_current_user($hall_no);
+?>
+
+    <input type="hidden" value="<?php echo $currentUser['hall_no']; ?>" id="currentHallNo" />
+    <input type="hidden" value="<?php echo $currentUser['empid']; ?>" id="hd_emp_id_for_transfer" />
+    <input type="hidden" value="<?php echo $userid; ?>" id="hd_usercode" />
+    <div style="overflow: hidden;margin: 0 auto;margin-top: 30px;border: 0px solid red">
+        <div style="width: 94%;border:0px solid blue;overflow: auto;margin-left: auto;margin-right: auto;background-color: lightblue;font-weight: bold;">
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Hall No- <?php echo $currentUser['hall_no']; //$usertype_temp[0];
+                            ?>
+            </div>
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Location- <?php echo $currentUser['Description']; //displayUsertype($row1['usertype']);
+                            ?>
+            </div>
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Active From- <?php echo revertDate_hiphen(date('Y-m-d', strtotime($currentUser['active_from']))); ?>
+            </div>
+        </div>
+
+        <?php
+        $chk_blk = "none";
+        ?>
+
+    </div>
+
+    <div id="rkds_block" style="overflow: hidden;margin-left: auto;margin-right: auto;margin-top: 20px;margin-bottom: 20px;
+             display: <?php echo $rkds_blk; ?>">
+        <div style="margin: 0 auto;overflow: hidden">
+            <div style="font-size: 18px;text-align: center;">Record Room Halls Case Range Allotment</div>
+            <div style="margin: 0 auto;overflow: hidden;margin-top: 20px;">
+                <div style="float:left;margin-left: 20px">
+                    <?php
+                    $currentYear = date("Y");
+                    $c_casetype = $model->getCaseType();
+                    ?>
+                    Case Type
+                    <select style="display: block;width: 90px;" id="r_csty">
+                        <option value="">Select</option>
+                        <?php
+                        foreach ($c_casetype as $row_c) {
+                        ?>
+                            <option value="<?php echo $row_c['casecode']; ?>"><?php echo $row_c['short_description']; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div style="float:left;margin-left: 10px">
+                    From No <input id="r_frmno" type="text" style="display: block;width: 60px; " value="1" />
+                </div>
+                <div style="float:left;margin-left: 10px">
+                    From Year
+                    <select style="width: 70px" id="r_frmyr">
+                        <!--<option value="0000">0000</option>-->
+                        <?php
+                        for ($i = 1950; $i <= $currentYear; $i++) {
+                        ?>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div style="float:left;margin-left: 15px">
+                    To No <input id="r_tono" type="text" style="display: block;width: 80px;" value="555555" />
+                </div>
+                <div style="float:left;margin-left: 10px">
+                    To Year
+                    <select style="width: 70px" id="r_toyr">
+                        <!--<option value="0000">0000</option>-->
+                        <?php
+                        for ($i = $currentYear; $i >= 1956; $i--) {
+                        ?>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+                <!--<div style="float:left;margin-left: 10px" id="caseStage">
+                    Case Stage
+                    <select style="display: block;width: 90px;" id="da_c_t" ><option value="">Select</option>
+                        <option value="R">Registered</option><option value="U">Un-Registered</option>
+                    </select>
+                </div>-->
+                <!--<div style="float:left;margin-left: 10px" id="caseCategory">
+                    Case Category
+                    <select style="display: block;width: 90px;" id="da_c_t" ><option value="">Select</option>
+                        <option value="C">Civil</option><option value="R">Criminal</option>
+                    </select>
+                </div>-->
+            </div>
+            <div style="overflow: hidden;margin: 0 auto;font-size: 16px;float: left;margin: 7px 10px 0px 20px">
+                <input type="button" name="add-hall-for" value="Add->" /><!--onclick="press_add_rkds()"-->
+            </div>
+
+
+            <div id="r_type_area" style="margin: 0 auto;overflow: hidden;font-size: 14px;float: left;margin: 2px 0px 0px 20px; border: 0px solid black;text-align: center">
+
+                <?php
+                $chk_case = $model->get_chk_case($hall_no);
+                if (count($chk_case) > 0) {
+                    foreach ($chk_case as $row_chk) {
+                        if ($row_chk['is_diary_stage'] == 'Y')
+                            $caseStage = "-Diary Stage";
+                        else if ($row_chk['type'] == 'F')
+                            $caseStage = "";
+                        $one_rkd_case = $row_chk['casetype'] . '_' . $row_chk['case_from'] . '_' . $row_chk['caseyear_from'] . '_' . $row_chk['case_to'] . '_' . $row_chk['caseyear_to'] . '_' . $row_chk['is_diary_stage'];
+                ?>
+                        <div class="cl_chk_case" id="r_r_<?php echo $one_rkd_case; ?>">
+                            <?php
+                            if ($row_chk['case_from'] == 1 and $row_chk['case_to'] == 555555  and $row_chk['caseyear_from'] == 1950 and $row_chk['caseyear_to'] == $currentYear) {
+                                echo $row_chk['short_description'] . 'ALL';
+                            } else {
+                                echo $row_chk['short_description'] . '-' . $row_chk['case_from'] . '-' . $row_chk['caseyear_from'] . '-' . $row_chk['case_to'] . '-' . $row_chk['caseyear_to'] . $caseStage;
+                            }
+                            echo '-' . $type_de_case; ?>
+                            <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='<?= base_url();?>/images/close_btn.png'
+                                onclick="removeCase_rkhall('<?php echo $one_rkd_case; /*if($row_chk['bailno']>'0') echo '-'.$row_chk['bailno'];*/ ?>')">
+                        </div>
+                <?php
+                        $hidden_rkds_case .= ',' . $one_rkd_case;
+                    }
+                }
+                ?>
+
+            </div>
+
+            <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case; ?>" />
+        </div>
+        <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
+            <input type="button" name="al-hall-case" value="ALLOT CASE" /><!--onclick="allotCase_rkds()"-->
+        </div>
+    </div>
+
+    </div>
+<?php
+} else if ($keyValue == 20) {
+
+    $model->updateDisplayToC2($hall_no, $usercode);
+
+        $total = explode(',', ltrim($totalValue, ','));
+        $diaryStage = 'N';
+
+        foreach ($total as $value) {
+            $value_up = explode('_', $value);
+            $casetype = $value_up[0];
+
+            if ($casetype == '0' || $casetype == '') {
+                continue;
+            }
+            if ($casetype == '31') {
+                $diaryStage = 'Y';
+            }
+
+            $case = $model->findCase2($hall_no, $casetype, $value_up);
+            if (!$case) {
+                $data = [
+                    'hall_no' => $hall_no,
+                    'case_from' => $value_up[1],
+                    'case_to' => $value_up[3],
+                    'caseyear_from' => $value_up[2],
+                    'caseyear_to' => $_value_up[4],
+                    'casetype' => $casetype,
+                    'valid_from' => date('Y-m-d H:i:s'),
+                    'valid_to' => null,
+                    'updated_by' => $usercode,
+                    'update_on' => date('Y-m-d H:i:s'),
+                    'display' => 'Y',
+                    'case_head' => null,
+                    'is_diary_stage' => 'N'
+                ];
+                $model->insertCase2($data);
+            } else {
+                // Update existing case
+                $model->updateCaseToY2($hall_no, $casetype, $value_up, $usercode);
+            }
+        }
+        $model->setDisplayToN2($hall_no, $usercode);
+?>
+    <div style="text-align: center;font-size: 16px;color: #229c96;font-weight: bold">Successfully Allotted</div>
+<?php
+} else if ($keyValue == 21) { //record room users hall_mapping and add C R mapping in rr_da_case_distribution table
+
+    $model->updateDisplayToC3($da_code);
+    $model->updateDisplayToC3($da_code);
+
+    $total = explode(',', ltrim($totalValue, ','));
+
+    foreach ($total as $value) {
+        $value_up = explode('_', $value);
+        $hallNo = $value_up[0];
+        $caseGroup = $value_up[1];
+
+        if ($hallNo == '0' || $value == '') {
+            continue;
+        }
+
+        // User Hall Mapping Logic
+        $mapping = $model->findMapping($da_code, $hallNo);
+        if (!$mapping) {
+            // Check if there's a record with display 'Y'
+            $existingMapping = $model->findMapping($da_code, $hallNo);
+            if (!$existingMapping) {
+                $data = [
+                    'usercode' => $da_code,
+                    'ref_hall_no' => $hallNo,
+                    'from_date' => date('Y-m-d H:i:s'),
+                    'to_date' => null,
+                    'display' => 'Y',
+                    'update_on' => date('Y-m-d H:i:s'),
+                    'updated_by' => $usercode
+                ];
+                $model->insertMapping($data);
+            }
+        } else {
+            $model->updateMappingToY($da_code, $hallNo);
+        }
+
+        // DA Case Distribution Logic
+        $case = $model->findCaseDistribution($da_code, $caseGroup);
+        if (!$case) {
+            $existingCase = $model->findCaseDistribution($da_code, $caseGroup);
+            if (!$existingCase) {
+                $data = [
+                    'user_code' => $da_code,
+                    'case_from' => 0,
+                    'case_to' => 0,
+                    'caseyear_from' => 0,
+                    'caseyear_to' => 0,
+                    'casehead' => $caseGroup,
+                    'casetype' => null,
+                    'valid_from' => date('Y-m-d H:i:s'),
+                    'valid_to' => null,
+                    'updated_by' => $usercode,
+                    'update_on' => date('Y-m-d H:i:s'),
+                    'display' => 'Y'
+                ];
+                $model->Distribution($data);
+            }
+        } else {
+            $model->updateCaseToYDistribution($da_code, $caseGroup);
+        }
+    }
+
+    // Deactivate previous mappings and cases
+    $model->deactivateMapping($da_code);
+    $model->deactivateCase($da_code);
+?>
+    <div style="text-align: center;font-size: 16px;color: #229c96;font-weight: bold">Successfully Allotted</div>
+<?php
+}
+die;
+?>

@@ -44,15 +44,23 @@ if ($keyValue == 1) {
         }
     }
 } else if ($keyValue == 2) {
-    $section = $model->getUserTypesData($cur_user_type, $deptname, $section);
-    //if(mysql_num_rows($section)>0){
-    ?>
-    <option value="ALL">ALL</option>
-    <?php
-    foreach ($section as $row_sec) {
-    ?>
-        <option value="<?php echo $row_sec['usertype']; ?>"><?php echo $row_sec['type_name']; ?></option>
-    <?php
+    if($section != 'ALL')
+    {
+        $section = $model->getUserTypesData($cur_user_type, $deptname, $section);
+        
+        ?>
+        <option value="ALL">ALL</option>
+        <?php
+        if(!empty($section))
+        {
+            foreach ($section as $row_sec) {
+            ?>
+                <option value="<?php echo $row_sec['usertype']; ?>"><?php echo $row_sec['type_name']; ?></option>
+            <?php
+            }
+        }
+    }else{
+        echo '<option value="ALL">ALL</option>';
     }
 } else if ($keyValue == 3) {
     $currentUser = $model->getCurrentUser($userid);
@@ -81,10 +89,10 @@ if ($keyValue == 1) {
                 Name- <?php echo $currentUser['name']; ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Last Login- <?php echo revertDate_hiphen($currentUser['log_in']); ?>
+                Last Login- <?php echo (!empty($currentUser['log_in'])) ? revertDate_hiphen(date('Y-m-d', strtotime($currentUser['log_in']))) : ''; ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Active From- <?php echo revertDate_hiphen(date('Y-m-d', strtotime($currentUser['entdt']))); ?>
+                Active From- <?php echo (!empty($currentUser['entdt'])) ? revertDate_hiphen(date('Y-m-d', strtotime($currentUser['entdt']))) : ''; ?>
             </div>
         </div>
 
@@ -160,7 +168,7 @@ if ($keyValue == 1) {
         <hr>
         <!--for rr_user_hall_mapping start-->
         <div id="rkds_block" style="overflow: hidden;margin-left: auto;margin-right: auto;margin-top: 20px;margin-bottom: 20px;
-             display: <?php echo $rkds_blk; ?>">
+             display: <?php echo $rkds_blk ?? ''; ?>">
             <div style="margin: 0 auto;overflow: hidden">
                 <div style="font-size: 18px;text-align: center">D.A. Record Room Hall and Case Group Allotment </div>
                 <br>
@@ -217,7 +225,7 @@ if ($keyValue == 1) {
                     }
                     ?>
                 </div>
-                <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case; ?>" />
+                <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case ?? ''; ?>" />
             </div>
             <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
                 <input type="button" name="mapp_user_hall" value="ALLOT Hall" /><!--onclick="allotCase_rkds()"-->
@@ -230,7 +238,8 @@ if ($keyValue == 1) {
         <?php
 
         $rkds_blk = "none";
-        if ($currentUser['isda'] == 'Y' && $user_stat == 1)
+        
+        if ((!empty($currentUser)) && $currentUser['isda'] == 'Y' && $user_stat == 1)
             $rkds_blk = "block";
         ?>
         <div id="rkds_block" style="overflow: hidden;margin-left: auto;margin-right: auto;margin-top: 20px;margin-bottom: 20px;
@@ -297,7 +306,7 @@ if ($keyValue == 1) {
                             <?php
                             foreach ($state as $row_s) {
                             ?>
-                                <option value="<?php echo $row_s['id_no']; ?>"><?php echo $row_s['Name']; ?></option>
+                                <option value="<?php echo $row_s['id_no']; ?>"><?php echo $row_s['name']; ?></option>
                             <?php
                             }
                             ?>
@@ -333,8 +342,8 @@ if ($keyValue == 1) {
                                     echo $row_chk['short_description'] . '-' . $row_chk['case_from'] . '-' . $row_chk['caseyear_from'] . '-' . $row_chk['case_to'] . '-' . $row_chk['caseyear_to'];
                                 }
                                 echo '-' . $type_de_case; ?>
-                                <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='./close-button.gif'
-                                    onclick="removeCase_rkhall('<?php echo $one_rkd_case; /*if($row_chk['bailno']>'0') echo '-'.$row_chk['bailno'];*/ ?>')">
+                                <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='<?php echo base_url(); ?>/images/close-button.gif'
+                                    onclick="removeCase_rkhall('<?php echo $one_rkd_case; ?>')">
                             </div>
                     <?php
                             $hidden_rkds_case .= ',' . $one_rkd_case;
@@ -344,7 +353,7 @@ if ($keyValue == 1) {
 
                     ?>
                 </div>
-                <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case; ?>" />
+                <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case ?? ''; ?>" />
             </div>
             <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
                 <input type="button" name="al-rkd-case" value="ALLOT CASE" />
@@ -382,25 +391,23 @@ if ($keyValue == 1) {
                 </div>
                 <div id="cmp_type_area" style="margin: 0 auto;overflow: hidden;font-size: 14px;float: left;margin: 2px 0px 0px 20px; border: 0px solid black;text-align: center">
                     <?php
-                    /*$chk_case = "SELECT a.casecode,bailno,IF(bailno = '0',skey,IF(a.casecode='52',IF(bailno='2',CONCAT(skey,' > ','1'),skey),skey))skey 
-                                FROM chk_case a LEFT JOIN casetype b ON a.casecode = b.casecode WHERE chkcode = '$userid' AND a.display = 'Y'";*/
+                  /*  
                     $chk_case = $model->get_rkdcmpda_case($userid);
                     if (count($chk_case) > 0) {
                         foreach ($chk_case as $row_chk) {
                     ?>
-                            <div class="cl_chk_case" id="cmp_cmp_<?php echo $row_chk['nature']; /*if($row_chk['bailno']>'0') echo '-'.$row_chk['bailno'];*/ ?>"><?php echo $row_chk['skey']; ?>
+                            <div class="cl_chk_case" id="cmp_cmp_<?php echo $row_chk['nature'];  ?>"><?php echo $row_chk['skey']; ?>
                                 <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='usermgmt/close-button.gif'
-                                    onclick="removeCase_rkdcmpda('<?php echo $row_chk['nature']; /*if($row_chk['bailno']>'0') echo '-'.$row_chk['bailno'];*/ ?>')">
+                                    onclick="removeCase_rkdcmpda('<?php echo $row_chk['nature']; ?>')">
                             </div>
                     <?php
                             $hidden_rkdcmpda_case .= ',' . $row_chk['nature'];
-                            /*if($row_chk['bailno']>'0') 
-                            $hidden_chk_case .= '~'.$row_chk['bailno'];*/
+                           
                         }
-                    }
+                    }  */
                     ?>
                 </div>
-                <input type="hidden" id="rkdcmpda_cases" value="<?php echo $hidden_rkdcmpda_case; ?>" />
+                <input type="hidden" id="rkdcmpda_cases" value="<?php echo $hidden_rkdcmpda_case ?? ''; ?>" />
             </div>
             <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
                 <input type="button" value="ALLOT CASE" onclick="allotCase_rkdcmpda()" />
@@ -414,7 +421,7 @@ if ($keyValue == 1) {
         <div id="judge_block" style="margin: 0 auto; overflow: hidden;margin-left: 30px;padding: 10px 10px 10px 10px;background-color: #ffa186;margin-top: 20px;margin-bottom: 20px;
             display: <?php echo $jud_blk; ?>">
             <div style="margin: 0 auto;overflow: hidden">
-                <div style="font-size: 18px;text-align: center;margin-bottom: 5px;">Judge Allotment For <?php echo $userdept; ?> Department</div>
+                <div style="font-size: 18px;text-align: center;margin-bottom: 5px;">Judge Allotment For <?php echo $userdept ?? ''; ?> Department</div>
                 <div style="overflow: hidden;margin: 0 auto;font-size: 16px;margin: 0px 10px 0px 20px; border: 0px solid black">
                     <?php
                     $cuirrent_working_judge = $model->getJudge();
@@ -1052,6 +1059,379 @@ if ($keyValue == 1) {
 ?>
     <div style="text-align: center;font-size: 16px;color: #229c96;font-weight: bold">Successfully Allotted</div>
 <?php
-}
+}elseif($keyValue == 22)
+{ 
+    $currentUser = $model->getCurrentUser($userid);
+    
+    ?>
+    <input type="hidden" value="<?php echo $currentUser['usertype']; ?>" id="usertype_based_on_current_user" />
+    <input type="hidden" value="<?php echo $currentUser['section']; ?>" id="usersection_based_on_current_user" />
+    <input type="hidden" value="<?php echo $currentUser['empid']; ?>" id="hd_emp_id_for_transfer"/>
+    <input type="hidden" value="<?php echo $currentUser['service']; ?>" id="hd_service_for_transfer"/>
+    <input type="hidden" value="<?php echo $_REQUEST['userid']; ?>" id="hd_usercode"/>
+    <div style="overflow: hidden;margin: 0 auto;margin-top: 30px;border: 0px solid red">
+        <div style="width: 94%;border:0px solid blue;overflow: auto;margin-left: auto;margin-right: auto">
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Department- <?php echo $currentUser['dept_name'];?>
+            </div>
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Section- <?php echo $currentUser['section_name'];?>
+            </div>
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Designation- <?php echo $currentUser['type_name'];?>
+            </div>
+        </div>
+        <div style="width: 94%;border:0px solid blue;overflow: auto;margin-left: auto;margin-right: auto">
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Name- <?php echo $currentUser['name'];?>
+            </div>
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Last Login- <?php echo revertDate_hiphen($currentUser['log_in']);?>
+            </div>
+            <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
+                Active From- <?php echo revertDate_hiphen(date('Y-m-d',strtotime($currentUser['entdt'])));?>
+            </div>
+        </div>
+         
+        <table style="margin-left: auto;margin-right: auto;margin-top: 20px;">
+            <tr><td style="font-size: 20px">Status- </td>
+                <td>
+                    <?php
+                    $user_stat = 1;
+                  
+                    if($currentUser['attend'] == 'A')
+                        $user_stat = 0;
+                    ?>
+            <select id="change_user_stat" > 
+                <option value="1" <?php if ($user_stat==1) echo "Selected";?>>Available</option>
+                <option value="0" <?php if ($user_stat==0) echo "Selected";?>>Not Available</option>
+            </select></td>
+            </tr>
+        </table>
+           <div id="transfer_block" style="overflow: hidden;margin-top: 20px;display: <?php if($currentUser['section']==19||$currentUser['section']==77) echo "block"; else echo "none";?>">
+            <div style="overflow: hidden;margin: 0 auto">
+                <div style="font-size: 18px;text-align: center">Filing-Trap Designation</div>
+                <div style="overflow: hidden;font-size: 16px;">
+                    <?php
+                    $fil_t_d = $model->getFilteredUserTypes();
+                    ?>
+                    <select id="fil_trap_desg" style="margin-left: auto;margin-right: auto">
+                        <option value="0">SELECT</option>
+                        <?php
+                       foreach ($fil_t_d as $row_fil_t_d) {
+                            ?>
+                        <option value="<?php echo $row_fil_t_d['id']; ?>" <?php
+                        if($currentUser['fil_usertype'] != null){
+                            if($currentUser['fil_usertype']==$row_fil_t_d['id'])
+                                echo "selected";
+                        }
+                        ?>><?php echo $row_fil_t_d['type_name']; ?></option>
+                                <?php
+                        }
+                        ?>
+                    </select>  
+                </div>
+            </div>
+        </div>
+
+
+<? /*Start Change By User 4947 */ ?>
+        <table style="margin-left: auto;margin-right: auto;margin-top: 20px;">
+            <tr><td style="font-size: 20px">User Type- </td>
+                <td>
+                    <select id="change_user_type" ><!-- onchange="setTransfer(this.value)"-->
+                        <option value="E" <?php if ($currentUser['user_type']=='E') echo "Selected";?>>Efiling</option>
+                        <option value="P" <?php if ($currentUser['user_type']=='P') echo "Selected";?>>Physical Filing</option>
+                    </select></td>
+            </tr>
+        </table>
+<? /*End Change By User 4947 */?>
+        
+        <div style="margin: 0 auto;overflow: hidden;text-align: center;display: <?php
+        if($currentUser['name']=='')
+            echo "none";
+        else 
+            echo "block";
+        ?>;margin-top: 20px;border: 0px solid firebrick" >
+            <input type='button' value='SAVE' id='btn_allot' style="margin: 0 auto" onclick="allotFunction()" />
+        </div>
+        
+        <div id="relieve_block" style="overflow: hidden;margin-left: auto;margin-right: auto;padding: 5px;margin-top: 20px;
+             display: <?php if($user_stat==1) echo "block"; else echo "none";?>">
+            <div style="overflow: hidden;margin: 0 auto">
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;text-align: center">
+                    <input type="button" id="btn_relieve" onclick="relieve_user()" value="Retire User" style="width: 200px; height:30px;background-color: red;color: #F2F1EF;font-size: 16px; font-weight: bold"/>    
+                </div>
+            </div>
+        </div>
+        
+        
+        <?php
+        $chk_blk = "none";
+        
+        ?>
+        <div id="checker_block" style="overflow: hidden;margin-left:auto;margin-right:auto;margin-top: 20px;margin-bottom: 20px;
+             display: <?php echo $chk_blk; ?>">
+            <div style="margin: 0 auto;overflow: hidden">
+                <div style="font-size: 18px;text-align: center">Checker Case Type Allotment</div>
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;float: left;margin: 0px 10px 0px 20px; border: 0px solid black">
+                    <label>Case Type</label>
+                    <?php
+                   
+                    $c_casetype = $model->get_c_casetype();
+                    ?>
+                    <select style="display: block;width: 90px;" id="c_csty" ><option value="">Select</option>
+                        <?php
+                        foreach($c_casetype as $row_c){
+                            ?>
+                        <option value="<?php echo $row_c['casecode'];?>"><?php echo $row_c['skey'];?></option>
+                                <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;float: left;margin: 7px 10px 0px 20px">
+                    <input type="button" value="Add->" onclick="press_add()"/> 
+                </div>  
+                <div id="c_type_area" style="margin: 0 auto;overflow: hidden;font-size: 14px;float: left;margin: 2px 0px 0px 20px; border: 0px solid black;text-align: center">
+                <?php
+                 
+                //$chk_case = "SELECT a.casecode, skey FROM chk_case a LEFT JOIN casetype b ON a.casecode = b.casecode WHERE chkcode = '$_REQUEST[userid]' AND a.display = 'Y'";
+               // $chk_case = mysql_query($chk_case) or die(__LINE__.'->'.mysql_error());
+
+                $chk_case = $model->getChkCase($_REQUEST['userid']);
+
+                if(!empty($chk_case)){
+                    foreach($chk_case as $row_chk){
+                        ?>
+                    <div class="cl_chk_case" id="c_c_<?php echo $row_chk['casecode'];   ?>"><?php echo $row_chk['skey'];?>
+                    <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='<?php echo base_url()?>/images/close-button.gif' 
+                         onclick="removeCase('<?php echo $row_chk['casecode'];   ?>')">
+                    </div>
+                            <?php
+                        $hidden_chk_case .= ','.$row_chk['casecode'];
+                        
+                    }
+                }
+                ?>
+                </div>
+                <input type="hidden" id="checker_cases" value="<?php echo $hidden_chk_case ?? '';?>"/>
+            </div>
+            <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
+                    <input type="button" value="ALLOT CASE" onclick="allotCase()"/>
+            </div>
+        </div>
+        <?php
+        $rkds_blk = "none";
+         
+        if($currentUser['isda'] == 'Y' && $user_stat == 1)
+            $rkds_blk = "block";
+        ?>
+        <div id="rkds_block" style="overflow: hidden;margin-left: auto;margin-right: auto;margin-top: 20px;margin-bottom: 20px;
+             display: <?php echo $rkds_blk; ?>">
+            <div style="margin: 0 auto;overflow: hidden">
+                <div style="font-size: 18px;text-align: center">D.A. Range Allotment</div>
+                <div style="margin: 0 auto;overflow: hidden">
+                    <div style="float:left;margin-left: 20px">
+                        <?php
+                        //$c_casetype = "SELECT casecode,skey,short_description FROM casetype WHERE display = 'Y' AND casecode!=9999 ORDER BY short_description";
+                        //$c_casetype = mysql_query($c_casetype) or die(__LINE__.'->'.  mysql_error());
+                        $c_casetype = $model->getCaseType();
+                        ?>
+                        Case Type 
+                        <select style="display: block;width: 90px;" id="r_csty" ><option value="">Select</option>
+                            <?php
+                            foreach($c_casetype as $row_c){
+                                ?>
+                            <option value="<?php echo $row_c['casecode'];?>"><?php echo $row_c['short_description'];?></option>
+                                    <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div style="float:left;margin-left: 10px">
+                        From No <input id="r_frmno" type="text" style="display: block;width: 60px;"/>
+                    </div>
+                    <div style="float:left;margin-left: 10px">
+                        From Year
+                        <select style="width: 60px" id="r_frmyr"><option value="0000">0000</option>
+                            <?php
+                            for($i=date("Y");$i>=1956;$i--){
+                                ?>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                    <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div style="float:left;margin-left: 15px">
+                        To No <input id="r_tono" type="text" style="display: block;width: 60px;"/>
+                    </div>
+                    <div style="float:left;margin-left: 10px">
+                        To Year
+                        <select style="width: 60px" id="r_toyr"><option value="0000">0000</option>
+                            <?php
+                            for($i=date("Y");$i>=1956;$i--){
+                                ?>
+                            <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                    <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div style="float:left;margin-left: 10px">
+                        <?php
+                       // $state = "SELECT State_code, Name, id_no FROM state WHERE District_code=0 AND Sub_Dist_code=0 AND Village_code=0 AND display='Y' AND State_code<100 AND State_code!=50 ORDER BY Name";
+                        //$state = mysql_query($state) or die(__LINE__.'->'.  mysql_error());
+
+                        $state = $model->getState();
+                        ?>
+                        State
+                        <select style="display: block;width: 90px;" id="state" ><option value="">Select</option><option value="0">ALL</option>
+                            <?php
+                            foreach ($state as $row_s) {
+                                ?>
+                            <option value="<?php echo $row_s['id_no'];?>"><?php echo $row_s['name'];?></option>
+                                    <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div style="float:left;margin-left: 10px">
+                        Type
+                        <select style="display: block;width: 90px;" id="da_c_t" ><option value="">Select</option>
+                            <option value="M">Miscellaneous</option><option value="F">Regular</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;float: left;margin: 7px 10px 0px 20px">
+                    <input type="button" name="add-da-for" value="Add->" /><!--onclick="press_add_rkds()"--> 
+                </div>
+                <div id="r_type_area" style="margin: 0 auto;overflow: hidden;font-size: 14px;float: left;margin: 2px 0px 0px 20px; border: 0px solid black;text-align: center">
+                <?php
+                
+                /*$chk_case = "SELECT case_type,case_from,case_f_yr,case_to,case_t_yr,state,type,short_description,Name FROM da_case_distribution a 
+                            LEFT JOIN casetype b ON case_type=casecode 
+                            LEFT JOIN state c ON state=id_no 
+                            WHERE dacode='$_REQUEST[userid]' AND a.display='Y'  ORDER BY case_f_yr";
+                $chk_case = mysql_query($chk_case) or die(__LINE__.'->'.mysql_error()); */
+                
+                $chk_case = $model->getCaseDistribution($userid);
+
+                if(!empty($chk_case)){
+                    foreach($chk_case as $row_chk){
+                        if($row_chk['type']=='M')
+                            $type_de_case="Miscellaneous";
+                        else if($row_chk['type']=='F')
+                            $type_de_case="Regular";
+                        $one_rkd_case = $row_chk['case_type'].'_'.$row_chk['case_from'].'_'.$row_chk['case_f_yr'].'_'.$row_chk['case_to'].'_'.$row_chk['case_t_yr'].'_'.$row_chk['state'].'_'.$row_chk['type'];
+                        ?>
+                    <div class="cl_chk_case" id="r_r_<?php echo $one_rkd_case;   ?>"><?php echo $row_chk['short_description'].'-'.$row_chk['case_from'].'-'.$row_chk['case_f_yr'].'-'.$row_chk['case_to'].'-'.$row_chk['case_t_yr'].'-';
+                    if($row_chk['state']==0) echo "ALL"; else echo $row_chk['Name'];
+                    echo '-'.$type_de_case; ?>
+                    <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='<?php echo base_url();?>/images/close-button.gif' 
+                         onclick="removeCase_rkds('<?php echo $one_rkd_case;   ?>')">
+                    </div>
+                            <?php
+                        $hidden_rkds_case .= ','.$one_rkd_case;
+                         
+                    }
+                }
+                ?>
+                </div>
+                <input type="hidden" id="rkds_cases" value="<?php echo $hidden_rkds_case ?? '';?>"/>
+            </div>
+            <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
+                    <input type="button" name="al-rkd-case" value="ALLOT CASE" /><!--onclick="allotCase_rkds()"-->
+            </div>
+        </div>
+        <?php
+        $rkdcmpda_blk = "none";
+         
+        ?>
+        <div id="rkdcmpda_block" style="margin: 0 auto; overflow: hidden;margin-left: 30px;padding: 10px 10px 10px 10px;background-color: #819FF7;margin-top: 20px;margin-bottom: 20px;
+             display: <?php echo $rkdcmpda_blk; ?>">
+            <div style="margin: 0 auto;overflow: hidden">
+                <div style="font-size: 18px;text-align: center">Compliance D.A. Nature Allotment</div>
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;float: left;margin: 0px 10px 0px 20px; border: 0px solid black">
+                    <label>Nature</label>
+                    <?php
+                     
+                    $c_casetype = $model->get_c_casetype();
+                    ?>
+                    <select style="display: block;width: 90px;" id="cmp_csty" ><option value="">Select</option>
+                        <?php
+                        foreach($c_casetype as $row_c){
+                            ?>
+                        <option value="<?php echo $row_c['casecode']; ?>"><?php echo $row_c['skey']; ?></option>
+                                <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;float: left;margin: 7px 10px 0px 20px">
+                    <input type="button" value="Add->" onclick="press_add_rkdcmpda()"/> 
+                </div>
+                <div id="cmp_type_area" style="margin: 0 auto;overflow: hidden;font-size: 14px;float: left;margin: 2px 0px 0px 20px; border: 0px solid black;text-align: center">
+                <?php
+                
+                
+             /*   $chk_case = $model->get_rkdcmpda_case($userid);
+                if(!empty($chk_case)){
+                    foreach($chk_case as $row_chk){
+                        ?>
+                    <div class="cl_chk_case" id="cmp_cmp_<?php echo $row_chk['nature'];  ?>"><?php echo $row_chk['skey']; ?>
+                    <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='<?php echo base_url()?>/images/close-button.gif' 
+                         onclick="removeCase_rkdcmpda('<?php echo $row_chk['nature'];   ?>')">
+                    </div>
+                            <?php
+                        $hidden_rkdcmpda_case .= ','.$row_chk['nature'];
+                         
+                    }
+                } */
+                ?>
+                </div>
+                <input type="hidden" id="rkdcmpda_cases" value="<?php echo $hidden_rkdcmpda_case ?? '';?>"/>
+            </div>
+            <div style="text-align: center;margin: 0 auto;overflow: hidden;display: block;margin-top: 20px;">
+                <input type="button" value="ALLOT CASE" onclick="allotCase_rkdcmpda()"/>
+            </div>
+        </div>
+        <?php
+        $jud_blk = "none";
+        
+        ?>
+        <div id="judge_block" style="margin: 0 auto; overflow: hidden;margin-left: 30px;padding: 10px 10px 10px 10px;background-color: #ffa186;margin-top: 20px;margin-bottom: 20px;
+            display: <?php echo $jud_blk; ?>">
+            <div style="margin: 0 auto;overflow: hidden">
+                <div style="font-size: 18px;text-align: center;margin-bottom: 5px;">Judge Allotment For <?php echo $userdept ?? ''; ?> Department</div>
+                <div style="overflow: hidden;margin: 0 auto;font-size: 16px;margin: 0px 10px 0px 20px; border: 0px solid black">
+                    <?php
+                  /*  $cuirrent_working_judge = "SELECT jcode, jname FROM judge WHERE display = 'Y' AND working = 'Y' AND bldg IN ( 'HCJBP', 'HCIND', 'HCGWL' ) ORDER BY `judge_seniority` ASC ";
+                    $cuirrent_working_judge = mysql_query($cuirrent_working_judge) or die(__LINE__.'->'.  mysql_error());
+                    $if_available_q = "SELECT jcode FROM users WHERE usercode = $_REQUEST[userid]";
+                    $if_available_rs = mysql_query($if_available_q) or die(__LINE__.'->'.  mysql_error());
+                    $if_available = mysql_result($if_available_rs, 0); */
+
+                    $cuirrent_working_judge = $model->getJudge();
+                    $if_available_rs = $model->getUsersJcode($userid);
+                    $if_available = $if_available_rs['jcode'];
+                    ?>
+                    <select style="display: block;width: 400px; float: left" id="judge_for_user" ><option value="0">Select</option>
+                        <?php
+                       foreach ($cuirrent_working_judge as $row_jud) {
+                            ?>
+                        <option value="<?php echo $row_jud['jcode']; ?>" <?php if($if_available !=0) { if($if_available == $row_jud['jcode']) echo "selected"; }  ?> ><?php echo $row_jud['jname'];?></option>
+                                <?php
+                        }
+                        ?>
+                    </select>
+                    <input type="button" onclick="save_judge_info()" style="margin-left: 30px;" value="SAVE JUDGE" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+ }
 die;
 ?>

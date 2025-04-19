@@ -1,10 +1,5 @@
 <?= view('header') ?>
 
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/menu_assign.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/style.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/all.css'); ?>">
-<link rel="stylesheet" href="<?php echo base_url('assets/vendor/fontawesome-free/css/all.min.css'); ?>">
-
 <style> 
      a:hover{
             color: red;
@@ -52,7 +47,6 @@
                         </div>
                     </div>
                     <br /><br />
-                    <input type="hidden" name="<?= csrf_token(); ?>" value="<?= csrf_hash(); ?>">
                     <!--start menu programming-->
                     <div class="container-fluid">
                         <div class="row">
@@ -74,8 +68,8 @@
                                         <div id="row1" class="row required">
 
                                             <div class="control-label col-md-4  requiredField">
-                                                <label class="col-sm-6">Catg.</label>
-                                                <select class="form-control" id="jtype" name="jtype">
+                                                <label class="col-sm-6">Catg.<font color="red">*</font></label>
+                                                <select class="form-control" id="jtype" name="jtype" required>
                                                     <option value="">--Select--</option>
                                                     <option value="J">Justice</option>
                                                     <option value="R">Registrar</option>
@@ -84,8 +78,8 @@
                                             </div>
 
                                             <div class="control-label col-md-4  requiredField">
-                                            <label class="col-sm-6">JNAME:</label>
-                                            <select class="form-control" id="jname" name="jname">
+                                            <label class="col-sm-6">JNAME<font color="red">*</font>:</label>
+                                            <select class="form-control" id="jname" name="jname" required>
                                                 <option value="">--Select Name--</option>
                                         <!--   --><?php
                                         //   foreach($judges_name as $dd) {
@@ -125,7 +119,7 @@
 
                                             <div class="control-label col-md-4  requiredField">
                                                 <label class="col-sm-6">FIRST NAME:</label>
-                                                <input class="form-control" type="TEXT" id="first_name" name="first_name" required="required">
+                                                <input class="form-control" type="TEXT" maxlength="50" id="first_name" name="first_name" required="required">
                                             </div>
 
 
@@ -139,7 +133,7 @@
 
                                             <div class="control-label col-md-4  requiredField">
                                                 <label class="col-sm-6">JCOURT:</label>
-                                                <select class="form-control" id="jcourt" name="jcourt">
+                                                <select class="form-control" id="jcourt" name="jcourt" required>
                                                     <option value="">---select---</option>
                                                     <?php
                                                     for ($x = 1; $x <= 15; $x++) {
@@ -269,8 +263,9 @@
 
     } );
 
-    $('#jtype').on('change', function(){
-        updateCSRFToken();
+    $('#jtype').on('change', async function(){
+        //updateCSRFToken();
+        await updateCSRFTokenSync();
         var selectedValue = $(this).val();
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         $.ajax({
@@ -347,6 +342,44 @@
             alert("Blank Data can't be inserted !");
         }
     });
+    
+    let alerted = false;
+    
+    $('#first_name').on('input', function() {
+        let value = $(this).val();
+
+        if (value.length > 50) {
+            $(this).val(value.substring(0, 49));
+        } else if (value.length >= 49 && !alerted) {
+            alert("Please enter first name with maximum 50 characters");
+            alerted = true;
+        } else if (value.length < 49) {
+            alerted = false;
+        }
+    });
+    $('#abbreviation').on('input', function() {
+        let value = $(this).val();
+        if (value.length > 15) {
+            $(this).val(value.substring(0, 14));
+        } else if (value.length >= 14 && !alerted) {
+            alert("Please enter first name with maximum 15 characters");
+            alerted = true;
+        } else if (value.length < 14) {
+            alerted = false;
+        }
+    });
+    $('#judge_seniority').on('input', function() {
+        let value = $(this).val();
+        if (value.length > 5) {
+            $(this).val(value.substring(0, 5));
+        } else if (value.length >= 5 && !alerted) {
+            alert("Please enter first name with maximum 5 characters");
+            alerted = true;
+        } else if (value.length < 5) {
+            alerted = false;
+        }
+    });
+
 
     // $("#jname").change(function(){
     //     var jcode = $("#jname").val();
@@ -354,11 +387,17 @@
     //     //alert(jname);
     // });
 
-    $("#jname").change(function(){
+    //$("#jname").change(function(){
+    $('#jname').on('change', async function(){    
         //debugger
-       
+        await updateCSRFTokenSync();
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var CSRF_TOKEN = 'CSRF_TOKEN';        
         var jcodeid = $("#jname").val();
+        if(jcodeid == '' ){
+            alert("Please Select Jname");
+            return false;
+        }
         document.getElementById('jcode').value=jcodeid;
         $.ajax
         ({
@@ -366,14 +405,13 @@
             cache: false,
             async: true,
             dataType: 'json',
-            data: {jcodeid: jcodeid},
+            data: {jcodeid: jcodeid,
+                CSRF_TOKEN: CSRF_TOKEN_VALUE 
+            },
             type: 'POST',
-            headers: {
-                'X-CSRF-Token': CSRF_TOKEN_VALUE  
-                },
             success: function (data) {
                 updateCSRFToken();
-                debugger;
+                //debugger;
                 console.log(data);
 
                 $('#dv_res1').html(data);

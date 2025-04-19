@@ -120,7 +120,7 @@
             const inputVal = e.target.value.trim();
             if (inputVal !== '') {
                 $.ajax({
-                    url: '<?php echo base_url('Library/Registration/getEmployees'); ?>',
+                    url: '<?php echo base_url('Library/Registration/getEmployees'); ?>?val='+inputVal,
                     method: 'GET',
                     dataType: 'json',
                     success: function(data) {
@@ -140,6 +140,7 @@
                         filterDropdown(inputVal);
                     },
                     error: function() {
+                        
                         console.error('Error fetching employees.');
                     }
                 });
@@ -205,6 +206,7 @@
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
+                        updateCSRFToken();
                         console.error("Error fetching employee details: ", textStatus, errorThrown);
                     }
                 });
@@ -283,6 +285,10 @@
                         alert('Something went wrong.');
                     }
                 },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    updateCSRFToken();
+                    console.error("Error changing status: ", textStatus, errorThrown);
+                }
 
             });
         });
@@ -311,6 +317,7 @@
                     $('#activ').show();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
+                    updateCSRFToken();
                     console.error("Error changing status: ", textStatus, errorThrown);
                 }
             });
@@ -330,11 +337,13 @@
                     CSRF_TOKEN: CSRF_TOKEN_VALUE
                 },
                 success: function(response) {
+                    updateCSRFToken();
                     alert("Employee activated successfully.");
                     $('#activ').hide();
                     $('#deactiv').show();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
+                    updateCSRFToken();
                     console.error("Error changing status: ", textStatus, errorThrown);
                 }
             });

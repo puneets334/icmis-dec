@@ -321,7 +321,7 @@ class PaperBookModel extends Model
                         AND h.roster_id > 0 
                         AND m.diary_no IS NOT NULL 
                         AND m.c_status = 'P' 
-                        AND iastat = 'P' 
+                       AND iastat = 'P' 
                         GROUP BY h.diary_no, r.courtno, docyear, docnum, reg_no_display, active_casetype_id, 
                                  u.name, us.section_name, l.purpose, c1.short_description, m.active_fil_dt, 
                                  active_reg_year, active_fil_dt, active_fil_no, m.pet_name, m.res_name, m.pno, 
@@ -387,13 +387,14 @@ class PaperBookModel extends Model
                         AND h.roster_id > 0 
                         AND m.diary_no IS NOT NULL 
                         AND m.c_status = 'P' 
-                        AND iastat = 'P' 
+                         AND iastat = 'P' 
                         AND subhead IN (811, 812) 
                         AND (active_casetype_id::TEXT || active_reg_year::TEXT) IN ($ct)
                     ) a 
                     ORDER BY $sorting ASC";
         }
-        
+        //echo $sql;
+       // die;
         $query = $this->db->query($sql);
         return $query->getResultArray();
     }
@@ -413,11 +414,11 @@ class PaperBookModel extends Model
                             pet_res_no ASC) AS grp_adv,
                         a.pet_res, a.adv_type, pet_res_no
                     FROM advocate a
-                    LEFT JOIN bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y'
+                    LEFT JOIN master.bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y'
                     WHERE a.diary_no = ? AND a.display = 'Y'
                     GROUP BY a.diary_no, b.name, a.pet_res, a.adv_type, pet_res_no
                 ) a
-                GROUP BY a.diary_no";
+                GROUP BY a.diary_no,a.name,a.grp_adv,a.pet_res,a.adv_type,a.pet_res_no";
 
         $query = $this->db->query($sql, [$diary_no]);
         return $query->getRowArray();
@@ -427,7 +428,7 @@ class PaperBookModel extends Model
     public function getSectionTenData($casetype_displ, $ten_reg_yr, $ref_agency_state_id)
     {
         $sql = "SELECT a.dacode, c.section_name, b.name 
-                FROM da_case_distribution a
+                FROM master.da_case_distribution a
                 LEFT JOIN master.users b ON b.usercode = a.dacode
                 LEFT JOIN master.usersection c ON b.section = c.id
                 WHERE a.case_type = ? 
