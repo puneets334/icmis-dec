@@ -21,6 +21,7 @@ class LwdrModel extends Model
         $builder->distinct();
         $builder->select('id,section_name');
         $builder->where('isda', 'Y');
+        $builder->where('display', 'Y');
         $query = $builder->get();
         return $query->getResultArray();
     }
@@ -308,5 +309,47 @@ class LwdrModel extends Model
         } else {
             return 0;
         }
+    }
+
+
+    function getcases_nb_gr_90days($section,$da)
+    {
+        $builder = $this->db->table('main m');
+        $builder->distinct();
+        $builder->select("us.section_name AS user_section,
+            u.name,u.empid,SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diary_no,
+            SUBSTR(m.diary_no::text, -4) AS diary_year,TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,
+            m.pet_name,m.res_name,m.reg_no_display,h.next_dt AS Hearing_Date,h.board_type");
+        $builder->join("heardt h", "m.diary_no = h.diary_no", "left");
+        $builder->join("last_heardt lh", "m.diary_no = lh.diary_no", "left");
+        $builder->join("master.users u", "u.usercode = m.dacode AND (u.display = 'Y' OR u.display IS NULL)", "left");
+        $builder->join("master.usersection us", "us.id = u.section AND us.display = 'Y'", "left");
+        $builder->where('m.c_status', 'P');
+        $builder->where('us.id', $section);
+        if ($da != 0)
+        $builder->where('m.dacode', $da);        
+
+        $builder->where("(CURRENT_DATE - lh.next_dt >= 90 AND CURRENT_DATE - h.next_dt >= 90)", null, false);
+        $query = $builder->get();
+
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
+    }
+
+    function get_DA_sectionwise($section = 0)
+    {
+        $builder = $this->db->table('master.users user');
+        $builder->select("usercode, CONCAT(name, ', ', type_name) as name, empid, section_name");
+        $builder->join('master.usersection us', 'user.section = us.id', 'inner');
+        $builder->join('master.usertype ut', 'ut.id = user.usertype', 'inner');
+        $builder->where('section', $section);
+        $builder->where('user.display', 'Y');
+        $builder->whereIn('ut.id', [14, 50, 51, 17]);
+        $builder->orderBy('type_name, empid');
+        $query = $builder->get();
+        return $query->getResultArray();
     }
 }

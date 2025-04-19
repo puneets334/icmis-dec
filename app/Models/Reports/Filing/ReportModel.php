@@ -2424,9 +2424,10 @@ ORDER BY
                 union all
                 select case when tentative_section(diary_no)  is null then 'Others' else tentative_section(diary_no)  end as section , count(*) as total
                 from main_a   where diary_no_rec_date between '$from_date' and  '$to_date' $condition group by section";
-        $result = $db->query($sql)->getResultArray();
+        $result = $db->query($sql);
         //echo $this->db->getLastQuery();
-        return $result;
+        //die;
+        return $result->getResultArray();
     }
 
     function rcc_section_detail_report($from_date, $to_date, $condition, $section)
@@ -2466,8 +2467,10 @@ ORDER BY
                 rac.agency_name, ref_agency_code_id,
                 reg_no_display, pno,rno,u1.name,c.casename,us.section_name,diary_no_rec_date,pet_name,res_name
             order by us.section_name,u1.name,c.casename desc";
-        $result = $db->query($sql)->getResultArray();
-        return $result;
+        $result = $db->query($sql);
+         //echo $this->db->getLastQuery();
+        //die;
+        return $result->getResultArray();
     }
 
     function get_complete_filing_report($report_date, $report_for)
