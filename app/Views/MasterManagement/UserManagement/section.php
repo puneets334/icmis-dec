@@ -68,7 +68,7 @@
 
                             <div class="add_result"></div>
                             <div class="table-responsive">
-                                <table id="result_main" class="table table-striped custom-table">
+                                <table id="result_main" class="table table-striped custom-table ">
                                     <thead>
                                         <tr>
                                             <th>S.No.</th>

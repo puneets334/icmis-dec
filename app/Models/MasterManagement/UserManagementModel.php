@@ -435,6 +435,7 @@ class UserManagementModel extends Model
                 'description' => strtoupper($des),
                 'entuser' => $user,
                 'entdt' => date('Y-m-d H:i:s'),
+                'updt' => date('Y-m-d H:i:s'),
                 'isda' => $isda,
                 'old_id' => 0,
                 'upuser' => 0
