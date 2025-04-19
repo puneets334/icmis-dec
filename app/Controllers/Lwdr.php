@@ -80,10 +80,6 @@ class Lwdr extends BaseController
             $to_date =  $this->request->getPost('to_date') != '' ? date('Y-m-d', strtotime($this->request->getPost('to_date'))) : '';
            
             $result_array = $this->LwdrModel->getSection_Pending_Reports($category, $section, $reportType ,$listCourtType, $dateType, $frm_date, $to_date,$mcat);
-            // echo $this->db->getLastQuery();
-            // echo "<pre>";
-            // print_r($result_array);
-            // die;
             if($result_array == 0) {
                 $data['case_result'] = [];
             } else {
@@ -102,17 +98,31 @@ class Lwdr extends BaseController
         ob_end_flush();
     }
 
-    // public function cases_notbefore_bench_90days()
-    // {	
-	// 	$data['case_result']='';
-    //     $data['app_name']='Cases not listed before any bench greater than 90 days Pendency Report';
-    //     if($_POST){
-    //         $section = $this->input->post('section');
-    //         $da=$this->input->post('slc_da');
-    //         $result_array = $this->Reports_model->getcases_nb_gr_90days($section,$da);
-    //         $data['case_result'] = $result_array;
-    //     }
-    //     $this->load->view('Reports/cases_nb_bench_gr_90days',$data);
-    // }
+    public function cases_notbefore_bench_90days()
+    {
+        $data['case_result'] = '';
+        $data['app_name'] = 'Cases not listed before any bench greater than 90 days Pendency Report';
+        $data['section_name'] = $this->LwdrModel->sectionwise_name();
+        return view('lwdr/cases_nb_bench_gr_90days', $data);
+    }
+
+    public function get_DA_sectionwise(){
+        ob_clean();
+        header("Content-Type: application/json;charset=utf-8");
+        $data_array = $this->LwdrModel->get_DA_sectionwise($this->request->getVar('secId'));
+        echo json_encode($data_array);
+        ob_end_flush();
+    }
+
+    public function cases_notbefore_bench_90days_data()
+    {
+        if ($this->request->getMethod() === 'post') {
+            $section = $this->request->getPost('section');
+            $da = $this->request->getPost('slc_da');
+            $result_array = $this->LwdrModel->getcases_nb_gr_90days($section, $da);
+            $data['case_result'] = $result_array;
+            return view('lwdr/cases_nb_bench_gr_90days_data', $data);
+        }
+    }
 
 }
