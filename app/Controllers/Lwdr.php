@@ -78,14 +78,18 @@ class Lwdr extends BaseController
             $dateType = $this->request->getPost('dateType') ?: '';
             $frm_date = $this->request->getPost('from_date') != '' ? date('Y-m-d', strtotime($this->request->getPost('from_date'))) :'';
             $to_date =  $this->request->getPost('to_date') != '' ? date('Y-m-d', strtotime($this->request->getPost('to_date'))) : '';
-            
+           
             $result_array = $this->LwdrModel->getSection_Pending_Reports($category, $section, $reportType ,$listCourtType, $dateType, $frm_date, $to_date,$mcat);
             // echo $this->db->getLastQuery();
             // echo "<pre>";
             // print_r($result_array);
             // die;
-            $data['case_result'] = (count($result_array) > 0) ? $result_array : [];
-            $data['param']=array($reportType, $listCourtType, $dateType, $frm_date, $to_date, $sec_name,$category,$data['case_result'][0]['subject_category'],$data['case_result'][0]['sub_name1']);
+            if($result_array == 0) {
+                $data['case_result'] = [];
+            } else {
+                $data['case_result'] = $result_array;
+            }
+            $data['param']=array($reportType, $listCourtType, $dateType, $frm_date, $to_date, $sec_name,$category);
             return view('lwdr/sectionwise_reports_data',$data);
         
     }
@@ -96,7 +100,19 @@ class Lwdr extends BaseController
         $data_array = $this->LwdrModel->get_Sub_SubjectCategory($this->request->getPost('Mcat'));
         echo json_encode($data_array);
         ob_end_flush();
-
     }
+
+    // public function cases_notbefore_bench_90days()
+    // {	
+	// 	$data['case_result']='';
+    //     $data['app_name']='Cases not listed before any bench greater than 90 days Pendency Report';
+    //     if($_POST){
+    //         $section = $this->input->post('section');
+    //         $da=$this->input->post('slc_da');
+    //         $result_array = $this->Reports_model->getcases_nb_gr_90days($section,$da);
+    //         $data['case_result'] = $result_array;
+    //     }
+    //     $this->load->view('Reports/cases_nb_bench_gr_90days',$data);
+    // }
 
 }

@@ -149,6 +149,7 @@ class LwdrModel extends Model
             } else {
                 $condition = " sm.id ='$category'";
             }
+            
            
             $builder = $this->db->table('main m');
             $builder->select("m.active_fil_dt,m.diary_no_rec_date,us.section_name AS user_section,
@@ -184,13 +185,13 @@ class LwdrModel extends Model
             $sql = $builder->get();            
             
         } 
-        // us.section_name AS user_section,SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diary_no,m.c_status, h.board_type
+        // SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diary_no,m.c_status, h.board_type
         //  SUBSTR(m.diary_no::text, -4) AS diary_year,TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date, m.reg_no_display,
 
         else if($reportType == 1 && ($section!="" || isset($section))&& ($listCourtType!="" || isset($listCourtType)))
         {
             $builder = $this->db->table('main m');
-            $builder->select("m.active_fil_dt, m.diary_no_rec_date,sm.sub_name1,
+            $builder->select("m.active_fil_dt, m.diary_no_rec_date,sm.sub_name1,us.section_name AS user_section,
                 CASE WHEN mf_active = 'F' THEN 'Regular' ELSE 'Misc.' END AS casestage,
                 aa.total_connected AS group_count,
                 CASE WHEN (m.diary_no::text = m.conn_key OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL)
@@ -295,18 +296,17 @@ class LwdrModel extends Model
                 $builder->join("master.submaster sm", "mc.submaster_id = sm.id AND (sm.display = 'Y' OR sm.display IS NULL)", "left");
                 $builder->join("master.subheading c", "h.subhead = c.stagecode AND (c.display = 'Y' OR c.display IS NULL)", "left");
                 $builder->where("m.c_status", "D");
-                $builder->where("(m.diary_no::text = m.conn_key OR m.conn_key IS NULL)");
+                $builder->where("(m.diary_no::text = m.conn_key OR m.conn_key IS NULL)", null, false);
                 $builder->where("us.id", $section);
                 $builder->where("disp_dt >=", $fromDate);
                 $builder->where("disp_dt <=", $toDate);
                 $builder->orderBy("m.diary_no_rec_date", "ASC");
                 $sql = $builder->get();
         }
-
-        if ($sql->getNumRows() >= 1) {
+        if ($sql->getNumRows() > 0) {
             return $sql->getResultArray();
         } else {
-            return false;
+            return 0;
         }
     }
 }

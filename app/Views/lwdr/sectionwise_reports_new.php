@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-sm-4" id="section">
                                         <label for="section" id="lbl_section" class="col-sm-6">Select Section :</label>
-                                        <select class="form-control" id="section" name="section" placeholder="Section">
+                                        <select class="form-control sel_sec" id="section" name="section" placeholder="Section">
                                             <option value="">--Select Section--</option>
                                             <?php
                                             foreach ($Sections as $Section)
@@ -107,11 +107,11 @@
                                     <div class="col-sm-6 row" id="fromToDatePicker">
                                         <div class="col-sm-6">
                                             <label for="from_date" id="lbl_from_date">From Date:</label>
-                                            <input type="text" id="from_date" value="<?php if (isset($_POST['from_date'])) echo date("d-m-Y", strtotime(strtr($param[3], '/', '-'))); ?>" name="from_date" class="form-control dtp" placeholder="From Date" required="required">
+                                            <input type="text" id="from_date" autocomplete="off" value="<?php if (isset($_POST['from_date'])) echo date("d-m-Y", strtotime(strtr($param[3], '/', '-'))); ?>" name="from_date" class="form-control dtp" placeholder="From Date" required="required">
                                         </div>
                                         <div class="col-sm-6">
                                             <label for="to_date" id="lbl_to_date">To Date:</label>
-                                            <input type="text" id="to_date" value="<?php if (isset($_POST['from_date'])) echo date("d-m-Y", strtotime(strtr($param[4], '/', '-'))); ?>" name="to_date" class="form-control dtp" placeholder="To Date" required="required">
+                                            <input type="text" id="to_date"  autocomplete="off"  value="<?php if (isset($_POST['from_date'])) echo date("d-m-Y", strtotime(strtr($param[4], '/', '-'))); ?>" name="to_date" class="form-control dtp" placeholder="To Date" required="required">
                                         </div>
                                     </div>
                                     <div class="col-sm-6" id="listDateType">
@@ -257,7 +257,7 @@ $(document).on("focus", ".dtp", function() {
         $(function() {
 
             $('#section').change(function() {
-                $('#mysection').val = $("#section option:selected").text();
+                $('#mysection').val($("#section option:selected").text());
             });
         });
 
@@ -266,6 +266,12 @@ $(document).on("focus", ".dtp", function() {
         });
 
         $('#push-form').on('submit', function(e) {
+
+            var section = $('.sel_sec').val();
+            if(section == '') {
+                alert("Please Select Section");
+                return false;
+            }   
             e.preventDefault(); 
             var formData = $(this).serialize();            
             $.ajax({

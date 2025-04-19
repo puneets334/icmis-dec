@@ -22,7 +22,11 @@
         margin-top: -48px;
     }
 </style>
-
+<?php
+// print_r($case_result);die;
+if (count($case_result) > 0 && is_array($case_result) && !empty($case_result)) {
+   
+?>
 <caption>
             <h3 style="text-align: center;">
                 <?php if ($param[0] == 0) { ?>
@@ -32,10 +36,9 @@
                             else echo $case_result[0]['sub_name1']; ?>
                     </strong>
                 <?php } else if ($param[0] == 1 && $param[1] == 'J') { ?>
-                    List of Pending Matters of Section : <strong> <?php echo $case_result[0]['user_section']; ?></strong> likely to be listed before<strong> Hon'ble Court </strong>Report:
+                    List of Pending Matters of Section : <strong> <?php echo $case_result[0]['user_section']; ?></strong> likely to be listed before<strong> Hon'ble Court </strong>Report
                 <?php } else if ($param[0] == 1 && $param[1] == 'C') {  ?>
-                    List of Pending Matters of Section : <strong> <?php echo $case_result[0]['user_section']; ?></strong> likely to be listed before<strong> Chamber </strong>Report:
-                    <strong>
+                    List of Pending Matters of Section : <strong> <?php echo $case_result[0]['user_section']; ?></strong> likely to be listed before<strong> Chamber </strong>Report <strong>
                     <?php } else if ($param[0] == 1 && $param[1] == 'R') { ?>
                         List of Pending Matters of Section : <strong><?php echo $case_result[0]['user_section']; ?></strong> likely to be listed before<strong> Registrar Court </strong>Report:
                     <?php } else if ($param[0] == 2 && $param[2] == 'F') { ?> List of Pending Matters of Section : <strong><?php echo $case_result[0]['user_section']; ?></strong> likely to be listed in <strong>Future Dates</strong>
@@ -44,9 +47,7 @@
                     <?php } ?>
             </h3>
         </caption>
-<?php
-if (count($case_result) > 0 ) {
-?>
+
     <div id="printable" class="row box box-primary table-responsive">
 
         <table id="reportTable1" class="table table-striped table-hover table-bordered table-sm">
