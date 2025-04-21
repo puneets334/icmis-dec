@@ -54,7 +54,8 @@
  $(function() {
         $("#diaryReport").DataTable({
             "responsive": true,
-            "lengthChange": false,
+            "lengthChange": true,
+            "ordering": false,
             "autoWidth": false,
             "buttons": ["copy", "csv", "excel", {
                     extend: 'pdfHtml5',

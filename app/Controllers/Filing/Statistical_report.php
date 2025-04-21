@@ -18,10 +18,24 @@ class Statistical_report extends BaseController
     }
     public function data_generation()
     {
-        $result = $this->Model_statistical_report->data_generation();
-        $data['data_generation'] = $result;
+        $data['data_generation'] = '';
+        // if ($this->request->getMethod() === 'post') {
+        //     $result = $this->Model_statistical_report->data_generation();
+        //     $data['data_generation'] = $result;
+        // }
         return  view('Filing/statistical_report_view',$data);
     }
+
+    public function statistical_report_view()
+    {
+        $data['data_generation'] = '';
+        
+            $result = $this->Model_statistical_report->data_generation();
+           return $result;
+        
+        
+    }
+
     public function send_mail()
     {
         $query=$this->Model_filing_stats->select('*')->orderBy('id', 'DESC')->get(1);
