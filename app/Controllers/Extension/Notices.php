@@ -9,13 +9,13 @@ use App\Models\Extension\NoticesModel;
 
 class Notices extends BaseController
 {
-    public $session;
+   // public $session;
     public $notices_model;
 
     function __construct()
     {
-        $this->session = \Config\Services::session();
-        $this->session->start();
+       // $this->session = \Config\Services::session();
+        //$this->session->start();
         date_default_timezone_set('Asia/Calcutta');
         $this->notices_model = new NoticesModel;
     }
@@ -27,8 +27,7 @@ class Notices extends BaseController
 
     public function generated()
     {
-        // Load the database connection
-        $db = \Config\Database::connect();
+       
         $data['noticesModel'] = $this->notices_model;
         $data['d_no'] = $this->request->getPost('d_no');
         $data['d_yr'] = $this->request->getPost('d_yr');

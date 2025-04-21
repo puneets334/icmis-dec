@@ -564,11 +564,11 @@ class UserManagementModel extends Model
             return "1";
         } else {
             if ($checker != 0) {
-                return "ERROR, THE DISPATCH FLAG IS ALREADY USED";
+                return "2~ THE DISPATCH FLAG IS ALREADY USED";
             } else if ($checker2 != 0) {
-                return "ERROR, THE MANAGEMENT FLAG IS ALREADY USED";
+                return "2~ THE MANAGEMENT FLAG IS ALREADY USED";
             } else {
-                return "ERROR, ANY FLAG IS ALREADY USED";
+                return "2~ ANY FLAG IS ALREADY USED";
             }
         }
     }

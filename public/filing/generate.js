@@ -363,9 +363,50 @@ function getDetails() {
         }
         fno = t_h_cno + t_h_cyt;
     }
+    
+
+
+    var CSRF_TOKEN = $('[name="CSRF_TOKEN"]').attr('name');
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    
+    var data = new FormData();
+    data.append("d_no", d_no);
+    data.append("d_yr", d_yr);
+    data.append("fno", fno);
+    data.append("ct", cstype);
+    data.append("cn", csno);
+    data.append("cy", csyr);
+    data.append("chk_status", chk_status);
+    data.append(CSRF_TOKEN, CSRF_TOKEN_VALUE); // Append CSRF token
+    
+    $.ajax({
+        url: base_url + '/Extension/Notices/generated',
+        type: 'POST',
+        data: data,
+        processData: false,
+        contentType: false,
+        beforeSend: function () {
+            $('#div_results').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+        },
+        success: function (response) {
+            updateCSRFToken(); // Update CSRF token if returned in response
+            $('#div_results').html(response);
+            
+            // Other logic (e.g., judge fields update)
+            // ...
+        },
+        error: function (xhr) {
+            updateCSRFToken();
+            alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+    });
+    
+
+
+
 
     // Prepare the AJAX request
-    var xmlhttp;
+  /*  var xmlhttp;
     if (window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
     } else {
@@ -421,7 +462,7 @@ function getDetails() {
 
     // Send the request
     xmlhttp.open("POST", host_docroot + "/Extension/Notices/generated", true);
-    xmlhttp.send(data);
+    xmlhttp.send(data); */
 }
 
 
