@@ -126,6 +126,7 @@
                             </div>
                         </div>
                     </div>
+                    <div id="loader" align="center"></div>
                     <div class="card-body">
                         <div class="mt-2">
                             <div class="col-12 col-md-12">
@@ -296,7 +297,7 @@
                     pageSize: 'A4',
                     customize: function (win) {
                         $(win.document.body).find('h1').remove();
-                        var printHeading = '<h3 style="text-align: center;">Total Disposal of Matters as per Order date between ' + fromDate + ' And ' + toDate + ' As on ' + today + '</h3>';
+                        var printHeading = '<h5 style="text-align: center;">Total Disposal of Matters as per Order date between ' + fromDate + ' And ' + toDate + ' As on ' + today + '</h5>';
                         $(win.document.body).find('table').before(printHeading);
                     }
                 }
@@ -327,10 +328,11 @@
     document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('disposalAsPerOrderDate');
         const submitBtn = document.getElementById('view');
-
+        $('#loader').html();
         form.addEventListener('submit', function () {
             submitBtn.disabled = true;
             submitBtn.innerText = 'View';
+            $('#loader').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
         });
     });
 </script>

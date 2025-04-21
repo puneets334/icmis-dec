@@ -1,5 +1,5 @@
 <?= view('header') ?>
-<link rel="stylesheet" href="<?= base_url() ?>/assets/plugins/datepicker/datepicker3.css">
+
 <style type="text/css">
     .card-header
     {
@@ -249,10 +249,10 @@
         </div>
     </div>
 </section>
-<script src="<?= base_url() ?>/assets/js/sweetalert-2.1.2.min.js"></script>
-<script src="<?= base_url() ?>/assets/plugins/datepicker/bootstrap-datepicker.js"></script>
+<!--<script src="<?= base_url() ?>/assets/js/sweetalert-2.1.2.min.js"></script>
+<script src="<?= base_url() ?>/assets/plugins/datepicker/bootstrap-datepicker.js"></script>-->
 <script>
-    $(function()
+    /*$(function()
     {
         $('.dtp').datepicker({
             format: 'dd-mm-yyyy',
@@ -262,10 +262,10 @@
             changeYear: true,
             // yearRange: '1950:2050'
         });
-    });
-
+    });*/
 
     $('#reportTable1').DataTable({
+        bSort: false,
         dom: 'Bfrtip',
         buttons: [
             {
@@ -289,9 +289,7 @@
                                 '<p style="float:right;width=50%;font-weight: bold;font-size: 20px;word-spacing: 5px;letter-spacing: 1px;color: Blue;margin-right: 150px;">Total Disposed :'+grandTotalDisposed+'</p>'
                         );*/
 
-                    $(win.document.body).find( 'table' )
-                        .addClass( 'compact' )
-                        .css( 'font-size', 'inherit' );
+                    $(win.document.body).find( 'table' ).addClass( 'compact' ).css( 'font-size', 'inherit' );
                 }
             }
         ],
@@ -300,7 +298,7 @@
             [ '10 rows', '25 rows', '50 rows', 'Show all' ]
         ],
 
-        "footerCallback": function ( row, data, start, end, display ){
+        /*"footerCallback": function ( row, data, start, end, display ){
             var api = this.api(), data;
 
             // Remove the formatting to get integer data for summation
@@ -327,6 +325,6 @@
                 }, 0 );
             // Update footer
             $( api.column( 4 ).footer() ).html(pageTotal +' ('+ total +' Total)');
-        }
+        }*/
     });
 </script>
