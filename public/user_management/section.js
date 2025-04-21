@@ -120,8 +120,7 @@ $(document).ready(function(){
                     url: base_url + "/MasterManagement/UserManagement/usersec_manage",
                     data: { mat: 2, CSRF_TOKEN: CSRF_TOKEN_VALUE },
                     dataType: "json"
-                });
-    
+                });    
                 if (listResponse.success == 1) {
                     if ($.fn.DataTable.isDataTable('#result_main')) {
                         $('#result_main').DataTable().destroy();
@@ -132,12 +131,14 @@ $(document).ready(function(){
                     alert("User Section Added Successfully");
                 } else {
                     alert("ERROR, Please Contact Server Room");
-                }
-    
-            } else {
-                swal("Error!", saveResponse, "error");
+                }    
             }
-    
+            else if (msg2[0] == 2) {
+                alert(msg2[1]);                
+            }
+             else {
+                swal("Error!", saveResponse, "error");
+            }    
         } catch (err) {
             console.error(err);
             alert("ERROR, Please Contact Server Room");

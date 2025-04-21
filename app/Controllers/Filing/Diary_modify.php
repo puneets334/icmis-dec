@@ -282,7 +282,7 @@ class Diary_modify extends BaseController
                     $pet_cause_title .= strtoupper(trim($_REQUEST['pet_deptt'])).' ';
                 if($_REQUEST['p_cause_t3']==1)
                     $pet_cause_title .= strtoupper(trim($_REQUEST['pet_post'])).' ';
-                $pet_cause_title = rtrim(trim($pet_cause_title),',');
+                $pet_cause_title = (!empty($pet_cause_title)) ?  rtrim(trim($pet_cause_title),',') : '';
                 $res_cause_title=strtoupper(trim($_REQUEST['rname']));
 
                 $update_main=[
