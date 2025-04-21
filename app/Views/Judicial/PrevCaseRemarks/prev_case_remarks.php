@@ -33,7 +33,8 @@ $t_table = '';
     $ctr_p = 0; // for counting petitioner
     $ctr_r = 0; // for counting respondent
     
-    if (!empty($party_details)) {
+    if (!empty($party_details)) 
+    {
         $grp_pet_res = '';
         $pet_name = $res_name = "";
     
@@ -67,9 +68,8 @@ $t_table = '';
             } else {
                 $res_name = $temp_var;
             }
-    }
         }
-    ?>
+        ?>
         <div class="cl_center">
             <h3>Case Details</h3>
         </div>
@@ -380,14 +380,13 @@ $t_table = '';
             ?>
         </table>
 
-    <?php
-    
-    if (empty($row_da)) 
-             {
-    ?>
-
+        <?php 
+    } 
+    else
+    { 
+        ?>
         <div class="cl_center"><b>No Record Found</b></div>
-    <?php
+        <?php
     }
 
     //Listing Start
@@ -399,7 +398,8 @@ $t_table = '';
     $bt = "";
     $sno = 0;
 
-    if (!empty($result_listing)) {
+    if (!empty($result_listing)) 
+    {
     ?>
         <div class="cl_center">
             <h3>Listing Details</h3>
@@ -709,7 +709,7 @@ $t_table = '';
     //connected cases
     ?>
 <?php
-
+    }
 ?>
 <input type="hidden" name="sh" id="sh" value="<?php print $subhead ?? ''; ?>" />
 <input type="hidden" name="da_hidden" id="da_hidden" value="<?php echo ''; ?>" />
