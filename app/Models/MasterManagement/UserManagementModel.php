@@ -553,6 +553,7 @@ class UserManagementModel extends Model
                 'disp_flag' => strtoupper($flag),
                 'mgmt_flag' => strtoupper($mflag),
                 'entuser' => $user,
+                'updt' => date('Y-m-d H:i:s'),
                 'upuser' => 0,
                 'entdt' => date('Y-m-d H:i:s'),
             ];
