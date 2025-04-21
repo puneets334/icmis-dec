@@ -126,21 +126,17 @@ class AORPendingMatters extends Model
     }
 
     public function getNextAORCode()
-    {
-        $builder = $this->db->table('master.bar');
-        //   $builder->select('MAX(aor_code) + 1 AS code');
-        //   $builder->where('if_aor', 'Y');
-        //   $builder->whereNotIn('aor_code', [4075]);
-        //   $builder->orderBy('aor_code', 'DESC');
-        //   $query = $builder->get();
-        //   return $query->getRow()->code;
-        $builder->select('COALESCE(MAX(aor_code), 0) + 1 AS code');
-        $builder->where('if_aor', 'Y');
-        $builder->whereNotIn('aor_code', [4075]);
-        $query = $builder->get();
-        $result = $query->getRow();
-        return $result ? $result->code : 1;
-    }
+{
+
+    $builder = $this->db->table('master.bar');
+    $builder->select('COALESCE(MAX(CAST(aor_code AS INTEGER)), 0) + 1 AS code');
+    // $builder->where('if_aor', 'Y');
+    // $builder->whereNotIn('aor_code', [4075]);
+ 
+    $query = $builder->get();
+    $result = $query->getRow();
+    return $result ? (int) $result->code : 1;
+}
 
 
 
