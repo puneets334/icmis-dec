@@ -1486,7 +1486,7 @@ function get_fil_trap_users_empid($usertype, $user_type = null, $row = 'A')
         }
         return $result;
     } else {
-        return false;
+        return [];
     }
 }
 function get_fil_trap_users_with_fil_trap_seq($fil_type, $usertype, $utype, $row = 'A')
@@ -1561,7 +1561,7 @@ function is_data_from_table_whereIn($table, $key = null, $arrv = null, $column_n
         }
         return $result;
     } else {
-        return false;
+        return [];
     }
 }
 
