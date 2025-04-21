@@ -699,4 +699,29 @@ class LwdrModel extends Model
             return false;
         }
     }
+
+    public function sectionwise_report($section_id)
+    {
+        $builder = $this->db->table('fdr_records fd');
+        $builder->select("fd.case_number_display,fd.document_number,fd.account_number,fd.deposit_date,
+            fds.status,fd.maturity_date,fd.amount,bank.bank_name,sec.section_name,
+            fd.petitioner_name,fd.respondent_name,fd.roi,tentative_da(fd.ec_case_id::integer) as da");
+        $builder->join('master.master_banks bank', 'bank.id = fd.ref_bank_id', 'left');
+        $builder->join('master.usersection sec', 'sec.id = fd.ref_section_code', 'left');
+        $builder->join('master.master_fdstatus fds', 'fd.ref_status_id = fds.id', 'left');
+        $builder->where('fd.is_deleted', '0');
+        
+        if ($section_id != 0) {
+            $builder->where('sec.id', $section_id);
+        }
+
+        $builder->orderBy('fd.maturity_date', 'ASC');
+        $query = $builder->get();
+
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
+    }
 }

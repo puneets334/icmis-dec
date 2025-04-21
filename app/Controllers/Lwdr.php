@@ -197,8 +197,14 @@ class Lwdr extends BaseController
     {
         $section_id = 0;
         if ($this->request->getPost('section') != 0) {
-            $section_id = $this->request->getPost('section');
+            $section_id = $this->request->getPost('section');         
         }
         $data['report'] = $this->LwdrModel->sectionwise_report($section_id);
+        // echo $this->db->getLastQuery();
+        // echo "<pre>";
+        // print_r($data['report']);
+        // die;
+        return view('lwdr/section_report_data', $data);
+
     }
 }
