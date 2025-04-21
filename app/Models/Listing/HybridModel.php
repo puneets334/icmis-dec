@@ -144,13 +144,13 @@ class HybridModel extends Model
         $usrSess = session()->get('login')['usercode'];        
         if ($_REQUEST['conn_key'] != null && $_REQUEST['conn_key'] > 0) 
         {
-            $queryBuilder = "INSERT INTO hybrid_physical_hearing_consent_log 
+             $queryBuilder = "INSERT INTO hybrid_physical_hearing_consent_log 
                 (id, diary_no, conn_key, consent, hearing_from_time, hearing_to_time, from_dt, to_dt, list_type_id, list_number, 
                 list_year, mainhead, board_type, user_id, entry_date, user_ip, court_no, 
                 updated_by, updated_date, updated_user_ip)
                 SELECT a.id, a.diary_no, a.conn_key, a.consent, a.hearing_from_time, a.hearing_to_time, a.from_dt, a.to_dt, a.list_type_id, a.list_number, a.list_year, a.mainhead, a.board_type, a.user_id, a.entry_date, a.user_ip, a.court_no, $usrSess, NOW(), '".$_REQUEST['ip']."'
                 FROM hybrid_physical_hearing_consent a WHERE a.diary_no = '".$_REQUEST['diary_no']."'";
-                        
+                        // die;
             $this->db->query($queryBuilder);
                         
             // Prepare SQL for deleting from the main table
@@ -380,25 +380,31 @@ class HybridModel extends Model
             ->join('conct ct', 'm.diary_no = ct.diary_no AND ct.list = \'Y\'', 'left')
             ->where('m.c_status', 'P')
             ->groupStart()
-                ->where('m.diary_no = CAST(m.conn_key AS BIGINT)', null, false)
-                ->orWhere('m.conn_key', '')
-                ->orWhere('m.conn_key IS NULL', null, false)
-                ->orWhere('m.conn_key', '0')
+                ->where("m.conn_key ~ '^[0-9]+$' AND m.diary_no = CAST(m.conn_key AS BIGINT)", null, false)
+                ->orWhere("m.conn_key", '')
+                ->orWhere("m.conn_key IS NULL", null, false)
+                ->orWhere("m.conn_key", '0')
             ->groupEnd()
-            ->where('hy.list_type_id', $_POST['list_type'])
-            ->where('hy.court_no', $_POST['courtno'])
-            ->where('hy.list_number', $weeklyno)
+            ->where('hy.list_type_id', $_POST['list_type']);
+
+            if($_POST['courtno']){
+                $builder->where('hy.court_no', $_POST['courtno']);
+            }
+
+            $builder->where('hy.list_number', $weeklyno)
             ->where('hy.list_year', $_POST['weeklyyear'])
             ->groupBy('m.diary_no, hy.consent, hy.court_no, hy.hearing_from_time, hy.hearing_to_time, 
                     hy.from_dt, hy.to_dt, ct.ent_dt')
             ->orderBy('m.diary_no')
-            ->orderBy('CASE WHEN CAST(m.conn_key AS BIGINT) = m.diary_no THEN 1 ELSE 99 END', 'ASC', false)
+            ->orderBy("CASE 
+                    WHEN m.conn_key ~ '^[0-9]+$' AND CAST(m.conn_key AS BIGINT) = m.diary_no THEN 1 
+                    ELSE 99 END", "ASC", false)
             ->orderBy('COALESCE(ct.ent_dt, \'9999-12-31 23:59:59\'::TIMESTAMP)', 'ASC', false)
             ->orderBy('CAST(RIGHT(m.diary_no::TEXT, 4) AS INTEGER)', 'ASC', false)
             ->orderBy('CAST(LEFT(m.diary_no::TEXT, LENGTH(m.diary_no::TEXT) - 4) AS INTEGER)', 'ASC', false);
 
-        echo $builder->getCompiledSelect();
-        die;
+        // echo $builder->getCompiledSelect();
+        // die;
 
         $query = $builder->get();
         return $query->getResultArray();

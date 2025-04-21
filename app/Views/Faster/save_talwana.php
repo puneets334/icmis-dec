@@ -31,25 +31,27 @@ if ($_REQUEST['hd_new_upd'] == '0') {
             'rec_dt'                => $date,
             'sr_no'                 => $_REQUEST['hd_sr_no'],
             'pet_res'               => $_REQUEST['hd_pet_res'],
-            'amount'                => $_REQUEST['txtAmount'],
+            'amount'                => ($_REQUEST['txtAmount']) ? $_REQUEST['txtAmount'] : 0,
             'user_id'               => $ucode,
             'display'               => 'Y',
             'amt_wor'               => $_REQUEST['nm_wd'],
-            'fixed_for'             => $txtFFX,
+            'fixed_for'             => ($txtFFX) ? $txtFFX : NULL,
             'sub_tal'               => $_REQUEST['txtSub_nm'],
             'tal_state'             => $_REQUEST['ddlState'],
             'tal_district'          => $_REQUEST['ddlCity'],
             'enrol_no'              => $_REQUEST['hdinenroll'],
             'enrol_yr'              => $_REQUEST['hdinenrollyr'],
-            'order_dt'              => $_REQUEST['hd_order_date'],
-            'office_notice_rpt'     => isset($_REQUEST['ddl_not_office']) ? $_REQUEST['ddl_not_office'] : null,
-            'individual_multiple'   => isset($_REQUEST['individual_multiple']) ? $_REQUEST['individual_multiple'] : null,
+            'order_dt'              => ($_REQUEST['hd_order_date']) ? $_REQUEST['hd_order_date'] : NULL,
+            'office_notice_rpt'     => (isset($_REQUEST['ddl_not_office']) && ($_REQUEST['ddl_not_office'])) ? $_REQUEST['ddl_not_office'] : '',
+            'individual_multiple'   => isset($_REQUEST['individual_multiple']) ? $_REQUEST['individual_multiple'] : NULL,
             'print'                 => 0,
-            'individual_multiple'   => isset($_REQUEST['individual_multiple']) ? $_REQUEST['individual_multiple'] : ''
+            'individual_multiple'   => isset($_REQUEST['individual_multiple']) ? $_REQUEST['individual_multiple'] : '',
+            'notice_path'           => ''
         ];
 
         // Insert data into tw_tal_del table
         $insert = $db->table('tw_tal_del')->insert($data);
+        
         if (!$insert) {
             $sq_ck = 0; // Or log the error as needed
         }
@@ -207,6 +209,8 @@ if ($_REQUEST['hd_new_upd'] == '0') {
 
     $result = $builder->update($data);
 
+    // pr($result);
+
     if (!$result) {
         return false; // Update failed
     } else {
@@ -334,8 +338,8 @@ if ($_REQUEST['hd_new_upd'] == '0') {
         $sq_ck = ($updated) ? 1 : 0;
     }
 }
-echo 'hioh';
-pr($sq_ck);
+// echo 'hioh';
+// pr($sq_ck);
 ?>
 <input type="hidden" name="hd_ent_suc_f" id="hd_ent_suc_f" value="<?php echo $sq_ck; ?>" />
 <input type="hidden" name="hd_new_upd" id="hd_new_upd" value="<?php echo $_REQUEST['hd_new_upd']; ?>" />
