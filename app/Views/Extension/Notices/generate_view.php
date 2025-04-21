@@ -40,6 +40,7 @@ if ($user_id != $dacode && $user_id != 663 && $user_id != 1) {
 $chk_dts = '0';
 
 $date = date('Y-m-d');
+$date = '2025-04-07';
 $ck_pf_nt = '';
 $ck_pfnt = '';
 
@@ -50,10 +51,10 @@ if ($row) {
     echo '<input type="hidden" name="hd_casetype_id" id="hd_casetype_id" value="' . esc($row['casetype_id']) . '"/>';
 
     $res_cont = $noticesModel->geTwTalDel($dairy_no, $date);
+   
     if ($res_cont > 0) {
-        $res_sq_fi_sub = $noticesModel->geResSqFiSub($dairy_no, $date);
-        $individual_multiple = $res_sq_fi_sub['individual_multiple'] ?? '';
-
+        $res_sq_fi_sub = $noticesModel->getTalDelData($dairy_no, $date);
+        $individual_multiple = $res_sq_fi_sub['individual_multiple'] ?? '';         
 ?>
         <div class="cl_center">
             <input type="radio" name="ddl_ind_mul" id='ddl_ind_mul' class="cl_ind_mul" value="1" <?php if ($individual_multiple == '1') { ?> checked="checked" <?php } ?> /><b>Individual</b>
@@ -62,7 +63,7 @@ if ($row) {
         <?php
     }
 
-    $res_cont = $noticesModel->get_res_cont($dairy_no, $date);
+  /*  $res_cont = $noticesModel->get_res_cont($dairy_no, $date);
     if ($res_cont > 0) {
 
         $res_sq_fi_sub = $noticesModel->res_sq_fi_sub($dairy_no, $date);
@@ -77,20 +78,22 @@ if ($row) {
             </div>
         <?php
         }
-    }
-
+    } */
+     
     if ($row['c_status'] == 'P') {
 
         $ret_res = $noticesModel->get_max_dt($dairy_no, '');
-
+         
         // Explode and date handling
         $ex = explode("Ord dt:", $row['lastorder'] ?? '');
-        $dmy = (!empty($ex[1])) ?  explode('-', trim($ex[1])) : '';
+       // $dmy = (!empty($ex[1])) ?  explode('-', trim($ex[1])) : '';
 
-        $Y = $dmy[2];
-        $m = $dmy[1];
-        $d = $dmy[0];
-        $or_dt = date($Y . '-' . $m . '-' . $d);
+        //$Y = $dmy[2];
+        //$m = $dmy[1];
+        //$d = $dmy[0];
+        //$or_dt = date($Y . '-' . $m . '-' . $d);
+        $ex1 = (!empty($ex[1])) ? str_replace('/', '-', $ex[1]) : '';
+        $or_dt = (!empty($ex[1])) ? date('Y-m-d',strtotime($ex1)) : '';
 
         $get_sel_con = 0;
         $sql_bnnn = $noticesModel->getCaseRemarksMultiple($dairy_no, $ret_res);
@@ -266,12 +269,12 @@ if ($row) {
         </div>
 
         <div style="text-align: center; padding-top: 20px; width: 100%;">
-            <b>Order Date:</b> <?php echo date('d-m-Y', strtotime($or_dt)); ?>
+            <b>Order Date:</b> <?php echo (!empty($or_dt)) ? date('d-m-Y', strtotime($or_dt)) : ''; ?>
 
             <?php
             if (get_display_status_with_date_differnces($cu_ff_dt) == 'T') { ?>
                 <b>Fixed For:</b>&nbsp;&nbsp;&nbsp;&nbsp;
-                <input
+                <input style="width:50%"
                     type="text"
                     name="txtFFX"
                     id="txtFFX"
@@ -286,18 +289,19 @@ if ($row) {
 
             <b>Subject:</b>&nbsp;&nbsp;&nbsp;&nbsp;
             <input
+                style="width:50%"
                 type="text"
                 name="txtSub_nm"
                 id="txtSub_nm"
                 size="80"
                 value="<?php echo ($res_cont > 0) ? $res_sq_fi_sub['sub_tal'] : ''; ?>" />
         </div>
-
+                
         <div style="height: 111px; width: 100%; overflow-x: hidden; overflow-y: auto; margin-top: 10px;">
             <div class="fl_prj" style="width: 50%; float: left;">
                 <fieldset>
                     <legend><b>Petitioner Details</b></legend>
-                    <table width="100%">
+                    <table width="100%" style="margin:0">
                         <tr>
                             <th style="text-align: left;">Name</th>
                             <td><?php echo $row['pet_name']; ?></td>
@@ -314,7 +318,7 @@ if ($row) {
             <div class="fl_prj" style="width: 50%; float: left;">
                 <fieldset>
                     <legend><b>Respondent Details</b></legend>
-                    <table width="100%">
+                    <table width="100%"  style="margin:0">
                         <tr>
                             <th style="text-align: left;">Name</th>
                             <td><?php echo $row['res_name']; ?></td>
@@ -361,7 +365,7 @@ if ($row) {
         $get_states = $noticesModel->getState();
         ?>
         <div style="margin-top: 10px;">
-            <table width="100%" id="tb_ap_ck" class="c_vertical_align tbl_border" cellpadding="5" cellspacing="5">
+            <table width="100%" id="tb_ap_ck" class="table c_vertical_align tbl_border" cellpadding="5" cellspacing="5">
                 <tr>
                     <th>
                         Check
@@ -535,7 +539,8 @@ if ($row) {
             <?= esc($ck_en_nt_x['name']); ?>
             <?php
                         // Sample function calls, replace with actual logic
-                        $get_advocates = get_advocates($dairy_no);
+                        $get_advocates = get_advocates_new($dairy_no);
+                        pr($get_advocates);
                         $get_lc_highcourt = get_lc_highcourt($dairy_no);
             ?>
         <?php endif; ?>
@@ -636,7 +641,7 @@ if ($row) {
 
                     <tr style="border: 0px; border-color: white; <?= $ck_en_nt != '1' ? 'display: none;' : '' ?>" id="tr_del_send_copy<?= esc($sno, 'attr') ?>">
                         <td colspan="7" style="border: 0px; border-color: white;">
-                            <table style="width: 100%" class="c_vertical_align tbl_border table_tr_th_w_clr">
+                            <table style="width: 100%" class="table c_vertical_align tbl_border table_tr_th_w_clr">
                                 <tr>
                                     <th style="width: 10%">
                                         Delivery Mode
@@ -1031,7 +1036,7 @@ if ($row) {
             <b>Case already disposed</b>
         </div>
 
-        <div style="height: 111px; width: 100%; overflow-x: hidden; overflow-y: scroll; overflow: -moz-scrollbars-vertical; margin-top: 10px;">
+        <div style="width: 100%;  margin-top: 10px;">
             <div class="fl_prj" style="width: 50%; float: left;">
                 <fieldset>
                     <legend><b>Petitioner Details</b></legend>
@@ -1094,7 +1099,7 @@ if ($row) {
         $get_states = $noticesModel->getState();
         ?>
         <div style="margin-top: 10px;">
-            <table width="100%" id="tb_ap_ck" class="c_vertical_align tbl_border" cellpadding="5" cellspacing="5">
+            <table width="100%" id="tb_ap_ck" class="table c_vertical_align tbl_border" cellpadding="5" cellspacing="5">
                 <tr>
                     <th>Check</th>
                     <th>Name</th>
@@ -1404,7 +1409,7 @@ if ($row) {
 
                     <tr style="border: 0px; border-color: white; <?= ($ck_en_nt != '1') ? 'display: none;' : ''; ?>" id="tr_del_send_copy<?= $sno; ?>">
                         <td colspan="7" style="border: 0px; border-color: white;">
-                            <table style="width: 100%;" class="c_vertical_align tbl_border">
+                            <table style="width: 100%;" class="table c_vertical_align tbl_border">
                                 <tr>
                                     <th style="width: 10%;">Delivery Mode</th>
                                     <th style="width: 45%;">Send To / State / District</th>

@@ -1515,7 +1515,7 @@ function get_fil_trap_users_with_fil_trap_seq($fil_type, $usertype, $utype, $row
         }
         return $result;
     } else {
-        return false;
+        return [];
     }
 }
 function check_duplicate_token($t)
