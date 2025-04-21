@@ -225,10 +225,11 @@ class NoticesModel extends Model
     public function getResAdvNm($dairy_no)
     {
         $builder = $this->db->table('main a');
-        $builder->select('a.*, c.name res_adv_nm');
+        $builder->select('a.*,c.name, c.name res_adv_nm');
         $builder->join('master.bar b', 'b.bar_id = a.pet_adv_id', 'left');
         $builder->join('master.bar c', 'c.bar_id = a.res_adv_id', 'left');
         $builder->where('a.diary_no', $dairy_no);
+        //pr($builder->getCompiledSelect());
         $query = $builder->get();
         $row = $query->getRowArray();
         return $row;
@@ -261,6 +262,22 @@ class NoticesModel extends Model
         $res_sq_fi_sub = $query->getRowArray();
         return $res_sq_fi_sub;
     }
+
+
+    public function getTalDelData($dairy_no, $date)
+    {
+        $builder = $this->db->table('tw_tal_del');
+        $builder->select('fixed_for, sub_tal, individual_multiple');
+        $builder->where('diary_no', $dairy_no);
+        $builder->where('rec_dt', $date);
+        $builder->where('display', 'Y');
+        $builder->where('print', 0);        
+        
+        $query = $builder->get();
+        $res_sq_fi_sub = $query->getRowArray();
+        return $res_sq_fi_sub;
+    }
+
 
     public function get_max_dt($dm_fno, $var_st)
     {
