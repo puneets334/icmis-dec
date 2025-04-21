@@ -33,7 +33,7 @@
                                 <?= csrf_field(); ?>
                                 <input type="hidden" id="hd_id_for_usertype">
                                 <div class="row align-items-center">
-                                    <div class="col-md-1.2">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="id_utype" class="col-form-label">UserType ID</label>
                                             <input type="text" id="id_utype" class="form-control" value="<?php echo $get_Open_id; ?>" size="3" disabled />
@@ -61,6 +61,9 @@
                                         <input type="button" class="btn btn-primary" value="Add New" id="btnMain" />
                                         <input type="button" class="btn btn-primary" value="Update" id="btnUp" />
                                         <input type="button" class="btn btn-primary" value="Cancel" id="btnCan" />
+                                    </div>
+                                    <div class="col-md-2 mt-3">
+                                        <div id="dv_res1_loader"></div>
                                     </div>
                                 </div>
                                 <hr>
