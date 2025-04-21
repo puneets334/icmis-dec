@@ -27,12 +27,10 @@
 <?php
 if (count($report) >= 1) {
 ?>
-    <div class="row table-responsive" style="width:97%">
+<h2 class="text-center" >LIST OF FIXED DEPOSIT PENDING CASES</h2><hr>
+    <div class="row table-responsive">
         <table id="unverified_matters" class="table table-striped table-bordered table-hover table-sm" style="width:100%">
             <thead>
-                <tr>
-                    <th colspan="14" style="text-align:center;background-color:#0d48be;color:#fff">LIST OF FIXED DEPOSIT PENDING CASES</th>
-                </tr>
                 <tr>
                     <th>#</th>
                     <th>Case No</th>

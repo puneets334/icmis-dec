@@ -23,10 +23,11 @@
 <?php
 if (!empty($case_result) && count($case_result) > 0 && is_array($case_result)) {
 ?>
-<table id="unverified_matters" class="table table-striped table-bordered table-hover table-sm table-responsive">
+    <h2 align="center">Cases Not Listed Before Any Bench Greater Than 90 Days</h2>
+    <hr>
+    
+    <table id="unverified_matters" class="table table-striped table-bordered table-hover table-sm table-responsive">
             <thead>
-                <tr>
-                    <th colspan="6" style="text-align: center;background-color:#0d48be; font-size: 15px; font-weight: 600;">Cases Not Listed Before Any Bench Greater Than 90 Days</th>
                 <tr>
                     <th style="width: 5%;" rowspan='1'>SNo.</th>
                     <th style="width: 5%;" rowspan='1'>Diary no.</th>

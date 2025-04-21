@@ -20,21 +20,19 @@
     }
 
     .dataTables_filter {
-        margin-top: -48px;
+        margin-top: 10px;
     }
 </style>
 
 <?php
 if (count($summary_details) >= 1) {
 ?>
-
-    <div class="row table-responsive" style="width:97%">
+    <h2 align="center"><?= "List of curative, review and contempt cases where category is not updated as on " . date("d-m-y h:i:sa") ?></h2>
+    <hr>
+    <div class="row table-responsive" style="width:100%">
         <table id="unverified_matters" class="table table-striped table-bordered table-hover table-sm" style="width:100%">
             <thead>
-                <tr>
-                    <th colspan="6" style="text-align:center;background-color:#0d48be;color:#fff"><?= "List of curative, review and contempt cases where category is not updated as on " . date("d-m-y h:i:sa") ?></th>
-                </tr>
-                <tr>
+               <tr>
                     <th>SNo.</th>
                     <th>Diary No</th>
                     <th>Case No</th>
