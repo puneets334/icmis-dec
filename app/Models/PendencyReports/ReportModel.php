@@ -602,6 +602,225 @@ class ReportModel extends Model
 
         return $query->getResultArray();
     }
+	
+	function Total_Pendency($section=null,$type=null){
+
+        if($type=="Diary") {
+			$Reg_condition = " AND (fil_no IS NULL OR fil_no = '') AND (reg_no_display IS NULL OR reg_no_display = '')";
+		} else if($type != null) {
+			$Reg_condition = " AND (fil_no IS NOT NULL AND fil_no != '') AND (reg_no_display IS NOT NULL AND reg_no_display != '') AND (fil_dt IS NOT NULL) AND casecode = $type";
+		} else {
+			$Reg_condition = " AND (fil_no IS NOT NULL AND fil_no != '') AND (reg_no_display IS NOT NULL AND reg_no_display != '') AND (fil_dt IS NOT NULL)";
+		}
+
+		$sql = "SELECT DISTINCT 
+					substr(CAST(m.diary_no AS TEXT), 1, length(CAST(m.diary_no AS TEXT)) - 4) AS diary_number, 
+					c.short_description, 
+					substr(CAST(m.diary_no AS TEXT), -4) AS diary_year, 
+					m.reg_no_display, 
+					rs.Name AS state, 
+					CONCAT(m.pet_name, ' ', 
+						   (CASE
+							   WHEN m.pno = 2 THEN 'and anr.'
+							   WHEN m.pno > 2 THEN 'and ors.'
+							   ELSE ''
+						   END),
+						   ' vs ',
+						   m.res_name,' ',
+						   (CASE
+							   WHEN m.rno = 2 THEN 'and anr.'
+							   WHEN m.rno > 2 THEN 'and ors.'
+							   ELSE ''
+						   END)) AS cause, 
+					u.name,
+					m.active_fil_dt,
+					m.diary_no_rec_date
+				FROM main m
+				LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode
+				LEFT JOIN master.ref_agency_code rc ON rc.id = m.ref_agency_code_id
+				LEFT JOIN master.state rs ON rs.id_no = m.ref_agency_state_id AND rs.display = 'Y'
+				LEFT JOIN master.users u ON u.usercode = m.dacode
+				LEFT JOIN master.usersection us ON us.id = u.section
+				WHERE section_name = '$section'
+				AND m.c_status = 'P' 
+				$Reg_condition
+				ORDER BY diary_year ASC;";
+
+          $query=$this->db->query($sql);
+          return $query->getResultArray();
+    }
+	
+	function Misc_Reg_Pendency($section=null,$type=null){
+
+        if($type=="M")
+            $condition= " AND m.mf_active='M' ";
+        else if($type=="F")
+            $condition=" AND m.mf_active='F' ";
+        else
+            $condition="";
+           $sql="SELECT DISTINCT 
+					substr(CAST(m.diary_no AS text), 1, length(CAST(m.diary_no AS text)) - 4) AS diary_number, 
+					c.short_description, 
+					substr(CAST(m.diary_no AS text), -4) AS diary_year, 
+					m.reg_no_display, 
+					rs.Name AS state, 
+					CONCAT(m.pet_name, ' ', 
+						(CASE
+							WHEN m.pno = 2 THEN 'and anr.'
+							WHEN m.pno > 2 THEN 'and ors.'
+							ELSE ''
+						END),
+						' vs ',
+						m.res_name, ' ',
+						(CASE
+							WHEN m.rno = 2 THEN 'and anr.'
+							WHEN m.rno > 2 THEN 'and ors.'
+							ELSE ''
+						END)) AS cause, 
+					u.name, m.active_fil_dt, m.diary_no_rec_date
+				FROM
+					main m
+					LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode
+					LEFT JOIN master.ref_agency_code rc ON rc.id = m.ref_agency_code_id
+					LEFT JOIN master.state rs ON rs.id_no = m.ref_agency_state_id AND rs.display = 'Y'
+					LEFT JOIN master.users u ON u.usercode = m.dacode
+					LEFT JOIN master.usersection us ON us.id = u.section
+				WHERE 
+					section_name = '$section' 
+					AND m.c_status = 'P' 
+					$condition 
+				ORDER BY diary_year ASC;";
+
+        $query=$this->db->query($sql);
+        return $query->getResultArray();
+    }
+	
+	
+	 function view_Cases_Result($section=null,$type=null,$diary_year=null,$ref_id=null){
+	/* 	if ($diary_year != null)
+			$condition = " AND substr(CAST(m.diary_no AS text), -4) = '$diary_year' ";  // Directly filter by diary_year
+		else
+			$condition = "AND m.ref_agency_code_id = $ref_id"; 
+
+        if($type == null || $type == '' || $type == 0)
+			$Reg_condition = " AND (fil_no IS NULL OR fil_no = '') 
+							   AND (reg_no_display IS NULL OR reg_no_display = '') 
+							   AND (fil_dt IS NULL)";  // Check if fil_dt is NULL
+
+			else
+				$Reg_condition = "AND (fil_no IS NOT NULL AND fil_no != '') 
+								   AND (reg_no_display IS NOT NULL AND reg_no_display != '') 
+								   AND (fil_dt IS NOT NULL) 
+								   AND m.active_casetype_id = $type";
+					 
+				   $sql = "SELECT DISTINCT 
+					substr(CAST(m.diary_no AS text), 1, length(CAST(m.diary_no AS text)) - 4) AS diary_number, 
+					c.short_description, 
+					substr(CAST(m.diary_no AS text), -4) AS diary_year, 
+					m.reg_no_display, 
+					rs.Name AS state, 
+					CONCAT(m.pet_name, ' ', 
+						(CASE
+							WHEN m.pno = 2 THEN 'and anr.'
+							WHEN m.pno > 2 THEN 'and ors.'
+							ELSE ''
+						END),
+						' vs ',
+						m.res_name, ' ',
+						(CASE
+							WHEN m.rno = 2 THEN 'and anr.'
+							WHEN m.rno > 2 THEN 'and ors.'
+							ELSE ''
+						END)) AS cause, 
+					u.name, 
+					c.casename, 
+					m.active_fil_dt, 
+					m.diary_no_rec_date
+				FROM
+					main m
+					LEFT JOIN master.casetype c ON m.active_casetype_id = c.casecode
+					LEFT JOIN master.ref_agency_code rc ON rc.id = m.ref_agency_code_id
+					LEFT JOIN master.state rs ON rs.id_no = m.ref_agency_state_id AND rs.display = 'Y'
+					LEFT JOIN master.users u ON u.usercode = m.dacode
+					LEFT JOIN master.usersection us ON us.id = u.section
+				WHERE
+					m.c_status = 'P'
+					$Reg_condition
+					AND section_name = '$section'
+					$condition
+				ORDER BY diary_year ASC;";
+				//echo $sql;die;
+        $query=$this->db->query($sql);
+		return $query->getResultArray();  */
+		
+		
+		$builder = $this->db->table('main m');
+
+		   $builder->select([
+				'SUBSTRING(m.diary_no::TEXT FROM 1 FOR LENGTH(m.diary_no::TEXT) - 4) AS diary_number',
+				'c.short_description',
+				'SUBSTRING(m.diary_no::TEXT FROM -4) AS diary_year',
+				'm.reg_no_display',
+				'rs.name AS state',
+				"m.pet_name || ' ' || CASE
+					WHEN m.pno = 2 THEN 'and anr.'
+					WHEN m.pno > 2 THEN 'and ors.'
+					ELSE ''
+				END || ' vs ' || m.res_name || ' ' || CASE
+					WHEN m.rno = 2 THEN 'and anr.'
+					WHEN m.rno > 2 THEN 'and ors.'
+					ELSE ''
+				END AS cause",
+				'u.name',
+				'c.casename',
+				'm.active_fil_dt',
+				'm.diary_no_rec_date'
+			]);
+
+    
+			$builder->join('master.casetype c', 'm.active_casetype_id = c.casecode', 'left');
+			$builder->join('master.ref_agency_code rc', 'rc.id = m.ref_agency_code_id', 'left');
+			$builder->join('master.state rs', "rs.id_no = m.ref_agency_state_id AND rs.display = 'Y'", 'left');
+			$builder->join('master.users u', 'u.usercode = m.dacode', 'left');
+			$builder->join('master.usersection us', 'us.id = u.section', 'left');
+
+    
+			$builder->where('m.c_status', 'P');
+
+    
+			if ($diary_year !== null) {
+				$builder->where('SUBSTRING(m.diary_no::TEXT FROM -4)', $diary_year);
+			} else {
+				$builder->where('m.ref_agency_code_id', $ref_id);
+			}
+
+   
+			if ($type === null || $type == 0) {
+				$builder->groupStart();  
+				$builder->where('fil_no IS NULL');
+				$builder->orWhere('fil_no', '');
+				$builder->where('reg_no_display IS NULL');
+				$builder->orWhere('reg_no_display', '');
+				$builder->groupEnd();  
+			} else {
+				$builder->groupStart();  
+				$builder->where('fil_no IS NOT NULL');
+				$builder->where('fil_no !=', '');
+				$builder->where('reg_no_display IS NOT NULL');
+				$builder->where('reg_no_display !=', '');
+				$builder->where('fil_dt IS NOT NULL');
+				$builder->where('m.active_casetype_id', $type);
+				$builder->groupEnd();  
+			}
+
+		$builder->where('section_name', $section);
+
+		$builder->orderBy('diary_year', 'ASC');
+
+		$query = $builder->get();
+		return $query->getResultArray();
+ }
+
 
 
 	 

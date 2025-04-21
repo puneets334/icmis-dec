@@ -15,7 +15,7 @@
 <?php if(!empty($YearWise)){ ?>
 <h3 style="text-align: center;">Section <b><?php echo $section ;?> </b>Case Type And Year Wise Pendency</h3>
 <div class="table-responsive">
- <table class="table table-striped custom-table" id="example1">
+ <table class="table table-striped custom-table" id="example1" style="width: 100% !important;">
     <thead>
        <tr>
 			<tr>
@@ -42,7 +42,7 @@
 <?php if(!empty($agency_type)){ ?>
 <h3 style="text-align: center;">Section <b><?php echo $section ;?> </b> Case Type And State Wise Pendency</h3>
 <div class="table-responsive">
- <table class="table table-striped custom-table" id="example2">
+ <table class="table table-striped custom-table" id="example2" style="width: 100% !important;">
     <thead>
        <tr>
 			<tr>
