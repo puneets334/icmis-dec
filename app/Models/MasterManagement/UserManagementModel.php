@@ -444,7 +444,7 @@ class UserManagementModel extends Model
             $this->db->table('master.usersection')->insert($data);
             return "1"; // Return success
         } else {
-            return "ERROR, USER SECTION IS ALREADY EXISTS"; // Return error
+            return "2~ USER SECTION IS ALREADY EXISTS"; // Return error
         }
     }
 
