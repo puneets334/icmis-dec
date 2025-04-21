@@ -59,7 +59,7 @@
                                     </div>
 
                                     <div class="col-sm-3 mt-1">
-                                        <input type="button" value="Submit" id="submit" onclick="fetch_data()">
+                                        <input type="button" value="Submit" id="submit" class="btn btn-primary" onclick="fetch_data()">
                                     </div>
                                 </div>
                             </div>

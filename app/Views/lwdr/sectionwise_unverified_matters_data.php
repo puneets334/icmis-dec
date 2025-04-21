@@ -18,19 +18,22 @@
         color: #fff !important;
         white-space: nowrap;
     }
-    .dataTables_filter
+    /* .dataTables_filter
     {
         margin-top: -48px;
-    }
+    } */
 </style>
 
 <?php
 if ($num_row >= 1) {
 ?>
+    <h2 align="center"><?= 'List of unverified matters of Section ' . $section_name . ' as on ' . date("d-m-Y h:i:s A") ?></h2>
+    <hr>
+    
     <div class="row table-responsive" style="width:97%">
     <table id="unverified_matters" class="table table-striped table-bordered table-hover table-sm" style="width:100%">
         <thead>
-            <tr><th colspan="4" style="text-align:center;background-color:#0d48be;color:#fff"><?= 'List of unverified matters of Section ' . $section_name . ' as on ' . date("d-m-Y h:i:s A") ?></th></tr>
+            
             <tr>
                 <th>SNo.</th>
                 <th>Diary No.</th>
