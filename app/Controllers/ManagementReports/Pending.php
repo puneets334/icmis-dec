@@ -1082,26 +1082,7 @@ else
             $ason_str_res = " r.disp_ent_dt >= '" . $til_dt . "' ";
 
 
-            $exclude_cond = " CASE WHEN r.`entry_date` IS NOT NULL SELECT  '' as pet_adv2, '' as res_adv2,  m.diary_no_rec_date,tentative_cl_dt, m.active_fil_no, m.active_fil_dt, m.active_reg_year, m.active_casetype_id, m.casetype_id, c_status, d.rj_dt, d.month, d.year, d.disp_dt,
-                r.disp_month, r.disp_year, r.conn_next_dt, r.disp_dt as res_disp_dt,r.disp_dt AS disp_dt_res, m.pet_name,h.ent_dt, m.res_name,  h.mainhead_n AS mainhead, next_dt  , m.bench, m.lastorder, h.judges, m.diary_no
-                FROM main m 
-                LEFT JOIN heardt h ON m.diary_no = h.diary_no 
-                LEFT JOIN dispose d ON m.diary_no = d.diary_no  
-                LEFT JOIN restored r ON m.diary_no = r.diary_no    
-                LEFT JOIN act_main a ON a.diary_no = m.diary_no        
-                WHERE 1=1              AND 
-                (
-                    CASE WHEN r.disp_dt IS NOT NULL 
-                                AND r.conn_next_dt IS NOT NULL
-                        THEN '2025-04-21' NOT BETWEEN r.disp_dt AND conn_next_dt
-                        ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL 
-                        END 
-                    OR r.diary_no IS NULL
-                    )
-                AND
-                DATE(m.diary_no_rec_date) < '2025-04-21'  and substr(m.diary_no::text,-4)='192024'   AND (c_status = 'P' AND DATE(m.diary_no_rec_date) < '2025-04-21')
-                GROUP BY m.diary_no ,d.rj_dt,d.month,d.year,d.disp_dt,r.disp_month,r.disp_year,h.ent_dt,h.mainhead_n,r.conn_next_dt,h.next_dt,h.judges,r.disp_dt,tentative_cl_dt  order by substr(m.fil_no,3,3),substr(m.fil_no,11,4),substr(m.fil_no,6,5) 
-                        AND  r.disp_ent_dt IS NOT NULL
+            $exclude_cond = " CASE WHEN r.`entry_date` IS NOT NULL AND  r.disp_ent_dt IS NOT NULL
             THEN '" . $til_dt . "' NOT BETWEEN date(r.disp_ent_dt) AND entry_date
             ELSE r.`disp_ent_dt` IS NULL OR r.entry_date IS NULL  END 
             OR r.fil_no IS NULL	";
