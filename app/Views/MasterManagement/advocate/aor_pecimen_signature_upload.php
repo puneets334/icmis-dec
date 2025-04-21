@@ -86,9 +86,12 @@
                                                             <div id="record" class="mt-3 Datacenter"></div>
                                                             <input type="hidden" id="old_file">
                                                 </form>
+
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div id="dv_res">
                                 </div>
                             </div>
                         </div>
@@ -146,9 +149,8 @@
             return false;
         }
 
-        // File size validation (30MB = 30 * 1024 * 1024 bytes)
-        if (file.size > 30 * 1024 * 1024) {
-            alert('You cannot upload a file greater than 30 MB');
+        if (file.size > 12 * 1024 * 1024) {
+            alert('File must be less than 12 MB');
             fileInput.focus();
             return false;
         }
@@ -164,6 +166,8 @@
         data.append('aor_code', aor_code);
         data.append('upd_file', upd_file);
 
+        $('#submitBtn1').prop("disabled", true);
+
         $.ajax({
             url: baseURL + "/MasterManagement/Advocate/UploadFilestore",
             type: 'POST',
@@ -174,7 +178,11 @@
             headers: {
                 'X-CSRF-Token': CSRF_TOKEN_VALUE
             },
+            beforeSend: function() {
+                $('#dv_res').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+            },
             success: function(response) {
+                $('#dv_res').html(""); // Clear loading
                 if (response.status == 0) {
                     alert('Successfully Uploaded AOR Specimen Form');
                     $('#div_result').html("Successfully Uploaded AOR Specimen Form");
@@ -182,18 +190,19 @@
                     location.reload();
                     updateCSRFToken();
                 } else if (response.status == 1) {
-                    alert('The file you are trying to upload already exists.')
+                    alert('The file you are trying to upload already exists.');
                     $('#div_result').html("<font color='#DE3163'>File Already Exists !!</font>");
                     updateCSRFToken();
                 }
+                $('#submitBtn1').prop("disabled", false);
             },
             error: function(xhr) {
-                alert('An error occurred:' + xhr.status + ' ' + xhr.statusText);
+                $('#dv_res').html(""); // Clear loading
+                alert('An error occurred: ' + xhr.status + ' ' + xhr.statusText);
+                $('#submitBtn1').prop("disabled", false);
             }
         });
     }
-
-
 
     function uploadpdfrev() {
         var aor_code = $('#aor').val();
@@ -208,9 +217,8 @@
             return false;
         }
 
-        // File size validation
-        if (file.size > 30 * 1024 * 1024) {
-            alert('You cannot upload a file greater than 30 MB');
+        if (file.size > 12 * 1024 * 1024) {
+            alert('File must be less than 12 MB');
             fileInput.focus();
             return false;
         }
@@ -226,6 +234,8 @@
         data.append('old_file', aor_code);
         data.append('upd_file', upd_file);
 
+        $('#submitBtn2').prop("disabled", true);
+
         $.ajax({
             url: baseURL + "/MasterManagement/Advocate/ReUploadFiles",
             type: 'POST',
@@ -236,7 +246,11 @@
             headers: {
                 'X-CSRF-Token': CSRF_TOKEN_VALUE
             },
+            beforeSend: function() {
+                $('#dv_res').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+            },
             success: function(data) {
+                $('#dv_res').html(""); // Clear loading
                 if (data.status == 200) {
                     alert(data.message);
                     location.reload();
@@ -244,10 +258,13 @@
                 }
                 $('#file2').val('');
                 $('#file1').val('');
+                $('#submitBtn2').prop("disabled", false);
             },
             error: function(xhr) {
+                $('#dv_res').html(""); // Clear loading
                 alert("Error: " + xhr.status + " " + xhr.statusText);
                 updateCSRFToken();
+                $('#submitBtn2').prop("disabled", false);
             }
         });
     }

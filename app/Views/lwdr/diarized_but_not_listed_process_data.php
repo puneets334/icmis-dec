@@ -19,7 +19,7 @@
     }
     .dataTables_filter
     {
-        margin-top: -48px;
+        margin-top: 10px;
     }
 </style>
 

@@ -67,6 +67,69 @@ class Physical_verify extends BaseController {
         $data['param']= array($sec_name, $category);
         return view('PendencyReports/Reg_J1_Report_get', $data);
    }
+   
+   
+   public function Da_Wise(){
+        $data['result_array'] = $this->ReportModel->getSections();
+		return view('PendencyReports/Da_Wise_Report', $data);
+   }
+   
+   public function Da_Wise_get(){
+	    $request = \Config\Services::request();
+		$section = $request->getPost('section');
+        $data['result_array'] = $this->ReportModel->Da_Pendency($section);
+		$data['section'] = $section;
+		return view('PendencyReports/Da_Wise_get_get', $data);
+   }   
+   
+    public function da_pen(){
+		$request = \Config\Services::request();
+        $usercode= $request->getGet('usercode');
+        $data['result_array'] = $this->ReportModel->Da_Pendency_result($usercode);
+		return view('PendencyReports/da_pen', $data);
+    }
+	
+	public function not_listed(){
+		$data['result_array'] = $this->ReportModel->getSections();
+		return view('PendencyReports/not_listed', $data);
+    }
+	
+	public function not_listed_get(){
+		$request = \Config\Services::request();
+		$section = $request->getPost('section');
+        $data['result_array'] = $this->ReportModel->Not_Listed_Report($section);
+		$data['section'] = $section;
+		return view('PendencyReports/not_listed_get', $data);
+	}
+	
+	public function CaseType_Count(){
+		$data['result_array'] = $this->ReportModel->getSections();
+		return view('PendencyReports/CaseType_Count', $data);
+    }
+	
+	public function CaseType_Count_get(){
+		$request = \Config\Services::request();
+		$section = $request->getPost('section');
+		$data['case_type_count'] = $this->ReportModel->CaseType_Count($section);
+		$data['unReg_count'] = $this->ReportModel->UnRegCases_Count($section);
+		$data['misc_reg_count'] = $this->ReportModel->Misc_Reg_Count($section);
+		$data['section'] = $section;
+		return view('PendencyReports/CaseType_Count_get', $data);
+	}
+	
+	 public function CaseType_YearWise_Count(){
+		$request = \Config\Services::request();
+		$casetype = $request->getGet('casetype');
+		$section = $request->getGet('sect');
+        $data['case_type']= $casetype;
+        $data['section']=$section;
+        $data['YearWise'] =$this->ReportModel->CaseType_Yearwise_Count($section, $casetype);
+		$data['agency_type']= $this->ReportModel->CaseType_StateWise_Count($section, $casetype);
+		return view('PendencyReports/CaseType_YearWise_Count', $data);
+    }
+ 
+	
+	
 	
 	
 }

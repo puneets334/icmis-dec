@@ -435,6 +435,7 @@ class UserManagementModel extends Model
                 'description' => strtoupper($des),
                 'entuser' => $user,
                 'entdt' => date('Y-m-d H:i:s'),
+                'updt' => date('Y-m-d H:i:s'),
                 'isda' => $isda,
                 'old_id' => 0,
                 'upuser' => 0
@@ -552,6 +553,7 @@ class UserManagementModel extends Model
                 'disp_flag' => strtoupper($flag),
                 'mgmt_flag' => strtoupper($mflag),
                 'entuser' => $user,
+                'updt' => date('Y-m-d H:i:s'),
                 'upuser' => 0,
                 'entdt' => date('Y-m-d H:i:s'),
             ];

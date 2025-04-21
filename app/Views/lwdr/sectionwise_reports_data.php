@@ -28,7 +28,7 @@ if (count($case_result) > 0 && is_array($case_result) && !empty($case_result)) {
    
 ?>
 <caption>
-            <h3 style="text-align: center;">
+            <h2 style="text-align: center;">
                 <?php if ($param[0] == 0) { ?>
                     List of Pending Matters of Section : <strong>
                         <?php echo $case_result[0]['user_section']; ?></strong> pertaining to Category:
@@ -45,7 +45,7 @@ if (count($case_result) > 0 && is_array($case_result) && !empty($case_result)) {
                     <?php } else if ($param[0] == 2 && $param[2] == 'P') { ?> List of Pending Matters of Section : <strong><?php echo $case_result[0]['user_section']; ?></strong> that were <strong>lastly listed </strong>
                         <?php } else if ($param[0] == 4) { ?>Section : <strong><?php echo $case_result[0]['user_section']; ?></strong> Matters disposed between <strong><?php echo date("d-m-Y", strtotime(strtr($param[3], '/', '-'))); ?></strong> and <strong><?php echo date("d-m-Y", strtotime(strtr($param[4], '/', '-'))); ?></strong>
                     <?php } ?>
-            </h3>
+            </h2>
         </caption>
 
     <div id="printable" class="row box box-primary table-responsive">

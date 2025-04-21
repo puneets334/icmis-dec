@@ -187,7 +187,7 @@ public $AORPendingMatters;
         $this->validation->setRules([
              'adv_enroll_dt' => 'permit_empty|valid_date[d-m-Y]',
             'adv_dob' => 'permit_empty|valid_date[d-m-Y]',
-            // 'adv_enroll_no' => 'required',
+             'adv_enroll_no' => 'required',
             'adv_state' => 'required',
             'adv_name' => 'required',
         ]);
@@ -228,7 +228,7 @@ public $AORPendingMatters;
            }
 
            $code = $this->AORPendingMatters->getNextAORCode();
-
+        // pr($code);
         $data = [
             'title' => $this->request->getPost('adv_tite'),
             'name' => $this->request->getPost('adv_name'),
