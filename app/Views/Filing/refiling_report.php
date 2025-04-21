@@ -25,13 +25,13 @@
                       <form method="post" action="<?= site_url(uri_string()) ?>">
                         <?= csrf_field() ?>
                         <div class="row">
-                          <div class="col-md-3">
+                          <div class="col-md-4 mx-auto">
                             <label for="dno"><b>Refiling Date.</b></label>
-                            <input type="text" name="from_dt1" id="from_dt1" class="dtp form-control" maxlength="10" autocomplete="on" size="9" />
+                            <input type="text" name="from_dt1" id="from_dt1" class="dtp form-control" maxlength="10" autocomplete="off" size="9" />
                           </div>
 
                           <div class="col-12 text-center">
-                            <input type="button" id="btnGetDiaryList" value="Show" class="btn btn-primary mt-5" />
+                            <input type="button" id="btnGetDiaryList" value="Show" class="btn btn-primary mb-4" />
                           </div>
                         </div>
                       </form>
@@ -99,7 +99,7 @@
     WinPrint.print();
   });
 
-  $(document).ready(function() {
-    $('#diaryReport').DataTable();
-  });
+  // $(document).ready(function() {
+  //   $('#diaryReport').DataTable();
+  // });
 </script>
