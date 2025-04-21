@@ -600,56 +600,105 @@ WHERE EXTRACT(YEAR FROM next_dt) = EXTRACT(YEAR FROM DATE '$list_dt')
 
     public function getIsNumConditionBase($is_nmd, $q_next_dt)
     {
-        $nmd_condition = $is_nmd ? "
-        WITH working_days AS (
-            SELECT
-                ROW_NUMBER() OVER () AS SNo,
-                s.*
-            FROM master.sc_working_days s
-            ORDER BY working_date
-        ),
-        old_limit AS (
-            SELECT
-                CASE
-                    WHEN SNo = 1 THEN 15
-                    ELSE 10
-                END AS old_limit,
-                working_date
-            FROM working_days
-        )
-    " : "";
-
-        $old_limit_join = $is_nmd ? "LEFT JOIN old_limit ol ON TRUE" : "";
-        $sql = "{$nmd_condition}
-            SELECT
-                jg.p1,
-                jg.p2,
-                jg.p3,
-                j.abbreviation,
-                jg.fresh_limit,
-                " . ($is_nmd ? "COALESCE(ol.old_limit, 0)" : "jg.old_limit") . " AS old_limit, -- Conditional SELECT
-                COALESCE(b.listed, 0) AS listed
-            FROM judge_group jg
-            LEFT JOIN master.judge j ON j.jcode = jg.p1
-            LEFT JOIN (
-                SELECT
-                    h.j1,
-                    COUNT(h.diary_no) AS listed
-                FROM advance_allocated h
-                LEFT JOIN public.main m ON CAST(h.diary_no AS bigint) = m.diary_no
-                LEFT JOIN public.advanced_drop_note d ON d.diary_no = h.diary_no AND d.cl_date = h.next_dt
-                WHERE d.diary_no IS NULL
-                AND h.next_dt = TO_DATE('$q_next_dt', 'YYYY-MM-DD')
-                AND h.board_type = 'J'
-                AND (h.main_supp_flag IN (1, 2))
-                AND (CAST(m.conn_key AS BIGINT) = m.diary_no OR m.conn_key IS NULL OR m.conn_key = '0')
-                GROUP BY h.j1
-            ) b ON b.j1 = jg.p1
-            {$old_limit_join}
-            WHERE jg.to_dt IS NULL
-            AND jg.display = 'Y'
-            GROUP BY jg.p1, jg.p2, jg.p3, j.abbreviation, jg.fresh_limit, " . ($is_nmd ? "COALESCE(ol.old_limit, 0)" : "jg.old_limit") . ", b.listed, j.judge_seniority 
-            ORDER BY j.judge_seniority";
+        if($is_nmd == 0){
+            $sql = "SELECT
+                        jg.p1,
+                        jg.p2,
+                        jg.p3,
+                        j.abbreviation,
+                        jg.fresh_limit,
+                        (
+                            SELECT
+                                CASE
+                                    WHEN row_number() OVER (ORDER BY s.working_date) = 1 THEN 15
+                                    ELSE 10
+                                END AS old_limit
+                            FROM
+                                master.sc_working_days s
+                            WHERE
+                                EXTRACT(WEEK FROM working_date) = EXTRACT(WEEK FROM '$q_next_dt'::date)
+                                AND is_holiday = 0
+                                AND is_nmd = 1
+                                AND display = 'Y'
+                                AND EXTRACT(YEAR FROM working_date) = EXTRACT(YEAR FROM '$q_next_dt'::date)
+                                AND working_date = '$q_next_dt'::date
+                        ) AS old_limit,
+                        COALESCE(b.listed, 0) AS listed
+                    FROM
+                        judge_group jg
+                    LEFT JOIN
+                        master.judge j ON j.jcode = jg.p1
+                    LEFT JOIN
+                        (
+                            SELECT
+                                h.j1,
+                                COUNT(h.diary_no) AS listed
+                            FROM
+                                advance_allocated h
+                            LEFT JOIN
+                                main m ON h.diary_no::text = m.diary_no::text
+                            LEFT JOIN
+                                advanced_drop_note d ON d.diary_no = h.diary_no AND d.cl_date = h.next_dt
+                            WHERE
+                                d.diary_no IS NULL
+                                AND h.next_dt = '$q_next_dt'::date
+                                AND h.board_type = 'J'
+                                AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
+                                AND (m.diary_no::text = m.conn_key::text OR m.conn_key::text = '' OR m.conn_key::text IS NULL OR m.conn_key::text = '0')
+                            GROUP BY
+                                h.j1
+                        ) b ON b.j1 = jg.p1
+                    WHERE
+                        j.is_retired != 'Y'
+                        AND jg.to_dt = '0001-01-01'
+                        AND jg.display = 'Y'
+                    GROUP BY
+                        jg.p1, jg.p2, jg.p3, j.abbreviation, jg.fresh_limit, b.listed,j.judge_seniority
+                    ORDER BY
+                        j.judge_seniority";
+        }
+        else {
+            $sql = "SELECT
+                        jg.p1,
+                        jg.p2,
+                        jg.p3,
+                        j.abbreviation,
+                        jg.fresh_limit,
+                        jg.old_limit,
+                        COALESCE(b.listed, 0) AS listed
+                    FROM
+                        judge_group jg
+                    LEFT JOIN
+                        master.judge j ON j.jcode = jg.p1
+                    LEFT JOIN
+                        (
+                            SELECT
+                                h.j1,
+                                COUNT(h.diary_no) AS listed
+                            FROM
+                                advance_allocated h
+                            LEFT JOIN
+                                main m ON h.diary_no::text = m.diary_no::text
+                            LEFT JOIN
+                                advanced_drop_note d ON d.diary_no = h.diary_no AND d.cl_date = h.next_dt
+                            WHERE
+                                d.diary_no IS NULL
+                                AND h.next_dt = '$q_next_dt'::date
+                                AND h.board_type = 'J'
+                                AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
+                                AND (m.diary_no::text = m.conn_key::text OR m.conn_key::text = '' OR m.conn_key::text IS NULL OR m.conn_key::text = '0')
+                            GROUP BY
+                                h.j1
+                        ) b ON b.j1 = jg.p1
+                    WHERE
+                        j.is_retired != 'Y'
+                        AND jg.to_dt = '0001-01-01'
+                        AND jg.display = 'Y'
+                    GROUP BY
+                        jg.p1, jg.p2, jg.p3, j.abbreviation, jg.fresh_limit, jg.old_limit, b.listed,j.judge_seniority
+                    ORDER BY
+                        j.judge_seniority";
+        }
 
         $rs = $this->db->query($sql);
         $results = $rs->getResultArray();
@@ -1301,10 +1350,10 @@ WHERE EXTRACT(YEAR FROM next_dt) = EXTRACT(YEAR FROM DATE '$list_dt')
                             '$q_next_dt'::date AS tentative_cl_dt_new, 
                             m.listorder,
                             m.conn_key::bigint, 
-                            NOW(), 
-                            'cron_a' AS cron, 
+                            NOW() as ent_dt, 
+                            'cron_a' AS test2, 
                             (CASE WHEN m.listorder = 16 THEN 2 ELSE m.listorder END) AS listorder_new, 
-                            'J' AS btype 
+                            'J' AS board_type 
                         FROM (
                             SELECT 
                                 lp.priority AS lp_priority, 
