@@ -961,13 +961,14 @@ function get_advocates($dairy_no)
 {
     // Get database connection
     $db = \Config\Database::connect();
-
     // Build the query
     $builder = $db->table('advocate');
     $builder->select('advocate_id AS id, CONCAT(name, "-", aor_code) AS desg');
     $builder->join('master.bar', 'advocate.advocate_id = bar.bar_id', 'left');
     $builder->where(['advocate.display' => 'Y', 'bar.diary_no' => $dairy_no]);
     $builder->orderBy('pet_res');
+    // echo $query = $builder->getCompiledSelect();
+    // die;
     $query = $builder->get();
 
     // Fetch results

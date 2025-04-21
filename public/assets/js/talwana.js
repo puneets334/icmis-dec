@@ -43,7 +43,7 @@ $(document).ready(function () {
 
                 $('#hd_Sendcopyto_' + sp_idd[1] + sp_idd[2]).val(hd_Sendcopyto_inc);
 
-                //                $('#ddlSendCopyTo_o'+sp_idd[1]+'_'+hd_Sendcopyto_o).val(ddlSendCopyTo_o);
+                // $('#ddlSendCopyTo_o'+sp_idd[1]+'_'+hd_Sendcopyto_o).val(ddlSendCopyTo_o);
                 $('#ddl_cpsndto_state_' + sp_idd[1] + sp_idd[2] + '_' + hd_Sendcopyto_o).val(ddl_cpsndto_state_o);
                 $('#ddl_cpsndto_dst_' + sp_idd[1] + sp_idd[2] + '_' + hd_Sendcopyto_o).val(ddl_cpsndto_dst_o);
                 $('#ddl_send_copy_type' + sp_idd[1] + sp_idd[2] + '_' + hd_Sendcopyto_o).val(ddl_send_copy_typeo);
@@ -221,28 +221,39 @@ $(document).ready(function () {
 });
 
 function get_send_to_type(idd, id_val, sta, type, d_ta, zx, ddlSendTo_zx) {
+    // alert('test')
     var city_id = '';
     var d_no = document.getElementById('t_h_cno').value;
     var d_yr = document.getElementById('t_h_cyt').value;
-    if (sta == '1')
+    // alert('d_no:'+d_no+' @d_yr:'+d_yr);
+    if (sta == '1'){
         city_id = idd.split('ddl_send_type' + type);
-    else if (sta == '2')
+        alert('cid-1:'+city_id);
+    }
+    else if (sta == '2'){
         city_id = idd.split('ddl_send_copy_type' + type);
+        alert('cid-2:'+city_id);
+    }
     else if (sta == '3') {
         city_id = idd.split('ddl_send_copy_type' + type);
         var new_id = city_id[1];
         var org_id = new_id.split('_');
+        alert('cid-3:'+city_id);
     }
+
+    // alert(city_id);
+    // alert('idd:'+idd+' @city_id:ddl_send_copy_type'+type);  // idd:ddl_send_copy_typeo2_0 @city_id:ddl_send_copy_type
     var CSRF_TOKEN = 'CSRF_TOKEN';
     var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    updateCSRFTokenSync();
     $.ajax({
         url: base_url+"/Faster/FasterController/get_send_to_type",
         cache: false,
         async: true,
         data: { CSRF_TOKEN: CSRF_TOKEN_VALUE, id_val: id_val, d_no: d_no, d_yr: d_yr },
         type: 'get',
-        success: function (data, status) {
-            updateCSRFToken();
+        success: function (data, status) { 
+            updateCSRFTokenSync();           
             if (sta == '1')
                 document.getElementById('ddlSendTo_' + type + city_id[1]).innerHTML = "<option value=''>Select</option>" + data;
             else if (sta == '2')
@@ -266,7 +277,6 @@ function get_send_to_type(idd, id_val, sta, type, d_ta, zx, ddlSendTo_zx) {
                 var ddl_send_copy_type = $('#ddl_send_copy_type' + type + city_id[1]).attr('id');
                 if (zx == 'z') {
                     $('#ddlSendCopyTo_' + type + city_id[1]).val(sp_data[1]);
-                    exit();
                 }
                 get_send_to_type(ddl_send_copy_type, '1', '2', type, d_ta, 'z');
 
@@ -279,7 +289,8 @@ function get_send_to_type(idd, id_val, sta, type, d_ta, zx, ddlSendTo_zx) {
             }
         },
         error: function (xhr) {
-            alert("Error: " + xhr.status + " " + xhr.statusText);
+            updateCSRFTokenSync();
+            alert("ErrorAA: " + xhr.status + " " + xhr.statusText);
         }
 
     });
@@ -800,6 +811,9 @@ function get_save_dt() {
             if (document.getElementById('txtSub_nm'))
                 txtSub_nm = escape(document.getElementById('txtSub_nm').value);
             var hd_order_date = $('#hd_order_date').val();
+            if (typeof hd_order_date === 'undefined'){
+                hd_order_date = '';
+            }
             const xmlhttp = new XMLHttpRequest();
             var hd_new_upd = 0;
             var hd_mn_id = document.getElementById('hd_mn_id' + k).value;

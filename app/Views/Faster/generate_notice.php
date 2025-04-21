@@ -97,7 +97,8 @@
         </div>
     </div>
 </section>
-<script src="<?=base_url()?>/assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="<?=base_url()?>/assets/plugins/jQuery/jquery-3.7.1.min.js"></script>
+<!-- <script src="<?=base_url()?>/assets/plugins/jQuery/jquery-2.2.3.min.js"></script> -->
 <script src="<?=base_url()?>/assets/js/bootstrap.min.js"></script>
 <script src="<?=base_url()?>/assets/js/select2.full.min.js"></script>
 <script src="<?=base_url()?>/assets/js/app.min.js"></script>
