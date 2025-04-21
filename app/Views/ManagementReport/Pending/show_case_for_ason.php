@@ -38,7 +38,7 @@
 
 <?php
 if (count($table) > 0) {
-?><table align=center border=1 cellpadding=2 cellspacing=0 class="table table-bordered table-striped table-hover">
+?><table align=center border="1" cellpadding=2 cellspacing=0 class="table table-bordered table-striped table-hover">
         <tr>
             <th colspan=26><?php $til_date2 = explode("-", $til_dt);
                             $til_dt2 = $til_date2[2] . "-" . $til_date2[1] . "-" . $til_date2[0];

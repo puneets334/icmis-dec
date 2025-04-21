@@ -10,7 +10,7 @@
         <div class="form-group row">
             <label for="From" class="col-form-label">From</label>
             <div class="col-sm-9">
-                <input required type="date" max="<?php echo date("Y-m-d"); ?>" class="form-control" id="from_date" name="from_date" placeholder="From Date" value="<?php if(!empty($formdata['from_date'])){ echo $formdata['from_date']; } ?>" >
+                <input required type="text" max="<?php echo date("Y-m-d"); ?>" class="form-control dtp" id="from_date" name="from_date" placeholder="From Date" value="<?php if(!empty($formdata['from_date'])){ echo $formdata['from_date']; } ?>" >
             </div>
         </div>
 
@@ -19,7 +19,7 @@
         <div class="form-group row">
             <label for="To" class="col-form-label">To</label>
             <div class="col-sm-9">
-                <input type="date" max="<?php echo date("Y-m-d"); ?>" class="form-control" id="to_date" name="to_date" placeholder="To Date" value="<?php if(!empty($formdata['to_date'])){ echo $formdata['to_date']; } ?>">
+                <input type="text" max="<?php echo date("Y-m-d"); ?>" class="form-control dtp" id="to_date" name="to_date" placeholder="To Date" value="<?php if(!empty($formdata['to_date'])){ echo $formdata['to_date']; } ?>">
             </div>
         </div>
     </div>
@@ -95,6 +95,20 @@
 
 
 <script>
+$(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
+
+        $('#new_filing_date').trigger('focus');
+    });
+
     $('#rcc_count_form').on('submit', function () {
         var from_date = $("#from_date").val();
         var to_date = $("#to_date").val();
@@ -184,5 +198,13 @@
         });
         return false;
     }
+
+
+    // function efiling_number(efiling_number) {
+    //     var link = document.createElement("a")
+    //     link.href = "<?php echo E_FILING_URL ?>/efiling_search/DefaultController/?efiling_number="+efiling_number
+    //     link.target = "_blank"
+    //     link.click()
+    // }
 </script>
 

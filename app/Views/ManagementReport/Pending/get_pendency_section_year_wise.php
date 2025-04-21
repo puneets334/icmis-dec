@@ -30,6 +30,7 @@
 </section>
 <script>
     $("#btnGetR").click(function() {
+        $("#btnGetR").prop('disabled', true);
         $("#dv_res1").html('<center><img src="<?= base_url(); ?>/images/load.gif"/></center>');
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
@@ -45,6 +46,9 @@
             error: function() {
                 updateCSRFToken();
                 alert('ERRO');
+            },
+            complete: function() {
+                $("#btnGetR").prop('disabled', false);
             }
         });
         updateCSRFToken();

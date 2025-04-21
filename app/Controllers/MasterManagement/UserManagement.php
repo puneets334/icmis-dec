@@ -275,6 +275,7 @@ class UserManagement extends BaseController
 
     public function usersec_manage()
     {
+        
         $mat = $this->request->getPost('mat');
         $func = $this->request->getPost('func');
         $name = $this->request->getPost('name');

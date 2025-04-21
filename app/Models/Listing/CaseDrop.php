@@ -89,7 +89,7 @@ class CaseDrop extends Model
             echo "0";
         } else {
             $sql_conn = "INSERT INTO advanced_drop_note (cl_date, clno, diary_no, roster_id, nrs, usercode, ent_dt, display, mf, part, board_type, update_user, so_user)  
-            select next_dt, brd_slno, diary_no, j1, 'Released before advance list printed', '$ucode' as usercode, NOW(), 'R', 'M', clno, h.board_type, '$ucode' as update_user, '$ucode' as so_user from advance_allocated h WHERE IF(h.conn_key = '$dno', (h.diary_no = '$dno' OR h.conn_key = '$dno'), h.diary_no = '$dno' ) and h.next_dt = '$ldates' and CAST(h.diary_no AS bigint) > 0 and clno > 0 and brd_slno > 0 and (main_supp_flag = 1 or main_supp_flag = 2)";
+            select next_dt, brd_slno, diary_no, j1, 'Released before advance list printed', '$ucode' as usercode, NOW(), 'R', 'M', clno, h.board_type, '$ucode' as update_user, '$ucode' as so_user from advance_allocated h WHERE (CASE WHEN h.conn_key = '$dno' THEN h.diary_no = '$dno' OR h.conn_key = '$dno' ELSE h.diary_no = '$dno' END) and h.next_dt = '$ldates' and CAST(h.diary_no AS bigint) > 0 and clno > 0 and brd_slno > 0 and (main_supp_flag = 1 or main_supp_flag = 2)";
             $query = $this->db->query($sql_conn);
             if ($this->db->affectedRows() > 0) {
                 $result = 1;

@@ -138,24 +138,9 @@
                                                 ?>
                                                     <tr>
                                                         <td><?php echo $s_no ,'.'; ?></td>
-                                                        <td>
-                                                            <!-- <a target="_blank" href="<?php //echo base_url() 
-                                                                                            ?>index.php/Reports/pendency_reports/4?categoryCode=<?php //echo $row['category_sc_old']; 
-                                                                                                                                                ?>">
-                                                            <?php //echo $row['category_sc_old']; 
-                                                            ?>
-                                                        </a> -->
-                                                            <?php echo $row['category_sc_old']; ?>
-                                                        </td>
+                                                        <td><?php echo $row['category_sc_old']; ?></td>
                                                         <td><?php echo $row['sub_name1']; ?></td>
-                                                        <td>
-                                                            <!-- <a target="_blank" href="<?php //echo base_url() 
-                                                                                            ?>index.php/Reports/pendency_reports/4?categoryCode=<?php //echo $row['category_sc_old']; 
-                                                                                                                                                ?>">
-                                                            <?php //echo $row['sub_name4']; 
-                                                            ?>
-                                                        </a> -->
-                                                            <?php echo $row['sub_name4']; ?></td>
+                                                        <td><?php echo $row['sub_name4']; ?></td>
                                                         <td><?php echo $row['total_pendency'];?></td>
                                                         <td><?php echo $row['misc_ready']; ?></td>
                                                         <td><?php echo $row['misc_not_ready'];?></td>

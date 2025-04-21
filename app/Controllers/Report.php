@@ -90,7 +90,7 @@ class Report extends BaseController
                 $data['app_name'] = 'JudgeWiseDetails';
             if ($id == 4)
                 $data['app_name'] = 'CategoryWiseDetails';
-
+            
             return view('Reports/pendency_report', $data);
         }
 
