@@ -85,6 +85,7 @@ $(document).ready(function(){
     //         alert("ERROR, Please Contact Server Room");
     //     });   
     // });
+    var image_loader_str = base_url+"/cgwbspin.gif";
     
     $("#btnMain").click(async function () {
         if ($("#name_utype").val().trim() === '') {
@@ -96,6 +97,7 @@ $(document).ready(function(){
         const dflag = $("#dflag_utype").val().trim();
         const mflag = $("#mflag_utype").val().trim();
         const regABC = new RegExp('^[A-Za-z]+$');
+        
     
         if (!regABC.test(dflag)) {
             alert("Please Enter Dispatch Flag in Alphabets Only");
@@ -111,8 +113,7 @@ $(document).ready(function(){
     
         try {
             await updateCSRFTokenSync();
-            let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-    
+            let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();    
             const saveResponse = await $.ajax({
                 type: 'POST',
                 url: base_url + "/MasterManagement/UserManagement/usertype_manage",
@@ -123,6 +124,10 @@ $(document).ready(function(){
                     flag: dflag,
                     mflag: mflag,
                     CSRF_TOKEN: CSRF_TOKEN_VALUE
+                },
+                beforeSend: function () {                    
+                    $("#btnMain").prop("disabled", true);
+                    $("#dv_res1_loader").html("<div style='width:50%'><img src='" + image_loader_str + "'></div>");
                 }
             });
     
@@ -156,11 +161,25 @@ $(document).ready(function(){
                     $("#id_utype").val(listResponse.get_Open_id);
                     $('#result_main').DataTable();
                     alert("User Type Added Successfully");
+                    $("#btnMain").prop("disabled", false);
+                    $("#dv_res1_loader").html('');
                 } else {
                     alert("ERROR, Please Contact Server Room");
+                    $("#btnMain").prop("disabled", false);
+                    $("#dv_res1_loader").html('');
                 }
-            } else {
+            }
+            else if (msg2[0] == 2) {
+                //console.log(msg2);
+                alert(msg2[1]);
+                $("#btnMain").prop("disabled", false);
+                $("#dv_res1_loader").html('');
+            }
+             else {
+                $("#btnMain").prop("disabled", false);
+                $("#dv_res1_loader").html('');
                 swal("Error!", saveResponse, "error");
+
             }
     
         } catch (err) {
@@ -337,6 +356,10 @@ $(document).ready(function(){
                     mflag: mflag,
                     id: $("#hd_id_for_usertype").val(),
                     CSRF_TOKEN: CSRF_TOKEN_VALUE
+                },
+                beforeSend: function () {                    
+                    $("#btnUp").prop("disabled", true);
+                    $("#dv_res1_loader").html("<div style='width:50%'><img src='" + image_loader_str + "'></div>");
                 }
             });
     
@@ -372,8 +395,12 @@ $(document).ready(function(){
                     $("#id_utype").val(listResponse.get_Open_id);
                     $('#result_main').DataTable();
                     alert("User Type Updated Successfully");
+                    $("#btnUp").prop("disabled", false);
+                    $("#dv_res1_loader").html('');
                 } else {
                     alert("ERROR, Please Contact Server Room");
+                    $("#btnUp").prop("disabled", false);
+                    $("#dv_res1_loader").html('');
                 }
             } else {
                 swal("Error!", saveResponse, "error");
@@ -484,7 +511,7 @@ $(document).on("click", "[id^='btnDelete']", async function () {
             const deleteResponse = await $.ajax({
                 type: 'POST',
                 url: base_url + "/MasterManagement/UserManagement/usertype_manage",
-                data: { mat: 1, func: 2, id: num, CSRF_TOKEN: CSRF_TOKEN_VALUE }
+                data: { mat: 1, func: 2, id: num, CSRF_TOKEN: CSRF_TOKEN_VALUE }                
             });
 
             const msg2 = deleteResponse.split('~');
