@@ -616,7 +616,7 @@ class ReportModel extends Model
 		$sql = "SELECT DISTINCT 
 					substr(CAST(m.diary_no AS TEXT), 1, length(CAST(m.diary_no AS TEXT)) - 4) AS diary_number, 
 					c.short_description, 
-					substr(CAST(m.diary_no AS TEXT), -4) AS diary_year, 
+					SUBSTRING(m.diary_no::TEXT FROM LENGTH(m.diary_no::TEXT) - 3 FOR 4) AS diary_year,
 					m.reg_no_display, 
 					rs.Name AS state, 
 					CONCAT(m.pet_name, ' ', 
@@ -789,7 +789,7 @@ class ReportModel extends Model
 
     
 			if ($diary_year !== null) {
-				$builder->where('SUBSTRING(m.diary_no::TEXT FROM -4)', $diary_year);
+				$builder->where("SUBSTRING(m.diary_no::TEXT FROM LENGTH(m.diary_no::TEXT) - 3 FOR 4) =", $diary_year);
 			} else {
 				$builder->where('m.ref_agency_code_id', $ref_id);
 			}
