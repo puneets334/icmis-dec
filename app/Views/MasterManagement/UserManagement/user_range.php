@@ -9,7 +9,7 @@
                             <div class="col-sm-10">
                                 <h3 class="card-title">USER RANGE</h3>
                             </div>
-                            <?= view('Filing/filing_filter_buttons'); ?>
+                            <?//= view('Filing/filing_filter_buttons'); ?>
                         </div>
                     </div>
                     <div class="card-body">
@@ -117,7 +117,7 @@
     $(document).ready(function() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
-        $("#btnMain").click(function() {
+        $("#btnMain").click(async function() {
             if ($("#sel_utype").val() == '0') {
                 alert("Please Select UserType");
                 $("#sel_utype").focus();
@@ -138,6 +138,8 @@
                 $("#low_range").focus();
                 return false;
             }
+            await updateCSRFTokenSync();
+            CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
             // var CSRF_TOKEN = 'CSRF_TOKEN';
             // var csrf = $("input[name='CSRF_TOKEN']").val();
             var low = $("#low_range").val().trim();
@@ -158,7 +160,7 @@
                     url: "<?php echo base_url('MasterManagement/UserManagement/userrange_manage') ?>",
                     async: false,
                     data: {
-                        CSRF_TOKEN: csrf,
+                        CSRF_TOKEN: CSRF_TOKEN_VALUE,
                         mat: 1,
                         func: 1,
                         utype: $("#sel_utype").val(),
@@ -168,6 +170,7 @@
                 })
                 .done(function(msg) {
                     //alert(msg);
+                    alert("Added Successfully");
                     location.reload();
                     var msg2 = msg.split('~');
                     if (msg2[0] == 1) {
@@ -205,7 +208,9 @@
         $("#btnUp").css("display", "none");
         $("#btnMain").css("display", "inline");
         $("#btnCan").css("display", "none");
-        $("#btnCan").click(function() {
+        $("#btnCan").click(async function() {
+            await updateCSRFTokenSync();
+             CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
             $("#usertype_id_for_range").val("");
             $("#sel_utype").val("0");
             $("#low_range").val("");
@@ -220,7 +225,7 @@
                     type: 'POST',
                     url: "<?php echo base_url('MasterManagement/UserManagement/userrange_manage') ?>",
                     data: {
-                        CSRF_TOKEN: csrf,
+                        CSRF_TOKEN: CSRF_TOKEN_VALUE,
                         mat: 2
                     }
                 })
@@ -232,7 +237,7 @@
                 });
         });
 
-        $("#btnUp").click(function() {
+        $("#btnUp").click(async function() {
             if ($("#sel_utype").val() == '0') {
                 alert("Please Select UserType");
                 $("#sel_utype").focus();
@@ -255,6 +260,8 @@
             }
             var CSRF_TOKEN = 'CSRF_TOKEN';
             var csrf = $("input[name='CSRF_TOKEN']").val();
+            await updateCSRFTokenSync();
+            CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
             var low = $("#low_range").val().trim();
             var up = $("#up_range").val().trim();
             var reg123 = new RegExp('^[0-9]+$');
@@ -273,7 +280,7 @@
                     url: "<?php echo base_url('MasterManagement/UserManagement/userrange_manage') ?>",
                     async: false,
                     data: {
-                        CSRF_TOKEN: csrf,
+                        CSRF_TOKEN: CSRF_TOKEN_VALUE,
                         mat: 1,
                         func: 3,
                         utype: $("#sel_utype").val(),
@@ -285,6 +292,7 @@
                 .done(function(msg) {
                     // var CSRF_TOKEN = 'CSRF_TOKEN';
                     // var csrf = $("input[name='CSRF_TOKEN']").val();
+                    alert("Updated Sucessfully");
                     location.reload();
                     var msg2 = msg.split('~');
                     if (msg2[0] == 1) {
@@ -325,26 +333,34 @@
                 });
                 updateCSRFToken();
         });
+
+        
+
+
+
+
     });
 
 
 
     // edikt
-    $(document).on("click", "[id^='btnEdit']", function() {
+    $(document).on("click", "[id^='btnEdit']", async function() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
+        await updateCSRFTokenSync();
+        CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var num = this.id.split('btnEdit');
         $.ajax({
                 type: 'POST',
                 url: "<?php echo base_url('MasterManagement/UserManagement/userrange_manage') ?>",
                 data: {
-                    CSRF_TOKEN: csrf,
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE,
                     mat: 3,
                     id: num[1]
                 }
             })
             .done(function(msg) {
-                updateCSRFToken();
+                //updateCSRFToken();
                 var msg2 = msg.split('~');
                 $("#usertype_id_for_range").val(msg2[0]);
                 $("#sel_utype").val(msg2[1]);
@@ -357,28 +373,31 @@
                 $("#btnUp").css("display", "inline");
             })
             .fail(function() {
-                updateCSRFToken();
+                //updateCSRFToken();
                 alert("ERROR, Please Contact Server Room");
             });
-        updateCSRFToken();
+        //updateCSRFToken();
     });
 
-    $(document).on("click", "[id^='btnDelete']", function() {
+    $(document).on("click", "[id^='btnDelete']", async function() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
+        await updateCSRFTokenSync();
+        CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var num = this.id.split('btnDelete');
         if (confirm("ARE YOU SURE TO REMOVE THIS USERRANGE") == true) {
             $.ajax({
                     type: 'POST',
                     url: "<?php echo base_url('MasterManagement/UserManagement/userrange_manage') ?>",
                     data: {
-                        CSRF_TOKEN: csrf,
+                        CSRF_TOKEN: CSRF_TOKEN_VALUE,
                         mat: 1,
                         func: 2,
                         id: num[1]
                     }
                 })
                 .done(function(msg) {
+                    alert("Removed Successfully");
                     location.reload();
                     var msg2 = msg.split('~');
                     if (msg2[0] == 1) {
