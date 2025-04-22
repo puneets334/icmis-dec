@@ -1,20 +1,21 @@
 <?php if (count($data) > 0) { ?>
     <!-- <input name="prnnt1" type="button" id="prnnt1" value="Print"> -->
+    <h3 align="center">Cases updated / fixed by user to list on <?php echo $list_dt; ?> </h3>
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover" id="customers">
             <thead class="thead-dark">
                 <tr>
-                    <th width="5%">SrNo.</th>
-                    <th width="15%">Case No. / Diary No.</th>
-                    <th width="15%">Cause Title</th>
-                    <th width="5%">Mainhead</th>
-                    <th width="5%">Board Type</th>
-                    <th width="10%">Fixed For</th>
-                    <th width="10%">Coram</th>
-                    <th width="10%">Category</th>
-                    <th width="10%">Updated By</th>
-                    <th width="10%">Entry Date/Time</th>
-                    <th width="10%">Section/DA</th>
+                    <th width="5%" style="font-weight: bold; color: #dce38d;background: #918788;">SrNo.</th>
+                    <th width="15%" style="font-weight: bold; color: #dce38d;background: #918788;">Case No. / Diary No.</th>
+                    <th width="15%" style="font-weight: bold; color: #dce38d;background: #918788;">Cause Title</th>
+                    <th width="5%" style="font-weight: bold; color: #dce38d;background: #918788;">Mainhead</th>
+                    <th width="5%" style="font-weight: bold; color: #dce38d;background: #918788;">Board Type</th>
+                    <th width="10%" style="font-weight: bold; color: #dce38d;background: #918788;">Fixed For</th>
+                    <th width="10%" style="font-weight: bold; color: #dce38d;background: #918788;">Coram</th>
+                    <th width="10%" style="font-weight: bold; color: #dce38d;background: #918788;">Category</th>
+                    <th width="10%" style="font-weight: bold; color: #dce38d;background: #918788;">Updated By</th>
+                    <th width="10%" style="font-weight: bold; color: #dce38d;background: #918788;">Entry Date/Time</th>
+                    <th width="10%" style="font-weight: bold; color: #dce38d;background: #918788;">Section/DA</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,12 +72,22 @@
 ?>
 
 <script>
+    var reportTitle = "Cases updated / fixed by user to list on <?php echo $list_dt; ?>";
     $("#customers").DataTable({
         "responsive": true,
         "lengthChange": false,
         "autoWidth": false,
         "dom": 'Bfrtip',
         "bProcessing": true,
-        "buttons": ["excel", "pdf"]
+        "buttons": [
+            {
+            extend: 'excelHtml5',
+            title: reportTitle
+            },
+            {
+            extend: 'print',
+            title: reportTitle
+            }
+            ]
     });
 </script>

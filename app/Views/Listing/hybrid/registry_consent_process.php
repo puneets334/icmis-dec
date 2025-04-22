@@ -53,7 +53,7 @@ if(count($freezeData) > 0 ) {
                             }
                             echo "</span>] </span> </td>";
                             ?>
-                            <td class='p-3 border border-dark' colspan='3' >
+                            <td class='p-3 border border-dark wSet' colspan='' >
                                 <button data-updation_method='bulk' data-update_flag="P" class='btn btn-info hybrid_action' type='button' name='hybrid_action'>Physical</button>
                                 <button data-updation_method='bulk' data-update_flag="V" class='btn btn-info hybrid_action' type='button' name='hybrid_action'>VC</button>
                                 <button data-updation_method='bulk' data-update_flag="H" class='btn btn-info hybrid_action ' type='button' name='hybrid_action'>Hybrid</button>

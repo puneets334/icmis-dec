@@ -373,7 +373,7 @@ class MiscAllocationModel extends Model
                         GROUP BY r.id , rb.bench_no, mb.abbr, j.judge_seniority
                         ORDER BY r.courtno, r.id, j.judge_seniority
                     ) ab ON ab.jcd = CAST(CASE WHEN SPLIT_PART(h.coram, ',', 1) = '' THEN NULL ELSE SPLIT_PART(h.coram, ',', 1)END AS INTEGER)
-                    WHERE (m.diary_no = CAST(m.conn_key AS bigint) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0') 
+                    WHERE (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0') 
                     AND m.c_status = 'P' 
                     AND h.board_type = '$board_type'
                     AND h.mainhead = 'M' 
@@ -730,7 +730,7 @@ class MiscAllocationModel extends Model
                                 AND mc.submaster_id IS NOT NULL
                                 AND m.active_casetype_id NOT IN (25, 26)
                                 AND m.c_status = 'P'
-                                AND (m.diary_no = CAST(m.conn_key AS bigint)  OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL)
+                                AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT)  OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL)
                                 $subhead_select
                                 $case_type_select
                                 $subject_cat_select
@@ -805,7 +805,7 @@ class MiscAllocationModel extends Model
                                     AND mc.display = 'Y' 
                                     AND mc.submaster_id NOT IN (0, 911, 912, 914, 239, 240, 241, 242, 243) 
                                     AND m.c_status = 'P' 
-                                    AND (m.diary_no =  CAST(m.conn_key AS bigint) OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL) 
+                                    AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL) 
                                     AND h.main_supp_flag = 0 
                                     AND (h.coram = '0' OR h.coram IS NULL OR trim(h.coram) = '')
                                     $subhead_select

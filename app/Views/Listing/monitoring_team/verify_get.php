@@ -37,7 +37,24 @@
 
     #case_to_be_verify tbody td {
     color: black !important; 
-}
+  }
+
+  .modal .modal-header {
+    position:relative !important;
+    border-bottom: none;
+    padding: 0px;
+    }
+  .close{
+    display: inline-block;
+    position: relative;
+    top: 6px;
+    z-index: 40;
+  }   
+
+  .modal .modal-body {
+    padding: 0px 15px 15px !important;
+  }
+    
   </style>
 </head>
 <div style="text-align: center">
@@ -144,7 +161,11 @@
 
         $diary_str = substr_replace($row['diary_no'], '-', -4, 0);
         $d_str = explode("-", $diary_str);
-        $comlete_fil_no_prt = "Diary No. <a data-animation=\"fade\" data-reveal-id=\"myModal\" onclick=\"call_cs('$d_str[0]','$d_str[1]','','','');\" href='#'>" . $d_str[0] . '/' . $d_str[1] . "</a><br>" . $diary_no_rec_date;
+        
+        //$comlete_fil_no_prt = "Diary No. <a data-animation=\"fade\" data-reveal-id=\"myModal\" onclick=\"call_cs('$d_str[0]','$d_str[1]','','','');\" href='#'>" . $d_str[0] . '/' . $d_str[1] . "</a><br>" . $diary_no_rec_date;
+
+        $comlete_fil_no_prt = "Diary No. <a data-toggle='modal' data-target='#caseStatusModal' onclick=\"call_cs('$d_str[0]','$d_str[1]','','','');\" href='#'>" . $d_str[0] . '/' . $d_str[1] . "</a><br>" . $diary_no_rec_date;
+        
         if (!empty($fil_no_print)) {
           $comlete_fil_no_prt .= "<br>" . $row['short_description'] . "-" . $fil_no_print . "/" . $m_f_fil_yr . "<br>" . $fil_dt;
         } else {
@@ -325,11 +346,27 @@
 
 </div>
 
-<div id="dv_fixedFor_P" style="display: none;position: fixed;top:75px;left:10% !important;width:85%;height:100%;z-index: 105;">  
+<!--<div id="dv_fixedFor_P" style="display: none;position: fixed;top:75px;left:10% !important;width:85%;height:100%;z-index: 105;">  
   <div id="close_s" style="text-align: right;cursor: pointer;width: 40px;float: right" onclick="close_cs()"><b><img src="<?php echo base_url('images/close_btn.png');?>" style="width:30px;height:30px" /></b></div>
   <div id="newcs123" style="width: auto;background-color: white;overflow: scroll;height: 500px;margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;word-wrap: break-word;">
   </div>
+  </div>-->
+
+<!-- Modal -->
+<div class="modal fade" id="caseStatusModal" tabindex="-1" role="dialog" aria-labelledby="caseStatusModalLabel" aria-hidden="true">
+  <div class="modal-dialog modalXl modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close mr-1" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>  
+      <div class="modal-body left" id="modData">
+      </div>
+    </div>
   </div>
+</div>
+
   <div id="dv_res1"></div>
 <script src="<?php echo base_url('listing/monitoring_team/monitoring.js'); ?>"></script>
 <script>
