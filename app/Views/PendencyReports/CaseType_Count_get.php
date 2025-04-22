@@ -20,7 +20,7 @@
                         <td><?php echo $i;?></td>
 						<td><?php echo $result['short_description'];?></td>
 						<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/CaseType_YearWise_Count?casetype=<?php echo $result['active_casetype_id'];?>&sect=<?php echo $section;?>" target="_blank"><?php echo $result['total_pendency'];?></td>
-						<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/Total?casetype=<?php echo $result['active_casetype_id'];?>&sect=<?php echo $section;?>" target="_blank">View</td>
+						<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/total?casetype=<?php echo $result['active_casetype_id'];?>&sect=<?php echo $section;?>" target="_blank">View</td>
                       </tr>
 					<?php
 					$pendency += $result['total_pendency'];
@@ -29,7 +29,7 @@
 		   </tbody>
    </table>
    <div style="text-align: center;margin-top: 50px;">
-		<span style="color: red; font-weight: bold; font-size: 20px;">Total:- <a href="<?=base_url();?>/PendencyReports/Physical_verify/Total?sect=<?php echo $section;?>" target="_blank"><?= $pendency ?></a></span>
+		<span style="color: red; font-weight: bold; font-size: 20px;">Total:- <a href="<?=base_url();?>/PendencyReports/Physical_verify/total?sect=<?php echo $section;?>" target="_blank"><?= $pendency ?></a></span>
    </div>
 <?php }?>
 
@@ -54,7 +54,7 @@
 							<td><?php echo $i;?></td>
 							<td><?php echo $result['short_description'];?></td>
 							<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/CaseType_YearWise_Count?casetype=<?php echo $result['active_casetype_id'];?>&sect=<?php echo $section;?>" target="_blank"><?php echo $result['total_pendency'];?></td>
-							<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/Total?casetype=Diary&sect=<?php echo $section;?>" target="_blank">View</td>
+							<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/total?casetype=Diary&sect=<?php echo $section;?>" target="_blank">View</td>
                         </tr>
                     <?php } ?>
 			</tbody>
@@ -80,9 +80,9 @@
 					   foreach ($misc_reg_count as $result){$i++; ?>
 							<tr>
 								<td><?php echo $i;?></td>
-								<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/Misc_Reg_Pendency?type=M&sect=<?php echo $section;?>" target="_blank"><?php echo $result['misc_count'];?></td>
-								<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/Misc_Reg_Pendency?type=F&sect=<?php echo $section;?>" target="_blank"><?php echo $result['reg_count'];?></td>
-								<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/Misc_Reg_Pendency?sect=<?php echo $section;?>" target="_blank"><?php echo $result['total'];?></td></td>
+								<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/misc_Reg_Pendency?type=M&sect=<?php echo $section;?>" target="_blank"><?php echo $result['misc_count'];?></td>
+								<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/misc_Reg_Pendency?type=F&sect=<?php echo $section;?>" target="_blank"><?php echo $result['reg_count'];?></td>
+								<td><a style="color: #0d48be;" href="<?=base_url();?>/PendencyReports/Physical_verify/misc_Reg_Pendency?sect=<?php echo $section;?>" target="_blank"><?php echo $result['total'];?></td></td>
 							</tr>
 					<?php }  ?>
 			 </tbody>

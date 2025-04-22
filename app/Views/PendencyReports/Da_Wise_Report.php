@@ -68,7 +68,7 @@
 		}
 		$("#dv_res1").html('');
         $.ajax({
-            url: '<?php echo base_url('/PendencyReports/Physical_verify/Da_Wise_get') ?>',
+            url: '<?php echo base_url('/PendencyReports/Physical_verify/da_Wise_get') ?>',
             type: "POST",
             cache: false,
             async: true,

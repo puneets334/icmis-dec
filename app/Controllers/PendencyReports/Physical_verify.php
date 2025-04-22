@@ -42,7 +42,7 @@ class Physical_verify extends BaseController {
 		return view('PendencyReports/sectionwise_PendingIA_get', $data);
     }
 	
-	public function Reg_J1_Report(){
+	public function reg_J1_Report(){
 		$data['result_array'] = $this->ReportModel->getSections();
 		$data['getMainSubjectCategory'] = $this->ReportModel->getMainSubjectCategory();
 		return view('PendencyReports/Reg_J1_Report', $data);
@@ -56,7 +56,7 @@ class Physical_verify extends BaseController {
         
 	}
 	
-	public function Reg_J1_Report_get(){
+	public function reg_J1_Report_get(){
 		$request = \Config\Services::request();
 		$sec_detail = explode('^', $request->getPost('section'));
         $section=$sec_detail[0];
@@ -69,12 +69,12 @@ class Physical_verify extends BaseController {
    }
    
    
-   public function Da_Wise(){
+   public function da_Wise(){
         $data['result_array'] = $this->ReportModel->getSections();
 		return view('PendencyReports/Da_Wise_Report', $data);
    }
    
-   public function Da_Wise_get(){
+   public function da_Wise_get(){
 	    $request = \Config\Services::request();
 		$section = $request->getPost('section');
         $data['result_array'] = $this->ReportModel->Da_Pendency($section);
@@ -128,7 +128,7 @@ class Physical_verify extends BaseController {
 		return view('PendencyReports/CaseType_YearWise_Count', $data);
     }
 	
-	public function Total(){
+	public function total(){
 		$request = \Config\Services::request();
 		$section = $request->getGet('sect');
 		$casetype = $request->getGet('casetype');
@@ -138,7 +138,7 @@ class Physical_verify extends BaseController {
         return view('PendencyReports/view_cases_Report', $data);
     }
 	
-	public function Misc_Reg_Pendency(){
+	public function misc_Reg_Pendency(){
 		$request = \Config\Services::request();
 		$section = $request->getGet('sect');
 		$casetype = $request->getGet('casetype');
@@ -148,7 +148,7 @@ class Physical_verify extends BaseController {
         return view('PendencyReports/view_cases_Report',$data);
     }
 	
-	 public function View_Cases_Result(){
+	 public function view_Cases_Result(){
 		$request = \Config\Services::request();
 		$section = $request->getGet('sect');
 		$casetype = $request->getGet('casetype');
