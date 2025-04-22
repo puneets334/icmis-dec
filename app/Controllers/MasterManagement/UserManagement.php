@@ -234,8 +234,9 @@ class UserManagement extends BaseController
                     break;
                 case 3:
                     $data['id'] = $this->request->getPost('id');
-                    $result = $this->UserManagementModel->edit_userrange($data['utype'], $data['low'], $data['up'], $data['id'], $usercode);
-                    $result_message = "USERRANGE UPDATED SUCCESSFULLY";
+                    $result = $this->UserManagementModel->edit_userrange($data['utype'], $data['low'], $data['up'], $data['id'], $usercode);                    
+                    //$result_message = "USERRANGE UPDATED SUCCESSFULLY";
+                    echo $result_message = $result;die;
                     break;
                 default:
                     break;
