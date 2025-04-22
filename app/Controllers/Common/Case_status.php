@@ -2294,7 +2294,9 @@ class Case_status extends BaseController
                         $entered_ip=$row_caseinfo['userip'];
                         $caseno=$row_caseinfo['caseno'];
                         $uninfo=$row_caseinfo['userinfo'];
-                        $entrydate=date('d/m/Y',strtotime($row_caseinfo['entrydate']));
+                        //$entrydate=date('d/m/Y',strtotime($row_caseinfo['entrydate']));
+                        $entrydate = !empty($row_caseinfo['entrydate']) ? date('d/m/Y', strtotime($row_caseinfo['entrydate'])) : '';
+
                         //  echo $message;
                     
 

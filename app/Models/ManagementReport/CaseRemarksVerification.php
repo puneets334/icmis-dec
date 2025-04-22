@@ -1574,7 +1574,7 @@ class CaseRemarksVerification extends Model
                 LEFT JOIN mul_category mcat ON m.diary_no = mcat.diary_no AND mcat.display = 'Y'
                 LEFT JOIN master.submaster s ON mcat.submaster_id = s.id AND s.display = 'Y'
                 WHERE c.diary_no IS NULL 
-                AND (m.diary_no = m.conn_key::int OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                AND (m.diary_no::TEXT = m.conn_key::TEXT OR m.conn_key::TEXT = '' OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = '0')
                 GROUP BY 
                 us.section_name, m.reg_no_display, m.diary_no, m.pet_name, m.res_name, h.coram,
                 t.next_dt, t.mainhead, t.ent_dt, t.board_type, u.name, u.empid, 

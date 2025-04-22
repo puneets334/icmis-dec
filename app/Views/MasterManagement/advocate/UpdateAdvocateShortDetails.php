@@ -224,7 +224,13 @@ function get_adv_d(){
 }
 
 $(document).on("click","#btnout",function(){
-    //alert('ye mera india');
+
+    var adv_mob = $('#adv_mob');
+    if (adv_mob.val() == "") {
+        alert("Please Enter Mobile Number");
+        adv_mob.focus();
+        return false;
+    }
     save_data();
 });
 

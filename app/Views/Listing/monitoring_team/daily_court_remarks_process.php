@@ -33,6 +33,22 @@
         width: 100%;
         height: 100%;
     }
+
+    .modal .modal-header {
+    position:relative !important;
+    border-bottom: none;
+    padding: 0px;
+    }
+    .close{
+        display: inline-block;
+        position: relative;
+        top: 6px;
+        z-index: 40;
+    }   
+
+    .modal .modal-body {
+        padding: 0px 15px 15px !important;
+    }
 </style>
 <table width="100%" border="1" cellpadding="0" cellspacing="0" style="border: 1px solid black; border-collapse: collapse;">
     <?php
@@ -95,7 +111,7 @@
                 $verify_str = $row10["diary_no"] . "_" . $row10["mainhead"] . "_" . $row10["board_type"] . "_" . $tdt1 . "_" . $jcourt . "_" . $row10['tentative_cl_dt'];
                 $d1 = $row10["case_no"];
                 $d2 = $row10["year"];
-                $caseno = "DN:<a data-animation=\"fade\" data-reveal-id=\"myModal\" onclick=\"call_cs('$d1', '$d2', '', '', '');\" href='#'>" . $row10["case_no"] . " / " . $row10["year"];
+                $caseno = "DN:<a data-toggle='modal' data-target='#caseStatusModal' onclick=\"call_cs('$d1', '$d2', '', '', '');\" href='#'>" . $row10["case_no"] . " / " . $row10["year"];
 
                 echo '<tbody style="page-break-inside: avoid;">';
 
@@ -327,32 +343,17 @@ $t_paps = '';
 <input type="hidden" name="msg2" id="msg2" value="<?php print $jcourt . '::' . $tdt1 . ':::'; ?>">
 <input type="hidden" name="msg1" id="msg1" value="<?php print $msg; ?>">
 
-<div id="dv_fixedFor_P" style="display: none;position: fixed;top:75px;left:10% !important;width:85%;height:100%;z-index: 105;">
-    <div id="close_b" style="text-align: right;cursor: pointer;width: 40px;float: right" onclick="close_cs()"><b><img src="<?php echo base_url('images/close_btn.png'); ?>" style="width:30px;height:30px" /></b></div>
-    <div id="newcs123" style="width: auto;background-color: white;overflow: scroll;height: 500px;margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;word-wrap: break-word;">
+<!-- Modal -->
+<div class="modal fade" id="caseStatusModal" tabindex="-1" role="dialog" aria-labelledby="caseStatusModalLabel" aria-hidden="true">
+  <div class="modal-dialog modalXl modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close mr-1" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>  
+      <div class="modal-body left" id="modData">
+      </div>
     </div>
+  </div>
 </div>
-<!--<div id="newcs" style="display:none;">
-    <table width="100%" border="0" style="border-collapse: collapse">
-        <tr style="background-color: #A9A9A9;">
-            <td align="center">
-                <b>
-                    <font color="black" style="font-size:14px;">Case Status</font>
-                </b>
-            </td>
-            <td>
-                <input style="float:right;" type="button" name="close_b" id="close_b" value="CLOSE WINDOW" onclick="close_cs();" />
-            </td>
-
-        </tr>
-    </table>
-    <div id="newcs123" style="overflow:auto; background-color: #FFF;"></div>
-    <div id="newcs1" align="center">
-        <table border="0" width="100%">
-            <tr>
-                <td align="center" width="250px">
-                </td>
-            </tr>
-        </table>
-    </div>
-</div>-->
