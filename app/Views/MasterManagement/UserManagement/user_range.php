@@ -289,11 +289,19 @@
                         id: $("#usertype_id_for_range").val()
                     }
                 })
-                .done(function(msg) {
+                .done(function(msg) {                   
                     // var CSRF_TOKEN = 'CSRF_TOKEN';
                     // var csrf = $("input[name='CSRF_TOKEN']").val();
-                    alert("Updated Sucessfully");
-                    location.reload();
+                    if(msg == "USERRANGE UPDATED SUCCESSFULLY"){
+                        alert("Updated Sucessfully");
+                        location.reload();
+                        return false;
+                    }
+                    else{
+                        alert(msg);
+                        return false;
+                    }
+                    return false;
                     var msg2 = msg.split('~');
                     if (msg2[0] == 1) {
                         $(".add_result").css("display", "block");
