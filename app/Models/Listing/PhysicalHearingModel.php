@@ -70,22 +70,37 @@ class PhysicalHearingModel extends Model
     public function get_fil_details($dno)
     {
         $builder = $this->db->table('main a');
-        $builder->select("
-            a.fil_no, 
-            a.fil_dt, 
-            a.fil_no_fh, 
-            a.fil_dt_fh, 
-            short_description, 
-            CASE 
+        $builder->select([
+            'a.fil_no',
+            'a.fil_dt',
+            'a.fil_no_fh',
+            'a.fil_dt_fh',
+            'short_description',
+            "CASE 
                 WHEN a.reg_year_mh = 0 THEN EXTRACT(YEAR FROM a.fil_dt) 
                 ELSE a.reg_year_mh 
-            END AS m_year, 
-            CASE 
+             END AS m_year",
+            "CASE 
                 WHEN a.reg_year_fh = 0 THEN EXTRACT(YEAR FROM a.fil_dt_fh) 
                 ELSE a.reg_year_fh 
-            END AS f_year
-        ");
-        $builder->join('master.casetype b', "CAST(SUBSTRING(a.fil_no FROM 1 FOR 2) AS INTEGER) = b.casecode", 'left');
+             END AS f_year"
+        ]);
+        
+        $builder->join(
+            'master.casetype b',
+            "(
+                SUBSTRING(a.fil_no FROM 1 FOR 2) ~ '^[0-9]+$' AND 
+                CAST(
+                    CASE 
+                        WHEN SUBSTRING(a.fil_no FROM 1 FOR 2) ~ '^[0-9]+$' 
+                        THEN SUBSTRING(a.fil_no FROM 1 FOR 2) 
+                        ELSE NULL 
+                    END AS INTEGER
+                ) = b.casecode
+            )",
+            'left',
+            false
+        );
         $builder->where('a.diary_no', $dno);
         // pr($builder->getCompiledSelect());
         $query = $builder->get();

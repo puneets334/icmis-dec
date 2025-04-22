@@ -8414,3 +8414,8 @@ select.select2 {
 .box.box-separator {
     border-top-color: #0d48be;
 }
+
+td.wSet {
+    max-width: 350px;
+    width: 347px;
+}
