@@ -107,8 +107,14 @@ if (!empty($results)) {
                         );
                         //pr($row3);
                         if (!empty($row3)) {
-                                $order_dt = $row3['order_dt'] ?? null; 
-                                $order_dt ? date('d-m-Y', strtotime($order_dt)) : '';
+                            $order_date_formatted = '';
+                            $order_date_formatted = $row3['order_dt']; 
+                             // Initialize a variable for the formatted date
+                            if ($order_date_formatted !== null) {
+                                $order_dt = date('d-m-Y', strtotime($order_date_formatted));
+                            } else {
+                                $order_dt = 'N/A'; 
+                            }
                             
                         ?>
                             <span class="cl_off_rop" id="<?php echo 'officereport/' . substr($row['diary_no'], -4) . '/' . substr($row['diary_no'], 0, -4) . '/' . $row3['office_repot_name'];  ?>"><?php echo date('d-m-Y', strtotime($order_dt)); ?></span>
