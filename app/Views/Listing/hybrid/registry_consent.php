@@ -105,7 +105,7 @@
         </div>
     </section>
     <!-- /.content -->
-    
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
        
         var courtno = $('#list_no').val();
@@ -285,7 +285,8 @@
                     title: "Are you sure?",
                     text: "You want to update "+chk_count+" cases for "+update_flag_text+" hearing",
                     dangerMode: true,
-                    type: "warning",
+                    icon: "warning",
+                    // type: "warning",
                     showCancelButton: true,
                     buttons: [
                         'No, cancel it!',

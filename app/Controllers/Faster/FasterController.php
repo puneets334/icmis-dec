@@ -1425,21 +1425,37 @@ class FasterController extends BaseController
     
     public function get_dynamic_cst(){
         $hd_Sendcopyto_o= $_REQUEST['hd_Sendcopyto_o'];
+        $o_r_h = $_REQUEST['o_r_h'];
         $mode = '';
-        $html = '<div style="margin-top: 10px">
-        <select name="'.$_REQUEST['ddl_send_copy_typeo_id'].'_'.$hd_Sendcopyto_o.'" class="form-control" 
-                id="'.$_REQUEST['ddl_send_copy_typeo_id'].'_'.$hd_Sendcopyto_o.'" onchange="get_send_to_type(this.id,this.value,"3","'.$mode.'")">'.$_REQUEST['ddl_send_copy_typeo__html'].'
-        </select>
-        <select name="'.$_REQUEST['ddlSendCopyTo_o_id'].'_'.$hd_Sendcopyto_o.'" class="form-control" 
-                id="'.$_REQUEST['ddlSendCopyTo_o_id'].'_'.$hd_Sendcopyto_o.'" 
-                onfocus="clear_data(this.id)" style="width: 130px;">'.$_REQUEST['ddlSendCopyTo_o_html'].'</select>
-        <select name="'.$_REQUEST['ddl_cpsndto_state_o_id'].'_'.$hd_Sendcopyto_o.'" class="form-control" 
-                id="'.$_REQUEST['ddl_cpsndto_state_o_id'].'_'.$hd_Sendcopyto_o.'" 
-                style="width: 100px" onchange="getCity(this.value,this.id,"3","'.$_REQUEST['o_r_h'].'")">'.$_REQUEST['ddl_cpsndto_state_o_html'].'</select>
-        <select name="'.$_REQUEST['ddl_cpsndto_dst_o_id'].'_'.$hd_Sendcopyto_o.'" class="form-control" 
-                id="'.$_REQUEST['ddl_cpsndto_dst_o_id'].'_'.$hd_Sendcopyto_o.'" 
-                style="width: 100px">'.$_REQUEST['ddl_cpsndto_dst_o_html'].'</select>
-    </div>';
+        // pr($_REQUEST);
+        $html = "<div style='margin-top: 10px'>
+            <select name='".$_REQUEST['ddl_send_copy_typeo_id']."_".$hd_Sendcopyto_o."' class='form-control' 
+                    id='".$_REQUEST['ddl_send_copy_typeo_id']."_".$hd_Sendcopyto_o."' onchange=\"get_send_to_type(this.id, this.value, '3', '".$mode."')\">".$_REQUEST['ddl_send_copy_typeo__html']."
+            </select>
+            <select name='".$_REQUEST['ddlSendCopyTo_o_id']."_".$hd_Sendcopyto_o."' class='form-control' 
+                    id='".$_REQUEST['ddlSendCopyTo_o_id']."_".$hd_Sendcopyto_o."' 
+                    onfocus='clear_data(this.id)' style='width: 130px;'>".$_REQUEST['ddlSendCopyTo_o_html']."</select>
+            <select name='".$_REQUEST['ddl_cpsndto_state_o_id']."_".$hd_Sendcopyto_o."' class='form-control' 
+                    id='".$_REQUEST['ddl_cpsndto_state_o_id']."_".$hd_Sendcopyto_o."' 
+                    style='width: 100px' onchange=\"getCity(this.value, this.id, '3', '".$o_r_h."')\">".$_REQUEST['ddl_cpsndto_state_o_html']."</select>
+            <select name='".$_REQUEST['ddl_cpsndto_dst_o_id']."_".$hd_Sendcopyto_o."' class='form-control' 
+                    id='".$_REQUEST['ddl_cpsndto_dst_o_id']."_".$hd_Sendcopyto_o."' 
+                    style='width: 100px'>".$_REQUEST['ddl_cpsndto_dst_o_html']."</select>
+        </div>";
+
+        // $html = "<div style='margin-top: 10px'>
+        //     <select name='".$_REQUEST['ddl_send_copy_typeo_id']."_".$hd_Sendcopyto_o."' class='form-control' 
+        //             id='".$_REQUEST['ddl_send_copy_typeo_id']."_".$hd_Sendcopyto_o."' onchange=\"get_send_to_type(this.id, this.value, '3', '".$mode."')\"></select>
+        //     <select name='".$_REQUEST['ddlSendCopyTo_o_id']."_".$hd_Sendcopyto_o."' class='form-control' 
+        //             id='".$_REQUEST['ddlSendCopyTo_o_id']."_".$hd_Sendcopyto_o."' 
+        //             onfocus='clear_data(this.id)' style='width: 130px;'></select>
+        //     <select name='".$_REQUEST['ddl_cpsndto_state_o_id']."_".$hd_Sendcopyto_o."' class='form-control' 
+        //             id='".$_REQUEST['ddl_cpsndto_state_o_id']."_".$hd_Sendcopyto_o."' 
+        //             style='width: 100px' onchange=\"getCity(this.value, this.id, '3', '".$o_r_h."')\"></select>
+        //     <select name='".$_REQUEST['ddl_cpsndto_dst_o_id']."_".$hd_Sendcopyto_o."' class='form-control' 
+        //             id='".$_REQUEST['ddl_cpsndto_dst_o_id']."_".$hd_Sendcopyto_o."' 
+        //             style='width: 100px'></select>
+        // </div>";
         return $html;
     }
 
@@ -1454,7 +1470,7 @@ class FasterController extends BaseController
                             ->get();
         } else if ($_REQUEST['id_val'] == 1) {
             $query = $db->table('advocate a')
-                                ->select('advocate_id as id, concat(name, "-", aor_code) as desg')
+                                ->select("advocate_id as id, concat(name, '-', aor_code) as desg")
                                 ->join('master.bar b', 'a.advocate_id = b.bar_id', 'left')
                                 ->where('a.display', 'Y')
                                 ->where('diary_no', $dairy_no)
@@ -1534,7 +1550,7 @@ class FasterController extends BaseController
     public function getCityName(){
         $html = '';
         $db = \Config\Database::connect();
-        if ($_REQUEST['str'] == '0') {
+        if ($_REQUEST['str'] == '0' || empty($_REQUEST['str'])) {
             $html .= '<option value="0">None</option>';
         } else {
             $state_code_query = $db->table('master.state')

@@ -127,6 +127,41 @@ class Physical_verify extends BaseController {
 		$data['agency_type']= $this->ReportModel->CaseType_StateWise_Count($section, $casetype);
 		return view('PendencyReports/CaseType_YearWise_Count', $data);
     }
+	
+	public function Total(){
+		$request = \Config\Services::request();
+		$section = $request->getGet('sect');
+		$casetype = $request->getGet('casetype');
+		$data['case_type']= $casetype;
+        $data['section']=$section;
+        $data['Total_pendency'] =$this->ReportModel->Total_Pendency($section,$casetype);
+        return view('PendencyReports/view_cases_Report', $data);
+    }
+	
+	public function Misc_Reg_Pendency(){
+		$request = \Config\Services::request();
+		$section = $request->getGet('sect');
+		$casetype = $request->getGet('casetype');
+		$data['case_type']= $casetype;
+        $data['section']=$section;
+        $data['Total_pendency'] = $this->ReportModel->Misc_Reg_Pendency($section, $casetype);
+        return view('PendencyReports/view_cases_Report',$data);
+    }
+	
+	 public function View_Cases_Result(){
+		$request = \Config\Services::request();
+		$section = $request->getGet('sect');
+		$casetype = $request->getGet('casetype');
+		$ref_id = $request->getGet('ref_id');
+		$diary_year = $request->getGet('diary_year');
+		$data['case_type']= $casetype;
+        $data['section']=$section;
+        $data['ref_id']=$ref_id;
+        $data['diary_year']=$diary_year;
+		$data['view_cases_Result'] = $this->ReportModel->view_Cases_Result($section,$casetype,$diary_year,$ref_id);
+        return view('PendencyReports/View_Cases_Result',$data);
+    }
+	
  
 	
 	

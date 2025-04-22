@@ -153,7 +153,7 @@
 
 
 <script>
-    function insert() {
+    async function insert() {
         var info = $('#info').val().trim();
         if (info == '') {
             alert('Please Enter Case Information');
@@ -165,6 +165,7 @@
             var dno2 = dno1 + dyr1;
             var isedit = $("#isedit").val();
             var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            await updateCSRFTokenSync();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': '<?= csrf_hash(); ?>'
@@ -174,6 +175,9 @@
             $.ajax({
                 url: "<?php echo base_url('Listing/Caseinfo/insertCase/'); ?>",
                 type: "POST",
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                },
                 data: {
                     info: info,
                     dno: dno2,
@@ -181,9 +185,8 @@
                     CSRF_TOKEN: CSRF_TOKEN_VALUE
                 },
                 success: function(response) {
-
-                    if (response.status === 'success') {
-                        updateCSRFToken();
+                    updateCSRFTokenSync()
+                    if (response.status === 'success') {                        
                         setTimeout(function() { get_details(); }, 50);
                         alert(response.message);
                     } else {
@@ -191,7 +194,7 @@
                     }
                 },
                 error: function() {
-                    updateCSRFToken();
+                    updateCSRFTokenSync()
                     alert("Error in AJAX call");
                 }
             });
@@ -221,7 +224,7 @@
                 },
                 success: function(response) {
                     if (response.status === 'success') {
-                        updateCSRFToken();
+                        updateCSRFTokenSync();
                         setTimeout(function() { get_details(); }, 50);
                         alert(response.message);
                         //location.reload();
@@ -230,7 +233,7 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    updateCSRFToken();
+                    updateCSRFTokenSync();
                     alert("An error occurred: " + xhr.responseText);
                 }
             });
@@ -248,20 +251,20 @@
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             success: function(response) {
-                updateCSRFToken();
+                updateCSRFTokenSync();
                 $('#info').val(response);
                 $('#isedit').val(id);
                 $('#info').focus();
             },
             error: function(xhr, status, error) {
-                updateCSRFToken();
+                updateCSRFTokenSync();
                 console.log("AJAX Error: " + error);
             }
         });
     }
 
 
-    function get_details() {
+    async function get_details() {
         var diaryno, diaryyear, cstype, csno, csyr;
         var regNum = new RegExp('^[0-9]+$');
 
@@ -326,12 +329,17 @@
             alert('Please Select Any Option');
             return false;
         }
-
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var tock = await updateCSRFTokenSync();
+        console.log(tock);
+        // var CSRF_TOKEN = 'CSRF_TOKEN';
+        // var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var CSRF_TOKEN_VALUE = tock.CSRF_TOKEN_VALUE;
         $.ajax({
             url: "<?php echo base_url('Listing/Caseinfo/case_info_process'); ?>",
             type: "POST",
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
             data: {
                 diary_number: diaryno,
                 diary_year: diaryyear,
@@ -347,14 +355,14 @@
                 $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             success: function(response) {
+                updateCSRFTokenSync()
                 $("#loader").html('');
-                updateCSRFToken();
                 var response = response.replace('1@@@', '');
                 $(".form-response").html("");
                 $('#report_result').html(response);
             },
             error: function(xhr, status, error) {
-                updateCSRFToken();
+                updateCSRFTokenSync()
                 console.log("AJAX Error: " + error);
             }
         });
