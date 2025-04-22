@@ -70,8 +70,7 @@ class UserManagementModel extends Model
         $builder->join('master.userdept b', 'a.udept = b.id', 'left');
         $builder->join('master.usersection c', 'a.section = c.id', 'left');
         $builder->join('master.usertype d', 'a.usertype = d.id', 'left');
-        $builder->where('a.empid', $id);
-        echo $builder->getCompiledSelect();die;
+        $builder->where('a.empid', $id);        
         $query = $builder->get();
         $user = $query->getRowArray();
         // pr($user);
