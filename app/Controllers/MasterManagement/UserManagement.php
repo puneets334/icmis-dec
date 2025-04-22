@@ -242,7 +242,7 @@ class UserManagement extends BaseController
             }
         }
         if ($data['mat'] == 2) {
-            pr('2');
+            //return view('MasterManagement/UserManagement/userdept_manage', $data);
         }
         if ($data['mat'] == 3) {
             $data['id'] = $this->request->getPost('id');
