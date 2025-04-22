@@ -105,7 +105,7 @@
         </div>
     </section>
     <!-- /.content -->
-    
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
        
         var courtno = $('#list_no').val();
@@ -121,6 +121,7 @@
         });
 
         async function load_registry_consent_process(){
+            await updateCSRFTokenSync();
             var CSRF_TOKEN = 'CSRF_TOKEN';
             var csrf = $("input[name='CSRF_TOKEN']").val();
             $("#result").html(""); 
@@ -142,7 +143,7 @@
                     async: true,
                     data: {CSRF_TOKEN:csrf,list_type:list_type,courtno:courtno},
                     beforeSend:function(){
-                        //$('#result').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                        $('#result').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
                         $("#btn_search").html('Loading <i class="fas fa-sync fa-spin"></i>');
                     },
                     type: 'POST',
@@ -285,7 +286,8 @@
                     title: "Are you sure?",
                     text: "You want to update "+chk_count+" cases for "+update_flag_text+" hearing",
                     dangerMode: true,
-                    type: "warning",
+                    icon: "warning",
+                    // type: "warning",
                     showCancelButton: true,
                     buttons: [
                         'No, cancel it!',

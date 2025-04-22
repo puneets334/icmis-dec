@@ -1671,8 +1671,28 @@ function insert_court_stat(crt, cdt, jcodes)
     xhr2.send(null);
 }
 
-
 function call_cs(d_no,d_yr,ct,cn,cy)
+{
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    $.ajax({
+        type: 'POST',
+        url: base_url+'/Common/Case_status/case_status',
+        beforeSend: function (xhr) {
+            $("#modData").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='../../images/load.gif'></div>");
+        },
+        data:{diary_number:d_no,diary_year:d_yr,ct:ct,cn:cn,cy:cy,search_type:'D',opt:2,CSRF_TOKEN: CSRF_TOKEN_VALUE}
+    })
+        .done(function(msg){
+            updateCSRFToken();
+            $("#modData").html(msg);
+        })
+        .fail(function(){
+            updateCSRFToken();
+            alert("ERROR, Please Contact Server Room");
+        });
+}
+
+function call_cs1(d_no,d_yr,ct,cn,cy)
 {
     var divname = "";
     divname = "newcs123";

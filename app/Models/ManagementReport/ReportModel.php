@@ -44,8 +44,8 @@ class ReportModel extends Model
                         THEN CONCAT('(', s.category_sc_old, ')', s.sub_name1, '-', s.sub_name4) 
                         ELSE CONCAT('(', s.subcode1, s.subcode2, ')', s.sub_name1, '-', s.sub_name4) 
                     END AS subject_category,
-                    CONCAT('http://xxxx/supreme_court/', o.pdfname) AS disp_path,
-                    CONCAT('/home/reports/', o.pdfname) AS path,
+                    CONCAT('".base_url()."/', o.pdfname) AS disp_path,
+                    CONCAT('".base_url()."/home/reports/', o.pdfname) AS path,
                     rac.agency_name 
                 FROM 
                     ordernet o 
@@ -468,7 +468,7 @@ class ReportModel extends Model
                         FROM weekly_list 
                         WHERE (EXTRACT(YEAR FROM CURRENT_DATE) = weekly_year OR EXTRACT(YEAR FROM CURRENT_DATE) + 1 = weekly_year)) wl2 ON wl2.max_weekly_no = wl1.weekly_no 
                         AND wl2.max_weekly_year = wl1.weekly_year) w ON w.diary_no = h.diary_no WHERE m.c_status = 'P' AND h.mainhead = 'F' AND h.board_type = 'J' 
-                        AND (m.diary_no = m.conn_key::bigint OR m.conn_key='0' OR m.conn_key = '' OR m.conn_key IS NULL) AND m.mf_active = 'F' $upto_list_dt 
+                        AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS bigint) OR m.conn_key='0' OR m.conn_key = '' OR m.conn_key IS NULL) AND m.mf_active = 'F' $upto_list_dt 
                         GROUP BY m.diary_no, h.clno, h.next_dt, w.diary_no, h.main_supp_flag, h.listorder, h.diary_no 
                         ORDER BY case_priority, 
                         CAST(SUBSTRING(CAST(h.diary_no AS TEXT) FROM LENGTH(CAST(h.diary_no AS TEXT))-3 FOR 4) AS INTEGER) ASC, 

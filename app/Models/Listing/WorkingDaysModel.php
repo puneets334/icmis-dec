@@ -238,7 +238,7 @@ class WorkingDaysModel extends Model
         $builder->where('mc.diary_no IS NOT NULL');
         $builder->where('m.c_status', 'P');
         $builder->groupStart();
-        $builder->where('(m.conn_key IS NULL OR m.conn_key = \'0\' OR CAST(m.conn_key AS BIGINT) = m.diary_no)');
+        $builder->where("(m.conn_key IS NULL OR m.conn_key = '0' OR m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT))");
         $builder->groupEnd();
         $builder->where('h.main_supp_flag', 0);
         $builder->where('h.mainhead', $mainhead);

@@ -161,17 +161,14 @@ class UserManagement extends BaseController
                     $result = $this->UserManagementModel->add_userdept($name, $flag, $butype, $usercode);
                     $result_message = "USER DEPARTMENT ADDED SUCCESSFULLY";
                     break;
-
                 case 2:
                     $result = $this->UserManagementModel->remove_userdept($id, $usercode);
                     $result_message = "USER DEPARTMENT REMOVED SUCCESSFULLY";
                     break;
-
                 case 3:
                     $result = $this->UserManagementModel->edit_userdept($name, $flag, $id, $butype, $usercode);
                     $result_message = "USER DEPARTMENT UPDATED SUCCESSFULLY";
                     break;
-
                 default:
                     break;
             }
@@ -185,7 +182,8 @@ class UserManagement extends BaseController
         } elseif ($mat == 2) {
             return view('MasterManagement/UserManagement/userdept_manage', $data);
         } elseif ($mat == 3) {
-            return $this->UserManagementModel->getUserData_obj($id);
+            //return $this->UserManagementModel->getUserData_obj($id);
+            return $this->UserManagementModel->getUserDataDept_obj($id);
         }
     }
 
@@ -236,15 +234,16 @@ class UserManagement extends BaseController
                     break;
                 case 3:
                     $data['id'] = $this->request->getPost('id');
-                    $result = $this->UserManagementModel->edit_userrange($data['utype'], $data['low'], $data['up'], $data['id'], $usercode);
-                    $result_message = "USERRANGE UPDATED SUCCESSFULLY";
+                    $result = $this->UserManagementModel->edit_userrange($data['utype'], $data['low'], $data['up'], $data['id'], $usercode);                    
+                    //$result_message = "USERRANGE UPDATED SUCCESSFULLY";
+                    echo $result_message = $result;die;
                     break;
                 default:
                     break;
             }
         }
         if ($data['mat'] == 2) {
-            pr('2');
+            //return view('MasterManagement/UserManagement/userdept_manage', $data);
         }
         if ($data['mat'] == 3) {
             $data['id'] = $this->request->getPost('id');

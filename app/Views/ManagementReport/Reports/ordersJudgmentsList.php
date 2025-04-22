@@ -86,6 +86,7 @@
 				async: true,
 				beforeSend: function() {
 					$('#dv_res1').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+				    $('#btnGetDiaryList').attr('disabled','disabled');
 				},
 				data: {
 					CSRF_TOKEN: csrf,
@@ -96,10 +97,12 @@
 				success: function(r) {
 					updateCSRFToken();
 					$("#dv_res1").html(r);
+					$('#btnGetDiaryList').removeAttr('disabled');
 				},
 				error: function() {
 					updateCSRFToken();
 					alert('ERRO');
+					$('#btnGetDiaryList').removeAttr('disabled');
 				}
 			});
 			updateCSRFToken();

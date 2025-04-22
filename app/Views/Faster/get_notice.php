@@ -113,7 +113,7 @@
                                             $ck_pfnt = 1;
                                         }
                                     }
-                                } else if ($fx_dt == 0 && $res_sql_bnnn > 0) {
+                                } else if ($fx_dt == 0 && (isset($res_sql_bnnn) && $res_sql_bnnn > 0)) {
                                     $conn_main_cs = 0;
                                     $check_rec_pre = '0';
                                     $res_sql_pf = '';
@@ -1230,40 +1230,40 @@
                                             if ($row1['sr_no'] == '0') {
                                                 $ck_en_nt = '1';
                                             }
-                                            if ($ck_en_nt_x['name'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['name'] == '') {
                                                 $ck_en_nt_x['name'] = $row1['partyname'];
                                             }
 
-                                            if ($ck_en_nt_x['address'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['address'] == '') {
                                                 $ck_en_nt_x['address'] = $row1['addr1'];
                                             }
-                                            if ($ck_en_nt_x['nt_type'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['nt_type'] == '') {
                                                 $ck_en_nt_x['nt_type'] = $row1['nt_type'];
                                             }
-                                            if ($ck_en_nt_x['del_type'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['del_type'] == '') {
                                                 $ck_en_nt_x['del_type'] = $row1['del_type'];
                                             }
-                                            if ($ck_en_nt_x['send_to'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['send_to'] == '') {
                                                 $ck_en_nt_x['send_to'] = $row1['send_to'];
                                             }
-                                            if ($ck_en_nt_x['cp_sn_to'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['cp_sn_to'] == '') {
                                                 $ck_en_nt_x['cp_sn_to'] = $row1['cp_sn_to'];
                                             }
 
-                                            if ($ck_en_nt_x['id'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['id'] == '') {
                                                 $ck_en_nt_x['id'] = $row1['id'];
                                             }
 
-                                            if ($ck_en_nt_x['jud1'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['jud1'] == '') {
                                                 $ck_en_nt_x['jud1'] = $row1['jud1'];
                                             }
-                                            if ($ck_en_nt_x['jud2'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['jud2'] == '') {
                                                 $ck_en_nt_x['jud2'] = $row1['jud2'];
                                             }
-                                            if ($ck_en_nt_x['note'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['note'] == '') {
                                                 $ck_en_nt_x['note'] = $row1['note'];
                                             }
-                                            if ($ck_en_nt_x['amount'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['amount'] == '') {
                                                 $ck_en_nt_x['amount'] = $row1['amount'];
                                             }
                                             if ($row1['pet_res'] == 'P' && $c_pet == 0 && $row1['sr_no'] == 1) {
@@ -1396,7 +1396,7 @@
                                                                 $query_city =  getCityById($row1['state']);
                                                                 foreach ($query_city as $row_c) {
                                                             ?>
-                                                                    <option value="<?php echo $row_c['District_code']; ?>" <?php if ($row_c['District_code'] == $row1['city']) { ?> selected="selected" <?php } ?>><?php echo $row_c['Name']; ?></option>
+                                                                    <option value="<?php echo $row_c['district_code']; ?>" <?php if ($row_c['district_code'] == $row1['city']) { ?> selected="selected" <?php } ?>><?php echo $row_c['name']; ?></option>
                                                                 <?php
                                                                 }
                                                                 ?>
@@ -1490,61 +1490,64 @@
                                                         $del_tw_copysend_to = '';
                                                         $ex_c_st = '';
                                                         // Get del_type
-                                                        $delTypeQuery = $this->db->table('tw_o_r')
-                                                            ->select('del_type')
-                                                            ->where('tw_org_id', $ck_en_nt_x['id'])
-                                                            ->where('display', 'Y')
-                                                            ->get();
-                                                        if ($delTypeQuery->getNumRows() > 0) {
-                                                            foreach ($delTypeQuery->getResultArray() as $row) {
-                                                                $del_modes .= ($del_modes ? '' : '') . $row['del_type'];
-                                                            }
-                                                        }
-                                                        // Get send_to data
-                                                        $twSendToQuery = $this->db->table('tw_o_r a')
-                                                            ->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type')
-                                                            ->join('tw_comp_not b', 'a.id = b.tw_o_r_id')
-                                                            ->where('tw_org_id', $ck_en_nt_x['id'])
-                                                            ->where('a.display', 'Y')
-                                                            ->where('b.display', 'Y')
-                                                            ->where('copy_type', 0)
-                                                            ->get();
-                                                        if ($twSendToQuery->getNumRows() > 0) {
-                                                            foreach ($twSendToQuery->getResultArray() as $row) {
-                                                                if ($del_tw_send_to == '') {
-                                                                    $del_tw_send_to = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
-                                                                } else {
-                                                                    $del_tw_send_to .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                        if(isset($ck_en_nt_x['id']) && $ck_en_nt_x['id']){
+                                                            $delTypeQuery = $db->table('tw_o_r')
+                                                                ->select('del_type')
+                                                                ->where('tw_org_id', $ck_en_nt_x['id'])
+                                                                ->where('display', 'Y')
+                                                                ->get();
+                                                            if ($delTypeQuery->getNumRows() > 0) {
+                                                                foreach ($delTypeQuery->getResultArray() as $row) {
+                                                                    $del_modes .= ($del_modes ? '' : '') . $row['del_type'];
                                                                 }
                                                             }
-                                                        }
-                                                        // Get copy send_to data
-                                                        $twCpSendToQuery = $this->db->table('tw_o_r a')
-                                                            ->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type')
-                                                            ->join('tw_comp_not b', 'a.id = b.tw_o_r_id')
-                                                            ->where('tw_org_id', $ck_en_nt_x['id'])
-                                                            ->where('a.display', 'Y')
-                                                            ->where('b.display', 'Y')
-                                                            ->where('copy_type', 1)
-                                                            ->orderBy('id')
-                                                            ->orderBy('del_type')
-                                                            ->orderBy('copy_type')
-                                                            ->get();
-                                                        if ($twCpSendToQuery->getNumRows() > 0) {
-                                                            $main_id = '';
-                                                            foreach ($twCpSendToQuery->getResultArray() as $row) {
-                                                                if ($main_id != $row['id']) {
-                                                                    if ($del_tw_copysend_to == '') {
-                                                                        $del_tw_copysend_to = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                        
+                                                            // Get send_to data
+                                                            $twSendToQuery = $db->table('tw_o_r a')
+                                                                ->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type')
+                                                                ->join('tw_comp_not b', 'a.id = b.tw_o_r_id')
+                                                                ->where('tw_org_id', $ck_en_nt_x['id'])
+                                                                ->where('a.display', 'Y')
+                                                                ->where('b.display', 'Y')
+                                                                ->where('copy_type', 0)
+                                                                ->get();
+                                                            if ($twSendToQuery->getNumRows() > 0) {
+                                                                foreach ($twSendToQuery->getResultArray() as $row) {
+                                                                    if ($del_tw_send_to == '') {
+                                                                        $del_tw_send_to = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
                                                                     } else {
-                                                                        $del_tw_copysend_to .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        $del_tw_send_to .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
                                                                     }
-                                                                    $main_id = $row['id'];
-                                                                } else {
-                                                                    if ($ex_c_st == '') {
-                                                                        $ex_c_st = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                }
+                                                            }
+                                                            // Get copy send_to data
+                                                            $twCpSendToQuery = $db->table('tw_o_r a')
+                                                                ->select('a.id, del_type, tw_sn_to, sendto_state, sendto_district, copy_type, send_to_type')
+                                                                ->join('tw_comp_not b', 'a.id = b.tw_o_r_id')
+                                                                ->where('tw_org_id', $ck_en_nt_x['id'])
+                                                                ->where('a.display', 'Y')
+                                                                ->where('b.display', 'Y')
+                                                                ->where('copy_type', 1)
+                                                                ->orderBy('id')
+                                                                ->orderBy('del_type')
+                                                                ->orderBy('copy_type')
+                                                                ->get();
+                                                            if ($twCpSendToQuery->getNumRows() > 0) {
+                                                                $main_id = '';
+                                                                foreach ($twCpSendToQuery->getResultArray() as $row) {
+                                                                    if ($main_id != $row['id']) {
+                                                                        if ($del_tw_copysend_to == '') {
+                                                                            $del_tw_copysend_to = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        } else {
+                                                                            $del_tw_copysend_to .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        }
+                                                                        $main_id = $row['id'];
                                                                     } else {
-                                                                        $ex_c_st .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        if ($ex_c_st == '') {
+                                                                            $ex_c_st = $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        } else {
+                                                                            $ex_c_st .= '#' . $row['del_type'] . '~' . $row['tw_sn_to'] . '~' . $row['sendto_state'] . '~' . $row['sendto_district'] . '~' . $row['send_to_type'];
+                                                                        }
                                                                     }
                                                                 }
                                                             }

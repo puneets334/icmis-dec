@@ -42,7 +42,7 @@ class Physical_verify extends BaseController {
 		return view('PendencyReports/sectionwise_PendingIA_get', $data);
     }
 	
-	public function Reg_J1_Report(){
+	public function reg_J1_Report(){
 		$data['result_array'] = $this->ReportModel->getSections();
 		$data['getMainSubjectCategory'] = $this->ReportModel->getMainSubjectCategory();
 		return view('PendencyReports/Reg_J1_Report', $data);
@@ -56,7 +56,7 @@ class Physical_verify extends BaseController {
         
 	}
 	
-	public function Reg_J1_Report_get(){
+	public function reg_J1_Report_get(){
 		$request = \Config\Services::request();
 		$sec_detail = explode('^', $request->getPost('section'));
         $section=$sec_detail[0];
@@ -69,12 +69,12 @@ class Physical_verify extends BaseController {
    }
    
    
-   public function Da_Wise(){
+   public function da_Wise(){
         $data['result_array'] = $this->ReportModel->getSections();
 		return view('PendencyReports/Da_Wise_Report', $data);
    }
    
-   public function Da_Wise_get(){
+   public function da_Wise_get(){
 	    $request = \Config\Services::request();
 		$section = $request->getPost('section');
         $data['result_array'] = $this->ReportModel->Da_Pendency($section);
@@ -127,6 +127,41 @@ class Physical_verify extends BaseController {
 		$data['agency_type']= $this->ReportModel->CaseType_StateWise_Count($section, $casetype);
 		return view('PendencyReports/CaseType_YearWise_Count', $data);
     }
+	
+	public function total(){
+		$request = \Config\Services::request();
+		$section = $request->getGet('sect');
+		$casetype = $request->getGet('casetype');
+		$data['case_type']= $casetype;
+        $data['section']=$section;
+        $data['Total_pendency'] =$this->ReportModel->Total_Pendency($section,$casetype);
+        return view('PendencyReports/view_cases_Report', $data);
+    }
+	
+	public function misc_Reg_Pendency(){
+		$request = \Config\Services::request();
+		$section = $request->getGet('sect');
+		$casetype = $request->getGet('casetype');
+		$data['case_type']= $casetype;
+        $data['section']=$section;
+        $data['Total_pendency'] = $this->ReportModel->Misc_Reg_Pendency($section, $casetype);
+        return view('PendencyReports/view_cases_Report',$data);
+    }
+	
+	 public function view_Cases_Result(){
+		$request = \Config\Services::request();
+		$section = $request->getGet('sect');
+		$casetype = $request->getGet('casetype');
+		$ref_id = $request->getGet('ref_id');
+		$diary_year = $request->getGet('diary_year');
+		$data['case_type']= $casetype;
+        $data['section']=$section;
+        $data['ref_id']=$ref_id;
+        $data['diary_year']=$diary_year;
+		$data['view_cases_Result'] = $this->ReportModel->view_Cases_Result($section,$casetype,$diary_year,$ref_id);
+        return view('PendencyReports/View_Cases_Result',$data);
+    }
+	
  
 	
 	

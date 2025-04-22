@@ -14,6 +14,26 @@
     .sp_aex:hover {
         cursor: pointer;
     }
+    .cl_center {
+        text-align: center;
+    }
+    fieldset {
+    display: block;
+    min-inline-size: min-content;
+    margin-inline: 2px;
+    border-width: 2px;
+    border-style: groove;
+    border-color: threedface;
+    border-image: initial;
+    padding-block: 0.35em 0.625em;
+    padding-inline: 0.75em;
+}
+legend {
+    width: auto;
+}
+b, strong, dt, th {
+    font-weight: bold !important;
+}
 </style>
 <section class="content">
     <div class="container-fluid">

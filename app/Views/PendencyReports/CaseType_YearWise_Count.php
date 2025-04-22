@@ -15,7 +15,7 @@
 <?php if(!empty($YearWise)){ ?>
 <h3 style="text-align: center;">Section <b><?php echo $section ;?> </b>Case Type And Year Wise Pendency</h3>
 <div class="table-responsive">
- <table class="table table-striped custom-table" id="example1">
+ <table class="table table-striped custom-table" id="example1" style="width: 100% !important;">
     <thead>
        <tr>
 			<tr>
@@ -42,7 +42,7 @@
 <?php if(!empty($agency_type)){ ?>
 <h3 style="text-align: center;">Section <b><?php echo $section ;?> </b> Case Type And State Wise Pendency</h3>
 <div class="table-responsive">
- <table class="table table-striped custom-table" id="example2">
+ <table class="table table-striped custom-table" id="example2" style="width: 100% !important;">
     <thead>
        <tr>
 			<tr>
@@ -109,6 +109,21 @@
                     pageSize: 'A3',
 					title: "Section <?php echo $section ;?> Case Type And Year Wise Pendency",
                     customize: function ( doc ) {
+						doc.content[1].table.widths =  Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+						exportOptions: {
+							columns: ':visible'
+						};
+						var rowCount = doc.content[1].table.body.length;
+							for (var i = 0; i < rowCount; i++) {
+								var row = doc.content[1].table.body[i];
+								for (var j = 0; j < row.length; j++) {
+									row[j].alignment = 'center';
+								}
+							}
+
+						doc.defaultStyle.fontSize = 8;
+						
+						
                         doc.content.splice( 0, 0, {
                             margin: [ 0, 0, 0, 5 ],
                             alignment: 'center',
@@ -152,6 +167,21 @@
                     pageSize: 'A3',
 					title: "Section <?php echo $section ;?> Case Type And State Wise Pendency",
                     customize: function ( doc ) {
+						doc.content[1].table.widths =  Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+						exportOptions: {
+							columns: ':visible'
+						};
+						var rowCount = doc.content[1].table.body.length;
+							for (var i = 0; i < rowCount; i++) {
+								var row = doc.content[1].table.body[i];
+								for (var j = 0; j < row.length; j++) {
+									row[j].alignment = 'center';
+								}
+							}
+
+						doc.defaultStyle.fontSize = 8;
+						
+						
                         doc.content.splice( 0, 0, {
                             margin: [ 0, 0, 0, 5 ],
                             alignment: 'center',

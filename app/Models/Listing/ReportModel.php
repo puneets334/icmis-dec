@@ -2419,6 +2419,8 @@ ORDER BY
                       WHEN conn_key = CAST(diary_no AS TEXT) THEN \'0\'
                       ELSE CONCAT(SUBSTRING(CAST(diary_no AS TEXT), -4), SUBSTRING(CAST(diary_no AS TEXT), 1, LENGTH(CAST(diary_no AS TEXT)) - 4)) 
                   END';
+                  // echo $finalQuery;
+                  // die();
     $result = $this->db->query($finalQuery);
     $data = $result->getResultArray();
     return $data;

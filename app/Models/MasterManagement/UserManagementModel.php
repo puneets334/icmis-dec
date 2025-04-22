@@ -70,12 +70,27 @@ class UserManagementModel extends Model
         $builder->join('master.userdept b', 'a.udept = b.id', 'left');
         $builder->join('master.usersection c', 'a.section = c.id', 'left');
         $builder->join('master.usertype d', 'a.usertype = d.id', 'left');
-        $builder->where('a.empid', $id);
+        $builder->where('a.empid', $id);        
         $query = $builder->get();
         $user = $query->getRowArray();
         // pr($user);
         if ($user) {
             return $user['empid'] . '~' . $user['name'] . '~' . $user['userpass'] . '~' . $user['dept_name']. '~' . $user['type_name']. '~' . $user['section_name'];
+        }
+
+        return null;
+    }
+
+    public function getUserDataDept_obj($id)
+    {
+        $builder = $this->db->table('master.userdept a');
+        $builder->select('a.*');        
+        $builder->where('a.id', $id);        
+        $query = $builder->get();
+        $user = $query->getRowArray();
+        // pr($user);
+        if ($user) {
+            return $user['id'] . '~' . $user['dept_name'] . '~' . $user['uside_flag'];
         }
 
         return null;
@@ -191,6 +206,7 @@ class UserManagementModel extends Model
             SELECT a.id, a.dept_name, a.uside_flag, b.utype 
             FROM master.userdept a 
             LEFT JOIN master.user_d_t_map b ON a.id = b.udept AND a.display = 'Y' AND b.display = 'Y' 
+            WHERE a.display = 'Y' 
             ORDER BY a.id, b.utype 
         ) z 
         LEFT JOIN master.usersection y ON z.utype = y.id 
@@ -207,9 +223,10 @@ class UserManagementModel extends Model
                 'dept_name' => strtoupper($name),
                 'uside_flag' => strtoupper($flag),
                 'entuser' => $user,
-                'entdt' => date('Y-m-d H:i:s')
-            ];
-
+                'updt' => date('Y-m-d H:i:s'),
+                'entdt' => date('Y-m-d H:i:s'),
+                'upuser' => 0
+            ];                        
             $this->db->table('master.userdept')->insert($data);
             $sel_id = $this->db->insertID();
 
@@ -219,7 +236,9 @@ class UserManagementModel extends Model
                     'udept' => $sel_id,
                     'utype' => $value,
                     'entuser' => $user,
-                    'entdt' => date('Y-m-d H:i:s')
+                    'updt' => date('Y-m-d H:i:s'),
+                    'entdt' => date('Y-m-d H:i:s'),
+                    'upuser' => 0
                 ]);
             }
             return "1";
@@ -368,6 +387,31 @@ class UserManagementModel extends Model
     }
     public function edit_userrange($utype, $low, $up, $id, $usercode)
     {
+
+        $builder = $this->db->table('master.user_range');
+        $builder->where("$low BETWEEN low AND up");
+        $builder->where('display', 'Y');
+        $builder->where('id !=', $id); // Exclude the current record
+        $query = $builder->get();
+
+        if ($query->getNumRows() > 0) {
+            // Conflict exists
+            return $mesg = "LOWER RANGE IS ALREADY USED";
+        }
+
+        $builder = $this->db->table('master.user_range');
+        $builder->where("$up BETWEEN low AND up");
+        $builder->where('display', 'Y');
+        $builder->where('id !=', $id); // Exclude the current record
+        $query2 = $builder->get();
+
+        if ($query2->getNumRows() > 0) {
+            // Conflict exists
+            return $mesg = "Upper RANGE IS ALREADY USED";
+        }
+
+
+
         $builder = $this->db->table('master.user_range');
         $data = [
             'utype'   => $utype,
@@ -380,7 +424,7 @@ class UserManagementModel extends Model
         ];
         $builder->where('id', $id);
         $builder->update($data);
-        return true;
+        return $mesg = "USERRANGE UPDATED SUCCESSFULLY";
     }
     public function remove_userrange($id, $usercode)
     {
@@ -444,7 +488,7 @@ class UserManagementModel extends Model
             $this->db->table('master.usersection')->insert($data);
             return "1"; // Return success
         } else {
-            return "ERROR, USER SECTION IS ALREADY EXISTS"; // Return error
+            return "2~ USER SECTION IS ALREADY EXISTS"; // Return error
         }
     }
 
@@ -564,11 +608,11 @@ class UserManagementModel extends Model
             return "1";
         } else {
             if ($checker != 0) {
-                return "ERROR, THE DISPATCH FLAG IS ALREADY USED";
+                return "2~ THE DISPATCH FLAG IS ALREADY USED";
             } else if ($checker2 != 0) {
-                return "ERROR, THE MANAGEMENT FLAG IS ALREADY USED";
+                return "2~ THE MANAGEMENT FLAG IS ALREADY USED";
             } else {
-                return "ERROR, ANY FLAG IS ALREADY USED";
+                return "2~ ANY FLAG IS ALREADY USED";
             }
         }
     }

@@ -47,13 +47,14 @@ $(document).ready(function () {
           $(".add_result").slideUp(3000);
           $.ajax({
             type: "GET",
-      url: base_url + "/MasterManagement/UserManagement/userdept_manage",
+            url: base_url + "/MasterManagement/UserManagement/userdept_manage",
             data: { mat: 2 },
           })
             .done(function (msg_new) {
-              var msg3 = msg_new.split("<>><<>><><>");
-              $("#result_main").html(msg3[0]);
-              $("#id_udept").val(msg3[1]);
+              // var msg3 = msg_new.split("<>><<>><><>");
+              // $("#result_main").html(msg3[0]);
+              // $("#id_udept").val(msg3[1]);
+              location.reload();
             })
             .fail(function () {
               alert("ERROR, Please Contact Server Room");
@@ -88,9 +89,10 @@ $(document).ready(function () {
       data: { mat: 2 },
     })
       .done(function (msg_new) {
-        var msg3 = msg_new.split("<>><<>><><>");
-        $("#result_main").html(msg3[0]);
-        $("#id_udept").val(msg3[1]);
+        // var msg3 = msg_new.split("<>><<>><><>");
+        // $("#result_main").html(msg3[0]);
+        // $("#id_udept").val(msg3[1]);
+        location.reload();
       })
       .fail(function () {
         alert("ERROR, Please Contact Server Room");
@@ -155,9 +157,10 @@ $(document).ready(function () {
             data: { mat: 2 },
           })
             .done(function (msg_new) {
-              var msg3 = msg_new.split("<>><<>><><>");
-              $("#result_main").html(msg3[0]);
-              $("#id_udept").val(msg3[1]);
+              location.reload();
+              // var msg3 = msg_new.split("<>><<>><><>");
+              // $("#result_main").html(msg3[0]);
+              // $("#id_udept").val(msg3[1]);
             })
             .fail(function () {
               alert("ERROR, Please Contact Server Room");
@@ -183,6 +186,7 @@ $(document).on("click", "[id^='btnEdit']", function () {
   })
     .done(function (msg) {
       var msg2 = msg.split("~");
+      console.log(msg2);
       $("#id_udept").val(msg2[0]);
       $("#hd_id_for_userdept").val(msg2[0]);
       $("#name_udept").val(msg2[1]);
@@ -249,9 +253,10 @@ $(document).on("click", "[id^='btnDelete']", function () {
             data: { mat: 2 },
           })
             .done(function (msg_new) {
-              var msg3 = msg_new.split("<>><<>><><>");
-              $("#result_main").html(msg3[0]);
-              $("#id_udept").val(msg3[1]);
+              location.reload();
+              // var msg3 = msg_new.split("<>><<>><><>");
+              // $("#result_main").html(msg3[0]);
+              // $("#id_udept").val(msg3[1]);
             })
             .fail(function () {
               alert("ERROR, Please Contact Server Room");
