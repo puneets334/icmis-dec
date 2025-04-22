@@ -1,5 +1,12 @@
 <div id="printable">
-<?php if(!empty($result_array)){ ?>
+<?php $title = '';
+if(!empty($result_array)){ 
+ if($param[1]!=0) $str =  $result_array[0]['subject_category']; else $str = $result_array[0]['sub_name1'];
+ $title = 'List of Pending Matters of Section :  '.$result_array[0]['user_section'].' pertaining to Category: '.$str;
+?>
+
+
+
 <span><h3 style="text-align: center;"> List of Pending Matters of Section : <b><?php echo $result_array[0]['user_section']; ?></b> pertaining to Category: <?php if($param[1]!=0) echo $result_array[0]['subject_category']; else echo $result_array[0]['sub_name1'];?></h3></span>
 <div class="table-responsive">
  <table class="table table-striped custom-table" id="example1">
@@ -19,15 +26,15 @@
 		</tr>
 	</thead>
     <tbody>
-		<?php $s_no=1; foreach ($case_result as $result){?>
+		<?php $s_no=1; foreach ($result_array as $result){?>
 					<tr>
 						<td><?php echo $s_no;?></td>
 						<td><?php echo $result['alloted_to_da'];?></td>
-						<td ><?php echo $result['CaseNo'];?></td>
+						<td ><?php echo $result['caseno'];?></td>
 						<td ><?php echo $result['pet_name'].' vs. '.$result['res_name'];?></td>
 						<td><?php echo $result['question_of_law'];?></td>
 						<td ><?php echo $result['casestage'];?></td>
-						<td ><?php echo $result['Ready_status'];?></td>
+						<td ><?php echo $result['ready_status'];?></td>
 						<td ><?php echo $result['pet_adv'];?></td>
 						<td ><?php echo $result['next_coram'];?></td>
 
@@ -50,13 +57,20 @@
 		
 		
 		var t=$('#example1').DataTable( {
-            "bProcessing"   :   true,
             dom: 'Bfrtip',
             buttons: [
-                'excelHtml5',
+                {
+                    extend: 'excel',
+                    title: "<?= $title?>",
+                    exportOptions: {
+                        columns: [0,1,2,3,4,5,6,7,8],
+                        stripHtml: true
+                    }
+                },
                 {
                     extend: 'pdfHtml5',
                     pageSize: 'A3',
+					title: "<?= $title?>",
                     customize: function ( doc ) {
                         doc.content.splice( 0, 0, {
                             margin: [ 0, 0, 0, 5 ],
