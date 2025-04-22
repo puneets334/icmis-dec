@@ -59,7 +59,7 @@ class Physical_verify extends BaseController {
 	public function reg_J1_Report_get(){
 		$request = \Config\Services::request();
 		$sec_detail = explode('^', $request->getPost('section'));
-        $section=$sec_detail[0];
+        $section= $sec_detail[0];
         $sec_name= $sec_detail[1];
         $category = $request->getPost('categoryCode');
         $mcat = $request->getPost('McategoryCode');
