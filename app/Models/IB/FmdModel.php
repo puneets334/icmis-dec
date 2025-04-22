@@ -15,18 +15,27 @@ class FmdModel extends Model
 
     public function getDiaryNumber($ct, $cn, $cy)
     {
-        // First query on 'main' table
         $builder = $this->db->table('main');
-        $builder->select("SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) AS dn, SUBSTR(diary_no, -4) AS dy");
-        $builder->where("SUBSTRING_INDEX(fil_no, '-', 1)", $ct);
-        $builder->where("CAST($cn AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no, '-', 2), '-', -1) AND SUBSTRING_INDEX(fil_no, '-', -1)");
+        $builder->select("SUBSTR(diary_no::TEXT, 1, LENGTH(diary_no::TEXT) -4) AS dn, right(diary_no::TEXT, 4) AS dy, NULL as crf1, NULL as crl1 ");
+        $builder->where("SPLIT_PART(fil_no, '-', 1) ~ '^\d+$'");
+        $builder->where("SPLIT_PART(fil_no, '-', 2) ~ '^\d+$'");
+        $builder->where("SPLIT_PART(fil_no, '-', 3) ~ '^\d+$'");
+        $builder->where("CAST(SPLIT_PART(fil_no, '-', 1) AS INTEGER)", $ct);
+
+       
+        $builder->where("$cn BETWEEN CAST(SPLIT_PART(fil_no, '-', 2) AS INTEGER) AND CAST(SPLIT_PART(fil_no, '-', 3) AS INTEGER)", null, false);
+
+       
         $builder->groupStart()
-            ->where("reg_year_mh = 0 OR DATE(fil_dt) > DATE('2017-05-10')")
             ->groupStart()
-            ->where("EXTRACT(YEAR FROM fil_dt)", $cy) // Use EXTRACT instead of YEAR
+                ->where('reg_year_mh', 0)
+                ->orWhere("DATE(fil_dt) > DATE('2017-05-10')", null, false)
             ->groupEnd()
-            ->orWhere("reg_year_mh", $cy)
-            ->groupEnd();
+            ->groupStart()
+                ->where("EXTRACT(YEAR FROM fil_dt)", $cy, false)
+                ->orWhere('reg_year_mh', $cy)
+            ->groupEnd()
+        ->groupEnd();
 
         $query = $builder->get();
 
@@ -35,17 +44,44 @@ class FmdModel extends Model
         }
 
         // Second query on 'main_casetype_history' table
-        $builder = $this->db->table('main_casetype_history');
-        $builder->select("SUBSTR(h.diary_no, 1, LENGTH(h.diary_no) - 4) AS dn, SUBSTR(h.diary_no, -4) AS dy,
-        IF(h.new_registration_number != '', SUBSTRING_INDEX(h.new_registration_number, '-', 1), '') AS ct1,
-        IF(h.new_registration_number != '', SUBSTRING_INDEX(SUBSTRING_INDEX(h.new_registration_number, '-', 2), '-', -1), '') AS crf1,
-        IF(h.new_registration_number != '', SUBSTRING_INDEX(h.new_registration_number, '-', -1), '') AS crl1");
-
-        $builder->where("SUBSTRING_INDEX(h.new_registration_number, '-', 1)", $ct);
-        $builder->where("CAST($cn AS UNSIGNED) BETWEEN SUBSTRING_INDEX(SUBSTRING_INDEX(h.new_registration_number, '-', 2), '-', -1) AND SUBSTRING_INDEX(h.new_registration_number, '-', -1)");
-        $builder->where("h.new_registration_year", $cy);
-        $builder->where("h.is_deleted", 'f');
-
+       // Second query on 'main_casetype_history' table
+       $builder = $this->db->table('main_casetype_history h');
+       $builder->select("
+           SUBSTR(h.diary_no::TEXT, 1, LENGTH(h.diary_no::TEXT) - 4) AS dn,
+           SUBSTR(h.diary_no::TEXT, -4) AS dy,
+           CASE 
+               WHEN h.new_registration_number != '' THEN SPLIT_PART(h.new_registration_number, '-', 1)
+               ELSE ''
+           END AS ct1,
+           CASE 
+               WHEN h.new_registration_number != '' THEN SPLIT_PART(h.new_registration_number, '-', 2)
+               ELSE ''
+           END AS crf1,
+           CASE 
+               WHEN h.new_registration_number != '' THEN SPLIT_PART(h.new_registration_number, '-', 3)
+               ELSE ''
+           END AS crl1
+       ");
+       
+       // Ensure parts are numeric before casting
+       $builder->where("SPLIT_PART(h.new_registration_number, '-', 1) ~ '^\d+$'");
+       $builder->where("SPLIT_PART(h.new_registration_number, '-', 2) ~ '^\d+$'");
+       $builder->where("SPLIT_PART(h.new_registration_number, '-', 3) ~ '^\d+$'");
+       
+       // Match case type
+       $builder->where("CAST(SPLIT_PART(h.new_registration_number, '-', 1) AS INTEGER)", $ct);
+       
+       // Custom BETWEEN clause (raw SQL to handle BETWEEN)
+       $builder->where(
+           "$cn BETWEEN CAST(SPLIT_PART(h.new_registration_number, '-', 2) AS INTEGER) AND CAST(SPLIT_PART(h.new_registration_number, '-', 3) AS INTEGER)",
+           null,
+           false
+       );
+       
+       // Other filters
+       $builder->where("h.new_registration_year", $cy);
+       $builder->where("h.is_deleted", 'f');
+       
         $query = $builder->get();
 
         if ($query->getNumRows() > 0) {
