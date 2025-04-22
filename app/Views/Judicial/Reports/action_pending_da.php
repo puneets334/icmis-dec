@@ -56,16 +56,16 @@
                                                         <div class="col-md-2" id="fromDate">
                                                             <div class="form-group">
                                                                 <label for="from_date" class="control-label">From date</label>
-                                                                <input type="date" class="form-control" id="from_date" autocomplete="off" ng-model="from_date"
-                                                                    placeholder="From Date">
+                                                                <input type="input" class="form-control dtp" id="from_date" autocomplete="off" ng-model="from_date"
+                                                                    placeholder="DD-MM-YYYY">
                                                             </div>
                                                             <span class="from_date_err text-danger err_msg_class"></span>
                                                         </div>
                                                         <div class="col-md-2" id="toDate">
                                                             <div class="form-group">
                                                                 <label for="to_date" class="control-label">To date</label>
-                                                                <input type="date" class="form-control" id="to_date" autocomplete="off" ng-model="to_date"
-                                                                    ng-change="check_date()" placeholder="To Date">                                                                
+                                                                <input type="input" class="form-control dtp" id="to_date" autocomplete="off" ng-model="to_date"
+                                                                    ng-change="check_date()" placeholder="DD-MM-YYYY">                                                                
                                                             </div>
                                                             <span class="to_date_err text-danger err_msg_class"></span>
                                                         </div>
@@ -183,15 +183,9 @@
 </section>
 <!-- /.content -->
 
-<!-- <script src="<?php echo base_url() ?>/assets/plugins/jQuery/jquery-2.2.3.min.js"></script> -->
 <script src="<?php echo base_url() ?>/assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-<!-- <script src="<?php echo base_url() ?>/assets/js/bootstrap.min.js"></script> -->
 <script src="<?php echo base_url() ?>/assets/plugins/fastclick/fastclick.js"></script>
-<!-- <script src="<?php echo base_url() ?>/assets/js/app.min.js"></script> -->
-<script src="<?php echo base_url() ?>/assets/js/Reports.js"></script>
-<!-- <script src="<?php echo base_url() ?>/assets/jsAlert/dist/sweetalert.min.js"></script> -->
 <script src="<?php echo base_url() ?>/assets/plugins/datepicker/bootstrap-datepicker.js"></script>
-<!-- <script src="<?php echo base_url() ?>/assets/js/angular.min.js"></script> -->
 <script src="<?php echo base_url() ?>/assets/js/Reports.js"></script>
 <script type="text/javascript">
     var CSRF_TOKEN = 'CSRF_TOKEN';
@@ -223,7 +217,7 @@
 </script>
 <script>
     $(function() {
-        $('.datepick').datepicker({
+        $('.dtp').datepicker({
             format: 'dd-mm-yyyy',
             autoclose: true
         });

@@ -1181,7 +1181,7 @@
                 dtMonth = dtArray[3];
                 dtYear = dtArray[5];
 
-                if (dtYear < 1950 || dtYear > 2023) {
+                if (dtYear < 1950 || dtYear > 2025) {
                     isCorrectDateFormat = false;
                 } else if (dtMonth < 1 || dtMonth > 12) {
                     isCorrectDateFormat = false;
@@ -1340,4 +1340,26 @@
         }
         return false;
     }
+
+    $(document).bind('DOMNodeInserted', function(e) {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+        });
+    });
+
+    $(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+        });
+    });
 </script>

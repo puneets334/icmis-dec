@@ -408,7 +408,7 @@ class Ia_documents extends BaseController
         $builder->select('remark_data');
         $builder->where("remark_data != ''");
         $builder->where("remark_data ILIKE '%$q%'");
- 
+        $builder->limit(10);
         $query1 = $builder->get();
         $result = $query1->getResultArray();
 
