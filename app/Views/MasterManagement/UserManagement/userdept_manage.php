@@ -1,7 +1,7 @@
 <?php
 if ($result != 0) {
 ?>
-    <table>
+    <table id="result_main" class="table table-striped custom-table">
         <tr>
             <th>SNo.</th>
             <th>ID</th>

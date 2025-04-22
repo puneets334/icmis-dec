@@ -71,11 +71,27 @@ class UserManagementModel extends Model
         $builder->join('master.usersection c', 'a.section = c.id', 'left');
         $builder->join('master.usertype d', 'a.usertype = d.id', 'left');
         $builder->where('a.empid', $id);
+        echo $builder->getCompiledSelect();die;
         $query = $builder->get();
         $user = $query->getRowArray();
         // pr($user);
         if ($user) {
             return $user['empid'] . '~' . $user['name'] . '~' . $user['userpass'] . '~' . $user['dept_name']. '~' . $user['type_name']. '~' . $user['section_name'];
+        }
+
+        return null;
+    }
+
+    public function getUserDataDept_obj($id)
+    {
+        $builder = $this->db->table('master.userdept a');
+        $builder->select('a.*');        
+        $builder->where('a.id', $id);        
+        $query = $builder->get();
+        $user = $query->getRowArray();
+        // pr($user);
+        if ($user) {
+            return $user['id'] . '~' . $user['dept_name'] . '~' . $user['uside_flag'];
         }
 
         return null;
@@ -191,6 +207,7 @@ class UserManagementModel extends Model
             SELECT a.id, a.dept_name, a.uside_flag, b.utype 
             FROM master.userdept a 
             LEFT JOIN master.user_d_t_map b ON a.id = b.udept AND a.display = 'Y' AND b.display = 'Y' 
+            WHERE a.display = 'Y' 
             ORDER BY a.id, b.utype 
         ) z 
         LEFT JOIN master.usersection y ON z.utype = y.id 
@@ -207,9 +224,10 @@ class UserManagementModel extends Model
                 'dept_name' => strtoupper($name),
                 'uside_flag' => strtoupper($flag),
                 'entuser' => $user,
-                'entdt' => date('Y-m-d H:i:s')
-            ];
-
+                'updt' => date('Y-m-d H:i:s'),
+                'entdt' => date('Y-m-d H:i:s'),
+                'upuser' => 0
+            ];                        
             $this->db->table('master.userdept')->insert($data);
             $sel_id = $this->db->insertID();
 
@@ -219,7 +237,9 @@ class UserManagementModel extends Model
                     'udept' => $sel_id,
                     'utype' => $value,
                     'entuser' => $user,
-                    'entdt' => date('Y-m-d H:i:s')
+                    'updt' => date('Y-m-d H:i:s'),
+                    'entdt' => date('Y-m-d H:i:s'),
+                    'upuser' => 0
                 ]);
             }
             return "1";

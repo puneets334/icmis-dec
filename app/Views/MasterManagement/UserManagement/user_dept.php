@@ -75,10 +75,10 @@
                             </div>
 
                             <div class="add_result"></div>
-                            <div id="result_main">
+                            
                                 <?php if ($result != 0) { ?>
                                     <div class="table-responsive">
-                                        <table class="table table-striped custom-table" id="users_dept">
+                                        <table class="table table-striped custom-table" id="result_main">
                                             <thead>
                                                 <tr>
                                                     <th>SNo.</th>
@@ -112,7 +112,7 @@
                                 <?php } else { ?>
                                     <div class="alert alert-warning">SORRY, NO RECORD FOUND!!!</div>
                                 <?php } ?>
-                            </div>
+                            
                         </div>
                     </form>
                 </div>

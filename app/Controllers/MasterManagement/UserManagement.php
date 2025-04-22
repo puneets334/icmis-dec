@@ -161,17 +161,14 @@ class UserManagement extends BaseController
                     $result = $this->UserManagementModel->add_userdept($name, $flag, $butype, $usercode);
                     $result_message = "USER DEPARTMENT ADDED SUCCESSFULLY";
                     break;
-
                 case 2:
                     $result = $this->UserManagementModel->remove_userdept($id, $usercode);
                     $result_message = "USER DEPARTMENT REMOVED SUCCESSFULLY";
                     break;
-
                 case 3:
                     $result = $this->UserManagementModel->edit_userdept($name, $flag, $id, $butype, $usercode);
                     $result_message = "USER DEPARTMENT UPDATED SUCCESSFULLY";
                     break;
-
                 default:
                     break;
             }
@@ -185,7 +182,8 @@ class UserManagement extends BaseController
         } elseif ($mat == 2) {
             return view('MasterManagement/UserManagement/userdept_manage', $data);
         } elseif ($mat == 3) {
-            return $this->UserManagementModel->getUserData_obj($id);
+            //return $this->UserManagementModel->getUserData_obj($id);
+            return $this->UserManagementModel->getUserDataDept_obj($id);
         }
     }
 
