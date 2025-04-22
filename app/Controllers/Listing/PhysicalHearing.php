@@ -110,6 +110,7 @@ class PhysicalHearing extends BaseController
 
         $request = \Config\Services::request();        
         $data = [];
+        $redata = [];
         $data['check_physical_hearing_pool_result'] = $data['chk_heardt'] = [];
         
         //if ($request->getMethod() === 'post' && $this->validate([
@@ -154,9 +155,9 @@ class PhysicalHearing extends BaseController
             
             if(empty($filing_details)) {
                 session()->setFlashdata("error", 'Data not Found');
-                $data['success'] = 1;
-                $data['html'] = view('Listing/physical_hearing/get_case_details_with_advocates', $data, ['saveData' => true]);
-                return $this->response->setJSON($data);
+                $redata['success'] = 1;
+                $redata['html'] = view('Listing/physical_hearing/get_case_details_with_advocates', $data, ['saveData' => true]);
+                return $this->response->setJSON($redata);
             }
 
             $filing_details['input_query'] = $input_query;
@@ -183,14 +184,14 @@ class PhysicalHearing extends BaseController
             //$data['usercode'] =  session()->get('login')['usercode'];
             $data['navigate_diary'] = $this->PhysicalHearingModel->navigate_diary($filing_details['diary_no']);
             $data['case_aor_list'] = $this->PhysicalHearingModel->get_advocate_details($filing_details['diary_no']);
-            $data['success'] = 1;
-            $data['html'] = view('Listing/physical_hearing/get_case_details_with_advocates', $data, ['saveData' => true]);
+            $redata['success'] = 1;
+            $redata['html'] = view('Listing/physical_hearing/get_case_details_with_advocates', $data, ['saveData' => true]);
         } else {
-            $data['success'] = 0;
-            $data['error'] = "Record could not be fetched.";
+            $redata['success'] = 0;
+            $redata['error'] = "Record could not be fetched.";
         }
 
-        return $this->response->setJSON($data);
+        return $this->response->setJSON($redata);
     }
 
 

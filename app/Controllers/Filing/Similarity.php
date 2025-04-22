@@ -399,7 +399,7 @@ class Similarity extends BaseController
     public function case_status($d=null)
     {
         if (isset($d)) {
-            echo component_case_status_process_tab($d);exit();
+            echo $this->component_case_status_process_tab($d);exit();
         }
     }
 
@@ -408,6 +408,17 @@ class Similarity extends BaseController
         $diary_no = $this->request->getPost('diary_no');
         $diary_info = get_diary_numyear($diary_no);
         $main_diary_number = array('dn' => $diary_info[0] , 'dy' => $diary_info[1]);
-        echo component_case_status_process_tab($main_diary_number);exit();
+        echo $this->component_case_status_process_tab($main_diary_number);exit();
+    }
+
+    public function component_case_status_process_tab($diary_no = '')
+    {
+        $model = new \App\Models\Common\Component\Model_case_status();
+        $html = "";
+        $data = getCaseDetails($diary_no);
+        $data['component'] = 'component_for_case_status_process';
+        $data['Model_case_status'] = $model;
+        $html = view('Common/Component/case_status/case_status_process_tab', $data);
+        return $html;
     }
 }
