@@ -234,15 +234,16 @@ class UserManagement extends BaseController
                     break;
                 case 3:
                     $data['id'] = $this->request->getPost('id');
-                    $result = $this->UserManagementModel->edit_userrange($data['utype'], $data['low'], $data['up'], $data['id'], $usercode);
-                    $result_message = "USERRANGE UPDATED SUCCESSFULLY";
+                    $result = $this->UserManagementModel->edit_userrange($data['utype'], $data['low'], $data['up'], $data['id'], $usercode);                    
+                    //$result_message = "USERRANGE UPDATED SUCCESSFULLY";
+                    echo $result_message = $result;die;
                     break;
                 default:
                     break;
             }
         }
         if ($data['mat'] == 2) {
-            pr('2');
+            //return view('MasterManagement/UserManagement/userdept_manage', $data);
         }
         if ($data['mat'] == 3) {
             $data['id'] = $this->request->getPost('id');

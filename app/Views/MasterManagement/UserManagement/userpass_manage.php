@@ -1,4 +1,9 @@
-    <input type="hidden" id="hd_id_for_userpass_reset" value="<?php echo $newdata['0'] ?? ''; ?>">
+
+<?php
+if(!empty($newdata) && is_array($newdata)){
+ ?>
+
+<input type="hidden" id="hd_id_for_userpass_reset" value="<?php echo $newdata['0'] ?? ''; ?>">
     <div class="table-responsive">
         <table id="users" class="table table-striped custom-table">
             <tr class="font-weight-bold">
@@ -23,3 +28,6 @@
         </table>
     </div>
     <div id="2result"></div>
+    <?php } else{ ?>
+    <div class="sorry mb-3">SORRY, NO RECORD FOUND!!!</div>
+<?php }?>

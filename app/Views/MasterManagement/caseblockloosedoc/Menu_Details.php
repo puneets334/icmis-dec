@@ -83,8 +83,8 @@
 
                                             <?php
                                             if (is_array($menu_list) && !empty($menu_list)) {
-                                                
-                                              $title =   "Menu Privilege details of :".$menu_list[0]['name'].'('.$menu_list[0]['empid'].')';
+
+                                                $title =   "Menu Privilege details of :" . $menu_list[0]['name'] . '(' . $menu_list[0]['empid'] . ')';
                                             ?>
                                                 <hr>
                                                 <div id="printable">
@@ -108,9 +108,21 @@
                                                                 ?>
                                                                     <tr>
                                                                         <td><?php echo $s_no; ?></td>
-                                                                        <td><a href="<?= base_url(); ?>/MasterManagement/CaseBlockLooseDoc/Menu_Remove?mn_me_per=<?php echo $result['main_menu_id']; ?>&emp_rem=<?php if (isset($_POST['target'])) {echo $_POST['target'];} else {echo $param[0];} ?>" onClick="return confirm('Do you want to remove this Menu (including all the sub-menus)')"><?php echo $result['menu_nm']; ?></td>
-                                                                        <td><a href="<?= base_url(); ?>/MasterManagement/CaseBlockLooseDoc/Menu_Remove?sub_me_per=<?php echo $result['sub_me_per']; ?>&emp_rem=<?php if (isset($_POST['target'])) {echo $_POST['target'];} else {echo $param[0];} ?>" onClick="return confirm('Do you want to remove this Sub-Menu including all the Sub-Sub-menus')"><?php echo $result['sub_mn_nm']; ?></td>
-                                                                        <td><a href="<?= base_url(); ?>/MasterManagement/CaseBlockLooseDoc/Menu_Remove?sub_sub_menu=<?php echo $result['su_su_menu_id']; ?>&emp_rem=<?php if (isset($_POST['target'])) {echo $_POST['target'];} else {echo $param[0]; } ?>" onClick="return confirm('Do you want to remove this Sub-Sub-Menu')"><?php echo $result['sub_sub_mn_nm']; ?></td>
+                                                                        <td><a href="<?= base_url(); ?>/MasterManagement/CaseBlockLooseDoc/Menu_Remove?mn_me_per=<?php echo $result['main_menu_id']; ?>&emp_rem=<?php if (isset($_POST['target'])) {
+                                                                                                                                                                                                                    echo $_POST['target'];
+                                                                                                                                                                                                                } else {
+                                                                                                                                                                                                                    echo $param[0];
+                                                                                                                                                                                                                } ?>" onClick="return confirm('Do you want to remove this Menu (including all the sub-menus)')"><?php echo $result['menu_nm']; ?></td>
+                                                                        <td><a href="<?= base_url(); ?>/MasterManagement/CaseBlockLooseDoc/Menu_Remove?sub_me_per=<?php echo $result['sub_me_per']; ?>&emp_rem=<?php if (isset($_POST['target'])) {
+                                                                                                                                                                                                                    echo $_POST['target'];
+                                                                                                                                                                                                                } else {
+                                                                                                                                                                                                                    echo $param[0];
+                                                                                                                                                                                                                } ?>" onClick="return confirm('Do you want to remove this Sub-Menu including all the Sub-Sub-menus')"><?php echo $result['sub_mn_nm']; ?></td>
+                                                                        <td><a href="<?= base_url(); ?>/MasterManagement/CaseBlockLooseDoc/Menu_Remove?sub_sub_menu=<?php echo $result['su_su_menu_id']; ?>&emp_rem=<?php if (isset($_POST['target'])) {
+                                                                                                                                                                                                                        echo $_POST['target'];
+                                                                                                                                                                                                                    } else {
+                                                                                                                                                                                                                        echo $param[0];
+                                                                                                                                                                                                                    } ?>" onClick="return confirm('Do you want to remove this Sub-Sub-Menu')"><?php echo $result['sub_sub_mn_nm']; ?></td>
                                                                     </tr>
                                                                 <?php
                                                                     $s_no++;
@@ -154,20 +166,20 @@
             });
         });
 
-        var title = "<?php echo (!empty($title)) ? $title : ''?>";
-       
+        var title = "<?php echo (!empty($title)) ? $title : '' ?>";
+
         var t = $('#reportTable1').DataTable({
             "bProcessing": true,
             dom: 'Bfrtip',
             "lengthChange": true,
             margin: [0, 0, 100, 5],
-            
+
             buttons: [
                 'excelHtml5',
                 {
                     extend: 'pdfHtml5',
                     pageSize: 'A4',
-                    title: "Menu Privileges " + title,
+                    title:  title,
                     // filename: title,
                     customize: function(doc) {
                         doc.content.splice(0, 0, {

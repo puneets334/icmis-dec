@@ -430,6 +430,8 @@ class ProposalModel extends Model
         //  $result_judge = mysql_query($sql_senior_judge) or die("Error: " . __LINE__ . mysql_error());
         //  $row_judge = mysql_fetch_array($result_judge);
 
+        $final_next_dt = "";
+        $prev_board_type = "";
         $is_nmd = "";
         if (!empty($row_heardt)) {
             $prev_mainhead = $row_heardt['mainhead'];

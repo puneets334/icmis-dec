@@ -116,6 +116,20 @@
                     pageSize: 'A3',
 					title: "SECTION <?php echo $section;?> REGISTERED CASE TYPE PENDENCY",
                     customize: function ( doc ) {
+						doc.content[1].table.widths =  Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+						exportOptions: {
+							columns: ':visible'
+						};
+						var rowCount = doc.content[1].table.body.length;
+							for (var i = 0; i < rowCount; i++) {
+								var row = doc.content[1].table.body[i];
+								for (var j = 0; j < row.length; j++) {
+									row[j].alignment = 'center';
+								}
+							}
+
+						doc.defaultStyle.fontSize = 8;
+						
                         doc.content.splice( 0, 0, {
                             margin: [ 0, 0, 0, 5 ],
                             alignment: 'center',
@@ -159,6 +173,21 @@
                     pageSize: 'A3',
 					title: "SECTION <?php echo $section;?> UN-REGISTERED CASES PENDENCY",
                     customize: function ( doc ) {
+						doc.content[1].table.widths =  Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+						exportOptions: {
+							columns: ':visible'
+						};
+						var rowCount = doc.content[1].table.body.length;
+							for (var i = 0; i < rowCount; i++) {
+								var row = doc.content[1].table.body[i];
+								for (var j = 0; j < row.length; j++) {
+									row[j].alignment = 'center';
+								}
+							}
+
+						doc.defaultStyle.fontSize = 8;
+						
+						
                         doc.content.splice( 0, 0, {
                             margin: [ 0, 0, 0, 5 ],
                             alignment: 'center',
@@ -203,6 +232,20 @@
                     pageSize: 'A3',
 					title: "SECTION <?php echo $section;?> MISC AND REGULAR CASES PENDENCY",
                     customize: function ( doc ) {
+						doc.content[1].table.widths =  Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+						exportOptions: {
+							columns: ':visible'
+						};
+						var rowCount = doc.content[1].table.body.length;
+							for (var i = 0; i < rowCount; i++) {
+								var row = doc.content[1].table.body[i];
+								for (var j = 0; j < row.length; j++) {
+									row[j].alignment = 'center';
+								}
+							}
+
+						doc.defaultStyle.fontSize = 8;
+						
                         doc.content.splice( 0, 0, {
                             margin: [ 0, 0, 0, 5 ],
                             alignment: 'center',

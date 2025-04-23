@@ -36,13 +36,13 @@
                                         <div class="col-md-6">
                                             <label for="fromDate">Upload Date <i class="fa fa-calendar"></i></label>
                                             <div class="input-group">
-                                                <input type="date" class="form-control" name="fromDate" id="fromDate" placeholder="dd/mm/yyyy">
+                                                <input type="input" class="form-control dtp" name="fromDate" id="fromDate" placeholder="dd-mm-yyyy">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="toDate">To <i class="fa fa-calendar"></i></label>
                                             <div class="input-group">
-                                                <input type="date" class="form-control" name="toDate" id="toDate" placeholder="dd/mm/yyyy">
+                                                <input type="input" class="form-control dtp" name="toDate" id="toDate" placeholder="dd-mm-yyyy">
                                             </div>
                                         </div>
                                     </div>
@@ -161,4 +161,16 @@
             });
         }
     }
+
+    $(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
+    });
 </script>
