@@ -103,11 +103,26 @@
                             </tr>
                         </table>
                     </div>
-                    <div id="dv_res1" style="text-align: left;"></div>
-                    <div id="dv_res2" style="text-align: left;"></div>
+
+                 
                 </div>
             </form>
         </div>
+        <div class="container">
+                        <div class="col-md-12 ">
+                            <div id="dv_res1" style="text-align: left;"></div>    
+                        </div>
+                    </div>
+                    
+
+
+                    
+
+                    <div class="container">
+                        <div class="col-md-8 ">
+                            <div id="dv_res2" style="text-align: left;"></div>    
+                        </div>
+                    </div>
     </div>
 </div>
 <script>

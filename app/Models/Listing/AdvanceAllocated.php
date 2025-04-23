@@ -600,7 +600,7 @@ WHERE EXTRACT(YEAR FROM next_dt) = EXTRACT(YEAR FROM DATE '$list_dt')
 
     public function getIsNumConditionBase($is_nmd, $q_next_dt)
     {
-        if($is_nmd == 0){
+        if ($is_nmd == 0) {
             $sql = "SELECT
                         jg.p1,
                         jg.p2,
@@ -656,8 +656,7 @@ WHERE EXTRACT(YEAR FROM next_dt) = EXTRACT(YEAR FROM DATE '$list_dt')
                         jg.p1, jg.p2, jg.p3, j.abbreviation, jg.fresh_limit, b.listed,j.judge_seniority
                     ORDER BY
                         j.judge_seniority";
-        }
-        else {
+        } else {
             $sql = "SELECT
                         jg.p1,
                         jg.p2,
@@ -779,7 +778,7 @@ WHERE EXTRACT(YEAR FROM next_dt) = EXTRACT(YEAR FROM DATE '$list_dt')
             $leftjoin_subhead = "LEFT JOIN category_allottment c ON  h.subhead = c.submaster_id AND (c.ros_id IS NULL OR c.ros_id = 0)   AND c.display = 'Y'";
             $leftjoin_submaster = "LEFT JOIN master.submaster sm ON h.subhead = sm.id AND sm.display = 'Y'";
 
-           
+
             $sql = "SELECT m.relief,u.name,us.section_name,h.*,l.purpose,c1.short_description,active_fil_no,m.active_reg_year,m.casetype_id,m.active_casetype_id,
                     m.ref_agency_state_id,m.reg_no_display,EXTRACT(YEAR FROM m.fil_dt) AS fil_year,m.fil_no,m.fil_dt,m.fil_no_fh,m.reg_year_fh AS fil_year_f,m.mf_active,
                     m.pet_name, m.res_name, pno, rno, m.if_sclsc, m.diary_no_rec_date,h2.listed_ia,
@@ -929,7 +928,7 @@ WHERE EXTRACT(YEAR FROM next_dt) = EXTRACT(YEAR FROM DATE '$list_dt')
         //                             GROUP BY h.j1
         //                         ) b ON b.j1 = jg.p1
         //                         WHERE j.is_retired != 'Y'
-                                    
+
         //                             AND (jg.to_dt IS NULL OR TO_CHAR(jg.to_dt, 'YYYY-MM-DD') != '0000-00-00')
         //                             AND jg.display = 'Y'
         //                         ORDER BY j.judge_seniority
@@ -1785,8 +1784,10 @@ ORDER BY abc.nb_remark, abc.diary_no";
 
 
 
-        if (!empty($res)) {
-            foreach ($res as $publised) {
+        if (!empty($res))
+        {
+            foreach ($res as $publised)
+            {
                 $from_dt = $list_dt;
                 $to_dt = $publised['printed_max_dt'];
                 $sql1nmd = "SELECT 0 AS is_nmd UNION SELECT 1 AS is_nmd;";
@@ -1795,8 +1796,10 @@ ORDER BY abc.nb_remark, abc.diary_no";
 
 
 
-                if (!empty($res1nmd)) {
-                    foreach ($res1nmd as $nmd_misc) {
+                if (!empty($res1nmd))
+                {
+                    foreach ($res1nmd as $nmd_misc)
+                    {
                         if ($nmd_misc['is_nmd'] == 0) {
                             $is_nmd = $nmd_misc['is_nmd'];
                             $builder = $this->db->table('advance_cl_printed a');
@@ -1846,9 +1849,11 @@ ORDER BY abc.nb_remark, abc.diary_no";
                         $last_advance_dates = $row_last_adv['next_dt'];
                         $working_dt_sc = "0";
                         $while_sno = 1;
+                        $qry_str_j='';
+                        $qry_str_j_not='';
 
                         $qry_str_j_not = " AND (h.coram = 0 OR trim(h.coram) = '' OR h.coram is null OR ( ";
-                    
+
                         $builder1 = $this->db->table('judge_group j');
                         $builder1->select('p1, p2, p3, 
                         CASE WHEN old_limit > 24 THEN 20 ELSE (old_limit - 4) END AS old_limit', false);
@@ -1866,11 +1871,14 @@ ORDER BY abc.nb_remark, abc.diary_no";
                            p1 ASC");
 
                         $rslt_coram = $query->getResultArray();
-
-
                         
+                       
+
+
+
                         $top_4_court_matching = 0;
-                        foreach ($rslt_coram as $ros_coram) {
+                        foreach ($rslt_coram as $key=>$ros_coram)
+                        {
                             if ($while_sno != 1 and $ros_coram['p1'] != 0) {
                                 $qry_str_j_not .= " AND ";
                             }
@@ -1890,33 +1898,31 @@ ORDER BY abc.nb_remark, abc.diary_no";
 
                             if ($ros_coram['p1'] == 0) {
                                 $qry_str_j_not .= " ) ) ";
-                                $qry_str_j = $qry_str_j_not;
+                                //$qry_str_j = $qry_str_j_not;
                             }
 
 
-                            for ($i = 0; $i <= 2; $i++) {
+                            for ($i = 0; $i <= 2; $i++){
 
                                 //$top_4senior_judges_str;
                                 if ($i == 1) {
                                     $lp_qry = " subhead != 817 AND listorder NOT IN (49,4,5,32) 
                                                 AND (listorder IN (25,7) OR subhead IN (824,810,803,802,807,804,831) 
                                                 OR bail > 0 OR inperson > 0 OR old_adv_dt IS NOT NULL) ";
-                                
+
                                     $subhead_qry = "";
-                                    $where_limit_condition = " ORDER BY next_dt OFFSET $limit_of_days_msc_nmd FETCH FIRST 1 ROW ONLY"; 
-                                } 
-                                else if ($i == 2) {  // Corrected to $i == 2
+                                    $where_limit_condition = " ORDER BY next_dt OFFSET $limit_of_days_msc_nmd FETCH FIRST 1 ROW ONLY";
+                                } else if ($i == 2) {  // Corrected to $i == 2
                                     $lp_qry = " (listorder IN (8,24,48) OR schm IS NOT NULL) ";
-                                
+
                                     $subhead_qry = " AND NOT (listorder IN (49,4,5,32) OR subhead IN (817,824,810,803,802,807,804,831) OR bail > 0 OR inperson > 0) ";
                                     $where_limit_condition = " WHERE (alow_tot_updt > 0 OR alow_mndt_updt > 0) ORDER BY next_dt";
-                                } 
-                                else { 
+                                } else {
                                     $lp_qry = " listorder IN (21,2,16) ";  // include after some time, 49
                                     $subhead_qry = " AND NOT (listorder IN (49,4,5,32) OR subhead IN (817,824,810,803,802,807,804,831) OR bail > 0 OR inperson > 0) ";
                                     $where_limit_condition = " WHERE (alow_tot_updt > 0 OR alow_mndt_updt > 0) ORDER BY next_dt";
                                 }
-                                
+
 
                                 $loop_nos_of_time = 1;
                                 if ($top_4_court_matching == 1 and $nmd_misc['is_nmd'] == 1) {
@@ -2005,16 +2011,27 @@ ORDER BY abc.nb_remark, abc.diary_no";
                                                         GROUP BY h.diary_no,ad_al2.next_dt,s.stagename,s.priority ,m.active_fil_dt ,m.active_fil_no,d.doccode1,mc.submaster_id,h.listorder, 
                                                             h.diary_no,a.advocate_id
                                                     ) m 
-                                                    WHERE $lp_qry $subhead_qry";
-                                                    $res1 = $this->db->query($sq_gt);
-                                                    $ro1 = $res1->getRowArray();
-                                                  
-                                                    $tobe_trans = $ro1['tobe_trans'];
+                                                    WHERE $lp_qry 
+                                                    $subhead_qry";
+                                                    // if($key==16)
+                                                    // {
+                                                    //     //echo  $qry_str_j;
+                                                    //     pr($sq_gt);
+
+                                                    // }
+                                                   
+                                                   
+                                    $res1 = $this->db->query($sq_gt);
+                                    $ro1 = $res1->getRowArray();
+
+                                    $tobe_trans = $ro1['tobe_trans'];
+
 
 
 
                                     // Remove  if condition
-                                     if ($tobe_trans > 0) {
+                                     if ($tobe_trans > 0)
+                                     {
 
 
 
@@ -2070,165 +2087,171 @@ ORDER BY abc.nb_remark, abc.diary_no";
                                         $query_for_nmd2 = "";
                                         $query_for_nmd3 = "";
                                     }
-                                    
-                                    //echo "<br><br>";
+
                                     //Anuj1 query correct with variable
                                     $sql_sno = "WITH inner_data AS (
+                                    SELECT
+                                        wd.working_date   AS next_dt,
+                                        t.coram,
+                                        t.subhead,
+                                        t.doccode1,
+                                        t.submaster_id,
+                                        t.listorder,
+                                        t.diary_no,
+                                        t.bail,
+                                        t.inperson,
+                                        t.schm
+                                    FROM master.sc_working_days wd
+                                    LEFT JOIN (
                                         SELECT
-                                            wd.working_date AS next_dt,
-                                            t.coram,
-                                            t.subhead,
-                                            t.doccode1,
-                                            t.submaster_id,
-                                            t.listorder,
-                                            t.diary_no,
-                                            t.bail,
-                                            t.inperson,
-                                            t.schm
+                                        h.next_dt,
+                                        h.coram,
+                                        h.subhead,
+                                        d.doccode1,
+                                        mc.submaster_id,
+                                        h.listorder,
+                                        h.diary_no,
+                                        CASE
+                                            WHEN (h.subhead = 804
+                                                OR mc.submaster_id = 173
+                                                OR d.doccode1 IN (40,41,48,49,71,72,118,131,211,309))
+                                            THEN 1 ELSE 0
+                                        END AS bail,
+                                        CASE
+                                            WHEN a.advocate_id IN (584,585,610,616,666,940) THEN 1 ELSE 0
+                                        END AS inperson,
+                                        CASE
+                                            WHEN d.doccode1 IN (56,57,102,73,99,27,124,2,16) THEN 1 ELSE 0
+                                        END AS schm
                                         FROM master.sc_working_days wd
-                                        LEFT JOIN (
-                                            SELECT
-                                            h.next_dt,
-                                            h.coram,
-                                            h.subhead,
-                                            d.doccode1,
-                                            mc.submaster_id,
-                                            h.listorder,
-                                            h.diary_no,
-                                            CASE 
-                                                WHEN (h.subhead = 804 OR mc.submaster_id = 173 OR d.doccode1 IN (40,41,48,49,71,72,118,131,211,309))
-                                                THEN 1
-                                                ELSE 0
-                                            END AS bail,
-                                            CASE 
-                                                WHEN a.advocate_id IN (584,585,610,616,666,940)
-                                                THEN 1
-                                                ELSE 0
-                                            END AS inperson,
-                                            CASE 
-                                                WHEN d.doccode1 IN (56,57,102,73,99,27,124,2,16)
-                                                THEN 1
-                                                ELSE 0
-                                            END AS schm
-                                            FROM master.sc_working_days wd
-                                            LEFT JOIN heardt h ON h.next_dt = wd.working_date
-                                            INNER JOIN main m ON m.diary_no = h.diary_no
-                                            LEFT JOIN docdetails d 
-                                            ON d.diary_no = m.diary_no
-                                            AND d.display = 'Y'
-                                            AND d.iastat = 'P'
-                                            AND d.doccode = 8
-                                            AND d.doccode1 IN (7,66,29,56,57,28,103,133,226,3,309,73,99,
-                                                                40,48,72,71,27,124,2,16,41,49,71,72,102,118,131,211,309)
-                                            LEFT JOIN mul_category mc 
-                                            ON mc.diary_no = h.diary_no
-                                            AND mc.display = 'Y'
-                                            AND mc.submaster_id NOT IN (911,912,239,240,241,242,243)
-                                            LEFT JOIN rgo_default rd 
-                                            ON rd.fil_no = h.diary_no
-                                            AND rd.remove_def = 'N'
-                                            LEFT JOIN advocate a 
-                                            ON a.diary_no = m.diary_no
-                                            AND a.advocate_id IN (584,585,610,616,666,940)
-                                            AND a.display = 'Y'
-                                            WHERE rd.fil_no IS NULL
-                                            AND mc.diary_no IS NOT NULL
-                                            AND m.c_status = 'P'
-                                            AND (m.diary_no = m.conn_key::int OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
-                                            AND wd.display = 'Y'
-                                            AND wd.is_holiday = 0
-                                            AND wd.is_nmd = 0
-                                            AND h.board_type = 'J'
-                                            AND h.mainhead = 'M'
-                                            AND h.clno = 0
-                                            AND h.brd_slno = 0
-                                            AND h.main_supp_flag = 0
-                                            AND (
-                                                    ((EXTRACT(DOW FROM h.next_dt) + 1) <> 3 AND h.is_nmd <> 'Y')
-                                                    OR ((EXTRACT(DOW FROM h.next_dt) + 1) = 3)
-                                                )
-                                            AND h.next_dt BETWEEN '$dt_range_from' AND '$dt_range_to'
-                                            AND (
-                                                (split_part(h.coram, ',', 1)) = '219'
-                                                OR (split_part(h.coram, ',', 1)) = '286'
-                                                OR (split_part(h.coram, ',', 1)) = '294'
-                                                )
-                                            AND h.listorder <> 32
-                                            AND h.subhead IN (824,810,803,802,807,804,831,808,811,812,813,814,815,816)
-                                            GROUP BY h.next_dt, h.coram, h.subhead, d.doccode1, mc.submaster_id, h.listorder, h.diary_no, a.advocate_id
-                                        ) t
-                                            ON t.next_dt = wd.working_date
-                                        WHERE wd.working_date BETWEEN '$dt_range_from' AND '$dt_range_to'
-                                            AND wd.display = 'Y'
-                                            AND wd.is_holiday = 0
-                                            AND wd.is_nmd = 0
-                                        ),
-                                        aggregated AS (
-                                        -- Aggregate the inner data by working date.
-                                        SELECT
-                                            next_dt,
-                                            COUNT(diary_no) AS tot_avl,
-                                            SUM(CASE WHEN listorder IN (4,5,7) THEN 1 ELSE 0 END) AS fd_not_list,
-                                            SUM(CASE WHEN listorder = 25 THEN 1 ELSE 0 END) AS frs_adj_not_list,
-                                            SUM(CASE WHEN (inperson <> 1 AND bail <> 1 AND listorder = 8) THEN 1 ELSE 0 END) AS aw_not_list,
-                                            SUM(CASE WHEN (inperson <> 1 AND bail <> 1 AND listorder = 48) THEN 1 ELSE 0 END) AS nradj_not_list,
-                                            SUM(CASE WHEN (inperson = 1 AND listorder NOT IN (4,5,7,25)) THEN 1 ELSE 0 END) AS inperson_not_list,
-                                            SUM(CASE WHEN (bail = 1 AND inperson <> 1 AND listorder NOT IN (4,5,7,25)) THEN 1 ELSE 0 END) AS bail_not_list,
-                                            SUM(CASE WHEN (schm = 1 AND inperson <> 1 AND bail <> 1 AND listorder NOT IN (4,5,7,25,8,48)) THEN 1 ELSE 0 END) AS imp_ia_not_list,
-                                            SUM(CASE WHEN (subhead IN (813,814) AND inperson = 0 AND bail = 0 AND schm = 0
-                                                    AND listorder NOT IN (48,8,4,5,7,25)) THEN 1 ELSE 0 END) AS notice_not_list,
-                                            SUM(CASE WHEN (subhead IN (815,816) AND inperson = 0 AND bail = 0 AND schm = 0
-                                                    AND listorder NOT IN (48,8,4,5,7,25)) THEN 1 ELSE 0 END) AS fdisp_not_list,
-                                            SUM(CASE WHEN (subhead NOT IN (813,814,815,816) AND inperson = 0 AND bail = 0 AND schm = 0
-                                                    AND listorder NOT IN (48,8,4,5,7,25)) THEN 1 ELSE 0 END) AS oth_not_list
-                                        FROM inner_data
-                                        GROUP BY next_dt
-                                        ),
-                                        numbered AS (
-                                        -- Simulate the decrementing variables using a window function.
-                                        SELECT
-                                            next_dt,
-                                            tot_avl,
-                                            fd_not_list,
-                                            frs_adj_not_list,
-                                            aw_not_list,
-                                            nradj_not_list,
-                                            inperson_not_list,
-                                            bail_not_list,
-                                            imp_ia_not_list,
-                                            notice_not_list,
-                                            fdisp_not_list,
-                                            oth_not_list,
-                                            $define_limi1::int - row_number() OVER (ORDER BY next_dt) AS tot_tobe,
-                                            $define_limi2::int - row_number() OVER (ORDER BY next_dt) AS mndt_tobe
-                                        FROM aggregated
-                                        ),
-                                        adjusted AS (
-                                        -- Apply floor limits on tot_tobe and mndt_tobe.
-                                        SELECT
-                                            next_dt,
-                                            CASE WHEN tot_tobe < $nonmand_limit_for_tot THEN $nonmand_limit_for_tot ELSE tot_tobe END AS tot_tobe,
-                                            CASE WHEN mndt_tobe < $mand_limit_for_tot THEN $mand_limit_for_tot ELSE mndt_tobe END AS mndt_tobe,
-                                            tot_avl AS tot_avl,
-                                            (fd_not_list + frs_adj_not_list + aw_not_list + nradj_not_list +
-                                            inperson_not_list + bail_not_list + imp_ia_not_list) AS mndt_avl
-                                        FROM numbered
+                                        LEFT JOIN heardt     h  ON h.next_dt = wd.working_date
+                                        INNER JOIN main      m  ON m.diary_no = h.diary_no
+                                        LEFT JOIN docdetails d  ON d.diary_no = m.diary_no
+                                                            AND d.display  = 'Y'
+                                                            AND d.iastat   = 'P'
+                                                            AND d.doccode  = 8
+                                                            AND d.doccode1 IN (7,66,29,56,57,28,103,133,226,3,309,73,99,
+                                                                            40,48,72,71,27,124,2,16,41,49,71,72,102,118,131,211,309)
+                                        LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no
+                                                            AND mc.display    = 'Y'
+                                                            AND mc.submaster_id NOT IN (911,912,239,240,241,242,243)
+                                        LEFT JOIN rgo_default rd  ON rd.fil_no = h.diary_no
+                                                            AND rd.remove_def = 'N'
+                                        LEFT JOIN advocate a     ON a.diary_no    = m.diary_no
+                                                            AND a.advocate_id IN (584,585,610,616,666,940)
+                                                            AND a.display      = 'Y'
+                                        WHERE
+                                        rd.fil_no IS NULL
+                                        AND mc.diary_no IS NOT NULL
+                                        AND m.c_status = 'P'
+                                        AND ( m.diary_no = m.conn_key::int
+                                                OR m.conn_key = '' 
+                                                OR m.conn_key IS NULL 
+                                                OR m.conn_key = '0' )
+                                        AND wd.display    = 'Y'
+                                        AND wd.is_holiday = 0
+                                        AND wd.is_nmd     = $misc_nmd_sq2
+                                        AND h.board_type    = 'J'
+                                        AND h.mainhead      = 'M'
+                                        AND h.clno          = 0
+                                        AND h.brd_slno      = 0
+                                        AND h.main_supp_flag= 0
+                                        /* optional extra NMD filter: */
+                                        $misc_nmd_sq5
+                                        /* skip Wednesdays unless is_nmd = 'Y': */
+                                        AND (
+                                            (EXTRACT(DOW FROM h.next_dt)::int + 1 <> 3 AND h.is_nmd <> 'Y')
+                                            OR (EXTRACT(DOW FROM h.next_dt)::int + 1 = 3)
                                         )
-                                        -- Final selection: compute allowed updates.
-                                        SELECT
-                                        d.*,
-                                       CASE WHEN tot_avl < tot_tobe THEN tot_tobe - tot_avl ELSE 0 END AS alow_tot_updt,
+                                        /* date range */
+                                        AND h.next_dt BETWEEN '$dt_range_from' AND '$dt_range_to'
+                                        /* coram filter */
+                                        AND (
+                                            split_part(h.coram, ',', 1) IN ('219','286','294')
+                                        )
+                                        AND h.listorder <> 32
+                                        AND h.subhead IN (824,810,803,802,807,804,831,808,811,812,813,814,815,816)
+                                        GROUP BY h.next_dt, h.coram, h.subhead,
+                                                d.doccode1, mc.submaster_id,
+                                                h.listorder, h.diary_no, a.advocate_id
+                                    ) t ON t.next_dt = wd.working_date
+                                    WHERE
+                                        wd.working_date BETWEEN '$dt_range_from' AND '$dt_range_to'
+                                        AND wd.display    = 'Y'
+                                        AND wd.is_holiday = 0
+                                        AND wd.is_nmd     = $misc_nmd_sq2
+                                    ),
+                                    aggregated AS (
+                                    SELECT
+                                        next_dt,
+                                        COUNT(diary_no)                                                             AS tot_avl,
+                                        SUM(CASE WHEN listorder IN (4,5,7) THEN 1 ELSE 0 END)                       AS fd_not_list,
+                                        SUM(CASE WHEN listorder = 25 THEN 1 ELSE 0 END)                             AS frs_adj_not_list,
+                                        SUM(CASE WHEN (inperson <> 1 AND bail <> 1 AND listorder = 8) THEN 1 ELSE 0 END)   AS aw_not_list,
+                                        SUM(CASE WHEN (inperson <> 1 AND bail <> 1 AND listorder = 48) THEN 1 ELSE 0 END)  AS nradj_not_list,
+                                        SUM(CASE WHEN (inperson = 1 AND listorder NOT IN (4,5,7,25)) THEN 1 ELSE 0 END)     AS inperson_not_list,
+                                        SUM(CASE WHEN (bail = 1 AND inperson <> 1 AND listorder NOT IN (4,5,7,25)) THEN 1 ELSE 0 END) AS bail_not_list,
+                                        SUM(CASE WHEN (schm = 1 AND inperson <> 1 AND bail <> 1 AND listorder NOT IN (4,5,7,25,8,48)) THEN 1 ELSE 0 END) AS imp_ia_not_list,
+                                        SUM(CASE WHEN (subhead IN (813,814) AND inperson = 0 AND bail = 0 AND schm = 0 AND listorder NOT IN (48,8,4,5,7,25)) THEN 1 ELSE 0 END) AS notice_not_list,
+                                        SUM(CASE WHEN (subhead IN (815,816) AND inperson = 0 AND bail = 0 AND schm = 0 AND listorder NOT IN (48,8,4,5,7,25)) THEN 1 ELSE 0 END) AS fdisp_not_list,
+                                        SUM(CASE WHEN (subhead NOT IN (813,814,815,816) AND inperson = 0 AND bail = 0 AND schm = 0 AND listorder NOT IN (48,8,4,5,7,25)) THEN 1 ELSE 0 END) AS oth_not_list
+                                    FROM inner_data
+                                    GROUP BY next_dt
+                                    ),
+                                    numbered AS (
+                                    SELECT
+                                        next_dt,
+                                        tot_avl,
+                                        fd_not_list,
+                                        frs_adj_not_list,
+                                        aw_not_list,
+                                        nradj_not_list,
+                                        inperson_not_list,
+                                        bail_not_list,
+                                        imp_ia_not_list,
+                                        notice_not_list,
+                                        fdisp_not_list,
+                                        oth_not_list,
+                                        $define_limi1::int - ROW_NUMBER() OVER (ORDER BY next_dt) AS tot_tobe,
+                                        $define_limi2::int - ROW_NUMBER() OVER (ORDER BY next_dt) AS mndt_tobe
+                                    FROM aggregated
+                                    ),
+                                    adjusted AS (
+                                    SELECT
+                                        next_dt,
+                                        CASE WHEN tot_tobe  < $nonmand_limit_for_tot THEN $nonmand_limit_for_tot ELSE tot_tobe  END AS tot_tobe,
+                                        CASE WHEN mndt_tobe < $mand_limit_for_tot THEN $mand_limit_for_tot ELSE mndt_tobe END AS mndt_tobe,
+                                        tot_avl,
+                                        (fd_not_list + frs_adj_not_list + aw_not_list +
+                                        nradj_not_list + inperson_not_list + bail_not_list +
+                                        imp_ia_not_list) AS mndt_avl
+                                    FROM numbered
+                                    ),
+                                    calculated AS (
+                                    SELECT
+                                        next_dt,
+                                        tot_avl,
+                                        mndt_avl,
+                                        tot_tobe,
+                                        mndt_tobe,
+                                        CASE WHEN tot_avl   < tot_tobe   THEN tot_tobe   - tot_avl   ELSE 0 END AS alow_tot_updt,
                                         CASE WHEN mndt_avl < mndt_tobe THEN mndt_tobe - mndt_avl ELSE 0 END AS alow_mndt_updt
-                                        FROM adjusted d
-                                        $query_for_nmd2
-                                        $where_limit_condition"; // remove
-                                     
-                                        
+                                    FROM adjusted
+                                    )
+                                    SELECT *
+                                    FROM calculated
+                                    $query_for_nmd2
+                                    $where_limit_condition";
+                               
+                                    
+
                                     $query = $this->db->query($sql_sno);
                                     $res_sno = $query->getResultArray();
-                               
+                                   
 
-                                    if (!empty($res_sno)) {
+
+                                    if (!empty($res_sno))
+                                    {
                                         foreach ($res_sno as $ro_sno) {
                                             if ($i == 1 and $misc_nmd_sq2 == 0) {
                                                 $alow_tot_updt = $ro_sno['alow_mndt_updt'];
@@ -2250,8 +2273,7 @@ ORDER BY abc.nb_remark, abc.diary_no";
 
 
 
-                                            if ($limit_tobe_transfer > 0)
-                                            {
+                                            if ($limit_tobe_transfer > 0) {
 
                                                 $sql3 = "INSERT INTO transfer_old_com_gen_cases (diary_no,next_dt_old,next_dt_new,tentative_cl_dt_old,
                                                         tentative_cl_dt_new,listorder,conn_key,ent_dt,test2,listorder_new,board_type,listtype)
@@ -2493,7 +2515,7 @@ ORDER BY abc.nb_remark, abc.diary_no";
                                                                     AND ad_d.diary_no IS NULL 
                                                                     AND rd.fil_no IS NULL 
                                                                     AND mc.diary_no IS NOT NULL 
-                                                                    AND m.c_status = 'P' 
+                                                                  AND m.c_status = 'P' 
                                                                     AND (
                                                                         m.diary_no = m.conn_key :: int 
                                                                         OR m.conn_key = '' 
@@ -2893,7 +2915,7 @@ ORDER BY abc.nb_remark, abc.diary_no";
                                                                     AND m.c_status = 'P' 
                                                                     AND (
                                                                         m.diary_no = m.conn_key :: int 
-                                                                        OR m.conn_key = '' 
+                                                               OR m.conn_key = '' 
                                                                         OR m.conn_key IS NULL 
                                                                         OR m.conn_key = '0'
                                                                     ) 
@@ -3060,12 +3082,21 @@ ORDER BY abc.nb_remark, abc.diary_no";
                                             }
                                         }
                                     }
-                                     } // remove 
+                                      } // remove 
+
+                                    
                                 }
-                            }
+                               
+                            } 
+                             
+                            
                         }
+
+
+                      
+                       
                     }
-                    pr('hello vkg');
+                   
 
 
                     $update_reason = "UPDATE transfer_old_com_gen_cases
@@ -3080,10 +3111,13 @@ ORDER BY abc.nb_remark, abc.diary_no";
                         AND transfer_old_com_gen_cases.listtype = 'A'
                         AND DATE(transfer_old_com_gen_cases.ent_dt) = CURRENT_DATE";
                     $res8 = $this->db->query($update_reason);
-                } else {
+                }
+                else
+                {
                 }
             }
-        } else {
+        }
+        else{
             //echo "<br>List Not Published.";
         }
 
