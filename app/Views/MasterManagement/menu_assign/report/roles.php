@@ -104,7 +104,9 @@ label, h2 {
     }
     .dataTables_length,div#example_info,div#example_paginate{display:none;} 
     /* for purpose ordering */
-
+    table.table-bordered.dataTable th {
+    font-weight: bold !important;
+}
 </style>
 <section class="content">
     <div class="container-fluid">
