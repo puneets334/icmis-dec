@@ -181,9 +181,8 @@ class FmdController extends BaseController
 
                     $str_up_disp = $this->db->query("UPDATE dispose SET month=" . $dmonth . ",year=" . $dyear . ",dispjud=" . $j1 . ", ord_dt='" . $dt . "', disp_dt='" . $hdt . "',disp_type=" . $disp_code . ",disp_type_all='" . $disp_code_all . "', bench='" . $bench . "',jud_id='" . $jcodes . "',rj_dt=" . $rjdt_value . ",ent_dt=NOW(),camnt=0,usercode=" . $ucode . ",crtstat='" . $temp_mh . "',jorder='' where diary_no='" . $fno . "'");
 
-                    $str_up_disp1 = $this->db->query("INSERT INTO dispose_delete(diary_no, month, dispjud, year, ord_dt, disp_dt, disp_type, bench, jud_id, camnt, crtstat, usercode, ent_dt, jorder, rj_dt, disp_type_all) (SELECT diary_no, month, dispjud, year, ord_dt, disp_dt, disp_type, bench,jud_id, camnt, crtstat, usercode, ent_dt, jorder, rj_dt,disp_type_all FROM dispose where diary_no='" . $fno . "')");
+                    $str_up_disp1 = $this->db->query("INSERT INTO dispose_delete(diary_no, month, dispjud, year, ord_dt, disp_dt, disp_type, bench, jud_id, camnt, crtstat, usercode, ent_dt, jorder, rj_dt, disp_type_all,dispose_updated_by) (SELECT diary_no, month, dispjud, year, ord_dt, disp_dt, disp_type, bench,jud_id, camnt, crtstat, usercode, ent_dt, jorder, rj_dt,disp_type_all,'$ucode' FROM dispose where diary_no='" . $fno . "')");
                    
-
                     $str_ia_d = $this->db->query("UPDATE docdetails SET iastat='D', lst_mdf=NOW(),dispose_date='$dt',last_modified_by=$ucode WHERE diary_no='" . $fno . "' AND iastat='P' AND doccode=8 AND display='Y'");
                  
                 } else {
