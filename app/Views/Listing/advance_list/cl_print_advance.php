@@ -116,12 +116,18 @@
         </div>
 
         <div id="dv_res3"></div>
-        <div id="dv_res1"></div>
+       
         <div id="dv_res2"></div>
     </div>
+   
 
 
 </div>
+<div class="row">
+            <div class="col-md-12">
+                <div id="dv_res1" style="text-align: left;"></div>
+            </div>
+        </div>
 <script>
     $(document).on("click", "#btn1", function() {
         updateCSRFToken();

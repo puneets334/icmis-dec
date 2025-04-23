@@ -92,22 +92,19 @@ class AdvancedDropNote extends Model
 
     public function getNotes($list_dt, $board_type)
     {
-        //REmove vkg
+        //REmove 
+        //$list_dt ='2025-08-02';
         //$list_dt ='2023-05-02';
         if ($board_type === 'C')
         {
-           
             $list_dt_exploded = explode("_", $list_dt);
             $list_dt_min = date('Y-m-d', strtotime($list_dt_exploded[0]));
             $list_dt_max = isset($list_dt_exploded[1]) ? date('Y-m-d', strtotime($list_dt_exploded[1])) : '1970-01-01';
             $next_dts = "AND d.cl_date BETWEEN '$list_dt_min' AND '$list_dt_max' AND h.next_dt BETWEEN '$list_dt_min' AND '$list_dt_max'";
-        }
-        else
-        {
-            
+        } 
+        else {
             $next_dts = "AND d.cl_date = '$list_dt' AND h.next_dt = '$list_dt'";
         }
-        
         $sql = "SELECT
                         d.clno,
                         h.next_dt AS p_next_dt,
@@ -138,6 +135,7 @@ class AdvancedDropNote extends Model
                           
                     ORDER BY
                         d.clno";
+         //pr($sql);
         return $this->db->query($sql)->getResultArray();
     }
 

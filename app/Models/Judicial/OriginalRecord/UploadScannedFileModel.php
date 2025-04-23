@@ -79,6 +79,8 @@ class UploadScannedFileModel extends Model
 
     public function getUploadedOriginalRecord($fromDate, $toDate, $usercode)
     {
+        $fromDate = date("Y-m-d", strtotime($fromDate));
+        $toDate = date("Y-m-d", strtotime($toDate));
 
         $builder = $this->db->table('original_records_file orf');
 

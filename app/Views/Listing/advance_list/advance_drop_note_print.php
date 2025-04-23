@@ -11,9 +11,7 @@
         </tr>
         <tr>
             <th colspan="4" style="text-align: center; vertical-align: middle;">
-                <?php $getNotes = $model->getNotes($list_dt ,$board_type)
-               
-                ?>
+                <?php $getNotes = $model->getNotes($list_dt ,$board_type) ?>
                  <?php if (!empty($getNotes)) : ?>
                     <div style="text-align: center;">
                         <table border="1" style="font-size:12px; text-align: center; background: #ffffff;" cellspacing=0 class="table table-striped table-bordered">
