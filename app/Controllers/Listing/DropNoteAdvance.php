@@ -159,8 +159,8 @@ class DropNoteAdvance extends BaseController
 
     public function note()
     {
-        $data['listing_dates'] = $this->Heardt->getUpcomingDates();
-        $data['benches'] = $this->Heardt->getBenches();
+        // $data['listing_dates'] = $this->Heardt->getUpcomingDates();
+        // $data['benches'] = $this->Heardt->getBenches();
         $data['AdvancedDropNote']=$this->AdvancedDropNote;
         return view('Listing/advance_list/note', $data);
     }
