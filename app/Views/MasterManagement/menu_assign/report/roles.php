@@ -107,6 +107,8 @@ label, h2 {
     table.table-bordered.dataTable th {
     font-weight: bold !important;
 }
+div.dataTables_wrapper div.dataTables_filter input{border:#000 1px solid!important;}
+div.dataTables_wrapper div.dataTables_filter{float:right;}
 </style>
 <section class="content">
     <div class="container-fluid">
