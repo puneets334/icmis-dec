@@ -663,4 +663,15 @@ class Pool extends BaseController
         $data['alreadyInPool'] =  $this->PoolModel->isAlreadyInPool($dno);        
         return view('Listing/pool/registrar_create_pool_get', $data);
     }
+
+    public function cl()
+    {
+        $data=[];
+        $request = \Config\Services::request();
+        $diaryNumbers = $request->getPost('diaryNos');
+        $diary_numbers_string_post = json_decode($diaryNumbers);
+        $data['diary_numbers_string'] = implode(',', $diary_numbers_string_post);
+        $data['res'] =  $this->PoolModel->getPoolCaseDetails($data['diary_numbers_string']);
+        return view('Listing/pool/cl', $data);
+    }
 }
