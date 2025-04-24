@@ -166,7 +166,7 @@
                                     <div class="col-md-5">
                                         <label for="">Party Name</label>
                                         <input type="text" name="party_name" class="form-control" id="party_name" value="<?php //echo $_POST['res'];  
-                                                                                                                            12                                                     ?>" size="40">
+                                                                                                                                                                                 ?>" size="40">
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +213,7 @@
                                         <input type="text" class="form-control" name="lst_year" id="lst_year" size="10" maxlength="10" value="<?php echo date('Y'); ?>">
                                     </span>
                                     <span id="span_disp_dt">
-                                        <input type="text" name="til_date" id="til_date" class="form-control" size="10" maxlength="10" value="<?php echo date('d-m-Y'); ?>"></span>
+                                        <input type="text" name="til_date" id="til_date" class="form-control dtp" size="10" maxlength="10" value="<?php echo date('d-m-Y'); ?>"></span>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="">Order by</label>
@@ -720,4 +720,16 @@
         }
         xhr6.send(null);
     }
+
+    $(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
+    });
 </script>

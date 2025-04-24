@@ -2765,7 +2765,7 @@ class ReportModel extends Model
             FROM public.main m 
             LEFT JOIN master.users u ON u.usercode = m.dacode AND (u.display = 'Y' OR u.display IS NULL) 
             LEFT JOIN master.usersection us ON us.id = u.section AND (us.display = 'Y' OR us.display IS NULL) 
-            LEFT JOIN public.heardt h ON m.diary_no = h.diary_no AND roster_id != 0 AND coram::int != 0 AND clno::int != 0 AND h.next_dt = '$onDate' 
+            LEFT JOIN public.heardt h ON m.diary_no = h.diary_no AND roster_id != 0 AND coram::TEXT != '0' AND clno::TEXT != '0' AND h.next_dt = '$onDate' 
             LEFT JOIN public.office_report_details o ON o.diary_no = h.diary_no AND (o.display = 'Y' OR o.display IS NULL) AND (o.order_dt = '$onDate' OR o.order_dt IS NULL) 
             INNER JOIN master.roster Rt ON Rt.id = h.roster_id 
             INNER JOIN public.cl_printed cl ON (cl.next_dt = h.next_dt AND cl.m_f = h.mainhead AND cl.part = h.clno AND cl.main_supp = h.main_supp_flag AND cl.roster_id = h.roster_id AND cl.display = 'Y') 
@@ -2773,6 +2773,8 @@ class ReportModel extends Model
             ORDER BY user_section
         ";
        // die();
+
+    //    echo $sql; die;
 
         $query = $this->db->query($sql);
 

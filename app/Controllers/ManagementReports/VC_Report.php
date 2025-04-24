@@ -105,13 +105,22 @@ class VC_Report extends BaseController
 			}
 			
 			if(count($main_disposal)!=0){
-				$total_disposed = $main_disposal[0]['total'] + $main_disposal[1]['total'];
+				if(count($main_disposal)== 1){
+					$total_disposed = $main_disposal[0]['total'];
+				}else{
+				   $total_disposed = $main_disposal[0]['total'] + $main_disposal[1]['total'];
+				}
+				
 			}else{
 				$total_disposed = 0;
 			}
 			
 			if(count($main_taken_up)!=0 AND count($main_disposal)!=0){
-				$pdf->Row(array($main_taken_up[1]['total'], $main_disposal[1]['total'], $main_taken_up[0]['total'], $main_disposal[0]['total'], $total_takenup, $total_disposed), 1);
+				if(count($main_disposal)== 1){
+					$pdf->Row(array($main_taken_up[1]['total'], 0, $main_taken_up[0]['total'], $main_disposal[0]['total'], $total_takenup, $total_disposed), 1);
+				}else{
+			    	$pdf->Row(array($main_taken_up[1]['total'], $main_disposal[1]['total'], $main_taken_up[0]['total'], $main_disposal[0]['total'], $total_takenup, $total_disposed), 1);
+             	}		
 			}else{
 				$pdf->Row(array(0, 0, 0, 0, $total_takenup, $total_disposed), 1);
 			}
