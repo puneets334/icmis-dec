@@ -9,6 +9,10 @@
     .modal .modal-body {
             overflow-y: auto;
         }
+    .custom-file-input
+    {
+        opacity: 1;
+    }
  </style>
 <div class="modal-header" style="position: relative;padding: 0; margin: 0;">
     <h5 class="modal-title" style="width: 100%;">Upload Document for <?= ($cause_title); ?></h5>
@@ -121,7 +125,7 @@
                                                         <input type="hidden" name="library_referance_material_child[]" id="library_referance_material_child" value="<?=$row22['id']?>" />
                                                         <div class="custom-file">
                                                             <input type="file" class="custom-file-input" name="upload_document_lib[]" id="upload_document_lib" accept="application/pdf,application/octet-stream"  >
-                                                            <label class="custom-file-label" for="upload_document_lib">Choose file</label>
+                                                            <!-- <label class="custom-file-label" for="upload_document_lib">Choose file</label> -->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -175,9 +179,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
 
                             </div>
                             <input type="hidden" name="library_reference_material" value="<?=$_POST['library_reference_material']?>" />
