@@ -110,10 +110,11 @@ $(document).ready(function(){
             $("#mflag_utype").focus();
             return false;
         }
-    
+        $("#btnMain").prop("disabled", true);
         try {
             await updateCSRFTokenSync();
-            let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();    
+            let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+                
             const saveResponse = await $.ajax({
                 type: 'POST',
                 url: base_url + "/MasterManagement/UserManagement/usertype_manage",
@@ -340,11 +341,10 @@ $(document).ready(function(){
             $("#mflag_utype").focus();
             return false;
         }
-    
+        $("#btnUp").prop("disabled", true);
         try {
             await updateCSRFTokenSync();
-            let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-    
+            let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();            
             const saveResponse = await $.ajax({
                 type: 'POST',
                 url: base_url + "/MasterManagement/UserManagement/usertype_manage",
@@ -357,8 +357,8 @@ $(document).ready(function(){
                     id: $("#hd_id_for_usertype").val(),
                     CSRF_TOKEN: CSRF_TOKEN_VALUE
                 },
-                beforeSend: function () {                    
-                    $("#btnUp").prop("disabled", true);
+                beforeSend: function () {                                       
+                    $("#btnUp").prop("disabled", true);                    
                     $("#dv_res1_loader").html("<div style='width:50%'><img src='" + image_loader_str + "'></div>");
                 }
             });
@@ -416,6 +416,8 @@ $(document).ready(function(){
 
 $(document).on("click","[id^='btnEdit']",async function(){
     var num = this.id.split('btnEdit');
+    var num2 = this.id.split('btnEdit')[1].replace(',', '');    
+    $("#btnEdit"+num2).prop("disabled", true);
     await updateCSRFTokenSync();
     var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
@@ -433,7 +435,8 @@ $(document).on("click","[id^='btnEdit']",async function(){
         $("#name_utype").val(msg2[1]);
         $("#dflag_utype").val(msg2[2]);
         $("#mflag_utype").val(msg2[3]);
-        
+        $("#btnEdit"+num2).prop("disabled", false);
+        $("#btnUp").prop("disabled", false);
         $("#btnUp").css("display","inline");
         $("#btnCan").css("display","inline");
         $("#btnMain").css("display","none");
