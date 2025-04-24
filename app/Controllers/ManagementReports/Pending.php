@@ -146,7 +146,6 @@ class Pending extends BaseController
     }
     public function case_type_listed_disposed()
     {
-
         return view('ManagementReport/Pending/case_type_listed_disposed');
     }
     public function get_ct_listed_disposed()
