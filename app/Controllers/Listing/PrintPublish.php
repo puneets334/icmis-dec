@@ -169,7 +169,7 @@ class PrintPublish extends BaseController
 
             if ($chk1 == 1)
             {
-               // echo $this->AdvanceAllocated->eliminate_advance_auto($list_dt);die; // REmove  line
+                //echo $this->AdvanceAllocated->eliminate_advance_auto($list_dt);die; // REmove  line
 
 
                
@@ -202,7 +202,7 @@ class PrintPublish extends BaseController
                 $mpdf->keep_table_proportions = true;
                 $mpdf->WriteHTML($prtContent);
                 $mpdf->Output($data_file1, 'F');
-                //echo $this->AdvanceAllocated->eliminate_advance_auto($list_dt);
+                echo $this->AdvanceAllocated->eliminate_advance_auto($list_dt);
                 return $this->response->setJSON(['message' => 'List Ported/Published Successfully.']);
             } else {
                 return $this->response->setJSON(['message' => 'List Not Ported/Published.']);

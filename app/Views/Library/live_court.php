@@ -231,7 +231,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="left_panel_data_row1 row" style="height:95vh; overflow-y: scroll;"></div>
+                                        <div class="left_panel_data_row1 row" style="height:88vh; overflow-y: scroll;"></div>
                                     </div>
 
                                     <div class="col-md-8 column11">
@@ -460,6 +460,7 @@
 
 
     $(document).on('click', '.item_no', function() {
+        var $this = $(this);
         var diary_no = this.getAttribute("data-dno");
         var listdt = this.getAttribute("data-listdt");
         var displayboardval1 = this.getAttribute("data-displayboardval1");
@@ -480,7 +481,6 @@
             // insert_disp(displayboardval1,diary_no,displayboardval2,jcodes,sbdb);
         }
 
-
         var CSRF_TOKEN = 'CSRF_TOKEN';
 		var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         $.ajax({
@@ -495,12 +495,20 @@
                 lastFour: lastFour
             },
             beforeSend: function() {
+                $this.addClass('disabled'); 
+                $this.prop('disabled', true);
                 $('.column2').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
             },
             type: 'POST',
             success: function(data, status) {
                 updateCSRFToken();
                 $('.column2').html(data);
+            },
+            complete:function()
+            {
+                $this.removeClass('disabled');
+                $this.prop('disabled', false);
+                updateCSRFToken();                
             },
             error: function(xhr) {
                 updateCSRFToken();

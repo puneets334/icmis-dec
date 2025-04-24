@@ -158,11 +158,11 @@ class Registration extends BaseController
             $userRoleID = $this->getUserRoleID($data['usertype']);
 
             $this->db->table('admin')->insert([
-                'FullName' => $data['fullname'],
-                'AdminEmail' => $data['email'],
-                'UserName' => $data['username'],
-                'Password' => '',  
-                'updationDate' => date('Y-m-d H:i:s'),
+                'fullname' => $data['fullname'],
+                'adminemail' => $data['email'],
+                'username' => $data['username'],
+                'password' => '',  
+                'updationdate' => date('Y-m-d H:i:s'),
                 'user_type' => $data['usertype'],
                 'role_id' => $userRoleID,
                 'phone_number' => $data['phone1'],

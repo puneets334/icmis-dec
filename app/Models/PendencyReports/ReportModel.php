@@ -275,74 +275,82 @@ class ReportModel extends Model
 		$sql = "";
 
 		if (($category != "" || isset($category)) && ($section != "" || isset($section))) {
-			$condition = "sm.id = $category";
-			
-			if ($category == 0) {
-				$condition = "subcode1 = $mcat";
-			}
+					$condition = "sm.id = $category";
 
-			$sql = "SELECT us.section_name AS user_section, 
-						   CASE 
-							   WHEN mf_active = 'F' THEN 'Regular' 
-							   ELSE 'Misc.' 
-						   END AS casestage,
-						   aa_subquery.total_connected AS group_count,  
-						   CASE 
-							   WHEN (m.diary_no = CAST(m.conn_key AS BIGINT) OR CAST(m.conn_key AS BIGINT) = 0 OR m.conn_key = '' OR m.conn_key IS NULL) THEN 'M' 
-							   ELSE 'C' 
-						   END AS main_or_connected,
-						   sm.sub_name1, 
-						   CASE 
-							   WHEN (category_sc_old IS NOT NULL AND category_sc_old != '' AND CAST(category_sc_old AS BIGINT) != 0) THEN CONCAT('', category_sc_old, ' - ', sub_name4) 
-							   ELSE CONCAT('', CONCAT(subcode1, '', subcode2), ' - ', sub_name4) 
-						   END AS subject_category,
-						   sm.category_sc_old,
-						   u.name AS alloted_to_da, 
-						   SUBSTR(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS diary_no,  
-						   SUBSTR(CAST(m.diary_no AS TEXT), - 4) AS diary_year,  
-						   TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,  
-						   m.pet_name, 
-						   m.res_name, 
-						   m.reg_no_display, 
-						   m.c_status, 
-						   CONCAT(m.reg_no_display, '@ D.No.', SUBSTR(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4), '/', SUBSTR(CAST(m.diary_no AS TEXT), - 4)) AS CaseNo,
-						   CASE 
-							   WHEN h.main_supp_flag = 0 THEN 'Ready' 
-							   ELSE 'Not Ready' 
-						   END AS Ready_status, 
-						   CONCAT(bb.name, '@', bb.mobile) AS pet_adv, 
-						   lp.question_of_law,
-						   h.next_dt AS Hearing_Date,
-						   STRING_AGG(j.abbreviation, '#') AS next_coram  
-					FROM main m 
-					LEFT JOIN heardt h ON m.diary_no = h.diary_no 
-					LEFT JOIN master.users u ON u.usercode = m.dacode AND (u.display = 'Y' OR u.display IS NULL) 
-					LEFT JOIN master.usersection us ON us.id = u.section AND us.display = 'Y' 
-					LEFT JOIN master.users u1 ON u1.usercode = m.usercode AND u1.display = 'Y' 
-					LEFT JOIN advocate aa ON aa.diary_no = m.diary_no AND aa.pet_res = 'P' AND pet_res_no = 1 AND aa.display = 'Y'
-					LEFT JOIN master.bar bb ON bb.bar_id = aa.advocate_id
-					LEFT JOIN law_points lp ON lp.diary_no = m.diary_no AND lp.display = 'Y' AND lp.is_verified = '1'  
-					LEFT JOIN (
-						SELECT n.conn_key, COUNT(*) AS total_connected 
-						FROM main m 
-						INNER JOIN heardt h ON m.diary_no = h.diary_no 
-						INNER JOIN main n ON m.diary_no = CAST(n.conn_key AS BIGINT)  
-						WHERE n.diary_no != CAST(n.conn_key AS BIGINT) AND m.c_status = 'P'  
-						GROUP BY n.conn_key 
-					) aa_subquery ON m.diary_no = CAST(aa_subquery.conn_key AS BIGINT)  
-					LEFT JOIN master.judge j ON CAST(j.jcode AS TEXT) = ANY(string_to_array(h.coram, ','))  
-					INNER JOIN mul_category mc ON mc.diary_no = m.diary_no AND mc.display = 'Y' 
-					INNER JOIN master.submaster sm ON mc.submaster_id = sm.id AND (sm.display = 'Y' OR sm.display IS NULL)         
-					WHERE m.c_status = 'P' 
-					  AND us.id = $section 
-					  AND $condition
-					GROUP BY us.section_name, sm.sub_name1, sm.category_sc_old, u.name, m.diary_no, m.pet_name, 
-							 m.res_name, m.reg_no_display, m.c_status, h.main_supp_flag, bb.name, bb.mobile, lp.question_of_law, 
-							 h.next_dt, sm.sub_name4, category_sc_old, subcode1, subcode2, aa_subquery.total_connected";
-		}
-  
-        $query = $this->db->query($sql);
-		return $query->getResultArray();
+					if ($category == 0) {
+						$condition = "subcode1 = $mcat";
+					}
+
+					$sql = "SELECT 
+								us.section_name AS user_section, 
+								CASE 
+									WHEN mf_active = 'F' THEN 'Regular' 
+									ELSE 'Misc.' 
+								END AS casestage,
+								aa_subquery.total_connected AS group_count,  
+								CASE 
+									WHEN (m.conn_key IS NULL OR m.conn_key = '' OR m.diary_no = CAST(m.conn_key AS BIGINT)) THEN 'M' 
+									ELSE 'C' 
+								END AS main_or_connected,
+								sm.sub_name1, 
+								CASE 
+									WHEN (category_sc_old IS NOT NULL AND category_sc_old != '' AND CAST(category_sc_old AS BIGINT) != 0) 
+										THEN CONCAT('', category_sc_old, ' - ', sub_name4) 
+									ELSE CONCAT('', CONCAT(subcode1, '', subcode2), ' - ', sub_name4) 
+								END AS subject_category,
+								sm.category_sc_old,
+								u.name AS alloted_to_da, 
+								SUBSTR(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4) AS diary_no,  
+								SUBSTR(CAST(m.diary_no AS TEXT), -4) AS diary_year,  
+								TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,  
+								m.pet_name, 
+								m.res_name, 
+								m.reg_no_display, 
+								m.c_status, 
+								CONCAT(m.reg_no_display, '@ D.No.', 
+									   SUBSTR(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4), '/', 
+									   SUBSTR(CAST(m.diary_no AS TEXT), -4)) AS CaseNo,
+								CASE 
+									WHEN h.main_supp_flag = 0 THEN 'Ready' 
+									ELSE 'Not Ready' 
+								END AS Ready_status, 
+								CONCAT(bb.name, '@', bb.mobile) AS pet_adv, 
+								lp.question_of_law,
+								h.next_dt AS Hearing_Date,
+								STRING_AGG(j.abbreviation, '#') AS next_coram  
+							FROM main m 
+							LEFT JOIN heardt h ON m.diary_no = h.diary_no 
+							LEFT JOIN master.users u ON u.usercode = m.dacode AND (u.display = 'Y' OR u.display IS NULL) 
+							LEFT JOIN master.usersection us ON us.id = u.section AND us.display = 'Y' 
+							LEFT JOIN master.users u1 ON u1.usercode = m.usercode AND u1.display = 'Y' 
+							LEFT JOIN advocate aa ON aa.diary_no = m.diary_no AND aa.pet_res = 'P' AND pet_res_no = 1 AND aa.display = 'Y'
+							LEFT JOIN master.bar bb ON bb.bar_id = aa.advocate_id
+							LEFT JOIN law_points lp ON lp.diary_no = m.diary_no AND lp.display = 'Y' AND lp.is_verified = '1'  
+							LEFT JOIN (
+								SELECT n.conn_key, COUNT(*) AS total_connected 
+								FROM main m 
+								INNER JOIN heardt h ON m.diary_no = h.diary_no 
+								INNER JOIN main n 
+									ON (n.conn_key IS NOT NULL AND n.conn_key != '' AND m.diary_no = CAST(n.conn_key AS BIGINT))  
+								WHERE n.diary_no != CAST(n.conn_key AS BIGINT) AND m.c_status = 'P'  
+								GROUP BY n.conn_key 
+							) aa_subquery 
+								ON (aa_subquery.conn_key IS NOT NULL AND aa_subquery.conn_key != '' AND m.diary_no = CAST(aa_subquery.conn_key AS BIGINT))  
+							LEFT JOIN master.judge j 
+								ON CAST(j.jcode AS TEXT) = ANY(string_to_array(h.coram, ','))  
+							INNER JOIN mul_category mc ON mc.diary_no = m.diary_no AND mc.display = 'Y' 
+							INNER JOIN master.submaster sm ON mc.submaster_id = sm.id AND (sm.display = 'Y' OR sm.display IS NULL)         
+							WHERE m.c_status = 'P' 
+							  AND us.id = $section 
+							  AND $condition
+							GROUP BY us.section_name, sm.sub_name1, sm.category_sc_old, u.name, m.diary_no, m.pet_name, 
+									 m.res_name, m.reg_no_display, m.c_status, h.main_supp_flag, bb.name, bb.mobile, 
+									 lp.question_of_law, h.next_dt, sm.sub_name4, category_sc_old, subcode1, subcode2, 
+									 aa_subquery.total_connected";
+				}
+
+				$query = $this->db->query($sql);
+				return $query->getResultArray();
    }
    
     function Da_Pendency($section=null){
@@ -616,7 +624,7 @@ class ReportModel extends Model
 		$sql = "SELECT DISTINCT 
 					substr(CAST(m.diary_no AS TEXT), 1, length(CAST(m.diary_no AS TEXT)) - 4) AS diary_number, 
 					c.short_description, 
-					substr(CAST(m.diary_no AS TEXT), -4) AS diary_year, 
+					SUBSTRING(m.diary_no::TEXT FROM LENGTH(m.diary_no::TEXT) - 3 FOR 4) AS diary_year,
 					m.reg_no_display, 
 					rs.Name AS state, 
 					CONCAT(m.pet_name, ' ', 
@@ -789,7 +797,7 @@ class ReportModel extends Model
 
     
 			if ($diary_year !== null) {
-				$builder->where('SUBSTRING(m.diary_no::TEXT FROM -4)', $diary_year);
+				$builder->where("SUBSTRING(m.diary_no::TEXT FROM LENGTH(m.diary_no::TEXT) - 3 FOR 4) =", $diary_year);
 			} else {
 				$builder->where('m.ref_agency_code_id', $ref_id);
 			}

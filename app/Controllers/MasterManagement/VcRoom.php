@@ -70,7 +70,7 @@ class VcRoom extends BaseController
         }
 
         if ($vc_date > $cur_date) {
-            return $this->response->setJSON(['error' => 'NLINKS ARE NOT PUSHED']);
+            return $this->response->setJSON(['error' => 'LINKS ARE NOT PUSHED']);
         }
         $data['links'] = $this->TransactionModel->getVcLinks($vc_date);
         $data['vc_date'] = $vc_date;

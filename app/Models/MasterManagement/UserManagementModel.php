@@ -70,8 +70,7 @@ class UserManagementModel extends Model
         $builder->join('master.userdept b', 'a.udept = b.id', 'left');
         $builder->join('master.usersection c', 'a.section = c.id', 'left');
         $builder->join('master.usertype d', 'a.usertype = d.id', 'left');
-        $builder->where('a.empid', $id);
-        echo $builder->getCompiledSelect();die;
+        $builder->where('a.empid', $id);        
         $query = $builder->get();
         $user = $query->getRowArray();
         // pr($user);
@@ -388,6 +387,31 @@ class UserManagementModel extends Model
     }
     public function edit_userrange($utype, $low, $up, $id, $usercode)
     {
+
+        $builder = $this->db->table('master.user_range');
+        $builder->where("$low BETWEEN low AND up");
+        $builder->where('display', 'Y');
+        $builder->where('id !=', $id); // Exclude the current record
+        $query = $builder->get();
+
+        if ($query->getNumRows() > 0) {
+            // Conflict exists
+            return $mesg = "LOWER RANGE IS ALREADY USED";
+        }
+
+        $builder = $this->db->table('master.user_range');
+        $builder->where("$up BETWEEN low AND up");
+        $builder->where('display', 'Y');
+        $builder->where('id !=', $id); // Exclude the current record
+        $query2 = $builder->get();
+
+        if ($query2->getNumRows() > 0) {
+            // Conflict exists
+            return $mesg = "Upper RANGE IS ALREADY USED";
+        }
+
+
+
         $builder = $this->db->table('master.user_range');
         $data = [
             'utype'   => $utype,
@@ -400,7 +424,7 @@ class UserManagementModel extends Model
         ];
         $builder->where('id', $id);
         $builder->update($data);
-        return true;
+        return $mesg = "USERRANGE UPDATED SUCCESSFULLY";
     }
     public function remove_userrange($id, $usercode)
     {

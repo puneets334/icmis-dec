@@ -231,9 +231,24 @@ class MasterModel extends Model
             $this->db->query($sql_close, [$usercode, $id]);
     
             // Insert a new record
-            $sql_update = "INSERT INTO master.judge_category (j1, submaster_id, priority, from_dt, ent_dt, usercode, display, to_dt, to_dt_ent_dt, to_dt_usercode, m_f) 
-                           VALUES (?, ?, ?, date(now()), now(), ?, 'Y', NULL, NULL, 0, ?)";
-            $this->db->query($sql_update, [$jcode, $subject, $priority, $usercode, $mf]);
+            // $sql_update = "INSERT INTO master.judge_category (j1, submaster_id, priority, from_dt, ent_dt, usercode, display, to_dt, to_dt_ent_dt, to_dt_usercode, m_f) 
+            //                VALUES (?, ?, ?, date(now()), now(), ?, 'Y', NULL, NULL, 0, ?)";
+            // $this->db->query($sql_update, [$jcode, $subject, $priority, $usercode, $mf]);
+            $sql_update = "UPDATE master.judge_category 
+               SET 
+                  j1 = ?, 
+                  submaster_id = ?, 
+                  priority = ?, 
+                  from_dt = DATE(NOW()), 
+                  ent_dt = NOW(), 
+                  usercode = ?, 
+                  display = 'Y', 
+                  to_dt = date(now()), 
+                  to_dt_ent_dt = now(), 
+                  to_dt_usercode = 0, 
+                  m_f = ?
+               WHERE id = ?";
+            $this->db->query($sql_update, [$jcode, $subject, $priority, $usercode, $mf, $id]);
         } else {
             $sql_close = "UPDATE master.judge_category SET to_dt = ?, to_dt_usercode = ?, to_dt_ent_dt = now() WHERE id = ?";
             $this->db->query($sql_close, [$toDate, $usercode, $id]);

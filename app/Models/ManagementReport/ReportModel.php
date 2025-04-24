@@ -44,8 +44,8 @@ class ReportModel extends Model
                         THEN CONCAT('(', s.category_sc_old, ')', s.sub_name1, '-', s.sub_name4) 
                         ELSE CONCAT('(', s.subcode1, s.subcode2, ')', s.sub_name1, '-', s.sub_name4) 
                     END AS subject_category,
-                    CONCAT('http://xxxx/supreme_court/', o.pdfname) AS disp_path,
-                    CONCAT('/home/reports/', o.pdfname) AS path,
+                    CONCAT('".base_url()."/', o.pdfname) AS disp_path,
+                    CONCAT('".base_url()."/home/reports/', o.pdfname) AS path,
                     rac.agency_name 
                 FROM 
                     ordernet o 

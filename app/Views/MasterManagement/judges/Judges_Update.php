@@ -357,6 +357,18 @@
             alerted = false;
         }
     });
+    $('#sur_name').on('input', function() {
+        let value = $(this).val();
+
+        if (value.length > 50) {
+            $(this).val(value.substring(0, 49));
+        } else if (value.length >= 49 && !alerted) {
+            alert("Please enter Sur name with maximum 50 characters");
+            alerted = true;
+        } else if (value.length < 49) {
+            alerted = false;
+        }
+    });
     $('#abbreviation').on('input', function() {
         let value = $(this).val();
         if (value.length > 15) {

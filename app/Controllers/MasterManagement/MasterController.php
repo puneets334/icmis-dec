@@ -157,14 +157,29 @@ protected $keywordModel;
             $session = session()->get('login')['usercode'];
             $mf = $this->request->getPost('mf');
             $judge = $this->request->getPost('judge');
-             
-            if (isset($judge)) {
+            $sessionService = session();
+
+            // Handle judge session value
+            if ($judge !== null) {
+                if ($judge != '') {
+                    $sessionService->set('judge_selected_code', $judge);
+                } else {
+                    $sessionService->remove('judge_selected_code');
+                }
+            }
+
+            // Use judge from session (if exists)
+            $judge_selected_code = $sessionService->get('judge_selected_code');         
+
+            if (isset($judge_selected_code)) {
                 
                 $data['app_name'] = "Judge Master";
-                $data['judge_details'] = $this->MasterModel->getJudgeRecord($judge, $mf);
+                $data['judge_details'] = $this->MasterModel->getJudgeRecord($judge_selected_code, $mf);
                 
             }
             $data['judge'] = $this->MasterModel->getJudge();
+            $data['judge_selected_code'] = $judge_selected_code;
+
             $data['matters'] = $mf;
 
             return view('MasterManagement/master/judge_category_update', $data);

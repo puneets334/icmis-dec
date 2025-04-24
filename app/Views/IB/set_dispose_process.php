@@ -12,7 +12,7 @@ if (isset($ct) && $ct != '') {
 
     // Fetch diary number
     $diaryInfo = $model->getDiaryNumber($ct, $cn, $cy);
-
+   
     if ($diaryInfo) {
         $d_no = $diaryInfo['dn'];
         $d_yr = $diaryInfo['dy'];
