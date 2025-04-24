@@ -120,6 +120,9 @@
             },
             cache: false,
             type: 'POST',
+            beforeSend: function () {                                       
+                    $("#btn_search").prop("disabled", true);                                        
+            },
             success: function(data) {
                 updateCSRFToken();
                if (data.error) {
@@ -127,8 +130,10 @@
                 } else {
                     document.getElementById('result').innerHTML = data;
                 }
+                $("#btn_search").prop("disabled", false);
             },
             error: function(xhr) {
+                $("#btn_search").prop("disabled", false);
                 document.getElementById('result').innerHTML = "<center><font color=red>Error occurred: " + xhr.status + "</font></center>";
             }
         });
