@@ -849,12 +849,6 @@ class Pending extends BaseController
 
             } else {
                 
-<<<<<<< HEAD
-            }
-        }
-        // echo  $sql;
-        // die();
-=======
                 $builder = $this->db->table('main m');
                 $builder->join('dispose d', 'm.diary_no = d.diary_no', 'left');
                 $builder->join('restored r', 'm.diary_no = r.diary_no', 'left');
@@ -889,7 +883,6 @@ class Pending extends BaseController
                 }
             }        
         // pr($sql);die;
->>>>>>> 46118f24daced7dcf76dd6875a82c72d6c54f805
         $query = $this->db->query($sql);
         $data['results'] = $results = $query->getResultArray();
         $data['tot_row'] = count($results);
