@@ -1172,7 +1172,6 @@ class Model_IA extends Model
                 a.*, b.*,
                 (SELECT stagename FROM subheading WHERE stagecode=a.subhead) AS stage1,
                 (SELECT stagename FROM stage WHERE stagecode=a.purpose) AS purpose1,
-                (SELECT GROUP_CONCAT(jname) FROM master.judge WHERE FIND_IN_SET(jcode, b.jcodes) > 0) AS judgename,
                 (SELECT GROUP_CONCAT(jname) FROM master.judge WHERE FIND_IN_SET(jcode, a.judges) > 0) AS judgename1,
                 (CASE
                     WHEN b.jcodes IS NULL THEN 0

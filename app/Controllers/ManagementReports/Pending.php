@@ -291,6 +291,9 @@ class Pending extends BaseController
 
     public function get_year_head_nature_wise_ason_rpt()
     {
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', '300');
+	    ini_set("pcre.backtrack_limit", "5000000");
         // echo "<pre>";
 
         $str = $this->get_case_type();
@@ -768,6 +771,8 @@ class Pending extends BaseController
                 
             }
         }
+        // echo  $sql;
+        // die();
         $query = $this->db->query($sql);
         $data['results'] = $results = $query->getResultArray();
         $data['tot_row'] = count($results);
