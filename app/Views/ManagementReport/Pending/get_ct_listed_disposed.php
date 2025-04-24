@@ -1,5 +1,5 @@
 <div id="prnnt" class="mt-4">
-    <h3><?php echo $h3_head; ?></h3>
+    <h3 class="text-center"><?php echo $h3_head; ?></h3>
     <?php
     if (count($get_ct_listed_disposed) > 0) {
     ?>

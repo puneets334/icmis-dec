@@ -146,7 +146,6 @@ class Pending extends BaseController
     }
     public function case_type_listed_disposed()
     {
-
         return view('ManagementReport/Pending/case_type_listed_disposed');
     }
     public function get_ct_listed_disposed()
@@ -292,6 +291,9 @@ class Pending extends BaseController
     
     public function get_year_head_nature_wise_ason_rpt()
     {
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', '300');
+	    ini_set("pcre.backtrack_limit", "5000000");
         // echo "<pre>";
 
         $str = $this->get_case_type();
@@ -847,6 +849,12 @@ class Pending extends BaseController
 
             } else {
                 
+<<<<<<< HEAD
+            }
+        }
+        // echo  $sql;
+        // die();
+=======
                 $builder = $this->db->table('main m');
                 $builder->join('dispose d', 'm.diary_no = d.diary_no', 'left');
                 $builder->join('restored r', 'm.diary_no = r.diary_no', 'left');
@@ -881,6 +889,7 @@ class Pending extends BaseController
                 }
             }        
         // pr($sql);die;
+>>>>>>> 46118f24daced7dcf76dd6875a82c72d6c54f805
         $query = $this->db->query($sql);
         $data['results'] = $results = $query->getResultArray();
         $data['tot_row'] = count($results);

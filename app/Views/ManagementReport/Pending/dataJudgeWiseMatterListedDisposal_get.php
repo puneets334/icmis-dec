@@ -17,6 +17,7 @@
     div.dataTables_wrapper {
     width: 100%;
 }
+
 </style>
 
 
@@ -29,9 +30,19 @@
             <section class="content">
 
                 <?php
+                // pr($reports);
+                // die();
                 //var_dump($mentioningReports);
-                if(is_array($reports))
+                $other_disposal = 0;
+                $total_listed = 0;
+                $total_disposed = 0;
+                $total_misc_listed=0;
+                $total_regular_listed=0;
+                $total_misc_disposed=0;
+                $total_regular_disposed=0;
+                if(is_array($reports) && count($reports)>0) 
                 {
+                    if(count($reports['disposal'])>0){
                 ?>
                 <div id="printable" class="box box-danger">
 
@@ -40,11 +51,12 @@
                 <?php
                 if($app_name=='JudgeWiseMatterListedDisposal')
                 {
+                    
                 if($jCode=='0') { ?>
                     <h3 style="text-align: center;"> Hon'ble Judge wise Matters Listed and Disposed between <strong><?=$from_date?></strong> and <strong><?=$to_date?></strong></h3>
                 <?php } else {
                     ?>
-                    <h3 style="text-align: center;"><strong><?=$reports[0]['jname']?> </strong>Matters Listed and Disposed between <strong><?=$from_date?></strong> and <strong><?=$to_date?></strong></h3>
+                    <h3 style="text-align: center;"><strong><?=$reports['disposal'][0]['jname']?> </strong>Matters Listed and Disposed between <strong><?=$from_date?></strong> and <strong><?=$to_date?></strong></h3>
                 <?php } ?>
                 <tr>
                     <th>Hon'ble Judge Name</th>
@@ -95,19 +107,23 @@
                     ?>
                     <tr>
                         <td><?php echo $result['jname'];?> (<?php echo $result['jcode'];?>) </td>
-                        <td><a href="<?=base_url();?>Report/pendency_reports/8/LMM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_misc_main'];?></a>
-                        (+ <a href="<?=base_url();?>Report/pendency_reports/8/LMC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_misc_conn'];?></a>)</td>
-                        <td><a href="<?=base_url();?>Report/pendency_reports/8/LRM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_regular_main'];?></a>
-                        (+<a href="<?=base_url();?>Report/pendency_reports/8/LRC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_regular_conn'];?></a>)</td>
-                        <td><a href="<?=base_url();?>Report/pendency_reports/8/LTM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_total_main'];?></a>
-                        (+ <a href="<?=base_url();?>Report/pendency_reports/8/LTC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_total_conn'];?></a>) = <?php echo $total_listed_judge_wise;?></td>
-                        <td><a href="<?=base_url();?>Report/pendency_reports/8/DMM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_misc_main'];?></a>
-                        (+ <a href="<?=base_url();?>Report/pendency_reports/8/DMC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_misc_conn'];?></a>)</td>
-                        <td><a href="<?=base_url();?>Report/pendency_reports/8/DRM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_regular_main'];?></a>
-                        (+ <a href="<?=base_url();?>Report/pendency_reports/8/DRC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_regular_conn'];?></a>)</td>
+                        <td><a href="8/LMM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_misc_main'];?></a>
+                        (+ <a href="8/LMC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_misc_conn'];?></a>)</td>
+
+                        <td><a href="8/LRM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_regular_main'];?></a>
+                        (+<a href="8/LRC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_regular_conn'];?></a>)</td>
+
+                        <td><a href="8/LTM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_total_main'];?></a>
+                        (+ <a href="8/LTC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['listed_total_conn'];?></a>) = <?php echo $total_listed_judge_wise;?></td>
+
+                        <td><a href="8/DMM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_misc_main'];?></a>
+                        (+ <a href="8/DMC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_misc_conn'];?></a>)</td>
+                        
+                        <td><a href="8/DRM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_regular_main'];?></a>
+                        (+ <a href="8/DRC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_regular_conn'];?></a>)</td>
                      
-                        <td><a href="<?=base_url();?>Report/pendency_reports/8/DTM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_total_main'];?></a>
-                        (+<a href="<?=base_url();?>Report/pendency_reports/8/DTC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_total_conn'];?></a>)= <?php echo $total_disposed_judge_wise;?></td>
+                        <td><a href="8/DTM/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_total_main'];?></a>
+                        (+<a href="8/DTC/<?=$from_date?>/<?=$to_date?>/<?=$result['jcode']?>" target="_blank"><?php echo $result['disposed_total_conn'];?></a>)= <?php echo $total_disposed_judge_wise;?></td>
                         <!-- <th><a target="_blank" onclick="return confirm('Delete this record?')" href="#"><i class="glyphicon glyphicon-trash"></i></a></th>-->
 
                     </tr>
@@ -134,6 +150,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        
 
                         <table width="100%" style="font-size: 20px;">
                             <tr>
@@ -155,6 +172,31 @@
 
             <?php
             }
+        }else{?>
+        <table width="100%" id="reportTable" class="table table-striped table-hover"">
+                <thead>
+                    <h3 style="text-align: center;"> Hon'ble Judge wise Matters Listed and Disposed between <strong><?=$from_date?></strong> and <strong><?=$to_date?></strong></h3>
+                
+                <tr>
+                    <th>Hon'ble Judge Name</th>
+                    <th>Listed <br/>Misc </th>
+                    <th>Listed <br/> Regular</th>
+
+                    <th>Listed <br/> Total </th>
+
+                    <th>Disposed <br/> Misc</th>
+
+                    <th>Disposed <br/> Regular </th>
+
+                    <th>Disposed <br/> Total </th>
+
+
+                </tr>
+                </thead>
+                <tbody><tr><td colspan="7" align="center">No Records Found</td></tr></tbody>
+        </table>
+
+        <?php }
                     }
                     ?>
                 </div>
@@ -163,6 +205,7 @@
         </div>
     </div>
 </div>
+
 
 <script src="<?=base_url()?>assets/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <script src="<?=base_url()?>assets/plugins/slimScroll/jquery.slimscroll.min.js"></script>
@@ -252,10 +295,10 @@
 
                 //$('#gsum').html('Grand Total');
 
-                al="<?=base_url();?>Report/pendency_reports/8/AL/<?=$from_date?>/<?=$to_date?>/<?=$jCode?>";
+                al="8/AL/<?=$from_date?>/<?=$to_date?>/<?=$jCode?>";
 
                 $('#gListedTotal').html('<a href="' + al + '" target="_blank"><?=$total_listed?></a>');
-                ad="<?=base_url();?>Report/pendency_reports/8/AD/<?=$from_date?>/<?=$to_date?>/<?=$jCode?>";
+                ad="8/AD/<?=$from_date?>/<?=$to_date?>/<?=$jCode?>";
                 $('#gDisposedTotal').html('<a href="' + ad + '" target="_blank"><?=$total_disposed+$other_disposal?></a>');
             }
         } );
