@@ -185,6 +185,7 @@ $(document).ready(function(){
     
         } catch (err) {
             console.error(err);
+            $("#btnMain").prop("disabled", false);
             alert("ERROR, Please Contact Server Room");
         }
     });
@@ -200,6 +201,7 @@ $(document).ready(function(){
         $("#btnMain").css("display","inline");
         $("#btnCan").css("display","none");
         //$(".add_result").slideUp();
+        $("#btnCan").prop("disabled", true);
         await updateCSRFTokenSync();
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
@@ -212,14 +214,17 @@ $(document).ready(function(){
         .done(function(msg_new){
             //updateCSRFToken();
             if(msg_new.success == 1){
+                $("#btnCan").prop("disabled", false);
                 if ($.fn.DataTable.isDataTable('#result_main')) {
                     $('#result_main').DataTable().destroy();
                 }
                 $("#result_main").html(msg_new.html);
                 $("#id_utype").val(msg_new.get_Open_id);
                 $('#result_main').DataTable();
+
             } else{
                 //$("#result_main").html('');
+                $("#btnCan").prop("disabled", false);
                 alert("ERROR, Please Contact Server Room"); 
             }
             //var msg3 = msg_new.split("<>><<>><><>");
@@ -228,6 +233,7 @@ $(document).ready(function(){
         })
         .fail(function(){
             //updateCSRFToken();
+            $("#btnCan").prop("disabled", false);
             alert("ERROR, Please Contact Server Room"); 
         });
     });
@@ -403,11 +409,13 @@ $(document).ready(function(){
                     $("#dv_res1_loader").html('');
                 }
             } else {
+                $("#btnUp").prop("disabled", false);
                 swal("Error!", saveResponse, "error");
             }
     
         } catch (err) {
             console.error(err);
+            $("#btnUp").prop("disabled", false);
             alert("ERROR, Please Contact Server Room");
         }
     });
@@ -444,6 +452,7 @@ $(document).on("click","[id^='btnEdit']",async function(){
     })
     .fail(function(){
         //updateCSRFToken();
+        $("#btnEdit"+num2).prop("disabled", false);
         alert("ERROR, Please Contact Server Room");
     });
 });
