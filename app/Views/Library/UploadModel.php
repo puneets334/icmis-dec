@@ -53,7 +53,13 @@
 
                 </div>
             </div>
-
+<style>
+    table>thead>tr> th{
+        font-weight: 600;
+        background-color: #6c757d;
+        color:#fff;
+    }
+</style>
             <div class="row">
                 <div class="col-md-12 mt-2">
 
