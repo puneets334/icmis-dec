@@ -225,7 +225,7 @@ class NoticesModel extends Model
     public function getResAdvNm($dairy_no)
     {
         $builder = $this->db->table('main a');
-        $builder->select('a.*,c.name, c.name res_adv_nm');
+        $builder->select('a.*,b.name, c.name res_adv_nm');
         $builder->join('master.bar b', 'b.bar_id = a.pet_adv_id', 'left');
         $builder->join('master.bar c', 'c.bar_id = a.res_adv_id', 'left');
         $builder->where('a.diary_no', $dairy_no);
@@ -243,6 +243,7 @@ class NoticesModel extends Model
         $builder->where('rec_dt', $date);
         $builder->where('display', 'Y');
         $builder->select('count(id) as count');
+       // pr( $builder->getCompiledSelect());
         $query = $builder->get();
         $result = $query->getRow();
         return $result ? $result->count : 0;
@@ -673,7 +674,7 @@ class NoticesModel extends Model
     SELECT null as id, partyname, addr1, addr2, sr_no_show as sr_no, pet_res, sonof, prfhname,
            null as nt_type, null as amount, state, city, null as enrol_no, null as enrol_yr
     FROM party  
-    WHERE diary_no='$dairy_no' AND pflag='P' AND partyname IS NOT NULL AND partyname != ''
+    WHERE diary_no='$dairy_no' AND pflag='P' AND partyname IS NOT NULL AND partyname != '' and pet_res != ''
     
     UNION
     
@@ -1315,6 +1316,68 @@ class NoticesModel extends Model
         $query = $db->query($sql, [$fromDate, $toDate, $fromDate, $toDate]);
         return $query->getResultArray();
     }
+
+
+    public function getLowerCourtDetails($diary_no, $addional_diary = '', $is_order_challenged = '', $lct_judge_desg = '')
+    {
+        $sql = "
+            SELECT DISTINCT 
+                MIN(lower_court_id) AS id, 
+                (
+                    CASE 
+                        WHEN ct_code = 3 THEN (
+                            SELECT name 
+                            FROM master.state s 
+                            WHERE s.id_no = a.l_dist AND s.display = 'Y'
+                        )
+                        ELSE (
+                            SELECT agency_name 
+                            FROM master.ref_agency_code c 
+                            WHERE c.cmis_state_id = a.l_state 
+                            AND c.id = a.l_dist 
+                            AND c.is_deleted = 'f'
+                        )
+                    END || ' ' || b.name
+                ) AS desg 
+                {$lct_judge_desg},
+                ct_code
+            FROM lowerct a
+            JOIN master.state b ON a.l_state = b.id_no
+            WHERE diary_no = $diary_no
+                {$addional_diary}
+                AND lw_display = 'Y'
+                AND b.display = 'Y'
+                {$is_order_challenged}
+            GROUP BY l_state, l_dist,ct_code,b.name {$lct_judge_desg};
+        ";
+ 
+        $query = $this->db->query($sql);
+        return $query->getResultArray();
+    }
+
+
+    public function getLatestCaseRemark($dairy_no)
+    {
+        $allowed_r_heads = [
+            '90', '91', '9', '10', '117', '62', '11', '60', '74', '75', 
+            '65', '2', '1', '94', '3', '4', '96', '57', '93', '59'
+        ];
+
+        $subQuery = $this->db->table('case_remarks_multiple')
+            ->select('MAX(cl_date)', false)
+            ->where('diary_no', $dairy_no);
+
+        $builder = $this->db->table('case_remarks_multiple')
+            ->select('cl_date, r_head')
+            ->where('diary_no', $dairy_no)
+            ->whereIn('r_head', $allowed_r_heads)
+            ->where('cl_date = (' . $subQuery->getCompiledSelect(false) . ')');
+
+        $query = $builder->get();
+        return $query->getResult();
+    }
+
+
 
 
 

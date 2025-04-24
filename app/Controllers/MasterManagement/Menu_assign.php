@@ -443,10 +443,10 @@ class Menu_assign extends BaseController
             foreach ($ucdArray as $usercode) {
 
                 $chkFirst = "select id from master.user_role_master_mapping where usercode='$usercode'";
-                $chkRs = $this->db->query($chkFirst);
-                $chkRs->getRowArray();
-
+                $chkquery = $this->db->query($chkFirst);
+                $chkRs = $chkquery->getRowArray();                
                 if (!empty($chkRs)) {
+                    
                     $qihistory = "insert into master.user_role_master_mapping_history (select * from master.user_role_master_mapping where usercode='$usercode')";
                     $qihistoryRs =  $this->db->query($qihistory);   
 
