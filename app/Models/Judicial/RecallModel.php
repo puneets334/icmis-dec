@@ -42,9 +42,11 @@ class RecallModel extends Model
                 FROM public.main_a m
                 LEFT JOIN public.dispose d ON d.diary_no = m.diary_no
                 WHERE $condition;";
-
+        
+        // echo $sql; die;
+        
         // Prepare the query
-        $query = $this->db->query($sql, [$case_type, $case_year, $case_number, $case_number, $diary_number.$diary_year]);
+        $query = $this->db->query($sql);
 
         // Check the number of rows and return results
         if ($query->getNumRows() >= 1) {
