@@ -20,7 +20,7 @@
                                 <?= csrf_field(); ?>
                                 <div class="box-body col-12">
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="col-sm-2">
                                             <label for="category" class="col-sm-12">From Date :</label>
                                             <input type="text" id="from_date" name="from_date" class="form-control dtp"  placeholder="From Date" required="required">
                                         </div>
@@ -31,9 +31,13 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <label for="type" class="col-sm-12">Matter Status</label>
-                                            <select class="form-control col-sm-4" id="jCode" name="jCode" placeholder="Judges">
+                                            <select class="form-control" id="jCode" name="jCode" placeholder="Judges" style="width:100% !important;">
                                                 <option value="0">All</option>
-                                                
+                                                <?php
+                                                    foreach($Judges as $Judge){
+                                                        echo '<option value="'.$Judge['jcode'].'">'.$Judge['jname'].'</option>';
+                                                    }
+                                                ?>
                                             </select>
                                         </div>
                                         

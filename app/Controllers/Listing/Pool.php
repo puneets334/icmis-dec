@@ -541,7 +541,10 @@ class Pool extends BaseController
             $data = [
                 'diary_no' => $diary_no,
                 'ent_dt'   => date('Y-m-d H:i:s'),
-                'user_code' => $ucode
+                'user_code' => $ucode,
+                'create_modify' => date("Y-m-d H:i:s"),
+                'updated_by' => session()->get('login')['usercode'],
+                'updated_by_ip' => getClientIP()
             ];
             $is_saved = insert('vacation_registrar_pool',$data);
             //$is_saved =1;
