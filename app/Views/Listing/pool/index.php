@@ -35,7 +35,7 @@
                         </div>
                     </div>
 
-                    <form method="post">
+                    <!--<form method="post">-->
                         <?= csrf_field() ?>
                         <div id="dv_content1">
                             <div class="">
@@ -308,7 +308,7 @@
                             </div>
                             </div>
                             <div id="dv_res1"></div>
-                    </form>
+                    <!--</form>-->
             </div>
         </div>
     </div>
@@ -444,13 +444,14 @@ $( document ).ready(function() {
 
 
 });
-function get_record_t(){
+async function get_record_t(){
     var pool_adv = $("#pool_adv").val();
     var md_name = $("#md_name").val();
     var list_dt = $("#ldates").val();
     var is_nmd = $("#is_nmd").val();
     var forFixedDate = $('input[name=forFixedDate]').is(':checked')
     var sitting_judges = $("#sitting_judges").val();
+    await updateCSRFTokenSync();
     var CSRF_TOKEN = 'CSRF_TOKEN';
     var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
     get_diary_reg();
