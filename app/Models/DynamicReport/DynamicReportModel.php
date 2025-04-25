@@ -138,22 +138,22 @@ class DynamicReportModel extends Model
           }
      }
 
-     function get_result($option, $condition, $sort, $joinCondition)
+     function get_result($option, $condition, $sort, $sortOption2, $joinCondition)
      {
           if(!str_contains($condition, 'and active_reg_year=') && !empty($condition)) {
-               $condition = "where $condition";
+               $condition = " $condition";
           } elseif(str_contains($condition, 'and active_reg_year=')) {
-               $condition = "";
+               $condition = "$condition";
           }
           if ($sort != '') {
-               $condition .= " order by " . $sort;
+               $condition .= " order by " . $sortOption2;
           }
           $sql = "select 
                row_number() over () as serial_number,p.* from (select distinct
                a.*
                from (
                select distinct
-                    m.diary_no, 
+                    $sort, 
                     reg_no_display, 
                     pet_name, 
                     res_name, 

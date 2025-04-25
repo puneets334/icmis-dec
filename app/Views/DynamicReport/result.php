@@ -20,12 +20,12 @@
                             <h2><b>SUPREME COURT OF INDIA</b></h2>
                             <?php echo "<h4>(Result generated through Dynamic Report on " . date('d-m-Y') . " at " . date('H:i:s A') . ")</h4>"; ?>
                         </center>
-                        <fieldset>
+                        <fieldset class="ml-5">
                             <legend style="border-bottom: black;"><u>Filtering Criteria</u></legend>
                             <?php echo $criteria ?>
                         </fieldset>
                         <hr style="height:1px;border-width:0;color:black;background-color:grey;">
-                        <div id="disp" class=" tableContainer">
+                        <div id="disp" class="ml-5 tableContainer">
                             <?php if (isset($result) && $result != false && $option == "2") { ?>
                                 <table id="tblCasesUploadStatus" class="table table-striped table-hover table-bordered" style="width: 100%;">
                                     <thead>
@@ -50,7 +50,7 @@
                                             ?>
                                             <tr>
                                                 <td data-key="S. No."><?php echo $s_no ?></td>
-                                                <td data-key="Diary No/Case No."><?php echo substr($case['diary_no'], 0, -4) . '/' . substr($case['diary_no'], -4) . " - " . $case['reg_no_display']; ?></td>
+                                                <td data-key="Diary No/Case No."><?php echo isset($case['diaryno1']) ? substr($case['diaryno1'], 0, -4) . '/' . substr($case['diaryno1'], -4) . " - " . $case['reg_no_display'] : $case['reg_no_display']; ?></td>
                                                 <td data-key="Cause Title"><?php echo $case['pet_name'] . "<b> VS </b>" . $case['res_name']; ?></td>
                                                 <td data-key="Filing Date">
                                                     <?php

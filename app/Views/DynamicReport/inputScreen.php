@@ -191,8 +191,9 @@
 																<select style="width:35%;" id="section" name="section" onchange="get_da()">
 																	<option value="0">All</option>
 																	<?php
-																	foreach ($Sections as $Section)
-																		echo '<option value="' . $Section['id'] . '^' . $Section['section_name'] . '" ' . (isset($_POST['section']) && $param[5] == $Section['section_name'] ? 'selected="selected"' : '') . '>' . $Section['section_name'] . '</option>';
+																	if (!empty($Sections))
+																		foreach ($Sections as $Section)
+																			echo '<option value="' . $Section['id'] . '^' . $Section['section_name'] . '" ' . (isset($_POST['section']) && $param[5] == $Section['section_name'] ? 'selected="selected"' : '') . '>' . $Section['section_name'] . '</option>';
 																	?>
 																</select>
 															</td>
@@ -213,8 +214,9 @@
 																	<select style="width:200px;" id="agencyState" name="agencyState" onchange="get_agency()">
 																		<option value="0">All</option>
 																		<?php
-																		foreach ($states as $state)
-																			echo '<option value="' . $state['cmis_state_id'] . '^' . $state['agency_state'] . '" ' . (isset($_POST['agencyState']) && $_POST['agencyState'] == $state['cmis_state_id']  ? 'selected="selected"' : '') . '>' . $state['agency_state'] . '</option>';
+																		if(!empty($states))
+																			foreach ($states as $state)
+																				echo '<option value="' . $state['cmis_state_id'] . '^' . $state['agency_state'] . '" ' . (isset($_POST['agencyState']) && $_POST['agencyState'] == $state['cmis_state_id']  ? 'selected="selected"' : '') . '>' . $state['agency_state'] . '</option>';
 																		?>
 																	</select>
 																	<input type="hidden" name="agencyState_hidden" id="agencyState_hidden">
@@ -238,8 +240,9 @@
 																<select style="width:21%;" id="advocate" name="advocate">
 																	<option value="0">All</option>
 																	<?php
-																	foreach ($aors as $aor)
-																		echo '<option value="' . $aor['bar_id'] . '^' . $aor['name_display'] . '" ' . (isset($_POST['bar_id']) && $_POST['bar_id'] == $aor['bar_id'] ? 'selected="selected"' : '') . '>' . $aor['name_display'] . '</option>';
+																	if(!empty($aors))
+																		foreach ($aors as $aor)
+																			echo '<option value="' . $aor['bar_id'] . '^' . $aor['name_display'] . '" ' . (isset($_POST['bar_id']) && $_POST['bar_id'] == $aor['bar_id'] ? 'selected="selected"' : '') . '>' . $aor['name_display'] . '</option>';
 																	?>
 																</select>
 																<input type="radio" class="first" name="advPorR" value="1">&nbsp;Petitioner &nbsp;&nbsp;&nbsp;&nbsp;
@@ -261,8 +264,9 @@
 																<select style="width:200px;" id="coram" name="coram">
 																	<option value="0">select</option>
 																	<?php
-																	foreach ($judges as $judge)
-																		echo '<option value="' . $judge['jcode'] . '^' . $judge['jname'] . '">' . $judge['jname'] . '</option>';
+																	if(!empty($judges))
+																		foreach ($judges as $judge)
+																			echo '<option value="' . $judge['jcode'] . '^' . $judge['jname'] . '">' . $judge['jname'] . '</option>';
 																	?>
 																</select>
 															</td>
