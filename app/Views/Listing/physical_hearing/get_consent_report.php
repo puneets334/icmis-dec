@@ -15,16 +15,17 @@
 
     <tbody>
         <?php
-        $psrno = "1";
+        $psrno = 1;
         $srNo = 0;
+        $con_no = 0;
         $r = [];
+        $print_srno = '';
         if(!empty($consent_report)) {
             foreach ($consent_report as $r) {
 
                 if ($r['diary_no'] == $r['conn_key'] or $r['conn_key'] == 0) {
                     $print_brdslno = $psrno;
-                    $print_srno = $psrno;
-                    $con_no = "0";
+                    $print_srno = $psrno;                    
                     $is_connected = "";
                 } else if ($r['main_or_connected'] == 1) {
                     $print_brdslno = "&nbsp;" . $print_srno . "." . ++$con_no;
