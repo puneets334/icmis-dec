@@ -104,7 +104,7 @@ input[type=number] {
 
                                                         <!-- Enrollment No -->
                                                         <div class="col-md-2">
-                                                            <input type="number" class="form-control" maxlength="6" id="enrol" name="enrol" placeholder="Enrollment No." disabled>
+                                                            <input type="text" class="form-control" maxlength="6" id="enrol" name="enrol" placeholder="Enrollment No." disabled>
                                                         </div>
 
                                                         <!-- Year -->
@@ -116,13 +116,13 @@ input[type=number] {
                                                         <div class="col-md-2 d-flex align-items-center">
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="radio" name="radio_state_aor" id="radio_aor" value="A">
-                                                                <label class="form-check-label lebelfrom" for="radio_aor" style="display: inline-block !important;">AOR Code</label>
+                                                                <label class="form-check-label lebelfrom" for="radio_aor" style="display: inline-block !important;"  >AOR Code</label>
                                                             </div>
                                                         </div>
 
                                                         <!-- AOR Code -->
                                                         <div class="col-md-2">
-                                                            <input type="number" class="form-control" name="aor_code" id="aor_code" maxlength="6" placeholder="AOR Code" disabled>
+                                                            <input type="text" class="form-control numbersonly" name="aor_code" id="aor_code" maxlength="6" placeholder="AOR Code" disabled>
                                                         </div>
 
                                                         <!-- Get Details Button -->
@@ -179,59 +179,72 @@ $(document).ready(function(){
     });
 });
 
-function get_adv_d(){
-
+function get_adv_d() {
     var CSRF_TOKEN = 'CSRF_TOKEN';
     var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
-    if($("#radio_state").is(':checked')){
-        if($("#state").val()==""){
+    // Disable the submit button
+    $('#submitBtn').prop('disabled', true);
+
+    if ($("#radio_state").is(':checked')) {
+        if ($("#state").val() == "") {
             alert("Please Select State");
             $("#state").focus();
+            $('#submitBtn').prop('disabled', false);
             return false;
         }
-        if($("#enrol").val()==""){
+        if ($("#enrol").val() == "") {
             alert("Please Fill Enrollment No.");
             $("#enrol").focus();
+            $('#submitBtn').prop('disabled', false);
             return false;
         }
-        if($("#year").val()==""){
+        if ($("#year").val() == "") {
             alert("Please Fill Enrollment Year");
             $("#year").focus();
+            $('#submitBtn').prop('disabled', false);
             return false;
         }
-    }
-    else if($("#radio_aor").is(':checked')){
-        if($("#aor_code").val()==""){
+    } else if ($("#radio_aor").is(':checked')) {
+        if ($("#aor_code").val() == "") {
             alert("Please Fill AOR Code");
             $("#aor_code").focus();
+            $('#submitBtn').prop('disabled', false);
             return false;
         }
-    }
-    else{
+    } else {
         alert('Please Select Any Option');
+        $('#submitBtn').prop('disabled', false);
         return false;
     }
-    
+
     $.ajax({
         type: 'POST',
-        // url: "get_update_de.php", old_url
-        url: baseURL + "/MasterManagement/Advocate/getdetailsUDERDB", 
-        data:{state:$("#state").val(),enroll:$("#enrol").val(),year:$("#year").val(),aor:$("#aor_code").val()},
+        url: baseURL + "/MasterManagement/Advocate/getdetailsUDERDB",
+        data: {
+            state: $("#state").val(),
+            enroll: $("#enrol").val(),
+            year: $("#year").val(),
+            aor: $("#aor_code").val()
+        },
         headers: {
-            'X-CSRF-Token': CSRF_TOKEN_VALUE  
-             },
-     })
-    .done(function(msg){
+            'X-CSRF-Token': CSRF_TOKEN_VALUE
+        }
+    })
+    .done(function(msg) {
         updateCSRFToken();
         $("#result").html(msg);
-        
     })
-    .fail(function(){
+    .fail(function() {
         updateCSRFToken();
-        alert("Error Occured, Please Contact Server Room");
+        alert("Error Occurred, Please Contact Server Room");
+    })
+    .always(function() {
+        // Re-enable the submit button regardless of success or failure
+        $('#submitBtn').prop('disabled', false);
     });
 }
+
 
 
 

@@ -5866,7 +5866,7 @@ function get_allocation_judge_m_alc_b($p1, $cldt, $board_type)
                                                     AND h.board_type = 'J'
                                                     AND h.mainhead = '$p1' 
                                                     AND h.main_supp_flag IN (1, 2) 
-                                                    AND (m.diary_no = CAST(m.conn_key AS bigint) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
+                                                    AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
                                                 GROUP BY 
                                                     h.diary_no, h.judges, h.subhead, h.listorder, m.diary_no, m.fil_no_fh, c.diary_no
                                             ) h
