@@ -237,7 +237,7 @@ $(document).on("click", '.btn_upload_save', function () {
             cache: false,
             contentType: false,
             processData: false,
-            dataType: 'text',
+            dataType: 'json',
             //data: {form_data:form_data,list_date:list_date,diary_no:diary_no,document_retain:document_retain},
             data: data1,
             beforeSend:function(){
@@ -248,20 +248,17 @@ $(document).on("click", '.btn_upload_save', function () {
                 return myXhr;
             },
             type: 'POST',
-            success: function(data, status) {
+            success: function(response) 
+            {
                 updateCSRFToken();
-                if(data == 'Uploaded successfully'){
+                if(response.success){
                     $("#myModal .close").click();
-                    swal({title: "Success!",text: data,icon: "success",button: "success!"});
+                    alert(response.success);
+                    // swal({title: "Success!", text: response.success, icon: "success", button: "success!"});
                     btn_search();
                 }
                 else{
-                    swal({
-                        title: "Error!",
-                        text: data,
-                        icon: "error",
-                        button: "Try Again!"
-                    });
+                    alert("Try Again...");;
                 }
                 ////
                 //$('#modal_body_section').html(data);

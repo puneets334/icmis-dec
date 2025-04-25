@@ -541,7 +541,10 @@ class Pool extends BaseController
             $data = [
                 'diary_no' => $diary_no,
                 'ent_dt'   => date('Y-m-d H:i:s'),
-                'user_code' => $ucode
+                'user_code' => $ucode,
+                'create_modify' => date("Y-m-d H:i:s"),
+                'updated_by' => session()->get('login')['usercode'],
+                'updated_by_ip' => getClientIP()
             ];
             $is_saved = insert('vacation_registrar_pool',$data);
             //$is_saved =1;
@@ -662,5 +665,16 @@ class Pool extends BaseController
         $data['getCategoryInfo'] = $this->PoolModel->getCategoryInfo($dno);
         $data['alreadyInPool'] =  $this->PoolModel->isAlreadyInPool($dno);        
         return view('Listing/pool/registrar_create_pool_get', $data);
+    }
+
+    public function cl()
+    {
+        $data=[];
+        $request = \Config\Services::request();
+        $diaryNumbers = $request->getPost('diaryNos');
+        $diary_numbers_string_post = json_decode($diaryNumbers);
+        $data['diary_numbers_string'] = implode(',', $diary_numbers_string_post);
+        $data['res'] =  $this->PoolModel->getPoolCaseDetails($data['diary_numbers_string']);
+        return view('Listing/pool/cl', $data);
     }
 }

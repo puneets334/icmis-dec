@@ -56,54 +56,14 @@ class ResourcesList extends BaseController
             'courtno' => $courtno,
         ]);
 
-        $results = $query->getResultArray();
         
         $courtno_string = ($courtno > 0) ? " COURT NO. $courtno" : "";
         $status_string = ($status === 'Pending') ? "(STATUS - PENDING)" : (($status === 'Completed') ? "(STATUS - COMPLETED)" : "");
-        $title = "LIBRARY RESOURCES FOR CAUSE LIST DATE " . $list_date . $courtno_string . " $status_string (As on " . date('d-m-Y H:i:s') . ")";
+        $data['title'] = "LIBRARY RESOURCES FOR CAUSE LIST DATE " . $list_date . $courtno_string . " $status_string (As on " . date('d-m-Y H:i A') . ")";
+        $data['cases'] = $query->getResultArray();
+        return view('Library/list_process_data', $data);
 
-        // Generate HTML response
-        if (count($results) > 0) {
-            $output = '<table class="table custom-table" id="tab">';
-            $output .= '<thead><tr><th>S.No.</th><th>Case Details</th><th>AOR Name</th><th>Action</th></tr></thead>';
-            $output .= '<tbody>';
-
-            $sno = 1;
-            foreach ($results as $row) {
-                // Fetch AOR details
-                $aor_name = $this->getAORName($row['aor_code']);
-                // Generate case details
-                $case_details = $this->getCaseDetails($row);
-                // Fetch case number from the main table
-                $diary_no = $row['diary_no'];
-                $case_no = $this->getCaseNumber($diary_no);
-
-                $output .= '<tr>';
-                $output .= '<td>' . $sno++ . '</td>';
-                $output .= '<td>' . $case_details . '</td>';
-                $output .= '<td>' . $aor_name . '</td>';
-                $output .= '<td>
-                                <button type="button" class="btn btn-info btn_upload_modal" 
-                                    data-case_no="' . htmlspecialchars($case_no) . '" 
-                                    data-cause_title="' . htmlspecialchars($case_details) . '" 
-                                    data-court_no="' . htmlspecialchars($row['court_no']) . '" 
-                                    data-item_no="' . htmlspecialchars($row['item_no']) . '" 
-                                    data-library_reference_material="' . htmlspecialchars($row['id']) . '" 
-                                    data-diary_no="' . htmlspecialchars($diary_no) . '" 
-                                    data-i_status="' . htmlspecialchars($row['i_status']) . '"  
-                                    data-list_date="' . htmlspecialchars($row['list_date']) . '" 
-                                    data-toggle="modal" 
-                                    data-target="#myModal">Details
-                                </button>
-                            </td>';
-                $output .= '</tr>';
-            }
-
-            $output .= '</tbody></table>';
-            return $output;  
-        } else {
-            return "<center><h3 style='color:Red'>SORRY!!!, NO RECORD FOUND</h3></center>";
-        }
+        
     }
 
 
@@ -134,28 +94,28 @@ class ResourcesList extends BaseController
         }
     }
 
-    private function getAORName($aor_code)
+    function getAORName($aor_code)
     {
         $aor_query = $this->db->query("SELECT title, name FROM master.bar WHERE aor_code = ?", [$aor_code]);
         $aor_data = $aor_query->getRow();
         return $aor_data ? ucwords(strtolower($aor_data->title . ' ' . $aor_data->name)) : '';
     }
 
-    private function getCaseNumber($diary_no)
+    function getCaseNumber($diary_no)
     {
         $diary_query = $this->db->query("SELECT reg_no_display FROM main WHERE diary_no = ?", [$diary_no]);
         $diary_data = $diary_query->getRow();
         return $diary_data ? ($diary_data->reg_no_display ?: 'Diary No. ' . $diary_no) : 'Diary No. ' . $diary_no; // Default if not found
     }
 
-    private function getCaseDetails($row)
+    function getCaseDetails($row)
     {
         $diary_no = $row['diary_no'];
         $diary_query = $this->db->query("SELECT pet_name, res_name, reg_no_display, pno, rno FROM main WHERE diary_no = ?", [$diary_no]);
         $diary = $diary_query->getRow();
 
         if (!$diary) {
-            return 'Diary No. ' . $diary_no; // Handle as necessary
+            return 'Diary No. ' . $diary_no;
         }
 
         $pet_name = $diary->pet_name;
@@ -331,8 +291,7 @@ class ResourcesList extends BaseController
         
                 }
         
-            }
-        
+            }        
         
             if($_REQUEST['status_option'] == 'Completed'){
                 $sql = "update library_reference_material set i_updated_by = $ucode, i_updated_on = NOW(), i_status = 'Completed',
@@ -340,14 +299,14 @@ class ResourcesList extends BaseController
                 where id = ".$_POST['library_reference_material'];
                 $update = $this->e_services->query($sql);
                 //$update->execute();
-                echo "Uploaded successfully";
+                return $this->response->setJSON(['success' => 'Uploaded successfully']);
             }else{
                 $sql = "update library_reference_material set i_updated_by = $ucode, i_updated_on = NOW(), i_status = 'Pending',
                 file_retention_policy = '".$_POST['document_retain_option']."'
                 where id = ".$_POST['library_reference_material'];
                 $update = $this->e_services->query($sql);
                // $update->execute();
-                echo "Uploaded successfully";
+               return $this->response->setJSON(['success' => 'Uploaded successfully']);
             }
         
         

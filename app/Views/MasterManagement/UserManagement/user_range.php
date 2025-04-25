@@ -169,9 +169,19 @@
                     }
                 })
                 .done(function(msg) {
-                    //alert(msg);
-                    alert("Added Successfully");
-                    location.reload();
+                    
+                    //alert("Added Successfully");
+                    //location.reload();
+                    if(msg == "USERRANGE ADDED SUCCESSFULLY"){
+                        alert("Added Sucessfully");
+                        location.reload();
+                        return false;
+                    }
+                    else{
+                        alert(msg);
+                        return false;
+                    }
+                    return false;
                     var msg2 = msg.split('~');
                     if (msg2[0] == 1) {
                         $(".add_result").css("display", "block");

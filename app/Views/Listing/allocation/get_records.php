@@ -314,12 +314,19 @@
                     </tr>
                 </table>
             <?php } ?>
-
+            </div>    
             <?php if ($md_name == "pool") { ?>
-                <input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary">
-                <button type="button" style="text-align: right;margin-left:80%" id="footerButton" class="diary_nos1 btn btn-primary" data-diary-nos='<?= json_encode($diaryNos) ?>'>Generate in Causelist format</button>
+                <div class="row">
+                    <div class="col d-flex justify-content-between">
+                        <input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary">
+                        <form id="" method="POST" action="<?php echo base_url('Listing/Pool/cl'); ?>" target= '_blank'>
+                            <?= csrf_field() ?>
+                            <button type="button" style="" id="footerButton" class="btn btn-primary" data-diary-nos='<?= json_encode($diaryNos) ?>'>Generate in Causelist format</button>
+                        </form>
+                    </div>
+                </div>
             <?php } ?>    
-        </div>
+        <!--</div>-->
     <?php } else {
     echo "No Records Found.";
 } ?>
@@ -343,4 +350,17 @@ $(function() {
         },
     });
 });
+
+$(document).on('click', '#footerButton', async function() {    
+    await updateCSRFTokenSync();
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    var diaryNos = $(this).data('diary-nos');
+    $('<input>').attr({
+        type: 'hidden',
+        name: 'diaryNos',
+        value: JSON.stringify(diaryNos)
+    }).appendTo('form');
+    $('form').submit();
+});    
+
 </script>

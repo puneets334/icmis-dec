@@ -282,7 +282,11 @@ thead{
                                 {
                                     extend: 'print',
                                     orientation: 'landscape',
-                                    pageSize: 'A4'
+                                    pageSize: 'A4',
+                                    exportOptions: {
+                                        columns: ':visible'
+
+                                        }
                                 }
                             ]
                         });

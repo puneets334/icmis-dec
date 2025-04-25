@@ -48,25 +48,23 @@
                                                     <div class="col-md-12">
                                                         <div class="well">
                                                             <div class="row">
-                                                                <input type="hidden" name="usercode" id="usercode" value="<?= $_SESSION['dcmis_user_idd'] ?>"/>
+                                                                <input type="hidden" name="usercode" id="usercode" value="<?= isset($_SESSION['dcmis_user_idd']) ? $_SESSION['dcmis_user_idd'] : @$usercodeses_get; ?>"/>
                                                             </div>
 
                                                             <div class="row">
                                                                 <div class="col-sm-6">
                                                                     <label for="judge1">Judge</label>
                                                                     <select class="form-control" id="judge" name="judge" placeholder="judge" style="margin: 19px;" required>
-                                                                        <option value="">Select Judge</option>
-                                                                        <?php
-                                                                            $judgeinitial = [0];
-                                                                        foreach($judge as $j1){
-                                                                            if ($judgeinitial[0]==$j1['jcode']){
-                                                                                echo '<option value="'.$j1['jcode'].'" selected="selected">'.$j1['jcode'].' - '.$j1['jname'].'</option>';
-                                                                            }
-                                                                            else
-                                                                                echo '<option value="'.$j1['jcode'].'" >'.$j1['jcode'].' - '.$j1['jname'].'</option>';
-                                                                        }
-                                                                        ?>
-                                                                    </select>
+                                                                    <option value="">Select Judge</option>
+                                                                    <?php
+                                                                    $selected_judge_code = isset($judge_selected_code) ? $judge_selected_code : '';
+                                                                    foreach ($judge as $j1) {
+                                                                        $selected = ($selected_judge_code == $j1['jcode']) ? 'selected="selected"' : '';
+                                                                        echo '<option value="'.$j1['jcode'].'" '.$selected.'>'.$j1['jcode'].' - '.$j1['jname'].'</option>';
+                                                                    }
+                                                                    ?>
+                                                                </select>
+
                                                                 </div>
                                                                 <div class="col-sm-5">
                                                                     <label for="m_f">Misc/Regular</label><br/>
@@ -122,14 +120,16 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php
-                                                    foreach ($judge_details as $i => $result) {
+                                                    $i=0;
+                                                    foreach ($judge_details as $ijt => $result) {
+                                                        $i++;
                                                         ?>
                                                         <tr>
-                                                            <td><?php echo $i + 1; ?></td>
-                                                            <td hidden id="td_<?php echo $i + 1; ?>"><?php echo htmlspecialchars($result['id']); ?></td>
+                                                            <td><?php echo $i; ?></td>
+                                                            <td hidden id="td_<?php echo $i; ?>"><?php echo htmlspecialchars($result['id']); ?></td>
                                                             <td width="50%"><?php echo htmlspecialchars($result['catg']); ?></td>
                                                             <td>
-                                                                <input type="number" value="<?php echo htmlspecialchars($result['priority']); ?>" name="priority_<?php echo $i + 1; ?>" id="priority_<?php echo $i + 1; ?>">
+                                                                <input type="number" class="priority_jcu_cls" value="<?php echo htmlspecialchars($result['priority']); ?>" name="priority_<?php echo $i; ?>" id="priority_<?php echo $i; ?>"> 
                                                             </td>
                                                             <td>
                                                                 <input type="text" class="form-control datepick" value="<?php 
@@ -139,10 +139,10 @@
                                                                     } else {
                                                                         echo '';
                                                                     }
-                                                                ?>" name="toDate_<?php echo $i + 1; ?>" id="toDate_<?php echo $i + 1; ?>">
+                                                                ?>" name="toDate_<?php echo $i; ?>" id="toDate_<?php echo $i; ?>"> 
                                                             </td>
                                                             <td>
-                                                                <button class="btn bg-olive btn-flat pull-right" onclick="update(<?php echo $i + 1; ?>);"><i class="fa fa-save"></i> Update</button>
+                                                                <button class="btn bg-olive btn-flat pull-right" onclick="update(<?php echo $i; ?>);"><i class="fa fa-save"></i> Update</button>
                                                             </td>
                                                         </tr>
                                                     <?php
@@ -183,6 +183,15 @@
  
 
 <script type="text/javascript">
+    $(document).on('input', '.priority_jcu_cls', function () {
+            const maxLength = 7;
+            let value = $(this).val();
+
+            // If value exceeds 6 digits, trim it
+            if (value.length > maxLength) {
+                $(this).val(value.slice(0, maxLength));
+            }
+        });
      
  
 //      $(document).ready(function() {
@@ -329,7 +338,7 @@ $(document).ready(function() {
         var usercode=$('#usercode').val();
         var rows=$('#rows').val();
         var mf='<?php echo $matters;?>';
-       
+        
          if (!isEmpty(priority) && !isEmpty(idDb) && !isEmpty(usercode)) {
             $.ajax({
                 url: "<?=base_url();?>/MasterManagement/MasterController/update_judge_category",
@@ -346,7 +355,7 @@ $(document).ready(function() {
                 },
                 success: function (result) {
                     if (!alert(result)) {
-                        //location.reload();
+                        location.reload();
                     }
                 },
                 error: function (xhr, status, error) {

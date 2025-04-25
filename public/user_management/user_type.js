@@ -110,10 +110,11 @@ $(document).ready(function(){
             $("#mflag_utype").focus();
             return false;
         }
-    
+        $("#btnMain").prop("disabled", true);
         try {
             await updateCSRFTokenSync();
-            let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();    
+            let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+                
             const saveResponse = await $.ajax({
                 type: 'POST',
                 url: base_url + "/MasterManagement/UserManagement/usertype_manage",
@@ -184,6 +185,7 @@ $(document).ready(function(){
     
         } catch (err) {
             console.error(err);
+            $("#btnMain").prop("disabled", false);
             alert("ERROR, Please Contact Server Room");
         }
     });
@@ -199,6 +201,7 @@ $(document).ready(function(){
         $("#btnMain").css("display","inline");
         $("#btnCan").css("display","none");
         //$(".add_result").slideUp();
+        $("#btnCan").prop("disabled", true);
         await updateCSRFTokenSync();
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
@@ -211,14 +214,17 @@ $(document).ready(function(){
         .done(function(msg_new){
             //updateCSRFToken();
             if(msg_new.success == 1){
+                $("#btnCan").prop("disabled", false);
                 if ($.fn.DataTable.isDataTable('#result_main')) {
                     $('#result_main').DataTable().destroy();
                 }
                 $("#result_main").html(msg_new.html);
                 $("#id_utype").val(msg_new.get_Open_id);
                 $('#result_main').DataTable();
+
             } else{
                 //$("#result_main").html('');
+                $("#btnCan").prop("disabled", false);
                 alert("ERROR, Please Contact Server Room"); 
             }
             //var msg3 = msg_new.split("<>><<>><><>");
@@ -227,6 +233,7 @@ $(document).ready(function(){
         })
         .fail(function(){
             //updateCSRFToken();
+            $("#btnCan").prop("disabled", false);
             alert("ERROR, Please Contact Server Room"); 
         });
     });
@@ -340,11 +347,10 @@ $(document).ready(function(){
             $("#mflag_utype").focus();
             return false;
         }
-    
+        $("#btnUp").prop("disabled", true);
         try {
             await updateCSRFTokenSync();
-            let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-    
+            let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();            
             const saveResponse = await $.ajax({
                 type: 'POST',
                 url: base_url + "/MasterManagement/UserManagement/usertype_manage",
@@ -357,8 +363,8 @@ $(document).ready(function(){
                     id: $("#hd_id_for_usertype").val(),
                     CSRF_TOKEN: CSRF_TOKEN_VALUE
                 },
-                beforeSend: function () {                    
-                    $("#btnUp").prop("disabled", true);
+                beforeSend: function () {                                       
+                    $("#btnUp").prop("disabled", true);                    
                     $("#dv_res1_loader").html("<div style='width:50%'><img src='" + image_loader_str + "'></div>");
                 }
             });
@@ -403,11 +409,13 @@ $(document).ready(function(){
                     $("#dv_res1_loader").html('');
                 }
             } else {
+                $("#btnUp").prop("disabled", false);
                 swal("Error!", saveResponse, "error");
             }
     
         } catch (err) {
             console.error(err);
+            $("#btnUp").prop("disabled", false);
             alert("ERROR, Please Contact Server Room");
         }
     });
@@ -416,6 +424,8 @@ $(document).ready(function(){
 
 $(document).on("click","[id^='btnEdit']",async function(){
     var num = this.id.split('btnEdit');
+    var num2 = this.id.split('btnEdit')[1].replace(',', '');    
+    $("#btnEdit"+num2).prop("disabled", true);
     await updateCSRFTokenSync();
     var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
@@ -433,7 +443,8 @@ $(document).on("click","[id^='btnEdit']",async function(){
         $("#name_utype").val(msg2[1]);
         $("#dflag_utype").val(msg2[2]);
         $("#mflag_utype").val(msg2[3]);
-        
+        $("#btnEdit"+num2).prop("disabled", false);
+        $("#btnUp").prop("disabled", false);
         $("#btnUp").css("display","inline");
         $("#btnCan").css("display","inline");
         $("#btnMain").css("display","none");
@@ -441,6 +452,7 @@ $(document).on("click","[id^='btnEdit']",async function(){
     })
     .fail(function(){
         //updateCSRFToken();
+        $("#btnEdit"+num2).prop("disabled", false);
         alert("ERROR, Please Contact Server Room");
     });
 });

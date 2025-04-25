@@ -1,19 +1,30 @@
 <div id="prnnt" class="mt-4">
-    <h3><?php echo $h3_head; ?></h3>
+    
+    <div class="row mt-2">
+        <div class="col-md-4 text-left ml-n4">
+            <div class="main_prnt_header">
+                <input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary bk_out">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h3 class="text-center" style="text-align:center"><?php echo $h3_head; ?></h3>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
     <?php
     if (count($get_ct_listed_disposed) > 0) {
     ?>
-        <table class="table table-striped custom-table">
+        <table align="left" width="100%" class="table table-striped custom-table" style="font-size:10px; table-layout: fixed;">
             <thead>
                 <tr>
-                    <th>SrNo.</th>
-                    <th>Case Type</th>
-                    <th>Listed Misc</th>
-                    <th>Listed Regular</th>
-                    <th>Listed Total</th>
-                    <th>Disposed Misc</th>
-                    <th>Disposed Regular</th>
-                    <th>Disposed Total</th>
+                    <th width="10%" align="left"style="font-weight: bold;">SrNo.</th>
+                    <th width="30%" align="left" style="font-weight: bold;">Case Type</th>
+                    <th width="10%" align="left" style="font-weight: bold;">Listed Misc</th>
+                    <th width="10%" align="left" style="font-weight: bold;">Listed Regular</th>
+                    <th width="10%" align="left" style="font-weight: bold;">Listed Total</th>
+                    <th width="10%" align="left" style="font-weight: bold;">Disposed Misc</th>
+                    <th width="10%" align="left" style="font-weight: bold;">Disposed Regular</th>
+                    <th width="10%" align="left" style="font-weight: bold;">Disposed Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,9 +42,9 @@
                                 ?>">
                         <?php
                     }
-                        ?> <td><?php echo $sno; ?></td>
-                        <td><?php echo $ro['short_description']; ?></td>
-                        <td><?php
+                        ?> <td align="left" style='vertical-align: top;'><?php echo $sno; ?></td>
+                        <td align="left" style='vertical-align: top;'><?php echo $ro['short_description']; ?></td>
+                        <td align="left" style='vertical-align: top;'><?php
                             echo "<a data-toggle='modal' data-target='#newcs'' onclick='return call_fcs($ro[casecode],1);' href='#'>" . $ro['listed_misc_main'] . "</a> (+ ";
                             echo "<a data-toggle='modal' data-target='#newcs' onclick='return call_fcs($ro[casecode],2);' href='#'>" . $ro['listed_misc_conn'] . "</a>)";
                             ?></td>
@@ -71,9 +82,9 @@
             Total Disposed : <?php echo $total_disposed; ?>
         </div>
     <?php
-    } else {
-        echo "No Recrods Found";
-    }
+    } else {?>
+        <div class="mt-10 center">No Recrods Found</div>
+    <?php }
     ?>
 
 </div>
@@ -95,8 +106,8 @@
   </div>
 </div>
 
-<div style="width: 100%; padding-bottom:1px; background-color: #ddf1f9; text-align: center; border-top: 1px solid #000; position: fixed; left: 0; right: 0; z-index: 0; display:block;">
+<!--<div style="width: 100%; padding-bottom:1px; background-color: #ddf1f9; text-align: center; border-top: 1px solid #000; position: fixed; left: 0; right: 0; z-index: 0; display:block;">
     <span id="toggle_hw" style="color: #0066cc; font-weight: bold; cursor: pointer; padding-right: 1px;">
     </span>
     <input name="prnnt1" type="button" id="prnnt1" value="Print">
-</div>
+</div>-->

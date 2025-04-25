@@ -35,7 +35,7 @@
                         </div>
                     </div>
 
-                    <form method="post">
+                    <!--<form method="post">-->
                         <?= csrf_field() ?>
                         <div id="dv_content1">
                             <div class="">
@@ -308,7 +308,7 @@
                             </div>
                             </div>
                             <div id="dv_res1"></div>
-                    </form>
+                    <!--</form>-->
             </div>
         </div>
     </div>
@@ -444,13 +444,14 @@ $( document ).ready(function() {
 
 
 });
-function get_record_t(){
+async function get_record_t(){
     var pool_adv = $("#pool_adv").val();
     var md_name = $("#md_name").val();
     var list_dt = $("#ldates").val();
     var is_nmd = $("#is_nmd").val();
     var forFixedDate = $('input[name=forFixedDate]').is(':checked')
     var sitting_judges = $("#sitting_judges").val();
+    await updateCSRFTokenSync();
     var CSRF_TOKEN = 'CSRF_TOKEN';
     var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
     get_diary_reg();
@@ -500,8 +501,8 @@ function get_record_t(){
        
         data: {CSRF_TOKEN: CSRF_TOKEN_VALUE,pool_adv:pool_adv,list_dt: list_dt,diary_reg: get_diary_reg(),mainhead: get_mainhead(),civil_criminal: civil_criminal,bench: get_bench(),from_yr:from_yr,to_yr:to_yr,subhead:subhead,listing_purpose:listing_purpose,case_type:case_type,subject_cat:subject_cat,kword:kword,ia:ia,act:act,section:section,sitting_judges:sitting_judges,md_name:md_name,part_no:part_no,roster_judges_id:roster_judges_id,main_supp:main_supp,reg_unreg:reg_unreg,is_nmd:is_nmd,forFixedDate:forFixedDate},
         beforeSend:function(){
+            $("#bt1").attr("disabled", true);
             if(md_name == 'pool' || md_name == 'transfer'){
-                //$('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
                 $("#dv_res1").html('<div style="margin:0 auto;margin-top:20px;width:5%"><img src="' + base_url + '/images/load.gif"/></div>'); 
             } else{
                 $('.do_allotm').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
@@ -511,14 +512,15 @@ function get_record_t(){
         type: 'POST',
         success: function(data, status) {
             updateCSRFToken();
+            $("#bt1").attr("disabled", false);
             if(md_name == 'pool' || md_name == 'transfer'){
                 $('#dv_res1').html(data);
-            }
-            else{
+            } else {
+                updateCSRFToken();
+                $("#bt1").attr("disabled", false);
                 $('#dv_res2').html("");
                 $('.do_allotm').html(data);
-
-            }
+            }       
         },
         error: function(xhr) {
             alert("Error: " + xhr.status + " " + xhr.statusText);

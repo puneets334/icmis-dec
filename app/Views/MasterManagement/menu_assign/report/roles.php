@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/all.css'); ?>">
 <link rel="stylesheet" href="<?php echo base_url('assets/vendor/fontawesome-free/css/all.min.css'); ?>">
 
-<style> 
+<!-- <style> 
 label, h2 {
         margin: 12px auto;
         border: 1px solid #ddd;
@@ -104,8 +104,118 @@ label, h2 {
     }
     .dataTables_length,div#example_info,div#example_paginate{display:none;} 
     /* for purpose ordering */
+    table.table-bordered.dataTable th {
+    font-weight: bold !important;
+}
+div.dataTables_wrapper div.dataTables_filter input{border:#000 1px solid!important;}
+div.dataTables_wrapper div.dataTables_filter{float:right;}
+</style> -->
+<style> 
 
+label, h2 {
+        margin: 12px auto;
+        border: 1px solid #ddd;
+        display: inline-block;
+        padding: 3px 6px;
+        border-radius: 5px;
+        background: rgb(228, 228, 228);
+    }
+
+    .dt-buttons {
+        position: absolute;
+        margin: -38px 0px 0px 26%;
+    }
+
+    .main {
+        font-size: 20px !important;
+        font-weight: 600 !important;
+    }
+
+    span > small {
+        margin: auto 8px;
+        color: #969696;
+        font-weight: 300;
+        font-size: 13px;
+    }
+
+    .level1 {
+        font-size: 17px !important;
+        padding-left: 30px !important;
+        font-weight: 600;
+    }
+
+    .level2 {
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        padding-left: 50px !important;
+    }
+
+    .level3 {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        padding-left: 70px !important;
+    }
+
+    .level4 {
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        padding-left: 90px !important;
+    }
+
+    .level5 {
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        padding-left: 100px !important;
+    }
+
+    .dropdown {
+        padding: 0px;
+        margin-bottom: 12px;
+        box-shadow: 4px 4px 2px 0 #ddd;
+    }
+
+    font.url {
+        font-weight: 300;
+        font-size: 14px;
+        color: #545353;
+    }
+
+    font.oldsmid {
+        margin-left: 0px;
+        font-size: 14px;
+        font-weight: 300;
+    }
+
+    font.oldsmid:before {
+        content: '/ ';
+        margin-right: 2px;
+    }
+
+    .url_id {
+        position: absolute;
+        left: 65%;
+        margin-top: -30px;
+    }
+    table.dataTable thead th{font-weight: bold!important;}
+    #example_filter > label > input[type="search"] {
+        border: #000 1px solid!important;
+    }
+    .table-responsive-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+#example_filter{float:right;}
+#example_filter label{background:none;border:none;}
+th.sorting_disabled {
+    background: #f5f5f5;
+}
 </style>
+
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -451,7 +561,7 @@ $(document).ready(function () {
 $(document).ready(function() {
     var table = $('#example').DataTable({
         scrollY: 400,
-        scrollX: true,
+        paging: false,
         ordering: false,
         buttons: [
             {

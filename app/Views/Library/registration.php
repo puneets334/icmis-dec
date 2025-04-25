@@ -27,15 +27,15 @@
 <section class="content">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 mt-3">
                 <div class="card">
                     <div class="card-header heading">
                         <h3 class="card-title">Registration Form</h3>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" style="min-height:90vh">
                         <div class="form-group" style="margin-top: 5%;">
                             <input type="text" id="myInput" class="form-control" placeholder="Search Employee..">
-                            <div id="myDropdown" class="dropdown-content"></div>
+                            <div id="myDropdown" class="dropdown-content form-control" style="height:70vh;overflow-y:scroll;width:97%"></div>
                         </div>
 
                         <?php
@@ -139,8 +139,7 @@
                         }
                         filterDropdown(inputVal);
                     },
-                    error: function() {
-                        
+                    error: function() {                        
                         console.error('Error fetching employees.');
                     }
                 });
@@ -195,8 +194,8 @@
                             $('#court_no').val(response.court_no || '');
 
                             if (response.status == 1) {
-                                $('#deactiv').show();
                                 $('#activ').hide();
+                                $('#deactiv').show();
                             } else {
                                 $('#activ').show();
                                 $('#deactiv').hide();
@@ -349,7 +348,6 @@
             });
         });
 
-        // Hide dropdown when clicking outside
         $(document).click(function(e) {
             if (!$(e.target).closest('#myInput, #myDropdown').length) {
                 $('#myDropdown').hide();

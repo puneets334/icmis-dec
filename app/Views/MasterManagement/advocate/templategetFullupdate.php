@@ -9,9 +9,9 @@
         <table class="table table-bordered" style="/* border-collapse: collapse; */.: 2px;/* width: auto; */display: inline;" align="center" cellspacing="4" cellpadding="6">
         <!-- <table class="table table-bordered" style="border-collapse: collapse;border-width: 2px;" align="center" cellspacing='4' cellpadding='6' > -->
             <tr> 
-                <td><h7>State:</h7></td>
+                <td><h7>State:<span style="color:red">*</span></h7></td>
                 <td>
-                    <select id="adv_state">
+                    <select id="adv_state" required>
                         <option value="0">Select</option>    
                         <?php foreach ($state_name as $state): ?>
                             <option value="<?= esc($state['id_no']) ?>" <?= $state['id_no'] == $record['state_id'] ? 'selected' : '' ?>>
@@ -22,7 +22,7 @@
                 </td>
                 <td><h7>AOR/NAOR:<span style="color:red">*</span></h7></td>
                 <td>
-                    <select style="width: 163px" id='adv_aor' disabled>
+                    <select style="width: 163px" id='adv_aor' disabled >
                         <option value="">Select</option>
                         <option value="Y" <?= $record['if_aor'] == 'Y' ? 'selected' : '' ?>>AOR</option>
                         <option value="N" <?= $record['if_aor'] == 'N' ? 'selected' : '' ?>>NAOR</option>
@@ -34,18 +34,18 @@
                 <td><input type="text" maxlength="5" id="adv_aor_code" value="<?= esc($record['aor_code']) ?>" disabled /></td>
             </tr>
             <tr>
-                <td><h7>Enrollment No.:</h7></td>
-                <td><input type="text" id="enrollment_no" value="<?= esc($record['enroll_no']) ?>"/></td>
-                <td><h7>Enrollment Date:</h7></td>
+                <td><h7>Enrollment No.<span style="color:red">*</span>:</h7></td>
+                <td><input type="text" id="enrollment_no" value="<?= esc($record['enroll_no']) ?>" maxlength="20" required/></td>
+                <td><h7>Enrollment Date:<span style="color:red">*</span></h7></td>
                 <td>
                     <input type='text' id="enrollment_date" name="enrollment_date" onkeypress="return onlynumbersadv(event)" 
                     onkeyup="checkDate(this.value,this.id)" maxlength="10" placeholder="DD-MM-YYYY" 
-                    value="<?= $record['enroll_date'] != '0000-00-00' ? date('d-m-Y', strtotime($record['enroll_date'])) : '' ?>"/>
+                    value="<?= $record['enroll_date'] != '0000-00-00' ? date('d-m-Y', strtotime($record['enroll_date'])) : '' ?>" required/>
                 </td>
             </tr>
             <tr>
             <td><h7>Title:<span style="color:red">*</span></h7></td>
-            <td><select id="adv_title" style="width: 163px;"><option value='0'>Select</option>
+            <td><select id="adv_title" style="width: 163px;" required><option value='0'>Select</option>
                     <option value='Mr.' <?php if($record['title']=='Mr.') echo "Selected"; ?>>Mr.</option>
                     <option value='Mrs.' <?php if($record['title']=='Mrs.') echo "Selected"; ?>>Mrs.</option>
                     <option value='Miss' <?php if($record['title']=='Miss') echo "Selected"; ?>>Miss</option>
@@ -53,10 +53,10 @@
                    <option value='DR' <?php if($record['title']=='DR') echo "Selected"; ?>>DR</option></select>
             </td>
             <td><h7>Name:<span style="color:red">*</span></h7></td>
-            <td><input type="text" id="adv_name" size="20" onkeyup="upper(this.id)" onkeypress="return onlyalpha(event)" value="<?php echo $record['name'];?>"/></td>
+            <td><input type="text" id="adv_name" size="20" onkeyup="upper(this.id)" onkeypress="return onlyalpha(event)" value="<?php echo $record['name'];?>" required/></td>
          </tr>
         <tr><td><h7>Father's/Husband's Name:</h7></td>
-            <td><input type="text" id="adv_f_h_name" size="20" onkeyup="upper(this.id)" onkeypress="return onlyalpha(event)" value="<?php echo $record['fname'];?>"/></td>
+            <td><input type="text" id="adv_f_h_name" size="20" onkeyup="upper(this.id)" onkeypress="return onlyalpha(event)" value="<?php echo $record['fname'];?>" max="30"/></td>
             <td><h7>Relation:</h7></td>
             <td><select id="adv_relation" style="width: 163px;"><option value='0'>Select</option>
                     <option value='F' <?php if($record['rel']=='F') echo "Selected"; ?>>Father</option>
@@ -64,7 +64,7 @@
             </td>
         </tr>
         <tr><td><h7>Mother's Name:</h7></td>
-            <td><input type="text" id="adv_m_name" size="20" onkeyup="upper(this.id)" onkeypress="return onlyalpha(event)" value="<?php echo $record['mname'];?>"/></td>
+            <td><input type="text" id="adv_m_name" size="20" onkeyup="upper(this.id)" onkeypress="return onlyalpha(event)" value="<?php echo $record['mname'];?>" max="30"/></td>
             <td><h7>Gender:</h7></td>
             <td><select id="adv_sex" style="width: 163px;"><option value='0'>Select</option>
                     <option value='M' <?php if($record['sex']=='M') echo "Selected"; ?>>Male</option>
@@ -81,8 +81,8 @@
                     <option value='SC' <?php if($record['cast']=='SC') echo "Selected"; ?>>SC</option>
                 </select>
             </td>
-            <td><h7>Passing Year</h7></td>
-            <td><input type='text' size='20' maxlength="4" id="adv_year" onkeypress="return onlynumbers(event)" value="<?php echo $record['passing_year'];?>"/></td>
+            <td><h7>Passing Year <span style="color:red">*</span></h7></td>
+            <td><input type='text' size='20' maxlength="4" id="adv_year" onkeypress="return onlynumbers(event)" value="<?php echo $record['passing_year'];?>" maxlength="4" required/></td>
         </tr>
         <tr>
             <td><h7>Date of Birth:</h7></td>
@@ -91,20 +91,22 @@
             value="<?php 
             if(!empty($record['dob']))
             echo date('d-m-Y',strtotime($record['dob']));?>"/></td>
-            <td><h7>Practice City:</h7></td>
-            <td><input type='text' size='20' id="adv_p_p" onkeyup="upper(this.id)" value="<?php echo $record['pp'];?>"/></td>
+            <td><h7>Practice City:<span style="color:red">*</span></h7></td>
+            <td><input type='text' size='20' id="adv_p_p" onkeyup="upper(this.id)" value="<?php echo $record['pp'];?>" max="30" required/></td>
         </tr>
         <tr>
-            <td><h7>Address:<span style="color:red">*</span></h7></td>
-            <td><input type='text' size='20' id="adv_address" onkeyup="upper(this.id)" value="<?php echo $record['caddress'];?>"/></td>
-            <td>City:<span style="color:red">*</span></h7></td>
-            <td><input type='text' size='20' id="adv_city" onkeyup="upper(this.id)" value="<?php echo $record['ccity'];?>"/></td>
+            <td><h7>Address:</h7></td>
+            <td><input type='text' size='20' id="adv_address" onkeyup="upper(this.id)" value="<?php echo $record['caddress'];?>" max="30" required/></td>
+
+            <td>City:</h7></td>
+            <td><input type='text' size='20' id="adv_city" onkeyup="upper(this.id)" value="<?php echo $record['ccity'];?>" max="30" required/></td>
         </tr>
         <tr>
-            <td><h7>Mobile No.:</h7></td>
-            <td><input type='text' size='20' id="adv_mob" maxlength="10" value="<?php echo $record['mobile'];?>"/></td>
+            <td><h7>Mobile No.<span style="color:red">*</span>:</h7></td>
+            <td><input type='text' size='20' id="adv_mob" maxlength="10" value="<?php echo $record['mobile'];?>" max="10" required/></td>
+
             <td><h7>Email ID:</h7></td>
-            <td><input type='text' size='20' id="adv_email" value="<?php echo $record['email'];?>"/></td>
+            <td><input type='text' size='20' id="adv_email" value="<?php echo $record['email'];?>" max="50"/></td>
         </tr>
 
             <tr>
@@ -125,3 +127,14 @@
 <?php else: ?>
     <div class="sorry">SORRY, NO RECORD FOUND!!!</div>
 <?php endif; ?>
+
+<script>
+    $(document).ready(function() {
+        $('input[required], select[required], textarea[required]').each(function() {
+            var id = $(this).attr('id');
+            if (id) {
+                $('label[for="' + id + '"]').addClass('required-field');
+            }
+        });
+    });
+</script>

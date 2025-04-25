@@ -274,16 +274,18 @@ $(document).on("click", "#get_record", function() {
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             beforeSend: function() {
-                //$('#dv_res2').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                $("#get_record").attr("disabled", true);
                 $("#dv_res2").html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>'); 
             },
             type: 'POST',
             success: function(data, status) {
                 updateCSRFToken();
+                $("#get_record").attr("disabled", false);
                 $('#dv_res2').html(data);
             },
             error: function(xhr) {
                 updateCSRFToken();
+                $("#get_record").attr("disabled", false);
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });

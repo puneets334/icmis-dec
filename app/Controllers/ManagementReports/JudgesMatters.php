@@ -5,7 +5,7 @@ namespace App\Controllers\ManagementReports;
 use App\Controllers\BaseController;
 use App\Models\ManagementReport\NoDaCodeModel;
 use App\Models\ManagementReport\VCModel;
-use App\Libraries\MCTABLE;
+use App\Libraries\Mctable;
 
 class JudgesMatters extends BaseController
 {

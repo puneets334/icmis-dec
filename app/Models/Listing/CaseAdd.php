@@ -1207,7 +1207,7 @@ class CaseAdd extends Model
             $sql_field = "m.*, STRING_AGG(c.diary_no::TEXT, ',') AS child_case";
             //$sql_field2 = "LEFT JOIN conct c ON c.conn_key = m.diary_no AND list = 'Y' GROUP BY m.diary_no, m.active_fil_no, m.ia_filing_dt, m.active_reg_year, m.active_casetype_id, m.reg_no_display, m.short_description,m.fil_no,m.fil_dt, m.fil_year,m.lastorder, m.diary_no_rec_date, m.conn_key, m.next_dt, m.mainhead, m.subhead, m.clno, m.brd_slno, m.roster_id, m.judges, m.coram, m.board_type, m.usercode, m.ent_dt, m.module_id, m.mainhead_n, m.subhead_n, m.main_supp_flag, m.listorder, m.tentative_cl_dt, m.listed_ia, m.sitting_judges, m.list_before_remark, m.coram_prev, m.is_nmd, m.no_of_time_deleted, m.updated_by_ip, m.updated_by, m.updated_on,m.create_modify,m.trial011,m.descrip,m.purpose,m.cat1, m.r_coram ORDER BY brd_slno ASC, $order_by";
             if ($md_name == "transfer") {
-                $sql_field2 = "LEFT JOIN conct c ON c.conn_key = m.diary_no AND list = 'Y' GROUP BY m.diary_no, m.active_fil_no, m.ia_filing_dt, m.active_reg_year, m.active_casetype_id, m.reg_no_display, m.short_description,m.fil_no,m.fil_dt, m.fil_year,m.lastorder, m.diary_no_rec_date, m.conn_key, m.next_dt, m.mainhead, m.subhead, m.clno, m.brd_slno, m.roster_id, m.judges, m.coram, m.board_type, m.usercode, m.ent_dt, m.module_id, m.mainhead_n, m.subhead_n, m.main_supp_flag, m.listorder, m.tentative_cl_dt, m.listed_ia, m.sitting_judges, m.list_before_remark, m.coram_prev, m.is_nmd, m.no_of_time_deleted, m.updated_by_ip, m.updated_by, m.updated_on,m.create_modify,m.trial011,m.descrip,m.purpose,m.cat1 ORDER BY brd_slno ASC, $order_by";
+                $sql_field2 = "LEFT JOIN conct c ON c.conn_key = m.diary_no AND list = 'Y' GROUP BY m.diary_no, m.active_fil_no, m.ia_filing_dt, m.active_reg_year, m.active_casetype_id, m.reg_no_display, m.short_description,m.fil_no,m.fil_dt, m.fil_year,m.lastorder, m.diary_no_rec_date, m.conn_key, m.next_dt, m.mainhead, m.subhead, m.clno, m.brd_slno, m.roster_id, m.judges, m.coram, m.board_type, m.usercode, m.ent_dt, m.module_id, m.mainhead_n, m.subhead_n, m.main_supp_flag, m.listorder, m.tentative_cl_dt, m.listed_ia, m.sitting_judges, m.list_before_remark, m.coram_prev, m.is_nmd, m.no_of_time_deleted, m.updated_by_ip, m.updated_by, m.updated_on,m.create_modify,m.descrip,m.purpose,m.cat1 ORDER BY brd_slno ASC, $order_by";
 
                 $part_no = $params['part_no'];
                 $roster_judges_id = explode("|", $params['roster_judges_id']);
@@ -1215,7 +1215,7 @@ class CaseAdd extends Model
                 $qry_part_list_ornot = "AND h.roster_id = $trans_ros_id AND h.clno = $part_no AND h.next_dt = '$listing_dt'";
             }
             if ($md_name == "pool") {
-                $sql_field2 = "LEFT JOIN conct c ON c.conn_key = m.diary_no AND list = 'Y' GROUP BY m.diary_no, m.active_fil_no, m.ia_filing_dt, m.active_reg_year, m.active_casetype_id, m.reg_no_display, m.short_description,m.fil_no,m.fil_dt, m.fil_year,m.lastorder, m.diary_no_rec_date, m.conn_key, m.next_dt, m.mainhead, m.subhead, m.clno, m.brd_slno, m.roster_id, m.judges, m.coram, m.board_type, m.usercode, m.ent_dt, m.module_id, m.mainhead_n, m.subhead_n, m.main_supp_flag, m.listorder, m.tentative_cl_dt, m.listed_ia, m.sitting_judges, m.list_before_remark, m.coram_prev, m.is_nmd, m.no_of_time_deleted, m.updated_by_ip, m.updated_by, m.updated_on,m.create_modify,m.trial011,m.descrip,m.purpose,m.cat1, m.r_coram ORDER BY brd_slno ASC, $order_by";
+                $sql_field2 = "LEFT JOIN conct c ON c.conn_key = m.diary_no AND list = 'Y' GROUP BY m.diary_no, m.active_fil_no, m.ia_filing_dt, m.active_reg_year, m.active_casetype_id, m.reg_no_display, m.short_description,m.fil_no,m.fil_dt, m.fil_year,m.lastorder, m.diary_no_rec_date, m.conn_key, m.next_dt, m.mainhead, m.subhead, m.clno, m.brd_slno, m.roster_id, m.judges, m.coram, m.board_type, m.usercode, m.ent_dt, m.module_id, m.mainhead_n, m.subhead_n, m.main_supp_flag, m.listorder, m.tentative_cl_dt, m.listed_ia, m.sitting_judges, m.list_before_remark, m.coram_prev, m.is_nmd, m.no_of_time_deleted, m.updated_by_ip, m.updated_by, m.updated_on,m.create_modify,m.descrip,m.purpose,m.cat1, m.r_coram ORDER BY brd_slno ASC, $order_by";
 
                 //$coram_sele_or_null = " AND (cr.jud IS NULL OR cr.jud IN ($cor_slse)) ";
                 $leftjoin_coram_r = " LEFT JOIN coram cr ON cr.diary_no = h.diary_no AND cr.board_type = 'R' AND cr.to_dt IS NULL AND cr.display = 'Y'";
@@ -3162,11 +3162,21 @@ ORDER BY
 
 
         if ($mainhead == "F") {
-            $order_by = "CASE WHEN m.listorder in (4,5,7,8) THEN 
+            /*$order_by = "CASE WHEN m.listorder in (4,5,7,8) THEN 
                    if($main_supp = 2,m.next_dt = '$listing_dt', (m.next_dt BETWEEN '$listing_dt' AND
                  ADDDATE('$listing_dt',INTERVAL 7 - DAYOFWEEK('$listing_dt') DAY) OR m.next_dt <= CURDATE()) ) 
                    ELSE
-               m.next_dt > '1947-08-15' END, CAST(RIGHT(m.diary_no, 4) AS UNSIGNED) ASC, CAST(LEFT(m.diary_no,LENGTH(m.diary_no)-4) AS UNSIGNED) ASC";
+               m.next_dt > '1947-08-15' END, CAST(RIGHT(m.diary_no, 4) AS UNSIGNED) ASC, CAST(LEFT(m.diary_no,LENGTH(m.diary_no)-4) AS UNSIGNED) ASC";*/
+
+            $order_by = "CASE WHEN m.listorder IN (4, 5, 7, 8) THEN 
+                            CASE WHEN $main_supp = 2 THEN (m.next_dt = '$listing_dt') 
+                            ELSE ( (m.next_dt BETWEEN '$listing_dt' AND 
+                            ('$listing_dt'::date + (7 - EXTRACT(DOW FROM '$listing_dt'::date)) * INTERVAL '1 day')) OR m.next_dt <= CURRENT_DATE)
+                            END
+                            ELSE (m.next_dt > '1947-08-15')
+                        END,
+                        CAST(RIGHT(m.diary_no::text, 4) AS INTEGER) ASC, 
+                        CAST(LEFT(m.diary_no::text, LENGTH(m.diary_no::text) - 4) AS INTEGER) ASC";   
         } else {
             //$order_by = " IF(date(ia_filing_dt) is not null,1,2),date(ia_filing_dt), CAST(RIGHT(m.diary_no, 4) AS UNSIGNED) ASC , CAST(LEFT(m.diary_no,LENGTH(m.diary_no)-4) AS UNSIGNED) ASC";
 
@@ -3258,7 +3268,7 @@ ORDER BY
 
         if ($md_name == "pool" or $md_name == "transfer") {
             $sql_field = "m.*, STRING_AGG(c.diary_no::TEXT, ',') AS child_case";
-            $sql_field2 = "LEFT JOIN conct c ON c.conn_key = m.diary_no AND list = 'Y' GROUP BY m.diary_no, m.active_fil_no, m.ia_filing_dt, m.active_reg_year, m.active_casetype_id, m.reg_no_display, m.short_description,m.fil_no,m.fil_dt, m.fil_year,m.lastorder, m.diary_no_rec_date, m.conn_key, m.next_dt, m.mainhead, m.subhead, m.clno, m.brd_slno, m.roster_id, m.judges, m.coram, m.board_type, m.usercode, m.ent_dt, m.module_id, m.mainhead_n, m.subhead_n, m.main_supp_flag, m.listorder, m.tentative_cl_dt, m.listed_ia, m.sitting_judges, m.list_before_remark, m.coram_prev, m.is_nmd, m.no_of_time_deleted, m.updated_by_ip, m.updated_by, m.updated_on,m.create_modify,m.trial011,m.descrip,m.purpose,m.cat1, m.r_coram ORDER BY brd_slno ASC, $order_by";
+            $sql_field2 = "LEFT JOIN conct c ON c.conn_key = m.diary_no AND list = 'Y' GROUP BY m.diary_no, m.active_fil_no, m.ia_filing_dt, m.active_reg_year, m.active_casetype_id, m.reg_no_display, m.short_description,m.fil_no,m.fil_dt, m.fil_year,m.lastorder, m.diary_no_rec_date, m.conn_key, m.next_dt, m.mainhead, m.subhead, m.clno, m.brd_slno, m.roster_id, m.judges, m.coram, m.board_type, m.usercode, m.ent_dt, m.module_id, m.mainhead_n, m.subhead_n, m.main_supp_flag, m.listorder, m.tentative_cl_dt, m.listed_ia, m.sitting_judges, m.list_before_remark, m.coram_prev, m.is_nmd, m.no_of_time_deleted, m.updated_by_ip, m.updated_by, m.updated_on,m.create_modify,m.descrip,m.purpose,m.cat1, m.r_coram ORDER BY brd_slno ASC, $order_by";
             if ($md_name == "transfer") {
                 $part_no = $params['part_no'];
                 $roster_judges_id = explode("|", $params['roster_judges_id']);

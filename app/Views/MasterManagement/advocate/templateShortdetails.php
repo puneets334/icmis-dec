@@ -37,7 +37,7 @@
                             </tr>
                             <tr>
                                 <td><b>Current City</b></td>
-                                <td><input type="text" class="form-control" value="<?= esc($bar['ccity']) ?>" id="ccity" onblur="remove_apos(this.value,this.id)" /></td>
+                                <td><input type="text" class="form-control" value="<?= esc($bar['ccity']) ?>" id="ccity" onblur="remove_apos(this.value,this.id)" maxlength="30"/></td>
                             </tr>
                             <tr>
                                 <td><b>Mobile</b></td>
