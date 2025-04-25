@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <fieldset class="border p-2">
-                                        <legend class="w-auto">Reg./Unreg.</legend>
+                                        <legend class="w-auto"><b>Reg./Unreg.</b></legend>
                                         <select class="form-control" name="reg_unreg" id="reg_unreg">
                                             <option value="0">-ALL-</option>
                                             <option value="1">Reg.</option>

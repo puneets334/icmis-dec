@@ -1514,24 +1514,26 @@ class ReportModel extends Model
                   tentative_da(m.diary_no::integer) AS da_name
                   FROM main m
                   INNER JOIN heardt h ON h.diary_no = m.diary_no
-                  LEFT JOIN judge_group jg ON jg.p1 = (split_part(h.coram, ',', 1))::bigint AND jg.to_dt IS NULL AND jg.display = 'Y'
+                  LEFT JOIN judge_group jg ON jg.p1::TEXT = (split_part(h.coram, ',', 1))::TEXT AND jg.to_dt IS NULL AND jg.display = 'Y'
                   LEFT JOIN master.listing_purpose l ON l.code = h.listorder AND l.display = 'Y'
                   LEFT JOIN master.subheading s ON s.stagecode = h.subhead AND s.display = 'Y' AND s.listtype = 'M'
                   WHERE jg.p1 IS NULL
                   AND m.c_status = 'P'
                   AND h.board_type = '$board_type'
                   AND h.mainhead = '$mainhead'
-                  AND (m.diary_no::integer = m.conn_key::integer OR m.conn_key::integer = 0 OR m.conn_key IS NULL)
-                  AND (h.coram IS NOT NULL AND h.coram::integer != 0)
+                  AND (m.diary_no::TEXT = m.conn_key::TEXT OR m.conn_key::TEXT = '0' OR m.conn_key IS NULL)
+                  AND (h.coram IS NOT NULL AND h.coram::TEXT != '0')
                   AND h.next_dt IS NULL
-                  AND h.listorder != 32
-                  AND h.clno = 0
+                  AND h.listorder::integer != 32
+                  AND h.clno::TEXT = '0'
                   AND h.subhead IN (824, 810, 803, 802, 807, 804, 808, 811, 812, 813, 814, 815, 816)
                   GROUP BY m.diary_no, l.purpose, s.stagename, h.coram
                   ORDER BY
-                  tentative_section(m.diary_no),
-                  tentative_da(m.diary_no::integer), -- Cast to text *before* using LEFT
+                  section_name,
+                  da_name, 
                   m.diary_no::integer DESC";
+                  // echo $query;
+                  // die();
               $result = $this->db->query($query)->getResultArray();
         return $result;
   }

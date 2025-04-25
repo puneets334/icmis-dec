@@ -49,12 +49,21 @@ if ($_REQUEST['hd_new_upd'] == '0') {
             'notice_path'           => ''
         ];
 
+        $builder = $db->table('tw_tal_del');
+        $s_ins_tw = $builder->select('id')
+                ->where(['process_id' => $res, 'rec_dt' => $date])
+                ->get()
+                ->getRow();
+
         // Insert data into tw_tal_del table
+        // $insert = $db->table('tw_tal_del')->replace($data);
+    if (!$s_ins_tw) {
         $insert = $db->table('tw_tal_del')->insert($data);
-        
         if (!$insert) {
             $sq_ck = 0; // Or log the error as needed
         }
+    }
+        
     } else {
         $data = [
             'processid' => $res

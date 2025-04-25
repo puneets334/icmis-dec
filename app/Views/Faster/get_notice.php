@@ -576,7 +576,7 @@
 
                                                             foreach ($get_states as $k2) {
                                                                 $key2 =  explode('^', $k2);
-                                                                if (preg_match('/[0-9]/', $row1['state']) && $row1['state'] != NULL && $row1['state'] != '') {
+                                                                if (!empty($row1['state']) && preg_match('/[0-9]/', $row1['state']) && $row1['state'] != NULL && $row1['state'] != '') {
                                                             ?>
                                                                     <option value="<?php echo $key2[0]; ?>" <?php if ($key2[0] == $row1['state']) { ?> selected="selected" <?php }  ?>><?php echo $key2[1]; ?></option>
                                                                 <?php
@@ -598,7 +598,7 @@
                                                         <select name="ddlCity<?php echo $sno; ?>" id="ddlCity<?php echo $sno; ?>" style="width: 100%" onfocus="clear_data(this.id)">
                                                             <option value="">Select</option>
                                                             <?php
-                                                            if (preg_match('/[0-9]/', $row1['state'])) {
+                                                            if (!empty($row1['state']) && preg_match('/[0-9]/', $row1['state'])) {
                                                                 $query_city =  getCityById($row1['state']);
                                                                 foreach ($query_city as $row_c) {
                                                             ?>
@@ -609,6 +609,7 @@
                                                                 <option value="0" <?php if ($row1['city'] == 0) { ?> selected="selected" <?php } ?>></option>
                                                                 <?php
                                                             } else {
+                                                                $get_districts = get_citys($row_c['district_code']);
                                                                 foreach ($get_districts as $k2) {
                                                                     $key2 =  explode('^', $k2);
                                                                 ?>
