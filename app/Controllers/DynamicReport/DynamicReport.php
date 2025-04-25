@@ -63,7 +63,7 @@ class DynamicReport extends BaseController
         ob_clean();
         $csrfTokenName = csrf_token();
         $csrfHash = csrf_hash();
-        $data_array = $this->model->get_agency_code($_POST['state'], $_POST['agency']);
+        $data_array = $this->model->get_agency_code($_POST['state'], isset($_POST['agency']) ? $_POST['agency'] : NULL);
         ob_end_flush();
         return $this->response->setJSON([
             'data' => $data_array,
@@ -160,6 +160,7 @@ class DynamicReport extends BaseController
         $sortList = !empty($sortList) ? explode("^", $sortList) : '';
         $sort = is_array($sortList) ? $sortList[0] : '';
         $sortOption = '';
+        $sortOption2 = '';
         $sort_name = is_array($sortList) ? $sortList[1] : '';
         $sortOrder = isset($_POST['rbtSortOrder']) ? $_POST['rbtSortOrder'] : '';
         $joinCondition = '';
@@ -169,7 +170,7 @@ class DynamicReport extends BaseController
             $condition = "1=1";
         } else if ($casestatus == 'i') {
             $criteria = "<b>Case Status :</b> Registration <br/>";
-            $condition = " active_fil_no is not null and active_fil_no!='' ";
+            $condition = " where active_fil_no is not null and active_fil_no!='' ";
         } else if ($casestatus == 'p') {
             $criteria = "<b>Case Status :</b> Pending ";
             $condition = " c_status='P'";
@@ -227,24 +228,24 @@ class DynamicReport extends BaseController
         if (!empty($respondentName)) {
             if (!empty($diaryYear)) {
                 if ($por == '1') {
-                    $condition .= " and (partyname like '%$respondentName%' and year(diary_no_rec_date)=$diaryYear and pet_res='P' and pfag in('P','D'))";
+                    $condition .= " and (partyname like '%$respondentName%' and year(diary_no_rec_date)=$diaryYear and p.pet_res='P' and p.pflag in('P','D'))";
                     $criteria .= "<b> Petitioner Name like </b>" . $respondentName . " <b> and Filed in the year </b>" . $diaryYear . "<br>";
                 } else if ($por == '2') {
-                    $condition .= " and (partyname like '%$respondentName%' and year(diary_no_rec_date)=$diaryYear and pet_res='R' and pfag in('P','D'))";
+                    $condition .= " and (partyname like '%$respondentName%' and year(diary_no_rec_date)=$diaryYear and p.pet_res='R' and p.pflag in('P','D'))";
                     $criteria .= "<b> Respondent Name like </b>" . $respondentName . " <b> and Filed in the year </b>" . $diaryYear . "<br>";
                 } else if ($por == '0') {
-                    $condition .= " and (partyname like '%$respondentName%' and year(diary_no_rec_date)=$diaryYear and pet_res in('P','R') and pfag in('P','D'))";
+                    $condition .= " and (partyname like '%$respondentName%' and year(diary_no_rec_date)=$diaryYear and p.pet_res in('P','R') and p.pflag in('P','D'))";
                     $criteria .= "<b> Party Name like </b>" . $respondentName . " <b> and Filed in the year </b>" . $diaryYear . "<br>";
                 }
             } else {
                 if ($por == '1') {
-                    $condition .= " and (partyname like '%$respondentName%' and pet_res='P' and pfag in('P','D'))";
+                    $condition .= " and (partyname like '%$respondentName%' and p.pet_res='P' and p.pflag in('P','D'))";
                     $criteria .= "<b> Petitioner Name like </b>" . $respondentName . "<br>";
                 } else if ($por == '2') {
-                    $condition .= " and (partyname like '%$respondentName%' and pet_res='R' and pfag in('P','D'))";
+                    $condition .= " and (partyname like '%$respondentName%' and p.pet_res='R' and p.pflag in('P','D'))";
                     $criteria .= "<b> Respondent Name like </b>" . $respondentName . "<br>";
                 } else if ($por == '0') {
-                    $condition .= " and (partyname like '%$respondentName%' and pet_res in('P','R') and pfag in('P','D'))";
+                    $condition .= " and (partyname like '%$respondentName%' and p.pet_res in('P','R') and p.pflag in('P','D'))";
                     $criteria .= "<b> Party Name like </b>" . $respondentName . "<br>";
                 }
             }
@@ -288,7 +289,7 @@ class DynamicReport extends BaseController
             $joinCondition = "left join jail_petition_details jpd on m.diary_no=jpd.diary_no and jail_display='Y'
                 left join brdrem brd on m.diary_no=brd.diary_no and (brd.remark like '%jail%' or brd.remark like '%Jail%')
                 left join advocate adv1 on m.diary_no=adv1.diary_no and adv1.advocate_id=613 and adv1.pet_res='P' and adv1.pet_res_no=1 and adv1.display='Y'";
-            $condition .= " and (nature=6 or pet_adv_id=613)";
+            $condition .= " and (nature::integer=6 or pet_adv_id=613)";
             $criteria .= " Jail Petition Matters <br>";
         }
         if ((int)$chkFDMatter == 1) {
@@ -296,7 +297,7 @@ class DynamicReport extends BaseController
             $criteria .= " Final Disposal Matters <br>";
         }
         if ((int)$chkSpecificDate == 1) {
-            $condition .= " and crm.r_head=24";
+            $condition .= " and crm.r_head::integer=24";
             $criteria .= " Specific Date Matters <br>";
         }
         if ((int)$chkPartHeard == 1) {
@@ -305,10 +306,10 @@ class DynamicReport extends BaseController
         }
         if (!empty($bar_id) && $bar_id != 0) {
             if ($advPor == '1') {
-                $condition .= " and advocate_id=$bar_id and pet_res='P'";
+                $condition .= " and advocate_id=$bar_id and p.pet_res='P'";
                 $criteria .= "<b> Petitioner Advocate : </b>$aor_name<br>";
             } else if ($advPor == '2') {
-                $condition .= " and advocate_id=$bar_id and pet_res='R'";
+                $condition .= " and advocate_id=$bar_id and p.pet_res='R'";
                 $criteria .= "<b> Respondent Advocate : </b>$aor_name<br>";
             } else if ($advPor == '0') {
                 $condition .= " and advocate_id=$bar_id";
@@ -316,30 +317,40 @@ class DynamicReport extends BaseController
             }
         }
         if ($sort != 0) {
-            if ($sort == 1)
-                $sortOption = "substring(m.diary_no::text,-4) " . $sortOrder . " ,substr(m.diary_no::text,1,length(m.diary_no::text)-4) " . $sortOrder;
-            else if ($sort == 2)
-                $sortOption = "active_reg_year " . $sortOrder . " ,substring(active_fil_no::text,1,2) " . $sortOrder . " ,substring(active_fil_no::text,4,6) " . $sortOrder;
-            else if ($sort == 3)
-                $sortOption = "date(diary_no_rec_date) " . $sortOrder;
-            else if ($sort == 4)
-                $sortOption = "date(active_fil_dt) " . $sortOrder;
-            else if ($sort == 5)
-                $sortOption = "us.section_name " . $sortOrder;
-            else if ($sort == 6)
-                $sortOption = "subcode1 " . $sortOrder . " ,category_sc_old " . $sortOrder;
-            else if ($sort == 7)
-                $sortOption = "agency_state " . $sortOrder;
-            else if ($sort == 8)
-                $sortOption = "c_status " . $sortOrder;
-            else if ($sort == 9)
-                $sortOption = "h.next_dt " . $sortOrder;
+            if ($sort == 1) {
+                $sortOption = "substring(m.diary_no::text,-4) as diaryNo1, substr(m.diary_no::text,1,length(m.diary_no::text)-4) as diaryNo2";
+                $sortOption2 = "diaryNo1 " . $sortOrder . ", diaryNo2 " . $sortOrder;
+            } else if ($sort == 2) {
+                $sortOption = "active_reg_year as active_reg_year, substring(active_fil_no::text,1,2) as active_fil_no1, substring(active_fil_no::text,4,6) as active_fil_no2";
+                $sortOption2 = "active_reg_year " . $sortOrder . ", active_fil_no1 " . $sortOrder . ", active_fil_no2 " . $sortOrder;
+            } else if ($sort == 3) {
+                $sortOption = "date(diary_no_rec_date) as rec_date";
+                $sortOption2 = "rec_date " . $sortOrder;
+            } else if ($sort == 4) {
+                $sortOption = "date(active_fil_dt) as fil_dt";
+                $sortOption2 = "fil_dt " . $sortOrder;
+            } else if ($sort == 5) {
+                $sortOption = "us.section_name as sec_name";
+                $sortOption2 = "sec_name " . $sortOrder;
+            } else if ($sort == 6) {
+                $sortOption = "subcode1 as subcd1, category_sc_old as cat_sc_old";
+                $sortOption2 = "subcd1 " . $sortOrder . ", cat_sc_old " . $sortOrder;
+            } else if ($sort == 7) {
+                $sortOption = "agency_state as ag_state";
+                $sortOption2 = "ag_state " . $sortOrder;
+            } else if ($sort == 8) {
+                $sortOption = "c_status as c_stat";
+                $sortOption2 = "c_stat " . $sortOrder;
+            } else if ($sort == 9) {
+                $sortOption = "h.next_dt as next_dt";
+                $sortOption2 = "next_dt " . $sortOrder;
+            }
             $criteria .= " <b> Sort by : </b>" . $sort_name . "<br>";
         }
         $data['option'] = $option;
         $data['criteria'] = $criteria;
         $data['showDA'] = $chkshowDA;
-        $data['result'] = $this->model->get_result($option, $condition, $sortOption, $joinCondition);
+        $data['result'] = $this->model->get_result($option, $condition, $sortOption, $sortOption2, $joinCondition);
         return view('DynamicReport/result', $data);
     }
 
