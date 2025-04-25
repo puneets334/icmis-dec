@@ -109,7 +109,7 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                      
+
 
                                     </form>
 
@@ -117,14 +117,14 @@
 
                                 </div>
                             </div>
-                            
+
                         </div>
-                        
+
                     </div>
                 </div>
                 <div id="res_loader"></div>
 
-                        <div id="dv_res1"></div>
+                <div id="dv_res1"></div>
             </div>
         </div>
     </div>
@@ -133,36 +133,35 @@
 
 <script>
     $(document).on("click", "#btn1", function() {
-       
+
         get_cl_1();
     });
 
     function get_cl_1() {
-      
+
         var mainhead = "M";
         var list_dt = $("#listing_dts").val();
-       
-        if(list_dt== -1){
+
+        if (list_dt == -1) {
             alert('Date formate incorrect');
             return false;
         }
-       
+
         var board_type = 'S';
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
         $.ajax({
-            
+
             url: base_url + "/Listing/SingleJudgeAdvance/get_cause_list_single_judge_advance",
-           
+
             data: {
                 list_dt: list_dt,
                 mainhead: mainhead,
                 board_type: board_type,
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
-            beforeSend: function()
-            {
+            beforeSend: function() {
                 $('#dv_res1').html('<table width="100%" style="margin: 0 auto;"><tr><td style="text-align: center;"><img src="../../images/load.gif"/></td></tr></table>');
             },
             type: 'POST',
@@ -182,8 +181,7 @@
         $("#resh_from_txt").toggle("slow", "linear");
     });
 
-    $(document).on("click", "#re_shuffle", function()
-    {
+    $(document).on("click", "#re_shuffle", function() {
         var list_dt = $("#listing_dts").val();
         var from_cl_no = $("#resh_from_txt").val();
         var board_type = 'S';
@@ -191,10 +189,10 @@
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         updateCSRFToken();
         $.ajax({
-            
-        
+
+
             url: base_url + "/Listing/SingleJudgeAdvance/call_reshuffle_function_single_judge_advance",
-            
+
             data: {
                 list_dt: list_dt,
                 board_type: board_type,
@@ -202,18 +200,17 @@
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             beforeSend: function() {
-               $('#res_loader').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                $('#res_loader').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
             },
             type: 'POST',
             success: function(data, status) {
                 updateCSRFToken();
-              
+
                 $('#res_loader').html(data.message);
-               if(updateCSRFToken())
-               {
-                get_cl_1();
-               }
-               
+                if (updateCSRFToken()) {
+                    get_cl_1();
+                }
+
             },
             error: function(xhr) {
                 updateCSRFToken();
@@ -222,8 +219,7 @@
         });
     });
 
-    $(document).on("click", "#ebublish", function()
-    {
+    $(document).on("click", "#ebublish", function() {
         var prtContent = $("#prnnt").html();
         var encprtContent = JSON.stringify(prtContent);
         var mainhead = 'M';
@@ -235,7 +231,7 @@
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
         $.ajax({
-         
+
             url: base_url + "/Listing/SingleJudgeAdvance/cl_print_save_single_judge_advance",
             cache: false,
             async: true,
@@ -248,16 +244,22 @@
                 encprtContent: encprtContent,
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
-            beforeSend: function()
-            {
-               
-                $('#res_loader').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+            beforeSend: function() {
+
+                $('#res_loader').html(`
+    <div style="display:flex; justify-content:center; align-items:center; width:100%;">
+        <img src="../../images/load.gif" alt="Loading..."/>
+    </div>
+`);
+
+
+
             },
             type: 'POST',
             success: function(data, status) {
                 updateCSRFToken();
                 $('#res_loader').html(data.message);
-               
+
             },
             error: function(xhr) {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
@@ -266,8 +268,7 @@
     });
 
     //function CallPrint(){
-    $(document).on("click", "#prnnt1", function()
-    {
+    $(document).on("click", "#prnnt1", function() {
         var prtContent = $("#prnnt").html();
         var mainhead = 'M';
         var list_dt = $("#listing_dts").val();
