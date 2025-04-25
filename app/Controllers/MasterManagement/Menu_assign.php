@@ -443,10 +443,10 @@ class Menu_assign extends BaseController
             foreach ($ucdArray as $usercode) {
 
                 $chkFirst = "select id from master.user_role_master_mapping where usercode='$usercode'";
-                $chkRs = $this->db->query($chkFirst);
-                $chkRs->getRowArray();
-
+                $chkquery = $this->db->query($chkFirst);
+                $chkRs = $chkquery->getRowArray();                
                 if (!empty($chkRs)) {
+                    
                     $qihistory = "insert into master.user_role_master_mapping_history (select * from master.user_role_master_mapping where usercode='$usercode')";
                     $qihistoryRs =  $this->db->query($qihistory);   
 
@@ -783,12 +783,12 @@ class Menu_assign extends BaseController
         echo '<table width="100%" border="1" id="datatables" class="table table-striped table-bordered table-hover">';
         echo '<tr><td colspan="6" align="center"><font color="blue"><h3>' . $result . ' menu allotted to the following users</h3></font></td></tr>';
         echo '<tr>';
-        echo '<th><h5>S.NO</h5></th>';
-        echo '<th><h5>Emp Id</h5></th>';
-        echo '<th><h5>Name</h5></th>';
-        echo '<th><h5>Section</h5></th>';
-        echo '<th><h5>Designation</h5></th>';
-        echo '<th><h5>Action</h5></th>';
+        echo '<td><h5>S.NO</h5></td>';
+        echo '<td><h5>Emp Id</h5></td>';
+        echo '<td><h5>Name</h5></td>';
+        echo '<td><h5>Section</h5></td>';
+        echo '<td><h5>Designation</h5></td>';
+        echo '<td><h5>Action</h5></td>';
         echo '</tr>';
         $sno = 0;
         foreach ($result2 as $rw) {
@@ -879,12 +879,12 @@ class Menu_assign extends BaseController
         echo '<table width="100%" border="1" class="table table-bordered table-sm table-hover table-striped">';
         echo '<tr><td colspan="6" align="center"><font color="blue"><h3 style="color:blue;">' . htmlspecialchars($menuName . ' -> ' . $subMenuName . ' menu allotted to the following users') . '</h3></font></td></tr>';
         echo '<tr>';
-        echo '<th>S.NO</th>';
-        echo '<th>Emp Id</th>';
-        echo '<th>Name</th>';
-        echo '<th>Section</th>';
-        echo '<th>Designation</th>';
-        echo '<th>Action</th>';
+        echo '<td>S.NO</td>';
+        echo '<td>Emp Id</td>';
+        echo '<td>Name</td>';
+        echo '<td>Section</td>';
+        echo '<td>Designation</td>';
+        echo '<td>Action</td>';
         echo '</tr>';
         $sno = 1;
         if (!empty($menuResult)) {
@@ -1001,12 +1001,12 @@ class Menu_assign extends BaseController
         echo '<table width="100%" border="1" class="table table-bordered table-sm table-hover table-striped">';
         echo '<tr><td colspan="6" align="center"><font color="blue"><h3 style="color:blue;">' . htmlspecialchars($n1 . ' -> ' . $n . ' -> ' . $n2 . ' menu allotted to the following users') . '</h3></font></td></tr>';
         echo '<tr>';
-        echo '<th>S.NO</th>';
-        echo '<th>Emp Id</th>';
-        echo '<th>Name</th>';
-        echo '<th>Section</th>';
-        echo '<th>Designation</th>';
-        echo '<th>Action</th>';
+        echo '<td>S.NO</td>';
+        echo '<td>Emp Id</td>';
+        echo '<td>Name</td>';
+        echo '<td>Section</td>';
+        echo '<td>Designation</td>';
+        echo '<td>Action</td>';
         echo '</tr>';
 
         if (empty($rs)) {

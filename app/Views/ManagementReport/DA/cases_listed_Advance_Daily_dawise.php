@@ -33,61 +33,24 @@
                                 <div class="card-body">
                                     <div class="tab-content">
                                         <div class="active tab-pane">
-                                            <form method="POST">
-                                                <?= csrf_field() ?>
+                                        <?php
+                                        echo form_open();
+                                        csrf_token();
+                                        ?>
+                                               
                                                 <input type="hidden" name="usercode" id="usercode" value="<?php echo $usercode; ?>" />
                                                 <div class="row">
                                                     <div class="col-sm-12 col-md-3 mb-3">
-                                                        <button type="submit" id="view" name="view" class="quick-btn mt-26">View REPORT</button>
+                                                        <button type="button"  id="view" name="view" class="quick-btn mt-26">View REPORT</button>
                                                     </div>
                                                 </div>
-                                            </form>
-                                            <?php
-                                           if(COUNT($case_result)>0 && is_array($case_result)) {
-                                            ?>
-                                            <caption><h3 style="text-align: center;"><strong> Cases Listed in Advance and Daily List</strong> </h3></caption>
-                                                <div class="table-responsive">
-                                                    <table id="example1" class="table table-striped custom-table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th style="width: 5%;" rowspan='1'>SNo.</th>
-                                                                <th style="width: 10%;" rowspan='1'>List Type</th>
-                                                                <th style="width: 15%;" rowspan='1'>CL Date</th>
-                                                                <th style="width: 5%;" rowspan='1'>Board Type</th>
-                                                                <th style="width: 5%;" rowspan='1'>Court No.</th>
-                                                                <th style="width: 10%;" rowspan='1'>Item No.</th>
-                                                                <th style="width: 10%;" rowspan='1'>Case No.</th>
-                                                                <th style="width: 40%;" rowspan='1'>Title As</th>
-                                                                <th style="width: 20%;" rowspan='1'>DA</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php
-                                                            $s_no = 1;
-                                                            foreach ($case_result as $result) {
-                                                            ?>
-                                                                <tr>
-                                                                    <td><?php echo $s_no; ?></td>
-                                                                    <td><?php echo $result['listtype']; ?></td>
-                                                                    <td><?php echo $result['cl_date']; ?></td>
-                                                                    <td><?php echo $result['board_type']; ?></td>
-                                                                    <td><?php echo $result['courtno']; ?></td>
-                                                                    <td><?php echo $result['brd_slno']; ?></td>
-                                                                    <td><?php echo $result['caseno']; ?></td>
-                                                                    <td><?php echo $result['pet_name'] . ' Vs ' . $result['res_name']; ?></td>
-                                                                    <td><?php echo $result['uid']; ?></td>
-                                                                </tr>
-                                                            <?php
-                                                                $s_no++;
-                                                            }
-                                                            ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            <?PHP
-                                            }
-                                            ?>
+                                            
+                                           
+                            <?php echo form_close(); ?>
+                            <div id="result" style="text-align: center;"></div>
+                            <div id="reportTableContainer"></div>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -132,4 +95,32 @@
         });
 
     });
+    $(document).on("click", "#view", function() {
+        var usercode = $('#usercode').val();
+        $('#reportTableContainer').html("");
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        $.ajax({
+            url: '<?php echo base_url('/ManagementReports/DA/DA/case_listed_Advance_Daily_dawise_get'); ?>',
+            type: 'POST',
+            data: {
+                usercode:usercode,
+                CSRF_TOKEN: CSRF_TOKEN_VALUE
+            },
+            beforeSend: function() {
+                updateCSRFToken();
+                $('#reportTableContainer').html('<table widht="100%" align="center"><tr><td><img src="../../../images/load.gif"/></td></tr></table>');
+            },
+            success: function(data) { 
+                updateCSRFToken();
+                console.log(data);
+                $('#reportTableContainer').html('');
+                $('#result').append(data);   
+            },
+            error: function(xhr) {
+                updateCSRFToken();
+                alert("Error: " + xhr.status + " " + xhr.statusText);
+            }
+        });
+    });    
+   
 </script>

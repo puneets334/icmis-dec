@@ -22,7 +22,7 @@ $(document).ready(function(){
            // cache: false,
             //async: true,
 
-  data: {CSRF_TOKEN: CSRF_TOKEN_VALUE,ddl_party_type: ddl_party_type,txt_name:txt_name,ddl_diary_caveat:ddl_diary_caveat,ddl_status:ddl_status,ddl_year:ddl_year},
+  data: {CSRF_TOKEN : CSRF_TOKEN_VALUE,ddl_party_type: ddl_party_type,txt_name:txt_name,ddl_diary_caveat:ddl_diary_caveat,ddl_status:ddl_status,ddl_year:ddl_year},
             beforeSend: function () {
                 $('#div_result').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
             },
