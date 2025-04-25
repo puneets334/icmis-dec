@@ -153,8 +153,9 @@ protected $keywordModel;
 
         public function judgeCategoryUpdate()
         {
-            $datssa['app_name'] = NULL;
+            $datssa['app_name'] = NULL;                        
             $session = session()->get('login')['usercode'];
+            $data['usercodeses_get'] = session()->get('login')['usercode'];
             $mf = $this->request->getPost('mf');
             $judge = $this->request->getPost('judge');
             $sessionService = session();
