@@ -170,13 +170,15 @@ class PhysicalHearingModel extends Model
                 ->getResultArray();
 
             // Execute the insert
-            $builder = $this->db->table('physical_hearing_consent_required');
+            if(!empty($insertData)){
+                $builder = $this->db->table('physical_hearing_consent_required');
 
-            if ($builder->insertBatch($insertData)) {
-                echo $affectedRows = $this->db->affectedRows();
-                if ($affectedRows > 0) {
-                    $return = true;
-                } 
+                if ($builder->insertBatch($insertData)) {
+                    echo $affectedRows = $this->db->affectedRows();
+                    if ($affectedRows > 0) {
+                        $return = true;
+                    } 
+                }
             }
         }
         return $return;
