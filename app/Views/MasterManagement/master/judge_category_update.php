@@ -48,7 +48,7 @@
                                                     <div class="col-md-12">
                                                         <div class="well">
                                                             <div class="row">
-                                                                <input type="hidden" name="usercode" id="usercode" value="<?= @$_SESSION['dcmis_user_idd'] ?>"/>
+                                                                <input type="hidden" name="usercode" id="usercode" value="<?= isset($_SESSION['dcmis_user_idd']) ? $_SESSION['dcmis_user_idd'] : @$usercodeses_get; ?>"/>
                                                             </div>
 
                                                             <div class="row">
@@ -129,7 +129,7 @@
                                                             <td hidden id="td_<?php echo $i; ?>"><?php echo htmlspecialchars($result['id']); ?></td>
                                                             <td width="50%"><?php echo htmlspecialchars($result['catg']); ?></td>
                                                             <td>
-                                                                <input type="number" value="<?php echo htmlspecialchars($result['priority']); ?>" name="priority_<?php echo $i; ?>" id="priority_<?php echo $i; ?>"> 
+                                                                <input type="number" class="priority_jcu_cls" value="<?php echo htmlspecialchars($result['priority']); ?>" name="priority_<?php echo $i; ?>" id="priority_<?php echo $i; ?>"> 
                                                             </td>
                                                             <td>
                                                                 <input type="text" class="form-control datepick" value="<?php 
@@ -183,6 +183,15 @@
  
 
 <script type="text/javascript">
+    $(document).on('input', '.priority_jcu_cls', function () {
+            const maxLength = 7;
+            let value = $(this).val();
+
+            // If value exceeds 6 digits, trim it
+            if (value.length > maxLength) {
+                $(this).val(value.slice(0, maxLength));
+            }
+        });
      
  
 //      $(document).ready(function() {
@@ -329,7 +338,7 @@ $(document).ready(function() {
         var usercode=$('#usercode').val();
         var rows=$('#rows').val();
         var mf='<?php echo $matters;?>';
-       
+        
          if (!isEmpty(priority) && !isEmpty(idDb) && !isEmpty(usercode)) {
             $.ajax({
                 url: "<?=base_url();?>/MasterManagement/MasterController/update_judge_category",

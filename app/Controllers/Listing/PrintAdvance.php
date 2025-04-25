@@ -1033,100 +1033,201 @@ class PrintAdvance extends BaseController
         return $option;
     }
 
+    // public function freeze_unfreeze_save()
+    // {
+
+    //     $request = \Config\Services::request();
+    //     $db = \Config\Database::connect();
+    //     // if (!empty(session()->get('dcmis_user_idd'))) {
+    //     //     $ucode = session()->get('dcmis_user_idd');
+    //     // } else {
+    //     $ucode = session()->get('login')['usercode'];
+    //     //}
+    //     $list_dt = $request->getPost('list_dt');
+    //     $mainhead = $request->getPost('mainhead');
+    //     $part_no = $request->getPost('part_no');
+    //     $board_type = $request->getPost('board_type');
+    //     $action_type = $request->getPost('action_type');
+
+    //     if ($action_type == 'f') {
+    //         $builder = $db->table('cl_freezed')
+    //             ->where('part', $part_no)
+    //             ->where('m_f', $mainhead)
+    //             ->where('display', 'Y');
+
+    //         // Use a more robust check for $list_dt.  See explanation below.
+    //         if ($list_dt !== null && $list_dt !== '') { // Or is_numeric($list_dt) if it should be a number.
+    //             $builder->where('next_dt', $list_dt);
+    //         }
+
+    //         if ($board_type !== null && $board_type !== '') { // Or is_numeric($board_type) if it should be a number.
+    //             $builder->where('board_type', $board_type);
+    //         }
+
+    //         $query = $builder->get();
+
+    //         if (count($query->getResultArray()) === 0) { // Use getResultCount() for efficiency
+    //             $insertdata = [
+    //                 'next_dt' => $list_dt,
+    //                 'm_f' => $mainhead,
+    //                 'part' => $part_no,
+    //                 'board_type' => $board_type,
+    //                 'freezed_by' => $ucode,
+    //                 'freezed_on' => date('Y-m-d H:i:s'),
+    //                 'freezed_by_ip' => getenv('REMOTE_ADDR'), // Consider using a more reliable way to get IP
+    //                 'unfreezed_by' => 0,
+    //             ];
+    //             // Important:  You've already built the query.  Don't reuse $builder for the insert.
+    //             $insert_result = $db->table('cl_freezed')->insert($insertdata); // Create a new builder instance.
+
+    //             if ($insert_result) { // Check if the insert was successful
+    //                 return $this->response->setJSON(['message' => '<h3 class="bg-success p-2 text-center">Freezed Successfully</h3>']);
+    //             } else {
+    //                 // Handle insert error.  Log it!
+    //                 log_message('error', 'Failed to insert data: ' . $db->error()); // Use CodeIgniter's logging
+    //                 return $this->response->setJSON(['message' => '<h3 class="bg-danger p-2 text-center">Freezing Failed. Please Try Again.</h3>']); // More appropriate message
+    //             }
+    //         } else {
+    //             return $this->response->setJSON(['message' => '<h3 class="bg-success p-2 text-center">Already freezed</h3>']);
+    //         }
+    //     } else if ($action_type == 'u') {
+    //         $builder = $db->table('cl_freezed')
+    //             // ->where('next_dt', $list_dt)
+    //             ->where('part', $part_no)
+    //             ->where('m_f', $mainhead)
+    //             ->where('display', 'Y');
+    //         if ($list_dt != 0) {
+    //             $builder->where('next_dt', $list_dt);
+    //         }
+    //         if ($board_type != 0) {
+    //             $builder->where('board_type', $board_type);
+    //         }
+    //         $query = $builder->get();
+    //         if (count($query->getResultArray()) > 0) {
+
+    //             $updatedata = [
+    //                 'display' => 'N',
+    //                 'unfreezed_by' => $ucode,
+    //                 'unfreezed_on' => date('Y-m-d H:i:s'),
+    //                 'unfreezed_by_ip' => getenv('REMOTE_ADDR'),
+    //             ];
+
+    //             $record_update = $builder->where('next_dt', $list_dt)
+    //                 ->where('part', $part_no)
+    //                 ->where('m_f', $mainhead)
+    //                 ->where('board_type', $board_type)
+    //                 ->where('display', 'Y')
+    //                 ->set($updatedata)
+    //                 ->update();
+
+    //             return $this->response->setJSON(['message' => '<h3 class="bg-success p-2 text-center">Un-freezed Successfully</h3>']);
+    //         } else {
+
+    //             return $this->response->setJSON(['message' => '<h3 class="bg-warning p-2 text-center">Not freezed yet.</h3>']);
+    //         }
+    //     }
+    // }
+
     public function freeze_unfreeze_save()
-    {
-
-        $request = \Config\Services::request();
-        $db = \Config\Database::connect();
-        // if (!empty(session()->get('dcmis_user_idd'))) {
-        //     $ucode = session()->get('dcmis_user_idd');
-        // } else {
-        $ucode = session()->get('login')['usercode'];
-        //}
-        $list_dt = $request->getPost('list_dt');
-        $mainhead = $request->getPost('mainhead');
-        $part_no = $request->getPost('part_no');
-        $board_type = $request->getPost('board_type');
-        $action_type = $request->getPost('action_type');
-
-        if ($action_type == 'f') {
-            $builder = $db->table('cl_freezed')
-                ->where('part', $part_no)
-                ->where('m_f', $mainhead)
-                ->where('display', 'Y');
-
-            // Use a more robust check for $list_dt.  See explanation below.
-            if ($list_dt !== null && $list_dt !== '') { // Or is_numeric($list_dt) if it should be a number.
-                $builder->where('next_dt', $list_dt);
-            }
-
-            if ($board_type !== null && $board_type !== '') { // Or is_numeric($board_type) if it should be a number.
-                $builder->where('board_type', $board_type);
-            }
-
-            $query = $builder->get();
-
-            if (count($query->getResultArray()) === 0) { // Use getResultCount() for efficiency
-                $insertdata = [
-                    'next_dt' => $list_dt,
-                    'm_f' => $mainhead,
-                    'part' => $part_no,
-                    'board_type' => $board_type,
-                    'freezed_by' => $ucode,
-                    'freezed_on' => date('Y-m-d H:i:s'),
-                    'freezed_by_ip' => getenv('REMOTE_ADDR'), // Consider using a more reliable way to get IP
-                    'unfreezed_by' => 0,
-                ];
-                // Important:  You've already built the query.  Don't reuse $builder for the insert.
-                $insert_result = $db->table('cl_freezed')->insert($insertdata); // Create a new builder instance.
-
-                if ($insert_result) { // Check if the insert was successful
-                    return $this->response->setJSON(['message' => '<h3 class="bg-success p-2 text-center">Freezed Successfully</h3>']);
-                } else {
-                    // Handle insert error.  Log it!
-                    log_message('error', 'Failed to insert data: ' . $db->error()); // Use CodeIgniter's logging
-                    return $this->response->setJSON(['message' => '<h3 class="bg-danger p-2 text-center">Freezing Failed. Please Try Again.</h3>']); // More appropriate message
-                }
+{
+    $request = \Config\Services::request();
+    $db = \Config\Database::connect();
+    
+    // Get the user code from session
+    $ucode = session()->get('login')['usercode']; // Assuming usercode is stored in session under 'login'
+    
+    // Get the input parameters
+    $list_dt = $request->getPost('list_dt');
+    $mainhead = $request->getPost('mainhead');
+    $part_no = $request->getPost('part_no');
+    $board_type = $request->getPost('board_type');
+    $action_type = $request->getPost('action_type');
+    
+    // Freeze action
+    if ($action_type == 'f') {
+        $builder = $db->table('cl_freezed')
+            ->where('part', $part_no)
+            ->where('m_f', $mainhead)
+            ->where('display', 'Y');
+        
+        if ($list_dt !== null && $list_dt !== '') {
+            $builder->where('next_dt', $list_dt);
+        }
+        
+        if ($board_type !== null && $board_type !== '') {
+            $builder->where('board_type', $board_type);
+        }
+        
+        $query = $builder->get();
+        
+        if (count($query->getResultArray()) === 0) {
+            // Insert freeze record if not already frozen
+            $insertdata = [
+                'next_dt' => $list_dt,
+                'm_f' => $mainhead,
+                'part' => $part_no,
+                'board_type' => $board_type,
+                'freezed_by' => $ucode,
+                'freezed_on' => date('Y-m-d H:i:s'),  // Make sure freezed_on is not NULL
+                'freezed_by_ip' => getenv('REMOTE_ADDR'),
+                'unfreezed_by' => 0,  // Initially 0, since it's not yet unfrozen
+                'unfreezed_on' => null, // Since it's not yet unfrozen, set to null
+            ];
+            
+            $insert_result = $db->table('cl_freezed')->insert($insertdata);
+            
+            if ($insert_result) {
+                return $this->response->setJSON(['message' => '<h3 class="bg-success p-2 text-center">Freezed Successfully</h3>']);
             } else {
-                return $this->response->setJSON(['message' => '<h3 class="bg-success p-2 text-center">Already freezed</h3>']);
+                log_message('error', 'Failed to insert data: ' . $db->error());
+                return $this->response->setJSON(['message' => '<h3 class="bg-danger p-2 text-center">Freezing Failed. Please Try Again.</h3>']);
             }
-        } else if ($action_type == 'u') {
-            $builder = $db->table('cl_freezed')
-                // ->where('next_dt', $list_dt)
-                ->where('part', $part_no)
-                ->where('m_f', $mainhead)
-                ->where('display', 'Y');
-            if ($list_dt != 0) {
-                $builder->where('next_dt', $list_dt);
-            }
-            if ($board_type != 0) {
-                $builder->where('board_type', $board_type);
-            }
-            $query = $builder->get();
-            if (count($query->getResultArray()) > 0) {
-
-                $updatedata = [
-                    'display' => 'N',
-                    'unfreezed_by' => $ucode,
-                    'unfreezed_on' => date('Y-m-d H:i:s'),
-                    'unfreezed_by_ip' => getenv('REMOTE_ADDR'),
-                ];
-
-                $record_update = $builder->where('next_dt', $list_dt)
-                    ->where('part', $part_no)
-                    ->where('m_f', $mainhead)
-                    ->where('board_type', $board_type)
-                    ->where('display', 'Y')
-                    ->set($updatedata)
-                    ->update();
-
+        } else {
+            // Record already frozen
+            return $this->response->setJSON(['message' => '<h3 class="bg-success p-2 text-center">Already freezed</h3>']);
+        }
+    } else if ($action_type == 'u') {
+        // Unfreeze action
+        $builder = $db->table('cl_freezed')
+            ->where('part', $part_no)
+            ->where('m_f', $mainhead)
+            ->where('display', 'Y');
+        
+        if ($list_dt != 0) {
+            $builder->where('next_dt', $list_dt);
+        }
+        
+        if ($board_type != 0) {
+            $builder->where('board_type', $board_type);
+        }
+        
+        $query = $builder->get();
+        
+        if (count($query->getResultArray()) > 0) {
+            // Update to unfreeze
+            $updatedata = [
+                'display' => 'N',  // Mark as not displayed (unfreeze)
+                'unfreezed_by' => $ucode,
+                'unfreezed_on' => date('Y-m-d H:i:s'),  // Ensure this field is set to the current timestamp
+                'unfreezed_by_ip' => getenv('REMOTE_ADDR'),
+            ];
+            
+            // Update the record to unfreeze it
+            $record_update = $builder->set($updatedata)
+                ->update();  // Ensure the record gets updated with the correct unfreezing info
+            
+            if ($record_update) {
                 return $this->response->setJSON(['message' => '<h3 class="bg-success p-2 text-center">Un-freezed Successfully</h3>']);
             } else {
-
-                return $this->response->setJSON(['message' => '<h3 class="bg-warning p-2 text-center">Not freezed yet.</h3>']);
+                return $this->response->setJSON(['message' => '<h3 class="bg-danger p-2 text-center">Un-freezing Failed. Please Try Again.</h3>']);
             }
+        } else {
+            // Record is not frozen, so cannot unfreeze
+            return $this->response->setJSON(['message' => '<h3 class="bg-warning p-2 text-center">Not freezed yet.</h3>']);
         }
     }
+}
+
 
     public function header_footer_list()
     {

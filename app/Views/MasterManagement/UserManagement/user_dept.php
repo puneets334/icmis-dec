@@ -1,5 +1,9 @@
 <?= view('header') ?>
 <style>
+    #btnCan,
+    #btnUp {
+        display: none;
+    }
     .button-container {
         display: flex;
         align-items: center;

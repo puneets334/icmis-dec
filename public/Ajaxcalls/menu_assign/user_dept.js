@@ -1,4 +1,8 @@
+
 $(document).ready(function () {
+  $("#name_udept,#uside_flag").on("input", function () {
+    this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+  });
   $("#btnMain").click(function () {
     var regABC = new RegExp("^[A-z]+$");
     var uflag = $("#uside_flag").val().trim();
@@ -15,10 +19,21 @@ $(document).ready(function () {
       return false;
     }
     if ($("#user_mapping").val() == "") {
-      alert("Please Select Atleast one User Section to be Bound");
-      $("#bounded_utype").focus();
-      return false;
+        alert("Please Select Atleast one User Section to be Bound");
+        $("#bounded_utype").focus();
+        return false;
     }
+    if (!/^[A-Za-z\s]+$/.test(udeptname)) {
+          alert("Only letters and spaces are allowed.");        
+          $("#name_udept").focus();
+          return false;
+      }
+    if (!/^[A-Za-z\s]+$/.test(uflag)) {
+          alert("Only letters and spaces are allowed.");
+          // Optional: clear the input or focus
+          $("#uside_flag").focus();
+          return false;
+      }
 
     $.ajax({
         type: "GET",
@@ -99,10 +114,23 @@ $(document).ready(function () {
       });
   });
 
+  
+
   $("#btnUp").click(function () {
     var regABC = new RegExp("^[A-z]+$");
     var uflag = $("#uside_flag").val().trim();
     var udeptname = $("#name_udept").val().trim();
+    if (!/^[A-Za-z\s]+$/.test(udeptname)) {
+        alert("Only letters and spaces are allowed.");        
+        $("#name_udept").focus();
+        return false;
+    }
+  if (!/^[A-Za-z\s]+$/.test(uflag)) {
+        alert("Only letters and spaces are allowed.");
+        // Optional: clear the input or focus
+        $("#uside_flag").focus();
+        return false;
+    }
 
     // if (!regABC.test(udeptname)) {
     //   alert("Please Enter User Department Name in Alphabets Only");
@@ -157,6 +185,7 @@ $(document).ready(function () {
             data: { mat: 2 },
           })
             .done(function (msg_new) {
+              alert("Updated Successfully");
               location.reload();
               // var msg3 = msg_new.split("<>><<>><><>");
               // $("#result_main").html(msg3[0]);
@@ -209,7 +238,7 @@ $(document).on("click", "[id^='btnEdit']", function () {
           "'>" +
           $("#bounded_utype option[value='" + utype_all[i] + "']").text() +
           "\
-            <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='../usermgmt/close-button.gif' onclick=removeCase('" +
+            <img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='"+ base_url +"/images/close-button.gif' onclick=removeCase('" +
           utype_all[i] +
           "')></div>";
 
@@ -280,7 +309,7 @@ function press_add() {
     "'>" +
     $("#bounded_utype option:selected").text() +
     "\
-<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='../usermgmt/close-button.gif' onclick=removeCase('" +
+<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='"+ base_url +"/image/close-button.gif' onclick=removeCase('" +
     $("#bounded_utype").val() +
     "')></div>";
 

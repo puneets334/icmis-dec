@@ -147,7 +147,8 @@ $filePath = "C:\\laragon\\www\\icmis\\writable\\judgment\\cl\\vacation\\{$v_year
                 $con_no = "0";
                 $is_connected = "";
             } else if ($row['main_or_connected'] == 1) {
-
+                $print_srno = $psrno;
+                $con_no = "0";
 
                 $print_brdslno = "&nbsp;" . $print_srno . "." . ++$con_no;
                 $is_connected = "<span style='color:red;'>Connected</span><br/>";
@@ -230,7 +231,8 @@ $filePath = "C:\\laragon\\www\\icmis\\writable\\judgment\\cl\\vacation\\{$v_year
             }
             $doc_desrip = "";
             $listed_ias = $row['listed_ia'];
-            $listed_ia = rtrim(trim($listed_ias), ",");
+            $listed_ia = rtrim(trim($listed_ias ?? ''), ",");
+
             if ($listed_ias) {
                 $listed_ia = "I.A. " . str_replace(',', '<br>I.A.', $listed_ia) . " In <br>";
 
