@@ -694,8 +694,9 @@ class Heardt extends Model
     public function checkIfListIsPrinted($request)
     {
         $return = false;
+        $nt_dt = date('Y-m-d',strtotime($request['ndt']));
         $query = $this->db->table('cl_printed')
-            ->where('next_dt', $request['ndt'])
+            ->where('next_dt', $nt_dt)
             ->where('next_dt >=', date('Y-m-d'))
             ->where('m_f', $request['heading'])
             ->where('roster_id', $request['coram'])

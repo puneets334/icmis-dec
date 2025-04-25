@@ -228,17 +228,17 @@ function get_send_to_type(idd, id_val, sta, type, d_ta, zx, ddlSendTo_zx) {
     // alert('d_no:'+d_no+' @d_yr:'+d_yr);
     if (sta == '1'){
         city_id = idd.split('ddl_send_type' + type);
-        alert('cid-1:'+city_id);
+        // alert('cid-1:'+city_id);
     }
     else if (sta == '2'){
         city_id = idd.split('ddl_send_copy_type' + type);
-        alert('cid-2:'+city_id);
+        // alert('cid-2:'+city_id);
     }
     else if (sta == '3') {
         city_id = idd.split('ddl_send_copy_type' + type);
         var new_id = city_id[1];
         var org_id = new_id.split('_');
-        alert('cid-3:'+city_id);
+        // alert('cid-3:'+city_id);
     }
 
     // alert(city_id);
@@ -915,7 +915,7 @@ function saveData(k, d_no, d_yr, sp_nm, sp_add, ddl_val, del_ty, hd_sr_no, hd_pe
 
 
 function delete_record(str) {
-    alert(str);
+    // alert(str);
     var xmlhttp;
     if (window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
@@ -2799,7 +2799,7 @@ function fin_rep1() {
     div.appendChild(selectionContents);
     //   selectionContents=selectionContents.outerHTML;
     //    // extractContents
-    alert(div.textContent);
+    // alert(div.textContent);
     if (div.textContent != '') {
         var selectionContents1 = encodeURIComponent(div.textContent.toString());
         // selectionContents1=selectionContents1.trim();
@@ -2818,14 +2818,14 @@ function fin_rep1() {
         //     document.execCommand('paste', false ,txtReplace);
         var ggg = encodeURIComponent(document.getElementById('ggg').textContent.toString());
 
-        alert(ggg);
+        // alert(ggg);
         //  var n=ggg.search('/'+txtFind+'/i');
         //  ggg = new RegExp("(\\b" + ggg + "\\b)", "gim");
         // alert(ggg);
         var query = new RegExp(selectionContents1, "gim");
         //var query = new RegExp( selectionContents1, "gim");
         //var query = new RegExp( selectionContents1, "gim");
-        alert(query);
+        // alert(query);
         //   var bbb=query.toString();
         //    query1=bbb.replace(/<\//gim,"</");
         //   alert(query1);

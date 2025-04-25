@@ -503,22 +503,65 @@ class JudgeMasterModel extends Model
                 
         $mfCon = ($mf === 'M' || $mf === 'F') ? $mf : null;
         
+        // if ($toDate != '') {
+        //     $builder = $this->db->table('master.judge_category');
+        //     $data = [
+        //         'to_dt' => $toDate,
+        //         'to_dt_usercode' => $usercode,
+        //         'to_dt_ent_dt' => date('Y-m-d')
+        //     ];
+
+        //     $builder->where('j1', $judge);
+        //     if($mfCon){
+        //         $builder->where('m_f', $mfCon);
+        //     }
+
+        //     $builder->where('to_dt', null)
+        //         ->update($data);
+        // }
+
         if ($toDate != '') {
-            $builder = $this->db->table('master.judge_category');
-            $data = [
-                'to_dt' => $toDate,
-                'to_dt_usercode' => $usercode,
-                'to_dt_ent_dt' => date('Y-m-d')
-            ];
+            $getRecord = $this->db->table('master.judge_category')
+                ->where('j1', $judge)
+                ->where('to_dt', $toDate);
+                if($mfCon){
+                    $getRecord->where('m_f', $mfCon);
+                }
+                $existingRecord = $getRecord->get()
+                ->getRow();
 
-            $builder->where('j1', $judge);
-            if($mfCon){
-                $builder->where('m_f', $mfCon);
+            if ($existingRecord) {
+                // "Record already exists, update skipped.";
+                return "There is some problem. Please contact Computer-Cell.";
             }
+            else {
+                $data = [
+                    'to_dt' => $toDate,
+                    'to_dt_usercode' => $usercode,
+                    'to_dt_ent_dt' => date('Y-m-d')
+                ];
 
-            $builder->where('to_dt', null)
-                ->update($data);
-        }        
+                $builder = $this->db->table('master.judge_category');
+
+                $builder->select('id')
+                        ->where('j1', $judge)
+                        ->where('to_dt', null);
+
+                if ($mfCon) {
+                    $builder->where('m_f', $mfCon);
+                }
+
+                $builder->limit(1);
+                $row = $builder->get()->getRow();
+
+                if ($row) {
+                    $this->db->table('master.judge_category')
+                        ->where('id', $row->id)
+                        ->update($data);
+                }
+            }
+        
+        }
         
         if ($this->db->affectedRows() >= 1) {
             return "Judge Category Updated Successfully!!";
