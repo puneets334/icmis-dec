@@ -92,7 +92,7 @@
 
                                                     <div class="col-sm-12 col-md-3 mb-3">
                                                         <label for="adv_fhnm" class=" col-form-label">Father's/Husband's Name</label>
-                                                        <input type="text" class="form-control toUpperCase " name="adv_fhnm" id="adv_fhnm">
+                                                        <input type="text" class="form-control toUpperCase " name="adv_fhnm" max="30" id="adv_fhnm">
                                                     </div>
 
                                                     <div class="col-sm-12 col-md-3 mb-3">
@@ -106,7 +106,7 @@
 
                                                     <div class="col-sm-12 col-md-3 mb-3">
                                                         <label for="adv_moth" class=" col-form-label">Mother's Name</label>
-                                                        <input type="text" class="form-control toUpperCase onlyalpha" name="adv_moth" id="adv_moth">
+                                                        <input type="text" class="form-control toUpperCase onlyalpha" max="30" name="adv_moth" id="adv_moth">
                                                     </div>
 
                                                     <div class="col-sm-12 col-md-3 mb-3">
@@ -142,7 +142,7 @@
 
                                                     <div class="col-sm-12 col-md-3 mb-3">
                                                         <label for="adv_pp" class="col-sm-4 col-form-label required-field">Practice City</label>
-                                                        <input type="text" class="form-control toUpperCase" name="adv_pp" id="adv_pp" required>
+                                                        <input type="text" class="form-control toUpperCase" name="adv_pp" id="adv_pp" max="30" required>
                                                     </div>
 
                                                     <div class="col-sm-12 col-md-3 mb-3">
@@ -152,7 +152,7 @@
 
                                                     <div class="col-sm-12 col-md-3 mb-3">
                                                         <label for="adv_city" class="col-sm-4 col-form-label required-field">City</label>
-                                                        <input type="text" class="form-control toUpperCase" name="adv_city" id="adv_city" required>
+                                                        <input type="text" class="form-control toUpperCase" name="adv_city" id="adv_city" max="30" required>
                                                     </div>
 
                                                     <div class="col-sm-12 col-md-3 mb-3">
