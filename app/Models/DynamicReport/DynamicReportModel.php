@@ -146,6 +146,7 @@ class DynamicReportModel extends Model
                $condition = "$condition";
           }
           if ($sort != '') {
+               $sort = $sort.",";
                $condition .= " order by " . $sortOption2;
           }
           $sql = "select 
@@ -153,7 +154,7 @@ class DynamicReportModel extends Model
                a.*
                from (
                select distinct
-                    $sort, 
+                    $sort
                     reg_no_display, 
                     pet_name, 
                     res_name, 
