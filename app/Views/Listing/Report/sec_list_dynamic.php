@@ -138,11 +138,13 @@
             },
             type: 'POST',
             success: function(data, status) {
+                updateCSRFToken();
                 $('#tblrow').html(data);
                 $('#dv_res1').html('');
-                updateCSRFToken();
+               
             },
             error: function(xhr) {
+                updateCSRFToken();
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
