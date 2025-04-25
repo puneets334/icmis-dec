@@ -526,7 +526,7 @@ class ReportModel extends Model
     }
     public function get_special_bench_report($part,$sort = null,$order=null )
     {
-        $orderby_query = "ORDER BY CAST(COALESCE(NULLIF(SPLIT_PART(a.t_jud, ',', 1), ''), '0') AS INTEGER)";
+        $orderby_query = "ORDER BY CAST(COALESCE(NULLIF(SPLIT_PART(a.t_jud, ',', 1), ''), '0') AS INTEGER) DESC";
         
 
         if($sort=='J'){

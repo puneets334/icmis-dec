@@ -404,4 +404,9 @@
 
         }
     }
+
+    $(document).ready(function() {
+        $('#reasonRow').hide();
+        $('#reasonText').hide();
+    });
 </script>

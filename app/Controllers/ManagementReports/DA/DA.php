@@ -132,12 +132,17 @@ class DA extends BaseController
         $data['app_name'] = 'Advance Daily DaWise';
         $data['usercode'] = $_SESSION['login']['usercode'];
 
-        if ($_POST) {
-            $usercode = $_POST['usercode'];
-            $data['case_result'] = $this->CaseRemarksVerification->case_listed_Advance_Daily_dawise($data['usercode']);
-        }
-
         return view('ManagementReport/DA/cases_listed_Advance_Daily_dawise', $data);
+    }
+
+    public function case_listed_Advance_Daily_dawise_get()
+    {
+        $data['case_result'] = [];
+        $data['app_name'] = 'Advance Daily DaWise';
+        $data['usercode'] = $_SESSION['login']['usercode'];
+        $usercode = $_POST['usercode'];
+        $data['case_result'] = $this->CaseRemarksVerification->case_listed_Advance_Daily_dawise($data['usercode']);
+        return view('ManagementReport/DA/get_cases_listed_Advance_dawise', $data);
     }
 
     public function get_loosedoc_verify_Nverify()

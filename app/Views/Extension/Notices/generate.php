@@ -34,6 +34,15 @@ legend {
 b, strong, dt, th {
     font-weight: bold !important;
 }
+table tr:nth-child(even) td {
+    background: #fff !important;
+}
+
+#tb_ap_ck thead th {
+    background: #d9d7d7df;
+    color: #000000;
+    font-family: 'noto_sansmedium';
+}
 </style>
 <section class="content">
     <div class="container-fluid">

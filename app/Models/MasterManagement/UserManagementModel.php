@@ -362,6 +362,40 @@ class UserManagementModel extends Model
     }
     public function add_range($utype, $low, $up, $usercode)
     {
+
+        $builder = $this->db->table('master.user_range');
+        $builder->where("$low BETWEEN low AND up");
+        $builder->where('display', 'Y');
+        //$builder->where('id !=', $id); // Exclude the current record
+        $query = $builder->get();
+
+        if ($query->getNumRows() > 0) {
+            // Conflict exists
+            return $mesg = "LOWER RANGE IS ALREADY USED";
+        }
+
+        $builder = $this->db->table('master.user_range');
+        $builder->where("$up BETWEEN low AND up");
+        $builder->where('display', 'Y');
+        //$builder->where('id !=', $id); // Exclude the current record
+        $query2 = $builder->get();
+
+        if ($query2->getNumRows() > 0) {
+            // Conflict exists
+            return $mesg = "Upper RANGE IS ALREADY USED";
+        }
+
+        $builder = $this->db->table('master.user_range');        
+        $builder->where('display', 'Y');
+        $builder->where('utype', $utype);  // Exclude the current record
+        $query3 = $builder->get();
+
+        if ($query3->getNumRows() > 0) {
+            // Conflict exists
+            return $mesg = "The Usertype is Already Inseretd With Range"; 
+        }
+
+        
         $builder = $this->db->table('master.user_range');
         $data = [
             'utype'   => $utype,
@@ -373,7 +407,7 @@ class UserManagementModel extends Model
             'updt'    => date('Y-m-d H:i:s'),
         ];
         $builder->insert($data);
-        return true;
+        return $mesg = "USERRANGE ADDED SUCCESSFULLY";
     }
     public function getUser_range_Data($id)
     {
@@ -409,7 +443,6 @@ class UserManagementModel extends Model
             // Conflict exists
             return $mesg = "Upper RANGE IS ALREADY USED";
         }
-
 
 
         $builder = $this->db->table('master.user_range');
