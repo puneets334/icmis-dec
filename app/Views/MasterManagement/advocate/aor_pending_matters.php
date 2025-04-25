@@ -119,16 +119,23 @@
     function fetch_data() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-        $('#record').hide();
         var aor = $('#aor').val();
         var status = $('#status').val();
         var from_dt1 = $('#from_dt1').val();
         var from_dt2 = $('#from_dt2').val();
         var caseType = $('#caseType').val();
+
+        // Disable the submit button
+        $('#submitBtn').prop('disabled', true);
+
         if (aor == '') {
             alert("Please select AOR");
+            $('#submitBtn').prop('disabled', false); // Re-enable if validation fails
             return;
         }
+
+        $('#record').hide();
+
         $.ajax({
             type: "POST",
             url: baseURL + "/MasterManagement/Advocate/CasesView",
@@ -143,19 +150,19 @@
             beforeSend: function() {
                 $('#record').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
-
             success: function(data) {
                 updateCSRFToken();
                 $('.Datacenter').html(data);
                 $('#record').show();
-
             },
-
             error: function() {
                 updateCSRFToken();
                 alert('Error');
+            },
+            complete: function() {
+                // Re-enable the button after request is complete (success or error)
+                $('#submitBtn').prop('disabled', false);
             }
-
         });
     }
 </script>
