@@ -95,7 +95,20 @@ label, h2 {
     #example_filter > label > input[type="search"] {
         border: #000 1px solid!important;
     }
-
+    .table-responsive-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+#example_filter{float:right;}
+#example_filter label{background:none;border:none;}
+th.sorting_disabled {
+    background: #f5f5f5;
+}
 </style>
 <section class="content">
     <div class="container-fluid">
