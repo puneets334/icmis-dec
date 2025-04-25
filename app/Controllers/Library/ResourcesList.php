@@ -291,8 +291,7 @@ class ResourcesList extends BaseController
         
                 }
         
-            }
-        
+            }        
         
             if($_REQUEST['status_option'] == 'Completed'){
                 $sql = "update library_reference_material set i_updated_by = $ucode, i_updated_on = NOW(), i_status = 'Completed',
@@ -300,14 +299,14 @@ class ResourcesList extends BaseController
                 where id = ".$_POST['library_reference_material'];
                 $update = $this->e_services->query($sql);
                 //$update->execute();
-                echo "Uploaded successfully";
+                return $this->response->setJSON(['success' => 'Uploaded successfully']);
             }else{
                 $sql = "update library_reference_material set i_updated_by = $ucode, i_updated_on = NOW(), i_status = 'Pending',
                 file_retention_policy = '".$_POST['document_retain_option']."'
                 where id = ".$_POST['library_reference_material'];
                 $update = $this->e_services->query($sql);
                // $update->execute();
-                echo "Uploaded successfully";
+               return $this->response->setJSON(['success' => 'Uploaded successfully']);
             }
         
         

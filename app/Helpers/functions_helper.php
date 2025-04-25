@@ -3476,9 +3476,9 @@ function da()
         //$builder->join('master.subheading s', 's.stagecode = h.subhead AND s.display = \'Y\' AND s.listtype = \'' . $mf . '\'', 'left');
 
         $builder->where('(
-            m.diary_no = CAST(m.conn_key AS bigint) OR
-            m.conn_key = \'\' OR
-            m.conn_key IS NULL
+            m.diary_no = CAST(NULLIF(m.conn_key, \'\') AS BIGINT)
+            OR m.conn_key = \'\' 
+            OR m.conn_key IS NULL
         )');
         $builder->where('m.c_status', 'P');
         $builder->where('h.mainhead', $mf);

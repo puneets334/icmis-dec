@@ -272,198 +272,396 @@ class PrintAdvanceModel extends Model
 
 
 
+    // public function get_main_details($vac_record = '')
+    // {
+    //     // First Query
+    //     $builder1 =  $this->db->table('heardt h')
+    //         ->select('
+    //         u.name,
+    //         COALESCE(us.section_name, tentative_section(m.diary_no)) AS section_name,
+    //         m.conn_key AS main_key,
+    //         c1.short_description,
+    //         h.*,
+    //         l.purpose,
+    //         active_fil_no,
+    //         m.active_reg_year,
+    //         m.casetype_id,
+    //         m.active_casetype_id,
+    //         m.ref_agency_state_id,
+    //         m.reg_no_display,
+    //         EXTRACT(YEAR FROM m.fil_dt) AS fil_year,
+    //         m.fil_no,
+    //         m.fil_dt,
+    //         m.fil_no_fh,
+    //         m.reg_year_fh AS fil_year_f,
+    //         m.mf_active,
+    //         m.pet_name,
+    //         m.res_name,
+    //         s.sub_name1,
+    //         s.sub_name2,
+    //         s.sub_name3,
+    //         s.sub_name4,
+    //         pno,
+    //         rno,
+    //         m.diary_no_rec_date,
+    //         CASE
+    //             WHEN (m.diary_no = CAST(m.conn_key AS bigint) OR CAST(m.conn_key AS bigint) IS NULL OR CAST(m.conn_key AS bigint) = 0) THEN 0
+    //             ELSE 1
+    //         END AS main_or_connected,
+    //         (SELECT 
+    //             CASE 
+    //                 WHEN diary_no IS NOT NULL THEN 1 
+    //                 ELSE 0 
+    //             END 
+    //          FROM conct 
+    //          WHERE diary_no = m.diary_no AND LIST = \'Y\') AS listed,
+    //         \'Y\' AS is_fixed
+    //     ')
+    //         ->join('main m', 'h.diary_no = m.diary_no')
+    //         ->join('mul_category mcat', 'h.diary_no = mcat.diary_no')
+    //         ->join('master.submaster s', 'mcat.submaster_id = s.id')
+    //         ->join('master.casetype c1', 'm.active_casetype_id = c1.casecode', 'left')
+    //         ->join('master.listing_purpose l', 'l.code = h.listorder', 'left')
+    //         ->join('master.users u', 'u.usercode = m.dacode AND (u.display = \'Y\' OR u.display IS NULL)', 'left')
+    //         ->join('master.usersection us', 'us.id = u.section', 'left')
+    //         ->where('m.c_status', 'P')
+    //         ->where('mcat.display', 'Y')
+    //         ->where('s.display', 'Y')
+    //         ->where('DATE(h.next_dt) >=', '2018-05-20')
+    //         ->where('DATE(h.next_dt) <=', '2018-07-01')
+    //         ->whereIn('h.listorder', [4, 5, 7, 8])
+    //         ->where('m.mf_active', 'F')
+    //         ->where('h.board_type', 'J');
+
+    //     // Second Query
+    //     $builder2 =  $this->db->table('heardt h')
+    //         ->select('
+    //         u.name,
+    //         COALESCE(us.section_name, tentative_section(m.diary_no)) AS section_name,
+    //         m.conn_key AS main_key,
+    //         c1.short_description,
+    //         h.*,
+    //         l.purpose,
+    //         active_fil_no,
+    //         m.active_reg_year,
+    //         m.casetype_id,
+    //         m.active_casetype_id,
+    //         m.ref_agency_state_id,
+    //         m.reg_no_display,
+    //         EXTRACT(YEAR FROM m.fil_dt) AS fil_year,
+    //         m.fil_no,
+    //         m.fil_dt,
+    //         m.fil_no_fh,
+    //         m.reg_year_fh AS fil_year_f,
+    //         m.mf_active,
+    //         m.pet_name,
+    //         m.res_name,
+    //          s.sub_name1,
+    //         s.sub_name2,
+    //         s.sub_name3,
+    //         s.sub_name4,
+    //         pno,
+    //         rno,
+    //         m.diary_no_rec_date,
+    //         CASE
+    //             WHEN (m.diary_no = CAST(m.conn_key AS bigint) OR CAST(m.conn_key AS bigint) IS NULL OR CAST(m.conn_key AS bigint) = 0) THEN 0
+    //             ELSE 1
+    //         END AS main_or_connected,
+    //         (SELECT 
+    //             CASE 
+    //                 WHEN diary_no IS NOT NULL THEN 1 
+    //                 ELSE 0 
+    //             END 
+    //          FROM conct 
+    //          WHERE diary_no = m.diary_no AND LIST = \'Y\') AS listed,
+    //         \'N\' AS is_fixed
+    //     ')
+    //         ->join('main m', 'h.diary_no = m.diary_no')
+    //         ->join('mul_category mcat', 'h.diary_no = mcat.diary_no')
+    //         ->join('master.submaster s', 'mcat.submaster_id = s.id')
+    //         ->join('master.casetype c1', 'm.active_casetype_id = c1.casecode', 'left')
+    //         ->join('master.listing_purpose l', 'l.code = h.listorder', 'left')
+    //         ->join('master.users u', 'u.usercode = m.dacode', 'left')
+    //         ->join('master.usersection us', 'us.id = u.section', 'left')
+    //         ->where('m.c_status', 'P')
+    //         ->where('mcat.display', 'Y')
+    //         ->where('s.display', 'Y')
+    //         ->where('m.mf_active', 'F')
+    //         ->where('h.subhead !=', 818)
+    //         ->where('mcat.submaster_id !=', 911)
+    //         ->whereNotIn('s.id', function ($subQuery) {
+    //             $subQuery->select('id')
+    //                 ->from('master.submaster')
+    //                 ->where('(category_sc_old IS NOT NULL AND category_sc_old != \'\')')
+    //                 ->groupStart()
+    //                 ->where('CAST(category_sc_old AS INTEGER) >=', 301)
+    //                 ->where('CAST(category_sc_old AS INTEGER) <=', 324)
+    //                 ->orGroupStart()
+    //                 ->where('CAST(category_sc_old AS INTEGER) >=', 401)
+    //                 ->where('CAST(category_sc_old AS INTEGER) <=', 436)
+    //                 ->groupEnd()
+    //                 ->orGroupStart()
+    //                 ->where('CAST(category_sc_old AS INTEGER) >=', 801)
+    //                 ->where('CAST(category_sc_old AS INTEGER) <=', 818)
+    //                 ->groupEnd()
+    //                 ->orGroupStart()
+    //                 ->where('CAST(category_sc_old AS INTEGER) >=', 1001)
+    //                 ->where('CAST(category_sc_old AS INTEGER) <=', 1010)
+    //                 ->groupEnd()
+    //                 ->orWhereIn('CAST(category_sc_old AS INTEGER)', [1401, 1413, 1424])
+    //                 ->orGroupStart()
+    //                 ->where('CAST(category_sc_old AS INTEGER) >=', 1803)
+    //                 ->where('CAST(category_sc_old AS INTEGER) <=', 1816)
+    //                 ->groupEnd()
+    //                 ->orWhereIn('CAST(category_sc_old AS INTEGER)', [1818, 1900, 2000, 2100, 2200, 2300, 2401, 2811, 3700])
+    //                 ->orGroupStart()
+    //                 ->where('CAST(category_sc_old AS INTEGER) >=', 2403)
+    //                 ->where('CAST(category_sc_old AS INTEGER) <=', 2407)
+    //                 ->groupEnd()
+    //                 ->orGroupStart()
+    //                 ->where('CAST(category_sc_old AS INTEGER) >=', 2501)
+    //                 ->where('CAST(category_sc_old AS INTEGER) <=', 2504)
+    //                 ->groupEnd()
+    //                 ->orGroupStart()
+    //                 ->where('CAST(category_sc_old AS INTEGER) >=', 3001)
+    //                 ->where('CAST(category_sc_old AS INTEGER) <=', 3004)
+    //                 ->groupEnd()
+    //                 ->orGroupStart()
+    //                 ->where('CAST(category_sc_old AS INTEGER) >=', 4001)
+    //                 ->where('CAST(category_sc_old AS INTEGER) <=', 4003)
+    //                 ->groupEnd()
+    //                 ->groupEnd();
+    //         })
+    //         ->whereNotIn('m.diary_no', function ($subQuery) {
+    //             $subQuery->select('CAST(diary_no AS BIGINT)')
+    //                 ->from('not_before')
+    //                 ->where('res_id', 11);
+    //         })
+    //         ->where('DATE(m.diary_no_rec_date) <', '2014-01-01')
+    //         ->where('h.board_type', 'J')
+    //         ->whereNotIn('m.diary_no', function ($subQuery) {
+    //             $subQuery->select('fil_no')
+    //                 ->from('rgo_default')
+    //                 ->where('remove_def', 'N');
+    //         });
+
+    //     // Combine Queries
+    //     $query1 = $builder1->getCompiledSelect();
+    //     $query2 = $builder2->getCompiledSelect();
+
+    //     $finalQuery = $query1 . " UNION " . $query2;
+    //     // Add a LIMIT clause based on $vac_record
+    //     if ($vac_record == 'ALL') {
+    //         // If "ALL", no limit is applied
+    //         $finalQueryWithLimit = $finalQuery;
+    //     } else {
+    //         // Otherwise, apply the LIMIT
+    //         $finalQueryWithLimit = $finalQuery . " LIMIT " . intval($vac_record);
+    //     }
+    //     //pr($finalQueryWithLimit);
+
+    //     // Execute the Query
+    //     $result = $this->db->query($finalQueryWithLimit)->getResultArray();
+
+    //     return $result;
+    // }
+
+
     public function get_main_details($vac_record = '')
-    {
-        // First Query
-        $builder1 =  $this->db->table('heardt h')
-            ->select('
-            u.name,
-            COALESCE(us.section_name, tentative_section(m.diary_no)) AS section_name,
-            m.conn_key AS main_key,
-            c1.short_description,
-            h.*,
-            l.purpose,
-            active_fil_no,
-            m.active_reg_year,
-            m.casetype_id,
-            m.active_casetype_id,
-            m.ref_agency_state_id,
-            m.reg_no_display,
-            EXTRACT(YEAR FROM m.fil_dt) AS fil_year,
-            m.fil_no,
-            m.fil_dt,
-            m.fil_no_fh,
-            m.reg_year_fh AS fil_year_f,
-            m.mf_active,
-            m.pet_name,
-            m.res_name,
-            s.sub_name1,
-            s.sub_name2,
-            s.sub_name3,
-            s.sub_name4,
-            pno,
-            rno,
-            m.diary_no_rec_date,
-            CASE
-                WHEN (m.diary_no = CAST(m.conn_key AS bigint) OR CAST(m.conn_key AS bigint) IS NULL OR CAST(m.conn_key AS bigint) = 0) THEN 0
-                ELSE 1
-            END AS main_or_connected,
-            (SELECT 
-                CASE 
-                    WHEN diary_no IS NOT NULL THEN 1 
-                    ELSE 0 
-                END 
-             FROM conct 
-             WHERE diary_no = m.diary_no AND LIST = \'Y\') AS listed,
-            \'Y\' AS is_fixed
-        ')
-            ->join('main m', 'h.diary_no = m.diary_no')
-            ->join('mul_category mcat', 'h.diary_no = mcat.diary_no')
-            ->join('master.submaster s', 'mcat.submaster_id = s.id')
-            ->join('master.casetype c1', 'm.active_casetype_id = c1.casecode', 'left')
-            ->join('master.listing_purpose l', 'l.code = h.listorder', 'left')
-            ->join('master.users u', 'u.usercode = m.dacode AND (u.display = \'Y\' OR u.display IS NULL)', 'left')
-            ->join('master.usersection us', 'us.id = u.section', 'left')
-            ->where('m.c_status', 'P')
-            ->where('mcat.display', 'Y')
-            ->where('s.display', 'Y')
-            ->where('DATE(h.next_dt) >=', '2018-05-20')
-            ->where('DATE(h.next_dt) <=', '2018-07-01')
-            ->whereIn('h.listorder', [4, 5, 7, 8])
-            ->where('m.mf_active', 'F')
-            ->where('h.board_type', 'J');
+{
+    // First Query
+    $builder1 =  $this->db->table('heardt h')
+        ->select('
+        u.name,
+        COALESCE(us.section_name, tentative_section(m.diary_no)) AS section_name,
+        m.conn_key AS main_key,
+        c1.short_description,
+        h.*,
+        l.purpose,
+        active_fil_no,
+        m.active_reg_year,
+        m.casetype_id,
+        m.active_casetype_id,
+        m.ref_agency_state_id,
+        m.reg_no_display,
+        EXTRACT(YEAR FROM m.fil_dt) AS fil_year,
+        m.fil_no,
+        m.fil_dt,
+        m.fil_no_fh,
+        m.reg_year_fh AS fil_year_f,
+        m.mf_active,
+        m.pet_name,
+        m.res_name,
+        s.sub_name1,
+        s.sub_name2,
+        s.sub_name3,
+        s.sub_name4,
+        pno,
+        rno,
+        m.diary_no_rec_date,
+        CASE
+            WHEN (m.diary_no = CAST(NULLIF(m.conn_key, \'\') AS bigint) OR CAST(NULLIF(m.conn_key, \'\') AS bigint) IS NULL OR CAST(NULLIF(m.conn_key, \'\') AS bigint) = 0) THEN 0
+            ELSE 1
+        END AS main_or_connected,
+        (SELECT 
+            CASE 
+                WHEN diary_no IS NOT NULL THEN 1 
+                ELSE 0 
+            END 
+        FROM conct 
+        WHERE diary_no = m.diary_no AND LIST = \'Y\') AS listed,
+        \'Y\' AS is_fixed
+    ')
+        ->join('main m', 'h.diary_no = m.diary_no')
+        ->join('mul_category mcat', 'h.diary_no = mcat.diary_no')
+        ->join('master.submaster s', 'mcat.submaster_id = s.id')
+        ->join('master.casetype c1', 'm.active_casetype_id = c1.casecode', 'left')
+        ->join('master.listing_purpose l', 'l.code = h.listorder', 'left')
+        ->join('master.users u', 'u.usercode = m.dacode AND (u.display = \'Y\' OR u.display IS NULL)', 'left')
+        ->join('master.usersection us', 'us.id = u.section', 'left')
+        ->where('m.c_status', 'P')
+        ->where('mcat.display', 'Y')
+        ->where('s.display', 'Y')
+        ->where('DATE(h.next_dt) >=', '2018-05-20')
+        ->where('DATE(h.next_dt) <=', '2018-07-01')
+        ->whereIn('h.listorder', [4, 5, 7, 8])
+        ->where('m.mf_active', 'F')
+        ->where('h.board_type', 'J');
 
-        // Second Query
-        $builder2 =  $this->db->table('heardt h')
-            ->select('
-            u.name,
-            COALESCE(us.section_name, tentative_section(m.diary_no)) AS section_name,
-            m.conn_key AS main_key,
-            c1.short_description,
-            h.*,
-            l.purpose,
-            active_fil_no,
-            m.active_reg_year,
-            m.casetype_id,
-            m.active_casetype_id,
-            m.ref_agency_state_id,
-            m.reg_no_display,
-            EXTRACT(YEAR FROM m.fil_dt) AS fil_year,
-            m.fil_no,
-            m.fil_dt,
-            m.fil_no_fh,
-            m.reg_year_fh AS fil_year_f,
-            m.mf_active,
-            m.pet_name,
-            m.res_name,
-             s.sub_name1,
-            s.sub_name2,
-            s.sub_name3,
-            s.sub_name4,
-            pno,
-            rno,
-            m.diary_no_rec_date,
-            CASE
-                WHEN (m.diary_no = CAST(m.conn_key AS bigint) OR CAST(m.conn_key AS bigint) IS NULL OR CAST(m.conn_key AS bigint) = 0) THEN 0
-                ELSE 1
-            END AS main_or_connected,
-            (SELECT 
-                CASE 
-                    WHEN diary_no IS NOT NULL THEN 1 
-                    ELSE 0 
-                END 
-             FROM conct 
-             WHERE diary_no = m.diary_no AND LIST = \'Y\') AS listed,
-            \'N\' AS is_fixed
-        ')
-            ->join('main m', 'h.diary_no = m.diary_no')
-            ->join('mul_category mcat', 'h.diary_no = mcat.diary_no')
-            ->join('master.submaster s', 'mcat.submaster_id = s.id')
-            ->join('master.casetype c1', 'm.active_casetype_id = c1.casecode', 'left')
-            ->join('master.listing_purpose l', 'l.code = h.listorder', 'left')
-            ->join('master.users u', 'u.usercode = m.dacode', 'left')
-            ->join('master.usersection us', 'us.id = u.section', 'left')
-            ->where('m.c_status', 'P')
-            ->where('mcat.display', 'Y')
-            ->where('s.display', 'Y')
-            ->where('m.mf_active', 'F')
-            ->where('h.subhead !=', 818)
-            ->where('mcat.submaster_id !=', 911)
-            ->whereNotIn('s.id', function ($subQuery) {
-                $subQuery->select('id')
-                    ->from('master.submaster')
-                    ->where('(category_sc_old IS NOT NULL AND category_sc_old != \'\')')
-                    ->groupStart()
-                    ->where('CAST(category_sc_old AS INTEGER) >=', 301)
-                    ->where('CAST(category_sc_old AS INTEGER) <=', 324)
-                    ->orGroupStart()
-                    ->where('CAST(category_sc_old AS INTEGER) >=', 401)
-                    ->where('CAST(category_sc_old AS INTEGER) <=', 436)
-                    ->groupEnd()
-                    ->orGroupStart()
-                    ->where('CAST(category_sc_old AS INTEGER) >=', 801)
-                    ->where('CAST(category_sc_old AS INTEGER) <=', 818)
-                    ->groupEnd()
-                    ->orGroupStart()
-                    ->where('CAST(category_sc_old AS INTEGER) >=', 1001)
-                    ->where('CAST(category_sc_old AS INTEGER) <=', 1010)
-                    ->groupEnd()
-                    ->orWhereIn('CAST(category_sc_old AS INTEGER)', [1401, 1413, 1424])
-                    ->orGroupStart()
-                    ->where('CAST(category_sc_old AS INTEGER) >=', 1803)
-                    ->where('CAST(category_sc_old AS INTEGER) <=', 1816)
-                    ->groupEnd()
-                    ->orWhereIn('CAST(category_sc_old AS INTEGER)', [1818, 1900, 2000, 2100, 2200, 2300, 2401, 2811, 3700])
-                    ->orGroupStart()
-                    ->where('CAST(category_sc_old AS INTEGER) >=', 2403)
-                    ->where('CAST(category_sc_old AS INTEGER) <=', 2407)
-                    ->groupEnd()
-                    ->orGroupStart()
-                    ->where('CAST(category_sc_old AS INTEGER) >=', 2501)
-                    ->where('CAST(category_sc_old AS INTEGER) <=', 2504)
-                    ->groupEnd()
-                    ->orGroupStart()
-                    ->where('CAST(category_sc_old AS INTEGER) >=', 3001)
-                    ->where('CAST(category_sc_old AS INTEGER) <=', 3004)
-                    ->groupEnd()
-                    ->orGroupStart()
-                    ->where('CAST(category_sc_old AS INTEGER) >=', 4001)
-                    ->where('CAST(category_sc_old AS INTEGER) <=', 4003)
-                    ->groupEnd()
-                    ->groupEnd();
-            })
-            ->whereNotIn('m.diary_no', function ($subQuery) {
-                $subQuery->select('CAST(diary_no AS BIGINT)')
-                    ->from('not_before')
-                    ->where('res_id', 11);
-            })
-            ->where('DATE(m.diary_no_rec_date) <', '2014-01-01')
-            ->where('h.board_type', 'J')
-            ->whereNotIn('m.diary_no', function ($subQuery) {
-                $subQuery->select('fil_no')
-                    ->from('rgo_default')
-                    ->where('remove_def', 'N');
-            });
+    // Second Query
+    $builder2 =  $this->db->table('heardt h')
+        ->select('
+        u.name,
+        COALESCE(us.section_name, tentative_section(m.diary_no)) AS section_name,
+        m.conn_key AS main_key,
+        c1.short_description,
+        h.*,
+        l.purpose,
+        active_fil_no,
+        m.active_reg_year,
+        m.casetype_id,
+        m.active_casetype_id,
+        m.ref_agency_state_id,
+        m.reg_no_display,
+        EXTRACT(YEAR FROM m.fil_dt) AS fil_year,
+        m.fil_no,
+        m.fil_dt,
+        m.fil_no_fh,
+        m.reg_year_fh AS fil_year_f,
+        m.mf_active,
+        m.pet_name,
+        m.res_name,
+         s.sub_name1,
+        s.sub_name2,
+        s.sub_name3,
+        s.sub_name4,
+        pno,
+        rno,
+        m.diary_no_rec_date,
+        CASE
+            WHEN (m.diary_no = CAST(NULLIF(m.conn_key, \'\') AS bigint) OR CAST(NULLIF(m.conn_key, \'\') AS bigint) IS NULL OR CAST(NULLIF(m.conn_key, \'\') AS bigint) = 0) THEN 0
+            ELSE 1
+        END AS main_or_connected,
+        (SELECT 
+            CASE 
+                WHEN diary_no IS NOT NULL THEN 1 
+                ELSE 0 
+            END 
+        FROM conct 
+        WHERE diary_no = m.diary_no AND LIST = \'Y\') AS listed,
+        \'N\' AS is_fixed
+    ')
+        ->join('main m', 'h.diary_no = m.diary_no')
+        ->join('mul_category mcat', 'h.diary_no = mcat.diary_no')
+        ->join('master.submaster s', 'mcat.submaster_id = s.id')
+        ->join('master.casetype c1', 'm.active_casetype_id = c1.casecode', 'left')
+        ->join('master.listing_purpose l', 'l.code = h.listorder', 'left')
+        ->join('master.users u', 'u.usercode = m.dacode', 'left')
+        ->join('master.usersection us', 'us.id = u.section', 'left')
+        ->where('m.c_status', 'P')
+        ->where('mcat.display', 'Y')
+        ->where('s.display', 'Y')
+        ->where('m.mf_active', 'F')
+        ->where('h.subhead !=', 818)
+        ->where('mcat.submaster_id !=', 911)
+        ->whereNotIn('s.id', function ($subQuery) {
+            $subQuery->select('id')
+                ->from('master.submaster')
+                ->where('(category_sc_old IS NOT NULL AND category_sc_old != \'\')')
+                ->where('category_sc_old ~ \'^\d+$\'')  // Ensure it's numeric
+                ->groupStart()
+                ->where('CAST(category_sc_old AS INTEGER) >=', 301)
+                ->where('CAST(category_sc_old AS INTEGER) <=', 324)
+                ->orGroupStart()
+                ->where('CAST(category_sc_old AS INTEGER) >=', 401)
+                ->where('CAST(category_sc_old AS INTEGER) <=', 436)
+                ->groupEnd()
+                ->orGroupStart()
+                ->where('CAST(category_sc_old AS INTEGER) >=', 801)
+                ->where('CAST(category_sc_old AS INTEGER) <=', 818)
+                ->groupEnd()
+                ->orGroupStart()
+                ->where('CAST(category_sc_old AS INTEGER) >=', 1001)
+                ->where('CAST(category_sc_old AS INTEGER) <=', 1010)
+                ->groupEnd()
+                ->orWhereIn('CAST(category_sc_old AS INTEGER)', [1401, 1413, 1424])
+                ->orGroupStart()
+                ->where('CAST(category_sc_old AS INTEGER) >=', 1803)
+                ->where('CAST(category_sc_old AS INTEGER) <=', 1816)
+                ->groupEnd()
+                ->orWhereIn('CAST(category_sc_old AS INTEGER)', [1818, 1900, 2000, 2100, 2200, 2300, 2401, 2811, 3700])
+                ->orGroupStart()
+                ->where('CAST(category_sc_old AS INTEGER) >=', 2403)
+                ->where('CAST(category_sc_old AS INTEGER) <=', 2407)
+                ->groupEnd()
+                ->orGroupStart()
+                ->where('CAST(category_sc_old AS INTEGER) >=', 2501)
+                ->where('CAST(category_sc_old AS INTEGER) <=', 2504)
+                ->groupEnd()
+                ->orGroupStart()
+                ->where('CAST(category_sc_old AS INTEGER) >=', 3001)
+                ->where('CAST(category_sc_old AS INTEGER) <=', 3004)
+                ->groupEnd()
+                ->orGroupStart()
+                ->where('CAST(category_sc_old AS INTEGER) >=', 4001)
+                ->where('CAST(category_sc_old AS INTEGER) <=', 4003)
+                ->groupEnd()
+                ->groupEnd();
+        })
+        ->whereNotIn('m.diary_no', function ($subQuery) {
+            $subQuery->select('CAST(diary_no AS BIGINT)')
+                ->from('not_before')
+                ->where('res_id', 11);
+        })
+        ->where('DATE(m.diary_no_rec_date) <', '2014-01-01')
+        ->where('h.board_type', 'J')
+        ->whereNotIn('m.diary_no', function ($subQuery) {
+            $subQuery->select('fil_no')
+                ->from('rgo_default')
+                ->where('remove_def', 'N');
+        });
 
-        // Combine Queries
-        $query1 = $builder1->getCompiledSelect();
-        $query2 = $builder2->getCompiledSelect();
+    // Combine Queries
+    $query1 = $builder1->getCompiledSelect();
+    $query2 = $builder2->getCompiledSelect();
 
-        $finalQuery = $query1 . " UNION " . $query2;
-        // Add a LIMIT clause based on $vac_record
-        if ($vac_record == 'ALL') {
-            // If "ALL", no limit is applied
-            $finalQueryWithLimit = $finalQuery;
-        } else {
-            // Otherwise, apply the LIMIT
-            $finalQueryWithLimit = $finalQuery . " LIMIT " . intval($vac_record);
-        }
-
-        // Execute the Query
-        $result = $this->db->query($finalQueryWithLimit)->getResultArray();
-
-        return $result;
+    $finalQuery = $query1 . " UNION " . $query2;
+    
+    // Add a LIMIT clause based on $vac_record
+    if ($vac_record == 'ALL') {
+        // If "ALL", no limit is applied
+        $finalQueryWithLimit = $finalQuery;
+    } else {
+        // Otherwise, apply the LIMIT
+        $finalQueryWithLimit = $finalQuery . " LIMIT " . intval($vac_record);
     }
+
+    // Execute the Query
+    $result = $this->db->query($finalQueryWithLimit)->getResultArray();
+
+    return $result;
+}
+
 
     public function getEliminationListPrint($list_dt, $mainhead, $sectionName)
     {

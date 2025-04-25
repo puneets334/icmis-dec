@@ -40,10 +40,10 @@ if ($user_id != $dacode && $user_id != 663 && $user_id != 1) {
 $chk_dts = '0';
 
 $date = date('Y-m-d');
-$date = '2025-04-07';
+//$date = '2025-04-07';
 $ck_pf_nt = '';
 $ck_pfnt = '';
-
+$individual_multiple = '';
 $row = $noticesModel->getResAdvNm($dairy_no);
 if ($row) {
     // Hidden input fields
@@ -51,17 +51,18 @@ if ($row) {
     echo '<input type="hidden" name="hd_casetype_id" id="hd_casetype_id" value="' . esc($row['casetype_id']) . '"/>';
 
     $res_cont = $noticesModel->geTwTalDel($dairy_no, $date);
-   
+     
     if ($res_cont > 0) {
         $res_sq_fi_sub = $noticesModel->getTalDelData($dairy_no, $date);
-        $individual_multiple = $res_sq_fi_sub['individual_multiple'] ?? '';         
+        $individual_multiple = $res_sq_fi_sub['individual_multiple'] ?? '';     
+    }    
 ?>
         <div class="cl_center">
             <input type="radio" name="ddl_ind_mul" id='ddl_ind_mul' class="cl_ind_mul" value="1" <?php if ($individual_multiple == '1') { ?> checked="checked" <?php } ?> /><b>Individual</b>
             <input type="radio" name="ddl_ind_mul" id='ddl_ind_mul' class="cl_ind_mul" value="2" <?php if ($individual_multiple == '2') { ?> checked="checked" <?php } ?> /><b>Multiple</b>
         </div>
         <?php
-    }
+  
 
   /*  $res_cont = $noticesModel->get_res_cont($dairy_no, $date);
     if ($res_cont > 0) {
@@ -285,7 +286,10 @@ if ($row) {
                     onfocus="clear_data(this.id)"
                     style="background-color: white; color: black;" />
                 &nbsp;&nbsp;&nbsp;&nbsp;
-            <?php } ?>
+            <?php } 
+            
+            
+            ?>
 
             <b>Subject:</b>&nbsp;&nbsp;&nbsp;&nbsp;
             <input
@@ -297,18 +301,18 @@ if ($row) {
                 value="<?php echo ($res_cont > 0) ? $res_sq_fi_sub['sub_tal'] : ''; ?>" />
         </div>
                 
-        <div style="height: 111px; width: 100%; overflow-x: hidden; overflow-y: auto; margin-top: 10px;">
+        <div style="height: 140px; width: 100%; overflow-x: hidden; overflow-y: auto; margin-top: 10px;">
             <div class="fl_prj" style="width: 50%; float: left;">
                 <fieldset>
                     <legend><b>Petitioner Details</b></legend>
                     <table width="100%" style="margin:0">
                         <tr>
                             <th style="text-align: left;">Name</th>
-                            <td><?php echo $row['pet_name']; ?></td>
+                            <td style="background: transparent;"><?php echo $row['pet_name']; ?></td>
                         </tr>
                         <tr>
                             <th style="text-align: left;">Advocate Name</th>
-                            <td><?php echo $row['name'] ?? ''; ?>
+                            <td style="background: transparent;"><?php echo $row['name'] ?? ''; ?>
                             </td>
                         </tr>
                     </table>
@@ -321,11 +325,11 @@ if ($row) {
                     <table width="100%"  style="margin:0">
                         <tr>
                             <th style="text-align: left;">Name</th>
-                            <td><?php echo $row['res_name']; ?></td>
+                            <td style="background: transparent;"><?php echo $row['res_name']; ?></td>
                         </tr>
                         <tr>
                             <th style="text-align: left;">Advocate Name</th>
-                            <td><?php echo $row['res_adv_nm']; ?></td>
+                            <td style="background: transparent;"><?php echo $row['res_adv_nm']; ?></td>
                         </tr>
                     </table>
                 </fieldset>
@@ -365,7 +369,8 @@ if ($row) {
         $get_states = $noticesModel->getState();
         ?>
         <div style="margin-top: 10px;">
-            <table width="100%" id="tb_ap_ck" class="table c_vertical_align tbl_border" cellpadding="5" cellspacing="5">
+            <table width="100%" id="tb_ap_ck" class="custom-table_ table c_vertical_align tbl_border" cellpadding="5" cellspacing="5">
+                <thead>
                 <tr>
                     <th>
                         Check
@@ -387,7 +392,7 @@ if ($row) {
                     </th>
 
                 </tr>
-
+                </thead>
                 <?php
                 $sql_party = $noticesModel->get_sql_party($dairy_no, $date);
                 $sno = 0;
@@ -526,7 +531,7 @@ if ($row) {
                             </span>
                         </td>
                         <td style="width: 23%;" id="td_cell_s<?= esc($sno); ?>">
-                            <textarea id="sp_nm<?= esc($sno); ?>"
+                            <textarea  id="sp_nm<?= esc($sno); ?>"
                                 style="resize:none;width: 80%"
                                 onfocus="clear_data(this.id)">
         <?php if ($ck_en_nt == '0'): ?>
@@ -580,7 +585,7 @@ if ($row) {
                                     <?php foreach ($get_states as $k2): ?>
                                         <?php
                                         $key2 = explode('^', $k2);
-                                        $selected = (preg_match('/[0-9]/', $row1['state']) && $row1['state'] !== NULL && $row1['state'] !== '') ? ($key2[0] == $row1['state'] ? 'selected' : '') : '';
+                                        $selected = (!empty($row1['state']) && preg_match('/[0-9]/', $row1['state']) && $row1['state'] !== NULL && $row1['state'] !== '') ? ($key2[0] == $row1['state'] ? 'selected' : '') : '';
                                         ?>
                                         <option value="<?= $key2[0]; ?>" <?= $selected; ?>><?= $key2[1]; ?></option>
                                     <?php endforeach; ?>
@@ -592,7 +597,7 @@ if ($row) {
                             <div style="margin-top: 10px">
                                 <select name="ddlCity<?= $sno; ?>" id="ddlCity<?= $sno; ?>" style="width: 100%" onfocus="clear_data(this.id)">
                                     <option value="">Select</option>
-                                    <?php if (preg_match('/[0-9]/', $row1['state'])): ?>
+                                    <?php if (!empty($row1['state']) && preg_match('/[0-9]/', $row1['state'])): ?>
                                         <?php
                                         $query_city = $noticesModel->getCities($row1['state']);
                                         foreach ($query_city as $row_c):
@@ -603,12 +608,17 @@ if ($row) {
                                         <?php endforeach; ?>
                                         <option value="0" <?= ($row1['city'] == 0) ? 'selected' : ''; ?>></option>
                                     <?php else: ?>
-                                        <?php foreach ($get_districts as $k2): ?>
-                                            <?php
-                                            $key2 = explode('^', $k2);
+                                        <?php 
+                                            if(!empty($get_districts))
+                                            {
+                                                foreach ($get_districts as $k2): ?>
+                                                <?php
+                                                $key2 = explode('^', $k2);
+                                                ?>
+                                                <option value="<?= $key2[0]; ?>"><?= $key2[1]; ?></option>
+                                                <?php endforeach; 
+                                            }
                                             ?>
-                                            <option value="<?= $key2[0]; ?>"><?= $key2[1]; ?></option>
-                                        <?php endforeach; ?>
                                     <?php endif; ?>
                                     <?php if (($row1['state'] === NULL || $row1['state'] == 0) && $ck_en_nt == '1'): ?>
                                         <option value="0" selected="selected">None</option>
@@ -1019,21 +1029,23 @@ if ($row) {
                         <input type="button" name="btn_sp_aex_hc" id="btn_sp_aex_hc" class="sp_aex_hc" onclick="appendRow_hc('tb_ap_ck')" value="High Court" />
                     </td>
                 </tr>
-                <input type="hidden" name="hd_tot" id="hd_tot" value="<?= $sno; ?>" />
+               
+
+            </table>
+            <input type="hidden" name="hd_tot" id="hd_tot" value="<?= $sno; ?>" />
                 <div style="text-align: center; margin-top: 10px;">
                     <input type="button" name="btnSubmit" id="btnSubmit" value="Submit" onclick="get_save_dt()" class="bb_sub_m" />
                     <!-- Uncomment if needed -->
                     <!-- <input type="button" name="btnDummy" id="btnDummy" value="Dummy" onclick="dummy()"/> -->
                 </div>
-
-            </table>
         </div>
     <?php
 
     } else {
+       
     ?>
         <div style="text-align: center; margin-top: 10px;">
-            <b>Case already disposed</b>
+            <b style="color: red;">Case already disposed</b>
         </div>
 
         <div style="width: 100%;  margin-top: 10px;">
@@ -1041,14 +1053,16 @@ if ($row) {
                 <fieldset>
                     <legend><b>Petitioner Details</b></legend>
                     <table width="100%">
+                        <thead>
                         <tr>
                             <th style="text-align: left">Name</th>
-                            <td><?= $row['pet_name'] ?? ''; ?></td>
+                            <td style="background: transparent;"><?= $row['pet_name'] ?? ''; ?></td>
                         </tr>
                         <tr>
                             <th style="text-align: left">Advocate Name</th>
-                            <td><?= $row['name'] ?? ''; ?></td>
+                            <td style="background: transparent;"><?= $row['name'] ?? ''; ?></td>
                         </tr>
+                    </thead>
                     </table>
                 </fieldset>
             </div>
@@ -1056,14 +1070,16 @@ if ($row) {
                 <fieldset>
                     <legend><b>Respondent Details</b></legend>
                     <table width="100%">
+                        <thead>
                         <tr>
                             <th style="text-align: left">Name</th>
-                            <td><?= esc($row['res_name']); ?></td>
+                            <td style="background: transparent;"><?= esc($row['res_name']); ?></td>
                         </tr>
                         <tr>
                             <th style="text-align: left">Advocate Name</th>
-                            <td><?= esc($row['res_adv_nm']); ?></td>
+                            <td style="background: transparent;"><?= esc($row['res_adv_nm']); ?></td>
                         </tr>
+                        </thead>
                     </table>
                 </fieldset>
             </div>
@@ -1100,6 +1116,7 @@ if ($row) {
         ?>
         <div style="margin-top: 10px;">
             <table width="100%" id="tb_ap_ck" class="table c_vertical_align tbl_border" cellpadding="5" cellspacing="5">
+                <thead>
                 <tr>
                     <th>Check</th>
                     <th>Name</th>
@@ -1108,6 +1125,7 @@ if ($row) {
                     <th>Notice Type</th>
                     <th>Amount</th>
                 </tr>
+                </thead>
                 <?php
                 $sql_party = $noticesModel->get_sql_party($dairy_no, $date);
                 
@@ -1123,6 +1141,7 @@ if ($row) {
                 $ct_tt = 0;
                 foreach ($sql_party as $row1) 
                 {
+                   
                     $ck_en_nt = '0';
                     $sq_ck_en_pr_nt = $noticesModel->get_tw_tal_del($dairy_no, $row1, $date);
                     
@@ -1192,6 +1211,7 @@ if ($row) {
                     if (empty($ck_en_nt_x['amount'])) {
                         $ck_en_nt_x['amount'] = $row1['amount'] ?? '';
                     }
+                    
                     ?>
                     <?php if ($row1['pet_res'] == 'P' && $c_pet == 0 && $row1['sr_no'] == 1): ?>
                         <tr>
@@ -1268,8 +1288,8 @@ if ($row) {
 
                         <td style="width: 23%;" id="td_cell_s<?= $sno; ?>">
                             <!-- Textarea for displaying partyname -->
-                            <textarea id="sp_nm<?= $sno; ?>" style="resize:none;width: 80%" onfocus="clear_data(this.id)">
-                    <?php
+                             
+                            <textarea id="sp_nm<?= $sno; ?>" style="resize:none;width: 80%" onfocus="clear_data(this.id)">                    <?php                    
                     if ($ck_en_nt == '0') {
                         echo trim($row1['partyname']);
 
@@ -1284,10 +1304,9 @@ if ($row) {
                             echo $row1['prfhname'];
                         }
                     } elseif ($ck_en_nt == '1') {
-                        echo $ck_en_nt_x['name'];  // Display name if ck_en_nt == 1
+                        echo $ck_en_nt_x['name'];   
 
-                        // Fetch advocates (you can implement this as a function in the controller if needed)
-                        // $get_advocates = get_advocates($dairy_no);
+                       
                     }
                             ?>
                         </textarea>
@@ -1732,7 +1751,7 @@ if ($row) {
                 </tr>
 
             </table>
-            <input type="hidden" name="hd_tot" id="hd_tot" value="<?= $sno; ?>" />
+            <input type="hidden" name="hd_tot rrrrrr" id="hd_tot" value="<?= $sno; ?>" />
 
             <div style="text-align: center; margin-top: 10px;">
                 <input type="button" name="btnSubmit" id="btnSubmit" value="Submit"

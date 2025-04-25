@@ -394,29 +394,29 @@ class PendencyReportsModel extends Model
                         $condition1 = " and 1=1";
 
                     if ($reportType1 == 'LMM') {
-                        $condition2 = " and m.mf_active='M' AND (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no)";
+                        $condition2 = " and m.mf_active='M' AND (m.conn_key::TEXT='0' OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT=m.diary_no::TEXT)";
                     } else if ($reportType1 == 'LMC') {
-                        $condition2 = " and m.mf_active='M' AND (m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no)";
+                        $condition2 = " and m.mf_active='M' AND (m.conn_key::TEXT != '0' AND m.conn_key::TEXT IS NOT NULL AND m.conn_key::TEXT != m.diary_no::TEXT)";
                     } else if ($reportType1 == 'LRM') {
-                        $condition2 = " and m.mf_active='F' AND (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no)";
+                        $condition2 = " and m.mf_active='F' AND (m.conn_key::TEXT = '0' OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = m.diary_no::TEXT)";
                     } else if ($reportType1 == 'LRC') {
-                        $condition2 = " and m.mf_active='F' AND (m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no)";
+                        $condition2 = " and m.mf_active='F' AND (m.conn_key::TEXT != '0' AND m.conn_key::TEXT IS NOT NULL AND m.conn_key::TEXT != m.diary_no::TEXT)";
                     } else if ($reportType1 == 'LTM') {
-                        $condition2 = " and (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no)";
+                        $condition2 = " and (m.conn_key::TEXT = '0' OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = m.diary_no::TEXT)";
                     } else if ($reportType1 == 'LTC') {
-                        $condition2 = " and m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no";
+                        $condition2 = " and m.conn_key::TEXT != '0' AND m.conn_key::TEXT IS NOT NULL AND m.conn_key!=m.diary_no::TEXT";
                     } else if ($reportType1 == 'DMM') {
-                        $condition2 = " and m.mf_active='M' AND (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no)";
+                        $condition2 = " and m.mf_active='M' AND (m.conn_key::TEXT = '0' OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = m.diary_no::TEXT)";
                     } else if ($reportType1 == 'DMC') {
-                        $condition2 = " and m.mf_active='M' AND (m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no)";
+                        $condition2 = " and m.mf_active='M' AND (m.conn_key::TEXT != '0' AND m.conn_key::TEXT IS NOT NULL AND m.conn_key::TEXT != m.diary_no::TEXT)";
                     } else if ($reportType1 == 'DRM') {
-                        $condition2 = " and m.mf_active='F' AND (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no)";
+                        $condition2 = " and m.mf_active='F' AND (m.conn_key::TEXT = '0' OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = m.diary_no::TEXT)";
                     } else if ($reportType1 == 'DRC') {
-                        $condition2 = " and m.mf_active='F' AND (m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no)";
+                        $condition2 = " and m.mf_active='F' AND (m.conn_key::TEXT != '0' AND m.conn_key::TEXT IS NOT NULL AND m.conn_key::TEXT != m.diary_no::TEXT)";
                     } else if ($reportType1 == 'DTM') {
-                        $condition2 = " and (m.conn_key=0 OR m.conn_key IS NULL OR m.conn_key=m.diary_no)";
+                        $condition2 = " and (m.conn_key::TEXT = '0' OR m.conn_key::TEXT IS NULL OR m.conn_key::TEXT = m.diary_no::TEXT)";
                     } else if ($reportType1 == 'DTC') {
-                        $condition2 = " and m.conn_key!=0 AND m.conn_key IS NOT NULL AND m.conn_key!=m.diary_no";
+                        $condition2 = " and m.conn_key::TEXT != '0' AND m.conn_key::TEXT IS NOT NULL AND m.conn_key::TEXT != m.diary_no::TEXT";
                     } else {
                         $condition2 = " and 1=1";
                     }
@@ -426,9 +426,9 @@ class PendencyReportsModel extends Model
                         $sql = "SELECT j.jcode, j.jname,
                       us.section_name AS user_section,
                       u.name alloted_to_da,
-                      SUBSTR(m.diary_no, 1, LENGTH(m.diary_no) - 4) AS diary_no,
-                      SUBSTR(m.diary_no, - 4) AS diary_year,
-                      DATE_FORMAT(m.diary_no_rec_date, '%d-%m-%Y') AS diary_date,
+                      SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diary_no,
+                      SUBSTR(m.diary_no::text, - 4) AS diary_year,
+                      TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,
                       m.reg_no_display,
                       m.pet_name,
                       m.res_name,
@@ -439,15 +439,15 @@ class PendencyReportsModel extends Model
 
                                     CASE
                                         WHEN
-                                            (m.conn_key = 0 OR m.conn_key IS NULL
-                                                OR m.conn_key = m.diary_no)
+                                            (m.conn_key::TEXT = '0' OR m.conn_key::TEXT IS NULL
+                                                OR m.conn_key::TEXT = m.diary_no::TEXT)
                                         THEN
                                             'M'
                          ELSE CASE
                             WHEN
-                               (m.conn_key != 0
-                                   AND m.conn_key IS NOT NULL
-                                        AND m.conn_key != m.diary_no)
+                               (m.conn_key::TEXT != '0'
+                                   AND m.conn_key::TEXT IS NOT NULL
+                                        AND m.conn_key::TEXT != m.diary_no::TEXT)
                                             THEN
                                                 'C'
                                         END
@@ -457,27 +457,27 @@ class PendencyReportsModel extends Model
                     SELECT DISTINCT diary_no,judges,next_dt,brd_slno,roster_id FROM
                         (
                             SELECT diary_no,judges,board_type,next_dt,brd_slno,roster_id FROM heardt WHERE next_dt BETWEEN '" . $fromDate . "' AND '" . $toDate . "' AND
-                            clno!=0 AND brd_slno!=0 AND roster_id!=0 AND judges!=0 AND roster_id NOT IN (29,30) AND board_type ='J'
+                            clno!=0 AND brd_slno!=0 AND roster_id!=0 AND judges::text != '0' AND roster_id NOT IN (29,30) AND board_type ='J'
                             UNION ALL
                             SELECT diary_no,judges,board_type,next_dt,brd_slno,roster_id FROM last_heardt WHERE next_dt BETWEEN '" . $fromDate . "' AND '" . $toDate . "'
-                            AND (bench_flag IS NULL OR bench_flag='') AND clno!=0 AND brd_slno!=0 AND roster_id!=0 AND judges!=0
+                            AND (bench_flag IS NULL OR bench_flag='') AND clno!=0 AND brd_slno!=0 AND roster_id::text != '0' AND judges:: text != '0'
                             AND roster_id NOT IN (29,30) AND board_type ='J'
                         )bb
                     ) aa
-                    ON m.diary_no=aa.diary_no
-                    INNER JOIN judge j ON FIND_IN_SET (j.jcode, aa.judges)=1
-                    LEFT JOIN users u ON u.usercode = m.dacode AND u.display = 'Y'
-                    LEFT JOIN usersection us ON us.id = u.section
-                    LEFT JOIN roster r on aa.roster_id=r.id
+                    ON m.diary_no=aa.diary_no 
+                    INNER JOIN master.judge j ON array_position(string_to_array(aa.judges, ','), CAST(j.jcode AS VARCHAR)) = 1 
+                    LEFT JOIN master.users u ON u.usercode = m.dacode AND u.display = 'Y'
+                    LEFT JOIN master.usersection us ON us.id = u.section
+                    LEFT JOIN master.roster r on aa.roster_id=r.id
                     WHERE j.is_retired='N' $condition1 $condition2 order by aa.next_dt,r.courtno,aa.brd_slno";
                     }
                     if ($reportType1 == 'AD' || $reportType1 == 'DMM' || $reportType1 == 'DMC' || $reportType1 == 'DRM' || $reportType1 == 'DRC' || $reportType1 == 'DTM' || $reportType1 == 'DTC') {
                         $sql = "SELECT j.jcode, j.jname,
                       us.section_name AS user_section,
                       u.name alloted_to_da,
-                      SUBSTR(m.diary_no, 1, LENGTH(m.diary_no) - 4) AS diary_no,
-                      SUBSTR(m.diary_no, - 4) AS diary_year,
-                      DATE_FORMAT(m.diary_no_rec_date, '%d-%m-%Y') AS diary_date,
+                      SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) AS diary_no,
+                      SUBSTR(m.diary_no::text, - 4) AS diary_year,
+                      TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,
                       m.reg_no_display,
                       m.pet_name,
                       m.res_name,
@@ -488,28 +488,30 @@ class PendencyReportsModel extends Model
 
                                     CASE
                                         WHEN
-                                            (m.conn_key = 0 OR m.conn_key IS NULL
-                                                OR m.conn_key = m.diary_no)
+                                            (m.conn_key::TEXT = '0' OR m.conn_key::TEXT IS NULL
+                                                OR m.conn_key::TEXT = m.diary_no::TEXT)
                                         THEN
                                             'M'
                          ELSE CASE
                             WHEN
-                               (m.conn_key != 0
-                                   AND m.conn_key IS NOT NULL
-                                        AND m.conn_key != m.diary_no)
+                               (m.conn_key::TEXT != '0'
+                                   AND m.conn_key::TEXT IS NOT NULL
+                                        AND m.conn_key::TEXT != m.diary_no::TEXT)
                                             THEN
                                                 'C'
                                         END
                                     END AS mainorconn
                     FROM main m INNER JOIN heardt h
-                    ON m.diary_no=h.diary_no INNER JOIN dispose d
-                    ON m.diary_no=d.diary_no INNER JOIN judge j ON FIND_IN_SET (j.jcode, d.jud_id)=1
-                    LEFT JOIN users u ON u.usercode = m.dacode AND u.display = 'Y'
-                    LEFT JOIN usersection us ON us.id = u.section
-                     LEFT JOIN roster r on h.roster_id=r.id
+                    ON m.diary_no=h.diary_no INNER JOIN dispose d 
+                    ON m.diary_no=d.diary_no INNER JOIN master.judge J ON j.jcode::text IN (SELECT unnest(string_to_array(d.jud_id, ','))) 
+                    LEFT JOIN master.users u ON u.usercode = m.dacode AND u.display = 'Y'
+                    LEFT JOIN master.usersection us ON us.id = u.section
+                     LEFT JOIN master.roster r on h.roster_id=r.id
                     WHERE j.is_retired='N' AND d.ord_dt BETWEEN '" . $fromDate . "' AND '" . $toDate . "'  AND c_status='D'
                     AND h.board_type ='J'  $condition1 $condition2 order by d.ord_dt,r.courtno,h.brd_slno";
                     }
+                    // echo $sql;
+                    // die();
                     $query = $this->db->query($sql);
                 }
             default:
@@ -553,14 +555,20 @@ class PendencyReportsModel extends Model
             return false;
         }
     }
-
-
-
-
-
-
-
-
+    public function getSittingJudges()
+    {
+        $builder = $this->db->table('master.judge')
+                    ->select(['jcode', 'jname'])
+                    ->where('is_retired', 'N')
+                    ->where('jtype', 'J')
+                    ->orderBy('jcode');
+        $query = $builder->get();
+        if ($query->getNumRows() >= 1) {
+            return $query->getResultArray();
+        } else {
+            return false;
+        }
+    }  
 
 
     public function getPrevPendency($prev_date)

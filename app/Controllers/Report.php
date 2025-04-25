@@ -133,6 +133,7 @@ class Report extends BaseController
             $groupCount = '';
             $matterType = '';
             $matterStatus = '';
+            $data['Judges'] = $this->pendency_reports_model->getSittingJudges();
             // pr($_POST);
             if ($this->request->getVar('view') == '1') {
                 $from_date = $this->request->getVar('from_date');
@@ -143,6 +144,8 @@ class Report extends BaseController
                // $data['reports'] = $this->pendency_reports_model->get_pendency($id, $categoryCode, $groupCount, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $matterType, $matterStatus);
 
                 $data['reports'] = $this->pendency_reports_model->get_pendency($id, NULL, NULL, NULL, NULL, NULL, NULL, $from_date, $to_date, $reportType1, $jCode);
+                // pr($data['reports']);
+                // die();
                 $data['app_name'] = 'JudgeWiseMatterListedDisposal';
                 $data['jCode'] = $jCode;
                 $data['from_date'] = $from_date;
@@ -174,7 +177,7 @@ class Report extends BaseController
 
             $data['reports'] = $this->pendency_reports_model->get_pendency($id, NULL, NULL, NULL, NULL, NULL, NULL, $fromdate, $todate, $reportType1, $jcode);
             $data['param'] = array($fromdate, $todate, $reportType1, $jcode);
-            return view('Reports/MattersListedAndDisposedDetailedReport', $data);
+            return view('ManagementReport/Pending/MattersListedAndDisposedDetailedReport', $data);
         }
     }
 }

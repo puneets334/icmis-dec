@@ -223,7 +223,8 @@ class UserManagement extends BaseController
             switch ($data['func']) {
                 case 1:
                     $data['result'] = $this->UserManagementModel->add_range($data['utype'], $data['low'], $data['up'], $usercode);
-                    $data['result_message'] = "USERRANGE ADDED SUCCESSFULLY";
+                    //$data['result_message'] = "USERRANGE ADDED SUCCESSFULLY";
+                    echo $data['result_message'] = $data['result'] ;die;
                     break;
                 case 2:
 

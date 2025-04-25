@@ -146,7 +146,6 @@ class Pending extends BaseController
     }
     public function case_type_listed_disposed()
     {
-
         return view('ManagementReport/Pending/case_type_listed_disposed');
     }
     public function get_ct_listed_disposed()
@@ -292,6 +291,9 @@ class Pending extends BaseController
     
     public function get_year_head_nature_wise_ason_rpt()
     {
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', '300');
+	    ini_set("pcre.backtrack_limit", "5000000");
         // echo "<pre>";
 
         $str = $this->get_case_type();
