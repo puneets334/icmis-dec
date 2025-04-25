@@ -1288,7 +1288,7 @@ function field_mainhead()
 {
 ?>
     <fieldset>
-        <legend>Mainhead</legend>
+        <legend><b>Mainhead</b></legend>
         <input type="radio" name="mainhead" id="mainhead" value="M" title="Miscellaneous" checked="checked">M&nbsp;
         <input type="radio" name="mainhead" id="mainhead" value="F" title="Regular">R&nbsp;
         <!-- <input type="radio" name="mainhead" id="mainhead" value="L" title="Lok Adalat">L
