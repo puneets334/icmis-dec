@@ -90,6 +90,7 @@ class Transfer extends BaseController
     {
         $request = service('request');
         $pool_dt = $request->getPost('pool_dt');
+        $pool_dt =  date('Y-m-d', strtotime($pool_dt));
         $chk_tr = $request->getPost('chk_tr');
         $chk_tr = rtrim($chk_tr, ',');
         $ucode = session()->get('login')['usercode'];
