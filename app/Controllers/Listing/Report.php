@@ -374,7 +374,7 @@ class Report extends BaseController
     //$data['getrosereg']  = $this->RoserRegModel->getRoserReg($this->request->getPost('ldates'));
     $list_dt = date('Y-m-d', strtotime($this->request->getPost('ldates')));
     $data['list_dt'] =$list_dt ;
-    $data['RoserRegModel'] =$this->RoserRegModel ;
+    $data['RoserRegModel'] =$this->RoserRegModel;
    // $data['getRosterRegData'] = $this->RoserRegModel->getRosterRegData($list_dt);
     return view('Listing/Report/roster_reg_get', $data);
   }

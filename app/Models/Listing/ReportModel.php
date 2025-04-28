@@ -438,23 +438,6 @@ class ReportModel extends Model
 
   public function defective_cases_stats($date)
   {
-//     $query = $this->db->query("
-//     SELECT 
-//         ROW_NUMBER() OVER (ORDER BY dc.next_dt) AS SNO,
-//         TO_CHAR(dc.next_dt, '$date') AS next_dt, 
-//         COUNT(dc.diary_no) AS listed, 
-//         SUM(CASE WHEN m.c_status = 'D' THEN 1 ELSE 0 END) AS disposed, 
-//         SUM(CASE WHEN m.c_status = 'P' THEN 1 ELSE 0 END) AS pending
-//     FROM 
-//         defect_case_list_26032019 dc
-//     INNER JOIN 
-//         main m ON m.diary_no = dc.diary_no
-//     GROUP BY 
-//         dc.next_dt 
-//     ORDER BY 
-//         dc.next_dt ASC
-// ");
-//     $result = $query->getResultArray();
     $builder = $this->db->table('defect_case_list_26032019 dc');
     $builder->select("ROW_NUMBER() OVER (ORDER BY dc.next_dt) AS SNO, TO_CHAR(dc.next_dt, '{$date}') AS next_dt, COUNT(dc.diary_no) AS listed, 
     SUM(CASE WHEN m.c_status = 'D' THEN 1 ELSE 0 END) AS disposed, SUM(CASE WHEN m.c_status = 'P' THEN 1 ELSE 0 END) AS pending");
@@ -476,8 +459,10 @@ class ReportModel extends Model
       ->orWhere('fil_no', '')
       ->orWhere('fil_no', '0')
       ->groupEnd()
-      ->where('lldt(diary_no) IS NULL');
+      ->where('lldt(diary_no::integer) IS NULL');
     $builder->selectCount('*', 'total');
+    //  echo $builder->getCompiledSelect();
+    // die();
     $query = $builder->get();
     $result = $query->getRowArray();
     return $result;
@@ -493,7 +478,7 @@ class ReportModel extends Model
       ->orWhere('m.fil_no', '')
       ->orWhere('m.fil_no', '0')
       ->groupEnd()
-      ->where('lldt(d.diary_no) IS NULL')
+      ->where('lldt(d.diary_no::integer) IS NULL')
       ->where('d.diary_no IS NULL');
     $builder->selectCount('m.diary_no', 'total')->distinct();
     // echo $builder->getCompiledSelect();
@@ -515,7 +500,7 @@ class ReportModel extends Model
       ->orWhere('m.fil_no', '')
       ->orWhere('m.fil_no', '0')
       ->groupEnd()
-      ->where('lldt(d.diary_no) IS NULL')
+      ->where('lldt(d.diary_no::integer) IS NULL')
       ->where('d.diary_no IS NULL')
       ->groupStart()
       ->where('CURRENT_DATE - o.save_dt >=', 'INTERVAL \'365 days\'', false) // Use raw SQL for INTERVAL
@@ -539,7 +524,7 @@ class ReportModel extends Model
       ->orWhere('m.fil_no', '')
       ->orWhere('m.fil_no', '0')
       ->groupEnd()
-      ->where('lldt(d.diary_no) IS NULL') // Use false to prevent automatic escaping
+      ->where('lldt(d.diary_no::integer) IS NULL') // Use false to prevent automatic escaping
       ->where('d.diary_no IS NULL')
       ->where('CURRENT_DATE - o.save_dt <', 'INTERVAL \'365 days\'', false); // Use false for raw SQL
     $builder->selectCount('m.diary_no','total')->distinct();
@@ -558,7 +543,7 @@ class ReportModel extends Model
                   WHERE m.c_status = 'P'
                     AND (m.fil_no IS NULL OR m.fil_no = '' OR m.fil_no = '0')
                     AND o.diary_no IS NULL
-                    AND lldt(m.diary_no) IS NULL
+                    AND lldt(m.diary_no::integer) IS NULL
 
                   UNION ALL -- Use UNION ALL for better performance if duplicates don't matter
 
@@ -568,7 +553,7 @@ class ReportModel extends Model
                   WHERE m.c_status = 'P'
                     AND (m.fil_no IS NULL OR m.fil_no = '' OR m.fil_no = '0')
                     AND o.diary_no IS NOT NULL
-                    AND lldt(m.diary_no) IS NULL
+                    AND lldt(m.diary_no::integer) IS NULL
               ) AS aa";
         $query = $this->db->query($sql);
         $result = $query->getRowArray();
@@ -775,7 +760,11 @@ class ReportModel extends Model
       $subqueryB->where('r.m_f', '4');
       $subqueryB->where('r.from_date', $cldt);
     }
-
+    else {
+      $subqueryB->where('r.m_f', '2');
+      $subqueryB->where('r.from_date', $cldt);
+    }
+   
     // Main Query
     $query = $this->db->table('(' . $subqueryA->getCompiledSelect() . ') a')
       ->select('a.*, b.courtno, b.judge_id')
@@ -789,6 +778,7 @@ class ReportModel extends Model
       ->orderBy('sub_name1');
       // echo $finalQuery->getCompiledSelect();
       // die();
+
     $result = $finalQuery->get()->getResultArray();
 
     return $result;
