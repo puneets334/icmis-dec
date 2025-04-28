@@ -959,7 +959,7 @@ class IADocumentModel extends Model
 
         $ucode = $_SESSION['login']['usercode'];
         $doccode = $dataset['doccode'];
-        $doccode1 = $dataset['doccode1'];
+        $doccode1 = (int) $dataset['doccode1'];
         $docfee = $dataset['docfee'];
         $other1 = trim(strtoupper(addslashes($dataset['other1'])));
         $remark = trim(strtoupper(addslashes($dataset['remark'])));
@@ -1078,7 +1078,14 @@ class IADocumentModel extends Model
                 'sc_ia_sta_code' => 0,
                 'sc_ref_code_id' => 0,
             ];
-            $sqlad = $this->db->table('docdetails')->insert($data);
+
+            $builder_sqlad = $this->db->table('docdetails');
+            
+            $builder_sqlad->set($data);
+
+            // echo $builder_sqlad->getCompiledInsert(); die;
+
+            $sqlad = $builder_sqlad->insert($data);
         } else {
             // $sqlad="insert into docdetails(diary_no,doccode,doccode1,docnum,docyear,filedby,docfee,other1,usercode,ent_dt,party,advocate_id,remark,no_of_copy,is_efiled) values('$dataset[hdfno]','$doccode','$doccode1','$m_docno','$curyr','$filedby','$docfee','$other1',$ucode,now(),'$dataset[party]','$dataset[aorcode]','$remark','$dataset[copy]','$efil')";
 
@@ -1108,7 +1115,13 @@ class IADocumentModel extends Model
                 'sc_ref_code_id' => 0,
             ];
 
-            $sqlad = $this->db->table('docdetails')->insert($data);
+            $builder_sqlad = $this->db->table('docdetails');
+
+            $builder_sqlad->set($data);
+
+            // echo $builder_sqlad->getCompiledInsert(); die;
+
+            $sqlad = $builder_sqlad->insert();
         }
 
         // echo $sqlad; die;
