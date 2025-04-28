@@ -118,7 +118,8 @@ class Requisition extends BaseController
     public function frmusrLogin()
     {        
             $time = time();
-            $mode =$_POST['mode'];
+            $mode =$_POST['mode']??'';
+        
             $icmis_user_id = $_SESSION['login']['usercode'];
 
             if($mode =='login'){
@@ -400,8 +401,6 @@ class Requisition extends BaseController
                 echo  json_encode($returnArr);
             }
 
-
-
             if($mode =="ADD-AOR-INTERACTION")
             {
                  
@@ -450,9 +449,6 @@ class Requisition extends BaseController
                 echo  json_encode($returnArr);
 
             }
-
-
-
 
             if($mode == 'getAutoRefresh'){
                 $contents = "";$cnt1=1;

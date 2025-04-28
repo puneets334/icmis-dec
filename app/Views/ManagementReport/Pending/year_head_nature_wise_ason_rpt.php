@@ -157,7 +157,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <label for="">Select Pet./Res.</label>
-                                        <select name="pet_res" id="pet_res" class="form-control" style="width:100px">
+                                        <select name="pet_res" id="pet_res" class="form-control" >
                                             <option value="">Pet../Res. Both</option>
                                             <option value="P">Pet.</option>
                                             <option value="R">Res.</option>

@@ -295,7 +295,7 @@
                     $.ajax({
                         type: 'POST',
                         url: '<?php echo base_url('Library/Requisition/frmusrLogin'); ?>',
-                        data: {CSRF_TOKEN: CSRF_TOKEN_VALUE,mode: "getAutoRefresh_Admin", 'roletype':<?php echo $_SESSION['role_id'] ?>},
+                        data: {CSRF_TOKEN: CSRF_TOKEN_VALUE, mode: "getAutoRefresh_Admin", 'roletype':<?php echo $_SESSION['role_id'] ?>},
                         dataType: ' json',
                         async: false,
                         error: function () {
@@ -311,9 +311,6 @@
                     });
                 }, 2000);
                 
-
-
-
             });
 
 

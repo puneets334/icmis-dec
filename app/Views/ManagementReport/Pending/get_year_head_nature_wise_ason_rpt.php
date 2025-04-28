@@ -35,11 +35,11 @@
                 echo '</tr><tr><th>Sno</th><th>Year</th>';
 
                 foreach ($results as $row) {
-                    if ($rpt_type == 'bench') {
-                        $bench_or_year = $row['bench'];
-                    } else {
-                        $bench_or_year = @$row['pend_year'];
-                    }
+                    // if ($rpt_type == 'bench') {
+                    //     $bench_or_year = $row['bench'];
+                    // } else {
+                    //     $bench_or_year = @$row['pend_year'];
+                    // }
 
                     $builder = $db->table('master.casetype');
                     $builder->select('casecode,LOWER(skey) as skey,nature');

@@ -2742,17 +2742,17 @@ class PendingModel extends Model
         if ($benchInput === 'all') {
             $bench = '';
         } elseif ($benchInput === '2') {
-            $bench = " AND h.judges LIKE '%,%'";
+            $bench = " h.judges LIKE '%,%'";
         } elseif ($benchInput === '3') {
-            $bench = " AND h.judges LIKE '%,%,%'";
+            $bench = " h.judges LIKE '%,%,%'";
         } elseif ($benchInput === '5') {
-            $bench = " AND h.judges LIKE '%,%,%,%,%'";
+            $bench = " h.judges LIKE '%,%,%,%,%'";
         } elseif ($benchInput === '7') {
-            $bench = " AND h.judges LIKE '%,%,%,%,%,%,%'";
+            $bench = " h.judges LIKE '%,%,%,%,%,%,%'";
         } elseif ($benchInput === '9') {
-            $bench = " AND h.judges LIKE '%,%,%,%,%,%,%,%,%'";
+            $bench = " h.judges LIKE '%,%,%,%,%,%,%,%,%'";
         } else {
-            $bench = " AND h.judges NOT LIKE '%%,%'";
+            $bench = " h.judges NOT LIKE '%%,%'";
         }
 
 
@@ -2981,13 +2981,18 @@ class PendingModel extends Model
             $year_main = "SUBSTR(m.diary_no::text, -4) BETWEEN '" . $request->getGet('from_year') . "' AND '" . $request->getGet('to_year') . "' ";
             $year_lastheardt = "SUBSTR(m.diary_no::text, -4) BETWEEN '" . $request->getGet('from_year') . "' AND '" . $request->getGet('to_year') . "' ";
         }
+        if (trim($_GET['party_name']) == '') {
+            $party_name = "  ";
+        } else {
+            $party_name = " (partyname like'%HIGH%COURT%'   OR  partyname like'%registrar%gen%'   )  ";
+        }
 
         $Brep = "";
         $Brep1 = "";
         $act_join = '';
         $registration = '';
         $main_connected = '';
-        $pc_act = $women = $children = $land = $cr_compound = $commercial_code = $party_name = $pet_res = $act_msc = '';
+        $pc_act = $women = $children = $land = $cr_compound = $commercial_code = $pet_res = $act_msc = '';
         $from_fil_dt = $request->getGet('from_fil_dt') ?
             " DATE(m.diary_no_rec_date) > '" . date('Y-m-d', strtotime($request->getGet('from_fil_dt'))) . "' " : " ";
 
@@ -3128,6 +3133,7 @@ class PendingModel extends Model
                     $builder->join('mul_category mc', 'mc.diary_no = h.diary_no', 'left');
                     $builder->join('master.submaster s', 'mc.submaster_id = s.id', 'left');
                 }
+                
                 $builder->where("IF(med > h.ent_dt AND f2.$mainhead_name IS NOT NULL,$mf_f2_table $subhead_if_last_heardt,$mf_h_table $subhead_if_last_heardt)", null, false);
                 if (!empty($exclude_cond) && $exclude_cond != ' ') $builder->where("($exclude_cond)", null, false);
                 $builder->where('DATE(m.diary_no_rec_date) <', $til_dt);
@@ -3150,7 +3156,8 @@ class PendingModel extends Model
                 if (!empty($land) && trim($land) !== '') $builder->where($land);
                 if (!empty($cr_compound) && trim($cr_compound) !== '') $builder->where($cr_compound);
                 if (!empty($commercial_code) && trim($commercial_code) !== '') $builder->where($commercial_code);
-                if (!empty($party_name) && trim($party_name) !== '') $builder->where($party_name);
+                if (!empty($join_party) && trim($join_party) !== ' ') $builder->where($join_party);
+                if (!empty($party_name) && trim($party_name) !== ' ') $builder->where($party_name);
                 if (!empty($pet_res) && trim($pet_res) !== '') $builder->where($pet_res);
                 if (!empty($act_msc) && trim($act_msc) !== '') $builder->where($act_msc);
                 if (!empty($registration) && trim($registration) !== '') $builder->where($registration);
@@ -3173,7 +3180,8 @@ class PendingModel extends Model
                 if (!empty($land) && trim($land) !== '') $builder->where($land);
                 if (!empty($cr_compound) && trim($cr_compound) !== '') $builder->where($cr_compound);
                 if (!empty($commercial_code) && trim($commercial_code) !== '') $builder->where($commercial_code);
-                if (!empty($party_name) && trim($party_name) !== '') $builder->where($party_name);
+                if (!empty($party_name) && trim($party_name) !== ' ') $builder->where($party_name);
+                if (!empty($join_party) && trim($join_party) !== ' ') $builder->where($join_party);
                 if (!empty($pet_res) && trim($pet_res) !== '') $builder->where($pet_res);
                 if (!empty($act_msc) && trim($act_msc) !== '') $builder->where($act_msc);
                 $builder->groupEnd();
@@ -3198,7 +3206,9 @@ class PendingModel extends Model
                     $builder->join('mul_category mc', 'mc.diary_no = h.diary_no', 'left');
                     $builder->join('master.submaster s', 'mc.submaster_id = s.id', 'left');
                 }
-
+                if (!empty($party_name) && trim($party_name) != '') 
+                    $builder->join("party p", 'm.fil_no = CAST(p.diary_no AS TEXT)', 'left');
+                
                 if (!empty($act_join))
                     $builder->join($act_join, 'left');
 
@@ -3209,17 +3219,19 @@ class PendingModel extends Model
                 if (!empty($mf_h_table) && $mf_h_table != ' ') $builder->where($mf_h_table);
                 if (!empty($cat_and_act) && $cat_and_act != ' ') $builder->where($cat_and_act);
                 if (!empty($year_main) && $year_main != ' ') $builder->where($year_main);
+                if (!empty($bench) && trim($bench) !== '') $builder->where($bench);
                 if (!empty($from_fil_dt) && $from_fil_dt != ' ') $builder->where($from_fil_dt);
                 if (!empty($upto_fil_dt) && $upto_fil_dt != ' ') $builder->where($upto_fil_dt);
                 if (!empty($case_status_id) && $case_status_id != ' ') $builder->where($case_status_id);
                 if (!empty($Brep1) && $Brep1 != '') $builder->where($Brep1);
                 if (!empty($subhead_condition) && $subhead_condition != ' ') $builder->where($subhead_condition);
-
+                if (!empty($party_name) && trim($party_name) != '') $builder->where($party_name);
                 $builder->select(['m.diary_no', 'm.fil_dt', 'c_status', 'd.rj_dt', 'd.month', 'd.year', 'd.disp_dt', 'active_casetype_id', 'casetype_id']);
                 $builder->groupBy(['m.diary_no', 'm.fil_dt', 'c_status', 'd.rj_dt', 'd.month', 'd.year', 'd.disp_dt', 'active_casetype_id', 'casetype_id']);
                 $builder->limit(1000);
                 $subQuery = $builder->getCompiledSelect();
                 $sql = "SELECT SUBSTR(diary_no::text, -4) AS year, " . $str . " FROM ( $subQuery ) t GROUP BY ROLLUP(SUBSTR(diary_no::text, -4))";
+               
             }
         } else {
             if ($request->getGet('til_date') != date('d-m-Y')) {
@@ -3279,6 +3291,7 @@ class PendingModel extends Model
                 $subQuery = $builder->getCompiledSelect();
 
                 $sql = "SELECT SUBSTR(diary_no::text, -4) AS year, " . $str . " FROM ( $subQuery ) t GROUP BY ROLLUP(SUBSTR(diary_no::text, -4))";
+            
             } else {
 
                 $builder = $this->db->table('main m');
@@ -3287,24 +3300,28 @@ class PendingModel extends Model
                 $builder->join('heardt h', 'm.diary_no = h.diary_no', 'left');
                 $builder->join('act_main a', 'a.diary_no = m.diary_no', 'left');
                 $builder->where("2=2");
-                if (!empty($mul_cat_join)) {
-
+                if (!empty($mul_cat_join)) 
                     $builder->join($mul_cat_join, 'left');
-                }
-                if (!empty($act_join)) {
+                
+                if (!empty($act_join)) 
                     $builder->join($act_join, 'left');
-                }
+                
+                if (!empty($party_name) && trim($party_name) != '') 
+                    $builder->join("party p", 'm.fil_no = CAST(p.diary_no AS TEXT)', 'left');
+                
                 $builder->groupStart()->where('c_status', 'P');
                 $builder->where("DATE(m.diary_no_rec_date) <= ", $til_dt)->groupEnd();
 
                 if (!empty($Brep1) && $Brep1 != '') $builder->where($Brep1);
                 if (!empty($registration) && $registration != ' ') $builder->where($registration);
-                if (!empty($bench) && $bench != ' ') $builder->where($bench);
+                if (!empty($bench) && $bench != '') $builder->where($bench);
                 if (!empty($cat_and_act) && $cat_and_act != ' ') $builder->where($cat_and_act);
                 if (!empty($year_main) && $year_main != ' ') $builder->where($year_main);
                 if (!empty($from_fil_dt) && $from_fil_dt != ' ') $builder->where($from_fil_dt);
                 if (!empty($upto_fil_dt) && $upto_fil_dt != ' ') $builder->where($upto_fil_dt);
                 if (!empty($case_status_id) && $case_status_id != ' ') $builder->where($case_status_id);
+                if (!empty($party_name) && trim($party_name) != '') $builder->where($party_name);
+
 
                 $builder->select(['m.diary_no', 'm.fil_dt', 'c_status', 'd.rj_dt', 'd.month', 'd.year', 'd.disp_dt', 'active_casetype_id', 'casetype_id']);
                 $builder->groupBy(['m.diary_no', 'm.fil_dt', 'c_status', 'd.rj_dt', 'd.month', 'd.year', 'd.disp_dt', 'active_casetype_id', 'casetype_id']);
@@ -3352,7 +3369,7 @@ class PendingModel extends Model
 
         $case_status_id = $request->getGet('case_status_id');
 
-        if ($rpt_type == 'year') {
+        if ($_GET['rpt_type'] == 'year') {
             if ($nature_wise_to == 'y' || $year_wise_tot == 'all') {
                 $year_condition = " ";
                 $year_condition_last_heardt = " ";
@@ -3372,6 +3389,14 @@ class PendingModel extends Model
             $mf = " and mainhead not in ('M','F')";
         else
             $mf = " and mainhead ='" . $mf . "'";
+
+
+        // if ($_GET['bench'] == 'S')      $head_bench = ' Single bench ';
+        // elseif ($_GET['bench'] == 'D')  $head_bench = ' Divisional bench ';
+        // else if ($_GET['bench'] == 'F') $head_bench = ' Full bench ';
+        // else if ($_GET['bench'] == 'all') $head_bench = ' All benches ';
+        // else if ($_GET['bench'] == 'B') $head_bench = ' Bench not in (SB, DB, FB) ';
+
 
         if ($mf == 'M')      $head_mf = ' Motion Hearing ';
         elseif ($mf == 'F')  $head_mf = ' Final Hearing ';
@@ -3463,13 +3488,12 @@ class PendingModel extends Model
             $cat_and_act = " and ( " . $all_category . " " . $all_act . " )";
 
 
+        $cat_field = "";
         if (trim($subject) != 'all,' || trim($act) != 'all,' || trim($act_msc) != '') {
             $mul_cat_join = " LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no 
                               LEFT JOIN master.submaster s ON mc.submaster_id = s.id";
-            $cat_field = "";
         } else {
             $mul_cat_join = " ";
-            $cat_field = " ";
         }
 
 
@@ -3503,12 +3527,12 @@ class PendingModel extends Model
             $upto_fil_dt_condition = " AND date( m.diary_no_rec_date) <'" . $upto_fil_date . "' ";
         }
 
-        if (trim($party_name) == '') {
+        if (trim($request->getGet('party_name')) == '') {
             $join_party = " ";
-            $party_name_condition = "  ";
+            $party_name = "  ";
         } else {
-            $join_party = " LEFT JOIN party p ON m.fil_no = p.fil_no ";
-            $party_name_condition = " and (partyname like'%HIGH%COURT%'   OR  partyname like'%registrar%gen%'   )  ";
+            $join_party = " LEFT JOIN party p ON m.fil_no = p.diary_no::text";
+            $party_name = " and (partyname like'%HIGH%COURT%' OR  partyname like'%registrar%gen%'   )  ";
         }
         if ($_GET['act_msc'] == '')
             $act_msc = '';
@@ -3528,8 +3552,7 @@ class PendingModel extends Model
             $ason_str_res = " IF(disp_rj_dt != '0000-00-00',disp_rj_dt >= '" . $til_dt . "',
                         IF( r.disp_dt != '0000-00-00' AND r.disp_dt IS NOT NULL ,r.disp_dt >='" . $til_dt . "', concat(r.disp_year,'-',lpad(r.disp_month,2,0),'-01') >= '" . $til_dt . "'	 )    )  ";
 
-            $exclude_cond = " CASE WHEN r.disp_dt IS NOT NULL 
-                        AND r.conn_next_dt IS NOT NULL
+            $exclude_cond = " CASE WHEN r.disp_dt IS NOT NULL AND r.conn_next_dt IS NOT NULL
                 THEN '" . $til_dt . "' NOT BETWEEN r.disp_dt AND conn_next_dt
                 ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL 
                 END 
@@ -3647,6 +3670,11 @@ class PendingModel extends Model
             $adv_join = " ";
         }
 
+        if($_GET['pet_res']=='')
+        $pet_res="  ";
+        else
+        $pet_res=" AND pet_res= '".$_GET['pet_res']."' ";	
+
         if ($case_status_id == 'all,') {
             $case_status_id = " and case_status_id in (1, 2, 3, 6, 7, 9 ) ";
         } elseif ($case_status_id == 103 || $case_status_id == '103,') {
@@ -3737,7 +3765,8 @@ class PendingModel extends Model
                         " . $subhead_condition . " AND
                         DATE(m.diary_no_rec_date) < '" . $til_dt . "' " . $year_condition . " " . $year_tot_main . " AND (c_status = 'P' AND DATE(m.diary_no_rec_date) < '" . $til_dt . "')
                         GROUP BY m.diary_no,tentative_cl_dt,d.rj_dt,d.month,d.year,d.disp_dt,r.disp_month,r.disp_year,h.ent_dt,h.mainhead_n,r.conn_next_dt,h.next_dt,h.judges,r.disp_dt " . $order_by;
-            }
+            
+                }
         } else {
             if ($request->getGet('til_date') != date('d-m-Y')) {
                 $sql = "SELECT {$adv_field_list} m.diary_no_rec_date, m.active_fil_no, tentative_cl_dt,m.active_fil_dt, m.active_reg_year, m.active_casetype_id, m.casetype_id, c_status, d.rj_dt, d.month, d.year, d.disp_dt, 
