@@ -52,7 +52,8 @@ $pr_mf = $mf;
 $sql_t = "";
 $ttt = 0;
 
-if ($crt != '') {
+if ($crt != '') 
+{
     $jc = "";
     $chk_var = 0;
     $not_avail = "";
@@ -162,7 +163,7 @@ if ($crt != '') {
                     }
                 }
             } else {
-                $t_stagename = $row10["stagename"];
+                $t_stagename = (isset($row10["stagename"])) ? $row10["stagename"] : "";
             }
 
             if ($previous_brd_slno == $row10["brd_slno"]) {
@@ -193,7 +194,7 @@ if ($crt != '') {
             echo '<tr id="' . $verify_str . '" height="25px" valign="top"><td>' . $chk_slno . '</td><td><b>' . $caseno . '</br>' . $t_fil_no . '</b></td>';
             echo '<td>' . $row10["pet_name"] . '&nbsp;&nbsp;Vs.<br>' . $row10["res_name"] .  '</td><td>P : ' . $padv1 . '</br>R :' . $radv1 . '</td><td>' . $rop_view . '<br>CO : ' . $head1 . '</td><td>' . $heardt_purpose . $heardt_mainhead . $heardt_board_type . '<br>' . $heardt_stagename . '</td><td>' . $brdremark . '</td><td>' . $heardt_updtby . '</td><td>' . $t_cl_dt . '</td>';
 
-?>
+            ?>
 
             <td>
                 <?php
@@ -227,7 +228,7 @@ if ($crt != '') {
                         <input type='button' name='bsubmit' id='bsubmit' value='Verify' onClick='javascript:addRecord_rop("<?php echo $verify_str; ?>")' />
                     <?php  } ?>
             </td>
-    <?php
+            <?php
 
             echo '</tr>';
             echo '</tbody>';

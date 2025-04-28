@@ -131,11 +131,11 @@ class RemoveConditionDispose extends Model
 
         if (($case_type_list != 0 && $case_type_list != '') && ($case_number_list != 0 && $case_number_list != '') && ($case_year_list !== 0 && $case_year_list != '')) {
 
-            $builder2->where("CAST(SUBSTRING(active_fil_no, 1, 2) AS INTEGER)", $case_type_list);
+            $builder2->where("NULLIF(split_part(ACTIVE_FIL_NO, '-', 1), '')::INTEGER", $case_type_list);
             $builder2->where('active_reg_year', $case_year_list);
             $builder2->groupStart();
-            $builder2->where("CAST(SUBSTRING(active_fil_no, 4, 6) AS INTEGER)", $case_number_list);
-            $builder2->orWhere("$case_number_list BETWEEN CAST(SUBSTRING(active_fil_no, 4, 6) AS INTEGER) AND CAST(SUBSTRING(active_fil_no, 11, 6) AS INTEGER)", null, false);
+            $builder2->where("NULLIF(split_part(ACTIVE_FIL_NO, '-', 2), '')::INTEGER", $case_number_list);
+            $builder2->orWhere("$case_number_list BETWEEN NULLIF(split_part(ACTIVE_FIL_NO, '-', 2), '')::INTEGER AND NULLIF(split_part(ACTIVE_FIL_NO, '-', -1), '')::INTEGER", null, false);
             $builder2->groupEnd();
         } else if (($diary_number_list != 0 && $diary_number_list != '') && ($diary_year_list != 0 && $diary_year_list != '')) {
             // $condition=" m.diary_no=".$diary_number_list.$diary_year_list;
@@ -143,18 +143,18 @@ class RemoveConditionDispose extends Model
         } else if (($case_type_disp != 0 && $case_type_disp != '') && ($case_number_disp != 0 && $case_number_disp != '') && ($case_year_disp != 0 && $case_year_disp != '')) {
         
 
-            $builder2->where("CAST(SUBSTRING(active_fil_no, 1, 2) AS INTEGER)", $case_type_disp);
+            $builder2->where("NULLIF(split_part(ACTIVE_FIL_NO, '-', 1), '')::INTEGER", $case_type_disp);
             $builder2->where('active_reg_year', $case_year_disp);
             $builder2->groupStart();
-            $builder2->where("CAST(SUBSTRING(active_fil_no, 4, 6) AS INTEGER)", $case_number_disp);
-            $builder2->orWhere("$case_number_disp BETWEEN CAST(SUBSTRING(active_fil_no, 4, 6) AS INTEGER) AND CAST(SUBSTRING(active_fil_no, 11, 6) AS INTEGER)", null, false);
+            $builder2->where("NULLIF(split_part(ACTIVE_FIL_NO, '-', 2), '')::INTEGER", $case_number_disp);
+            $builder2->orWhere("$case_number_disp BETWEEN NULLIF(split_part(ACTIVE_FIL_NO, '-', 2), '')::INTEGER AND NULLIF(split_part(ACTIVE_FIL_NO, '-', -1), '')::INTEGER", null, false);
             $builder2->groupEnd();
         } else if (($diary_number_disp != 0 && $diary_number_disp != '') && ($diary_year_disp != 0 && $diary_year_disp != '')) {
             // $condition=" m.diary_no=".$diary_number_disp.$diary_year_disp;
             $builder2->where("m.diary_no", $diary_number_disp . $diary_year_disp);
         }
 
-        // $compiledQuery = $builder2->getCompiledSelect();
+        // echo $builder2->getCompiledSelect(); die();
 
         // echo $compiledQuery; // Print the full SQL query
         // die(); // Stop further execution to focus on the query

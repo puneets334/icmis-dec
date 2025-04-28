@@ -224,8 +224,8 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <label for="remark">Cause List Item No<span style="color:red;">*</span></label>
-                                <input type="number" id="itemNo" name="itemNo" onkeyup="getCaseNo(this.value)"
-                                    class="form-control" maxlength="20">
+                               <input type="number" id="itemNo" name="itemNo" onkeyup="getCaseNo(this.value)" class="form-control" maxlength="20">
+
                             </div>
                             <div class="col-sm-6" style="padding: 35px 10px 20px;">
                                 <label for="remark">Urgently Needed<span

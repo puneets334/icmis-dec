@@ -9,6 +9,12 @@
         width: auto !important;
         padding: 4px;
     }
+    .dt-buttons.btn-group.flex-wrap {
+        margin-top: 50px!important;
+    }
+    select.custom-select.custom-select-sm.form-control.form-control-sm {
+        padding:0px 12px!important;
+    }
 </style>
 <link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/menu_assign.css'); ?>">
 <link rel="stylesheet" href="<?php echo base_url('Ajaxcalls/menu_assign/style.css'); ?>">
@@ -461,18 +467,18 @@
 <script>
     $(function() {
         $(".datatablereport_user").DataTable({
-            "responsive": true,
-            "lengthChange": false,
+           "responsive": true,
+            "lengthChange": true,
             "autoWidth": false,
             "buttons": ["copy", "csv", "excel", {
                     extend: 'pdfHtml5',
                     orientation: 'landscape',
                     pageSize: 'LEGAL'
                 },
-                {
-                    extend: 'colvis',
-                    text: 'Show/Hide'
-                }
+                // {
+                //     extend: 'colvis',
+                //     text: 'Show/Hide'
+                // }
             ],
             "bProcessing": true,
             "extend": 'colvis',
@@ -483,17 +489,17 @@
     $(function() {
         $(".datatablereport").DataTable({
             "responsive": true,
-            "lengthChange": false,
+            "lengthChange": true,
             "autoWidth": false,
             "buttons": ["copy", "csv", "excel", {
                     extend: 'pdfHtml5',
                     orientation: 'landscape',
                     pageSize: 'LEGAL'
                 },
-                {
-                    extend: 'colvis',
-                    text: 'Show/Hide'
-                }
+                // {
+                //     extend: 'colvis',
+                //     text: 'Show/Hide'
+                // }
             ],
             "bProcessing": true,
             "extend": 'colvis',

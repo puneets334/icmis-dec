@@ -38,7 +38,7 @@ class Party extends BaseController
     public function index()
     {
         if (isset($_SESSION['filing_details'])) {
-            return redirect()->to('Filing/Party/partyDetails');
+            return redirect()->to('Filing/Party/party_details');
         } else {
             if ($this->request->getMethod() === 'post' && $this->validate([
                 'search_type' => ['label' => 'search Type', 'rules' => 'required|min_length[1]|max_length[1]'],
@@ -71,39 +71,70 @@ class Party extends BaseController
         }
     }
 
+	// function redirect_on_diary_user_type() {
+    //     if(session()->get('login')) {
+    //         return redirect()->to('Filing/Party/partyDetails');
+    //     }else{
+    //         session()->setFlashdata("message_error", 'Accessing permission denied contact to Computer Cell.');
+    //     }
+    //     return redirect()->to('Filing/Party/partyDetails');
+    // }
+
 	function redirect_on_diary_user_type() {
         if(session()->get('login')) {
-            return redirect()->to('Filing/Party/partyDetails');
+            return redirect()->to('Filing/Party/party_details');
         }else{
             session()->setFlashdata("message_error", 'Accessing permission denied contact to Computer Cell.');
         }
-        return redirect()->to('Filing/Party/partyDetails');
+        return redirect()->to('Filing/Party/party_details');
     }
 
-    public function partyDetails()
+	public function party_details()
     {
-        $data['state_list'] = $this->Dropdown_list_model->get_address_state_list();
+		$data['state_list'] = $this->Dropdown_list_model->get_address_state_list();
         $diary_no = $_SESSION['filing_details']['diary_no'];
+		$data['diary_no'] = $diary_no;
 
-        $data['diary_no'] = $diary_no;
-        $data['party_list'] = $this->PartyModel->getpartyList($diary_no);
+		$data['party_list'] = $this->PartyModel->getpartyList($diary_no);
+		 
         $data['copied_party_list'] = $this->PartyModel->getCopiedpartyList($diary_no);
 
-        $data['lr_list'] = $this->PartyModel->getLRList($diary_no);
-        $data['lowercase'] = $this->PartyModel->getlowercase($diary_no);
-        $data['occ_list'] = $this->PartyModel->getoccupList();
+		$data['lr_list'] = $this->PartyModel->getLRList($diary_no);
+		$data['occ_list'] = $this->PartyModel->getoccupList();
         $data['edu_list'] = $this->PartyModel->geteduList();
         $data['country_list'] = $this->PartyModel->getcountryList();
+		$data['lowercase'] = $this->PartyModel->getlowercase($diary_no);
 
-        $data['get_only_state_name'] = $this->PartyModel->get_only_state_name();
-        $data['get_only_post'] = $this->PartyModel->get_only_post();
-        $data['get_petResCaseTitle'] = $this->PartyModel->get_petResCaseTitle($diary_no);
-        $data['casetypeDetails'] = $this->PartyModel->casetypeDetails($diary_no);
-        $data['casetypeDetail'] = $this->PartyModel->casetypeDetail($diary_no);
-        $data['disp_party'] = $this->PartyModel->getDisposeParty($diary_no);
+		return view('Filing/party/party_details', $data);
+	}
 
-        return view('Filing/party_view', $data);
-    }
+
+	// start  old function for party view 
+    // public function partyDetails()
+    // {
+    //     $data['state_list'] = $this->Dropdown_list_model->get_address_state_list();
+    //     $diary_no = $_SESSION['filing_details']['diary_no'];
+
+    //     $data['diary_no'] = $diary_no;
+    //     $data['party_list'] = $this->PartyModel->getpartyList($diary_no);
+    //     $data['copied_party_list'] = $this->PartyModel->getCopiedpartyList($diary_no);
+
+    //     $data['lr_list'] = $this->PartyModel->getLRList($diary_no);
+    //     $data['lowercase'] = $this->PartyModel->getlowercase($diary_no);
+    //     $data['occ_list'] = $this->PartyModel->getoccupList();
+    //     $data['edu_list'] = $this->PartyModel->geteduList();
+    //     $data['country_list'] = $this->PartyModel->getcountryList();
+
+    //     $data['get_only_state_name'] = $this->PartyModel->get_only_state_name();
+    //     $data['get_only_post'] = $this->PartyModel->get_only_post();
+    //     $data['get_petResCaseTitle'] = $this->PartyModel->get_petResCaseTitle($diary_no);
+    //     $data['casetypeDetails'] = $this->PartyModel->casetypeDetails($diary_no);
+    //     $data['casetypeDetail'] = $this->PartyModel->casetypeDetail($diary_no);
+    //     $data['disp_party'] = $this->PartyModel->getDisposeParty($diary_no);
+
+    //     return view('Filing/party_view', $data);
+    // }
+	// END  old function for party view 
 
     public function set_party_status()
     {
@@ -144,6 +175,13 @@ class Party extends BaseController
         $data = $this->PartyModel->get_cause_title($dataset);
         echo $data;
     }
+
+	public function copy_party_view()
+	{
+		$diary_no = $_SESSION['filing_details']['diary_no'];
+        $data['diary_no'] = $diary_no;
+		return view('Filing/party/copy_party_view', $data);
+	}
 
     public function copy_party_details()
     {	
@@ -198,6 +236,13 @@ class Party extends BaseController
 		return $option;	
 	}
 
+	public function dispose_selected_party_view()
+	{
+		$diary_no = $_SESSION['filing_details']['diary_no'];
+        $data['diary_no'] = $diary_no;
+		$data['casetypeDetail'] = $this->PartyModel->casetypeDetail($diary_no);
+		return view('Filing/party/dispose_selected_party_view', $data);
+	}
 	
 	public function dispose_selected_party()
 	{
@@ -266,6 +311,16 @@ class Party extends BaseController
 			
 			echo "Cause title updated!!!! \n";
 		}
+	}
+
+
+	public function restore_dispose_party_view()
+	{
+		$diary_no = $_SESSION['filing_details']['diary_no'];
+        $data['diary_no'] = $diary_no;
+		$data['casetypeDetail'] = $this->PartyModel->casetypeDetail($diary_no);
+		$data['disp_party'] = $this->PartyModel->getDisposeParty($diary_no);
+		return view('Filing/party/restore_dispose_party_view', $data);
 	}
 	
 	

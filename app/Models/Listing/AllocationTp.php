@@ -1544,9 +1544,9 @@ class AllocationTp extends Model
         $sql = "UPDATE heardt SET next_dt = '$listing_dt', tentative_cl_dt = '$listing_dt', clno = $partno, roster_id = '$chked_jg_arry_to[1]', judges = '$chked_jg_arry_to[0]', main_supp_flag = $main_supp, module_id = 24, usercode = '$ucode', ent_dt = NOW() FROM main m WHERE m.diary_no = heardt.diary_no AND next_dt = '$listing_dt_from' AND mainhead = '$mainhead' AND roster_id = '" . $from_tran_jd_rs[1] . "' AND clno = $from_tran_part_no_fr AND brd_slno > 0 AND board_type = '" . $_POST['bench'] . "' AND m.diary_no > 0;";
         $isUpdated = $this->db->query($sql);
         if ($isUpdated > 0) {
-            $output = "Cases Transferred Successfully as it is.";
+            $output = "<div class='class_green'>Cases Transferred Successfully as it is.<div>";
         } else {
-            $output = "Error : Cases Not Transferred as it is.";
+            $output = "<div class='class_red'>Error : Cases Not Transferred as it is.<div>";
         }
 
         $sql2 = "INSERT INTO drop_note (cl_date, clno, diary_no, roster_id, nrs, usercode, ent_dt, mf, part) select '$listing_dt' as cl_date, clno, diary_no, '" . $chked_jg_arry_to[1] . "', nrs,'$ucode' as usercode, NOW(), mf, '$partno' from drop_note where cl_date = '$listing_dt_from' and part = $from_tran_part_no_fr and roster_id = '" . $from_tran_jd_rs[1] . "' and mf = '$mainhead' and display = 'Y'";

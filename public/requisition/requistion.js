@@ -860,16 +860,21 @@ function backList(){
 }
 
 function getCaseNo(value){
-    let dateitm = $('#dtd').find(":selected").val()
-    let courtno = $('#court_no').find(":selected").val()
+    let dateitm = $('#dtd').find(":selected").val();
+    let courtno = $('#court_no').find(":selected").val();
     if(dateitm == '')
-        {
-            alert('Please select List Date');
-            return false;
-        }
+    {
+        alert('Please select List Date');
+        return false;
+    }
     if(courtno == '')
     {
         alert('Please select Court No.');
+        return false;
+    }
+    if(value == '')
+    {
+        alert('Please Enter Cause List Item No.');
         return false;
     }
 
