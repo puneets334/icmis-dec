@@ -444,6 +444,23 @@ class Model_record extends Model
         return $builder->get()->getResultArray();
     }
 
+    public function getSections_v1($cur_user_type, $deptname, $usercode)
+    {
+           $builder = $this->db->table('master.users a');
+           $builder->distinct();
+            $builder->select('section, section_name');
+            $builder->join('master.usersection b', 'section = b.id', 'left');
+            $builder->where('udept', $deptname);            
+            $builder->orderBy('section');
+            //echo $builder->getCompiledSelect();die;
+            $query = $builder->get();
+            return $result = $query->getResultArray();
+    }
+
+
+
+
+
     public function getUserTypes($deptname)
     {
         $builder = $this->db->table('master.user_d_t_map')

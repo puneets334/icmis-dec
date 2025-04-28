@@ -831,28 +831,29 @@ function relieve_user() {
       data: { user: $("#hd_usercode").val() },
     })
       .done(function (msg) {
-        if (msg == "1") alert("User Relieved Successfully!!!");
-        else alert("!!!Error Occured!!!");
+        if (msg == "") 
+        
 
-        $.ajax({
-          type: "get",
-          url: base_url + "/MasterManagement/UserManagement/view_user_information",
-          beforeSend: function (xhr) {
-            $("#result_main_um").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+base_url+"/images/load.gif'></div>");
-          },
-          data: {
-            dept: $("#department").val(),
-            sec: $("#section").val(),
-            desg: $("#designation").val(),
-            cur_user_type: $("#cur_user_type").val(),
-          },
-        })
-          .done(function (msg) {
-            $("#result_main_um").html(msg);
-          })
-          .fail(function () {
-            alert("Error, Please Contact Server Room");
-          });
+            $.ajax({
+              type: "get",
+              url: base_url + "/MasterManagement/UserManagement/view_user_information",
+              beforeSend: function (xhr) {
+                $("#result_main_um").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='"+base_url+"/images/load.gif'></div>");
+              },
+              data: {
+                dept: $("#department").val(),
+                sec: $("#section").val(),
+                desg: $("#designation").val(),
+                cur_user_type: $("#cur_user_type").val(),
+              },
+            })
+              .done(function (msg) {
+                alert("User Relieved Successfully!!!");
+                $("#result_main_um").html(msg);
+              })
+              .fail(function () {
+                alert("Error, Please Contact Server Room");
+              });
       })
       .fail(function () {
         $("#sp_close").css("display", "inline");
