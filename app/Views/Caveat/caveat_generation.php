@@ -1369,12 +1369,13 @@
                     url: "<?php echo base_url('Common/Ajaxcalls/getSelectedDistricts'); ?>",
                     success: function (resData)
                     {
+                      
                         if(resData){
                             var districtObj = JSON.parse(resData);
                             var singleObj = districtObj.find(
-                                item =>$.trim(item['district_name'])===$.trim(district_name)
+                                item => item['district_name'].trim() === district_name.trim()
                             );
-                            if(singleObj){
+                            if(singleObj){                                
                                 $('#selpdisi').val('');
                                 $('#selpdisi').val(singleObj.id).select2().trigger("change");
                             }
@@ -1493,7 +1494,7 @@
                         if(resData){
                             var districtObj = JSON.parse(resData);
                             var singleObj = districtObj.find(
-                                item =>$.trim(item['district_name'])===$.trim(district_name)
+                                item => item['district_name'].trim() === district_name.trim()
                             );
                             if(singleObj){
                                 $('#selrdisi').val('');

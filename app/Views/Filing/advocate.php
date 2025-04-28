@@ -1101,6 +1101,13 @@
                 return false;
             }
 
+            if($('#aor_code').val() === '')
+            {
+                alert("Please enter AOR Code");
+                $('#aor_code').focus();
+                return false;
+            }
+
             var advocate_detail = $("select[name='adv_detail']").val();
 
             if (advocate_detail == 'A') {
@@ -1161,23 +1168,23 @@
 
                 $.ajax({
                     url: "<?php echo base_url('Filing/advocate/bar_detail/'); ?>",
-                    type: "post",
+                    type: "get",
                     data: {
-                        CSRF_TOKEN: csrf,
+                        //CSRF_TOKEN: csrf,
                         adv_no: adv_no,
                         advocate_detail: advocate_detail
                     },
                     success: function(result) {
                         //console.log(result);
                         $('#adv_name').val(result);
-                        $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) {
-                            $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-                        });
+                        // $.getJSON("<?php //echo base_url('Csrftoken'); ?>", function(result) {
+                        //     $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
+                        // });
                     },
                     error: function() {
-                        $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) {
-                            $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
-                        });
+                        // $.getJSON("<?php //echo base_url('Csrftoken'); ?>", function(result) {
+                        //     $('[name="CSRF_TOKEN"]').val(result.CSRF_TOKEN_VALUE);
+                        // });
                     }
                 });
             }
