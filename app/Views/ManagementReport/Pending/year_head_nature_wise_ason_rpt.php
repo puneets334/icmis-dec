@@ -32,14 +32,14 @@
                                 <div class="col-md-6 mt-2">
                                     <label for="">Sub Heading</label>
                                     <div id="subhead_div">
-                                        <select name="subhead[]" id="subhead" class="form-control" multiple="multiple" size="3" style="width:700px">
+                                        <select name="subhead[]" id="subhead" class="form-control" multiple="multiple" size="3">
                                             <option value="all" selected="selected">ALL SubHead</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mt-2">
                                     <label for="">Subject</label>
-                                    <select name="subject[]" id="subject" class="form-control" style="width:700px" multiple="multiple" size="3" onChange="getcat(this.value)">
+                                    <select name="subject[]" id="subject" class="form-control" multiple="multiple" size="3" onChange="getcat(this.value)">
                                         <option value="all" selected="selected">ALL Subhead</option>
                                         <?php
                                         foreach ($subject as $row) {
@@ -64,7 +64,7 @@
                                 <div class="col-md-6 mt-2">
                                     <label for="">Subcat1</label>
                                     <div id="catdiv">
-                                        <select name="cat[]" id="cat" style="width:700px" class="form-control" multiple="multiple" size="3">
+                                        <select name="cat[]" id="cat" class="form-control" multiple="multiple" size="3">
                                             <option value="all" selected="selected">ALL Category</option>
                                         </select>
                                     </div>
@@ -72,7 +72,7 @@
                                 <div class="col-md-6 mt-2">
                                     <label for="">Subcat2</label>
                                     <div id="subcatdiv">
-                                        <select name="subcat[]" id="subcat" class="form-control" style="width:700px" multiple="multiple" size="4">
+                                        <select name="subcat[]" id="subcat" class="form-control" multiple="multiple" size="4">
                                             <option value="all" selected="selected">ALL Sub Category</option>
                                         </select>
                                     </div>
@@ -80,7 +80,7 @@
                                 <div class="col-md-6 mt-2">
                                     <label for="">Subcat3</label>
                                     <div id="subcat2div">
-                                        <select name="subcat2[]" id="subcat2" class="form-control" style="width:700px" multiple="multiple" size="4">
+                                        <select name="subcat2[]" id="subcat2" class="form-control" multiple="multiple" size="4">
                                             <option value="all" selected="selected">ALL Sub Category</option>
                                         </select>
                                     </div>
@@ -89,7 +89,7 @@
                             <div class="col-md-6 mt-2">
                                 <label for="">Or Select Act</label>
                                 <div id="subcatdiv">
-                                    <select name="act[]" id="act" class="form-control" style="width:700px" multiple="multiple" size="4">
+                                    <select name="act[]" id="act" class="form-control" multiple="multiple" size="4">
                                         <option value="all" selected="selected">ALL Act</option>
                                         <?php
                                         foreach ($act as $row3) {
@@ -157,7 +157,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <label for="">Select Pet./Res.</label>
-                                        <select name="pet_res" id="pet_res" class="form-control" style="width:100px">
+                                        <select name="pet_res" id="pet_res" class="form-control" >
                                             <option value="">Pet../Res. Both</option>
                                             <option value="P">Pet.</option>
                                             <option value="R">Res.</option>
@@ -674,52 +674,55 @@
         WinPrint.print();
     }
 
-    function open_tab(nature_wise_tot, subject, subject_length,
-        cat, cat_length, subcat,
-        subcat_length, year, skey,
-        subhead, mf, til_date,
-        from_year, to_year, rpt_type,
-        pet_res, party_name, act_msc,
-        lst_month, lst_year, ason_type,
-        from_fil_dt, upto_fil_dt, rpt_purpose,
-        spl_case, concept, main_connected,
-        act, order_by, adv_opt,
-        case_status_id, subcat2, subcat2_length
-    )
-    
-     {
-        document.getElementById('ggg').style.width = 'auto';
-        document.getElementById('ggg').style.height = ' 550px';
-        document.getElementById('ggg').style.overflow = 'scroll';
-        document.getElementById('ggg').style.marginLeft = '18px';
-        document.getElementById('ggg').style.marginRight = '18px';
-        document.getElementById('ggg').style.marginBottom = '25px';
-        document.getElementById('ggg').style.marginTop = '40px';
-        document.getElementById('dv_sh_hd').style.display = 'block';
-        document.getElementById('dv_fixedFor_P').style.display = 'block';
-        document.getElementById('dv_fixedFor_P').style.marginTop = '3px';
-        document.getElementById('ggg').innerHTML = '<table widht="100%" align="center"><tr><td><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>';
-        var xhr6 = getXMLHTTP();
-        var str = "<?php echo base_url('ManagementReports/Pending/show_case_for_ason'); ?>?nature_wise_tot=" + nature_wise_tot + "&subject=" + subject + "&subject_length=" + subject_length +
-            "&cat=" + cat + "&cat_length=" + cat_length + "&subcat=" + subcat +
-            "&subcat_length=" + subcat_length + "&year=" + year + "&skey=" + skey +
-            "&subhead=" + subhead + "&mf=" + mf + "&til_date=" + til_date +
-            "&from_year=" + from_year + "&to_year=" + to_year + "&rpt_type=" + rpt_type +
-            "&pet_res=" + pet_res + "&party_name=" + party_name + "&act_msc=" + act_msc +
-            "&lst_month=" + lst_month + "&lst_year=" + lst_year + "&ason_type=" + ason_type +
-            "&from_fil_dt=" + from_fil_dt + "&upto_fil_dt=" + upto_fil_dt + "&rpt_purpose=" + rpt_purpose +
-            "&spl_case=" + spl_case + "&concept=" + concept + "&main_connected=" + main_connected +
-            "&act=" + act + "&order_by=" + order_by + "&adv_opt=" + adv_opt +
-            "&case_status_id=" + case_status_id + "&subcat2=" + subcat2 + "&subcat2_length=" + subcat2_length;
-        xhr6.open("GET", str, true);
-        xhr6.onreadystatechange = function() {
-            if (xhr6.readyState == 4 && xhr6.status == 200) {
-                var data = xhr6.responseText;
-                document.getElementById('ggg').innerHTML = xhr6.responseText;
+    function open_tab(nature_wise_tot, subject, subject_length, cat, cat_length, subcat, subcat_length, year, skey,
+    subhead, mf, til_date, from_year, to_year, rpt_type, pet_res, party_name, act_msc, lst_month, lst_year,
+    ason_type, from_fil_dt, upto_fil_dt, rpt_purpose, spl_case, concept, main_connected, act, order_by,
+    adv_opt, case_status_id, subcat2, subcat2_length) {
+    const baseUrl = '<?php echo base_url(); ?>'; 
+
+    const ggg = document.getElementById('ggg');
+    ggg.style.width = 'auto';
+    ggg.style.height = '550px';
+    ggg.style.overflow = 'scroll';
+    ggg.style.margin = '40px 18px 25px 18px';
+
+    document.getElementById('dv_sh_hd').style.display = 'block';
+    const fixedDiv = document.getElementById('dv_fixedFor_P');
+    fixedDiv.style.display = 'block';
+    fixedDiv.style.marginTop = '3px';
+
+    // Loading indicator
+    ggg.innerHTML = `<table width="100%" align="center">
+        <tr><td><img src="${baseUrl}/images/load.gif"/></td></tr>
+    </table>`;
+
+    // Construct query parameters
+    const params = new URLSearchParams({
+        nature_wise_tot, subject, subject_length, cat, cat_length, subcat, subcat_length,
+        year, skey, subhead, mf, til_date, from_year, to_year, rpt_type, pet_res, party_name,
+        act_msc, lst_month, lst_year, ason_type, from_fil_dt, upto_fil_dt, rpt_purpose, spl_case,
+        concept, main_connected, act, order_by, adv_opt, case_status_id, subcat2, subcat2_length
+    });
+
+    // Replace with your base URL from PHP
+    const url = `${baseUrl}/ManagementReports/Pending/show_case_for_ason?${params.toString()}`;
+
+    // Fetch data
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        }
-        xhr6.send(null);
-    }
+            return response.text();
+        })
+        .then(data => {
+            ggg.innerHTML = data;
+        })
+        .catch(error => {
+            ggg.innerHTML = `<p style="color:red;">Error loading data: ${error.message}</p>`;
+        });
+}
+
 
     $(document).ready(function() {
         $('.dtp').datepicker({

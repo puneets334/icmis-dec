@@ -35,21 +35,17 @@
                 echo '</tr><tr><th>Sno</th><th>Year</th>';
 
                 foreach ($results as $row) {
-                    if ($rpt_type == 'bench') {
-                        $bench_or_year = $row['bench'];
-                    } else {
-                        $bench_or_year = @$row['pend_year'];
-                    }
+                    // if ($rpt_type == 'bench') {
+                    //     $bench_or_year = $row['bench'];
+                    // } else {
+                    //     $bench_or_year = @$row['pend_year'];
+                    // }
 
                     $builder = $db->table('master.casetype');
                     $builder->select('casecode,LOWER(skey) as skey,nature');
                     $builder->where('display', 'Y');
                     $builder->orderBy('nature', 'ASC')->orderBy('skey', 'ASC');
                     $query = $builder->get();
-
-                    // $sql_case = "SELECT skey, nature FROM casetype WHERE display='Y' ORDER BY nature, skey";
-                    // $query_case = $db->query($sql_case);
-                    //  = $query_case->getResultArray();
 
                     if ($i == 1) {
                         foreach ($query->getResultArray() as $row_case) {
@@ -66,9 +62,6 @@
                         $year_wise_tot_str = 'y';
                     }
 
-                    // $sql_case1 = "SELECT skey, casecode FROM casetype WHERE display='Y' ORDER BY nature, skey";
-                    // $query_case1 = $db->query($sql_case1);
-                    // $case_results1 = $query_case1->getResultArray();
                     $year_wise_tot = 0;
                     foreach ($query->getResultArray() as $row_case1) {
                        
@@ -115,7 +108,8 @@
             <div id="sp_close" style="text-align: right;cursor: pointer;width: 40px;float: right" onclick="closeData()">
                 <b><img src="<?php echo base_url()?>/images/close_btn.png" style="width:30px;height:30px"/></b>
             </div>
-            <div style="width: auto;background-color: white;overflow: scroll;height: 500px;margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;word-wrap: break-word;" id="ggg" onkeypress="return nb(event)" onmouseup="checkStat()">
+            <div style="width: auto;background-color: white;overflow: scroll;height: 500px;margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;word-wrap: break-word;"
+             id="ggg">
             </div>
         </div>
         <br><br>
