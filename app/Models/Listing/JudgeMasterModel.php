@@ -529,10 +529,11 @@ class JudgeMasterModel extends Model
                 }
                 $existingRecord = $getRecord->get()
                 ->getRow();
-
+            //echo $this->db->getlastquery();die;    
             if ($existingRecord) {
                 // "Record already exists, update skipped.";
-                return "There is some problem. Please contact Computer-Cell.";
+                //return "There is some problem. Please contact Computer-Cell.";
+                return "Already Updated.";
             }
             else {
                 $data = [
