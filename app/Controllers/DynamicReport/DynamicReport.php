@@ -167,16 +167,16 @@ class DynamicReport extends BaseController
         $advPor = isset($_POST['advPorR']) ? $_POST['advPorR'] : '';
         if ($casestatus == 'f') {
             $criteria = "<b>Case Status :</b> Filing <br/>";
-            $condition = "1=1";
+            $condition = " where 1=1";
         } else if ($casestatus == 'i') {
             $criteria = "<b>Case Status :</b> Registration <br/>";
             $condition = " where active_fil_no is not null and active_fil_no!='' ";
         } else if ($casestatus == 'p') {
             $criteria = "<b>Case Status :</b> Pending ";
-            $condition = " c_status='P'";
+            $condition = " where c_status='P'";
         } else if ($casestatus == 'd') {
             $criteria = "<b>Case Status :</b> Disposed <br/>";
-            $condition = " c_status='D'";
+            $condition = " where c_status='D'";
         }
         if ($pendencyOption == 'R' and $casestatus == 'p') {
             $criteria .= " -Registered Matters <br/>";
@@ -306,13 +306,13 @@ class DynamicReport extends BaseController
         }
         if (!empty($bar_id) && $bar_id != 0) {
             if ($advPor == '1') {
-                $condition .= " and advocate_id=$bar_id and p.pet_res='P'";
+                $condition .= " and adv1.advocate_id=$bar_id and p.pet_res='P'";
                 $criteria .= "<b> Petitioner Advocate : </b>$aor_name<br>";
             } else if ($advPor == '2') {
-                $condition .= " and advocate_id=$bar_id and p.pet_res='R'";
+                $condition .= " and adv1.advocate_id=$bar_id and p.pet_res='R'";
                 $criteria .= "<b> Respondent Advocate : </b>$aor_name<br>";
             } else if ($advPor == '0') {
-                $condition .= " and advocate_id=$bar_id";
+                $condition .= " and adv1.advocate_id=$bar_id";
                 $criteria .= "<b> Advocate : </b>$aor_name<br>";
             }
         }
