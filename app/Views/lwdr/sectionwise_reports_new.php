@@ -186,12 +186,6 @@ $(document).on("focus", ".dtp", function() {
 
     $(document).ready(function()
     { 
-        $("#view").click(function() {
-            if ($('#McategoryCode').val() == 0) {
-                alert("Please Select Main Category");
-            }
-        });
-
         disableAllElements();
         enableElements($('#subjectCategory').children());
         $('#subjectCategory').show();
@@ -272,6 +266,13 @@ $(document).on("focus", ".dtp", function() {
                 alert("Please Select Section");
                 return false;
             }   
+			
+			
+			if ($('#McategoryCode').val() == 0 && section != '') {
+                alert("Please Select Main Category");
+				return false;
+            }
+			
             e.preventDefault(); 
             var formData = $(this).serialize();            
             $.ajax({

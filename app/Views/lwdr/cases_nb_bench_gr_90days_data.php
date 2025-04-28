@@ -34,7 +34,7 @@ if (!empty($case_result) && count($case_result) > 0 && is_array($case_result)) {
                     <th style="width: 10%;" rowspan='1'>Case No.</th>
                     <th style="width: 30%;" rowspan='1'>Cause Title</th>
                     <th style="width: 10%;" rowspan='1'>DA</th>
-                    <th style="width: 10%;" rowspan='1'>user section</th>
+                    <th style="width: 10%;" rowspan='1'>User section</th>
                 </tr>
             </thead>
             <tbody>
@@ -71,15 +71,15 @@ if (!empty($case_result) && count($case_result) > 0 && is_array($case_result)) {
             "pageLength": 20,
             "buttons": [{
                     extend: 'excel',
-                    title: 'cases_not_listed_before_any_bench_greater_than_90_days<?= date("d-m-Y h-i-s A") ?>',
-                    filename: 'cases_not_listed_before_any_bench_greater_than_90_days<?= date("d-m-Y h-i-s A") ?>'
+                    title: 'cases_not_listed_before_any_bench_greater_than_90_days <?= date("d-m-Y h-i-s A") ?>',
+                    filename: 'cases_not_listed_before_any_bench_greater_than_90_days <?= date("d-m-Y h-i-s A") ?>'
                 },
                 {
                     extend: 'pdfHtml5',
                     orientation: 'landscape',
                     pageSize: 'LEGAL',
-                    title: 'cases_not_listed_before_any_bench_greater_than_90_days<?= date("d-m-Y h-i-s A") ?>',
-                    filename: 'cases_not_listed_before_any_bench_greater_than_90_days<?= date("d-m-Y h-i-s A") ?>'
+                    title: 'cases_not_listed_before_any_bench_greater_than_90_days <?= date("d-m-Y h-i-s A") ?>',
+                    filename: 'cases_not_listed_before_any_bench_greater_than_90_days <?= date("d-m-Y h-i-s A") ?>'
                 }
             ],
             "processing": true,

@@ -95,14 +95,12 @@
     }
 
     $('#push-form').on('submit', function(e) {
-
         var section = $('.sel_sec').val();
-        var slc_da = $('.slc_da').val();
-
-        if (section == '') {
-            alert("Please Select Section");
-            return false;
-        }
+		//var slc_da = $('.slc_da').val();
+         if(section==0) {
+			alert("Please Select Section");
+			return false;
+		 }   
         e.preventDefault();
         var formData = $(this).serialize();
         $.ajax({

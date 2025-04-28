@@ -9,7 +9,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Cases not listed before any bench greater than 90 days</h3>
+                                <h3 class="card-title">Report Type: MATTERS OF JUDICIAL SECTION (REGISTERED AND UNREGISTERED)</h3>
                             </div>
                         </div>
                     </div>
