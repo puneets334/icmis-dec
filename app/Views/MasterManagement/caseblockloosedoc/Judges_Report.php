@@ -198,7 +198,7 @@
                 $('#reportTable1').DataTable({
                     "destroy": true,
                     "bProcessing": true,
-                    "pageLength": 10,
+                    "pageLength": 25,
                     dom: 'Bfrtip',
                     "buttons": [{
                             extend: "copy",
@@ -215,6 +215,7 @@
                             title: "List of Judges/Registrars",
                             filename: "List of JudgesRegistrars"
                         },
+                        'pageLength',
                         {
                             extend: "pdfHtml5",
                             title: "List of Judges/Registrars",

@@ -1,9 +1,31 @@
+<style>
+    .main_block_hed_before_print{position: absolute;
+    div.dataTables_wrapper {
+    position: relative;
+    z-index: 91;
+}
+.bsubmit_cls{
+    position: relative;
+    z-index: 92;
+    margin-right: 17%;}
+</style>
 <div class="card-body">
-    <div class="d-flex justify-content-start mb-3">
+    <!--<div class="d-flex justify-content-start mb-3">
         <button type="button" class="btn btn-primary" id="bsubmit" onclick="addRecord()">Submit</button>
-    </div>
+    </div>-->
     <div id="prnnt" style="font-size:12px;">
-        <h3><?= $mainhead == 'M' ? "Misc. Hearing" : "Regular Hearing"; ?></h3>
+        
+    <div class="w-100 inline-block main_block_hed_before_print">
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4"><h3 id="caption"><?= $mainhead == 'M' ? "Misc. Hearing" : "Regular Hearing"; ?></h3></div>
+                <div class="col-md-4 text-right">
+                    <button type="button" class="btn btn-primary bsubmit_cls" id="bsubmit" onclick="addRecord()" style="position:relative;z-index:92;">Submit</button>
+                </div>
+            </div>
+        </div>
+
+
         <div class="table-responsive">
             <?php if ($records) { ?>
                 <table id="example1" class="table table-striped table-bordered">
@@ -18,7 +40,7 @@
                             <th scope="col" width="5%">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="chkall2" id="chkall2" value="ALL" onclick="all_case_v(this);">
-                                    <label class="form-check-label" for="chkall2">All</label>
+                                    <label class="form-check-label" style="margin-left:10px;" for="chkall2">All</label>
                                 </div>
                             </th>
                         </tr>
@@ -49,7 +71,7 @@
             <?php } ?>
         </div>
     </div>
-    <button type="button" class="btn btn-primary mt-3" id="prnnt1">Print</button>
+    <!--<button type="button" class="btn btn-primary mt-3" id="prnnt1">Print</button>-->
 </div>
 
 <script>
@@ -59,7 +81,27 @@
         "autoWidth": false,
         "dom": 'Bfrtip',
         "bProcessing": true,
-        "buttons": [],
-        "searching": false
+        //"buttons": ['print'],
+        "searching": false,
+        buttons: [
+            {
+                extend: 'print',
+                text: 'Print',
+                className: 'btn-primary',
+                title: '',
+                /*customize: function(win) {
+                    $(win.document.body).css('text-align', 'center'); // Align all content centrally
+                }*/
+                customize: function (win) {
+                    $(win.document.body).css( 'font-size', '12pt');
+                    const captionHTML = $('#caption').html();
+                    $(win.document.body).find('table').before('<h3 style="text-align: center;">' + captionHTML + '</h3>');
+                },
+            }
+        ],
+        
     });
+    
+    $('.buttons-print').removeClass('btn-secondary');
+    $('.btn-group').removeClass('dt-buttons');
 </script>

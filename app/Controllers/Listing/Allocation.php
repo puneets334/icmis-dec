@@ -1531,7 +1531,7 @@ class Allocation extends BaseController
                         //unset($elimination_field);
                         $updateField = [
                             'diary_no' => $data['diary_no'],
-                            'conn_key' => $data['main_key'],
+                            'conn_key' => !empty($data['main_key']) ? $data['main_key'] : 0,
                             'next_dt' => $post['next_dt_selected'],
                             'tentative_cl_dt' => $post['next_dt_selected'],
                             'usercode' => session()->get('login')['usercode'],

@@ -1396,13 +1396,14 @@ class FasterController extends BaseController
     public function get_notice()
     {
         $chk_status = $this->request->getGet('chk_status');
-        $ct = $this->request->getGet('ct');
-        $cn = $this->request->getGet('cn');
-        $cy = $this->request->getGet('cy');
+        
         $d_no = $this->request->getGet('d_no');
         $d_yr = $this->request->getGet('d_yr');
 
         if ($chk_status == 1) {
+            $ct = $this->request->getGet('ct');
+            $cn = $this->request->getGet('cn');
+            $cy = $this->request->getGet('cy');
             $data['diary_no'] = $this->Dropdown_list_model->get_case_details_by_case_no($ct, $cn, $cy)['diary_no'];
         } else {
             

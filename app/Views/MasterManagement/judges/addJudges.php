@@ -135,12 +135,12 @@
 
                                                     <div class="control-label col-md-4  requiredField">
                                                 <label class=" col-sm-6">FIRST NAME<font color="red">*</font>:</label>
-                                                        <input class="form-control" type="TEXT" id="first_name" name="first_name" required="required">
+                                                        <input class="form-control" type="TEXT" id="first_name" name="first_name" required="required" max="30">
                                                     </div>
 
                                                     <div class="control-label col-md-4  requiredField"">
                                                 <label class=" col-sm-6">SURNAME <font color="red">*</font>:</label>
-                                                        <input class="form-control" type="TEXT" id="sur_name" name="sur_name" required="required">
+                                                        <input class="form-control" type="TEXT" id="sur_name" name="sur_name" required="required" max="30">
                                                     </div>
 
                                                 </div>

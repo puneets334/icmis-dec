@@ -652,12 +652,10 @@ class Report extends BaseController
     $list_type = $this->request->getPost('list_type');
     $ucode = session()->get('login')['usercode'];
     $usertype = session()->get('login')['usertype'];
-   
+    //$data['section_name'] = $this->ReportModel->section_name();
     $data['result']= $this->ReportModel->getSecListNewFun1($list_dt,$board_type,$sec_id,$ucode,$list_type,$usertype);
-            
-    // print_r($data['result']);
-    // die();
-    return view('Listing/Report/sec_list_dynamic', $data);
+            return $data['result'];
+    
   }
 
   public function seclist()
