@@ -207,6 +207,8 @@ class VacationAdvanceList extends BaseController
                 $case_year = $this->request->getPost('case_year');
                 
                 $get_main_table = $this->Dropdown_list_model->get_case_details_by_case_no($case_type, $case_number, $case_year);
+                $diary_number = $get_main_table['dn'];
+                $diary_year = $get_main_table['dy'];
             } else {
                 return $this->response->setJSON(['success' => 0, 'error' => 'Data not Found']);
             }
