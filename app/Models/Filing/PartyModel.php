@@ -1374,7 +1374,7 @@ class PartyModel extends Model{
 
     public function getUpdateData($dataset){
 
-        // $diaryNo = $dataset['diaryNo'];
+         $diaryNo = $dataset['diaryNo'];
         // $flag = $dataset['flag'];
         // $sr_no = $dataset['sr_no'];
         // $type = $dataset['type'];
@@ -1397,6 +1397,7 @@ class PartyModel extends Model{
         $builder->join('party_additional_address c', "a.auto_generated_id = c.party_id AND c.display = 'Y'", 'LEFT');
         $builder->join('party_lowercourt d', "a.auto_generated_id = d.party_id AND d.display = 'Y'", 'LEFT');
         $builder->where('auto_generated_id', $auto_gen_id);
+        $builder->where('diary_no', $diaryNo);
         $builder->groupBy('partyname, partysuff, sonof, authcode, state_in_name, prfhname, age, sex, caste, addr1, addr2, a.state, city, pin, email, contact, dstname, a.country, a.deptcode, education, occ_code, edu_code, deptname, remark_lrs, auto_generated_id, cont_pro_info');
         // $queryString = $builder->getCompiledSelect();
         // echo $queryString;
@@ -1504,7 +1505,7 @@ class PartyModel extends Model{
         $query4 = $builder4->get();        
         $rs = $query4->getResultArray();
         $tr = count($rs);
-
+        
         $ucode =  $_SESSION['login']['usercode'];
         $ip_address= $_SERVER['REMOTE_ADDR'];
 
@@ -1561,7 +1562,7 @@ class PartyModel extends Model{
                 $rs1 = $builder8->insert($inserrtData);
               
             }
-    
+            
             if ($rs1) {
                 echo $tr . " Records Found and Copied Successfully";
             } else {
