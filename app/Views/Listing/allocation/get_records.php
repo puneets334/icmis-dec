@@ -3,7 +3,6 @@
     display: table-cell;
     vertical-align: inherit;
     font-weight: bold;
-    text-align: center !important;
     unicode-bidi: isolate;
 }
 </style>
