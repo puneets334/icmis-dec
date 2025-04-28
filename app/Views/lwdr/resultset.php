@@ -239,15 +239,15 @@
             "buttons": [
                 {
                     extend: 'excel',
-                    title: '<?= $title_head . date("d-m-Y_h-i-s_A") ?>',
-                    filename: '<?= $title_head . date("d-m-Y_h-i-s_A") ?>'
+                    title: '<?= $title_head ?>',
+                    filename: '<?= $title_head ?>'
                 },
                 {
                     extend: 'pdfHtml5',
                     orientation: 'Orientation',
                     pageSize: 'LEGAL',
-                    title: '<?= $title_head . date("d-m-Y h:i:s A") ?>',
-                    filename: '<?= $title_head . date("d-m-Y_h-i-s_A") ?>'
+                    title: '<?= $title_head  ?>',
+                    filename: '<?= $title_head ?>'
                 }
             ],
             "processing": true,
