@@ -3,6 +3,12 @@ span {
     color: #0d48be;
     cursor: pointer;
 }
+.custom-table thead th{background:none;}
+.custom-table thead th:first-child,.custom-table thead th:last-child,.custom-table tbody td:last-child
+{border-radius: 0px;}
+.custom-table thead th,.custom-table tbody td,.custom-table tbody tr th { 
+    border-right: #999 1px solid;
+}
 </style>
 
 <div class="table-responsive">
