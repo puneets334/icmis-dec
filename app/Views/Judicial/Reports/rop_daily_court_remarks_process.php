@@ -58,6 +58,7 @@ if ($crt != '')
     $chk_var = 0;
     $not_avail = "";
     if (count($results10) > 0) {
+        $t_cntr = 0;
         $chk_var = 1;
         echo '<table  width="100%" border="1" cellpadding="0" cellspacing="0" style="border: 1px solid black; border-collapse: collapse;" >';
         foreach ($results10 as $row10) {
