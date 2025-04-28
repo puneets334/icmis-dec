@@ -118,7 +118,7 @@ class Requisition extends BaseController
     public function frmusrLogin()
     {        
             $time = time();
-            $mode =$_POST['mode']??'';
+            $mode =$_POST['mode'];
         
             $icmis_user_id = $_SESSION['login']['usercode'];
 
