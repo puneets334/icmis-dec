@@ -818,6 +818,8 @@ function activate_main(id)
     }
 }
 
+let radvyrAlerted = false;
+let padvyrAlerted = false;
 function getAdvocate_for_main(id,flag)
 {
     if (flag == 'P' )
@@ -834,7 +836,7 @@ function getAdvocate_for_main(id,flag)
             document.getElementById("padvmob").value='';
             document.getElementById("padvemail").value='';
         }
-//alert(document.getElementById("is_ac").checked );
+        //alert(document.getElementById("is_ac").checked );
         //alert(document.getElementById("padvt").value );
         if(document.getElementById("is_ac").checked == true)
             ddl_pet_adv_isac='Y';
@@ -849,10 +851,13 @@ function getAdvocate_for_main(id,flag)
                 document.getElementById("padvno").focus();
                 return false;
             }
-            if(document.getElementById("padvyr").value==''){
+            if(document.getElementById("padvyr").value == ''){
+                padvyrAlerted = true;
                 alert('Please enter Enrollment Year');
-                document.getElementById("padvyr").focus();
+                //document.getElementById("padvyr").focus();
                 return false;
+            }else{
+                padvyrAlerted = false;
             }
 
         }
@@ -895,7 +900,7 @@ function getAdvocate_for_main(id,flag)
                     else {
                         document.getElementById('padvmob').value = vcal[1];
                         document.getElementById('padvemail').value = vcal[2];
-                        document.getElementById('padvyr').value = vcal[4];
+                        //document.getElementById('padvyr').value = vcal[4];
 
                     }
                     $('#hd_p_barid').val(vcal[3]);
@@ -917,6 +922,7 @@ function getAdvocate_for_main(id,flag)
     }
     else if (flag == 'R')
     {
+       
         var ddl_res_adv_state=$('#ddl_res_adv_state').val();
         var radvt=$('#radvt').val();
 
@@ -929,7 +935,7 @@ function getAdvocate_for_main(id,flag)
             document.getElementById("radvmob").value='';
             document.getElementById("radvemail").value='';
         }
-//alert(document.getElementById("is_ac").checked );
+        //alert(document.getElementById("is_ac").checked );
         //alert(document.getElementById("padvt").value );
         if(document.getElementById("ris_ac").checked == true)
             ddl_pet_adv_isac='Y';
@@ -944,10 +950,14 @@ function getAdvocate_for_main(id,flag)
                 document.getElementById("radvno").focus();
                 return false;
             }
-            if(document.getElementById("radvyr").value==''){
+           
+            if(document.getElementById("radvyr").value.trim() === '' && !radvyrAlerted ){
+                radvyrAlerted = true;
                 alert('Please enter Enrollment Year');
-                document.getElementById("radvyr").focus();
+                //document.getElementById("radvyr").focus();               
                 return false;
+            }else{
+                radvyrAlerted = false;
             }
 
         }
@@ -955,7 +965,7 @@ function getAdvocate_for_main(id,flag)
         if(document.getElementById("radvno").value==''  && radvt=='A'){
             alert('Please enter AOR Code');
             //   document.getElementById("padvno").value='oo';
-            //document.getElementById("radvno").focus();
+            document.getElementById("radvno").focus();
             return false;
         }
 
@@ -987,7 +997,7 @@ function getAdvocate_for_main(id,flag)
                     else {
                         document.getElementById('radvmob').value = vcal[1];
                         document.getElementById('radvemail').value = vcal[2];
-                        document.getElementById('radvyr').value = vcal[4];
+                        //document.getElementById('radvyr').value = vcal[4];
                     }
                     $('#hd_r_barid').val(vcal[3]);
                 }
@@ -995,7 +1005,7 @@ function getAdvocate_for_main(id,flag)
                     document.getElementById('radvname').value = "";
                     document.getElementById('radvmob').value ="";
                     document.getElementById('radvemail').value = "";
-                    document.getElementById('radvyr').value = "";
+                    //document.getElementById('radvyr').value = "";
                 }
 
 
