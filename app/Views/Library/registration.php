@@ -33,7 +33,7 @@
                         <h3 class="card-title">Registration Form</h3>
                     </div>
                     <div class="card-body" style="min-height:90vh">
-                        <div class="form-group" style="margin-top: 5%;">
+                        <div class="form-group">
                             <input type="text" id="myInput" class="form-control" placeholder="Search Employee..">
                             <div id="myDropdown" class="dropdown-content form-control" style="min-height:50vh;overflow-y:scroll;width:97%"></div>
                         </div>
@@ -95,10 +95,8 @@
 
                             <div class="form-group">
                                 <button id="changedata" type="button" class="btn btn-primary">Submit</button>
-                                <button style="display:none;" id="deactiv" type="button"
-                                    class="btn btn-warning actionCmd">De-Activate</button>
-                                <button style="display:none;" id="activ" type="button"
-                                    class="btn btn-warning actionCmd">Activate</button>
+                                <button style="display:none;" id="deactiv" type="button" class="btn btn-warning actionCmd">De-Activate</button>
+                                <button style="display:none;" id="activ" type="button" class="btn btn-warning actionCmd">Activate</button>
                             </div>
                         </div>
                         <?php echo form_close(); ?>
@@ -194,7 +192,12 @@
                             $('#ph2').val(response.alternative_phone_no || '');
                             $('#court_no').val(response.court_no || '');
 
-                            if (response.status == 1) {
+                            if (response.status == 1 && !response.fullname || !response.adminemail || !response.username) 
+                            {
+                                $('#activ').prop('disabled', true);
+                                $('#deactiv').prop('disabled', true);
+                            }
+                           else if (response.status == 1) {
                                 $('#activ').hide();
                                 $('#deactiv').show();
                             } else {
