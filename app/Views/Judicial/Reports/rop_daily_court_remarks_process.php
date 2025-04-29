@@ -145,26 +145,12 @@ if ($crt != '')
             if ($clno != $row10["clno"]) {
                 $clno = $row10["clno"];
             }
-            $t_stagename = "";
-            if ($mf == "F") {
-                $t_stage = "";
-                $sql_s = "select * from subheading where stagecode=" . $row10["subhead"] . " and display='Y'";
-                $result1_s = mysql_query($sql_s);
-                if (mysql_affected_rows() > 0) {
-                    while ($row1_s = mysql_fetch_array($result1_s)) {
-                        if ($row1_s["stagecode4"] > 0)
-                            $t_stage = $row1_s["grp_name"] . " - " . $row1_s["grp_name1"] . " - " . $row1_s["grp_name2"] . " - " . $row1_s["stagename"];
-                        elseif ($row1_s["stagecode3"] > 0)
-                            $t_stage = $row1_s["grp_name"] . " - " . $row1_s["grp_name1"] . " - " . $row1_s["stagename"];
-                        elseif ($row1_s["stagecode2"] > 0)
-                            $t_stage = $row1_s["grp_name"] . " - " . $row1_s["stagename"];
-                        elseif ($row1_s["stagecode1"] > 0)
-                            $t_stage = $row1_s["stagename"];
-                        $t_stagename = $t_stage;
-                    }
-                }
-            } else {
-                $t_stagename = (isset($row10["stagename"])) ? $row10["stagename"] : "";
+            
+            $t_stagename = $row10["t_stagename"];
+
+            if ($stagec != $t_stagename) {
+                $stagec = $t_stagename;
+                echo '<tr height="20px" valign="top"><td></td><td colspan="5"><b>' . $stagec . '</b></td></tr>';
             }
 
             if ($previous_brd_slno == $row10["brd_slno"]) {

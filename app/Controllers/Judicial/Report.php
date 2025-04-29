@@ -517,6 +517,15 @@ class Report extends BaseController
             $results[$indexKey]['tmp_caseno'] = $tmp_caseno;
             $results[$indexKey]['jcourt'] = $jcourt;
             $results[$indexKey]['bench_from_roster'] = $bench_from_roster;
+
+            $t_stagename = "";
+            if($filter_data['mf'] == "F") {
+                $t_stagename = $ReportModel->getGroupOrStageNameByStageCode($row10["subhead"]);                
+            } elseif(!empty($row10["stagename"])) {
+                $t_stagename = $row10["stagename"];
+            }
+
+            $results[$indexKey]['t_stagename'] = $t_stagename;
         }
 
         //echo "<pre>";print_r($results);die;
