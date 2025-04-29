@@ -86,15 +86,15 @@ else
             "buttons": [
                 {
                     extend: 'excel',
-                    title: 'diarized_but_not_listed_process_data_<?= date("d-m-Y_h-i-s_A") ?>',
-                    filename: 'diarized_but_not_listed_process_data_<?= date("d-m-Y_h-i-s_A") ?>'
+                    title: 'Matters diarized but not listed as on <?php echo date("d-m-Y h:i:sa");?>',
+                    filename: 'Matters_diarized_but_not_listed_as_on_<?php echo date("d-m-Y h:i:sa");?>'
                 },
                 {
                     extend: 'pdfHtml5',
                     orientation: 'Orientation',
                     pageSize: 'LEGAL',
-                    title: 'diarized_but_not_listed_process_data_<?= date("d-m-Y h:i:s A") ?>',
-                    filename: 'diarized_but_not_listed_process_data_<?= date("d-m-Y_h-i-s_A") ?>'
+                    title: 'Matters diarized but not listed as on <?php echo date("d-m-Y h:i:sa");?>',
+                    filename: 'Matters_diarized_but_not_listed_as_on_<?php echo date("d-m-Y h:i:sa");?>'
                 }
             ],
             "processing": true,

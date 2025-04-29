@@ -63,7 +63,7 @@ class Physical_verify extends BaseController {
         $sec_name= $sec_detail[1];
         $category = $request->getPost('categoryCode');
         $mcat = $request->getPost('McategoryCode');
-        $data['result_array'] = $this->ReportModel->getReg_J1_Reports($category, $section,$mcat);
+        $data['result_array'] = $this->ReportModel->getReg_J1_Reports($category, $section, $mcat);
         $data['param']= array($sec_name, $category);
         return view('PendencyReports/Reg_J1_Report_get', $data);
    }

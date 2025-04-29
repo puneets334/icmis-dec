@@ -53,34 +53,67 @@ class LwdrModel extends Model
         return $query->getResultArray();
     }
 
-    public function diarized_summary()
-    {
-        $builder = $this->db->table('main m');
-        $builder->select("
-            CONCAT(SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4), '/', SUBSTR(m.diary_no::text, -4)) AS diary_no,
-            TO_CHAR(DATE(m.diary_no_rec_date), 'DD-MM-YYYY') as diary_date,
-            SUBSTR(m.diary_no::text, -4) as dyear,
-            CASE WHEN m.dacode = 0 THEN tentative_da(m.diary_no::integer) ELSE concat(u.name, '[', u.empid, ']') END AS daname,
-            CASE WHEN m.section_id IS NULL THEN tentative_section(m.diary_no::text) ELSE us.section_name END AS section,
-            m.pet_name,
-            m.res_name");
-        $builder->join("(SELECT diary_no FROM heardt WHERE main_supp_flag IN (1, 2) AND clno != 0 AND brd_slno != 0 AND judges != '' AND judges != '0'
-                 UNION 
-                 SELECT diary_no FROM last_heardt WHERE main_supp_flag IN (1, 2) AND clno != 0 AND brd_slno != 0 AND judges != '' AND judges != '0') a", 'm.diary_no = a.diary_no', 'left', false);
-        $builder->join('master.users u', 'm.dacode = u.usercode', 'left');
-        $builder->join('master.usersection us', 'm.section_id = us.id', 'left');
-        $builder->where('DATE(m.diary_no_rec_date) >=', '2017-05-08');
-        $builder->where('m.active_fil_no IS NULL');
-        $builder->where('a.diary_no IS NULL');
-        $builder->where('m.c_status', 'P');
-        $builder->groupStart()
-            ->whereIn('active_casetype_id', [9, 10, 25, 26, 19, 20, 39])
-            ->orWhereIn('casetype_id', [9, 10, 25, 26, 19, 20, 39])
-            ->groupEnd();
-        $builder->orderBy('section,daname,  m.diary_no_rec_date');
-        $query = $builder->get();
-        return $query->getResultArray();
-    }
+    public function diarized_summary(){
+       	
+		$heardtSubquery = $this->db->table('heardt')
+			->select('diary_no')
+			->whereIn('main_supp_flag', [1, 2])
+			->where('clno !=', 0)
+			->where('brd_slno !=', 0)
+			->where("judges != ''")
+			->where("judges != '0'")
+			->getCompiledSelect(false);
+
+		$lastHeardtSubquery = $this->db->table('last_heardt')
+			->select('diary_no')
+			->whereIn('main_supp_flag', [1, 2])
+			->where('clno !=', 0)
+			->where('brd_slno !=', 0)
+			->where("judges != ''")
+			->where("judges != '0'") 
+			->getCompiledSelect(false);
+
+		$unionSubquery = "($heardtSubquery UNION $lastHeardtSubquery) AS a";
+
+		$builder = $this->db->table('main m');
+
+		$builder->select("
+			ROW_NUMBER() OVER (
+				ORDER BY
+					COALESCE(us.section_name, 'ZZZ') ASC,
+					COALESCE(u.name || '[' || u.empid || ']', 'Tentative') ASC,
+					m.diary_no_rec_date ASC
+			) AS sno,
+			SUBSTRING(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) || '/' || SUBSTRING(m.diary_no::text, -4) AS diary_no,
+			TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,
+			SUBSTRING(m.diary_no::text, -4) AS dyear,
+			CASE
+				WHEN m.dacode = 0 THEN 'Tentative DA'
+				ELSE u.name || '[' || u.empid || ']'
+			END AS daname,
+			CASE
+				WHEN m.section_id IS NULL THEN 'Tentative Section'
+				ELSE us.section_name
+			END AS section,
+			m.pet_name,
+			m.res_name
+		");
+
+		$builder->join($unionSubquery, 'm.diary_no = a.diary_no', 'left');
+		$builder->join('master.users u', 'm.dacode = u.usercode', 'left');
+		$builder->join('master.usersection us', 'm.section_id = us.id', 'left');
+		$builder->where('m.diary_no_rec_date >=', '2017-05-08');
+		$builder->where('m.active_fil_no IS NULL');
+		$builder->where('a.diary_no IS NULL'); 
+		$builder->where('m.c_status', 'P');
+		$builder->whereIn('m.active_casetype_id', [9, 10, 25, 26, 19, 20, 39]);
+		$builder->orWhereIn('m.casetype_id', [9, 10, 25, 26, 19, 20, 39]);
+		$builder->orderBy('section');
+		$builder->orderBy('daname');
+		$builder->orderBy('m.diary_no_rec_date');
+		$query = $builder->get();
+		return $query->getResultArray();
+	}
 
 
     public function rev_curprocess()
@@ -99,9 +132,9 @@ class LwdrModel extends Model
         $builder->whereIn('m.active_casetype_id', [9, 10, 19, 20, 25, 26]);
         $builder->whereNotIn("m.diary_no", $subQuery);
         $builder->orderBy('us.section_name, u.empid, dyear, m.diary_no');
-        $query = $builder->get();
-        return $query->getResultArray();
-    }
+		$query = $builder->get();
+        return $query->getResultArray(); 
+	}
 
     function get_Sub_SubjectCategory($Mcat)
     {
