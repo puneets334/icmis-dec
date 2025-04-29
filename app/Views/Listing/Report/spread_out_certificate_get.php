@@ -101,22 +101,22 @@
             </tr>
             <?php   
              $sno = 1;  
-
+             $t_fd_list = 0;
+             $t_frs_list = 0;
+             $t_aw_list = 0;
+             $t_imp_ia_list = 0;
+             $t_oth_list = 0;
+             $t_listed = 0;
+             $t_fd_not_listed = 0;
+             $t_frs_not_listed = 0;
+             $t_aw_not_listed = 0;
+             $t_imp_ia_not_listed = 0;
+             $t_oth_not_listed = 0;
+             $t_not_listed = 0;
+             $gd = 0;
             foreach($spread_out_certificate as $row){   
                 $sno1 = $sno % 2;
-                $t_fd_list = 0;
-                $t_frs_list = 0;
-                $t_aw_list = 0;
-                $t_imp_ia_list = 0;
-                $t_oth_list = 0;
-                $t_listed = 0;
-                $t_fd_not_listed = 0;
-                $t_frs_not_listed = 0;
-                $t_aw_not_listed = 0;
-                $t_imp_ia_not_listed = 0;
-                $t_oth_not_listed = 0;
-                $t_not_listed = 0;
-                $gd = 0;
+                
                 if($sno == 1 OR $sno == 2){ ?> 
 <tr style=" background: #ffffff;" >        
                 <?php } else if($sno >= 3 AND $sno <= 10){ 
@@ -129,21 +129,34 @@
       ?>
         <td align="center" style='vertical-align: top;'><?php echo $sno++; ?></td>
         <td align="center" style='text-align: left; vertical-align: top;'><?php echo $row['stagename']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_fd_list += $row['fd_list']; echo $row['fd_list']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_frs_list += $row['frs_list']; echo $row['frs_list']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_aw_list += $row['aw_list']; echo $row['aw_list']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_imp_ia_list += $row['imp_ia_list']; echo $row['imp_ia_list']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_oth_list += $row['oth_list']; echo $row['oth_list']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_listed += $row['listed']; echo $row['listed']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_fd_not_listed += $row['fd_not_listed']; echo $row['fd_not_listed']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_frs_not_listed += $row['frs_not_listed']; echo $row['frs_not_listed']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_aw_not_listed += $row['aw_not_listed']; echo $row['aw_not_listed']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_imp_ia_not_listed += $row['imp_ia_not_listed']; echo $row['imp_ia_not_listed']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_oth_not_listed += $row['oth_not_listed']; echo $row['oth_not_listed']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $t_not_listed += $row['not_listed']; echo $row['not_listed']; ?></td>
-        <td align="center" style='vertical-align: top;'><?php $gd += $row['listed'] + $row['not_listed']; echo $row['listed'] + $row['not_listed']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['fd_list']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['frs_list']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['aw_list']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['imp_ia_list']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['oth_list']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['listed']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['fd_not_listed']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['frs_not_listed']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['aw_not_listed']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['imp_ia_not_listed']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['oth_not_listed']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['not_listed']; ?></td>
+        <td align="center" style='vertical-align: top;'><?php echo $row['listed'] + $row['not_listed']; ?></td>
                 </tr>
                 <?php
+                 $t_fd_list += $row['fd_list']; 
+                 $t_frs_list += $row['frs_list']; 
+                 $t_aw_list += $row['aw_list']; 
+                 $t_imp_ia_list += $row['imp_ia_list']; 
+                 $t_oth_list += $row['oth_list']; 
+                 $t_listed += $row['listed']; 
+                 $t_fd_not_listed += $row['fd_not_listed']; 
+                 $t_frs_not_listed += $row['frs_not_listed']; 
+                 $t_aw_not_listed += $row['aw_not_listed']; 
+                 $t_imp_ia_not_listed += $row['imp_ia_not_listed']; 
+                 $t_oth_not_listed += $row['oth_not_listed']; 
+                 $t_not_listed += $row['not_listed']; 
+                 $gd += $row['listed'] + $row['not_listed']; 
 
             }//END OF WHILE LOOP
             ?>

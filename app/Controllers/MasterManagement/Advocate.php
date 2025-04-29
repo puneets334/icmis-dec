@@ -392,12 +392,18 @@ public $AORPendingMatters;
         $request = \Config\Services::request();
         $enrollDate = $request->getGet('enroll_date');
         $advDob = $request->getGet('adv_dob');
+        $advDob = $request->getGet('adv_dob');        
         $aorCode = $request->getGet('aor_code');
         $advState = $request->getGet('adv_state');
         $advEnrollNo = $request->getGet('adv_enroll_no');
         $advEnrollDt = $request->getGet('adv_enroll_dt');
-        $enrollDate = $this->formatDate($enrollDate);
-        $advDob = $this->formatDate($advDob);
+        $enrollDate = $this->formatDate($enrollDate);                
+        if (empty($advDob) || $advDob === '0000-00-00') {
+            $advDob = null;
+        }
+        else{
+            $advDob = $this->formatDate($advDob);
+        }        
         $aorCode = !empty($aorCode) ? (int)$aorCode : null;
         $advState = !empty($advState) ? $advState : null;
         $advEnrollNo = !empty($advEnrollNo) ? $advEnrollNo : null;
@@ -411,12 +417,12 @@ public $AORPendingMatters;
         } else {
             $builder->where('aor_code', $aorCode);
         }
-
-        if (!$this->isValidDate($enrollDate) || !$this->isValidDate($advDob)) {
-            return $this->response->setBody("<span style='color:red;text-align:center'><h3 style='color:red;'>DoB IS NOT A VALID DATE</h3></span>")->setContentType('text/html');
-        
+        if(!empty($advDob)){
+            if (!$this->isValidDate($enrollDate) || !$this->isValidDate($advDob)) {
+                return $this->response->setBody("<span style='color:red;text-align:center'><h3 style='color:red;'>DoB IS NOT A VALID DATE</h3></span>")->setContentType('text/html');
+            
+            }        
         }
-        
         $data = [
             'title' => $request->getGet('adv_tite'),
             'name' => $request->getGet('adv_name'),
@@ -438,8 +444,7 @@ public $AORPendingMatters;
             'enroll_date' => $enrollDate,
             'state_id' => $request->getGet('state'),
             'updated_on' => (new \DateTime())->format('Y-m-d H:i:s')
-        ];
-
+        ];        
         if ($builder->update($data)) {
             return $this->response->setBody("<span style='text-align:center'><h3 style='color:green;'>Updated Successfully!!!</h3></span>")
                                   ->setContentType('text/html');

@@ -47,89 +47,13 @@
                                                         <input type="text" id="to_date" value="<?php echo isset($_POST['to_date']) ? $_POST['to_date'] : ''; ?>" name="to_date" class="form-control dtp" placeholder="To Date" required="required">
                                                     </div>
                                                     <div class="col-sm-12 col-md-3 mb-3">
-                                                        <button type="submit" id="view" name="view" class="quick-btn mt-26">View REPORT</button>
+                                                        <button type="button" id="view" name="view" class="quick-btn mt-26">View REPORT</button>
                                                     </div>
                                                 </div>
                                             </form>
-                                            <?php
-                                            //if(is_array($reports))
+                                            <div id="res_loader"></div>
+                                            <div id="dv_res1"></div>
                                            
-                                            if (count($case_result) > 0) {
-                                            ?>
-                                                <div id="printable1" class="table-responsive">
-                                                    <table id="example1" class="table table-striped custom-table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th style="width: 5%;" rowspan='1'>SNo.</th>
-                                                                <th style="width: 5%;" rowspan='1'>Date</th>
-                                                                <!--   <th style="width: 5%;" rowspan='1'>Section</th>-->
-                                                                <th style="width: 5%;" rowspan='1'>Total</th>
-
-                                                                <th style="width: 5%;" rowspan='1'>Verfiy</th>
-                                                                <th style="width: 5%;" rowspan='1'>Not Verify</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php
-                                                            $s_no = 1;
-                                                            foreach ($case_result as $result) {
-                                                            ?>
-                                                                
-                                                                <tr>
-                                                                    <td><?php echo $s_no; ?></td>
-                                                                    <td><?php echo date('d-m-Y',strtotime($result['date1'])); ?></td>
-                                                                    <td><?php echo $result['total']; ?></td>
-                                                                    <?php if(!empty($result['verify'])){ ?>
-                                                                    <td><button class="btn btn-secondary" data-toggle="modal" data-target="#modal-default" onclick="get_detail('<?php echo $result['date1']; ?>','V','<?php echo $result['sec_id']; ?>','<?php echo $_POST['usercode']; ?>');"> <?php echo $result['verify']; ?></button></td>
-                                                                      <?php 
-                                                                    } else {
-                                                                        echo '<td>0</td>';
-                                                                    }
-                                                                    ?>
-                                                                    <?php if(!empty($result['not_verify'])){ ?>
-                                                                        <td><button class="btn btn-secondary" data-toggle="modal" data-target="#modal-default" onclick="get_detail('<?php echo $result['date1']; ?>','N','<?php echo $result['sec_id']; ?>','<?php echo $_POST['usercode']; ?>');"> <?php echo $result['not_verify']; ?></button></td>
-                                                                      <?php 
-                                                                    } else {
-                                                                        echo '<td>0</td>';
-                                                                    }
-                                                                    ?>
-                                                                    
-                                                                    
-
-                                                                </tr>
-                                                            <?php
-                                                                $s_no++;
-                                                            }
-                                                            ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            <?PHP
-                                            }
-                                            else{  if($value == 1){?>
-                                                <div id="printable1" class="table-responsive">
-                                                
-                                                <table id="example1" class="table table-striped custom-table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th style="width: 5%;" rowspan='1'>SNo.</th>
-                                                                <th style="width: 5%;" rowspan='1'>Date</th>
-                                                                <!--   <th style="width: 5%;" rowspan='1'>Section</th>-->
-                                                                <th style="width: 5%;" rowspan='1'>Total</th>
-
-                                                                <th style="width: 5%;" rowspan='1'>Verfiy</th>
-                                                                <th style="width: 5%;" rowspan='1'>Not Verify</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <td colspan="5">NO RECORD FOUND</td>
-                                                        </tbody>
-                                                    </table>
-                                            </div> 
-                                            <?php
-                                            }
-                                        }
-                                            ?>
 
                                             <div class="modal" id="modal-default">
                                                         <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -182,23 +106,23 @@
 </section>
 
 <script>
-    $("#example1").DataTable({
-        "responsive": true,
-        "lengthChange": false,
-        "autoWidth": false,
-        "dom": 'Bfrtip',
-        "bProcessing": true,
-        "buttons": [
-            {
-                extend: 'excelHtml5',
-                title: 'Verify-Not Verify Loose Documents' // Add your desired Excel heading here
-            },
-            {
-                extend: 'pdfHtml5',
-                title: 'Verify-Not Verify Loose Documents'   // Add your desired PDF heading here
-            }
-        ]
-    });
+    // $("#example1").DataTable({
+    //     "responsive": true,
+    //     "lengthChange": false,
+    //     "autoWidth": false,
+    //     "dom": 'Bfrtip',
+    //     "bProcessing": true,
+    //     "buttons": [
+    //         {
+    //             extend: 'excelHtml5',
+    //             title: 'Verify-Not Verify Loose Documents' // Add your desired Excel heading here
+    //         },
+    //         {
+    //             extend: 'pdfHtml5',
+    //             title: 'Verify-Not Verify Loose Documents'   // Add your desired PDF heading here
+    //         }
+    //     ]
+    // });
 
     $(document).on("focus", ".dtp", function() {
         $('.dtp').datepicker({
@@ -208,6 +132,38 @@
             yearRange: '1950:2050'
         });
 
+    });
+    $(document).on("click", "#view", function() {
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var usercode = $("#usercode").val();
+        var from_date = $("#from_date").val();
+        var to_date = $("#to_date").val();
+
+        $.ajax({
+            url: "<?php echo base_url('ManagementReports/DA/DA/get_loosedoc_verify_Nverify_data'); ?>",
+            method: 'POST',
+            beforeSend: function() {
+                $('#res_loader').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+            },
+            data: {
+                usercode: usercode,
+                from_date: from_date,
+                to_date: to_date,
+                CSRF_TOKEN: CSRF_TOKEN_VALUE
+            },
+            cache: false,
+            success: function(msg_new) {
+                updateCSRFToken();
+                $('#res_loader').html("");    
+                $('#dv_res1').html(msg_new);    
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                updateCSRFToken();
+                alert("Error: " + jqXHR.status + " " + errorThrown);
+            }
+        });
+        updateCSRFToken();
     });
 
     function get_detail(date, flag, section, usercode) {
@@ -225,9 +181,7 @@
             },
             dataType: 'json',
             beforeSend: function() {
-            $(".reportTable").html(
-                "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>"
-            );
+            $(".reportTable").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
         },
             type: "POST",
             success: function(data) {

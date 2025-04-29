@@ -150,16 +150,16 @@ class DA extends BaseController
         $data['case_result'] = [];
         $data['value'] = 0;
         $data['usercode'] = $_SESSION['login']['usercode'];
-
-        if ($_POST) {
+        return view('ManagementReport/DA/loosedoc_userwise', $data);
+    }
+    public function get_loosedoc_verify_Nverify_data()
+    {
             $usercode = $this->request->getPost('usercode');
             $from_date = date('Y-m-d', strtotime($this->request->getPost('from_date')));
             $to_date = date('Y-m-d', strtotime($this->request->getPost('to_date')));
             $data['value'] = 1;
-            $data['case_result'] = $this->CaseRemarksVerification->loosedoc_verify_not_verify($from_date, $to_date, $data['usercode']);
-        }
-        
-        return view('ManagementReport/DA/loosedoc_userwise', $data);
+            $data['case_result'] = $this->CaseRemarksVerification->loosedoc_verify_not_verify($from_date, $to_date, $usercode);
+        return view('ManagementReport/DA/loosedoc_userwise_get', $data);
     }
     public function get_verify_Nverify_Details()
     {
@@ -168,6 +168,8 @@ class DA extends BaseController
             $usercode = $this->request->getPost('usercode');
             $date = date('Y-m-d', strtotime($this->request->getPost('date')));
             $arr = $this->CaseRemarksVerification->loosedoc_verify_not_verify_Details($date,$flag,$section,$usercode);
+            // <!-- pr($arr);
+            // die(); -->
             echo json_encode($arr);
     }
     public function pre_notice()

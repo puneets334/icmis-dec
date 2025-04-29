@@ -231,7 +231,7 @@
                                             </select>
                                         </div>
 
-                                        <div class="left_panel_data_row1 row" style="height:88vh; overflow-y: scroll;"></div>
+                                        <div class="left_panel_data_row1 row" style="height:80vh; overflow-y: scroll;"></div>
                                     </div>
 
                                     <div class="col-md-8 column11">
