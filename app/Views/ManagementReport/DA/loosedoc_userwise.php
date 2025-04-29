@@ -133,13 +133,14 @@
         });
 
     });
-    $(document).on("click", "#view", function() {
+    $(document).on("click", "#view", async function() {
+        await updateCSRFTokenSync();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var usercode = $("#usercode").val();
         var from_date = $("#from_date").val();
         var to_date = $("#to_date").val();
-
+        
         $.ajax({
             url: "<?php echo base_url('ManagementReports/DA/DA/get_loosedoc_verify_Nverify_data'); ?>",
             method: 'POST',
@@ -154,22 +155,23 @@
             },
             cache: false,
             success: function(msg_new) {
-                updateCSRFToken();
+               // updateCSRFToken();
                 $('#res_loader').html("");    
                 $('#dv_res1').html(msg_new);    
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                updateCSRFToken();
-                alert("Error: " + jqXHR.status + " " + errorThrown);
+               // updateCSRFToken();
+                //alert("Error: " + jqXHR.status + " " + errorThrown);
             }
         });
-        updateCSRFToken();
+        //updateCSRFToken();
     });
 
-    function get_detail(date, flag, section, usercode) {
+    async function get_detail(date, flag, section, usercode) {
         $('#reportTable2 tbody').empty();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        await updateCSRFTokenSync();
         $.ajax({
             url: "<?php echo base_url('ManagementReports/DA/DA/get_verify_Nverify_Details'); ?>",
             data: {
@@ -185,7 +187,7 @@
         },
             type: "POST",
             success: function(data) {
-                updateCSRFToken();
+               // updateCSRFToken();
                 $(".reportTable").html('');
                 $('#reportTable2 tbody').empty();
                 sno = 1;
@@ -196,12 +198,12 @@
                 $("#modal-default").show();
             },
             error: function() {
-                updateCSRFToken();
+               // updateCSRFToken();
                 console.log('error');
             }
             
         });
-        updateCSRFToken();
+       // updateCSRFToken();
     }
     $(document).on("click","#print",function(){    
         var prtContent = $("#prnnt").html();
