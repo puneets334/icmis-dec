@@ -6641,3 +6641,16 @@ function get_allocation_judge_m_alc_b($p1, $cldt, $board_type)
             $ian_p_conn .= "</table></div>";
         return $ian_p_conn;
     }
+
+    function revertDate_hiphen_upd($date)
+    {
+        
+        if (empty($date) || !is_string($date)) {
+            return '';
+        }
+        $parts = explode('-', $date);
+        if (count($parts) !== 3) {
+            return '';
+        }
+        return $parts[2] . '-' . $parts[1] . '-' . $parts[0];
+    }

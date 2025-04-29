@@ -1,7 +1,9 @@
 <?php
 if ($keyValue == 1) {
+    
     if ($keyValue != 'L') {
-        $section = $model->getSections($cur_user_type, $deptname, $usercode);
+        //$section = $model->getSections($cur_user_type, $deptname, $usercode);
+        $section = $model->getSections_v1($cur_user_type, $deptname, $usercode);                
         // echo $section;
         if (count($section) > 0) {
 ?>
@@ -73,15 +75,15 @@ if ($keyValue == 1) {
     <div style="overflow: hidden;margin: 0 auto;margin-top: 30px;border: 0px solid red">
         <div style="width: 94%;border:0px solid blue;overflow: auto;margin-left: auto;margin-right: auto;background-color: lightblue">
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Department- <?php echo $currentUser['dept_name']; //$usertype_temp[0];
+                Department- <?php echo @$currentUser['dept_name']; //$usertype_temp[0];
                             ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Section- <?php echo $currentUser['section_name']; //displayUsertype($row1['usertype']);
+                Section- <?php echo @$currentUser['section_name']; //displayUsertype($row1['usertype']);
                             ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Designation- <?php echo $currentUser['type_name']; ?>
+                Designation- <?php echo @$currentUser['type_name']; ?>
             </div>
         </div>
         <div style="width: 94%;border:0px solid blue;overflow: auto;margin-left: auto;margin-right: auto">
@@ -89,10 +91,10 @@ if ($keyValue == 1) {
                 Name- <?php echo $currentUser['name']; ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Last Login- <?php echo (!empty($currentUser['log_in'])) ? revertDate_hiphen(date('Y-m-d', strtotime($currentUser['log_in']))) : ''; ?>
+                Last Login- <?php echo (!empty($currentUser['log_in'])) ? revertDate_hiphen_upd(date('Y-m-d', strtotime($currentUser['log_in']))) : ''; ?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Active From- <?php echo (!empty($currentUser['entdt'])) ? revertDate_hiphen(date('Y-m-d', strtotime($currentUser['entdt']))) : ''; ?>
+                Active From- <?php echo (!empty(@$currentUser['entdt'])) ? revertDate_hiphen_upd(date('Y-m-d', strtotime($currentUser['entdt']))) : ''; ?>
             </div>
         </div>
 
@@ -1086,10 +1088,10 @@ if ($keyValue == 1) {
                 Name- <?php echo $currentUser['name'];?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Last Login- <?php echo revertDate_hiphen($currentUser['log_in']);?>
+                Last Login- <?php echo revertDate_hiphen_upd($currentUser['log_in']);?>
             </div>
             <div style="border: 0px dashed blue; float: left; width: 32%;padding: 2px;">
-                Active From- <?php echo revertDate_hiphen(date('Y-m-d',strtotime($currentUser['entdt'])));?>
+                Active From- <?php echo revertDate_hiphen_upd(date('Y-m-d',strtotime($currentUser['entdt'])));?>
             </div>
         </div>
          

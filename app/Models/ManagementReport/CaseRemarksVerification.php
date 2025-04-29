@@ -617,11 +617,14 @@ class CaseRemarksVerification extends Model
 
     public function loosedoc_verify_not_verify_Details($date,$flag,$section,$usercode)
     {
-        if($flag=='V')
+        if($flag=='V'){
         $cond2=" and dc.verified='$flag'";
-     else if($flag=='N')
+        $cond3 = "";
+        }
+        else if($flag=='N'){
          $cond2=" and dc.verified!='V'";
-
+         $cond3= " AND dm.display = 'Y'";
+        }
       $sql_da="SELECT
                     u.name,
                     u.empid,
@@ -695,7 +698,7 @@ class CaseRemarksVerification extends Model
                     m.c_status = 'P'
                     AND DATE(dc.ent_dt) = '$date'
                     $cond2 $cond 
-                    AND dm.display = 'Y'
+                    $cond3
                     AND dc.display = 'Y'";
         
          $query = $this->db->query($sql);

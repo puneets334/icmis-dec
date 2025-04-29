@@ -30,17 +30,17 @@
                                 <table id="tblCasesUploadStatus" class="table table-striped table-hover table-bordered" style="width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th>S. No.</th>
-                                            <th>Diary No/Case No.</th>
-                                            <th>Cause Title</th>
-                                            <th>Filing Date</th>
-                                            <th>Registration Date</th>
-                                            <th><?php if ((int)$showDA == 1) { ?>Dealing Assistant-Section<?php } else { ?>Section <?php } ?></th>
-                                            <th>Matter Type</th>
-                                            <th>Agency State</th>
-                                            <th>Agency Name</th>
-                                            <th>Subject</th>
-                                            <th>Case Status</th>
+                                            <th style="font-weight: bold !important;">S. No.</th>
+                                            <th style="font-weight: bold !important;">Diary No/Case No.</th>
+                                            <th style="font-weight: bold !important;">Cause Title</th>
+                                            <th style="font-weight: bold !important;">Filing Date</th>
+                                            <th style="font-weight: bold !important;">Registration Date</th>
+                                            <th style="font-weight: bold !important;"><?php if ((int)$showDA == 1) { ?>Dealing Assistant-Section<?php } else { ?>Section <?php } ?></th>
+                                            <th style="font-weight: bold !important;">Matter Type</th>
+                                            <th style="font-weight: bold !important;">Agency State</th>
+                                            <th style="font-weight: bold !important;">Agency Name</th>
+                                            <th style="font-weight: bold !important;">Subject</th>
+                                            <th style="font-weight: bold !important;">Case Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
