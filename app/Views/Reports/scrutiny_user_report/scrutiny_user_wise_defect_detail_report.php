@@ -87,11 +87,11 @@
                                             <td><?php echo $result['casetype'];?></td>
                                             <td><?php echo $result['causetitle'];?></td>
                                             <td><?php echo date('d-m-Y', strtotime($result['filingdate']));?></td>
-                                            <td><?php echo $result['total_defect_count'];?></td>
+                                            <td><?php echo $result['no_of_defect'];?></td>
 
                                         </tr>
                                         <?php
-                                        $total_diary+=$result['total_defect_count'];
+                                        $total_diary+=$result['no_of_defect'];
                                     }
                                     ?>
 
