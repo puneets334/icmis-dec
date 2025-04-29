@@ -125,12 +125,14 @@
             },
             type: 'POST',
             success: function(data, status) {
+                updateCSRFToken();
                console.log('updated darta: '+data);
                 $('#dv_res1').html(data);
-                updateCSRFToken();
+                
                
             },
             error: function(xhr) {
+                updateCSRFToken();
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
