@@ -182,8 +182,8 @@ class RequisitionModel extends Model{
                         inner join heardt h on h.diary_no = m.diary_no
                         inner join master.roster r on r.id = h.roster_id 
                         inner join cl_printed c on c.next_dt = h.next_dt and c.part = h.clno and c.roster_id = h.roster_id and c.display = 'Y'
-                        WHERE (m.diary_no = m.conn_key::BIGINT OR m.conn_key IS NULL OR m.conn_key = '' OR m.conn_key = '0')
-                        and h.next_dt = '".$dateitem."' and clno > 0 and brd_slno = '".$item_no."'
+                        WHERE (m.diary_no::text = m.conn_key OR m.conn_key IS NULL OR m.conn_key = '' OR m.conn_key = '0')
+                        and h.next_dt = '".$dateitem."' and clno > 0 and brd_slno::bigint = '".$item_no."'
                         and r.courtno = '".$court_no."'   group by m.diary_no,m.reg_no_display, m.pet_name, m.res_name, h.next_dt";
         $stmt = $this->db->query($sqlQuery);
        return $stmt->getRowArray();

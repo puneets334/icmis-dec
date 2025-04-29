@@ -1149,49 +1149,54 @@ class Diary extends BaseController
 
                             $rw_judge = is_data_from_table('lowerct', ['diary_no' => $diary_no], 'lower_court_id', 'R');
                             $judge_lowerct = $rw_judge['lower_court_id'];   // id against which jugdes id to be stored in lowerct_judges table.
-
+                            
                             if (!empty($tc) && !empty($a)) {
                                 for ($i = 0; $i < ($tc + 1); $i++) {
-                                    $sql_lowerct_judges = [
-                                        'lowerct_id' => $judge_lowerct,
-                                        'judge_id' => $a[$i],
-                                        'lct_display' => 'Y',
-
-                                        'create_modify' => date("Y-m-d H:i:s"),
-                                        'updated_by' => session()->get('login')['usercode'],
-                                        'updated_by_ip' => getClientIP(),
-
-                                    ];
-                                    $is_sql_lowerct_judges = insert('lowerct_judges', $sql_lowerct_judges);
-
-
-                                    if ((($_REQUEST['ddl_nature'] == 9) || ($_REQUEST['ddl_nature'] == 10) || ($_REQUEST['ddl_nature'] == 25) || ($_REQUEST['ddl_nature'] == 26)) && ($_REQUEST['ddl_nature'] <> 19) && ($_REQUEST['ddl_nature'] <> 20) && ($_REQUEST['ddl_nature'] <> 39)) {
-                                        if ($a[$i] == 0) {
-                                            continue;
-                                        }
-                                        $rs_j = is_data_from_table('master.judge', ['is_retired' => 'N', 'jcode' => $a[$i]]);
-                                        if (empty($rs_j)) {
-                                            continue;
-                                        }
-                                        $sql_ins_bef_not = [
-                                            'diary_no' => $judge_lowerct,
-                                            'j1' => $a[$i],
-                                            'notbef' => 'B',
-                                            'usercode' => 1,
-                                            'ent_dt' => date("Y-m-d H:i:s"),
-                                            'enterby' => 19,
-                                            'u_ip' => getClientIP(),
-                                            'u_mac' => ' ',
-                                            'res_add' => ' ',
-                                            'res_id' => 0,
+                                if(!empty($a[$i]))
+                                  {
+                                        $sql_lowerct_judges = [
+                                            'lowerct_id' => $judge_lowerct,
+                                            'judge_id' => $a[$i], //(!empty($a[$i])) ? $a[$i] : NULL,
+                                            'lct_display' => 'Y',
 
                                             'create_modify' => date("Y-m-d H:i:s"),
                                             'updated_by' => session()->get('login')['usercode'],
-
                                             'updated_by_ip' => getClientIP(),
 
                                         ];
-                                        $is_sql_ins_bef_not = insert('not_before', $sql_ins_bef_not);
+                                    
+                                        $is_sql_lowerct_judges = insert('lowerct_judges', $sql_lowerct_judges);
+                                    
+
+
+                                        if ((($_REQUEST['ddl_nature'] == 9) || ($_REQUEST['ddl_nature'] == 10) || ($_REQUEST['ddl_nature'] == 25) || ($_REQUEST['ddl_nature'] == 26)) && ($_REQUEST['ddl_nature'] <> 19) && ($_REQUEST['ddl_nature'] <> 20) && ($_REQUEST['ddl_nature'] <> 39)) {
+                                            if ($a[$i] == 0) {
+                                                continue;
+                                            }
+                                            $rs_j = is_data_from_table('master.judge', ['is_retired' => 'N', 'jcode' => $a[$i]]);
+                                            if (empty($rs_j)) {
+                                                continue;
+                                            }
+                                            $sql_ins_bef_not = [
+                                                'diary_no' => $judge_lowerct,
+                                                'j1' => $a[$i],
+                                                'notbef' => 'B',
+                                                'usercode' => 1,
+                                                'ent_dt' => date("Y-m-d H:i:s"),
+                                                'enterby' => 19,
+                                                'u_ip' => getClientIP(),
+                                                'u_mac' => ' ',
+                                                'res_add' => ' ',
+                                                'res_id' => 0,
+
+                                                'create_modify' => date("Y-m-d H:i:s"),
+                                                'updated_by' => session()->get('login')['usercode'],
+
+                                                'updated_by_ip' => getClientIP(),
+
+                                            ];
+                                            $is_sql_ins_bef_not = insert('not_before', $sql_ins_bef_not);
+                                        }
                                     }
                                 }
                             }
@@ -1738,14 +1743,7 @@ class Diary extends BaseController
             $_REQUEST['d_no'] = $fil;
             $_REQUEST['d_yr'] = $year;
         }
-
-
-
-
-
-
-
-
+ 
 
         $this->db->transComplete();
 

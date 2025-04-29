@@ -104,7 +104,7 @@ class Ajaxcalls extends BaseController
         foreach ($districts as $district) {
             $tempArr = array();
             $tempArr['id'] = sanitize(trim($district['id_no']));
-            $tempArr['district_name'] = sanitize(strtoupper($district['name']));
+            $tempArr['district_name'] = sanitize(strtoupper(trim($district['name'])));
             $districtIdName[] = (object)$tempArr;
         }
         echo json_encode($districtIdName);
