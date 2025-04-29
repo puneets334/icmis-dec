@@ -195,10 +195,12 @@
             var roletype = '<?php echo $_SESSION['role_id'] ?>';
             var dataArr =[0,0,0,0,0,0];
             $(document).ready(function () {
-             
+
                 $('#btn_interaction').attr('disabled', 'disabled');
 
-                setInterval(function () {
+                setInterval(async function () {
+                    await updateCSRFTokenSync();
+
                     var CSRF_TOKEN = 'CSRF_TOKEN';
 		            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
                     $.ajax({
@@ -262,7 +264,9 @@
                 if (roletype == 6)
                 {
 
-                    setInterval(function () {
+                    setInterval(async function () {
+                        await updateCSRFTokenSync();
+
                         var CSRF_TOKEN = 'CSRF_TOKEN';
 		                var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
                         $.ajax({
@@ -289,7 +293,9 @@
                 }
 
 
-                setInterval(function () {
+                setInterval(async function () {
+                    await updateCSRFTokenSync();
+
                     var CSRF_TOKEN = 'CSRF_TOKEN';
 		            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
                     $.ajax({
