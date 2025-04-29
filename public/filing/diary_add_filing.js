@@ -965,7 +965,7 @@ function getAdvocate_for_main(id,flag)
         if(document.getElementById("radvno").value==''  && radvt=='A'){
             alert('Please enter AOR Code');
             //   document.getElementById("padvno").value='oo';
-            document.getElementById("radvno").focus();
+            //document.getElementById("radvno").focus();
             return false;
         }
 
@@ -1985,9 +1985,11 @@ function call_save_main(st_status)
                     res = res.split('!~!');
                     //alert(res[1]);
                     //call_fullReset_main();
-                    //$('#svbtn').attr("disabled", false);
+                    $('#svbtn').attr("disabled", false);
                     document.getElementById('show_fil').innerHTML = res[1];
                 }
+            }else{
+                $('#svbtn').attr("disabled", false);
             }
 
         }
