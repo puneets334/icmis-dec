@@ -25,10 +25,33 @@
 	  #btn_sensetive {
 		 display: none !important;
 	  } 
+
+      table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+
+    table.dataTable>thead .sorting_disabled,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+    table tfoot tr th {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+    .dataTables_filter
+    {
+        margin-top: 10px;
+    }
 </style>
 <div id="prnnt">
     <center class="m-1"><h3 style="margin-top: 45px;">SENSITIVE CASES</h3></center>
-    <table id="reportTable" class="table table-striped custom-table">
+    <table id="reportTable" class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th>S. No.</th>
@@ -119,16 +142,37 @@
     <input name="prnnt1" type="button" id="prnnt1" value="Print">
 </div>
 <script>
-    $(document).ready(function () {
-        $('#reportTable').DataTable( {
-            paging: true,
-            ordering: false,
-            info: true,
-            searching: true,
-        } )
+$(function() {
+    var dynamicTitle = "Sensensitive Cases"; 
+    var dynamicFilename = "Sensensitive_Cases"; 
+
+    var table = $("#reportTable").DataTable({
+        responsive: true,
+        searching: true,
+        lengthChange: false,
+        autoWidth: true,
+        pageLength: 20,
+        processing: true,
+        ordering: true,
+        paging: true,
+        buttons: [
+            {
+                extend: 'print',
+                title: dynamicTitle,
+                messageTop: 'Generated on: ' + new Date().toLocaleDateString(),
+                filename: dynamicFilename
+            },
+            {
+                extend: 'pdf',
+                title: dynamicTitle,
+                messageTop: 'Generated on: ' + new Date().toLocaleDateString(),
+                filename: dynamicFilename,
+                orientation: 'landscape',
+                pageSize: 'A4' 
+            }
+        ]
     });
-	
-	$('#prnnt1').on('click', function() {
-    window.print(); // after filtering
+
+    table.buttons().container().appendTo('#reportTable_wrapper .col-md-6:eq(0)');
 });
 </script>
