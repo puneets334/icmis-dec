@@ -42,7 +42,6 @@ class Registration extends BaseController
     public function getEmployees_()
     {
         $search = $this->request->getVar('val');
-
         $builder = $this->db->table('master.users');
         $builder->select('empid, usercode, name');
 
@@ -62,7 +61,7 @@ class Registration extends BaseController
 
 
         $builder->orderBy('name', 'ASC');
-        pr($builder->getCompiledSelect());
+        // echo $builder->getCompiledSelect();
         $query = $builder->get();
 
         return $this->response->setJSON($query->getResultArray());
@@ -71,19 +70,15 @@ class Registration extends BaseController
     public function getEmployees()
     {
         $search = $this->request->getVar('val');
-
         $builder = $this->db->table('master.users');
-        $builder->select('empid, usercode, name') 
-            ->where('display', 'Y');        
+        $builder->select('empid, usercode, name')->where('display', 'Y');        
         if (is_numeric($search)) {
-            $builder->where('empid', $search);
+            $builder->like('CAST(empid AS text)', $search . '%', 'after');
         }else{
             $builder->Like('lower(name)', $search);
         }
-        $builder->orderBy('name', 'ASC');
-         
+        $builder->orderBy('name', 'ASC');         
         $query = $builder->get();
-
         return $this->response->setJSON($query->getResultArray());
     }
 

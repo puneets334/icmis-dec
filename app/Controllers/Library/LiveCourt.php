@@ -67,7 +67,7 @@ class LiveCourt extends BaseController
             <?php
         }
         else {
-            echo "Error!...";
+            echo "No Record Found...";
         }
         }
     }
