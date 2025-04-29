@@ -52,202 +52,198 @@ $pr_mf = $mf;
 $sql_t = "";
 $ttt = 0;
 
-if ($crt != '') 
-{
-    $jc = "";
-    $chk_var = 0;
-    $not_avail = "";
-    if (count($results10) > 0) {
-        $t_cntr = 0;
-        $chk_var = 1;
-        echo '<table  width="100%" border="1" cellpadding="0" cellspacing="0" style="border: 1px solid black; border-collapse: collapse;" >';
-        foreach ($results10 as $row10) {
-            $jcodes = "";
-            $jcodes11 = "";
-            $jnm = "";
-            $sbdb = "";
-            $sbdb1 = "";
-            $jabr = "";
-            $t_cl_dt = '';
-            //$jcourt = 0;
-            $cstatus = $row10["c_status"];
-            $jnm = $row10["judges"];
-            $jcodes = $row10["judges"];
-            $jcodes11 = $row10["judges"];
-            $t_fil_no = $row10['reg_no_display'];
+$jc = "";
+$chk_var = 0;
+$not_avail = "";
+if (count($results10) > 0) {
+    $t_cntr = 0;
+    $chk_var = 1;
+    echo '<table  width="100%" border="1" cellpadding="0" cellspacing="0" style="border: 1px solid black; border-collapse: collapse;" >';
+    foreach ($results10 as $row10) {
+        $jcodes = "";
+        $jcodes11 = "";
+        $jnm = "";
+        $sbdb = "";
+        $sbdb1 = "";
+        $jabr = "";
+        $t_cl_dt = '';
+        //$jcourt = 0;
+        $cstatus = $row10["c_status"];
+        $jnm = $row10["judges"];
+        $jcodes = $row10["judges"];
+        $jcodes11 = $row10["judges"];
+        $t_fil_no = $row10['reg_no_display'];
 
-            if ($jc != $jnm) {
+        if ($jc != $jnm) {
 
-                $cntr = 0;
-                $jc = $jnm;
-                $stagec = "";
-                $mf = "";
-                $clno = 0;
-                $chk_pslno = 0;
-                $previous_brd_slno = 0;
+            $cntr = 0;
+            $jc = $jnm;
+            $stagec = "";
+            $mf = "";
+            $clno = 0;
+            $chk_pslno = 0;
+            $previous_brd_slno = 0;
 
-                $jcourt = $row10["jcourt"];
-                $bench_from_roster = $row10["bench_from_roster"];
+            $jcourt = $row10["jcourt"];
+            $bench_from_roster = $row10["bench_from_roster"];
 
-                $ttt = 1;
-                echo '<thead><tr style="padding: 10px;" align="left"><th colspan="10" height="25px"><br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAUSE LIST FOR <font color="red">' . date('l', strtotime($tdt1)) . ' ' . $dtd . '</font></b>&nbsp;[COURT NO. : ' . $jcourt . '] .</th></tr>';
+            $ttt = 1;
+            echo '<thead><tr style="padding: 10px;" align="left"><th colspan="10" height="25px"><br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAUSE LIST FOR <font color="red">' . date('l', strtotime($tdt1)) . ' ' . $dtd . '</font></b>&nbsp;[COURT NO. : ' . $jcourt . '] .</th></tr>';
 
-                echo '<tr align="left" height="20px"><th width="5%">C.L.No.</th><th>Case No.</th><th>Cause Title</th><th>Advocates</th><th>ROP/<br>C.O.</th><th>Purpose/Stage/<br>Court Type/Head</th><th>Statutary</th><th>Updated By</th><th>Tentative Date</th><th>Action</th></tr>';
-            }
+            echo '<tr align="left" height="20px"><th width="5%">C.L.No.</th><th>Case No.</th><th>Cause Title</th><th>Advocates</th><th>ROP/<br>C.O.</th><th>Purpose/Stage/<br>Court Type/Head</th><th>Statutary</th><th>Updated By</th><th>Tentative Date</th><th>Action</th></tr>';
+        }
 
-            $verify_str = "";
-            $verify_str = $row10["diary_no"] . "_" . $row10["mainhead"] . "_" . $row10["board_type"] . "_" . $tdt1 . "_" . $jcourt . "_" . $row10['tentative_cl_dt'];
-            $cntr += 1;
+        $verify_str = "";
+        $verify_str = $row10["diary_no"] . "_" . $row10["mainhead"] . "_" . $row10["board_type"] . "_" . $tdt1 . "_" . $jcourt . "_" . $row10['tentative_cl_dt'];
+        $cntr += 1;
 
-            $tmp_caseno = $row10["diary_no"];
+        $tmp_caseno = $row10["diary_no"];
 
-            $d1 = $row10["case_no"];
-            $d2 = $row10["year"];
-            $caseno = "DN:<a data-animation=\"fade\" data-reveal-id=\"myModal\" onclick=\"call_cs('$d1', '$d2', '', '', '');\" href='#'>" . $row10["case_no"] . " / " . $row10["year"];
-            //HIDE CODE FOR ADVOCATES FROM MAIN TABLE
-            $padv = explode(",", trim($row10['pet_adv_id']));
-            $padv1 = "";
-            echo '<tbody style="page-break-inside: avoid;">';
-            for ($k = 0; $k < count($padv); ++$k) {
-                if ($padv[$k] != 0) {
-                    if ($k == 0) {
-                        $padv1 .= get_advocates_by_id($padv[$k]);
-                    } else {
-                        $padv1 .= ", " . get_advocates_by_id($padv[$k]);
-                    }
-                }
-            }
-            $radv = explode(",", trim($row10['res_adv_id']));
-            $radv1 = "";
-            for ($k = 0; $k < count($radv); ++$k) {
-                if ($radv[$k] != 0) {
-                    if ($k == 0)
-                        $radv1 .= get_advocates_by_id($radv[$k]);
-                    else
-                        $radv1 .= ", " . get_advocates_by_id($radv[$k]);
-                }
-            }
-
-            $rop_view = $row10['rop_view'];
-            $brdremark = $row10['brdremark'];
-
-            if ($mf != $row10["mainhead"]) {
-                $mf = $row10["mainhead"];
-                $t_mf = "";
-                if ($mf == "M")
-                    $t_mf = "MISCELLANEOUS HEARING";
-                if ($mf == "F")
-                    $t_mf = "REGULAR HEARING";
-                if ($mf == "S")
-                    $t_mf = "MEDIATION";
-                echo '<tr height="20px" valign="top"><td colspan="10" align="center"><u><b>' . $t_mf . '</b></u></td></tr>';
-            }
-            if ($clno != $row10["clno"]) {
-                $clno = $row10["clno"];
-            }
-            
-            $t_stagename = $row10["t_stagename"];
-
-            if ($stagec != $t_stagename) {
-                $stagec = $t_stagename;
-                echo '<tr height="20px" valign="top"><td></td><td colspan="5"><b>' . $stagec . '</b></td></tr>';
-            }
-
-            if ($previous_brd_slno == $row10["brd_slno"]) {
-                $t_cntr++;
-            } else {
-                $t_cntr = 0;
-            }
-
-            if ($printFrm == 0) {
-                echo "<span class='blink_me'><font style='font-weight:bold;color:green; font-size:10px;'><b>Cause List Serial .No Will be Available after Finalization  Of The Cause List. </b></font></span>";
-                $printFrm++;
-            }
-            $chk_slno = $row10["brd_prnt"];
-            if ($chk_slno == $chk_pslno and $chk_pslno != '') {
-                echo '<tr height="20px" valign="top"><td></td><td colspan="5"><font color=red>CONNECTED CASE</font></td></tr>';
-                $chk_slno = $previous_brd_slno . '.' . $t_cntr;
-            }
-
-            $head1 = $row10["head1"];
-
-            $t_cl_dt = $row10["head1"];
-            $heardt_updtby = $row10["heardt_updtby"];
-            $heardt_stagename = $row10["heardt_stagename"];
-            $heardt_purpose = $row10["heardt_purpose"];
-            $heardt_mainhead = $row10["heardt_mainhead"];
-            $heardt_board_type = $row10["heardt_board_type"];
-
-            echo '<tr id="' . $verify_str . '" height="25px" valign="top"><td>' . $chk_slno . '</td><td><b>' . $caseno . '</br>' . $t_fil_no . '</b></td>';
-            echo '<td>' . $row10["pet_name"] . '&nbsp;&nbsp;Vs.<br>' . $row10["res_name"] .  '</td><td>P : ' . $padv1 . '</br>R :' . $radv1 . '</td><td>' . $rop_view . '<br>CO : ' . $head1 . '</td><td>' . $heardt_purpose . $heardt_mainhead . $heardt_board_type . '<br>' . $heardt_stagename . '</td><td>' . $brdremark . '</td><td>' . $heardt_updtby . '</td><td>' . $t_cl_dt . '</td>';
-
-            ?>
-
-            <td>
-                <?php
-                if (!empty($res_verif)) {
-                    foreach ($res_verif as $row_verif) {
-                        echo "<span style='color:green;'><b>" . $row_verif['rem_dtl'] . "</b> at " . date('d-m-Y H:i:s', strtotime($row_verif['ent_dt'])) . "</span><br>";
-                    }
-                }
-
-                if ($_REQUEST['vstats'] == 1 or $row10['cl_dt'] != null) {
+        $d1 = $row10["case_no"];
+        $d2 = $row10["year"];
+        $caseno = "DN:<a data-animation=\"fade\" data-reveal-id=\"myModal\" onclick=\"call_cs('$d1', '$d2', '', '', '');\" href='#'>" . $row10["case_no"] . " / " . $row10["year"];
+        //HIDE CODE FOR ADVOCATES FROM MAIN TABLE
+        $padv = explode(",", trim($row10['pet_adv_id']));
+        $padv1 = "";
+        echo '<tbody style="page-break-inside: avoid;">';
+        for ($k = 0; $k < count($padv); ++$k) {
+            if ($padv[$k] != 0) {
+                if ($k == 0) {
+                    $padv1 .= get_advocates_by_id($padv[$k]);
                 } else {
-                    if (!empty($res_rem)) {
-                ?>
-                        <select class="ele" name="rremark_<?php echo $row10['diary_no']; ?>" id="rremark_<?php echo $row10['diary_no']; ?>"
-                            size=3; multiple="multiple" style="width: 130px;">
-                            <?php
-                            foreach ($res_rem as $row_rem) {
-                                if ($row_rem['id'] == '1') {
-                                    $sel_id = "selected='selected'";
-                                } else {
-                                    $sel_id = "";
-                                }
-                            ?>
-                                <option value="<?php echo $row_rem['id']; ?>" <?php echo $sel_id; ?>> <?php echo $row_rem['remarks']; ?></option>
-                        <?php
-                            }
-                        }
+                    $padv1 .= ", " . get_advocates_by_id($padv[$k]);
+                }
+            }
+        }
+        $radv = explode(",", trim($row10['res_adv_id']));
+        $radv1 = "";
+        for ($k = 0; $k < count($radv); ++$k) {
+            if ($radv[$k] != 0) {
+                if ($k == 0)
+                    $radv1 .= get_advocates_by_id($radv[$k]);
+                else
+                    $radv1 .= ", " . get_advocates_by_id($radv[$k]);
+            }
+        }
 
-                        ?>
-                        </select>
-                        <input type='button' name='bsubmit' id='bsubmit' value='Verify' onClick='javascript:addRecord_rop("<?php echo $verify_str; ?>")' />
-                    <?php  } ?>
-            </td>
+        $rop_view = $row10['rop_view'];
+        $brdremark = $row10['brdremark'];
+
+        if ($mf != $row10["mainhead"]) {
+            $mf = $row10["mainhead"];
+            $t_mf = "";
+            if ($mf == "M")
+                $t_mf = "MISCELLANEOUS HEARING";
+            if ($mf == "F")
+                $t_mf = "REGULAR HEARING";
+            if ($mf == "S")
+                $t_mf = "MEDIATION";
+            echo '<tr height="20px" valign="top"><td colspan="10" align="center"><u><b>' . $t_mf . '</b></u></td></tr>';
+        }
+        if ($clno != $row10["clno"]) {
+            $clno = $row10["clno"];
+        }
+        
+        $t_stagename = $row10["t_stagename"];
+
+        if ($stagec != $t_stagename) {
+            $stagec = $t_stagename;
+            echo '<tr height="20px" valign="top"><td></td><td colspan="5"><b>' . $stagec . '</b></td></tr>';
+        }
+
+        if ($previous_brd_slno == $row10["brd_slno"]) {
+            $t_cntr++;
+        } else {
+            $t_cntr = 0;
+        }
+
+        if ($printFrm == 0) {
+            echo "<span class='blink_me'><font style='font-weight:bold;color:green; font-size:10px;'><b>Cause List Serial .No Will be Available after Finalization  Of The Cause List. </b></font></span>";
+            $printFrm++;
+        }
+        $chk_slno = $row10["brd_prnt"];
+        if ($chk_slno == $chk_pslno and $chk_pslno != '') {
+            echo '<tr height="20px" valign="top"><td></td><td colspan="5"><font color=red>CONNECTED CASE</font></td></tr>';
+            $chk_slno = $previous_brd_slno . '.' . $t_cntr;
+        }
+
+        $head1 = $row10["head1"];
+
+        $t_cl_dt = $row10["head1"];
+        $heardt_updtby = $row10["heardt_updtby"];
+        $heardt_stagename = $row10["heardt_stagename"];
+        $heardt_purpose = $row10["heardt_purpose"];
+        $heardt_mainhead = $row10["heardt_mainhead"];
+        $heardt_board_type = $row10["heardt_board_type"];
+
+        echo '<tr id="' . $verify_str . '" height="25px" valign="top"><td>' . $chk_slno . '</td><td><b>' . $caseno . '</br>' . $t_fil_no . '</b></td>';
+        echo '<td>' . $row10["pet_name"] . '&nbsp;&nbsp;Vs.<br>' . $row10["res_name"] .  '</td><td>P : ' . $padv1 . '</br>R :' . $radv1 . '</td><td>' . $rop_view . '<br>CO : ' . $head1 . '</td><td>' . $heardt_purpose . $heardt_mainhead . $heardt_board_type . '<br>' . $heardt_stagename . '</td><td>' . $brdremark . '</td><td>' . $heardt_updtby . '</td><td>' . $t_cl_dt . '</td>';
+
+        ?>
+
+        <td>
             <?php
+            if (!empty($res_verif)) {
+                foreach ($res_verif as $row_verif) {
+                    echo "<span style='color:green;'><b>" . $row_verif['rem_dtl'] . "</b> at " . date('d-m-Y H:i:s', strtotime($row_verif['ent_dt'])) . "</span><br>";
+                }
+            }
 
-            echo '</tr>';
-            echo '</tbody>';
-        }
-        echo '</table>';
-    } else
-        echo '<table border="0" width="100%"><tr align="center"><td><font color="#CC0000"><b><br><br>No Records Found</b></font></td></tr></table>';
-    ?><br><br><br><br><br>
-    </div>
-    </div>
-    <?php
-    if ($msg != "")
-        $msg = "Pass over cases : " . substr($msg, 0, -2);
+            if ($_REQUEST['vstats'] == 1 or $row10['cl_dt'] != null) {
+            } else {
+                if (!empty($res_rem)) {
+            ?>
+                    <select class="ele" name="rremark_<?php echo $row10['diary_no']; ?>" id="rremark_<?php echo $row10['diary_no']; ?>"
+                        size=3; multiple="multiple" style="width: 130px;">
+                        <?php
+                        foreach ($res_rem as $row_rem) {
+                            if ($row_rem['id'] == '1') {
+                                $sel_id = "selected='selected'";
+                            } else {
+                                $sel_id = "";
+                            }
+                        ?>
+                            <option value="<?php echo $row_rem['id']; ?>" <?php echo $sel_id; ?>> <?php echo $row_rem['remarks']; ?></option>
+                    <?php
+                        }
+                    }
 
-    if (!empty($jcourt)) {
-        if (!empty($row10['showlcd_message'])) {
-            $row_new = $row10['showlcd_message'];
-            $temp_msg = $row_new[0];
-            if ($msg != "")
-                $msg .= "; Message : " . $row_new[0];
-            else
-                $msg = "Message : " . $row_new[0];
-        }
+                    ?>
+                    </select>
+                    <input type='button' name='bsubmit' id='bsubmit' value='Verify' onClick='javascript:addRecord_rop("<?php echo $verify_str; ?>")' />
+                <?php  } ?>
+        </td>
+        <?php
+
+        echo '</tr>';
+        echo '</tbody>';
     }
+    echo '</table>';
+} else
+    echo '<table border="0" width="100%"><tr align="center"><td><font color="#CC0000"><b><br><br>No Records Found</b></font></td></tr></table>';
+?><br><br><br><br><br>
+</div>
+</div>
+<?php
+if ($msg != "")
+    $msg = "Pass over cases : " . substr($msg, 0, -2);
 
-    if (!empty($jcourt)) { ?>
-        <input type="hidden" name="msg2" id="msg2" value="<?php print $jcourt . '::' . $tdt1 . ':::'; ?>">
-    <?php } ?>
+if (!empty($jcourt)) {
+    if (!empty($row10['showlcd_message'])) {
+        $row_new = $row10['showlcd_message'];
+        $temp_msg = $row_new[0];
+        if ($msg != "")
+            $msg .= "; Message : " . $row_new[0];
+        else
+            $msg = "Message : " . $row_new[0];
+    }
+}
 
-    <input type="hidden" name="msg1" id="msg1" value="<?php print $msg; ?>">
-
+if (!empty($jcourt)) { ?>
+    <input type="hidden" name="msg2" id="msg2" value="<?php print $jcourt . '::' . $tdt1 . ':::'; ?>">
 <?php } ?>
+
+<input type="hidden" name="msg1" id="msg1" value="<?php print $msg; ?>">
 
 <div id="newcs" style="display:none;">
     <table width="100%" border="0" style="border-collapse: collapse">

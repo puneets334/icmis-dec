@@ -528,7 +528,7 @@ class Report extends BaseController
             $results[$indexKey]['t_stagename'] = $t_stagename;
         }
 
-        //echo "<pre>";print_r($results);die;
+        // echo "<pre>";print_r($results);die;
 
         $data['results10'] = $results;
 
@@ -540,6 +540,9 @@ class Report extends BaseController
 
     public function response_verify_rop()
     {
+        // $db = \Config\Database::connect();
+        // $db->transStart();
+
         $request = \Config\Services::request();
         $ReportModel = new ReportModel();
 
@@ -549,8 +552,8 @@ class Report extends BaseController
         $board_type = $str_explo[1];
         $mainhead = $str_explo[2];
         $next_dt = $str_explo[3];
-        $court = $str_explo[4];
-        $t_dt = $str_explo[5];
+        $court = (int) $str_explo[4];
+        $t_dt = (!empty($str_explo[5])) ? $str_explo[5] : NULL;
 
         // Prepare data for insertion
         $data = [
@@ -571,50 +574,62 @@ class Report extends BaseController
             return json_encode(['success' => 0, 'message' => $e->getMessage()]);
         }
 
-        if ($resss > 0) {
-            $rowuser = session()->get('login');
-            $username_empid = $rowuser['name'] . " [" . $rowuser['empid'] . "] ";
+        echo $resss;
 
-            $rowsel = $ReportModel->getCaseDetails($dno);
+        // if ($resss > 0) {
+        //     $rowuser = session()->get('login');
+        //     $username_empid = $rowuser['name'] . " [" . $rowuser['empid'] . "] ";
 
-            $rremark_array = explode(",", $_POST['rremark']);
-            $array = array_diff($rremark_array, ["1"]);
-            $arrays = $array;
-            $array = array();
-            $i = 0;
-            foreach ($arrays as $k => $item) {
-                $array[$i] = $item;
-                unset($arrays[$k]);
-                $i++;
-            }
-            $remarks_join = "";
-            if (count($array) > 0) {
-                for ($k = 0; $k <= count($array); $k++) {
+        //     $rowsel = $ReportModel->getCaseDetails($dno);
 
-                    $row_ar = $ReportModel->getCaseVerifyBySecRemarkById($array[$k]);
+        //     $rremark_array = explode(",", $_POST['rremark']);
+        //     $array = array_diff($rremark_array, ["1"]);
+        //     $arrays = $array;
+        //     $array = array();
+        //     $i = 0;
+        //     foreach ($arrays as $k => $item) {
+        //         $array[$i] = $item;
+        //         unset($arrays[$k]);
+        //         $i++;
+        //     }
 
-                    $remarks_join .= $row_ar['remarks'] . ",";
-                }
-                $remarks_join = rtrim($remarks_join, ",");
-                if (!empty($rowsel)) {
-                    $msg = " AS PER COURT REMARKS FOR DATED " . date("d-m-Y", strtotime($next_dt)) . " IN ";
-                    if ($rowsel['reg_no_display']) {
-                        $msg .= " CASE NO. " . $rowsel['reg_no_display'];
-                    }
-                    $msg .= " DIARY NO. " . substr_replace($rowsel['diary_no'], '-', -4, 0);
-                    $msg .= " FOLLOWING DEFECTS RAISED BY MONITORING TEAM " . $username_empid . " : " . $remarks_join;
+        //     // print_r($arrays);
+        //     // print_r($array);
+        //     // die;
 
-                    // Prepare data for insertion
-                    $data = [
-                        'to_user'  => $rowsel['empid'],
-                        'from_user' => $rowuser['empid'],
-                        'msg'      => $msg,
-                    ];
+        //     $remarks_join = "";
+        //     if (count($array) > 0) {
+        //         for ($k = 0; $k <= count($array); $k++) {
 
-                    $resss = $ReportModel->addMSG($data);
-                }
-            }
-        }
+        //             if(!empty($array[$k])) {
+        //                 $row_ar = $ReportModel->getCaseVerifyBySecRemarkById($array[$k]);
+        //                 $remarks_join .= $row_ar['remarks'] . ",";
+        //             }
+        //         }
+
+        //         $remarks_join = rtrim($remarks_join, ",");
+
+        //         // pr($remarks_join);
+
+        //         if (!empty($rowsel)) {
+        //             $msg = " AS PER COURT REMARKS FOR DATED " . date("d-m-Y", strtotime($next_dt)) . " IN ";
+        //             if ($rowsel['reg_no_display']) {
+        //                 $msg .= " CASE NO. " . $rowsel['reg_no_display'];
+        //             }
+        //             $msg .= " DIARY NO. " . substr_replace($rowsel['diary_no'], '-', -4, 0);
+        //             $msg .= " FOLLOWING DEFECTS RAISED BY MONITORING TEAM " . $username_empid . " : " . $remarks_join;
+
+        //             // Prepare data for insertion
+        //             $data = [
+        //                 'to_user'  => $rowsel['empid'],
+        //                 'from_user' => $rowuser['empid'],
+        //                 'msg'      => $msg,
+        //             ];
+
+        //             $resss = $ReportModel->addMSG($data);
+        //         }
+        //     }
+        // }
     }
 
     public function rop_daily_court_remarks()

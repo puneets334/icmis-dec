@@ -943,7 +943,7 @@ class ReportModel extends Model
         // Prepare the query using the query builder
         $builder = $this->db->table('main m');
         $builder->select('reg_no_display, m.diary_no, m.dacode, u.empid');
-        $builder->join('users u', 'u.usercode = m.dacode');
+        $builder->join('master.users u', 'u.usercode = m.dacode');
         $builder->where('m.diary_no', $diary_no);
 
         // Execute the query
@@ -960,7 +960,11 @@ class ReportModel extends Model
     {
         // Execute the insert
         $builder = $this->db->table('case_verify_rop');
-        $resss = $builder->insert($data);
+        $builder->set($data);
+        
+        // echo $builder->getCompiledInsert(); die;
+
+        $resss = $builder->insert();
 
         // Check if the insert was successful
         if ($resss) {
