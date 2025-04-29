@@ -1208,14 +1208,19 @@ function check_select(para1) {
     if (para1 == 2)
         document.getElementById("courtno").selectedIndex = 0;
 }
-function addRecord_rop(dno) {
+
+async function addRecord_rop(dno) {
+
+    await updateCSRFTokenSync();
+
     var CSRF_TOKEN = 'CSRF_TOKEN';
     var CSRF_TOKEN_VALUE = document.getElementById("CSRF_TOKEN").value;
+
     var r = confirm("Are you Verfied this case");
     if (r == true) {
         var splt_str = dno.split("_");
         var rremark = $("#rremark_" + splt_str[0]).val();
-        alert(rremark);
+        // alert(rremark);
         var dataString = "dno=" + dno + "&rremark=" + rremark + "&CSRF_TOKEN=" + CSRF_TOKEN_VALUE;
         $.ajax
             ({
@@ -1224,7 +1229,6 @@ function addRecord_rop(dno) {
                 data: dataString,
                 cache: false,
                 success: function (data) {
-                    updateCSRFToken();
                     // alert(data);
                     if (data == 1) {
                         var r = "#" + dno;
@@ -1236,7 +1240,6 @@ function addRecord_rop(dno) {
                     }
                 },
                 error: function () {
-                    updateCSRFToken();
                     alert("ERROR");
                 }
             });
