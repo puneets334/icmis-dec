@@ -4,7 +4,7 @@ $(document).ready(function(){
         if (this.value.length > 20) {
           this.value = this.value.slice(0, 20); // Limit to 20 characters
         }
-      });
+    });
     
     // $("#btnMain").click(async function(){
     //     if($("#name_usec").val().trim() == ''){

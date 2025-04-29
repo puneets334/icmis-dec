@@ -79,7 +79,7 @@ thead{
                                                     </div>
                                                     <div class="form-group col-md-2">
                                                         <label for="enroll_yr">Year</label>
-                                                        <input type="number" id="enroll_yr" name="enroll_yr" onblur="get_adv_by_enroll_no();" class="form-control" maxlength="4">
+                                                        <input type="number" id="enroll_yr" name="enroll_yr" onblur="get_adv_by_enroll_no2();" class="form-control" maxlength="4">
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="state_id">State</label>
@@ -267,8 +267,16 @@ var to=d2[2]+'-'+d2[1]+'-'+d2[0];//YYYY-MM-DD
 	}
 }	
 
+document.getElementById('enroll_yr').addEventListener('blur', function () {
+    var enroll_yr = document.getElementById('enroll_yr').value.trim();
+    if (enroll_yr !== '') {
+        get_adv_by_enroll_no(); // call only if enroll_no is filled
+    }
+    
+});
 
 function get_adv_by_enroll_no() {
+    
     var xhr1 = getXMLHTTP();
     var url = "<?= base_url(); ?>/MasterManagement/MasterController/get_adv_by_enroll_no?enroll_no=" + document.getElementById('enroll_no').value + "&enroll_yr=" + document.getElementById('enroll_yr').value;
 
