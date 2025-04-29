@@ -169,8 +169,17 @@ protected $keywordModel;
                 }
             }
 
+            if ($mf !== null) {
+                if ($mf != '') {
+                    $sessionService->set('mf_code', $mf);
+                } else {
+                    $sessionService->remove('mf_code');
+                }
+            }
+
             // Use judge from session (if exists)
-            $judge_selected_code = $sessionService->get('judge_selected_code');         
+            $judge_selected_code = $sessionService->get('judge_selected_code'); 
+            $mf_code = $sessionService->get('mf_code');         
 
             if (isset($judge_selected_code)) {
                 
@@ -180,6 +189,7 @@ protected $keywordModel;
             }
             $data['judge'] = $this->MasterModel->getJudge();
             $data['judge_selected_code'] = $judge_selected_code;
+            $data['mf_code'] = $mf_code;
 
             $data['matters'] = $mf;
 

@@ -70,8 +70,12 @@
                                                                     <label for="m_f">Misc/Regular</label><br/>
                                                                     <div class="radios">
                                                                     Miscelleneous
-                                                                    <input type="radio" name="mf" id="mf" class="rd_active" value="M" checked> Regular 
-                                                                    <input type="radio" name="mf" id="mf" class="rd_active" value="F"> 
+                                                                    <?php
+                                                                    $selected_mf_code = isset($mf_code) ? $mf_code : '';
+                                                                     
+                                                                     ?>
+                                                                    <input type="radio" name="mf" id="mf" class="rd_active" value="M" <?= ($selected_mf_code === 'M' || $selected_mf_code === '') ? 'checked' : '' ?>> Regular 
+                                                                    <input type="radio" name="mf" id="mf" class="rd_active" value="F"  <?= $selected_mf_code === 'F' ? 'checked' : '' ?> > 
                                                                     </div>
                                                                     
                                                                 </div>
@@ -359,7 +363,7 @@ $(document).ready(function() {
                     }
                 },
                 error: function (xhr, status, error) {
-                    updateCSRFToken()
+                    //updateCSRFToken()
                     console.error("Error: " + error);
                     alert("An error occurred. Please try again.");
                 }
