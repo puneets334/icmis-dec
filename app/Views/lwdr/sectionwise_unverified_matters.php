@@ -47,7 +47,8 @@
                                         <label for="section" id="d">Select Section</label>
                                     </div>
                                     <div class="col-sm-4 mt-2">
-                                        <select id="section" class="form-control" name="section">
+                                        <select id="section" class="form-control" name="section" id="section" >
+										 <option value="0">Select</option>
                                             <?php
                                             if (count($section_name) >= 1) {
                                                 foreach ($section_name as $data) {
@@ -77,7 +78,11 @@
     function fetch_data() {
 
         var section = document.getElementById("section").value;
-        var url = '<?= base_url(); ?>/lwdr/sectionwise_unverified_matters_data';
+		if(section==0) {
+			alert("Please Select Section");
+			return false;
+		 }   
+		var url = '<?= base_url(); ?>/lwdr/sectionwise_unverified_matters_data';
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         $('#unverified_data').html('');

@@ -62,8 +62,8 @@
 		var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
         var section = $("#section option:selected").val();
-        if(section==''){
-			alert('Pleas Select Section');
+        if(section==0){
+			alert('Please Select Section');
 			return false;
 		}
 		$("#dv_res1").html('');
@@ -73,6 +73,7 @@
             cache: false,
             async: true,
 			beforeSend: function() {
+				$('#btnGetDiaryList').attr('disabled','disabled');
                 $('#dv_res1').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             data: {
@@ -82,8 +83,10 @@
             success: function(r) {
 				updateCSRFToken();
                 $("#dv_res1").html(r);
+				$('#btnGetDiaryList').removeAttr('disabled');
             },
             error: function() {
+				$('#btnGetDiaryList').removeAttr('disabled');
                 updateCSRFToken();
                 alert('ERRO');
             }
