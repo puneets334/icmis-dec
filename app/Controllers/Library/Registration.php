@@ -177,12 +177,11 @@ class Registration extends BaseController
     {
         $status = $this->request->getVar('status');
         $empid = $this->request->getVar('empid');
-
+        
         $this->db->table('admin')->update([
             'status' => $status,
             'updationdate' => date('Y-m-d H:i:s')
         ], ['icmis_user_id' => $empid]);
-
         return $this->response->setJSON($status === '1' ? '1' : '2');
     }
 
