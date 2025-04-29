@@ -35,7 +35,7 @@
                     <div class="card-body" style="min-height:90vh">
                         <div class="form-group" style="margin-top: 5%;">
                             <input type="text" id="myInput" class="form-control" placeholder="Search Employee..">
-                            <div id="myDropdown" class="dropdown-content form-control" style="height:70vh;overflow-y:scroll;width:97%"></div>
+                            <div id="myDropdown" class="dropdown-content form-control" style="min-height:50vh;overflow-y:scroll;width:97%"></div>
                         </div>
 
                         <?php
@@ -125,7 +125,7 @@
                     dataType: 'json',
                     success: function(data) {
                         $('#myDropdown').empty().show();
-
+                        
                         if (data.length > 0) {
                             data.forEach(employee => {
                                 $('#myDropdown').append(
@@ -133,8 +133,9 @@
                                 );
                             });
                         } else {
+                            console.log('dwefewf');
                             $('#myDropdown').append(
-                                '<a class="noRecords" style="display: block;" id=""> No Records.</a>'
+                                `<div style="display: block !important;" class="suggestion1" data-usercode="0">No Records Founds...</div>`
                             );
                         }
                         filterDropdown(inputVal);
@@ -238,7 +239,7 @@
             const ph2 = $('#ph2').val();
             const court_no = $('#court_no').val();
 
-            if (!fname || !email || !uname || !utype || !ph1) {
+            if (!fname || !email || !uname || !utype || !ph1 || !court_no) {
                 alert('Please fill all required fields.');
                 return;
             }

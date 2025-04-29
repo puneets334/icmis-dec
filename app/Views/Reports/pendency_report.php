@@ -23,6 +23,17 @@
     .dataTables_filter {
         margin-top: -48px;
     }
+    @media print {
+    .dt-print-title {
+        text-align: center !important;
+        font-size: 20px;  /* Adjust size as needed */
+    }
+
+    th {
+        font-weight: bold !important;
+    }
+}
+
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -312,14 +323,11 @@
             pageLength: 25,
             buttons: [{
                     extend: 'print',
-                    title: reportTitle
+                    title: reportTitle,
+                    customize: function (win) {
+                $(win.document.body).find('h1').addClass('dt-print-title');
+            }
                 },
-                // {
-                //     extend: 'pdfHtml5',
-                //     title: reportTitle,
-                //     orientation: 'landscape',
-                //     pageSize: 'A4'
-                // },
                 'pageLength'
             ],
             lengthMenu: [
