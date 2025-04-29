@@ -22,9 +22,9 @@
 					?>
 					<tr>
 						<td><?php echo $s_no;?></td>
-						<td><?php echo $result['diaryno']."/".$result['diaryyear'];?></td>
+						<td><?php echo $result['diaryno']."/".substr($result['diaryyear'], -4);?></td>
 						<td><?php echo $result['reg_no_display'];?></td>
-						<td><?php echo $result['active_fil_dt'];?></td>
+						<td><?php echo date('d-m-Y', strtotime($result['active_fil_dt']));?></td>
 						<td><?php echo $result['section_name'];?></td>
 						<td><?php echo $result['name'];?></td>
 						<td><?php echo $result['mul_category_idd']?></td>
@@ -67,6 +67,18 @@
                     pageSize: 'A3',
 					title: "LIST OF MATTER NOT LISTED AFTER 5 DAYS OF REGISTRATION : As on <?php echo date('d-m-Y'); ?>",
                     customize: function ( doc ) {
+					   doc.content[1].table.widths =  Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+						exportOptions: {
+							columns: ':visible'
+						};
+						var rowCount = doc.content[1].table.body.length;
+							for (var i = 0; i < rowCount; i++) {
+								var row = doc.content[1].table.body[i];
+								for (var j = 0; j < row.length; j++) {
+									row[j].alignment = 'center';
+								}
+							}
+
                         doc.content.splice( 0, 0, {
                             margin: [ 0, 0, 0, 5 ],
                             alignment: 'center',

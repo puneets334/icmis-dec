@@ -112,7 +112,7 @@ class ReportModel extends Model
   }
   public function getDateSelect($list_dt, $mainhead,$lp_str, $board_type, $case_type_id_str, $act_ros)
   {
-
+        $list_dt = date('Y-m-d',strtotime($list_dt));
         if($lp_str == "all"){
             $lp = "";
         }
