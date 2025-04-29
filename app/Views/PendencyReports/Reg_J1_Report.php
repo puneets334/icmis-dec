@@ -7,7 +7,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Section wise J1 Report </h3>
+                                <h3 class="card-title"></h3>
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                             </div>
 							<div class="col-md-2" id="mainsubjectCategory">
                                   <select class='form-control' name='categoryCode' id="categoryCode">
-								      <option value="">All</option>
+								      <option value="0">All</option>
                                    </select>  
 							</div>
 						    <div class="col-md-1">
@@ -113,14 +113,14 @@
         var section = $("#section option:selected").val();
         var McategoryCode = $("#McategoryCode option:selected").val();
         var categoryCode = $("#categoryCode option:selected").val(); 
-		if(section==''){
-			alert('Pleas Select Section');
+		if(section==0){
+			alert('Please Select Section');
 			return false;
-		}else if(McategoryCode==''){
-			alert('Pleas Select Main Subject Category');
+		}else if(McategoryCode==0){
+			alert('Please Select Main Subject Category');
 			return false;
 		}else if(categoryCode==''){
-			alert('Pleas Select Sub Subject Category');
+			alert('Please Select Sub Subject Category');
 			return false;
 		}
 		$("#dv_res1").html('');
@@ -130,6 +130,7 @@
             cache: false,
             async: true,
 			beforeSend: function() {
+				$('#btnGetDiaryList').attr('disabled','disabled');
                 $('#dv_res1').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             data: {
@@ -141,8 +142,10 @@
             success: function(r) {
 				updateCSRFToken();
                 $("#dv_res1").html(r);
+				$('#btnGetDiaryList').removeAttr('disabled');
             },
             error: function() {
+				$('#btnGetDiaryList').removeAttr('disabled');
                 updateCSRFToken();
                 alert('ERRO');
             }
