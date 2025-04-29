@@ -224,7 +224,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <label for="remark">Cause List Item No<span style="color:red;">*</span></label>
-                               <input type="number" id="itemNo" name="itemNo" onkeyup="getCaseNo(this.value)" class="form-control" maxlength="20">
+                               <input type="text" id="itemNo" maxlength="9"  name="itemNo" onkeyup="getCaseNo(this.value)" class="form-control" >
 
                             </div>
                             <div class="col-sm-6" style="padding: 35px 10px 20px;">
@@ -363,11 +363,10 @@
 <!-- <script src="<?php //echo base_url(); ?>/plugins/jquery/jquery.min.js"></script> -->
 <script src="<?php echo base_url();?>/requisition/requistion.js">   </script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(async function() {
+        await updateCSRFTokenSync();
 
         $("#dtd").val($("#dtd option:first").val());
-
-
         let role = '<?= $_SESSION['role_id'] ?>'
 
         if (role == 5) {
@@ -513,4 +512,78 @@
     function showInsuploadDiv(){
         $("#intraction").toggle();
     }
+
+
+    async function getCaseNo(value)
+    {
+    await updateCSRFTokenSync();
+
+    let dateitm = $('#dtd').find(":selected").val();
+    let courtno = $('#court_no').find(":selected").val();
+    
+    document.getElementById('itemNo').addEventListener('input', function (e) {
+    this.value = this.value.replace(/[^0-9]/g, '');
+    if (!/^\d+$/.test(input)) {
+      alert('Please enter numbers only');
+      e.preventDefault(); // Prevent form from submitting
+    } 
+  });
+
+    if(dateitm == '')
+    {
+        alert('Please select List Date');
+        return false;
+    }
+    if(courtno == '')
+    {
+        alert('Please select Court No.');
+        return false;
+    }
+    if(value == '')
+    {
+        alert('Please Enter Cause List Item No.');
+        return false;
+    }
+
+    
+    
+
+    var CSRF_TOKEN = 'CSRF_TOKEN';
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    $.ajax({
+        type: 'POSt',
+        url: '<?php echo base_url('Library/Requisition/frmusrLogin'); ?>',
+        data: {mode: "getCaseNo", item_no: value, 'dateitem': dateitm, court_no: courtno, CSRF_TOKEN :CSRF_TOKEN_VALUE},
+        dataType: 'json',
+       
+        error: function () {
+            updateCSRFToken();
+            console.log("error");
+        },
+        success: function (response) {
+            console.log(response);
+            updateCSRFToken();
+            console.log(response);
+            if(response){
+                $('#dynamicDetails').show()
+                $('#case_no').html(response.reg_no_display+' @ '+response.diary_no);
+                $('#pet_res_name').html(response.pet_name+' Vs '+response.res_name);
+                $('#diary_no').val(response.diary_no);
+                $('#itm_date').html( response.next_dt.split("-").reverse().join("-") )
+            }else{
+                $('#dynamicDetails').hide()
+                $('#case_no').html('');
+                $('#pet_res_name').html('');
+                $('#diary_no').val('');
+                $('#itm_date').html('')
+            }
+
+        },
+        error: function () {
+            updateCSRFToken();
+            // alert("Failure");
+        }
+    });
+}
+
 </script>

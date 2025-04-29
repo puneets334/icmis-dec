@@ -27,7 +27,7 @@
                                     <div class="form-row align-items-center">
                                         <div class="form-group col-md-4">
                                             <label for="u_pass_um" class="sr-only">Employee ID</label>
-                                            <input type="text" class="form-control" id="u_pass_um" placeholder="Employee ID" onkeypress="return onlynumbers(event)" />
+                                            <input type="text" class="form-control" id="u_pass_um" oninput="limitInputLength(this)" placeholder="Employee ID" onkeypress="return onlynumbers(event)" />
                                         </div>
                                         <div class="form-group col-md-4">
                                             <button type="button" class="btn btn-primary" onclick="getUserInfo__()">Show</button>

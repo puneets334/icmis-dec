@@ -7,6 +7,11 @@ function onlynumbers(evt) {
   }
   return false;
 }
+function limitInputLength(el) {
+  if (el.value.length > 9) {
+    el.value = el.value.slice(0, 9); // Truncate extra characters
+  }
+}
 
 function getUserInfo__() {
     var CSRF_TOKEN = "CSRF_TOKEN";
