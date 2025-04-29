@@ -214,6 +214,12 @@ table {
 th.sorting_disabled {
     background: #f5f5f5;
 }
+.select2-container--default .select2-selection--multiple{border:1px solid #000 !important}
+    .select2-search__field{
+        border:none!important;padding-top:2px!important
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__rendered
+     .select2-search.select2-search--inline .select2-search__field    {margin-top:0px!important}
 </style>
 
 <section class="content">
