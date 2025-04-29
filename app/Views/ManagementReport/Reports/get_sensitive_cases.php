@@ -138,9 +138,6 @@
         </tbody>
     </table>
 </div>
-<div>
-    <input name="prnnt1" type="button" id="prnnt1" value="Print">
-</div>
 <script>
 $(function() {
     var dynamicTitle = "Sensensitive Cases"; 
