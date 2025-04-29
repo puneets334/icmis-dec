@@ -34,6 +34,7 @@ thead{
 .dataTables_paginate.paging_simple_numbers{min-height:85px;}
 .dataTables_paginate .previous::before,.dataTables_paginate .next::before{
     background:#f9f9f9 !important;margin-top:14px;
+    position: relative;
 }
  </style>
 <section class="content">
