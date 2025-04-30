@@ -140,6 +140,8 @@ class Diary extends BaseController
             } elseif ($search_type == 'C') {
                 $diary_no = get_diary_case_type($case_type, $case_number, $case_year);
                 if (!empty($diary_no)) {
+                    $diary_number = substr($diary_no, 0, -4);
+                    $diary_year = substr($diary_no, -4);
                     $get_main_table = $this->Dropdown_list_model->get_diary_details_by_diary_no($diary_no);
                 } else {
                     $get_main_table = array();
