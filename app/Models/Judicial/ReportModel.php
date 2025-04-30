@@ -28,6 +28,31 @@ class ReportModel extends Model
         }
     }
 
+    function getGroupOrStageNameByStageCode($stagecode=0) {
+        
+        $t_stagename = "";
+        
+        $result1_s = $this->getSubheading($stagecode);
+
+        if (count($result1_s) > 0) {
+            foreach ($result1_s as $row1_s) {
+                
+                if ($row1_s["stagecode4"] > 0)
+                    $t_stage = $row1_s["grp_name"] . " - " . $row1_s["grp_name1"] . " - " . $row1_s["grp_name2"] . " - " . $row1_s["stagename"];
+                elseif ($row1_s["stagecode3"] > 0)
+                    $t_stage = $row1_s["grp_name"] . " - " . $row1_s["grp_name1"] . " - " . $row1_s["stagename"];
+                elseif ($row1_s["stagecode2"] > 0)
+                    $t_stage = $row1_s["grp_name"] . " - " . $row1_s["stagename"];
+                elseif ($row1_s["stagecode1"] > 0)
+                    $t_stage = $row1_s["stagename"];
+
+                $t_stagename = $t_stage;
+            }
+        }
+
+        return $t_stagename;
+    }
+
     function getListingPurpose($data = [])
     {
         // Prepare the query using the query builder
@@ -918,7 +943,7 @@ class ReportModel extends Model
         // Prepare the query using the query builder
         $builder = $this->db->table('main m');
         $builder->select('reg_no_display, m.diary_no, m.dacode, u.empid');
-        $builder->join('users u', 'u.usercode = m.dacode');
+        $builder->join('master.users u', 'u.usercode = m.dacode');
         $builder->where('m.diary_no', $diary_no);
 
         // Execute the query
@@ -935,7 +960,11 @@ class ReportModel extends Model
     {
         // Execute the insert
         $builder = $this->db->table('case_verify_rop');
-        $resss = $builder->insert($data);
+        $builder->set($data);
+        
+        // echo $builder->getCompiledInsert(); die;
+
+        $resss = $builder->insert();
 
         // Check if the insert was successful
         if ($resss) {

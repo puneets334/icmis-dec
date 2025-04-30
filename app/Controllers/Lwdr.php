@@ -11,6 +11,7 @@ class Lwdr extends BaseController
 
     function __construct()
     {   
+	    ini_set('memory_limit', '1024M'); 
         $this->db = \Config\Database::connect();
         $this->LwdrModel = new LwdrModel();
     }
@@ -42,7 +43,7 @@ class Lwdr extends BaseController
     public function diarized_but_not_listed_process_data()
     {
         $data['summary_details'] = $this->LwdrModel->diarized_summary();
-        return view('lwdr/diarized_but_not_listed_process_data', $data);
+		return view('lwdr/diarized_but_not_listed_process_data', $data);
     }
 
     public function rev_cur_con_cat_undefined()
@@ -53,7 +54,7 @@ class Lwdr extends BaseController
     public function rev_cur_con_process()
     {
         $data['summary_details'] = $this->LwdrModel->rev_curprocess();
-        return view('lwdr/rev_cur_con_process', $data);
+		return view('lwdr/rev_cur_con_process', $data);
     }
 
     public function Sectionwise_report()

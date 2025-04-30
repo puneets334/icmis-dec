@@ -51,6 +51,7 @@
 <script>
     $(document).ready(function () {
         $(document).on('click', '#btn_sensetive', function () {
+
             get_report();
         });
        /*  $(document).on("click", "#prnnt1", function () {
@@ -74,6 +75,8 @@
     function get_report() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        $('#btn_sensetive').prop('disabled', true);
+
         $.ajax({
             url: '<?php echo base_url('ManagementReports/Report/get_sensitive_cases'); ?>',
             cache: false,
@@ -89,11 +92,15 @@
             },
             type: 'POST',
             success: function (data, status) {
-                updateCSRFToken();
                 $('#div_result').html(data);
             },
-            error: function (xhr) {
+            complete:function()
+            {
                 updateCSRFToken();
+                $('#btn_sensetive').prop('disabled', false);
+
+            },
+            error: function (xhr) {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });

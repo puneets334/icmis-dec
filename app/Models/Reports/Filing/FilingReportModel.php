@@ -129,69 +129,77 @@ class FilingReportModel extends Model
     function scrutiny_user_wise_detail_report_model($userid, $scrutiny_date)
     {
 
-        $subQuery1 = $this->db->table('obj_save os')
-            ->select([
-                'CONCAT(SUBSTRING(os.diary_no::text, 1, LENGTH(os.diary_no::text) - 4), \'/\', SUBSTRING(os.diary_no::text, -4)) AS diaryno',
-                'u.name AS scrutiny_user_name',
-                'u.usercode',
-                'os.remark',
-                'DATE(os.save_dt) AS save_date',
-                'c.casename AS casetype',
-                'CONCAT(m.pet_name, \' vs \', m.res_name) AS causetitle',
-                'TO_CHAR(m.diary_no_rec_date, \'YYYY-MM-DD\') AS filingdate',
-                'COUNT(*) AS no_of_defect'
-            ])
-            ->join('master.users u', 'os.usercode = u.usercode', 'left')
-            ->join('main m', 'm.diary_no = os.diary_no', 'inner')
-            ->join('master.casetype c', 'm.casetype_id = c.casecode', 'left')
-            ->where('DATE(os.save_dt)', $scrutiny_date)
-            ->where('os.usercode', $userid)
-            ->where('os.display', 'Y')
-            ->groupBy(['diaryno', 'casetype', 'causetitle', 'filingdate', 'scrutiny_user_name', 'u.usercode', 'os.remark', 'save_date'])
-            ->getCompiledSelect();
+        $sql = "
+            SELECT 
+                diaryno,
+                casetype,
+                causetitle,
+                filingdate,
+                scrutiny_user_name,
+                usercode,
+                save_date,
+                COUNT(*) AS no_of_defect
+            FROM (
+                SELECT 
+                    CONCAT(SUBSTRING(os.diary_no::text, 1, LENGTH(os.diary_no::text) - 4), '/', SUBSTRING(os.diary_no::text, -4)) AS diaryno,
+                    u.name AS scrutiny_user_name,
+                    u.usercode,
+                    os.remark,
+                    DATE(os.save_dt) AS save_date,
+                    c.casename AS casetype,
+                    CONCAT(m.pet_name, ' vs ', m.res_name) AS causetitle,
+                    TO_CHAR(m.diary_no_rec_date, 'YYYY-MM-DD') AS filingdate
+                FROM 
+                    obj_save os
+                LEFT JOIN 
+                    master.users u ON os.usercode = u.usercode
+                JOIN 
+                    main m ON m.diary_no = os.diary_no
+                LEFT JOIN 
+                    master.casetype c ON m.casetype_id = c.casecode
+                WHERE 
+                    DATE(os.save_dt) = '$scrutiny_date'
+                    AND os.usercode = '$userid'
+                    AND os.display = 'Y'
+                    
+                UNION
+                
+                SELECT 
+                    CONCAT(SUBSTRING(os.diary_no::text, 1, LENGTH(os.diary_no::text) - 4), '/', SUBSTRING(os.diary_no::text, -4)) AS diaryno,
+                    u.name AS scrutiny_user_name,
+                    u.usercode,
+                    os.remark,
+                    DATE(os.save_dt) AS save_date,
+                    c.casename AS casetype,
+                    CONCAT(m.pet_name, ' vs ', m.res_name) AS causetitle,
+                    TO_CHAR(m.diary_no_rec_date, 'YYYY-MM-DD') AS filingdate
+                FROM 
+                    obj_save_a os
+                LEFT JOIN 
+                    master.users u ON os.usercode = u.usercode
+                JOIN 
+                    main m ON m.diary_no = os.diary_no
+                LEFT JOIN 
+                    master.casetype c ON m.casetype_id = c.casecode
+                WHERE 
+                    DATE(os.save_dt) = '$scrutiny_date'
+                    AND os.usercode = '$userid'
+                    AND os.display = 'Y'
+            ) AS table1
+            GROUP BY 
+                diaryno,
+                casetype,
+                causetitle,
+                filingdate,
+                scrutiny_user_name,
+                usercode,
+                save_date
+            ";
 
-        $subQuery2 = $this->db->table('obj_save_a os')
-            ->select([
-                'CONCAT(SUBSTRING(os.diary_no::text, 1, LENGTH(os.diary_no::text) - 4), \'/\', SUBSTRING(os.diary_no::text, -4)) AS diaryno',
-                'u.name AS scrutiny_user_name',
-                'u.usercode',
-                'os.remark',
-                'DATE(os.save_dt) AS save_date',
-                'c.casename AS casetype',
-                'CONCAT(m.pet_name, \' vs \', m.res_name) AS causetitle',
-                'TO_CHAR(m.diary_no_rec_date, \'YYYY-MM-DD\') AS filingdate',
-                'COUNT(*) AS no_of_defect'
-            ])
-            ->join('master.users u', 'os.usercode = u.usercode', 'left')
-            ->join('main_a m', 'm.diary_no = os.diary_no', 'inner')
-            ->join('master.casetype c', 'm.casetype_id = c.casecode', 'left')
-            ->where('DATE(os.save_dt)', $scrutiny_date)
-            ->where('os.usercode', $userid)
-            ->where('os.display', 'Y')
-            ->groupBy(['diaryno', 'casetype', 'causetitle', 'filingdate', 'scrutiny_user_name', 'u.usercode', 'os.remark', 'save_date'])
-            ->getCompiledSelect();
+            $query = $this->db->query($sql);
 
-        $mainQuery = $this->db->table("($subQuery1 UNION ALL $subQuery2) AS table1")
-            ->groupBy(['diaryno', 'casetype', 'causetitle', 'filingdate', 'scrutiny_user_name', 'usercode', 'save_date'])
-            ->select([
-                'diaryno',
-                'casetype',
-                'causetitle',
-                'filingdate',
-                'scrutiny_user_name',
-                'usercode',
-                'save_date',
-                'SUM(no_of_defect) AS total_defect_count'
-            ])
-            ->get();
-
-
-
-
-
-
-        return $mainQuery->getResultArray();
-        echo $this->db->getLastQuery();
+        return $query->getResultArray();
+        
     }
 
     function get_filing_scrutiny_defect_reports($data)
@@ -376,7 +384,7 @@ class FilingReportModel extends Model
 
     public function scrutiny_user_wise($on_date)
     {
-        $sql = "
+         $sql = "
     SELECT 
         name, 
         COUNT(*) AS total, 
@@ -384,8 +392,11 @@ class FilingReportModel extends Model
         save_date 
     FROM (
         SELECT 
-            CONCAT(SUBSTRING(CAST(os.diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(os.diary_no AS TEXT)) - 4), '/', 
-                   SUBSTRING(CAST(os.diary_no AS TEXT) FROM LENGTH(CAST(os.diary_no AS TEXT)) - 3 FOR 4)) AS diary_no,
+           CONCAT(
+            SUBSTRING(CAST(os.diary_no AS TEXT) FROM 1 FOR GREATEST(LENGTH(CAST(os.diary_no AS TEXT)) - 4, 0)),
+            '/',
+            SUBSTRING(CAST(os.diary_no AS TEXT) FROM GREATEST(LENGTH(CAST(os.diary_no AS TEXT)) - 3, 1) FOR 4)
+        ) AS diary_no,
             u.name,
             u.usercode, 
             o.objdesc, 

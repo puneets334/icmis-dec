@@ -854,7 +854,7 @@ function getAdvocate_for_main(id,flag)
             if(document.getElementById("padvyr").value == ''){
                 padvyrAlerted = true;
                 alert('Please enter Enrollment Year');
-                //document.getElementById("padvyr").focus();
+                document.getElementById("padvyr").focus();
                 return false;
             }else{
                 padvyrAlerted = false;

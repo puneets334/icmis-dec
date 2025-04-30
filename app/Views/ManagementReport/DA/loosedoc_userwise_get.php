@@ -1,3 +1,28 @@
+<style>
+      table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+
+    table.dataTable>thead .sorting_disabled,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+    table tfoot tr th {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+    
+    /* .dataTables_filter
+    {
+        margin-top: -48px;
+    } */
+</style>
 <?php
                                             //if(is_array($reports))
                                             if (count($case_result) > 0) {
