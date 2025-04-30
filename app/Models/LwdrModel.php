@@ -78,7 +78,7 @@ class LwdrModel extends Model
 					COALESCE(u.name || '[' || u.empid || ']', 'Tentative') ASC,
 					m.diary_no_rec_date ASC
 			) AS sno,
-			SUBSTRING(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) || '/' || SUBSTRING(m.diary_no::text, -4) AS diary_no,
+			SUBSTRING(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4) || '/' || SUBSTRING(m.diary_no::text, LENGTH(m.diary_no::text) - 3) AS diary_no,
 			TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,
 			SUBSTRING(m.diary_no::text, -4) AS dyear,
 			CASE
