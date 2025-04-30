@@ -163,6 +163,10 @@
         var part_no = $("#part_no").val();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $("input[name='CSRF_TOKEN']").val();
+        
+        if(list_dt == "-1"){ return false; }
+        if(jud_ros == "-1"){ return false; }
+        if(part_no == "-1"){ return false; }
 
         // if (list_dt == "-1" || list_dt == "0") {
         //     return false;
