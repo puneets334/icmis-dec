@@ -228,30 +228,16 @@ $check_for_regular_case = "";
                             <?php
                             }
 
-                            // Get the database connection
-                            $db = \Config\Database::connect();
-
-                            // Build the query using the query builder
-                            $sqlLastProposed = $db->table('last_heardt')
-                                ->select('board_type, next_dt, subhead')
-                                ->where('diary_no', $fil_no['diary_no'])
-                                ->where('next_dt > CURRENT_DATE') // Equivalent to curdate()
-                                ->orderBy('next_dt', 'desc')
-                                ->limit(1)
-                                ->get();
-
                             // Handle case where no result was found (optional)
                             $lastProposed = "";
                             $lastListedOn = "";
                             $lastSubHead = "";
 
                             // Check if any row was returned
-                            if ($sqlLastProposed->getNumRows() > 0) {
-                                // Fetch the first row and assign values to variables
-                                $rowLastProposed = $sqlLastProposed->getRow();
-                                $lastProposed = $rowLastProposed->board_type;
-                                $lastListedOn = $rowLastProposed->next_dt;
-                                $lastSubHead = $rowLastProposed->subhead;
+                            if (!empty($rowLastProposed)) {
+                                $lastProposed = $rowLastProposed['board_type'];
+                                $lastListedOn = $rowLastProposed['next_dt'];
+                                $lastSubHead = $rowLastProposed['subhead'];
                             }
                             ?>
 
@@ -293,88 +279,27 @@ $check_for_regular_case = "";
                     <tr valign="top">
                         <td align="right">Purpose of Listing : </td>
                         <td align="left" colspan="2">
-                            <select size="1" name="listorder" id="listorder" onChange="javascript:get_tentative_date(); chg_def1();"> <?php // print $t_ed; 
-                                                                                                                                        ?>
+                            <select size="1" name="listorder" id="listorder" onChange="javascript:get_tentative_date(); chg_def1();">
                                 <option value="">Select</option>
                                 <?php
-                                    // $diary_no = $_REQUEST['d_no'] . $_REQUEST['d_yr'];
-                                    //                         $sql_list = "select next_dt from heardt where diary_no=$diary_no and board_type='J' and clno!=0 and clno is not null and brd_slno is not null and brd_slno!=0 and roster_id!=0 and roster_id is not null
-                                    // union
-                                    // select next_dt from last_heardt where diary_no=$diary_no and board_type='J' and clno!=0 and clno is not null and brd_slno is not null and brd_slno!=0 and roster_id!=0 and roster_id is not null and (bench_flag is null or trim(bench_flag)='')";
-                                    //                         $result_list = mysql_query($sql_list);
-                                    //                         $row_list = mysql_num_rows($result_list);
-
-                                    // Get the database connection
-                                    // $db = \Config\Database::connect();
-
-                                    // First SELECT query for the `heardt` table
-                                    $query1 = $db->table('heardt')
-                                        ->select('next_dt')
-                                        ->where('diary_no', $diary_no)
-                                        ->where('board_type', 'J')
-                                        ->where('clno !=', 0)
-                                        ->where('clno IS NOT NULL')
-                                        ->where('brd_slno IS NOT NULL')
-                                        ->where('brd_slno !=', 0)
-                                        ->where('roster_id !=', 0)
-                                        ->where('roster_id IS NOT NULL');
-
-                                    // Second SELECT query for the `last_heardt` table
-                                    $query2 = $db->table('last_heardt')
-                                        ->select('next_dt')
-                                        ->where('diary_no', $diary_no)
-                                        ->where('board_type', 'J')
-                                        ->where('clno !=', 0)
-                                        ->where('clno IS NOT NULL')
-                                        ->where('brd_slno IS NOT NULL')
-                                        ->where('brd_slno !=', 0)
-                                        ->where('roster_id !=', 0)
-                                        ->where('roster_id IS NOT NULL')
-                                        ->groupStart()  // Start a grouped condition
-                                            ->where('bench_flag IS NULL')
-                                            ->orWhere('TRIM(bench_flag)', '')
-                                        ->groupEnd();  // End the grouped condition
-
-                                    // Combine the two queries using UNION
-                                    $query_list = $query1->union($query2);
-
-                                    // Execute the query and get the result
-                                    $results = $query_list->get();
-
-                                    // Get the number of rows returned
-                                    $row_list = $results->getNumRows();
-
-
-                                    // $sql_lp1 = "SELECT code, CONCAT(code,'. ',purpose) AS lp FROM listing_purpose WHERE code!=22 and purpose!='NULL' AND display='Y' ORDER BY code";
-                                    // $results_lp1 = mysql_query($sql_lp1);
-
-                                    // Build the query using CodeIgniter 4's query builder
-                                    $sql_lp1 = $db->table('master.listing_purpose')
-                                        ->select("code, CONCAT(code, '. ', purpose) AS lp")
-                                        ->where('code !=', 22)
-                                        ->where('purpose IS NOT NULL')
-                                        ->where('display', 'Y')
-                                        ->orderBy('code')
-                                        ->get();
-
                                     // Check if any rows are returned
-                                    if ($sql_lp1->getNumRows() > 0) {
-                                        foreach ($sql_lp1->getResultArray() as $row_lp1) {
-                                        if ($row_list > 0 and $row_lp1["code"] == 32 and !($user_case_updation['display_flag'] == '1' || in_array($ucode, explode(',', $user_case_updation['always_allowed_users']))))
-                                            $temp_check = " disabled=disabled ";
+                                    if (!empty($sql_lp1)) {
+                                            foreach ($sql_lp1 as $row_lp1) {
+                                            if ($row_list > 0 and $row_lp1["code"] == 32 and !($user_case_updation['display_flag'] == '1' || in_array($ucode, explode(',', $user_case_updation['always_allowed_users']))))
+                                                $temp_check = " disabled=disabled ";
 
-                                        else if (($row_lp1["code"] == 24 or $row_lp1["code"] == 2  or $row_lp1["code"] == 48) and !($user_case_updation['display_flag'] == '1' || in_array($ucode, explode(',', $user_case_updation['always_allowed_users'])))) //fresh or $row_lp1["code"]==32
-                                            $temp_check = " disabled=disabled ";
-                                        else if (($row_lp1["code"] == 49 or $row_lp1["code"] == 5  or ($mainhead_kk == 'F' and ($row_lp1["code"] == 4))) and !($user_case_updation['display_flag'] == '1' || in_array($ucode, explode(',', $user_case_updation['always_allowed_users']))))
-                                            $temp_check = " disabled=disabled "; //OR ($link['c_type'] != 'M' AND ($row_lp1["code"]==4 OR $row_lp1["code"]==7 OR $row_lp1["code"]==8) modified on 11.02.2019)
-                                        else
-                                            $temp_check = " ";
-                                        if ($lo == $row_lp1["code"])
-                                            echo '<option value="' . $row_lp1["code"] . '" selected="selected" ' . $temp_check . '>' . $row_lp1["lp"] . '</option>';
-                                        else
-                                            echo '<option value="' . $row_lp1["code"] . '"' . $temp_check . '>' . $row_lp1["lp"] . '</option>';
+                                            else if (($row_lp1["code"] == 24 or $row_lp1["code"] == 2  or $row_lp1["code"] == 48) and !($user_case_updation['display_flag'] == '1' || in_array($ucode, explode(',', $user_case_updation['always_allowed_users'])))) //fresh or $row_lp1["code"]==32
+                                                $temp_check = " disabled=disabled ";
+                                            else if (($row_lp1["code"] == 49 or $row_lp1["code"] == 5  or ($mainhead_kk == 'F' and ($row_lp1["code"] == 4))) and !($user_case_updation['display_flag'] == '1' || in_array($ucode, explode(',', $user_case_updation['always_allowed_users']))))
+                                                $temp_check = " disabled=disabled "; //OR ($link['c_type'] != 'M' AND ($row_lp1["code"]==4 OR $row_lp1["code"]==7 OR $row_lp1["code"]==8) modified on 11.02.2019)
+                                            else
+                                                $temp_check = " ";
+                                            if ($lo == $row_lp1["code"])
+                                                echo '<option value="' . $row_lp1["code"] . '" selected="selected" ' . $temp_check . '>' . $row_lp1["lp"] . '</option>';
+                                            else
+                                                echo '<option value="' . $row_lp1["code"] . '"' . $temp_check . '>' . $row_lp1["lp"] . '</option>';
+                                        }
                                     }
-                                }
                                 if ($listorder == 22)
                                     echo '<option value="22" selected="selected">REGISTRAR AUTHENTICATED</option>';
                                 ?>
@@ -390,150 +315,6 @@ $check_for_regular_case = "";
                             ?>
                         </td>
                     </tr>
-                    <?php
-                    $future_dates = "";
-                    $q_next_dt = date("Y-m-d", strtotime($next_dt));
-                    // $result_future_dates = mysql_query("select group_concat(distinct next_dt) as dates from cl_printed where display='Y' and next_dt>date(now())");
-                    // if (mysql_num_rows($result_future_dates) > 0)
-                    //     $future_dates = mysql_result($result_future_dates, 0, "dates");
-                    // // echo $future_dates;
-
-                    // Build the query using the Query Builder
-                    $query = $db->table('cl_printed')
-                        ->select("string_agg(DISTINCT next_dt::text, ',') AS dates")  // string_agg in PostgreSQL
-                        ->where('display', 'Y')
-                        ->where('next_dt >', date('Y-m-d'))  // `next_dt > current_date` equivalent
-                        ->get();
-
-                    // Check if any results were returned
-                    if ($query->getNumRows() > 0) {
-                        // Retrieve the result (the first row)
-                        $future_dates = $query->getRow()->dates;
-                    }
-
-
-                    $nextmonday = "";
-        //             mysql_query("SET @sr:=0;");
-        //             if ($q_next_dt > date("Y-m-d")) {
-        //                 $result_nm = mysql_query("SELECT date_format(working_date,'%d-%m-%Y') newdate FROM
-        // sc_working_days WHERE display = 'Y' and is_holiday = 0 and is_nmd = 0 and
-        // working_date >= '$q_next_dt' order by working_date asc LIMIT 1;");
-        //             } else {
-        //                 $result_nm = mysql_query("SELECT date_format(working_date,'%d-%m-%Y') newdate FROM
-        // sc_working_days WHERE display = 'Y' and is_holiday = 0 and is_nmd = 0 and
-        // working_date > date_add(curdate(), interval 28 day)  order by working_date asc LIMIT 1;");
-        //             }
-        //             if (mysql_num_rows($result_nm) > 0) {
-        //                 $nextmonday = mysql_result($result_nm, 0, "newdate");
-        //             }
-
-                    // Check if $q_next_dt is greater than today's date
-                    if ($q_next_dt > date("Y-m-d")) {
-                        // Build the query to fetch the next working date
-                        $result_nm = $db->table('master.sc_working_days')
-                            ->select("TO_CHAR(working_date, 'DD-MM-YYYY') AS newdate")
-                            ->where('display', 'Y')
-                            ->where('is_holiday', 0)
-                            ->where('is_nmd', 0)
-                            ->where('working_date >=', $q_next_dt)
-                            ->orderBy('working_date', 'asc')
-                            ->limit(1)
-                            ->get();
-                    } else {
-                        // Build the query for 28 days after the current date
-                        $result_nm = $db->table('master.sc_working_days')
-                            ->select("TO_CHAR(working_date, 'DD-MM-YYYY') AS newdate")
-                            ->where('display', 'Y')
-                            ->where('is_holiday', 0)
-                            ->where('is_nmd', 0)
-                            ->where("working_date > (CURRENT_DATE + 28)")
-                            ->orderBy('working_date', 'asc')
-                            ->limit(1)
-                            ->get();
-                    }
-
-                    // Check if any rows were returned
-                    if ($result_nm->getNumRows() > 0) {
-                        // Get the next working date
-                        $nextmonday = $result_nm->getRow()->newdate;
-                    }
-
-                    /*                      else {
-                                                        if($q_next_dt > date('Y-m-d')){
-                                                            $res_nm = mysql_query("SELECT DATE_ADD('$q_next_dt', INTERVAL (9 - DAYOFWEEK('$q_next_dt')) DAY) as nm;");
-                                                        }
-                                                        else {
-                                                            $res_nm = mysql_query("SELECT DATE_ADD(CURDATE(), INTERVAL (9 - DAYOFWEEK(CURDATE())) DAY) as nm;");
-                                                        }
-                                                        $nextmonday = mysql_result($res_nm, 0, "nm");
-                                                    }*/
-                    $nexttuesday = "";
-                    // mysql_query("SET @sr:=0;");
-
-                    /*
-                                                                    if($q_next_dt > date("Y-m-d")){
-                                                                        mysql_query("SET @newdate:=DATE_ADD('$q_next_dt', INTERVAL (10 - DAYOFWEEK('$q_next_dt')) DAY);");
-                                                                    }
-                                                                    else{
-                                                                        mysql_query("SET @newdate:=DATE_ADD(CURDATE(), INTERVAL (10 - DAYOFWEEK(CURDATE())) DAY);");
-                                                                    }*/
-
-
-        //             if ($q_next_dt > date("Y-m-d")) {
-        //                 $result_nm = mysql_query("SELECT date_format(working_date,'%d-%m-%Y') newdate FROM
-        // sc_working_days WHERE display = 'Y' and is_holiday = 0 and DAYOFWEEK(working_date)=3 and
-        // working_date >= '$q_next_dt' order by working_date asc LIMIT 1;");   //removed is_nmd=1 and added DAYOFWEEK(working_date)=3 by preeti on 30.4.2024
-        //             } else {
-        //                 $result_nm = mysql_query("SELECT date_format(working_date,'%d-%m-%Y') newdate FROM
-        // sc_working_days WHERE display = 'Y' and is_holiday = 0 and DAYOFWEEK(working_date)=3 and
-        // working_date > date_add(curdate(), interval 28 day)  order by working_date asc LIMIT 1;");  //removed is_nmd=1 and added DAYOFWEEK(working_date)=3 by preeti on 30.4.2024
-        //             }
-        //             if (mysql_num_rows($result_nm) > 0) {
-        //                 $nexttuesday = mysql_result($result_nm, 0, "newdate");
-        //             }
-
-                    // Check if $q_next_dt is greater than today's date
-                    if ($q_next_dt > date("Y-m-d")) {
-                        // Build the query to fetch the next Wednesday
-                        $result_nm = $db->table('master.sc_working_days')
-                            ->select("TO_CHAR(working_date, 'DD-MM-YYYY') AS newdate")
-                            ->where('display', 'Y')
-                            ->where('is_holiday', 0)
-                            ->where('EXTRACT(DOW FROM working_date)', 3)  // Find Wednesday (DOW = 3)
-                            ->where('working_date >=', $q_next_dt)
-                            ->orderBy('working_date', 'asc')
-                            ->limit(1)
-                            ->get();
-                    } else {
-                        // Build the query for 28 days after the current date for the next Wednesday
-                        $result_nm = $db->table('master.sc_working_days')
-                            ->select("TO_CHAR(working_date, 'DD-MM-YYYY') AS newdate")
-                            ->where('display', 'Y')
-                            ->where('is_holiday', 0)
-                            ->where('EXTRACT(DOW FROM working_date)', 3)  // Find Wednesday (DOW = 3)
-                            ->where('working_date > (CURRENT_DATE + 28)')
-                            ->orderBy('working_date', 'asc')
-                            ->limit(1)
-                            ->get();
-                    }
-
-                    // Check if any rows were returned
-                    if ($result_nm->getNumRows() > 0) {
-                        // Get the next Wednesday date
-                        $nexttuesday = $result_nm->getRow()->newdate;
-                    }
-
-                    /*else {
-                                    if($q_next_dt > date('Y-m-d')){
-                                        $res_nm = mysql_query("SELECT DATE_ADD('$q_next_dt', INTERVAL (10 - DAYOFWEEK('$q_next_dt')) DAY) as nt;");
-                                    }
-                                    else {
-                                        $res_nm = mysql_query("SELECT DATE_ADD(CURDATE(), INTERVAL (10 - DAYOFWEEK(CURDATE())) DAY) as nt;");
-                                    }
-                                    $nexttuesday = mysql_result($res_nm, 0, "nt");
-                                }*/
-                    ?>
-
                     <tr>
                         <td align="right">Proposed Listing Date : </td>
                         <td>
@@ -547,22 +328,11 @@ $check_for_regular_case = "";
                                     $pdate = date('d-m-Y', strtotime($tentative_date));
                             //echo $pdate;
 
-                            if (date("Y", strtotime($tentative_date)) == 2077) {
+                            if (!empty($tentative_date) && date("Y", strtotime($tentative_date)) == 2077) {
                                 $tomorrow = strtotime('+1 day');
                                 $pdate = date('d-m-Y', $tomorrow);
                             }
 
-                            /*                                if(($lo==16 or $lo==2) and $mainhead_kk == "M" and (strtotime($tentative_date) < strtotime(date("d-m-Y"))))
-                                                                            $t_pdate=$nextmonday;
-                                                                        else if(($lo==16 or $lo==2) and $mainhead_kk == "F" and (strtotime($tentative_date) < strtotime(date("d-m-Y"))))
-                                                                            $t_pdate=$nexttuesday;
-                                                                        else
-                                                                            $t_pdate=$pdate;
-                                                                        if($mainhead_kk == "M" and (strtotime($tentative_date) < strtotime(date("d-m-Y"))))
-                                                                            $t_pdate=$nextmonday;
-                                                                        else if($mainhead_kk == "F" and (strtotime($tentative_date) < strtotime(date("d-m-Y"))))
-                                                                            $t_pdate=$nexttuesday;
-                                                                        else  */
                             $t_pdate = $pdate;
                             if ($listorder == 4 or $listorder == 5 or $listorder == 7)
                                 $editable = 0;
@@ -622,35 +392,7 @@ $check_for_regular_case = "";
                     </tr>
                     <tr>
                         <td align="right">Hearing Head :</td>
-                        <?php
-                        $t11 = "";
-                        // //HABEAS
-                        // //if ($category == 139 and $subcat == 0 and $subcat1 == 0 and $mfvar == "M") {
-                        // //    $sql_po = mysql_query("select 810 as mul_sub_hd, 'M' as mainhead");
-                        // //} else {
-                        // $sql_po = mysql_query("select mainhead from heardt where diary_no=" . $fil_no['diary_no']) or die(mysql_error());
-                        // //}
-                        // $row_h = mysql_fetch_array($sql_po);
-                        // //$_res_sql_po = $row_h["mul_sub_hd"];
-                        // $t11 = $row_h["mainhead"];
-
-                        // Query to fetch the mainhead based on the diary_no
-                        $query = $db->table('heardt')
-                            ->select('mainhead')
-                            ->where('diary_no', $fil_no['diary_no'])
-                            ->get();
-
-                        // Check if any row was returned
-                        if ($query->getNumRows() > 0) {
-                            // Fetch the row and get the mainhead value
-                            $row_h = $query->getRow();
-                            $t11 = $row_h->mainhead;  // Accessing the mainhead field
-                        }
-                        ?>
                         <td align="left">
-                            <!--                    <select size="1" name="mf_select" id="mf_select" onChange="javascript:get_subheading();  get_max_fin_m(this.value);" <?php //if($_res_sql_po!='') {   
-                                                                                                                                                                            ?>disabled="true" <?php //}   
-                                                                                                                                                                                                            ?>>-->
                             <select size="1" name="mf_select" id="mf_select" onChange="subheading_change()">
                                 <option value="M" <?php if ($t11 == "M") echo "selected"; ?>>Miscellaneous Hearing</option>
                                 <option value="F" <?php if ($t11 == "F") echo "selected"; ?>>Regular Hearing</option>
@@ -665,54 +407,10 @@ $check_for_regular_case = "";
                                 </div>
                             <?php
                             }
-
-
-
-                            //                            if ($judge1 == "527")
-                            //                                $t_checked = " checked=checked";
-                            // <div class="fh_error" style="display:none;"><font color="red">Case is not registered in Regular Hearing (If Registration not required then ignore)</font></div>
-                            // $t_check='<div class="fh_error" style="display:none;"><font color="red">Check whether Direct Appeal or Not. If Not inform Computer Cell</font></div>';
-
-                            //                            else
-                            //                                $t_checked = "";
                             ?>
-                            <!--<label><input type="checkbox" name="legalaid" id="legalaid" value="LAID" <?php print $t_checked; ?>/>LEGAL AID</label>-->
                         </td>
 
                     </tr>
-                    <?php
-                    //                        if($check_for_regular_case==''){
-                    ?>
-                    <!--<tr id="case_for_final_div" style="display:none;">
-                                    <td align="right">Select Case Type :</td>
-                                    <td colspan="2">
-        <select size="1" name="case_for_final" id="case_for_final" >
-        <option value="">Select</option><?php
-
-                            // Build the query using the query builder
-                            $query = $db->table('master.casetype')
-                                ->select('casecode, skey, casename, short_description')
-                                ->where('display', 'Y')
-                                ->where('casecode !=', 9999)
-                                ->orderBy('short_description')
-                                ->get();
-
-                            // Loop through the results
-                            foreach ($query->getResultArray() as $ct_rw) {
-
-
-                                        // $ct_q = "SELECT casecode, skey, casename,short_description FROM casetype WHERE display = 'Y' AND casecode!=9999 ORDER BY short_description";
-                                        // $ct_rs = mysql_query($ct_q) or die(mysql_error());
-                                        // while ($ct_rw = mysql_fetch_array($ct_rs)) {
-                                        ?>
-                                    <option value="<?php echo $ct_rw['casecode'] ?>"><?php echo $ct_rw['short_description']; ?></option>
-                            <?php } ?>
-                            </select>&nbsp;(for new case no. in Regular Hearing)
-                                    </td>
-        </tr>-->
-                    <?php
-                    //}
-                    ?>
                     <tr valign="top">
                         <td align="right">Case Category :</td>
                         <td align="left" colspan="2"><?php echo $mul_category; ?></td>
@@ -791,22 +489,6 @@ $check_for_regular_case = "";
                                 Connected Case :
                             </th>
                             <td align="left" colspan="2">
-                                <?php
-                                /*
-                                //if ($lconn != "Y")
-                                //    $lconn = "N";
-                                //if ($conncases != "") {
-                                //$lconn = "Y";
-                                //    }
-                                // else {
-                                // $lconn = "N";
-                                //}
-                                ?>
-                                <!--                    <select name="conncs" id="conncs" onChange="chk_conncase();" <?php if ($conncntr == 1) echo "disabled=disabled"; ?>>
-                            <option value="Y" <?php if ($lconn == "Y") echo "selected"; ?>>Y</option>
-                            <option value="N" <?php if ($lconn == "N") echo "selected"; ?>>N</option>
-                            </select>-->
-                            <?php */ ?>
                                 <br>
                                 <div id="conncasediv" <?php
                                                         if ($lconn == "Y")

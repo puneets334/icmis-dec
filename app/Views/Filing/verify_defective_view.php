@@ -37,7 +37,7 @@
                                         <ul class="nav nav-pills inner-comn-tabs">
                                             <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>/Filing/Ia_documents" >Insert / Modification of Docs.</a></li>
                                             <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>/Filing/Ia_documents/caseBlockList_view" >Case Block for Loose Doc. </a></li>
-                                            <li class="nav-item"><a class="nav-link active" href="<?= base_url() ?>/Filing/Ia_documents/verify_defective_view" >Verfify / Defects </a></li>
+                                            <li class="nav-item"><a class="nav-link active" href="<?= base_url() ?>/Filing/Ia_documents/verify_defective_view" >Verify Defects </a></li>
                                         </ul>
                                         <?php
                                         $attribute = array('class' => 'form-horizontal', 'name' => 'party_view_form', 'id' => 'party_view_form', 'autocomplete' => 'off');

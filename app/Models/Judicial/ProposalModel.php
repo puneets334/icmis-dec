@@ -439,7 +439,7 @@ class ProposalModel extends Model
             $prev_board_type = $row_heardt['board_type'];
             $prev_next_dt = $row_heardt['next_dt'];
             $prev_tentative_cl_dt = $row_heardt['tentative_cl_dt'];
-            $final_next_dt = date("d-m-Y", strtotime($row_heardt['tentative_cl_dt']));
+            $final_next_dt = (!empty($row_heardt['tentative_cl_dt'])) ? date("d-m-Y", strtotime($row_heardt['tentative_cl_dt'])) : "";
             $is_nmd = $row_heardt['is_nmd'];
             $coram = strtok($row_heardt['coram'], ',');
         }
@@ -887,6 +887,84 @@ class ProposalModel extends Model
             return $query->getResultArray();
         else
             return [];
+    }
+
+    public function getLastProposed($diary_no = 0) {
+
+        // Build the query using the query builder
+         $builder = $this->db->table('last_heardt');
+         
+         $builder->select('board_type, next_dt, subhead')
+         ->where('diary_no', $diary_no)
+         ->where('next_dt > CURRENT_DATE') // Equivalent to curdate()
+         ->orderBy('next_dt', 'desc')
+         ->limit(1);
+         
+         $query = $builder->get();
+
+        if ($query->getNumRows() >= 1)
+            return $query->getRowArray();
+        else
+            return [];
+    }
+
+    public function getListingPurpose() {
+
+        // Build the query using CodeIgniter 4's query builder
+        $builder = $this->db->table('master.listing_purpose');
+        
+        $builder->select("code, CONCAT(code, '. ', purpose) AS lp")
+        ->where('code !=', 22)
+        ->where('purpose IS NOT NULL')
+        ->where('display', 'Y')
+        ->orderBy('code');
+        
+        $query = $builder->get();
+
+        if ($query->getNumRows() >= 1)
+            return $query->getResultArray();
+        else
+            return [];
+    }
+
+    public function getTotalHearings($diary_no=0) {
+
+        // First SELECT query for the `heardt` table
+        $query1 = $this->db->table('heardt')
+        ->select('next_dt')
+        ->where('diary_no', $diary_no)
+        ->where('board_type', 'J')
+        ->where('clno !=', 0)
+        ->where('clno IS NOT NULL')
+        ->where('brd_slno IS NOT NULL')
+        ->where('brd_slno !=', 0)
+        ->where('roster_id !=', 0)
+        ->where('roster_id IS NOT NULL');
+
+        // Second SELECT query for the `last_heardt` table
+        $query2 = $this->db->table('last_heardt')
+            ->select('next_dt')
+            ->where('diary_no', $diary_no)
+            ->where('board_type', 'J')
+            ->where('clno !=', 0)
+            ->where('clno IS NOT NULL')
+            ->where('brd_slno IS NOT NULL')
+            ->where('brd_slno !=', 0)
+            ->where('roster_id !=', 0)
+            ->where('roster_id IS NOT NULL')
+            ->groupStart()  // Start a grouped condition
+                ->where('bench_flag IS NULL')
+                ->orWhere('TRIM(bench_flag)', '')
+            ->groupEnd();  // End the grouped condition
+
+        // Combine the two queries using UNION
+        $query_list = $query1->union($query2);
+
+        // Execute the query and get the result
+        $results = $query_list->get();
+
+        // Get the number of rows returned
+        return $results->getNumRows();
     }
 
     public function getSCHolidays() {
@@ -2197,13 +2275,125 @@ class ProposalModel extends Model
 
     }
 
+    public function getFutureDates() {
+
+        $future_dates = "";
+
+        $query = $this->db->table('cl_printed')
+            ->select("string_agg(DISTINCT next_dt::text, ',') AS dates")
+            ->where('display', 'Y')
+            ->where('next_dt >', date('Y-m-d'))
+            ->get();
+
+        if ($query->getNumRows() > 0) {
+            $future_dates = $query->getRow()->dates;
+        }
+
+        return $future_dates;
+    }
+
+    public function getMainHead($diary_no=0) {
+        $mainhead = "";
+
+        // Query to fetch the mainhead based on the diary_no
+        $query = $this->db->table('heardt')
+        ->select('mainhead')
+        ->where('diary_no', $diary_no)
+        ->get();
+
+        // Check if any row was returned
+        if ($query->getNumRows() > 0) {
+            // Fetch the row and get the mainhead value
+            $row_h = $query->getRow();
+            $mainhead = $row_h->mainhead;  // Accessing the mainhead field
+        }
+
+        return $mainhead;
+    }
+
+    public function getNextTuesday($next_date="") {
+        
+        $nexttuesday = "";
+
+        // Check if $q_next_dt is greater than today's date
+        if ($next_date > date("Y-m-d")) {
+            // Build the query to fetch the next Wednesday
+            $result_nm = $this->db->table('master.sc_working_days')
+                ->select("TO_CHAR(working_date, 'DD-MM-YYYY') AS newdate")
+                ->where('display', 'Y')
+                ->where('is_holiday', 0)
+                ->where('EXTRACT(DOW FROM working_date)', 3)  // Find Wednesday (DOW = 3)
+                ->where('working_date >=', $next_date)
+                ->orderBy('working_date', 'asc')
+                ->limit(1)
+                ->get();
+        } else {
+            // Build the query for 28 days after the current date for the next Wednesday
+            $result_nm = $this->db->table('master.sc_working_days')
+                ->select("TO_CHAR(working_date, 'DD-MM-YYYY') AS newdate")
+                ->where('display', 'Y')
+                ->where('is_holiday', 0)
+                ->where('EXTRACT(DOW FROM working_date)', 3)  // Find Wednesday (DOW = 3)
+                ->where('working_date > (CURRENT_DATE + 28)')
+                ->orderBy('working_date', 'asc')
+                ->limit(1)
+                ->get();
+        }
+
+        // Check if any rows were returned
+        if ($result_nm->getNumRows() > 0) {
+            // Get the next Wednesday date
+            $nexttuesday = $result_nm->getRow()->newdate;
+        }
+
+        return $nexttuesday;
+    }
+
+    public function getNextMonday($next_date="") {
+        
+        $nextmonday = "";
+
+        // Check if $q_next_dt is greater than today's date
+        if ($next_date > date("Y-m-d")) {
+            // Build the query to fetch the next working date
+            $result_nm = $this->db->table('master.sc_working_days')
+                ->select("TO_CHAR(working_date, 'DD-MM-YYYY') AS newdate")
+                ->where('display', 'Y')
+                ->where('is_holiday', 0)
+                ->where('is_nmd', 0)
+                ->where('working_date >=', $next_date)
+                ->orderBy('working_date', 'asc')
+                ->limit(1)
+                ->get();
+        } else {
+            // Build the query for 28 days after the current date
+            $result_nm = $this->db->table('master.sc_working_days')
+                ->select("TO_CHAR(working_date, 'DD-MM-YYYY') AS newdate")
+                ->where('display', 'Y')
+                ->where('is_holiday', 0)
+                ->where('is_nmd', 0)
+                ->where("working_date > (CURRENT_DATE + 28)")
+                ->orderBy('working_date', 'asc')
+                ->limit(1)
+                ->get();
+        }
+
+        // Check if any rows were returned
+        if ($result_nm->getNumRows() > 0) {
+            // Get the next working date
+            $nextmonday = $result_nm->getRow()->newdate;
+        }
+
+        return $nextmonday;
+    }
+
     public function getInterlocutaryApplications($fil_no = [])
     {
 
         $listed_ia = $fil_no['listed_ia'];
 
         //IAN
-        $fil_no_diary_no = $fil_no['diary_no']; // Make sure to sanitize input for security
+        $fil_no_diary_no = $fil_no['diary_no'];
         $results_ian = $this->db->table('docdetails a')
             ->select('a.diary_no, a.doccode, a.doccode1, a.docnum, a.docyear, a.filedby, a.docfee, a.forresp, a.feemode, a.ent_dt, a.other1, a.iastat, b.docdesc')
             ->join('master.docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1')
