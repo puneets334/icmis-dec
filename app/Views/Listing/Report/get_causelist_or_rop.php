@@ -6,11 +6,31 @@
     .cl_off_rop:hover {
         cursor: pointer;
     }
+    .custom-table thead th{background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;}
+.custom-table thead th:first-child,.custom-table thead th:last-child,.custom-table tbody td:last-child
+{border-radius: 0px;border-left: #999 1px solid; }
+.custom-table thead th,.custom-table tbody td,.custom-table tbody tr th { 
+    border-right: #999 1px solid;
+}
+.custom-table tbody td:first-child,.custom-table tbody tr th:first-child {
+    border-left: #999 1px solid;
+    border-radius: 0px;
+}   
+/* .custom-table tbody td:last-child,.custom-table tbody tr th:last-child {
+    border-bottom: #000 1px solid;
+}   */
+.custom-table tbody tr:last-child th{
+    border-bottom: #999 1px solid;
+
+}
 </style>
 <?php
 
 if (!empty($results)) {
 ?>
+<div class="p-3">
     <table width="100%" class="table table_tr_th_w_clr custom-table">
         <thead>
             <tr>
@@ -184,6 +204,7 @@ if (!empty($results)) {
             ?>
         </tbody>
     </table>
+        </div>
     <div id="dv_sh_hd" style="display: none;position: fixed;top: 0;width: 100%;height: 100%;background-color: black;opacity: 0.6;left: 0;overflow: hidden;z-index: 103">
         &nbsp;
     </div>
