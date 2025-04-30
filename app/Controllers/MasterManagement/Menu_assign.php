@@ -264,73 +264,7 @@ class Menu_assign extends BaseController
                 echo $smlv1;
             } else {
 
-                // $menuId = htmlentities(trim($this->request->getPost('menu')));
-                // $caption = htmlentities(trim($this->request->getPost('caption')));
-                // $priority = (int) $this->request->getPost('priority');
-                // $display = htmlentities(trim(strtoupper($this->request->getPost('display'))));
-                // $url = htmlentities(trim($this->request->getPost('url'))) ?: '#';   
-                // $oldsmid = (int) $this->request->getPost('oldsmid');
-                // if (!is_numeric($oldsmid)) $oldsmid = 0;
-
-                // $children = [];
-                // for ($i = 1; $i <= 10; $i++) {
-                //     $childVar = 'child' . $i;
-                //     $children[$i] = $this->request->getPost($childVar);
-                //     if (empty($children[$i])) break;
-                // }
-
-                // foreach ($children as $index => $child) {
-                //     if (strpos($child, 'addNew') !== false) {
-                //         $preMenu = str_replace('addNew', '', $child);
-                //         $level = 11 - (2 * $index); 
-
-                //         $query = "SELECT MAX(SUBSTRING(menu_id FROM $level FOR 2)) AS maxChild 
-                //                     FROM master.menu 
-                //                     WHERE SUBSTRING(menu_id FROM 1 FOR $level) = ? 
-                //                     AND SUBSTRING(menu_id FROM $level FOR 2) <> '00' 
-                //                     AND SUBSTRING(menu_id FROM $level + 2 FOR 2) = '00';";
-                //    pr($result);
-                //         $result = $this->dbo->query($query, [$preMenu]);
-
-                //         $childMaxId = $result->getRow()->maxChild;
-
-                //         $childMaxId = ($childMaxId !== null) ? (int)$childMaxId + 1 : 1;
-                //         $childMaxId = str_pad($childMaxId, 2, '0', STR_PAD_LEFT);
-                //         $childMaxId = $preMenu . $childMaxId . str_repeat('0', 10 - strlen($childMaxId));
-
-                //         $insertQuery = "INSERT INTO master.menu (menu_nm, priority, display, menu_id, url, old_smenu_id) 
-                //                         VALUES (?, ?, ?, ?, ?, ?);";
-
-                //         if ($this->dbo->query($insertQuery, [$caption, $priority, $display, $childMaxId, $url, $oldsmid])) {
-                //             echo 'Inserted';
-                //         } else {
-                //             echo 'Failed';
-                //         }
-                //         return;
-                //     }
-                // }
-
-                // if (strpos($menuId, 'addNew') !== false) {
-                //     $query = "SELECT MAX(SUBSTRING(menu_id FROM 1 FOR 2)) AS maxMenuId 
-                //               FROM master.menu 
-                //               WHERE SUBSTRING(menu_id FROM 1 FOR 2) <> '00' 
-                //               AND SUBSTRING(menu_id FROM 3) = '0000000000';";
-
-                //     $result = $this->dbo->query($query);
-                //     $menuMaxId = $result->getRow()->maxMenuId;
-
-                //     $menuMaxId = ($menuMaxId !== null) ? (int)$menuMaxId + 1 : 1;
-                //     $menuMaxId = str_pad($menuMaxId, 2, '0', STR_PAD_LEFT) . '0000000000';
-
-                //     $insertQuery = "INSERT INTO master.menu (menu_nm, priority, display, menu_id, url, old_smenu_id) 
-                //                     VALUES (?, ?, ?, ?, ?, ?);";
-
-                //     if ($this->dbo->query($insertQuery, [$caption, $priority, $display, $menuMaxId, $url, $oldsmid])) {
-                //         echo 'Inserted';
-                //     } else {
-                //         echo 'Failed';
-                //     }
-                // }
+                 
                 $db = \Config\Database::connect();
                 $menuId = htmlentities(trim($_POST['menu'] ?? ''));
                 $caption = htmlentities(trim($_POST['caption'] ?? ''));
