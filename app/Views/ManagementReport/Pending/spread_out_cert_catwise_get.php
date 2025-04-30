@@ -1,15 +1,55 @@
+<style>
+      table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+
+    table.dataTable>thead .sorting_disabled,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+    table tfoot tr th {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+    
+.custom-table thead th{background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;}
+.custom-table thead th:first-child,.custom-table thead th:last-child,.custom-table tbody td:last-child
+{border-radius: 0px;border-left: #999 1px solid; }
+.custom-table thead th,.custom-table tbody td,.custom-table tbody tr th { 
+    border-right: #999 1px solid;
+}
+.custom-table tbody td:first-child,.custom-table tbody tr th:first-child {
+    border-left: #999 1px solid;
+    border-radius: 0px;
+}   
+/* .custom-table tbody td:last-child,.custom-table tbody tr th:last-child {
+    border-bottom: #000 1px solid;
+}   */
+.custom-table tbody tr:last-child th{
+    border-bottom: #999 1px solid;
+
+}
+</style>
 <div id="prnnt" style="font-size:11px;">
     <table border="0" width="100%" style="font-size:11px; text-align: left; background: #ffffff;" cellspacing=0>
         <thead>
             <tr>
-                <th colspan="4" style="text-align: center;">
+                <th colspan="4" style="text-align: center;"><b>
                     SUPREME COURT OF INDIA
                     <br><br>
                     CATEGORY WISE REPORT
                     <BR>CASE LOAD OF PRE-ADMISSION CASES TO BE LISTED BEFORE THE HON'BLE COURTS THE DAILY CAUSE LIST FOR
                     DATED : <?php echo date('d-m-Y', strtotime($_POST['list_dt'])); ?>
                     <br>BREAK-UP OF CASES INCLUDED IN LIST AND NOT INCLUDED IN THE LIST BEING SURPLUS MATTERS IS AS
-                    FOLLOWS :
+                    FOLLOWS :</b>
 
                 </th>
             </tr>
@@ -95,16 +135,16 @@
             }
                 ?>
         <tr>
-            <td colspan="3"> TOTAL </td>
-            <td><?php echo $t_fd_list; ?></td>
-            <td><?php echo $t_imp_ia_list; ?></td>
-            <td><?php echo $t_oth_list; ?></td>
-            <td><?php echo $t_listed; ?></td>
-            <td><?php echo $t_fd_not_listed; ?></td>
-            <td><?php echo $t_imp_ia_not_listed; ?></td>
-            <td><?php echo $t_oth_not_listed; ?></td>
-            <td><?php echo $t_not_listed; ?></td>
-            <td><?php echo $gd; ?></td>
+            <td colspan="3" style="background-color: #0d48be !important;color: #fff !important;white-space: nowrap;"> TOTAL </td>
+            <td style="background-color: #0d48be !important;color: #fff !important;white-space: nowrap;"><?php echo $t_fd_list; ?></td>
+            <td style="background-color: #0d48be !important;color: #fff !important;white-space: nowrap;"><?php echo $t_imp_ia_list; ?></td>
+            <td style="background-color: #0d48be !important;color: #fff !important;white-space: nowrap;"><?php echo $t_oth_list; ?></td>
+            <td style="background-color: #0d48be !important;color: #fff !important;white-space: nowrap;"><?php echo $t_listed; ?></td>
+            <td style="background-color: #0d48be !important;color: #fff !important;white-space: nowrap;"><?php echo $t_fd_not_listed; ?></td>
+            <td style="background-color: #0d48be !important;color: #fff !important;white-space: nowrap;"><?php echo $t_imp_ia_not_listed; ?></td>
+            <td style="background-color: #0d48be !important;color: #fff !important;white-space: nowrap;"><?php echo $t_oth_not_listed; ?></td>
+            <td style="background-color: #0d48be !important;color: #fff !important;white-space: nowrap;"><?php echo $t_not_listed; ?></td>
+            <td style="background-color: #0d48be !important;color: #fff !important;white-space: nowrap;"><?php echo $gd; ?></td>
         </tr>
     </table>
     <br />

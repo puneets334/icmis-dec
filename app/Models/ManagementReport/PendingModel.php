@@ -1034,259 +1034,481 @@ class PendingModel extends Model
     }
     public function spread_out_cert_catwise_get($list_dt)
     {
-        $sql = "SELECT 
+        $sql = "SELECT
                         (
-                            select 
-                            nos_court 
-                            from 
-                            (
-                                SELECT 
-                                t1.*, 
-                                COUNT(sub_name1) nos_court 
-                                FROM 
-                                (
-                                    SELECT 
-                                    ss.sub_name1, 
-                                    ss.subcode1 
-                                    FROM 
-                                    master.roster r 
-                                    INNER JOIN category_allottment c ON c.ros_id = r.id 
-                                    INNER JOIN master.roster_judge rj ON rj.roster_id = r.id 
-                                    INNER JOIN master.submaster s ON s.id = c.submaster_id 
-                                    LEFT JOIN master.submaster ss ON ss.subcode1 = s.subcode1 
-                                    WHERE 
-                                    ss.display = 'Y' 
-                                    AND rj.display = 'Y' 
-                                    AND s.display = 'Y' 
-                                    AND c.display = 'Y' 
-                                    AND r.display = 'Y' 
-                                    AND r.m_f = '1' 
-                                    AND r.from_date = '$list_dt' 
-                                    GROUP BY 
-                                    ss.subcode1, ss.sub_name1,
-                                    r.courtno
-                                ) t1 
-                                GROUP BY 
-                                subcode1 ,t1.sub_name1
-                                ORDER BY 
-                                sub_name1
-                            ) dd 
-                            where 
-                            dd.subcode1 = t.subcode1
-                        ) nos_court, 
-                        id, 
-                        subcode1, 
-                        sub_name1, 
-                        SUM(listed) AS listed, 
-                        SUM(fd_list) AS fd_list, 
-                        SUM(imp_ia_list) AS imp_ia_list, 
-                        SUM(oth_list) AS oth_list, 
-                        SUM(not_listed) AS not_listed, 
-                        SUM(fd_not_listed) AS fd_not_listed, 
-                        SUM(imp_ia_not_listed) AS imp_ia_not_listed, 
-                        SUM(oth_not_listed) AS oth_not_listed 
-                        FROM 
+                            SELECT
+                                COUNT(DISTINCT R.COURTNO) AS NOS_COURT
+                            FROM
+                                master.ROSTER R
+                                INNER JOIN CATEGORY_ALLOTTMENT C ON C.ROS_ID = R.ID
+                                INNER JOIN master.ROSTER_JUDGE RJ ON RJ.ROSTER_ID = R.ID
+                                INNER JOIN master.SUBMASTER S ON S.ID = C.SUBMASTER_ID
+                            WHERE
+                                S.SUBCODE1 = T.SUBCODE1
+                                AND R.DISPLAY = 'Y'
+                                AND C.DISPLAY = 'Y'
+                                AND S.DISPLAY = 'Y'
+                                AND RJ.DISPLAY = 'Y'
+                                AND R.M_F = '1'
+                                AND R.FROM_DATE = '$list_dt'
+                        ) AS NOS_COURT,
+                        ID,
+                        SUBCODE1,
+                        SUB_NAME1,
+                        SUM(LISTED) AS LISTED,
+                        SUM(FD_LIST) AS FD_LIST,
+                        SUM(IMP_IA_LIST) AS IMP_IA_LIST,
+                        SUM(OTH_LIST) AS OTH_LIST,
+                        SUM(NOT_LISTED) AS NOT_LISTED,
+                        SUM(FD_NOT_LISTED) AS FD_NOT_LISTED,
+                        SUM(IMP_IA_NOT_LISTED) AS IMP_IA_NOT_LISTED,
+                        SUM(OTH_NOT_LISTED) AS OTH_NOT_LISTED
+                    FROM
                         (
-                            SELECT 
-                            s.id, 
-                            s.subcode1, 
-                            s.sub_name1, 
-                            SUM(COALESCE(b.listed, 0)) AS listed, 
-                            SUM(COALESCE(b.fd_list, 0)) AS fd_list, 
-                            SUM(COALESCE(b.imp_ia_list, 0)) AS imp_ia_list, 
-                            SUM(COALESCE(b.oth_list, 0)) AS oth_list, 
-                            SUM(COALESCE(c.not_listed, 0)) AS not_listed, 
-                            SUM(COALESCE(c.fd_not_list, 0)) AS fd_not_listed, 
-                            SUM(COALESCE(c.imp_ia_not_list, 0)) AS imp_ia_not_listed, 
-                            SUM(COALESCE(c.oth_not_list, 0)) AS oth_not_listed 
-                        FROM 
-                            master.submaster s 
-                        LEFT JOIN (
-                            SELECT 
-                                submaster_id, 
-                                COUNT(submaster_id) AS listed, 
-                                SUM(CASE 
-                                        WHEN listorder IN (8, 4, 5, 7, 25, 32) THEN 1 
-                                        ELSE 0 
-                                    END) AS fd_list, 
-                                SUM(CASE 
-                                        WHEN doccode1 IS NOT NULL 
-                                            AND listorder NOT IN (8, 4, 5, 7, 25, 32) THEN 1 
-                                        ELSE 0 
-                                    END) AS imp_ia_list, 
-                                SUM(CASE 
-                                        WHEN doccode1 IS NULL 
-                                            AND listorder NOT IN (8, 4, 5, 7, 25, 32) THEN 1 
-                                        ELSE 0 
-                                    END) AS oth_list 
-                            FROM (
-                                SELECT 
-                                    d.doccode1, 
-                                    h.diary_no, 
-                                    h.next_dt, 
-                                    submaster_id, 
-                                    h.listorder 
-                                FROM 
-                                    heardt h 
-                                INNER JOIN main m ON m.diary_no = h.diary_no 
-                                INNER JOIN mul_category mc ON mc.diary_no = m.diary_no 
-                                LEFT JOIN docdetails d ON d.diary_no = m.diary_no 
-                                AND d.display = 'Y' 
-                                AND d.iastat = 'P' 
-                                AND d.doccode = 8 
-                                AND d.doccode1 IN (7, 66, 29, 56, 57, 28, 103, 133, 226, 3, 
-                                                    309, 73, 99, 40, 48, 72, 71, 27, 124, 2, 
-                                                    16, 41, 49, 71, 72, 102, 118, 131, 211, 
-                                                    309)
-                                WHERE 
-                                    mc.display = 'Y' 
-                                    AND (m.diary_no::TEXT = m.conn_key::TEXT 
-                                        OR m.conn_key::TEXT = '' 
-                                        OR m.conn_key::TEXT IS NULL 
-                                        OR m.conn_key::TEXT = '0')
-                                    AND h.next_dt = '$list_dt'
-                                    AND clno > 0 
-                                    AND h.brd_slno > 0 
-                                    AND board_type = 'J' 
-                                    AND h.subhead IN (824, 810, 803, 802, 807, 804, 808, 811, 
-                                                    812, 813, 814, 815, 816)
-                                GROUP BY 
-                                    m.diary_no, d.doccode1, h.diary_no, mc.submaster_id
-                                UNION 
-                                SELECT 
-                                    d.doccode1, 
-                                    h.diary_no, 
-                                    h.next_dt, 
-                                    submaster_id, 
-                                    h.listorder 
-                                FROM 
-                                    last_heardt h 
-                                INNER JOIN main m ON m.diary_no = h.diary_no 
-                                INNER JOIN mul_category mc ON mc.diary_no = m.diary_no 
-                                LEFT JOIN docdetails d ON d.diary_no = m.diary_no 
-                                AND d.display = 'Y' 
-                                AND d.iastat = 'P' 
-                                AND d.doccode = 8 
-                                AND d.doccode1 IN (7, 66, 29, 56, 57, 28, 103, 133, 226, 3, 
-                                                    309, 73, 99, 40, 48, 72, 71, 27, 124, 2, 
-                                                    16, 41, 49, 71, 72, 102, 118, 131, 211, 
-                                                    309)
-                                WHERE 
-                                    mc.display = 'Y' 
-                                    AND (m.diary_no::TEXT = m.conn_key::TEXT 
-                                        OR m.conn_key::TEXT = '' 
-                                        OR m.conn_key::TEXT IS NULL 
-                                        OR m.conn_key::TEXT = '0')
-                                    AND h.next_dt = '$list_dt'
-                                    AND clno > 0 
-                                    AND h.brd_slno > 0 
-                                    AND board_type = 'J' 
-                                    AND h.subhead IN (824, 810, 803, 802, 807, 804, 808, 811, 
-                                                    812, 813, 814, 815, 816) 
-                                    AND (bench_flag = '' OR bench_flag IS NULL)
-                                GROUP BY 
-                                    m.diary_no, d.doccode1, h.diary_no, h.next_dt, mc.submaster_id, h.listorder
-                            ) a 
-                            GROUP BY submaster_id
-                        ) b ON s.id = b.submaster_id 
-                        LEFT JOIN (
-                            SELECT 
-                                th.submaster_id, 
-                                COUNT(th.diary_no) AS not_listed, 
-                                SUM(CASE 
-                                        WHEN th.listorder IN (8, 4, 5, 7, 25, 32) THEN 1 
-                                        ELSE 0 
-                                    END) AS fd_not_list, 
-                                SUM(CASE 
-                                        WHEN doccode1 IS NOT NULL 
-                                            AND th.listorder NOT IN (8, 4, 5, 7, 25, 32) THEN 1 
-                                        ELSE 0 
-                                    END) AS imp_ia_not_list, 
-                                SUM(CASE 
-                                        WHEN doccode1 IS NULL 
-                                            AND th.listorder NOT IN (8, 4, 5, 7, 25, 32) THEN 1 
-                                        ELSE 0 
-                                    END) AS oth_not_list 
-                            FROM (
-                                SELECT 
-                                    d.doccode1, 
-                                    mc.submaster_id, 
-                                    t.listorder, 
-                                    t.diary_no 
-                                FROM 
-                                    transfer_old_com_gen_cases t 
-                                INNER JOIN heardt h ON t.diary_no = h.diary_no 
-                                INNER JOIN mul_category mc ON mc.diary_no = h.diary_no 
-                                LEFT JOIN docdetails d ON d.diary_no = h.diary_no 
-                                AND d.display = 'Y' 
-                                AND d.iastat = 'P' 
-                                AND d.doccode = 8 
-                                AND d.doccode1 IN (7, 66, 29, 56, 57, 28, 103, 133, 226, 3, 
-                                                    309, 73, 99, 40, 48, 72, 71, 27, 124, 2, 
-                                                    16, 41, 49, 71, 72, 102, 118, 131, 211, 
-                                                    309)
-                                WHERE 
-                                    mc.display = 'Y' 
-                                    AND (t.diary_no::TEXT = t.conn_key::TEXT 
-                                        OR t.conn_key::TEXT IS NOT NULL 
-                                        OR t.conn_key::TEXT IS NULL 
-                                        OR t.conn_key::TEXT = '0')
-                                    AND next_dt_old = '$list_dt'
-                                    AND next_dt_new > next_dt_old 
-                                    AND h.board_type = 'J' 
-                                    AND h.mainhead = 'M' 
-                                    AND h.subhead IN (824, 810, 803, 802, 807, 804, 808, 811, 
-                                                    812, 813, 814, 815, 816)
-                                GROUP BY 
-                                    h.diary_no, d.doccode1, mc.submaster_id, t.listorder, t.diary_no
-                                UNION 
-                                SELECT 
-                                    d.doccode1, 
-                                    mc.submaster_id, 
-                                    h.listorder, 
-                                    h.diary_no 
-                                FROM 
-                                    heardt h 
-                                INNER JOIN main m ON m.diary_no = h.diary_no 
-                                INNER JOIN mul_category mc ON mc.diary_no = m.diary_no 
-                                LEFT JOIN docdetails d ON d.diary_no = m.diary_no 
-                                AND d.display = 'Y' 
-                                AND d.iastat = 'P' 
-                                AND d.doccode = 8 
-                                AND d.doccode1 IN (7, 66, 29, 56, 57, 28, 103, 133, 226, 3, 
-                                                    309, 73, 99, 40, 48, 72, 71, 27, 124, 2, 
-                                                    16, 41, 49, 71, 72, 102, 118, 131, 211, 
-                                                    309)
-                                WHERE 
-                                    m.c_status = 'P' 
-                                    AND mc.display = 'Y' 
-                                    AND (m.diary_no::TEXT = m.conn_key::TEXT 
-                                        OR m.conn_key::TEXT = '' 
-                                        OR m.conn_key::TEXT IS NULL 
-                                        OR m.conn_key::TEXT = '0')
-                                    AND h.next_dt = '$list_dt'
-                                    AND h.board_type = 'J' 
-                                    AND h.mainhead = 'M' 
-                                    AND h.clno = 0 
-                                    AND h.brd_slno = 0 
-                                    AND h.subhead IN (824, 810, 803, 802, 807, 804, 808, 811, 
-                                                    812, 813, 814, 815, 816)
-                                GROUP BY 
-                                    h.diary_no, d.doccode1, mc.submaster_id
-                            ) th 
-                            GROUP BY th.submaster_id
-                        ) c ON s.id = c.submaster_id 
-                        WHERE 
-                            s.flag = 's' 
-                            AND s.display = 'Y' 
-                            AND s.subcode1 NOT IN (146, 147, 148, 149, 8888, 9999) 
-                        GROUP BY 
-                            s.id
-                        ) t 
-                        GROUP BY 
-                        subcode1,t.id, t.sub_name1
-                        ORDER BY 
-                        sub_name1";
+                            SELECT
+                                S.ID,
+                                S.SUBCODE1,
+                                S.SUB_NAME1,
+                                SUM(COALESCE(B.LISTED, 0)) AS LISTED,
+                                SUM(COALESCE(B.FD_LIST, 0)) AS FD_LIST,
+                                SUM(COALESCE(B.IMP_IA_LIST, 0)) AS IMP_IA_LIST,
+                                SUM(COALESCE(B.OTH_LIST, 0)) AS OTH_LIST,
+                                SUM(COALESCE(C.NOT_LISTED, 0)) AS NOT_LISTED,
+                                SUM(COALESCE(C.FD_NOT_LIST, 0)) AS FD_NOT_LISTED,
+                                SUM(COALESCE(C.IMP_IA_NOT_LIST, 0)) AS IMP_IA_NOT_LISTED,
+                                SUM(COALESCE(C.OTH_NOT_LIST, 0)) AS OTH_NOT_LISTED
+                            FROM
+                                master.SUBMASTER S
+                                LEFT JOIN (
+                                    SELECT
+                                        SUBMASTER_ID,
+                                        COUNT(SUBMASTER_ID) LISTED,
+                                        SUM(
+                                            CASE
+                                                WHEN (
+                                                    LISTORDER = 8
+                                                    OR LISTORDER = 4
+                                                    OR LISTORDER = 5
+                                                    OR LISTORDER = 7
+                                                    OR LISTORDER = 25
+                                                    OR LISTORDER = 32
+                                                ) THEN 1
+                                                ELSE 0
+                                            END
+                                        ) FD_LIST,
+                                        SUM(
+                                            CASE
+                                                WHEN DOCCODE1 IS NOT NULL
+                                                AND LISTORDER != 8
+                                                AND LISTORDER != 4
+                                                AND LISTORDER != 5
+                                                AND LISTORDER != 7
+                                                AND LISTORDER != 25
+                                                AND LISTORDER != 32 THEN 1
+                                                ELSE 0
+                                            END
+                                        ) IMP_IA_LIST,
+                                        SUM(
+                                            CASE
+                                                WHEN DOCCODE1 IS NULL
+                                                AND LISTORDER != 8
+                                                AND LISTORDER != 4
+                                                AND LISTORDER != 5
+                                                AND LISTORDER != 7
+                                                AND LISTORDER != 25
+                                                AND LISTORDER != 32 THEN 1
+                                                ELSE 0
+                                            END
+                                        ) OTH_LIST
+                                    FROM
+                                        (
+                                            SELECT
+                                                D.DOCCODE1,
+                                                H.DIARY_NO,
+                                                NEXT_DT,
+                                                SUBMASTER_ID,
+                                                LISTORDER
+                                            FROM
+                                                HEARDT H
+                                                INNER JOIN MAIN M ON M.DIARY_NO = H.DIARY_NO
+                                                INNER JOIN MUL_CATEGORY MC ON MC.DIARY_NO = M.DIARY_NO
+                                                LEFT JOIN DOCDETAILS D ON D.DIARY_NO = M.DIARY_NO
+                                                AND D.DISPLAY = 'Y'
+                                                AND D.IASTAT = 'P'
+                                                AND D.DOCCODE = 8
+                                                AND D.DOCCODE1 IN (
+                                                    7,
+                                                    66,
+                                                    29,
+                                                    56,
+                                                    57,
+                                                    28,
+                                                    103,
+                                                    133,
+                                                    226,
+                                                    3,
+                                                    309,
+                                                    73,
+                                                    99,
+                                                    40,
+                                                    48,
+                                                    72,
+                                                    71,
+                                                    27,
+                                                    124,
+                                                    2,
+                                                    16,
+                                                    41,
+                                                    49,
+                                                    71,
+                                                    72,
+                                                    102,
+                                                    118,
+                                                    131,
+                                                    211,
+                                                    309
+                                                )
+                                            WHERE
+                                                MC.DISPLAY = 'Y'
+                                                AND (
+                                                    M.DIARY_NO::TEXT = M.CONN_KEY::TEXT::TEXT::TEXT::TEXT
+                                                    OR M.CONN_KEY::TEXT::TEXT::TEXT = ''
+                                                    OR M.CONN_KEY::TEXT::TEXT IS NULL
+                                                    OR M.CONN_KEY::TEXT = '0'
+                                                )
+                                                AND NEXT_DT = '$list_dt'
+                                                AND CLNO > 0
+                                                AND BRD_SLNO > 0
+                                                AND BOARD_TYPE = 'J'
+                                                AND H.SUBHEAD IN (
+                                                    824,
+                                                    810,
+                                                    803,
+                                                    802,
+                                                    807,
+                                                    804,
+                                                    808,
+                                                    811,
+                                                    812,
+                                                    813,
+                                                    814,
+                                                    815,
+                                                    816
+                                                )
+                                            GROUP BY
+                                                M.DIARY_NO,
+                                                D.DOCCODE1,
+                                                H.DIARY_NO,
+                                                MC.SUBMASTER_ID
+                                            UNION
+                                            SELECT
+                                                D.DOCCODE1,
+                                                H.DIARY_NO,
+                                                NEXT_DT,
+                                                SUBMASTER_ID,
+                                                LISTORDER
+                                            FROM
+                                                LAST_HEARDT H
+                                                INNER JOIN MAIN M ON M.DIARY_NO = H.DIARY_NO
+                                                INNER JOIN MUL_CATEGORY MC ON MC.DIARY_NO = M.DIARY_NO
+                                                LEFT JOIN DOCDETAILS D ON D.DIARY_NO = M.DIARY_NO
+                                                AND D.DISPLAY = 'Y'
+                                                AND D.IASTAT = 'P'
+                                                AND D.DOCCODE = 8
+                                                AND D.DOCCODE1 IN (
+                                                    7,
+                                                    66,
+                                                    29,
+                                                    56,
+                                                    57,
+                                                    28,
+                                                    103,
+                                                    133,
+                                                    226,
+                                                    3,
+                                                    309,
+                                                    73,
+                                                    99,
+                                                    40,
+                                                    48,
+                                                    72,
+                                                    71,
+                                                    27,
+                                                    124,
+                                                    2,
+                                                    16,
+                                                    41,
+                                                    49,
+                                                    71,
+                                                    72,
+                                                    102,
+                                                    118,
+                                                    131,
+                                                    211,
+                                                    309
+                                                )
+                                            WHERE
+                                                MC.DISPLAY = 'Y'
+                                                AND (
+                                                    M.DIARY_NO::TEXT = M.CONN_KEY::TEXT::TEXT::TEXT::TEXT
+                                                    OR M.CONN_KEY::TEXT::TEXT::TEXT = ''
+                                                    OR M.CONN_KEY::TEXT::TEXT IS NULL
+                                                    OR M.CONN_KEY::TEXT = '0'
+                                                )
+                                                AND NEXT_DT = '$list_dt'
+                                                AND CLNO > 0
+                                                AND BRD_SLNO > 0
+                                                AND BOARD_TYPE = 'J'
+                                                AND H.SUBHEAD IN (
+                                                    824,
+                                                    810,
+                                                    803,
+                                                    802,
+                                                    807,
+                                                    804,
+                                                    808,
+                                                    811,
+                                                    812,
+                                                    813,
+                                                    814,
+                                                    815,
+                                                    816
+                                                )
+                                                AND (
+                                                    BENCH_FLAG = ''
+                                                    OR BENCH_FLAG IS NULL
+                                                )
+                                            GROUP BY
+                                                M.DIARY_NO,
+                                                D.DOCCODE1,
+                                                H.DIARY_NO,
+                                                H.NEXT_DT,
+                                                MC.SUBMASTER_ID,
+                                                H.LISTORDER
+                                        ) A
+                                    GROUP BY
+                                        SUBMASTER_ID
+                                ) B ON S.ID = B.SUBMASTER_ID
+                                LEFT JOIN (
+                                    SELECT
+                                        TH.SUBMASTER_ID,
+                                        COUNT(TH.DIARY_NO) NOT_LISTED,
+                                        SUM(
+                                            CASE
+                                                WHEN (
+                                                    TH.LISTORDER = 8
+                                                    OR TH.LISTORDER = 4
+                                                    OR TH.LISTORDER = 5
+                                                    OR TH.LISTORDER = 7
+                                                    OR TH.LISTORDER = 25
+                                                    OR TH.LISTORDER = 32
+                                                ) THEN 1
+                                                ELSE 0
+                                            END
+                                        ) FD_NOT_LIST,
+                                        SUM(
+                                            CASE
+                                                WHEN DOCCODE1 IS NOT NULL
+                                                AND TH.LISTORDER != 8
+                                                AND TH.LISTORDER != 4
+                                                AND TH.LISTORDER != 5
+                                                AND TH.LISTORDER != 7
+                                                AND TH.LISTORDER != 25
+                                                AND TH.LISTORDER != 32 THEN 1
+                                                ELSE 0
+                                            END
+                                        ) IMP_IA_NOT_LIST,
+                                        SUM(
+                                            CASE
+                                                WHEN DOCCODE1 IS NULL
+                                                AND TH.LISTORDER != 8
+                                                AND TH.LISTORDER != 4
+                                                AND TH.LISTORDER != 5
+                                                AND TH.LISTORDER != 7
+                                                AND TH.LISTORDER != 25
+                                                AND TH.LISTORDER != 32 THEN 1
+                                                ELSE 0
+                                            END
+                                        ) OTH_NOT_LIST
+                                    FROM
+                                        (
+                                            SELECT
+                                                D.DOCCODE1,
+                                                MC.SUBMASTER_ID,
+                                                T.LISTORDER,
+                                                T.DIARY_NO
+                                            FROM
+                                                TRANSFER_OLD_COM_GEN_CASES T
+                                                INNER JOIN HEARDT H ON T.DIARY_NO = H.DIARY_NO
+                                                INNER JOIN MUL_CATEGORY MC ON MC.DIARY_NO = H.DIARY_NO
+                                                LEFT JOIN DOCDETAILS D ON D.DIARY_NO = H.DIARY_NO
+                                                AND D.DISPLAY = 'Y'
+                                                AND D.IASTAT = 'P'
+                                                AND D.DOCCODE = 8
+                                                AND D.DOCCODE1 IN (
+                                                    7,
+                                                    66,
+                                                    29,
+                                                    56,
+                                                    57,
+                                                    28,
+                                                    103,
+                                                    133,
+                                                    226,
+                                                    3,
+                                                    309,
+                                                    73,
+                                                    99,
+                                                    40,
+                                                    48,
+                                                    72,
+                                                    71,
+                                                    27,
+                                                    124,
+                                                    2,
+                                                    16,
+                                                    41,
+                                                    49,
+                                                    71,
+                                                    72,
+                                                    102,
+                                                    118,
+                                                    131,
+                                                    211,
+                                                    309
+                                                )
+                                            WHERE
+                                                MC.DISPLAY = 'Y'
+                                                AND (
+                                                    T.DIARY_NO::TEXT = T.CONN_KEY::TEXT
+                                                    OR T.CONN_KEY::TEXT = ''
+                                                    OR T.CONN_KEY::TEXT IS NULL
+                                                    OR T.CONN_KEY::TEXT = '0'
+                                                )
+                                                AND NEXT_DT_OLD = '$list_dt'
+                                                AND NEXT_DT_NEW > NEXT_DT_OLD
+                                                AND H.BOARD_TYPE = 'J'
+                                                AND H.MAINHEAD = 'M'
+                                                AND H.SUBHEAD IN (
+                                                    824,
+                                                    810,
+                                                    803,
+                                                    802,
+                                                    807,
+                                                    804,
+                                                    808,
+                                                    811,
+                                                    812,
+                                                    813,
+                                                    814,
+                                                    815,
+                                                    816
+                                                )
+                                            GROUP BY
+                                                H.DIARY_NO,
+                                                D.DOCCODE1,
+                                                MC.SUBMASTER_ID,
+                                                T.LISTORDER,
+                                                T.DIARY_NO
+                                            UNION
+                                            SELECT
+                                                D.DOCCODE1,
+                                                MC.SUBMASTER_ID,
+                                                H.LISTORDER,
+                                                H.DIARY_NO
+                                            FROM
+                                                HEARDT H
+                                                INNER JOIN MAIN M ON M.DIARY_NO = H.DIARY_NO
+                                                INNER JOIN MUL_CATEGORY MC ON MC.DIARY_NO = M.DIARY_NO
+                                                LEFT JOIN DOCDETAILS D ON D.DIARY_NO = M.DIARY_NO
+                                                AND D.DISPLAY = 'Y'
+                                                AND D.IASTAT = 'P'
+                                                AND D.DOCCODE = 8
+                                                AND D.DOCCODE1 IN (
+                                                    7,
+                                                    66,
+                                                    29,
+                                                    56,
+                                                    57,
+                                                    28,
+                                                    103,
+                                                    133,
+                                                    226,
+                                                    3,
+                                                    309,
+                                                    73,
+                                                    99,
+                                                    40,
+                                                    48,
+                                                    72,
+                                                    71,
+                                                    27,
+                                                    124,
+                                                    2,
+                                                    16,
+                                                    41,
+                                                    49,
+                                                    71,
+                                                    72,
+                                                    102,
+                                                    118,
+                                                    131,
+                                                    211,
+                                                    309
+                                                )
+                                            WHERE
+                                                M.C_STATUS = 'P'
+                                                AND MC.DISPLAY = 'Y'
+                                                AND (
+                                                    M.DIARY_NO::TEXT = M.CONN_KEY::TEXT
+                                                    OR M.CONN_KEY::TEXT = ''
+                                                    OR M.CONN_KEY::TEXT IS NULL
+                                                    OR M.CONN_KEY::TEXT = '0'
+                                                )
+                                                AND NEXT_DT = '$list_dt'
+                                                AND H.BOARD_TYPE = 'J'
+                                                AND H.MAINHEAD = 'M'
+                                                AND H.CLNO = 0
+                                                AND H.BRD_SLNO = 0
+                                                AND H.SUBHEAD IN (
+                                                    824,
+                                                    810,
+                                                    803,
+                                                    802,
+                                                    807,
+                                                    804,
+                                                    808,
+                                                    811,
+                                                    812,
+                                                    813,
+                                                    814,
+                                                    815,
+                                                    816
+                                                )
+                                            GROUP BY
+                                                H.DIARY_NO,
+                                                D.DOCCODE1,
+                                                MC.SUBMASTER_ID
+                                        ) TH
+                                    GROUP BY
+                                        TH.SUBMASTER_ID
+                                ) C ON S.ID = C.SUBMASTER_ID
+                            WHERE
+                                S.FLAG = 's'
+                                AND S.DISPLAY = 'Y'
+                                AND S.SUBCODE1 NOT IN (146, 147, 148, 149, 8888, 9999)
+                            GROUP BY
+                                S.ID,
+                                S.SUBCODE1,
+                                S.SUB_NAME1
+                        ) T
+                    GROUP BY
+                        SUBCODE1,
+                        t.id,
+                        SUB_NAME1
+                    ORDER BY
+                        SUB_NAME1";
+       
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         return $result;
