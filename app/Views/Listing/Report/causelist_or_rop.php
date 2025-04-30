@@ -33,7 +33,7 @@
 						</div>
 						<div class="col-md-2">
 							<div class="form-group row">
-							<label class="col-form-label">&nbsp;</label>
+							<label class="col-form-label">Aor Code</label>
 							<input type="text" name="txt_aor_code" class="form-control" id="txt_aor_code"  placeholder="Enter Only digits"  onkeypress="return isNumberKey(event)"/>
 						 </div>
 						</div>

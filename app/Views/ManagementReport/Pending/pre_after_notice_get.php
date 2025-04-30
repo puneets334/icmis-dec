@@ -48,6 +48,45 @@
     <script src="<?php echo base_url('assets/vendor/datatables-buttons/js/buttons.colVis.min.js'); ?>"></script>
     <script src="<?php echo base_url('js/nav_link.js'); ?>"></script>
     <script src="<?php echo base_url('js/customize_style.js'); ?>"></script>
+
+    <style>
+      table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+
+    table.dataTable>thead .sorting_disabled,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+    table tfoot tr th {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+    
+.custom-table thead th{background:none;}
+.custom-table thead th:first-child,.custom-table thead th:last-child,.custom-table tbody td:last-child
+{border-radius: 0px;}
+.custom-table thead th,.custom-table tbody td,.custom-table tbody tr th { 
+    border-right: #999 1px solid;
+}
+.custom-table tbody td:first-child,.custom-table tbody tr th:first-child {
+    border-left: #000 1px solid;
+    border-radius: 0px;
+}   
+/* .custom-table tbody td:last-child,.custom-table tbody tr th:last-child {
+    border-bottom: #000 1px solid;
+}   */
+.custom-table tbody tr:last-child th{
+    border-bottom: #000 1px solid;
+
+}
+</style>
 <?php
 if (count($result_array) > 0) {
 ?>

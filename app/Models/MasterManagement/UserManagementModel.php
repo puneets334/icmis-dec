@@ -310,10 +310,9 @@ class UserManagementModel extends Model
             $this->db->table('master.user_d_t_map')->update(
                 ['display' => 'N', 'upuser' => $user, 'updt' => date('Y-m-d H:i:s')],
                 ['udept' => $id]
-            );
-
-            $t_butype = explode(',', ltrim($butype, ','));
-
+            );            
+            $t_butype = explode(',', ltrim($butype, ','));            
+            
             foreach ($t_butype as $value) {
                 $exists = $this->db->table('master.user_d_t_map')
                     ->where(['udept' => $id, 'utype' => $value, 'display' => 'N'])
@@ -329,7 +328,9 @@ class UserManagementModel extends Model
                         'udept' => $id,
                         'utype' => $value,
                         'entuser' => $user,
-                        'entdt' => date('Y-m-d H:i:s')
+                        'upuser'=>$user,
+                        'entdt' => date('Y-m-d H:i:s'),
+                        'updt' => date('Y-m-d H:i:s')
                     ];
                     $this->db->table('master.user_d_t_map')->insert($insertData);
                 }

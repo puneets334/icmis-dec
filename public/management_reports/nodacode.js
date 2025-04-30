@@ -1,6 +1,7 @@
 
 $(document).ready(function(){
     $("#btnreport").click(function(){
+        $("#btnreport").attr("disabled", true);
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         $.ajax({
             type: 'POST',
@@ -13,10 +14,12 @@ $(document).ready(function(){
         .done(function(msg_new){
             updateCSRFToken();
             $("#result_main").html(msg_new);
+            $("#btnreport").removeAttr("disabled");
         })
         .fail(function(){
             updateCSRFToken();
             alert("ERROR, Please Contact Server Room"); 
+            $("#btnreport").removeAttr("disabled");
         });
     });
     

@@ -81,15 +81,15 @@ if (count($summary_details) >= 1) {
             "pageLength": 20,
             "buttons": [{
                     extend: 'excel',
-                    title: 'rev_cur_con_process<?= date("d-m-Y_h-i-s_A") ?>',
-                    filename: 'rev_cur_con_process<?= date("d-m-Y_h-i-s_A") ?>'
+                    title: 'List of Curative, Review and Contempt cases where category is not updated as on <?php echo date("d-m-Y h:i:sa"); ?>',
+                    filename: 'curative_review_contempt_category_not_updated_as_on_<?php echo date("d-m-Y h:i:sa");?>'
                 },
                 {
                     extend: 'pdfHtml5',
                     orientation: 'Orientation',
                     pageSize: 'LEGAL',
-                    title: 'rev_cur_con_process<?= date("d-m-Y h:i:s A") ?>',
-                    filename: 'rev_cur_con_process<?= date("d-m-Y_h-i-s_A") ?>'
+                    title: 'List of Curative, Review and Contempt cases where category is not updated as on <?php echo date("d-m-Y h:i:sa"); ?>',
+                    filename: 'curative_review_contempt_category_not_updated_as_on_<?php echo date("d-m-Y h:i:sa");?>'
                 }
             ],
             "processing": true,

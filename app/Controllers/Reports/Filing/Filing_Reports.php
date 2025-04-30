@@ -230,7 +230,7 @@ class Filing_Reports extends BaseController
             //var_dump($c_Type);
 
             $result_array = $ReportModel->scrutiny_user_wise($on_date);
-
+            
             $data['case_result'] = $result_array;
         }
 

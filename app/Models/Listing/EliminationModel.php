@@ -259,7 +259,10 @@ class EliminationModel extends Model
             'next_dt' => $list_dt,
             'board_type' => $board_type,
             'usercode' => $ucode,
-            'ent_time' => date('Y-m-d H:i:s')
+            'ent_time' => date('Y-m-d H:i:s'),
+            'create_modify' => date("Y-m-d H:i:s"),
+            'updated_by' => session()->get('login')['usercode'],
+            'updated_by_ip' => getClientIP()
         ];
         $builder = $this->db->table('advance_elimination_cl_printed');
         if($builder->insert($data)) {

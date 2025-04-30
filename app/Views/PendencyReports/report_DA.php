@@ -85,7 +85,7 @@
             buttons: [
                 {
                     extend: 'csv',
-                    title: title,
+                    title: 'Dealing-assistant-report',
                     exportOptions: {
                         columns: [0,1,2,3,4,5],
                         stripHtml: true

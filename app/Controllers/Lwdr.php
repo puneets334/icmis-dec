@@ -11,6 +11,7 @@ class Lwdr extends BaseController
 
     function __construct()
     {   
+	   // ini_set('memory_limit', '1024M'); 
         $this->db = \Config\Database::connect();
         $this->LwdrModel = new LwdrModel();
     }
@@ -39,31 +40,27 @@ class Lwdr extends BaseController
         return view('lwdr/diarized_but_not_listed');
     }
 
-    public function diarized_but_not_listed_process_data()
-    {
+    public function diarized_but_not_listed_process_data(){
         $data['summary_details'] = $this->LwdrModel->diarized_summary();
-        return view('lwdr/diarized_but_not_listed_process_data', $data);
+		return view('lwdr/diarized_but_not_listed_process_data', $data);
     }
 
-    public function rev_cur_con_cat_undefined()
-    {
+    public function rev_cur_con_cat_undefined(){
         return view('lwdr/rev_cur_con_cat_undefined');
     }
 
-    public function rev_cur_con_process()
-    {
+    public function rev_cur_con_process() {
         $data['summary_details'] = $this->LwdrModel->rev_curprocess();
-        return view('lwdr/rev_cur_con_process', $data);
+		return view('lwdr/rev_cur_con_process', $data);
     }
 
-    public function Sectionwise_report()
-    {
+    public function Sectionwise_report(){
         $data['case_result']='';
         $data['param']=[];
         $data['app_name']='Section wise Report';
         $data['Sections'] = $this->LwdrModel->sectionwise_name();
         $data['MCategories'] = $this->LwdrModel->getMainSubjectCategory();
-        return view('lwdr/sectionwise_reports_new',$data);
+		return view('lwdr/sectionwise_reports_new',$data);
     }
 
     public function Sectionwise_report_data()

@@ -45,8 +45,9 @@
 
 <script>
 
-function fetch_data()
+async function fetch_data()
     {
+        await updateCSRFTokenSync();
         $('#dv_res1').html("");
         var connt = $('#connt').val();
         var CSRF_TOKEN = 'CSRF_TOKEN';
@@ -64,15 +65,15 @@ function fetch_data()
                 $('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
             },
             success: function(data, status) {
-                updateCSRFToken();
+               // updateCSRFToken();
                 $('#dv_res1').html(data);
             },
             error: function(xhr) {
-                updateCSRFToken();
+                //updateCSRFToken();
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
-        updateCSRFToken();
+        //updateCSRFToken();
        
     }
 
