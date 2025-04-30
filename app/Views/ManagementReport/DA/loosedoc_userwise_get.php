@@ -17,6 +17,7 @@
         color: #fff !important;
         white-space: nowrap;
     }
+    
     /* .dataTables_filter
     {
         margin-top: -48px;
