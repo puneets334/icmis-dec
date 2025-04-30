@@ -1322,7 +1322,8 @@ class PrintAdvance extends BaseController
 
         // Get POST parameters
         $mainhead   = $request->getPost('mainhead');
-        $list_dt    = $request->getPost('list_dt');
+        //$list_dt    = $request->getPost('list_dt');
+        $list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
         if (!empty($request->getPost('roster_id'))) {
             $roster_id  = $request->getPost('roster_id');
         } else {
