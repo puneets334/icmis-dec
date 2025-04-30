@@ -19,8 +19,7 @@
                                         <form method="post" action="<?= site_url(uri_string()) ?>">
                                             <?= csrf_field() ?>
                                             <div class="row">
-                                                <div class="col-12 col-md-3 mb-3">
-                                                </div>
+                                                <!-- <div class="col-12 col-md-3 mb-3"></div> -->
                                                 <div class="col-12 col-md-3 mb-3">
                                                     <label for="listing_dts">Listing Date</label>
                                                     <input type="text" size="10" class="dtp form-control" name="listing_dts" id="listing_dts" value="<?php echo date('d-m-Y'); ?>" />
@@ -85,7 +84,7 @@
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         let list_dt = $("#listing_dts").val();
-
+        $('#rs_actio_btn1').prop('disabled',true);
         $.ajax({
             url: "<?php echo base_url('ManagementReports/Listing/Report/date_given_by_da_get'); ?>",
             method: 'POST',
@@ -98,11 +97,15 @@
             },
             cache: false,
             success: function(data) {
-                updateCSRFToken();
                 $('#dv_res1').html(data);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            complete:function()
+            {
                 updateCSRFToken();
+                $('#rs_actio_btn1').prop('disabled',false);
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
                 alert("Error: " + jqXHR.status + " " + errorThrown);
             }
         });
