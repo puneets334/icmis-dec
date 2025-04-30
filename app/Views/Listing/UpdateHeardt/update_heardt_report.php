@@ -1,5 +1,5 @@
 <?= view('header') ?>
-<style>
+<!--<style>
     fieldset {
         padding: 5px;
         background-color: #F5FAFF;
@@ -37,7 +37,7 @@
     td {
         font-size: 10px;
     }
-</style>
+</style>-->
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -127,18 +127,20 @@
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             beforeSend: function() {
-                //$('#dv_res1').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
+                $("#btn1").attr("disabled", true);
                 $("#dv_res1").html('<div style="margin:0 auto;margin-top:20px;width:5%"><img src="' + base_url + '/images/load.gif"/></div>'); 
             },
             type: 'POST',
             success: function(data, status) {
                 updateCSRFToken();
+                $("#btn1").attr("disabled", false);
                 $('#dv_res1').html(data);
                 if (data)
                     $('#res_on_off').show();
             },
             error: function(xhr) {
                 updateCSRFToken();
+                $("#btn1").attr("disabled", false);
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
@@ -162,8 +164,7 @@
         var part_no = $("#part_no").val();
         var temp_str = prtContent;
         var WinPrint = window.open('', '', 'left=100,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1');
-      //  alert(temp_str);
-       // WinPrint.document.write("<style> .bk_out {  display:none; } </style>" + prtContent.innerHTML);
+        WinPrint.document.write("<style> .bk_out {  display:none; } </style>");
         WinPrint.document.write(temp_str);
         WinPrint.document.close();
         WinPrint.focus();
