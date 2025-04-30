@@ -86,28 +86,27 @@ if (count($case_result) > 0 && is_array($case_result) && !empty($case_result)) {
 
                     <th style="width: 1%;" rowspan='1'>SNo.</th>
                     <th style="width: 5%;" rowspan='1'>Diary on</th>
-                    <?php if (isset($_POST['reportType']) && $_POST['reportType'] != 4) { ?><th style="width: 5%;" rowspan='1'>Registered on</th><?php } ?>
+                    <?php if (isset($param[0]) && $param[0] != 4) { ?><th style="width: 5%;" rowspan='1'>Registered on</th><?php } ?>
                     <th style="width: 5%;" rowspan='1'>DA Name</th>
                     <th style="width: 5%;" rowspan='1'>Case No.</th>
-                    <?php if (isset($_POST['reportType']) && $_POST['reportType'] != 4) { ?>
+                    <?php if (isset($param[0]) && $param[0] != 4) { ?>
                         <th style="width: 5%;" rowspan='1'>Main/Conn.</th><?php } ?>
                     <th style="width: 5%;" rowspan='1'>Total Connected</th>
                     <th style="width: 5%;" rowspan='1'>Cause Title</th>
                     <th style="width: 5%;" rowspan='1'>Category</th>
-                    <?php if (isset($_POST['reportType']) && $_POST['reportType'] == 4) { ?>
+                    <?php if (isset($param[0]) && $param[0] == 4) { ?>
                         <th style="width: 5%;" rowspan='1'>High Court/Agency</th><?php } ?>
                     <th style="width: 10%;" rowspan='1'>Case Stage</th>
-                    <?php if (isset($_POST['reportType']) && $_POST['reportType'] != 4) { ?><th style="width: 5%;" rowspan='1'>Ready/Not Ready</th><?php } ?>
+                    <?php if (isset($param[0]) && $param[0] != 4) { ?><th style="width: 5%;" rowspan='1'>Ready/Not Ready</th><?php } ?>
 
                     <?php /*if(isset($_POST['reportType']) && ($_POST['reportType']==2 || $_POST['reportType']==1)){*/ ?><!--<th style="width: 10%;" rowspan='1'>Nxt Dt. of Listing</th>--><?php /*}*/ ?>
-                    <?php if (isset($_POST['reportType']) && $_POST['reportType'] == 4) { ?><th style="width: 10%;" rowspan='1'>Disp Date</th><?php } ?>
+                    <?php if (isset($param[0]) && $param[0] == 4) { ?><th style="width: 10%;" rowspan='1'>Disp Date</th><?php } ?>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 $s_no = 1;
-                foreach ($case_result as $result) {
-                ?>
+                foreach ($case_result as $result) { ?>
                     <tr>
                         <td><?php echo $s_no; ?></td>
                         <td><?php if ($result['diary_no_rec_date'] == '' || $result['diary_no_rec_date'] == null || $result['diary_no_rec_date'] == "0000-00-00 00:00:00")
@@ -125,18 +124,18 @@ if (count($case_result) > 0 && is_array($case_result) && !empty($case_result)) {
 
                         <td><?php echo $result['alloted_to_da']; ?></td>
                         <td><?php echo $result['caseno']; ?></td>
-                        <?php if (isset($_POST['reportType']) && $_POST['reportType'] != 4) { ?>
+                        <?php if (isset($param[0]) && $param[0] != 4) { ?>
                             <td><?php echo $result['main_or_connected']; ?></td><?php } ?>
                         <td><?php echo $result['group_count']; ?></td>
                         <td><?php echo $result['pet_name'] . ' vs. ' . $result['res_name']; ?></td>
                         <td><?php echo $result['category_sc_old']; ?></td>
                         <?php if (isset($_POST['reportType']) && $_POST['reportType'] == 4) { ?> <td><?php echo $result['agency_name']; ?></td><?php } ?>
                         <td><?php echo $result['casestage']; ?></td>
-                        <?php if (isset($_POST['reportType']) && $_POST['reportType'] != 4) { ?>
+                        <?php if (isset($param[0]) && $param[0] != 4) { ?>
                             <td><?php echo $result['ready_status']; ?></td><?php } ?>
                         <?php /*if(isset($_POST['reportType']) && ($_POST['reportType']==2 || $_POST['reportType']==1 )){*/ ?><!--<td><?php /*echo date('d-m-Y', strtotime(strtr($result['Hearing_Date'],'/','-'))); */ ?></td>--><?php /*}*/ ?>
 
-                        <?php if (isset($_POST['reportType']) && $_POST['reportType'] == 4) { ?> <td><?php echo date('d-m-Y', strtotime($result['disp_dt'])); ?></td><?php } ?>
+                        <?php if (isset($param[0]) && $param[0] == 4) { ?> <td><?php echo date('d-m-Y', strtotime($result['disp_dt'])); ?></td><?php } ?>
                     </tr>
                 <?php
                     $s_no++;

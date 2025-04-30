@@ -11,12 +11,12 @@
     <div><h3><?= esc("Verified on " . $verify_dt); ?></h3></div>
 
     <table align="left" width="100%" border="0" style="table-layout: fixed;">
-        <tr style="background: #918788;">
-            <td width="5%" style="font-weight: bold; color: #dce38d;">SNo</td>
-            <td width="30%" style="font-weight: bold; color: #dce38d;">Employee Name</td>
-            <td width="20%" style="font-weight: bold; color: #dce38d;">Accepted</td>
-            <td width="20%" style="font-weight: bold; color: #dce38d;">Defective</td>
-            <td width="20%" style="font-weight: bold; color: #dce38d;">Total Cases Verified</td>
+        <tr>
+            <td width="5%" style="font-weight: bold; color: #dce38d;background: #918788;">SNo</td>
+            <td width="30%" style="font-weight: bold; color: #dce38d;background: #918788;">Employee Name</td>
+            <td width="20%" style="font-weight: bold; color: #dce38d;background: #918788;">Accepted</td>
+            <td width="20%" style="font-weight: bold; color: #dce38d;background: #918788;">Defective</td>
+            <td width="20%" style="font-weight: bold; color: #dce38d;background: #918788;">Total Cases Verified</td>
         </tr>
 
         <?php
@@ -28,22 +28,22 @@
         foreach ($result_array as $row) {
             $str = esc($verify_dt . "_" . $row['ucode']);
         ?>
-            <tr style="background: #f6e0f3;">
-                <td align="right" style="vertical-align: top;"><?= $sno; ?></td>
-                <td align="left" style="vertical-align: top;"><?= esc($row['name']); ?></td>
-                <td align="left" style="vertical-align: top;">
+            <tr>
+                <td align="right" style="vertical-align: top;background: #f6e0f3;"><?= $sno; ?></td>
+                <td align="left" style="vertical-align: top;background: #f6e0f3;"><?= esc($row['name']); ?></td>
+                <td align="left" style="vertical-align: top;background: #f6e0f3;">
                     <a href="<?= base_url("listing/MonitoringTeam/verify_detail_report?str=$str&remarks=1") ?>" target="_blank">
                         <?= esc($row['accepted']); ?>
                     </a>
                     <?php $acc_tot += $row['accepted']; ?>
                 </td>
-                <td align="left" style="vertical-align: top;">
+                <td align="left" style="vertical-align: top;background: #f6e0f3;">
                     <a href="<?= base_url("listing/MonitoringTeam/verify_detail_report?str=$str&remarks=2") ?>" target="_blank">
                         <?= esc($row['not_accepted']); ?>
                     </a>
                     <?php $not_acc_tot += $row['not_accepted']; ?>
                 </td>
-                <td align="left" style="vertical-align: top;">
+                <td align="left" style="vertical-align: top;background: #f6e0f3;">
                     <a href="<?= base_url("listing/MonitoringTeam/verify_detail_report?str=$str&remarks=0") ?>" target="_blank">
                         <?= esc($row['tot']); ?>
                     </a>

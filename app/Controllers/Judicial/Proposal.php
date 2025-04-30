@@ -299,6 +299,9 @@ class Proposal extends BaseController
             $data['res_name'] = $filing_details['res_name'];
 
             $data['holiday_dates'] = $this->ProposalModel->getSCHolidays();
+            $data['rowLastProposed'] = $this->ProposalModel->getLastProposed($filing_details['diary_no']);
+            $data['row_list'] = $this->ProposalModel->getTotalHearings($filing_details['diary_no']);
+            $data['sql_lp1'] = $this->ProposalModel->getListingPurpose($filing_details['diary_no']);
 
             $case_no = '';
             $case_no = $this->ProposalModel->getCaseNo($filing_details);            
@@ -363,10 +366,28 @@ class Proposal extends BaseController
             $data['remarks'] = $perposal_listing['remarks'];
             $data['pendingIAs'] = $perposal_listing['pendingIAs'];
             $data['last_cl_date'] = $perposal_listing['last_cl_date'];
-            $data['proposal_form'] = $perposal_listing['proposal_form'];
             $data['mainhead_kk'] = $perposal_listing['mainhead_kk'];
             $data['listed_ia'] = $perposal_listing['listed_ia'];
             $data['subhead'] = $perposal_listing['subhead'];
+            
+            $proposal_form = $perposal_listing['proposal_form'];
+            $data['proposal_form'] = $proposal_form;
+
+            // pr($proposal_form);
+            
+            $data['future_dates'] = $this->ProposalModel->getFutureDates();
+            
+            $data['q_next_dt'] = "";
+            $data['nextmonday'] = "";
+            $data['nexttuesday'] = "";
+
+            if(!empty($proposal_form['next_dt'])) {
+                $data['q_next_dt'] = date("Y-m-d", strtotime($proposal_form['next_dt']));
+                $data['nextmonday'] = $this->ProposalModel->getNextMonday($proposal_form['next_dt']);
+                $data['nexttuesday'] = $this->ProposalModel->getNextTuesday($proposal_form['next_dt']);
+            }
+
+            $data['t11'] = $this->ProposalModel->getMainHead($filing_details['diary_no']);
 
             $data['check_for_conn'] = ($filing_details['diary_no'] != $filing_details['conn_key'] && $filing_details['conn_key'] != '' && $filing_details['conn_key'] != '0') ? "N" : "Y";
             $data['main_fh_fil_no'] = ($filing_details['fil_no_fh'] != '') ? "EXIST" : "";
