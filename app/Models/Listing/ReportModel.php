@@ -175,28 +175,35 @@ class ReportModel extends Model
         
         $sno = 1;
         $html = '';
+        $tdcolr_1 ='';
         foreach($result as $ro){
           $dno_exp = explode(",",$ro['dno']);
           $avl_jcd = $ro['jcd'];
           $cnt_dno_exp = count($dno_exp);
             $sno1 = $sno % 2;
             if($sno1 == '1'){ 
-              $html .="<tr style='background: #ececec;'>";        
+              $html .="<tr style='background: #ececec;'>";  
+              $tdcolr_1 = 'background: #ececec;';        
             } else { 
               $html .="<tr style='background: #f6e0f3;' >";
+              $tdcolr_1 = 'background: #f6e0f3;';  
                    
             }         
                
-            $html .="<td rowspan='".$cnt_dno_exp."' align='left' style='vertical-align: top;'>".$sno."</td>";                
-            $html .="<td rowspan='".$cnt_dno_exp."' align='left' style='vertical-align: top;'>".str_replace(",", "<br>", $ro['jnm'])."</td>";
-            $html .="<td rowspan='".$cnt_dno_exp."' align='left' style='vertical-align: top;'>".$ro['cnt']."</td>";
+            $html .="<td rowspan='".$cnt_dno_exp."' align='left' style='vertical-align: top;".$tdcolr_1."'>".$sno."</td>";                
+            $html .="<td rowspan='".$cnt_dno_exp."' align='left' style='vertical-align: top;".$tdcolr_1."'>".str_replace(",", "<br>", $ro['jnm'])."</td>";
+            $html .="<td rowspan='".$cnt_dno_exp."' align='left' style='vertical-align: top;".$tdcolr_1."'>".$ro['cnt']."</td>";
+            $tdcolr ='';
             for($i=0;$i<$cnt_dno_exp;$i++){                 
               if($i > 0){
          
                      if($sno1 == '1'){ 
-                          $html .="<tr style='background: #ececec;'>";        
+                          $html .="<tr style='background: #ececec;'>"; 
+                          $tdcolr = 'background: #ececec;';  
+
                          } else {
                             $html .="<tr style='background: #f6e0f3;' >";
+                            $tdcolr = 'background: #f6e0f3;';  
                           }  
               }
               $reg_no_display = "";
@@ -253,10 +260,10 @@ class ReportModel extends Model
               }
               $padvname_str = is_null($padvname) ? "" : trim($padvname, ",");
               $radvname_str = is_null($radvname) ? "" : trim($radvname, ",");
-              $html .="<td align='left' style='vertical-align: top;'>".$reg_no_display." @ ".substr_replace($dno_exp[$i], '-', -4, 0)."</td>";   
-              $html .= "<td align='left' style='vertical-align: top;'>" . htmlspecialchars(str_replace(",", ", ", $padvname_str)) . " Vs " . htmlspecialchars(str_replace(",", ", ", $radvname_str)) . "</td>";
+              $html .="<td align='left' style='vertical-align: top;".$tdcolr."'>".$reg_no_display." @ ".substr_replace($dno_exp[$i], '-', -4, 0)."</td>";   
+              $html .= "<td align='left' style='vertical-align: top;".$tdcolr."'>" . htmlspecialchars(str_replace(",", ", ", $padvname_str)) . " Vs " . htmlspecialchars(str_replace(",", ", ", $radvname_str)) . "</td>";
               if($i == 0){
-              $html .="<td rowspan='".$cnt_dno_exp."' align='left' style='vertical-align: top;'>";
+              $html .="<td rowspan='".$cnt_dno_exp."' align='left' style='vertical-align: top;".$tdcolr."'>";
                  
                   if($mainhead == 'M'){
                       $r_mf = '1';

@@ -149,7 +149,8 @@
         get_cl_1();
     });
 
-    function get_cl_1() {
+    async function get_cl_1() {
+        await updateCSRFTokenSync();
         $('#dv_res1').html("");
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
@@ -162,9 +163,6 @@
             alert("select Board Type");
             return false;
         }
-
-
-
         $.ajax({
             url: '<?php echo base_url('Listing/report/get_spl_case'); ?> ',
 
@@ -186,19 +184,20 @@
             type: 'POST',
             success: function(data, status) {
                 $('#dv_res1').html(data);
-                updateCSRFToken();
+                //updateCSRFToken();
             },
             error: function(xhr) {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
 
         });
-        updateCSRFToken();
+        //updateCSRFToken();
     }
 
 
 
-    function lst_casesdf(str) {
+    async function lst_casesdf(str) {
+        await updateCSRFTokenSync();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
         var clno = $("#clno_" + str).val();
@@ -235,7 +234,7 @@
                 success: function(data, status, message) {
                     $('#res_loader').html(data.message);
                     $("#dv_res1").html("");
-                    updateCSRFToken();
+                   // updateCSRFToken();
                 },
                 error: function(xhr) {
                     alert("Error: " + xhr.status + " " + xhr.statusText);
@@ -245,7 +244,7 @@
         } else {
             txt = "Not Listing due to You pressed Cancel!";
         }
-        updateCSRFToken();
+        //updateCSRFToken();
     }
 
 
