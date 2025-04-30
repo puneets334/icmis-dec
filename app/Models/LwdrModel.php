@@ -15,17 +15,11 @@ class LwdrModel extends Model
         $this->db = db_connect();
     }
 
-    public function sectionwise_name()
-    {
-        $builder = $this->db->table('master.usersection');
-        $builder->distinct();
-        $builder->select('id,section_name');
-        $builder->where('isda', 'Y');
-        $builder->where('display', 'Y');
-        $query = $builder->get();
-        return $query->getResultArray();
-    }
-
+    public function sectionwise_name(){
+		$sql="select id,section_name from master.usersection where display='Y' AND isda='Y' order by section_name";
+        $query = $this->db->query($sql);
+		return $query->getResultArray();
+	}
 
     public function get_sectionwise_matters($section_name)
     {
@@ -111,6 +105,7 @@ class LwdrModel extends Model
 		$builder->orderBy('section');
 		$builder->orderBy('daname');
 		$builder->orderBy('m.diary_no_rec_date');
+		$builder->limit(2000);
 		$query = $builder->get();
 		return $query->getResultArray();
 	}
@@ -155,21 +150,26 @@ class LwdrModel extends Model
         }
     }
 
-    function getMainSubjectCategory()
-    {
-        $builder = $this->db->table('master.submaster');
-        $builder->select('subcode1, sub_name1');
-        $builder->whereIn('flag_use', ['S', 'L']);
-        $builder->where('display', 'Y')->where('match_id !=', 0)->where('flag', 'S');
-        $builder->groupBy('subcode1, sub_name1');
-        $builder->orderBy('subcode1');
-        $query = $builder->get();
-        return $query->getResultArray();
-    }
+   function getMainSubjectCategory(){
+	    $sql = "SELECT subcode1, MAX(sub_name1) AS sub_name1
+				FROM 
+					master.submaster
+				WHERE 
+					(flag_use = 'S' OR flag_use = 'L') 
+					AND display = 'Y' 
+					AND match_id != 0 
+					OR flag = 'S'
+				GROUP BY 
+					subcode1
+				ORDER BY 
+					subcode1;
+				";
+		$query = $this->db->query($sql);
+		return $query->getResultArray();	
+	}
 
 
-    function getSection_Pending_Reports($category, $section, $reportType, $listCourtType, $dateType, $fromDate, $toDate, $mcat)
-    {
+    function getSection_Pending_Reports($category, $section, $reportType, $listCourtType, $dateType, $fromDate, $toDate, $mcat){
 
         $sql = "";
 
