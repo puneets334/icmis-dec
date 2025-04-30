@@ -19,7 +19,7 @@ $(function () {
 
     $('#smlv1, #smlv2, #smlv3, #smlv4, #smlv5, #smlv6').change(function (e) {
         e.preventDefault();
-        debugger;
+      
         var mnid = $(this).val(), select_menu_id = $(this).attr('id'), mnlevel = parseInt(select_menu_id.substring(select_menu_id.length - 1)) + 1,
             next_child = select_menu_id.substring(0, (select_menu_id.length - 1)) + mnlevel;
 
@@ -156,7 +156,7 @@ $(function () {
             $('input[name="menus"]').each(function () {
                 this.checked = false;
             });
-            debugger;
+           
             $('#usercode').val(ucode);
         }
         else if (action == 'edit') {
@@ -405,7 +405,7 @@ $(function () {
                 if (resp.data == 'found') {
                     alert("Emp. id already exists,\r\nKindly verify it & tray again");
                     $('input[type="submit"]').removeAttr('disabled');
-                    debugger;
+                     
                     $('#empid').val("");
                 }
                 else if (resp.data == '') {
@@ -473,7 +473,7 @@ $(function () {
         activeid = $(this).attr('id');
 
         if (activeid == 'roleList') {
-            debugger;
+            
             $('#addroleDiv').addClass('hide');
             $('#roleListDiv').removeClass('hide');
         }
