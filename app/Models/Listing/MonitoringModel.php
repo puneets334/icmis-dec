@@ -1508,6 +1508,7 @@ class MonitoringModel extends Model
     {
         //remove vkg
         //$list_dt = '2018-02-06';
+        $list_dt = date('Y-m-d',strtotime($list_dt));
         $builder = $this->db->table('case_verify cv');
         $builder->select('
             u.name, 
@@ -1522,6 +1523,8 @@ class MonitoringModel extends Model
         $builder->where('cv.ent_dt <', $list_dt . ' 23:59:59');
         $builder->groupBy('cv.ucode, u.name');
         $builder->orderBy('u.name');
+        // echo $builder->getCompiledSelect();
+        // die();
         $query = $builder->get();
         return $query->getResultArray();
     }
