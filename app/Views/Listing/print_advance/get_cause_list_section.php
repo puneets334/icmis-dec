@@ -1,25 +1,34 @@
+<style>
+      table thead tr th {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+
+</style>
 <div id="prnnt" style="text-align: center; font-size:10px;">
     <h3 class="h4">Cause List for Dated <?php echo $list_dt; ?> (<?php echo $mainhead_descri; ?>)<br><?php echo $main_suppl_descri; ?></h3>
     <?php if (!empty($getCases)) { ?>
-        <table align="left" width="100%" border="0" style="font-size: 14px;" class="table-responsive">
-            <tr style="background: #918788;">
-                <td width="5%" style="font-weight: bold; color: #dce38d;">SrNo.</td>
-                <td width="5%" style="font-weight: bold; color: #dce38d;">Court No.</td>
-                <td width="5%" style="font-weight: bold; color: #dce38d;">Item No.</td>
-                <td width="7%" style="font-weight: bold; color: #dce38d;">Diary No</td>
-                <td width="14%" style="font-weight: bold; color: #dce38d;">Reg No.</td>
-                <td width="13%" style="font-weight: bold; color: #dce38d;">Petitioner / Respondent</td>
-                <td width="13%" style="font-weight: bold; color: #dce38d;">Advocate</td>
-                <td width="5%" style="font-weight: bold; color: #dce38d;">Section Name</td>
-                <td width="10%" style="font-weight: bold; color: #dce38d;">DA Name</td>
-                <td width="18%" style="font-weight: bold; color: #dce38d;">Statutory Info.</td>
-                <td width="7%" style="font-weight: bold; color: #dce38d;">Listed Before</td>
-                <td width="7%" style="font-weight: bold; color: #dce38d;">Published On</td>
-                <td width="8%" style="font-weight: bold; color: #dce38d;">Purpose</td>
-                <td width="10%" style="font-weight: bold; color: #dce38d;">Trap</td>
-                <td width="9%" style="font-weight: bold; color: #dce38d;">Office<br>Report</td>
+        <table align="left" width="100%" border="0" style="font-size: 14px;" class="table table-bordered table-stripped table-responsive">
+            <thead>
+            <tr>
+                <th width="5%">SrNo.</th>
+                <th width="5%">Court No.</th>
+                <th width="5%">Item No.</th>
+                <th width="7%">Diary No</th>
+                <th width="14%">Reg No.</th>
+                <th width="13%">Petitioner / Respondent</th>
+                <th width="13%">Advocate</th>
+                <th width="5%">Section Name</th>
+                <th width="10%">DA Name</th>
+                <th width="18%">Statutory Info.</th>
+                <th width="7%">Listed Before</th>
+                <th width="7%">Published On</th>
+                <th width="8%">Purpose</th>
+                <th width="10%">Trap</th>
+                <th width="9%">Office<br>Report</th>
             </tr>
-
+            </thead>
             <?php
             if (!empty($getCases)) {
                 $sno = 1;
@@ -94,15 +103,19 @@
                             $res_name = $ro['res_name'];
                         }
 
-                        $padvname = "";
                         $radvname = "";
+                        $padvname = "";
                         $impldname = "";
+
                         if (!empty($ro['advocate'])) {
-                            foreach ($ro['advocate'] as $rowadv) {
-                                $radvname = $rowadv["r_n"];
-                                $padvname = $rowadv["p_n"];
-                                $impldname = $rowadv["i_n"];
-                            }
+                            // foreach ($ro['advocate'] as $rowadv) {
+                            //     $radvname = (!empty($rowadv["r_n"])) ? $rowadv["r_n"] : '';
+                            //     $padvname = (!empty($rowadv["p_n"])) ? $rowadv["p_n"] : '';
+                            //     $impldname = (!empty($rowadv["i_n"])) ? $rowadv["i_n"] : '';
+                            // }
+                            $radvname = (!empty($ro['advocate']["r_n"])) ?  $ro['advocate']["r_n"] : '';
+                            $padvname = (!empty($ro['advocate']["p_n"])) ?  $ro['advocate']["p_n"] : '';
+                            $impldname = (!empty($ro['advocate']["i_n"])) ? $ro['advocate']["i_n"] : '';
                         }
 
                         if (($ro['section_name'] == null || $ro['section_name'] == '') && $ro['ref_agency_state_id'] != '' && $ro['ref_agency_state_id'] != 0) {
