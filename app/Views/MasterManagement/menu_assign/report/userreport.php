@@ -153,7 +153,6 @@ th.sorting_disabled {
                                         <div class="col-sm-6">
                                             <label for="users_list">Search Users:
                                                 <select class="form-control e1" id="users_list" name="users_list">
-                                                    <option value="">--Select Option--</option>
                                                     <?php foreach ($user_alllist as $item): ?>
                                                      <option value="<?= esc($item['usercode']); ?>" <?php if (isset($UserId) && !empty($UserId) && $UserId == $item['usercode']) echo 'selected'; ?>>
                                                         <?= esc($item['name']); ?>
