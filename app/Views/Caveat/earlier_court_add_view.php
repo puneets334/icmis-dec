@@ -196,12 +196,12 @@
                                                 <div class="col-md-4">
                                                     <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.:</label>
                                                     <div class="input-group date" id="impugned_date" data-target-input="nearest">
-                                                        <input type="text" class="form-control dtp" data-target="#impugned_date"
-                                                         id="impugned_date_s" name="impugned_date_s" value="<?php if ($ct_code == '4') 
-                                                         { echo $lct_dec_dt; } ?>" />
-                                                        <!-- <div class="input-group-append" data-target="#impugned_date" data-toggle="datetimepicker">
+                                                        <input type="text" class="form-control datetimepicker-input" data-target="#impugned_date" id="impugned_date_s" name="impugned_date_s" value="<?php if ($ct_code == '4') {
+                                                                                                                                                                                                            echo $lct_dec_dt;
+                                                                                                                                                                                                        } ?>" />
+                                                        <div class="input-group-append" data-target="#impugned_date" data-toggle="datetimepicker">
                                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                        </div> -->
+                                                        </div>
                                                     </div>
 
                                                     <!-- <input type="date" size="40" name="impugned_date" maxlength="50" value="" id="impugned_date" class="form-control"> -->
@@ -244,12 +244,12 @@
                                                 <div class="col-md-4">
                                                     <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.:</label>
                                                     <div class="input-group date" id="impugned_date1_" data-target-input="nearest">
-                                                        <input type="text" class="form-control dtp_" data-target="#impugned_date1_" id="impugned_date_1" name="impugned_date_1" value="<?php if ($ct_code == '1') {
+                                                        <input type="text" class="form-control datetimepicker-input_" data-target="#impugned_date1_" id="impugned_date_1" name="impugned_date_1" value="<?php if ($ct_code == '1') {
                                                                                                                                                                                                             echo $lct_dec_dt;
                                                                                                                                                                                                         } ?>" />
-                                                        <!-- <div class="input-group-append" data-target="#impugned_date1_" data-toggle="datetimepicker">
+                                                        <div class="input-group-append" data-target="#impugned_date1_" data-toggle="datetimepicker">
                                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                        </div> -->
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -284,12 +284,12 @@
                                                 <div class="col-md-4">
                                                     <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.:</label>
                                                     <div class="input-group date" id="impugned_date2" data-target-input="nearest">
-                                                        <input type="text" class="form-control dtp" id="impugned_date_2" name="impugned_date_2" data-target="#impugned_date2" value="<?php if ($ct_code == '5') {
+                                                        <input type="text" class="form-control datetimepicker-input" id="impugned_date_2" name="impugned_date_2" data-target="#impugned_date2" value="<?php if ($ct_code == '5') {
                                                                                                                                                                                                             echo $lct_dec_dt;
                                                                                                                                                                                                         } ?>" />
-                                                        <!-- <div class="input-group-append" data-target="#impugned_date2" data-toggle="datetimepicker">
+                                                        <div class="input-group-append" data-target="#impugned_date2" data-toggle="datetimepicker">
                                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                        </div> -->
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -442,10 +442,10 @@
                                                 <div class="col-md-4">
                                                     <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.:</label>
                                                     <div class="input-group date" id="impugned_date3" data-target-input="nearest">
-                                                        <input type="text" class="form-control dtp" data-target="#impugned_date3" />
-                                                        <!-- <div class="input-group-append" data-target="#impugned_date3" data-toggle="datetimepicker">
+                                                        <input type="text" class="form-control datetimepicker-input" data-target="#impugned_date3" />
+                                                        <div class="input-group-append" data-target="#impugned_date3" data-toggle="datetimepicker">
                                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                        </div> -->
+                                                        </div>
                                                     </div>
 
                                                 </div>
@@ -611,19 +611,19 @@
                                                 <div class="col-md-4">
                                                     <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.:</label>
                                                     <div class="input-group date" id="impugned_date5" data-target-input="nearest">
-                                                        <input type="text" class="form-control dtp" data-target="#impugned_date5"
-                                                         id="impugned_date_5" name="impugned_date_5" value="<?php if ($ct_code == '3')
-                                                         {
-                                                            echo $lct_dec_dt;
-                                                        } ?>" />
-                                                        <!-- <div class="input-group-append" data-target="#impugned_date5" data-toggle="datetimepicker">
+                                                        <input type="text" class="form-control datetimepicker-input" data-target="#impugned_date5" id="impugned_date_5" name="impugned_date_5" value="<?php if ($ct_code == '3') {
+                                                                                                                                                                                                            echo $lct_dec_dt;
+                                                                                                                                                                                                        } ?>" />
+                                                        <div class="input-group-append" data-target="#impugned_date5" data-toggle="datetimepicker">
                                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                                        </div> -->
+                                                        </div>
                                                     </div>
 
                                                 </div>
                                             </div>
                                         </div>
+
+
 
                                         <br><br>
                                         <center>
