@@ -25,7 +25,7 @@
                         </div>
                         <? //view('Filing/filing_breadcrumb'); ?>
                         <!-- /.card-header -->
-                        <style>
+                        <!-- <style>
                             #newc{
                                 display: none;
                                 position: absolute;
@@ -34,10 +34,10 @@
                                 border: 1px dotted #000;
                                 padding: 1%;
                             }
-                        </style>
-                        <link rel="stylesheet" href="<?php echo base_url();?>/dp/jquery-ui.css" type="text/css"/>
+                        </style> -->
+                        <!-- <link rel="stylesheet" href="<?php echo base_url();?>/dp/jquery-ui.css" type="text/css"/>
                         <script src="<?php echo base_url();?>/js/menu_js.js"></script>
-                        <script src="<?php echo base_url();?>/dp/jquery-ui.js"></script>
+                        <script src="<?php echo base_url();?>/dp/jquery-ui.js"></script> -->
 
                         <div class="row">
                             <div class="col-md-12">
@@ -825,208 +825,214 @@
 
                                                                     </div>
                                                                 </div> -->
-                                                                <div id="newc">
-                                                                    <div id="newc1" align="center">
-                                                                        <table border="0" width="100%">
-                                                                            <tr>
-                                                                                <td align="center" ><center>
-                                                                                <input type='button' name='insert3' id='insert3' value="Save" onClick="return save_rec(2);">
-                                                                                <input type="button" name="close3" id="close3" value="Cancel" onClick="return close_w(2)">
-                                                                                <input type="hidden" name="tmp_casenod" id="tmp_casenod" value=""/>
-                                                                                <input type="hidden" name="tmp_casenosub" id="tmp_casenosub" value=""/></center>              
-                                                                                </td>
-                                                                                <td align="center">
-                                                                                    <center><b><font color="#000">Disposal Remark in </font></b><b><span id="disp_head"></span></b></center>
-                                                                            </td>                
-                                                                            </tr>
-                                                                        </table>
-                                                                    </div>
-                                                                    <div id="newc123" style="overflow:auto;"> 
-                                                                        <table width="100%" border="1" style="border-collapse: collapse">
-                                                                            <?php if ($cldate == "") {
-                                                                                $cldate = date("d-m-Y");
-                                                                            } ?>
-                                                                            <tr>
-                                                                                <td align="center"><b><font size="+1">Cause List/Order Date : </font></b>&nbsp;<input class="dtp" type="text" name="cldate" id="cldate" value="<?php echo $cldate; ?>" size="12" readonly="readonly"><input type="button" id="btn_coram" onclick="get_coram('<?php echo $diaryno; ?>','<?php echo $cldate; ?>');" name="btn_coram" value="Get Coram"></td>
-                                                                                <input type="hidden" id="hdn_cldate" value=""/>
-                                                                                <td id="td_coram" align="center" rowspan="4"><b><font size="+1">Coram : </font></b>&nbsp;
-                                                                                    <select size="1" name="djudge" id="djudge" class="searchable-dropdown">
 
-                                                                                        <?php     
-                                                                                        echo '<option value =""> </option>';
-                                                                                        $results2 = $casedesc['results2'];
-                                                                                        $tjud1 = $tjud2 = $tjud3 = $tjud4 = $tjud5 = "";
-                                                                                        $cljudge1 = "";
-                                                                                        $cljudge2 = "";
-                                                                                        $cljudge3 = "";
-                                                                                        $cljudge4 = "";
-                                                                                        $cljudge5 = "";
-                                                                                        if (count($results2) > 0) {
-                                                                                            $djcnt = 0;
-                                                                                            foreach ($results2 as $row2) {
-                                                                                                if ($cljudge1 == $row2["jcode"]) {
-                                                                                                    echo '<option value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '" selected>' . str_replace("\\", "", $row2["jname"]) . "</option>";
-                                                                                                } else {
-                                                                                                    echo '<option value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '">' . str_replace("\\", "", $row2["jname"]) . "</option>";
-                                                                                                }
-                                                                                                if ($cljudge1 == $row2["jcode"]) {
-                                                                                                    $djcnt++;
-                                                                                                    $tjud1 = '<input type="checkbox"  id="hd_chk_jd1" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . "</b></font>";
-                                                                                                }
-                                                                                                if ($cljudge2 == $row2["jcode"]) {
-                                                                                                    $djcnt++;
-                                                                                                    $tjud2 = '<input type="checkbox"  id="hd_chk_jd2" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . "</b></font>";
-                                                                                                }
-                                                                                                if ($cljudge3 == $row2["jcode"]) {
-                                                                                                    $djcnt++;
-                                                                                                    $tjud3 = '<input type="checkbox"  id="hd_chk_jd3" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . "</b></font>";
-                                                                                                }
-                                                                                                if ($cljudge4 == $row2["jcode"]) {
-                                                                                                    $djcnt++;
-                                                                                                    $tjud4 = '<input type="checkbox"  id="hd_chk_jd4" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . "</b></font>";
-                                                                                                }
-                                                                                                if ($cljudge5 == $row2["jcode"]) {
-                                                                                                    $djcnt++;
-                                                                                                    $tjud5 = '<input type="checkbox"  id="hd_chk_jd5" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . "</b></font>";
-                                                                                                }
-                                                                                            }
-                                                                                        }
-                                                                                        ?>
-
-                                                                                        <style>
-                                                                                        #select2-container--focus{
-                                                                                            width:220px !important;
-                                                                                        }</style>
-
-                                                                                       
-
-                                                                                    </select><br><br>
-                                                                                    <input type="hidden" name="djcnt" id="djcnt" value="<?php echo $djcnt; ?>"/>
-                                                                                    <input type="button" name="addjudge" id="addjudge" value="Add" onclick="getSlide();"/>
-                                                                                </td>
-                                                                                <td rowspan="4" id="judgelist">
-                                                                                    <table id="tb_new" width="100%" style="text-align:left;">
-                                                                                        <?php
-                                                                                        if ($tjud1 != "") {
-                                                                                            echo "<tr id='hd_chk_jd_row1'><td>" . $tjud1 . "</td></tr>";
-                                                                                        }
-                                                                                        if ($tjud2 != "") {
-                                                                                            echo "<tr id='hd_chk_jd_row2'><td>" . $tjud2 . "</td></tr>";
-                                                                                        }
-                                                                                        if ($tjud3 != "") {
-                                                                                            echo "<tr id='hd_chk_jd_row3'><td>" . $tjud3 . "</td></tr>";
-                                                                                        }
-                                                                                        if ($tjud4 != "") {
-                                                                                            echo "<tr id='hd_chk_jd_row4'><td>" . $tjud4 . "</td></tr>";
-                                                                                        }
-                                                                                        if ($tjud5 != "") {
-                                                                                            echo "<tr id='hd_chk_jd_row5'><td>" . $tjud5 . "</td></tr>";
-                                                                                        }
-                                                                                        ?>
-                                                                                    </table>
-                                                                                </td>
-                                                                                <td rowspan="4" id="auto_chck">
-                                                                                    <table id="jud_coram" width="100%" style="text-align:left;">
-                                                                                    </table>
-                                                                                </td>
-                                                                            </tr>
-
-                                                                            <tr>
-                                                                                <td align="center"><b><font  size="+1">Disposal/Hearing Date : </font></b>&nbsp;<input class="dtp" type="text" name="hdate" id="hdate" value="<?php echo $cldate; ?>" size="12" readonly="readonly"></td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td align="center"><b><font size="+1"><span id="rjdate_fnt">R.J. Date : </span></font></b>&nbsp;<input class="dtp" type="text" name="rjdate" id="rjdate" value="" size="12" readonly="readonly" style="background-color:#CCC;"></td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td align="center">
-                                                                                </td>
-                                                                            </tr>
-                                                                        </table>
-
-                                                                        <table width="100%" border="1" style="border-collapse: collapse">
-                                                                            <?php
-                                                                            $t11 = $casedesc['t11'];
-                                                                            $ttl_disp = count($t11);
-                                                                            if ($ttl_disp > 0) {
-                                                                                $snoo = 1;
-                                                                                $chkhead = "";
-                                                                                $sno_1 = "";
-                                                                                $sno_2 = "";
-                                                                                $head_1 = "";
-                                                                                $head_2 = "";
-                                                                                $t_subhead = "";
-                                                                                foreach ($t11 as $row11) {   
-                                                                                    if ($snoo % 2 == 0 or $snoo == $ttl_disp) {
-                                                                                        $sno_2 = $row11["sno"];
-                                                                                        $head_2 = $row11["head"];
-                                                                                        $bgc = "#ECF1F7";
-                                                                                        if ( ($t_subhead == 801 || $t_subhead == 820) && $listorder != 5 && ($sno_1 != 78 && $sno_1 != 73 && $sno_1 != 37)) {
-                                                                                            $t_subhead1 = "disabled='disabled'";
-                                                                                        } else {
-                                                                                            $t_subhead1 = "";
-                                                                                        }
-                                                                                        ?>
-                                                                                        <tr bgcolor="<?php echo $bgc; ?>">
-                                                                                        <td align="left">
-                                                                                            <input class="cls_chkd" type="checkbox" name="chkd<?php echo $sno_1; ?>" id="chkd<?php echo $sno_1; ?>" value="<?php echo $sno_1 . "|" . $head_1; ?>" onclick="chk_checkbox();" <?php echo $t_subhead1; ?>/>
-                                                                                            <label class="lblclass" for="chkd<?php echo $sno_1; ?>"><?php echo $head_1; ?></label>
+                                                                <div id="model-dispose-form" data-bs-backdrop='static' data-bs-keyboard="false" class="modal">
+                                                                <div class="modal-dialog modal-xl">
+                                                                    <div class="modal-content">
+                                                                    <div id="newc">
+                                                                            <div id="newc1" align="center">
+                                                                                <table border="0" width="100%">
+                                                                                    <tr>
+                                                                                        <td align="center">
+                                                                                                <center><b><font color="#000">Disposal Remark in </font></b><b><span id="disp_head"></span></b></center>
                                                                                         </td>
-                                                                                        <td>
-                                                                                            <input type="text" name="hdremd<?php echo $sno_1; ?>" id="hdremd<?php echo $sno_1; ?>" value=""/>
-                                                                                            <input type="hidden" name="hdd<?php echo $sno_1; ?>" id="hdd<?php echo $sno_1; ?>"/>
-                                                                                        </td>
-                                                                                        <?php
-                                                                                        if ($snoo == $ttl_disp and $snoo % 2 == 1) { ?>
-                                                                                            <td align="left">&nbsp;</td>
-                                                                                            <td>&nbsp;</td>
-                                                                                        <?php } else {
-                                                                                            if ( ($t_subhead == 801 or $t_subhead == 820) and $listorder != 5 and ($sno_2 != 78 and $sno_2 != 73 and $sno_2 != 37) ) {
-                                                                                                $t_subhead1 = "disabled='disabled'";
-                                                                                            } else {
-                                                                                                $t_subhead1 = "";
-                                                                                            } ?>
-                                                                                            <td align="left">
-                                                                                                <input class="cls_chkd" type="checkbox" name="chkd<?php echo $sno_2; ?>" id="chkd<?php echo $sno_2; ?>" value="<?php echo $sno_2 ."|" . $head_2; ?>" onclick="chk_checkbox();" <?php echo $t_subhead1; ?>/>
-                                                                                                <label class="lblclass" for="chkd<?php echo $sno_2; ?>"><?php echo $head_2; ?></label>
-                                                                                            </td>
-                                                                                            <td>
-                                                                                                <input type="text" name="hdremd<?php echo $sno_2; ?>" id="hdremd<?php echo $sno_2; ?>" value=""/>
-                                                                                                <input type="hidden" name="hdd<?php echo $sno_2; ?>" id="hdd<?php echo $sno_2; ?>"/>
-                                                                                            </td>
-                                                                                        <?php }
-                                                                                        if ($snoo <= 2) { ?>
-                                                                                            <td rowspan="<?php echo ($ttl_disp + 1) / 2; ?>">
-                                                                                                <div id="concasediv" style="overflow: auto;display:fixed;max-height:550px;">
-                                                                                                    <table>
-                                                                                                        <?php
-                                                                                                        $t_conn_cases = $casedesc['html_conn_cases']['t_conn_cases'];
-                                                                                                        if ($t_conn_cases != "") {
-                                                                                                            $t_conn_cases = '<tr><td bgcolor=#5499c7><input type="checkbox" name="connall" id="connall" value="" onclick="chk_all_cn();"/><label class="lblclass" for="connall">CHECK ALL</label></td></tr>' .
-                                                                                                                $t_conn_cases;
-                                                                                                            echo $t_conn_cases;
-                                                                                                        } ?>
-                                                                                                    </table>
-                                                                                                </div>
-                                                                                            </td>
-                                                                                        <?php }
-                                                                                        ?>
+                                                                                        <td align="center" ><center>
+                                                                                            <input type='button' name='insert3' id='insert3' value="Save" onClick="return save_rec(2);">
+                                                                                            <input type="button" name="close3" id="close3" value="Cancel" onClick="return close_w(2)">
+                                                                                            <input type="hidden" name="tmp_casenod" id="tmp_casenod" value=""/>
+                                                                                            <input type="hidden" name="tmp_casenosub" id="tmp_casenosub" value=""/></center>              
+                                                                                        </td>                
                                                                                     </tr>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div id="newc123" style="overflow:auto;"> 
+                                                                                <table width="100%" border="1" style="border-collapse: collapse">
+                                                                                    <?php if ($cldate == "") {
+                                                                                        $cldate = date("d-m-Y");
+                                                                                    } ?>
+                                                                                    <tr>
+                                                                                        <td align="center"><b><font size="+1">Cause List/Order Date : </font></b>&nbsp;<input class="dtp" type="text" name="cldate" id="cldate" value="<?php echo $cldate; ?>" size="12" readonly="readonly"><input type="button" id="btn_coram" onclick="get_coram('<?php echo $diaryno; ?>','<?php echo $cldate; ?>');" name="btn_coram" value="Get Coram"></td>
+                                                                                        <input type="hidden" id="hdn_cldate" value=""/>
+                                                                                        <td id="td_coram" align="center" rowspan="4"><b><font size="+1">Coram : </font></b>&nbsp;
+                                                                                            <select size="1" name="djudge" id="djudge" class="searchable-dropdown">
+
+                                                                                                <?php     
+                                                                                                echo '<option value =""> </option>';
+                                                                                                $results2 = $casedesc['results2'];
+                                                                                                $tjud1 = $tjud2 = $tjud3 = $tjud4 = $tjud5 = "";
+                                                                                                $cljudge1 = "";
+                                                                                                $cljudge2 = "";
+                                                                                                $cljudge3 = "";
+                                                                                                $cljudge4 = "";
+                                                                                                $cljudge5 = "";
+                                                                                                if (count($results2) > 0) {
+                                                                                                    $djcnt = 0;
+                                                                                                    foreach ($results2 as $row2) {
+                                                                                                        if ($cljudge1 == $row2["jcode"]) {
+                                                                                                            echo '<option value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '" selected>' . str_replace("\\", "", $row2["jname"]) . "</option>";
+                                                                                                        } else {
+                                                                                                            echo '<option value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '">' . str_replace("\\", "", $row2["jname"]) . "</option>";
+                                                                                                        }
+                                                                                                        if ($cljudge1 == $row2["jcode"]) {
+                                                                                                            $djcnt++;
+                                                                                                            $tjud1 = '<input type="checkbox"  id="hd_chk_jd1" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . "</b></font>";
+                                                                                                        }
+                                                                                                        if ($cljudge2 == $row2["jcode"]) {
+                                                                                                            $djcnt++;
+                                                                                                            $tjud2 = '<input type="checkbox"  id="hd_chk_jd2" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . "</b></font>";
+                                                                                                        }
+                                                                                                        if ($cljudge3 == $row2["jcode"]) {
+                                                                                                            $djcnt++;
+                                                                                                            $tjud3 = '<input type="checkbox"  id="hd_chk_jd3" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . "</b></font>";
+                                                                                                        }
+                                                                                                        if ($cljudge4 == $row2["jcode"]) {
+                                                                                                            $djcnt++;
+                                                                                                            $tjud4 = '<input type="checkbox"  id="hd_chk_jd4" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . "</b></font>";
+                                                                                                        }
+                                                                                                        if ($cljudge5 == $row2["jcode"]) {
+                                                                                                            $djcnt++;
+                                                                                                            $tjud5 = '<input type="checkbox"  id="hd_chk_jd5" onclick="getDone_upd_cat(this.id);" checked="true" value="' . $row2["jcode"] . "||" . str_replace("\\", "", $row2["jname"]) . '"/>&nbsp;<font color=yellow><b>' . str_replace("\\", "", $row2["jname"]) . "</b></font>";
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                                ?>
+
+                                                                                                <style>
+                                                                                                #select2-container--focus{
+                                                                                                    width:220px !important;
+                                                                                                }</style>
+
+                                                                                            
+
+                                                                                            </select><br><br>
+                                                                                            <input type="hidden" name="djcnt" id="djcnt" value="<?php echo $djcnt; ?>"/>
+                                                                                            <input type="button" name="addjudge" id="addjudge" value="Add" onclick="getSlide();"/>
+                                                                                        </td>
+                                                                                        <td rowspan="4" id="judgelist">
+                                                                                            <table id="tb_new" width="100%" style="text-align:left;">
+                                                                                                <?php
+                                                                                                if ($tjud1 != "") {
+                                                                                                    echo "<tr id='hd_chk_jd_row1'><td>" . $tjud1 . "</td></tr>";
+                                                                                                }
+                                                                                                if ($tjud2 != "") {
+                                                                                                    echo "<tr id='hd_chk_jd_row2'><td>" . $tjud2 . "</td></tr>";
+                                                                                                }
+                                                                                                if ($tjud3 != "") {
+                                                                                                    echo "<tr id='hd_chk_jd_row3'><td>" . $tjud3 . "</td></tr>";
+                                                                                                }
+                                                                                                if ($tjud4 != "") {
+                                                                                                    echo "<tr id='hd_chk_jd_row4'><td>" . $tjud4 . "</td></tr>";
+                                                                                                }
+                                                                                                if ($tjud5 != "") {
+                                                                                                    echo "<tr id='hd_chk_jd_row5'><td>" . $tjud5 . "</td></tr>";
+                                                                                                }
+                                                                                                ?>
+                                                                                            </table>
+                                                                                        </td>
+                                                                                        <td rowspan="4" id="auto_chck">
+                                                                                            <table id="jud_coram" width="100%" style="text-align:left;">
+                                                                                            </table>
+                                                                                        </td>
+                                                                                    </tr>
+
+                                                                                    <tr>
+                                                                                        <td align="center"><b><font  size="+1">Disposal/Hearing Date : </font></b>&nbsp;<input class="dtp" type="text" name="hdate" id="hdate" value="<?php echo $cldate; ?>" size="12" readonly="readonly"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td align="center"><b><font size="+1"><span id="rjdate_fnt">R.J. Date : </span></font></b>&nbsp;<input class="dtp" type="text" name="rjdate" id="rjdate" value="" size="12" readonly="readonly" style="background-color:#CCC;"></td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td align="center">
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+
+                                                                                <table width="100%" border="1" style="border-collapse: collapse">
                                                                                     <?php
-                                                                                    } else {
-                                                                                        $sno_1 = $row11["sno"];
-                                                                                        $head_1 = $row11["head"];
+                                                                                    $t11 = $casedesc['t11'];
+                                                                                    $ttl_disp = count($t11);
+                                                                                    if ($ttl_disp > 0) {
+                                                                                        $snoo = 1;
+                                                                                        $chkhead = "";
+                                                                                        $sno_1 = "";
                                                                                         $sno_2 = "";
+                                                                                        $head_1 = "";
                                                                                         $head_2 = "";
-                                                                                        $bgc = "#F8F9FC";
-                                                                                    } 
-                                                                                    $snoo++;
-                                                                                } // while end
-                                                                            }
-                                                                            ?>
-                                                                        </table>
+                                                                                        $t_subhead = "";
+                                                                                        foreach ($t11 as $row11) {   
+                                                                                            if ($snoo % 2 == 0 or $snoo == $ttl_disp) {
+                                                                                                $sno_2 = $row11["sno"];
+                                                                                                $head_2 = $row11["head"];
+                                                                                                $bgc = "#ECF1F7";
+                                                                                                if ( ($t_subhead == 801 || $t_subhead == 820) && $listorder != 5 && ($sno_1 != 78 && $sno_1 != 73 && $sno_1 != 37)) {
+                                                                                                    $t_subhead1 = "disabled='disabled'";
+                                                                                                } else {
+                                                                                                    $t_subhead1 = "";
+                                                                                                }
+                                                                                                ?>
+                                                                                                <tr bgcolor="<?php echo $bgc; ?>">
+                                                                                                <td align="left">
+                                                                                                    <input class="cls_chkd" type="checkbox" name="chkd<?php echo $sno_1; ?>" id="chkd<?php echo $sno_1; ?>" value="<?php echo $sno_1 . "|" . $head_1; ?>" onclick="chk_checkbox();" <?php echo $t_subhead1; ?>/>
+                                                                                                    <label class="lblclass" for="chkd<?php echo $sno_1; ?>"><?php echo $head_1; ?></label>
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    <input type="text" name="hdremd<?php echo $sno_1; ?>" id="hdremd<?php echo $sno_1; ?>" value=""/>
+                                                                                                    <input type="hidden" name="hdd<?php echo $sno_1; ?>" id="hdd<?php echo $sno_1; ?>"/>
+                                                                                                </td>
+                                                                                                <?php
+                                                                                                if ($snoo == $ttl_disp and $snoo % 2 == 1) { ?>
+                                                                                                    <td align="left">&nbsp;</td>
+                                                                                                    <td>&nbsp;</td>
+                                                                                                <?php } else {
+                                                                                                    if ( ($t_subhead == 801 or $t_subhead == 820) and $listorder != 5 and ($sno_2 != 78 and $sno_2 != 73 and $sno_2 != 37) ) {
+                                                                                                        $t_subhead1 = "disabled='disabled'";
+                                                                                                    } else {
+                                                                                                        $t_subhead1 = "";
+                                                                                                    } ?>
+                                                                                                    <td align="left">
+                                                                                                        <input class="cls_chkd" type="checkbox" name="chkd<?php echo $sno_2; ?>" id="chkd<?php echo $sno_2; ?>" value="<?php echo $sno_2 ."|" . $head_2; ?>" onclick="chk_checkbox();" <?php echo $t_subhead1; ?>/>
+                                                                                                        <label class="lblclass" for="chkd<?php echo $sno_2; ?>"><?php echo $head_2; ?></label>
+                                                                                                    </td>
+                                                                                                    <td>
+                                                                                                        <input type="text" name="hdremd<?php echo $sno_2; ?>" id="hdremd<?php echo $sno_2; ?>" value=""/>
+                                                                                                        <input type="hidden" name="hdd<?php echo $sno_2; ?>" id="hdd<?php echo $sno_2; ?>"/>
+                                                                                                    </td>
+                                                                                                <?php }
+                                                                                                if ($snoo <= 2) { ?>
+                                                                                                    <td rowspan="<?php echo ($ttl_disp + 1) / 2; ?>">
+                                                                                                        <div id="concasediv" style="overflow: auto;display:fixed;max-height:550px;">
+                                                                                                            <table>
+                                                                                                                <?php
+                                                                                                                $t_conn_cases = $casedesc['html_conn_cases']['t_conn_cases'];
+                                                                                                                if ($t_conn_cases != "") {
+                                                                                                                    $t_conn_cases = '<tr><td bgcolor=#5499c7><input type="checkbox" name="connall" id="connall" value="" onclick="chk_all_cn();"/><label class="lblclass" for="connall">CHECK ALL</label></td></tr>' .
+                                                                                                                        $t_conn_cases;
+                                                                                                                    echo $t_conn_cases;
+                                                                                                                } ?>
+                                                                                                            </table>
+                                                                                                        </div>
+                                                                                                    </td>
+                                                                                                <?php }
+                                                                                                ?>
+                                                                                            </tr>
+                                                                                            <?php
+                                                                                            } else {
+                                                                                                $sno_1 = $row11["sno"];
+                                                                                                $head_1 = $row11["head"];
+                                                                                                $sno_2 = "";
+                                                                                                $head_2 = "";
+                                                                                                $bgc = "#F8F9FC";
+                                                                                            } 
+                                                                                            $snoo++;
+                                                                                        } // while end
+                                                                                    }
+                                                                                    ?>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                     </div>
                                                                 </div>
-                                                                
                                                                 
                                                                 <input type="hidden" name="sh_hidden" id="sh_hidden" value=""/>
                                                                 <input type="hidden" name="diaryno" id="diaryno" value="<?php echo $casedesc['get_real_diaryno']; ?>"/>
@@ -1070,6 +1076,28 @@
     </section>
     <!-- /.content -->
 
+    <!-- <div id="model-proposal-form" data-bs-backdrop='static' data-bs-keyboard="false" class="modal">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                djfhds sdfgd <br/>
+                djfhds sdfgd <br/>
+                djfhds sdfgd <br/>
+                    <div id="" align="center">
+                        
+                        <table border="0" width="100%">
+                            <tr>
+                                <td align="center" width="250px">                                    
+                                    <input type="button" name="close1" id="close1" value="Cancel" onClick="return close_w()">                                    
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+            </div>
+        </div>
+    </div> -->
+                                                    
+
 
 <script>
        
@@ -1079,9 +1107,8 @@
         });
     }
 
-
-
     function call_div(cn, e, cnt,subh){
+        
         if (cnt == 1){
             var div1 = "chkp";
             var div2 = "hdremp";
@@ -1112,10 +1139,10 @@
     function call_f1(cnt){
         var divname = "";
         if (cnt == 1){
-            divname = "newb";
-            $('#' + divname).width($(window).width() - 150);
-            $('#' + divname).height($(window).height() - 120);
-            $('#newb123').height($('#newb').height() - $('#newb1').height() - 50);
+            // divname = "newb";
+            // $('#' + divname).width($(window).width() - 150);
+            // $('#' + divname).height($(window).height() - 120);
+            // $('#newb123').height($('#newb').height() - $('#newb1').height() - 50);
         }
         if (cnt == 2){
             divname = "newc";
@@ -1126,24 +1153,24 @@
         }
         if (cnt == 3){
             divname = "newp";
-            $('#' + divname).width($(window).width() - 150);
-            $('#' + divname).height($(window).height() - 120);
-            $('#newp123').height($('#newp').height() - $('#newp1').height() - 50);
+            // $('#' + divname).width($(window).width() - 150);
+            // $('#' + divname).height($(window).height() - 120);
+            // $('#newp123').height($('#newp').height() - $('#newp1').height() - 50);
         }
         if (cnt == 4){
             divname = "newadv";
-            $('#' + divname).width('600px');
-            $('#' + divname).height($(window).height() - 150);
-            $('#newadv123').height($('#newadv').height() - $('#newadv1').height() - 50);
+            // $('#' + divname).width('600px');
+            // $('#' + divname).height($(window).height() - 150);
+            // $('#newadv123').height($('#newadv').height() - $('#newadv1').height() - 50);
         }
         // var newX = ($('#' + divname).width() / 2);
         // var newY = ($('#' + divname).height() / 2);
         // document.getElementById(divname).style.marginLeft = "-" + newX + "px";
         // document.getElementById(divname).style.marginTop = "-" + newY + "px";
-        document.getElementById(divname).style.display = 'block';
-        document.getElementById(divname).style.zIndex = 10;
-        $('#overlay').height($(window).height());
-        document.getElementById('overlay').style.display = 'block';
+        // document.getElementById(divname).style.display = 'block';
+        // document.getElementById(divname).style.zIndex = 10;
+        // $('#overlay').height($(window).height());
+        // document.getElementById('overlay').style.display = 'block';
 
         var curr_date=document.getElementById("cldate").value;
         var d=new Date(curr_date);
@@ -1169,6 +1196,9 @@
             placeholder: "Select Judges/ Registrar",
             allowClear: true
         });
+
+        $('#model-dispose-form').modal({ backdrop: 'static', keyboard: false });
+        $('#model-dispose-form').modal('show');
 
     }
 
@@ -1412,21 +1442,25 @@
     }
     
     function close_w(cnt){
-        var divname = "";
-        if (cnt == 1){
-            divname = "newb";
-        }
-        if (cnt == 2){
-            divname = "newc";
-        }
-        if (cnt == 3){
-            divname = "newp";
-        }
-        if (cnt == 4){
-            divname = "newadv";
-        }
-        document.getElementById(divname).style.display = 'none';
-        document.getElementById('overlay').style.display = 'none';
+        // var divname = "";
+        // if (cnt == 1){
+        //     divname = "newb";
+        // }
+        // if (cnt == 2){
+        //     divname = "newc";
+        // }
+        // if (cnt == 3){
+        //     divname = "newp";
+        // }
+        // if (cnt == 4){
+        //     divname = "newadv";
+        // }
+
+        // document.getElementById(divname).style.display = 'none';
+        // document.getElementById('overlay').style.display = 'none';
+        
+        $('#model-dispose-form').modal('hide');
+
         if (cnt == 3){
             // fsubmit();
             location.reload()

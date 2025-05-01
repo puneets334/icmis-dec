@@ -1590,6 +1590,9 @@ class DirectDisposeModel extends Model{
 
     function insert_rec_an_disp($data){
 
+        // $db = \Config\Database::connect();
+        // $db->transStart();
+
         $check_for_regular_case="";
         $temp_mh='';
         $tdt_str='';
@@ -1857,11 +1860,14 @@ class DirectDisposeModel extends Model{
 
     public function archived_data($diary_no)
     {
+
+        // log_error("archived_data", $diary_no);
+
         $output = [];
 
         // Call Restore Procedure
         try {
-            $this->db->query("call archival_backup('$diary_no')");
+            $this->db->query("call archival($diary_no)");
             $output['success'] = 1;
             $output['message'] = "Case Archived.";
         } catch (\Exception $e) {
