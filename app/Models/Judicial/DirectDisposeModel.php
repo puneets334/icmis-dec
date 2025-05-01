@@ -355,10 +355,12 @@ class DirectDisposeModel extends Model{
                         'd.disp_type',
                         "STRING_AGG(j.jname, ', ' ORDER BY j.judge_seniority) AS judges",
                     ]);
-                    $builder12->join('master.judge j', "j.jcode = ANY(string_to_array(d.jud_id, ',')::int[])", 'LEFT');
+                    $builder12->join('master.judge j', "array_position(string_to_array(d.jud_id, ','), CAST(j.jcode AS VARCHAR)) = 1", 'LEFT');
                     $builder12->where('d.diary_no', $filno['diary_no']);
                     $builder12->groupBy('d.diary_no');
-                    // $queryString = $builder12->getCompiledSelect();
+                    
+                    // echo $builder12->getCompiledSelect(); die;
+
                     //         echo $queryString;
                     //         exit();
                     $query12 = $builder12->get();
@@ -1588,6 +1590,9 @@ class DirectDisposeModel extends Model{
 
     function insert_rec_an_disp($data){
 
+        // $db = \Config\Database::connect();
+        // $db->transStart();
+
         $check_for_regular_case="";
         $temp_mh='';
         $tdt_str='';
@@ -1855,11 +1860,14 @@ class DirectDisposeModel extends Model{
 
     public function archived_data($diary_no)
     {
+
+        // log_error("archived_data", $diary_no);
+
         $output = [];
 
         // Call Restore Procedure
         try {
-            $this->db->query("call archival_backup('$diary_no')");
+            $this->db->query("call archival($diary_no)");
             $output['success'] = 1;
             $output['message'] = "Case Archived.";
         } catch (\Exception $e) {
