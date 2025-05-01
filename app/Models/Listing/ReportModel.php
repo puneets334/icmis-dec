@@ -824,6 +824,9 @@ class ReportModel extends Model
         $builder2->select('remark, reg_no_display, brd_slno, conn, list, cause_title, string_agg(advocates, \',\') AS advocates');
         $builder2->groupBy('reg_no_display, remark, brd_slno, conn, list, cause_title');
         $builder2->orderBy('conn', 'DESC');
+        echo $builder2->getCompiledSelect();
+      die();
+
         $query = $builder2->get();
         return $query->getResultArray();
   }
