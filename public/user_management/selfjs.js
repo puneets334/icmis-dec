@@ -452,8 +452,18 @@ $(function () {
         }
     });
 
+	$(document).on('click', '#roleDelete', function() {
+		alert();
+		
+		
+		
+		
+	});
+
+
     $('a#roleDelete, a#roleEdit').click(function(e)
     {
+		alert(); 
         var id,
         action,
         rtnType='json', 

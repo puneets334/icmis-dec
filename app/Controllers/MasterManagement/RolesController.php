@@ -26,12 +26,12 @@ class RolesController extends BaseController
 
     public function index()
     {
-        
+        $request = \Config\Services::request();
         $data['usercode'] =  session()->get('login')['usercode'];
         $action = 'Create';
         $addNewBtn = '';
-        $roleMid = !empty($_POST['menu_id']) ? (int)$_POST['menu_id'] : 0;
-        $data['rHeading'] = !empty($_POST['rHeading']) ?  htmlentities(trim($_POST['rHeading'])) : '';
+        $roleMid = !empty($request->getPost('menu_id')) ? (int)$request->getPost('menu_id') : 1;
+        $data['rHeading'] = !empty($request->getPost('rHeading')) ?  htmlentities(trim($request->getPost('rHeading'))) : '';
         $data['model'] = $this->MenuReportModel;
 
         // $menusTreeView = $this->MenuReportModel->fetchSubMenus($roleMid);
