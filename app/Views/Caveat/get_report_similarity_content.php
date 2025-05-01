@@ -20,6 +20,13 @@
             text-align: center;
             color: #31B0D5;
         }
+
+    table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+    }
+
     </style>
 
     <?php $short_description_details='';
@@ -220,7 +227,7 @@
                                                 $r_main=array();
                                                 if (!empty($row['sub_details'])) {
                                                     $r_main = $row['sub_details'];
-                                                    $res_case_type_c=$row['casetype_details']['short_description'];
+                                                    $res_case_type_c=$row['casetype_details']['short_description']??'';
                                                     $short_description_details=$res_case_type_c.'-'.intval(substr($r_main['active_fil_no'],3)).'-'.$r_main['active_fil_dt'];
                                                     if (strtotime($r_main['diary_no_rec_date']) >= strtotime($caveat_rec_dt)) {
                                                         $date1 = date_create($r_main['diary_no_rec_date']);
