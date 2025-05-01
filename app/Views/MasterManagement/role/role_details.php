@@ -15,6 +15,12 @@
         margin-left: -49%;
 }
 #example_filter{float: right;}
+table#example thead tr th {
+    font-weight: bold!important;
+}
+select.custom-select.custom-select-sm.form-control.form-control-sm {
+    padding: 2px 15px!important;
+}
 </style>
 
 <section class="content">
@@ -143,15 +149,7 @@
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
-                                </tbody>
-
-                                <tfoot>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Role Name</th>
-                                        <th>Menu Details</th>
-                                    </tr>
-                                </tfoot>
+                                </tbody>                                
                             </table>
                         </div>
                     </div>
@@ -217,7 +215,44 @@ $(function() {
                 "lengthChange": true,
                 "autoWidth": false,
                 "dom": 'Blfrtip',
-                "buttons": ["copy", "csv", "excel", "print",{extend: 'pdfHtml5',orientation: 'landscape',pageSize: 'LEGAL' }]
+                // "buttons": ["copy", "csv", "excel", "print",
+                //             {extend: 'pdfHtml5',orientation: 'landscape',pageSize: 'LEGAL' }
+                //            ]
+                "buttons": [
+                        {
+                            extend: 'copy',
+                            title: 'Role Details',
+                            filename: 'roledetails',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            title: 'Role Details',
+                            filename: 'roledetails',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            title: 'Role Details',
+                            filename: 'roledetails',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            title: 'Role Details',
+                            filename: 'roledetails',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        'colvis'
+                    ]    
             }).buttons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
 
         });
