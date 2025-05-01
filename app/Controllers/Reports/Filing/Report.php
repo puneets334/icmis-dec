@@ -395,6 +395,7 @@ class Report extends BaseController
         $data['section'] = $this->request->getPost('section');
         $data['dak_report_type'] = $this->request->getPost('dakReportsType');
         $data['exclude_review_contempt_curative_petition'] = $this->request->getPost('exclude_review_contempt_curative_petition');
+       
         if (!empty($data['Case_Blocked'])) {
             $data['Reportsofdakcb'] = $ReportModel->getdakcb($data);
             $data['report_title'] = 'Reportsofdakcb';
@@ -406,11 +407,14 @@ class Report extends BaseController
             $data['report_title'] = 'Reportsofdak';
         } else if (!empty($data['from_date']) && !empty($data['to_date']) && $data['dak_report_type'] == 'ds') {
             $data['section_wise_dak_data'] = $this->dak_date_section_wise($data['from_date'], $data['to_date'], $data['section'], $data['dak_report_type'], $data['exclude_review_contempt_curative_petition']);
+            
         } else {
-            $data['Reportsofdak'] = $ReportModel->getdak($data);
+            
+            $data['Reportsofdak'] = $ReportModel->getDak($data);
             $data['report_title'] = 'Reportsofdak';
+            
         }
-
+       
         $data['formdata'] = $this->request->getPost();
         $data['casetype'] = get_from_table_json('casetype');
         $data['usersection'] = $this->Dropdown_list_model->get_usersection();
@@ -419,6 +423,7 @@ class Report extends BaseController
         } else if (!empty($data['from_date']) && !empty($data['to_date']) && $data['dak_report_type'] == 'ds') {
             return view('Reports/filing/section_wise_dak_list', $data);
         } else {
+           
             return view('Reports/filing/get_content_dak', $data);
         }
     }

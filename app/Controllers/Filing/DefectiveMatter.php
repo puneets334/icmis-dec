@@ -29,6 +29,7 @@ class DefectiveMatter extends BaseController
 
         $defectiveMatterModel = new DefectRecordPaperbook();
         $data['data'] = $defectiveMatterModel->getMainRecord($diaryno, $module);
+        die();
         // pr($data['data']);
     }
 

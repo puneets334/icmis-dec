@@ -32,6 +32,7 @@ class State_agency extends BaseController
             if (empty($state)) {
                 $data_array = [
                 'agency_name' => $agency_name,
+                'agency_name_old' => $agency_name,
                 'adm_updated_by' => $_SESSION['login']['usercode'],
                 'updated_on' => date("Y-m-d H:i:s"),
                 'agency_or_court' => $agency_type,
