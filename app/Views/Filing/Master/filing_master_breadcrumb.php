@@ -28,7 +28,8 @@
         position: relative;
     }
     .nav-breadcrumb li a, .nav-breadcrumb li a:link, .nav-breadcrumb li a:visited {
-        margin-left: -70px;
+        padding: 0 !important;
+        margin: 0 7px !important;
     }
 </style>
 <?php

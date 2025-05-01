@@ -28,12 +28,23 @@
                         <div class="row">
                           <div class="col-md-3">
                             <label for="dno"><b>Diary No.</b></label>
-                            <input type="text" id="dno" name="dno" maxlength="10" class="form-control" size="10" onkeypress="return isNumber(event)" />
+                            <input type="text" id="dno" name="dno" maxlength="10" class="form-control" size="10" onblur="getSearchResult();" onkeypress="return isNumber(event)" />
                           </div>
 
                           <div class="col-md-3">
                             <label for="dyr"><b>Diary Year</b></label>
-                            <td><input type="text" id="dyr" name="dyr" maxlength="4" class="form-control" size="4" value="<?php echo date('Y'); ?>" onkeypress="return isNumber(event)" />
+                            <td>
+                            <?php $year = 1950;
+                            $current_year = date('Y');
+                            ?>
+                            <select name="dyr" id="dyr" class="custom-select rounded-0" onchange="getSearchResult();">
+                                <option value="">--Select--</option>
+                                <?php for ($x = $current_year; $x >= $year; $x--) { ?>
+                                    <option <?php echo ($x == $current_year) ? 'selected' : ''; ?> value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                <?php } ?>
+                            </select>  
+                            
+                            <!-- <input type="text" id="dyr" name="dyr" maxlength="4" class="form-control" size="4" value="<?php //echo date('Y'); ?>" onkeypress="return isNumber(event)" /> -->
                           </div>
 
                           <div class="col-md-3">
@@ -87,13 +98,20 @@ function isNumber(evt) {
     return true;
 }
 
-  $(document).on("blur","#dyr",function(){
+  function getSearchResult()
+  {
     var diaryno=$('#dno').val();
     var diaryyear=$('#dyr').val();
 
     if($('#dno').val()==''){
         alert("Please enter diary no.");
-        $('#dno').focus();
+        //$('#dno').focus();
+        return false;
+    }
+
+    if($('#dyr').val()==''){
+        alert("Please select diary year!!");
+        $('#dyr').focus();
         return false;
     }
    
@@ -123,7 +141,7 @@ function isNumber(evt) {
             }
             if(vcal=='1'){
                 alert("Record already exist!!!!!");
-                document.getElementById('dno').focus();
+                //document.getElementById('dno').focus();
                 document.getElementById('section').value = "";
                 document.getElementById('courtfee').value ="";
                 document.getElementById('notfdate').value = "";
@@ -144,7 +162,7 @@ function isNumber(evt) {
     var url = "<?php echo base_url('Filing/DefectiveMatter/GetMatterInfo'); ?>?module=add"+"&dno=" + diaryno + "&dyr=" + diaryyear;
     xmlhttp.open("GET", url, false);
     xmlhttp.send(null);
-});
+}
 
 function call_save_main(){
     var dno = $('#dno').val();
@@ -162,13 +180,13 @@ function call_save_main(){
     if (dno == '')
     {
         alert("Please enter diary no.");
-        $('#dno').focus();
+       // $('#dno').focus();
         return false;
     }
     if (dyr == '')
     {
         alert("Please enter diary year");
-        $('#dyr').focus();
+        //$('#dyr').focus();
         return false;
     }
 
@@ -206,7 +224,7 @@ function call_save_main(){
         {
             var vcal = xmlhttp.responseText;
             alert(vcal);
-            document.getElementById('dno').focus();
+            //document.getElementById('dno').focus();
             document.getElementById('dno').value = "";
             document.getElementById('section').value = "";
             document.getElementById('courtfee').value ="";
