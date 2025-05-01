@@ -114,7 +114,9 @@
 
                                                                 <!-- AOR Code -->
                                                                 <div class="col-md-2">
-                                                                    <input type="number" class="form-control" name="aor_code" id="aor_code" maxlength="6" placeholder="AOR Code" disabled>
+                                                                    <!-- <input type="number" class="form-control" name="aor_code" id="aor_code" maxlength="6" placeholder="AOR Code" disabled> -->
+                                                                    <input type="number" class="form-control" name="aor_code" id="aor_code" 
+                                                                    placeholder="AOR Code"  disabled>
                                                                 </div>
 
                                                                 <!-- Get Details Button -->
@@ -142,6 +144,12 @@
 
 <script>
     $(document).ready(function() {
+        $('#aor_code').on('input', function () {
+            let value = $(this).val();
+            if (value.length > 6) {
+                $(this).val(value.slice(0, 6));
+            }
+        });
         $("#radio_state").click(function() {
             $("#state").prop('disabled', false);
             $("#enrol").prop('disabled', false);
