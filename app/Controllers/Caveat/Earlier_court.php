@@ -320,7 +320,6 @@ class Earlier_court extends BaseController
                             'updated_by' => session()->get('login')['usercode'],
                             'updated_by_ip' => getClientIP(),
                         ];
-                        //echo '<pre>';print_r($insertEarlierCourtArray);exit();
                         $this->db = \Config\Database::connect();
                         $this->db->transStart();
                         $insertedEarlierCourtId = $this->EarliercourtModel->insertEarlierCourt($insertEarlierCourtArray);
@@ -602,20 +601,18 @@ class Earlier_court extends BaseController
                     'lct_caseno' =>  $lc_case_no,
                     'lct_caseyear' =>  $lc_case_year,
                     'cnr_no' => !empty($this->request->getPost('filing_no')) ? $this->request->getPost('filing_no') : " ",
-
-
                     'updated_on' => date("Y-m-d H:i:s"),
                     'updated_by' => session()->get('login')['usercode'],
                     'updated_by_ip' => getClientIP(),
                 ];
-                //pr($updateEarlierCourtArray);
-                 $is_caveat_lowerct=update('caveat_lowerct',$updateEarlierCourtArray,['lower_court_id'=>$lower_court_id,'lw_display'=>'Y']);
+                // pr($updateEarlierCourtArray);
+                $is_caveat_lowerct=update('caveat_lowerct',$updateEarlierCourtArray,['lower_court_id'=>$lower_court_id,'lw_display'=>'Y']);
                 $this->db = \Config\Database::connect();
                 $this->db->transStart();
                 $EarlierCourtId = $this->EarliercourtModel->updateEarlierCourt($updateEarlierCourtArray,$lower_court_id);
                 $deleteJudge = $this->EarliercourtModel->deleteJudgesDetails($this->request->getPost('lc_idd'));
 
-                if (is_array($judges)) {
+                if (isset($judges) && is_array($judges)) {
                     foreach ($judges as $judge_id) {
                         $insertJudgesArray = [
                             'lct_display' => 'Y',
@@ -626,7 +623,7 @@ class Earlier_court extends BaseController
                             'updated_by_ip' => getClientIP(),
                             'judge_id' => $judge_id
                         ];
-
+                       
                         $insertedJudges = $this->EarliercourtModel->insertLowerCourtJudges($insertJudgesArray);
                     }
                 }
@@ -706,7 +703,6 @@ class Earlier_court extends BaseController
                             'gov_not_case_type' =>null,
                             'gov_not_case_no' =>$zero,
                             'gov_not_case_year' =>$zero,
-
                             'create_modify' => date("Y-m-d H:i:s"),
                             'updated_on' => date("Y-m-d H:i:s"),
                             'updated_by' => session()->get('login')['usercode'],
