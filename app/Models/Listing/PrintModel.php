@@ -223,6 +223,7 @@ class PrintModel extends Model
         $ucode = session()->get('login')['usercode'];
         $usertype= session()->get('login')['usertype'];
         $sess_section1= session()->get('login')['section'];
+        $list_dt_val = date('Y-m-d',strtotime($list_dt_val));
         
         // $sql = "SELECT h.*, m.*, r.* FROM heardt h 
         //         INNER JOIN main m ON m.diary_no = h.diary_no
@@ -401,7 +402,8 @@ class PrintModel extends Model
                         u.name,
                         CASE WHEN h.conn_key = h.diary_no THEN NULL ELSE m.diary_no_rec_date::date END ASC
                         ";
-                       //die();
+                    //     echo $sql;
+                    //    die();
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
         $sno = 1;
