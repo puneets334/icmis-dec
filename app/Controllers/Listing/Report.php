@@ -671,10 +671,9 @@ class Report extends BaseController
     $list_dt = date('Y-m-d', strtotime($this->request->getPost('ldates')));
     $board_type = $this->request->getPost('board_type');
     $sec_id = $this->request->getPost('sec_id');
-    return $data['result'] = 'Section List Not Available/May be not published yet'; // Or an appropriate message
     // Set the directory path
-    // $file_path = getBasePath() . "/judgment/cl/sectionlist/$list_dt";
-    $file_path = getBasePath() . "/judgment/cl/sectionlist";
+    $file_path = "judgment/cl/sectionlist";
+    
     if (!is_dir($file_path)) {  // Check if the directory exists
       return $data['result'] = 'Section List Not Available/May be not published yet'; // Or an appropriate message
     }

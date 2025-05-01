@@ -479,7 +479,10 @@ $district = get_state_data($r_party['city'])[0]['name'];
                 $d_year = substr($dairy_no, -4);
                 $d_no = substr($dairy_no, 0, -4);
                 $fil_nm =  base_url("../caveat_records/" .$param['caveat_year'] . "/" . $param['caveat_number'] . "/" . $d_no . '_' . $d_year . '_' . $row1['caveat_diary_matching']['print_dt']. ".html") ;
-                echo $file = file_get_contents($fil_nm, true);
+                $headers = @get_headers($fil_nm);
+                if ($headers && strpos($headers[0], '200') !== false) {
+                    echo $file = file_get_contents($fil_nm, true);
+                }
 
                 /* $ds = fopen($fil_nm, 'r');
                  $b_z = fread($ds, filesize($fil_nm));

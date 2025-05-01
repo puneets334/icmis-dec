@@ -392,7 +392,7 @@
                                                                                 <input type="checkbox" name="if_sensitive" id="if_sensitive" value="1" <?php echo $checked; ?>>
                                                                             </span>
                                                                         </div>
-                                                                        <input type="text" class="form-control" id="sensitive_case_reason" name="sensitive_case_reason" value="<?php echo $reasonforsensitive; ?>">
+                                                                        <input type="text" class="form-control" id="sensitive_case_reason" name="sensitive_case_reason" <?php echo (!empty($checked)) ? '' : 'readonly'; ?> value="<?php echo $reasonforsensitive; ?>">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -538,7 +538,12 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-
+            $(document).on("click", "#if_sensitive", function () {
+                if ($(this).is(":checked")) 
+                    $("#sensitive_case_reason").prop('readonly',false);
+                else $("#sensitive_case_reason").prop('readonly',true);
+                    $("#sensitive_case_reason").val("");
+            });
 
 
             var main_category = $('#main_category').val();

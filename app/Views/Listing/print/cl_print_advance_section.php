@@ -88,8 +88,9 @@
                         </div>
                         <?php echo form_close(); ?>
                     
-                        <div class="container">
-                            <div class="panel">
+                       
+                            <div id="prnnt" style="text-align: center; font-size:12px;" class="p-3">
+                                    <h3 id="title"></h3>
                                 <table id="reportTable1" class="table table-striped table-hover ">
                                     <thead>
                                     <tr>
@@ -110,15 +111,11 @@
                                     <tbody id="dv_res1">
                                     </tbody>
                                 </table>
-                                <div id="dv_res11">    
-                                <div id="prnnt" style="text-align: center; font-size:10px;">
-                                    <h3>Draft List&nbsp;Cause List for Dated 01-01-1970 </h3>
-
-                                    Draft List for dated 01-01-1970 is not published yet<br><br>
+                                <div id="dv_res11" style="display:none;">    
+                                No Records Found
                                 </div>
                             </div>
-                    </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -144,15 +141,15 @@
         var orderby = $("#orderby").val();
         var sec_id = $("#sec_id").val();
         var main_suppl = $("#main_suppl").val();
-        var title = function() {
-            if(list_dt == '-1'){
-                return 'Draft List Cause List for Dated - 01-01-1970';  
-            }
-            else {
-                return 'Draft List Cause List for Dated '+list_dt;
-            }
-            
+        var mainhead_descri ='';
+        if(listtype == 'D'){
+             mainhead_descri = "Draft List Cause List for Dated " +list_dt;
         }
+        else {
+            mainhead_descri = "Advance List Cause List for Dated " +list_dt;
+        }
+        var title = mainhead_descri;
+        $("#title").html(title);
         $.ajax({
             url: '<?php echo base_url('Listing/PrintController/get_advance_cause_list_section_data'); ?>',
             cache: false,
