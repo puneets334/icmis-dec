@@ -85,7 +85,7 @@ class Category extends BaseController
 
     public function updateCategory($category = '')
     {
-        pr($_REQUEST);
+       // pr($_REQUEST);
         // if ($this->request->getMethod() === 'post' && $this->validate([
         //     'main_category' => ['label' => 'Main Category', 'rules' => 'required'],
         // ])) 
@@ -220,6 +220,7 @@ class Category extends BaseController
                         'updated_by' => $userid,
                         'updated_by_ip' => $_SERVER['REMOTE_ADDR']
                     ];
+                  //  pr($keywords_array);
                     $this->Model_category->updateKeyword($keywords_array);
                 }
             }

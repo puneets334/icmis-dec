@@ -78,7 +78,7 @@ class Model_category extends Model
         $builder->where('diary_no', $diary_number);
         $builder->where('display', 'Y');
         $builder->where('is_deleted', 'f');
-        pr($builder->getCompiledSelect());
+        //pr($builder->getCompiledSelect());
         $query = $builder->get();
 
         if ($query->getNumRows() >= 1) {
