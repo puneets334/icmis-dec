@@ -309,7 +309,7 @@ function press_add() {
     "'>" +
     $("#bounded_utype option:selected").text() +
     "\
-<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='"+ base_url +"/image/close-button.gif' onclick=removeCase('" +
+<img style='width:7px;height:7px;margin-top:0px;margin-bottom:4px;cursor:pointer' src='"+ base_url +"/images/close-button.gif' onclick=removeCase('" +
     $("#bounded_utype").val() +
     "')></div>";
 
