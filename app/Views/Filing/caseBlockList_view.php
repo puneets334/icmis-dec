@@ -13,6 +13,12 @@
         font-size: 20px;
         text-align: center;
     }
+
+    table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+    }
 </style>
 
 
@@ -41,7 +47,7 @@
                                     <ul class="nav nav-pills inner-comn-tabs ">
                                         <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>/Filing/Ia_documents">Insert / Modification of Docs.</a></li>
                                         <li class="nav-item"><a class="nav-link active" href="<?= base_url() ?>/Filing/Ia_documents/caseBlockList_view">Case Block for Loose Doc. </a></li>
-                                        <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>/Filing/Ia_documents/verify_defective_view">Verfify / Defects </a></li>
+                                        <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>/Filing/Ia_documents/verify_defective_view">Verify / Defects </a></li>
                                     </ul>
                                     <?php
                                     $attribute = array('class' => 'form-horizontal', 'name' => 'party_view_form', 'id' => 'party_view_form', 'autocomplete' => 'off');
@@ -83,7 +89,7 @@
                                                     <h3 class="card-title" style="float: none !important; text-align: center;">CASE BLOCK TO RECEIVE MISC. DOCS</h3>
                                                     <!-- <table id="example2" class="table table-hover showData"> -->
 													<div class="table-responsive">
-                                                    <table id="result_main" class="table table-striped custom-table">
+                                                    <table id="result_main" class="table table-striped table-bordered">
                                                         <thead>
                                                             <tr>
                                                                 <th>Action</th>
@@ -174,8 +180,7 @@
              "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]]
         });
     $(document).ready(function() {
-
-       
+     
 
         $("#btnMain").click(function() {
             var CSRF_TOKEN = 'CSRF_TOKEN';

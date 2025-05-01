@@ -113,7 +113,7 @@
                                 <?php }?>
                             </center>
                         </div>
-                        <div id="div_result"></div>
+                        <div id="div_result" class="row"></div>
 
                         <!-- /.card -->
                     </div>
