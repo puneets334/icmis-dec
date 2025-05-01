@@ -85,6 +85,7 @@ class Category extends BaseController
 
     public function updateCategory($category = '')
     {
+        pr($_REQUEST);
         // if ($this->request->getMethod() === 'post' && $this->validate([
         //     'main_category' => ['label' => 'Main Category', 'rules' => 'required'],
         // ])) 
