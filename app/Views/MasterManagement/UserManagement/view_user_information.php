@@ -1,4 +1,14 @@
-
+<style>
+    th::after,
+    th::after,
+    th::after {
+    display: inline-block !important;
+    font-family: 'DataTables'; /* optional if you're using DataTables default icons */
+    content: "↓"; /* default FontAwesome bars icon — or leave it to DataTables */
+    opacity: 0.5;
+    float: right;
+}
+</style>    
 <?php
 if ($jud_sel == '')
     $judge_selector = "";
@@ -71,8 +81,14 @@ if (count($view_rs) > 0) {
             }
 
             ?>
-            <th>Alloted Halls</th>
-            <th>DA Alloted Cases<br>(Except Halls)</th>
+            <th>
+                <!-- Alloted Halls -->
+                DA Cases
+            </th>
+            <th>
+                <!-- DA Alloted Cases<br>(Except Halls) -->
+                Total Cases
+            </th>
         </tr>
         </thead>
         <tbody>
