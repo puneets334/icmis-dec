@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  //$('#mainbtl').DataTable();
+  
   $("#department").change(function () {
     var val = $("#department").val();
     if (val == "PAPS") $("#for_judge_select").css("display", "block");
