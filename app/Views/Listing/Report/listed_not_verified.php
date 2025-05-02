@@ -64,13 +64,24 @@
 
 <script>
     $(document).ready(function() {
+        var reportTitle = "Listed Not Verified Reports";
         $("#reportTable1").DataTable({
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
             "dom": 'Bfrtip',
             "bProcessing": true,
-            "buttons": ["excel", "pdf"]
+            "buttons": [
+            {
+            extend: 'excelHtml5',
+            title: reportTitle
+            },
+            {
+            extend: 'pdfHtml5',
+            pageSize: 'A3',
+            title: reportTitle
+            }
+            ]
         });
     });
 
@@ -88,6 +99,7 @@
         let txt_td = $('#txt_td').val();
         let CSRF_TOKEN = 'CSRF_TOKEN';
         let CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var reportTitle = "Listed Not Verified Reports";
         $.ajax({
             url: "<?php echo base_url('Listing/Report/get_listed_not_verified'); ?>",
             cache: false,
@@ -138,7 +150,17 @@
                         "autoWidth": false,
                         "dom": 'Bfrtip',
                         "bProcessing": true,
-                        "buttons": ["excel", "pdf"]
+                        "buttons": [
+                            {
+                            extend: 'excelHtml5',
+                            title: reportTitle
+                            },
+                            {
+                            extend: 'pdfHtml5',
+                            pageSize: 'A3',
+                            title: reportTitle
+                            }
+                            ]
                     });
                 } else {
                     $('#dv_data').html('<div style="text-align: center"><b>No Record Found</b></div>');

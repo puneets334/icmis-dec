@@ -96,8 +96,9 @@
 
         });
 
-        $(document).on('click', '#btn_submit', function()
+        $(document).on('click', '#btn_submit', async function()
         {
+            await updateCSRFTokenSync();
             let ddl_users = $('#ddl_users').val();
             let txt_frm_dt = $('#txt_frm_dt').val();
             let txt_to_dt = $('#txt_to_dt').val();
@@ -125,11 +126,11 @@
                     type: 'POST',
                     success: function(data, status) {
                         $('#dv_data').html(data);
-                        updateCSRFToken();
+                       // updateCSRFToken();
                     },
                     error: function(xhr) {
                         alert("Error: " + xhr.status + " " + xhr.statusText);
-                        updateCSRFToken();
+                       // updateCSRFToken();
                     }
                 });
             }
@@ -139,8 +140,9 @@
     });
 
 
-    function get_rec(str)
+    async function get_rec(str)
     {
+        await updateCSRFTokenSync();
         let sp_split = str.split('_');
         let r_sp_split = sp_split[1];
         let l_sp_split = sp_split[0];
@@ -171,12 +173,12 @@
                     },
                     type: 'POST',
                     success: function(data, status) {
-                        updateCSRFToken();
+                       // updateCSRFToken();
                         $('#ggg').html(data);
                         $('input[name="' + csrfName + '"]').val(data.newToken);
                     },
                     error: function(xhr) {
-                        updateCSRFToken();
+                       // updateCSRFToken();
                         alert("Error: " + xhr.status + " " + xhr.statusText);
                     }
                 });

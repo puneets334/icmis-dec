@@ -165,13 +165,24 @@ $(document).on("click", "#prnnt1", function()
     });
     $(document).ready(function()
     {
+        var reportTitle = "Court Remarks Count as on Cause List Date <?php if (isset($on_date1)) { echo $on_date1; } ?>";
         $("#reportTable1").DataTable({
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
             "dom": 'Bfrtip',
             "bProcessing": true,
-            "buttons": ["excel", "pdf"]
+            "buttons": [
+            {
+            extend: 'excelHtml5',
+            title: reportTitle
+            },
+            {
+            extend: 'pdfHtml5',
+            pageSize: 'A3',
+            title: reportTitle
+            }
+            ]
         });
         // $("#reportTable2").DataTable({
         //     "responsive": true,
