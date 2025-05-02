@@ -35,7 +35,11 @@ class Model_category extends Model
         $builder->where('diary_no', $diary_number);
         $builder->where('a.display', 'Y');
         $builder->where('b.display', 'Y');
-        $builder->where('b.is_old is null');
+        $builder->groupStart()
+            ->where('b.is_old IS NULL', null, false)
+            ->orWhere('b.is_old', 'Y')
+            ->groupEnd();
+      
         $query = $builder->get();
 
         if ($query->getNumRows() >= 1) {
@@ -69,12 +73,12 @@ class Model_category extends Model
     {
         $builder = $this->db->table("ec_keyword as a");
         //$builder->select('keyword_id ,keyword_description');
-        $builder->select('keyword_id');
+        $builder->select('keyword_id,keyword_description');
         $builder->join('master.ref_keyword b', 'a.keyword_id=b.id', 'left');
         $builder->where('diary_no', $diary_number);
         $builder->where('display', 'Y');
         $builder->where('is_deleted', 'f');
-
+        //pr($builder->getCompiledSelect());
         $query = $builder->get();
 
         if ($query->getNumRows() >= 1) {

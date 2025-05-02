@@ -824,6 +824,9 @@ class ReportModel extends Model
         $builder2->select('remark, reg_no_display, brd_slno, conn, list, cause_title, string_agg(advocates, \',\') AS advocates');
         $builder2->groupBy('reg_no_display, remark, brd_slno, conn, list, cause_title');
         $builder2->orderBy('conn', 'DESC');
+        echo $builder2->getCompiledSelect();
+      die();
+
         $query = $builder2->get();
         return $query->getResultArray();
   }
@@ -1545,6 +1548,7 @@ class ReportModel extends Model
           $result_section = $query_section->getResultArray();
           $section_name = $result_section[0]['section_name'];
         }
+
         $condition = "";
         // echo $section_name;
         // die();
@@ -1555,8 +1559,8 @@ class ReportModel extends Model
             reg_no_display AS Case_No,
             pet_name || ' vs ' || res_name AS Cause_Title,
             tentative_section(m.diary_no) AS Section,
-            tentative_da(m.diary_no::integer) AS Dealing_Assistant,
-            lldt(m.diary_no::bigint) AS Last_listed_on,
+            tentative_da(cast(m.diary_no as INTEGER)) AS Dealing_Assistant,
+            lldt(cast(m.diary_no as INTEGER)) AS Last_listed_on,
             m.diary_no_rec_date,
             m.active_fil_dt,
             CASE WHEN h.main_supp_flag = 0 THEN 'Ready' ELSE 'Not Ready' END AS Ready_status,
@@ -1569,10 +1573,10 @@ class ReportModel extends Model
         $builder->where('m.mf_active', 'M');
 
         if ($daysRange == 'D') {
-          $builder->where("lldt(m.diary_no::bigint) BETWEEN '$fromDays' AND '$toDays'");
+          $builder->where("lldt(cast(m.diary_no as INTEGER)) BETWEEN '$fromDays' AND '$toDays'");
         } 
         else if ($daysRange == 'Y') {
-          $builder->where("lldt(m.diary_no::bigint) > ", [$year]);
+          $builder->where("lldt(cast(m.diary_no as INTEGER)) > ", [$year]);
         } 
         else if ($daysRange == 'N') {
           $builder->where('m.diary_no IS NULL');
@@ -1582,11 +1586,11 @@ class ReportModel extends Model
           $builder->where('m.dacode', $da);
         } 
         else if ($da == 0 && $section != 0) {
-          $builder->where("tentative_section(m.diary_no) like ?", [$section_name]); // Assuming tentative_section is a DB function
+          $builder->where("tentative_section(m.diary_no)", $section_name); // Assuming tentative_section is a DB function
         }
-        $builder->orderBy('tentative_section(m.diary_no), tentative_da(m.diary_no::integer), SUBSTR(m.diary_no::text, -4)');
+        $builder->orderBy('tentative_section(m.diary_no), tentative_da(cast(m.diary_no as INTEGER)), SUBSTR(cast(m.diary_no as TEXT), -4)');
         
-       // $builder->limit(3);
+        // $builder->limit(3);
         // echo $builder->getCompiledSelect();
         // die();
         $query = $builder->get();

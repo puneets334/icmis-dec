@@ -40,7 +40,7 @@
                 <td>
                     <input type='text' id="enrollment_date" name="enrollment_date" onkeypress="return onlynumbersadv(event)" 
                     onkeyup="checkDate(this.value,this.id)" maxlength="10" placeholder="DD-MM-YYYY" 
-                    value="<?= $record['enroll_date'] != '0000-00-00' ? date('d-m-Y', strtotime($record['enroll_date'])) : '' ?>" required/>
+                    value="<?= (!empty($record['enroll_date']) && $record['enroll_date'] != '0000-00-00') ? date('d-m-Y', strtotime($record['enroll_date'])) : '' ?>" required />
                 </td>
             </tr>
             <tr>

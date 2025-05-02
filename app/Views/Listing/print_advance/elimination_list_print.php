@@ -138,16 +138,19 @@
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             beforeSend: function() {
+                $("#btn1").attr("disabled", true);
                 $('#dv_res1').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>');
             },
 
             success: function(data, status) {
+                $("#btn1").attr("disabled", false);
                 $('#res_loader').html('');
                 $('#dv_res1').html(data);
                 if (data)
                     $('#res_on_off').show();
             },
             error: function(xhr) {
+                $("#btn1").attr("disabled", false);
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });

@@ -73,8 +73,18 @@
 
                             <div id="res_loader" class="text-center"></div>
                         </div>
+                        <input name="prnnt1" type="button" id="prnnt1" value="Print" style="display:none;">
+                        <div id="prnnt" style="font-size:12px;">
+                        <div align="center" id="getlogo" style="font-size:12px;display:none;" class="mb-5">
+                            <img src="<?php echo base_url('images/scilogo.png'); ?>" width="50px" height="80px" /><br />
+                            <span style="text-align: center;font-weight: 600;font-size: 14px;font-family: verdana;" align="center">
+                                SUPREME COURT OF INDIA
+                            </span>
+                        </div>
 
                         <div id="dv_res1"></div>
+                       
+                      </div>
                     </div>
 
 
@@ -103,6 +113,7 @@
     });
 
     function get_cl_1() {
+        $("#getlogo").hide();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
         var ldates = $("#ldates").val();
@@ -124,7 +135,16 @@
             },
 
             success: function(data, status) {
-                $('#dv_res1').html(data);
+                if(data === 'Section List Not Available/May be not published yet'){
+                    $("#getlogo").hide();
+                    $("#prnnt1").hide();
+                    $('#dv_res1').html(data);
+                } else {
+                    $("#getlogo").show();
+                    $("#prnnt1").show();
+                    $('#dv_res1').html(data);
+                }
+                
                 updateCSRFToken();
             },
             error: function(xhr) {

@@ -606,13 +606,13 @@ class ProposalModel extends Model
                    
             $builder = $this->db->table('case_remarks_multiple c');
             $builder->select("c.diary_no, c.jcodes,
-                (SELECT string_agg(j1::TEXT, ',' ORDER BY j.judge_seniority)
+                (SELECT string_agg(cast(j1 as TEXT), ',' ORDER BY j.judge_seniority)
                 FROM not_before nb
                 INNER JOIN master.judge j ON nb.j1 = j.jcode
-                WHERE nb.diary_no = c.diary_no AND nb.notbef = 'B') AS bef_j,
-                (SELECT string_agg(is_retired::TEXT, ',')
+                WHERE cast(nb.diary_no as TEXT)= cast(c.diary_no as TEXT) AND nb.notbef = 'B') AS bef_j,
+                (SELECT string_agg(cast(is_retired as TEXT), ',')
                 FROM master.judge jj
-                WHERE EXISTS (SELECT 1 FROM not_before nbb WHERE nbb.diary_no = c.diary_no AND nbb.j1 = jj.jcode AND nbb.notbef = 'B')) AS is_judge_retired");
+                WHERE EXISTS (SELECT 1 FROM not_before nbb WHERE cast(nbb.diary_no as TEXT) = cast(c.diary_no as TEXT) AND nbb.j1 = jj.jcode AND nbb.notbef = 'B')) AS is_judge_retired");
 
             $builder->join('(SELECT c.diary_no, MAX(cl_date) AS max_cl_dt FROM case_remarks_multiple c GROUP BY c.diary_no) AS c1', 'c1.diary_no = c.diary_no AND c1.max_cl_dt = c.cl_date', 'inner');
 
@@ -626,6 +626,8 @@ class ProposalModel extends Model
             $builder_outer->select('diary_no, jcodes'); // No need to cast again here
             $builder_outer->where("(jcodes != bef_j OR bef_j IS NULL)"); // Compare directly
             $builder_outer->limit(1);
+            // echo $builder_outer->getCompiledSelect();
+            // die();
             $query = $builder_outer->get();
             $res_row = $query->getResultArray();
 
@@ -639,8 +641,8 @@ class ProposalModel extends Model
                         $sql1 = "INSERT INTO not_before_his (diary_no, j1, notbef, usercode, ent_dt, old_u_ip,cur_u_ip, cur_u_mac, old_u_mac, cur_ucode, c_dt, action, old_res_add, old_res_id, del_reason)
                                 SELECT n.diary_no::bigint, n.j1, n.notbef, n.usercode, n.ent_dt, n.u_ip, 0,0,0,'1', NOW(), 'delete', n.res_add, n.res_id, 'PART HEARD'
                                 FROM heardt h
-                                INNER JOIN main m ON m.diary_no::text = h.diary_no::text
-                                INNER JOIN not_before n ON m.diary_no::bigint = n.diary_no::bigint
+                                INNER JOIN main m ON cast(m.diary_no as text) = cast(h.diary_no as text)
+                                INNER JOIN not_before n ON cast(m.diary_no as bigint) = cast(n.diary_no as bigint)
                                 WHERE c_status = 'P' AND n.notbef = 'B' AND m.diary_no = '$diary_no' AND n.j1 IN ($judges)";
                         $res = $this->db->query($sql1);
                         if ($res == 1) {
@@ -686,9 +688,9 @@ class ProposalModel extends Model
                 $diary_no = $row['diary_no'];
 
                 $sql78 = "INSERT INTO not_before_his (diary_no, j1, notbef, usercode, ent_dt, old_u_ip, cur_u_ip, cur_u_mac, old_u_mac, cur_ucode, c_dt, action, old_res_add, old_res_id, del_reason)
-                            SELECT n.diary_no::bigint, n.j1, n.notbef, n.usercode, n.ent_dt, n.u_ip, '0.0.0.0','', '', '1', NOW(), 'delete', n.res_add, n.res_id, 'PART HEARD RELEASED'
+                            SELECT cast(n.diary_no as bigint), n.j1, n.notbef, n.usercode, n.ent_dt, n.u_ip, '0.0.0.0','', '', '1', NOW(), 'delete', n.res_add, n.res_id, 'PART HEARD RELEASED'
                             FROM not_before n
-                            WHERE n.notbef = 'B' AND n.diary_no::bigint = '$diary_no'";
+                            WHERE n.notbef = 'B' AND cast(n.diary_no as bigint) = '$diary_no'";
 
                
                 $insertResult = $this->db->query($sql78);
@@ -726,7 +728,7 @@ class ProposalModel extends Model
                             h.list_before_remark, h.is_nmd, h.no_of_time_deleted
                         FROM (
                             SELECT j.jcode AS new_coram,
-                                c.diary_no::bigint, h.conn_key, h.next_dt, h.mainhead, h.subhead, h.clno, h.brd_slno, h.roster_id, h.judges, h.coram, h.board_type, h.usercode, h.ent_dt, h.module_id,
+                                cast(c.diary_no as bigint), h.conn_key, h.next_dt, h.mainhead, h.subhead, h.clno, h.brd_slno, h.roster_id, h.judges, h.coram, h.board_type, h.usercode, h.ent_dt, h.module_id,
                                 h.mainhead_n, h.subhead_n, h.main_supp_flag, h.listorder, h.tentative_cl_dt, m.lastorder, h.listed_ia, h.sitting_judges,
                                 h.list_before_remark, h.is_nmd, h.no_of_time_deleted
                             FROM case_remarks_multiple c
@@ -1061,7 +1063,7 @@ class ProposalModel extends Model
              ->getCompiledSelect(); // Get compiled select for use in subquery
  
          $subquery2 = $this->db->table("($subquery1) t")
-             ->select('t.diary_no, MAX(t.reg_no_display) AS reg_no_display, COUNT(lj.lowerct_id) AS count_judges, STRING_AGG(lj.judge_id::TEXT, \',\') AS jid')
+             ->select('t.diary_no, MAX(t.reg_no_display) AS reg_no_display, COUNT(lj.lowerct_id) AS count_judges, STRING_AGG(cast(lj.judge_id as TEXT), \',\') AS jid')
              ->join('lowerct_judges lj', 'lj.lowerct_id = t.lct_crt_id AND lj.lct_display = \'Y\'', 'left')
              ->join('master.judge j', 'j.jcode = lj.judge_id AND j.jtype = \'J\' AND j.is_retired != \'Y\'', 'left')
              ->where('j.jcode IS NOT NULL')
@@ -1151,7 +1153,7 @@ class ProposalModel extends Model
             ->groupBy('m.diary_no, ht.next_dt, ht.board_type')
             ->getCompiledSelect();
 
-        $builder->set('unreg_fil_dt', "CASE WHEN (SELECT ss2 FROM ({$innerSubquery}) AS b WHERE diary_no = a.diary_no AND b.ss IS NOT NULL AND b.ss LIKE '%/J%') IS NOT NULL THEN (SELECT ss2::date FROM ({$innerSubquery}) AS b WHERE diary_no = a.diary_no AND b.ss IS NOT NULL AND b.ss LIKE '%/J%') ELSE NULL END", FALSE);
+        $builder->set('unreg_fil_dt', "CASE WHEN (SELECT ss2 FROM ({$innerSubquery}) AS b WHERE diary_no = a.diary_no AND b.ss IS NOT NULL AND b.ss LIKE '%/J%') IS NOT NULL THEN (SELECT cast(ss2 as date) FROM ({$innerSubquery}) AS b WHERE diary_no = a.diary_no AND b.ss IS NOT NULL AND b.ss LIKE '%/J%') ELSE NULL END", FALSE);
 
 
         $builder->where("EXISTS (
@@ -1302,7 +1304,7 @@ class ProposalModel extends Model
         $builder->where('next_dt > CURRENT_DATE', null, false); // next_dt > CURRENT_DATE  (using date() for current date)
         $builder->where('clno >', 0);
         $builder->where('brd_slno >', 0);
-        $builder->where("COALESCE(bench_flag::TEXT, '') = ''");// Handle both NULL and empty string
+        $builder->where("COALESCE(cast(bench_flag as TEXT), '') = ''");// Handle both NULL and empty string
         
         $result = $builder->update(); // Execute the update
        // echo $this->db->getLastQuery();
@@ -1323,7 +1325,7 @@ class ProposalModel extends Model
         $builder->where("EXISTS (
             SELECT 1
             FROM main AS m
-            INNER JOIN case_remarks_multiple AS crm ON crm.diary_no = m.diary_no::text AND crm.cl_date >= '2024-01-16'
+            INNER JOIN case_remarks_multiple AS crm ON crm.diary_no = cast(m.diary_no as text) AND crm.cl_date >= '2024-01-16'
             WHERE m.c_status = 'P' AND m.diary_no = h.diary_no
         )");
 
@@ -1357,8 +1359,8 @@ class ProposalModel extends Model
                     $filtered_judge_id = ltrim(preg_replace('/[^0-9]/', '', $val), "0");
                     if ($filtered_judge_id > 0) {
                         $not_before_exists = $this->db->table('not_before')
-                            ->where('diary_no::TEXT', $row['diary_no'])
-                            ->where('j1::INT', $filtered_judge_id)
+                            ->where('cast(diary_no as TEXT)', $row['diary_no'])
+                            ->where('cast(j1 as INT)', $filtered_judge_id)
                             ->where('notbef', 'N')
                             ->countAllResults() > 0; // More efficient check
                            

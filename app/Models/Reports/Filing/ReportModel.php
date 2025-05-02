@@ -700,7 +700,7 @@ class ReportModel extends Model
             ->orderBy('dc.diary_no')
             ->orderBy('dc.docyear')
             ->orderBy('dc.docnum');
-
+        
         $builder = $query->get()->getResult();
         /****archive table*/
         $subQuery2 = $this->db->table('master.users')

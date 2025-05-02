@@ -42,11 +42,12 @@ ul ul, ol ul, ul ol, ol ol {
 </style>
 <link href="<?php echo base_url(); ?>/user_management/style.css" rel="stylesheet">
 <?php 
+      $request = \Config\Services::request();
 		//if(!$dbo) include 'config.php'; 
 		$action='Create';  
         $addNewBtn='';
-		$roleMid=@(int)$_POST['menu_id']; 
-		$rHeading=@htmlentities(trim($_POST['rHeading']));
+		$roleMid=@(int)$request->getPost('menu_id'); 
+		$rHeading=@htmlentities(trim($request->getPost('rHeading')));
 		if($roleMid != 0) {
 			$action='Update';
 			$addNewBtn='<a href="'.site_url(uri_string()).'"><i class="fa fa-plus">&nbsp;</i>Add Role</a>';
@@ -105,7 +106,7 @@ ul ul, ol ul, ul ol, ol ol {
 
                                                         <div class="col-md-12">
                                                             <div class="input-group row">
-                                                                <span class="input-group-addon col-md-1">Role's Caption</span>
+                                                                <span class="input-group-addon col-md-2">Role's Caption</span>
                                                                 <input id="rcaption" name="rcaption" type="text" class="form-control col-md-10" value="<?php echo $rHeading ?>" placeholder="Enter role's caption" required>
                                                             </div>
                                                         </div>
@@ -169,9 +170,9 @@ ul ul, ol ul, ul ol, ol ol {
                                                     <table id="roleTable" class="table table-striped table-bordered text-left" style="width:100%">
                                                         <thead>
                                                             <tr>
-                                                                <th>#</th>
-                                                                <th>Role Name</th>
-                                                                <th>Action</th>
+                                                                <th><b>#</b></th>
+                                                                <th><b>Role Name</b></th>
+                                                                <th><b>Action</b></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>

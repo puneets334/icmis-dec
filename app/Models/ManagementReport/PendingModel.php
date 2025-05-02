@@ -2963,29 +2963,19 @@ class PendingModel extends Model
 
         if ($benchInput === 'all') {
             $bench = '';
-        } elseif ($benchInput === '2') {
-            $bench = " h.judges LIKE '%,%'";
-        } elseif ($benchInput === '3') {
-            $bench = " h.judges LIKE '%,%,%'";
-        } elseif ($benchInput === '5') {
-            $bench = " h.judges LIKE '%,%,%,%,%'";
-        } elseif ($benchInput === '7') {
-            $bench = " h.judges LIKE '%,%,%,%,%,%,%'";
-        } elseif ($benchInput === '9') {
-            $bench = " h.judges LIKE '%,%,%,%,%,%,%,%,%'";
+        } elseif (in_array($benchInput, ['2', '3', '5', '7', '9'])) {
+            $bench = " h.judges LIKE '" . str_repeat('%,', $benchInput - 1) . "%'";
         } else {
             $bench = " h.judges NOT LIKE '%%,%'";
         }
-
+        
 
         if ($request->getGet('ason_type') == 'dt') {
-            $til_date = explode("-", $request->getGet('til_date'));
-            $til_dt = $til_date[2] . "-" . $til_date[1] . "-" . $til_date[0];
+            $til_dt = date('Y-m-d',strtotime($request->getGet('til_date')));
 
             $ason_str = " CASE WHEN d.rj_dt IS NOT NULL THEN d.rj_dt >= DATE '$til_dt'
                         WHEN d.disp_dt IS NOT NULL THEN d.disp_dt >= DATE '$til_dt'
-                        ELSE TO_DATE(CONCAT( COALESCE(d.year::text, '0000'), '-', LPAD(COALESCE(d.month::text, '01'), 2, '0'), '-01'
-                            ), 'YYYY-MM-DD' ) >= DATE '$til_dt' END ";
+                        ELSE TO_DATE(COALESCE(d.year::text, '0000') || '-' || LPAD(COALESCE(d.month::text, '01'), 2, '0') || '-01', 'YYYY-MM-DD') >=  DATE '$til_dt' END ";
 
             $ason_str_res = "IF(disp_rj_dt != '0000-00-00', disp_rj_dt >= '" . $til_dt . "',
                     IF(r.disp_dt IS NOT NULL, r.disp_dt >= '" . $til_dt . "', 
@@ -2993,13 +2983,13 @@ class PendingModel extends Model
 
             $exclude_cond = "CASE WHEN r.disp_dt IS NOT NULL AND r.conn_next_dt IS NOT NULL 
                             THEN DATE '$til_dt' NOT BETWEEN r.disp_dt AND r.conn_next_dt 
-                            ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL 
-                        END  OR r.fil_no IS NULL ";
+                            ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL END  OR r.fil_no IS NULL ";
 
             $exclude_cond_other = "CASE WHEN r.disp_dt IS NOT NULL AND r.conn_next_dt IS NOT NULL
                         THEN DATE '$til_dt' NOT BETWEEN r.disp_dt AND r.conn_next_dt
                         ELSE r.disp_dt IS NULL OR r.conn_next_dt IS NULL END ";
-        } else if ($request->getGet('ason_type') == 'month') {
+        } else if ($request->getGet('ason_type') == 'month') 
+        {
             $til_dt = $request->getGet('lst_year') . "-" . str_pad($request->getGet('lst_month'), 2, "0", STR_PAD_LEFT) . "-01";
 
             $ason_str = " IF(d.rj_dt IS NOT NULL, d.rj_dt >= '" . $til_dt . "', 
@@ -3043,17 +3033,13 @@ class PendingModel extends Model
             ELSE DATE(r.`disp_ent_dt`) = '0000-00-00' OR r.`disp_ent_dt` IS NULL OR DATE(r.entry_date) = '0000-00-00' OR r.entry_date IS NULL END 
             OR r.fil_no IS NULL";
 
-            $exclude_cond_other = " CASE WHEN r.entry_date IS NOT NULL 
-             AND DATE(r.disp_ent_dt) != '0000-00-00' AND r.disp_ent_dt IS NOT NULL
+            $exclude_cond_other = " CASE WHEN r.entry_date IS NOT NULL AND DATE(r.disp_ent_dt) != '0000-00-00' AND r.disp_ent_dt IS NOT NULL
                         THEN DATE '$til_dt' NOT BETWEEN DATE(r.disp_ent_dt) AND r.entry_date
-                        ELSE 
-                            DATE(r.disp_ent_dt) = '0000-00-00' 
-                            OR r.disp_ent_dt IS NULL 
-                            OR DATE(r.entry_date) = '0000-00-00' 
-                            OR r.entry_date IS NULL 
-                    END ";
+                        ELSE DATE(r.disp_ent_dt) = '0000-00-00' OR r.disp_ent_dt IS NULL 
+                            OR DATE(r.entry_date) = '0000-00-00' OR r.entry_date IS NULL END ";
         }
 
+        // pr($ason_str);
         if ($request->getGet('rpt_purpose') == 'sw') {
             $subhead_name = "subhead_n";
             $mainhead_name = "mainhead_n";
@@ -3083,6 +3069,8 @@ class PendingModel extends Model
                 $head_subhead = $this->stagename(substr($request->getGet('subhead'), 0, -1));
             }
         }
+
+
         $mf_f2_table = "";
         if ($request->getGet('concept') == 'new') {
 
@@ -3224,7 +3212,7 @@ class PendingModel extends Model
         $case_status_id = " ";
         if ($request->getGet('case_status_id') == 'all,') {
             $case_status_id = " AND case_status_id IN (1, 2, 3, 6, 7, 9) ";
-        } elseif ($request->getGet('case_status_id') == '103,' || $request->getGet('case_status_id') == 103) {
+        } elseif ($request->getGet('case_status_id') == 103 || $request->getGet('case_status_id') == '103,') {
             $registration = " ";
         } elseif ($request->getGet('case_status_id') == 101 || $request->getGet('case_status_id') == '101,') {
             $registration = " (active_fil_no = '' OR active_fil_no IS NULL) ";
@@ -3265,30 +3253,28 @@ class PendingModel extends Model
         } elseif ($request->getGet('case_status_id') == 106 || $request->getGet('case_status_id') == '106,') {
 
             $Brep = " LEFT OUTER JOIN (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y')
-                                os ON m.diary_no=os.diary_no
-                                ";
+                                os ON m.diary_no=os.diary_no ";
             $Brep1 = " and os.diary_no IS NOT NULL and c_status = 'P' AND (active_fil_no IS NULL OR  active_fil_no='') AND h.board_type='J'";
         } elseif ($request->getGet('case_status_id') == 107 || $request->getGet('case_status_id') == '107,') {
             $Brep = " INNER JOIN docdetails b ON m.diary_no=b.diary_no
             INNER JOIN
-            (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y' AND DATEDIFF(NOW(),save_dt)>60) os
+            (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y' AND (NOW() - save_dt) > INTERVAL '60 days')) os
             ON m.diary_no=os.diary_no ";
             $Brep1 = " and m.c_status = 'P' AND (m.active_fil_no IS NULL OR  m.active_fil_no='')
             AND doccode = '8' AND doccode1 = '226' AND b.iastat='P' ";
         } elseif ($request->getGet('case_status_id') == 108 || $request->getGet('case_status_id') == '108,') {
             $Brep = " INNER JOIN docdetails b ON m.diary_no=b.diary_no
             INNER JOIN
-            (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y' AND DATEDIFF(NOW(),save_dt)<=60) os
+            (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y' AND (NOW() - save_dt) <= INTERVAL '60 days') os
             ON m.diary_no=os.diary_no ";
             $Brep1 = " and  m.c_status = 'P' AND (m.active_fil_no IS NULL OR  m.active_fil_no='')
             AND doccode = '8' AND doccode1 = '226' AND b.iastat='P' ";
         } elseif ($request->getGet('case_status_id') == 109 || $request->getGet('case_status_id') == '109,') {
             $Brep = " LEFT JOIN (SELECT DISTINCT CASE WHEN os.diary_no IS NULL THEN m.diary_no ELSE 0 END AS dd FROM main m
-             INNER JOIN docdetails b ON m.diary_no = b.diary_no
-             LEFT OUTER JOIN
-            (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y')
+            INNER JOIN docdetails b ON m.diary_no = b.diary_no
+            LEFT OUTER JOIN (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display = 'Y')
             os ON m.diary_no=os.diary_no
-             WHERE  c_status = 'P' AND (active_fil_no IS NULL OR active_fil_no='')
+            WHERE  c_status = 'P' AND (active_fil_no IS NULL OR active_fil_no='')
             AND (((
             (doccode = '8' AND doccode1 = '28') OR 
             (doccode = '8' AND doccode1 = '95') OR 
@@ -3303,15 +3289,11 @@ class PendingModel extends Model
             (doccode = '8' AND doccode1 = '322')
             )
             AND b.iastat='P' ))) aa ON m.diary_no=aa.dd
-            LEFT OUTER JOIN
-                                (SELECT DISTINCT diary_no FROM obj_save WHERE
-                                (rm_dt IS NULL OR rm_dt='0000-00-00 00:00:00') AND display='Y')
-                                os1 ON m.diary_no=os1.diary_no ";
+            LEFT OUTER JOIN (SELECT DISTINCT diary_no FROM obj_save WHERE rm_dt IS NULL AND display='Y') os1 ON m.diary_no=os1.diary_no ";
             $Brep1 = " and m.c_status = 'P' AND IF((m.active_fil_no IS NULL OR m.active_fil_no=''),(aa.dd !=0 OR (os1.diary_no IS NOT NULL AND h.board_type='J')),3=3) ";
         } else {
             $case_status_id = " and case_status_id in (" . substr($request->getGet('case_status_id'), 0, -1) . ")";
         }
-
 
         if ($request->getGet('mf') != 'ALL') {
             if ($request->getGet('til_date') != date('d-m-Y')) {
@@ -3344,7 +3326,7 @@ class PendingModel extends Model
 
             if ($request->getGet('til_date') != date('d-m-Y')) {
 
-                $builder = $this->db->table('main m');
+                $builder = $this->db->table("main m $Brep");
                 $builder->join('heardt h', 'm.diary_no = h.diary_no', 'left');
                 $builder->join('dispose d', 'm.diary_no = d.diary_no', 'left');
                 $builder->join('restored r', 'm.diary_no = r.diary_no', 'left');
@@ -3419,7 +3401,7 @@ class PendingModel extends Model
                 $sql = "SELECT SUBSTR(diary_no::text, -4) AS year, " . $str . " FROM ( $subQuery ) t GROUP BY ROLLUP(SUBSTR(diary_no::text, -4))";
             } else {
 
-                $builder = $this->db->table('main m');
+                $builder = $this->db->table("main m $Brep");
                 $builder->join('dispose d', 'm.diary_no = d.diary_no', 'left');
                 $builder->join('heardt h', 'm.diary_no = h.diary_no', 'left');
                 $builder->join('restored r', 'm.diary_no = r.diary_no', 'left');
@@ -3457,7 +3439,7 @@ class PendingModel extends Model
             }
         } else {
             if ($request->getGet('til_date') != date('d-m-Y')) {
-                $builder = $this->db->table('main m');
+                $builder = $this->db->table("main m $Brep");
                 $builder->join('heardt h', 'm.diary_no = h.diary_no', 'left');
                 $builder->join('dispose d', 'm.diary_no = d.diary_no', 'left');
                 $builder->join('restored r', 'm.diary_no = r.diary_no', 'left');
@@ -3516,7 +3498,7 @@ class PendingModel extends Model
             
             } else {
 
-                $builder = $this->db->table('main m');
+                $builder = $this->db->table("main m $Brep");
                 $builder->join('dispose d', 'm.diary_no = d.diary_no', 'left');
                 $builder->join('restored r', 'm.diary_no = r.diary_no', 'left');
                 $builder->join('heardt h', 'm.diary_no = h.diary_no', 'left');
@@ -3531,8 +3513,7 @@ class PendingModel extends Model
                 if (!empty($party_name) && trim($party_name) != '') 
                     $builder->join("party p", 'm.fil_no = CAST(p.diary_no AS TEXT)', 'left');
                 
-                $builder->groupStart()->where('c_status', 'P');
-                $builder->where("DATE(m.diary_no_rec_date) <= ", $til_dt)->groupEnd();
+                $builder->groupStart()->where('c_status', 'P')->where("DATE(m.diary_no_rec_date) <= ", $til_dt)->groupEnd();
 
                 if (!empty($Brep1) && $Brep1 != '') $builder->where($Brep1);
                 if (!empty($registration) && $registration != ' ') $builder->where($registration);

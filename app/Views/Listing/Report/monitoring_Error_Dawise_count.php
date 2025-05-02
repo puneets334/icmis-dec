@@ -109,13 +109,24 @@
 
 <script>
    $(document).ready(function() {
+    var reportTitle = "Error DA Wise Count";
         $("#reportTable1").DataTable({
             "responsive": false,
             "lengthChange": false,
             "autoWidth": false,
             "dom": 'Bfrtip',
             "bProcessing" : true,
-            "buttons": ["excel", "pdf",]
+            "buttons": [
+                        {
+                        extend: 'excelHtml5',
+                        title: reportTitle
+                        },
+                        {
+                        extend: 'pdfHtml5',
+                        pageSize: 'A3',
+                        title: reportTitle
+                        }
+                        ]
 
         });
     });

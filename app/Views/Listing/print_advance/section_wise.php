@@ -204,7 +204,7 @@
                                             <td id="rs_actio_btn1" style="text-align:center;">
                                                 <fieldset>
                                                     <legend>Action</legend>
-                                                    <input class="ele" type="button" name="btn1" id="btn1" value="Submit" />
+                                                    <input class="btn btn-primary" type="button" name="btn1" id="btn1" value="Submit" />
                                                 </fieldset>
 
                                             </td>
