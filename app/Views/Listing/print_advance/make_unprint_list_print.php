@@ -202,8 +202,8 @@
                 $('#part_no').html("<option value='-1' selected>EMPTY</option>");*/
             },
             error: function(xhr) {
-                $('#dv_res1').html('');
                 updateCSRFToken();
+                $('#dv_res1').html('');
                 //alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
@@ -351,14 +351,17 @@
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             beforeSend: function() {
+                $("#btn1").attr("disabled", true);
                 $('#dv_res1').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>');
             },
             success: function(data, status) {
-                $('#dv_res1').html(data);
                 updateCSRFToken();
+                $("#btn1").attr("disabled", false);
+                $('#dv_res1').html(data);
             },
             error: function(xhr) {
                 updateCSRFToken();
+                $("#btn1").attr("disabled", false);
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });

@@ -729,43 +729,11 @@ class PrintAdvanceModel extends Model
         $builder->whereIn('h.listorder', [4, 5, 25, 32, 24, 7, 8, 21, 48, 2, 16, 49]);
         $builder->groupStart();
         // File Number Condition for MySQL
-        $builder->whereIn('TRIM(LEADING \'0\' FROM SPLIT_PART(m.fil_no, \'-\', 1))::int', [
-            3,
-            15,
-            19,
-            31,
-            23,
-            24,
-            40,
-            32,
-            34,
-            22,
-            39,
-            11,
-            17,
-            13,
-            1,
-            7,
-            37,
-            9999,
-            38,
-            5,
-            21,
-            27,
-            4,
-            16,
-            20,
-            18,
-            33,
-            41,
-            35,
-            36,
-            28,
-            12,
-            14,
-            2,
-            8,
-            6
+        $builder->whereIn('TRIM(LEADING \'0\' FROM SPLIT_PART(m.fil_no::text, \'-\', 1))', [
+            "3", "15", "19", "31", "23", "24", "40", "32", "34", "22",
+            "39", "11", "17", "13", "1", "7", "37", "9999", "38", "5",
+            "21", "27", "4", "16", "20", "18", "33", "41", "35", "36",
+            "28", "12", "14", "2", "8", "6"
         ]);
         $builder->groupEnd();
         $builder->groupStart()
@@ -1849,6 +1817,9 @@ class PrintAdvanceModel extends Model
             'pdf_dtl_nm'  => '',
             'ent_time'    => date('Y-m-d H:i:s'),
             'user_ip'     => service('request')->getIPAddress(),
+            'create_modify' => date("Y-m-d H:i:s"),
+            'updated_by' => session()->get('login')['usercode'],
+            'updated_by_ip' => getClientIP()
         ];
 
         return $this->db->table('cl_printed')->insert($data);
@@ -1862,6 +1833,9 @@ class PrintAdvanceModel extends Model
             'cl_content' => $cntt,
             'userid' => $ucode,
             'ent_dt' => date('Y-m-d H:i:s'),
+            'create_modify' => date("Y-m-d H:i:s"),
+            'updated_by' => session()->get('login')['usercode'],
+            'updated_by_ip' => getClientIP()
         ];
 
         return $this->db->table('cl_text_save')->insert($data);

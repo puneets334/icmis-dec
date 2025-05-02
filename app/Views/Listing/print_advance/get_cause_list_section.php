@@ -256,7 +256,10 @@
                     <?php
                     $sno++;
                 }
-                    ?>
+                if($sno == 1){ ?>
+                <tr><td colspan="15"><h5 class='text-danger'>No Records Found</h5></td></tr>
+                    <?php
+                }    ?>
         </table>
 <?php }
     } else {
@@ -267,5 +270,5 @@
 
 <div style="width: 100%; padding-bottom:1px; background-color: #ddf1f9; text-align: center; border-top: 1px solid #000; position: fixed; bottom: 0; left: 0; right: 0; z-index: 0; display:block;">
     <span id="toggle_hw" style="color: #0066cc; font-weight: bold; cursor: pointer; padding-right: 1px;"></span>
-    <input name="prnnt1" type="button" id="prnnt1" value="Print">
+    <input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary">
 </div>

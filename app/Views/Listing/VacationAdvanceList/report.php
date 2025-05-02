@@ -131,9 +131,8 @@
         $(function() {
             $('input[type=radio][name=listDecline_remain]').change(function() {
                 if ($(this).val() == 'R') {
-                    $('#fromToDatePicker').hide();
-                }
-                else {
+                   // $('#fromToDatePicker').hide();
+                } else {
                     $('#fromToDatePicker').show();
                     $("#from_date").prop('required',true);
                     $("#to_date").prop('required',true);
