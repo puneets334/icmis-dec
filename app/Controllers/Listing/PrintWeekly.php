@@ -175,13 +175,13 @@ class PrintWeekly extends BaseController
 
         // Validate and sanitize input
         //For testing
-        // $list_dt = date('Y-m-d', strtotime('2023-02-06'));
-        // $list_dt_to = date('Y-m-d', strtotime('2023-03-27'));
+         $list_dt = date('Y-m-d', strtotime('2025-03-25'));
+         $list_dt_to = date('Y-m-d', strtotime('2025-03-25'));
         //For Production
-        $list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
-        $list_dt_to = date('Y-m-d', strtotime($request->getPost('list_dt_to')));
-        $mainhead = $request->getPost('mainhead');
-        $courtno = $request->getPost('courtno');
+        //$list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
+        //$list_dt_to = date('Y-m-d', strtotime($request->getPost('list_dt_to')));
+        $mainhead = 'F';//$request->getPost('mainhead');
+        $courtno = 1;//$request->getPost('courtno');
 
         // Prepare data for view
         $data = [
