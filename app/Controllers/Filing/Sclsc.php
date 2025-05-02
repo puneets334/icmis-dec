@@ -123,7 +123,7 @@ class SCLSC extends BaseController
     public function UnFiledCaseDetails()
     {
         // Use the incoming() method to handle POST data
-        $diary_no = $this->request->getVar('diary_no');
+        $diary_no = $this->request->getPost('diary_no');
         // Initialize the data array
         $data = [];
 
