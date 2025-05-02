@@ -80,6 +80,7 @@
                         },
                         {
                         extend: 'pdfHtml5',
+                        pageSize: 'A3',
                         title: reportTitle
                         }
                         ]
@@ -161,6 +162,7 @@
                         },
                         {
                         extend: 'pdfHtml5',
+                        pageSize: 'A3',
                         title: reportTitle
                         }
                         ]

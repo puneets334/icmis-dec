@@ -75,6 +75,7 @@
         let ddl_nv_r = $('#caseType').val();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var reportTitle = "Registered Matters(Verified but Not Listed)";
         // alert(ddl_nv_r);
         $.ajax({
             url: "<?php echo base_url('Listing/Report/get_data'); ?>",
@@ -119,7 +120,17 @@
                         "autoWidth": false,
                         "dom": 'Bfrtip',
                         "bProcessing": true,
-                        "buttons": ["excel", "pdf"]
+                        "buttons": [
+                        {
+                        extend: 'excelHtml5',
+                        title: reportTitle
+                        },
+                        {
+                        extend: 'pdfHtml5',
+                        pageSize: 'A3',
+                        title: reportTitle
+                        }
+                        ]
                     });
                 } else {
                     updateCSRFToken();
