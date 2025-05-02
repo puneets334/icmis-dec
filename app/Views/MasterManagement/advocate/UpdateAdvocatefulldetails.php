@@ -177,11 +177,8 @@
         });
     });
 
-    function get_adv_d() {
-
-        var CSRF_TOKEN = 'CSRF_TOKEN';
-        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-
+    async function get_adv_d() {
+        
         var dead = $("#adv_dead").val();
         var enroll = $("#hd_enr").val();
         var year = $("#hd_en_yr").val();
@@ -206,7 +203,7 @@
                 return false;
             }
         } else if ($("#radio_aor").is(':checked')) {
-            if ($("#aor_code").val() == "") {
+              if ($("#aor_code").val() == "") {
                 alert("Please Fill AOR Code");
                 $("#aor_code").focus();
                 return false;
@@ -215,7 +212,12 @@
             alert('Please Select Any Option');
             return false;
         }
+        $('#get-record').attr('disabled', 'disabled');
+        await updateCSRFTokenSync();
 
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        
         $.ajax({
                 type: 'POST',
                 // url: "get_update_full.php",
@@ -225,18 +227,25 @@
                     state_name: $("#state option:selected").text(),
                     enroll: $("#enrol").val(),
                     year: $("#year").val(),
-                    aor: $("#aor_code").val()
+                    aor: $("#aor_code").val(),
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE,
                 },
-                headers: {
-                    'X-CSRF-Token': CSRF_TOKEN_VALUE
+                // headers: {
+                //     'X-CSRF-Token': CSRF_TOKEN_VALUE
+                // },
+                beforeSend: function(xhr) {
+                    $("#get-record").prop('disabled', true);
+                    $("#result").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('cgwbspin.gif'); ?>'></div>");
                 },
             })
             .done(function(msg) {
-                updateCSRFToken();
+                //updateCSRFToken();
+                $("#get-record").prop('disabled', false);
                 $("#result").html(msg);
             })
             .fail(function() {
-                updateCSRFToken();
+                //updateCSRFToken();
+                $("#get-record").prop('disabled', false);
                 alert("Error Occured, Please Contact Server Room");
             });
     }
@@ -260,6 +269,14 @@
             document.getElementById('adv_aor').focus();
             return false;
         }
+        if (document.getElementById('adv_state')) {
+            var space_only = /^[ ]+$/;
+            if (document.getElementById('adv_state').value == '' || document.getElementById('adv_state').value == '0') {
+                alert('Please Select State');
+                document.getElementById('adv_state').focus();
+                return false;
+            } 
+        }
         if ($("#adv_aor").val() == 'Y') {
             if (document.getElementById('adv_aor_code').value == '' || document.getElementById('adv_aor_code').value == 0) {
                 alert('Please Fill AOR Code');
@@ -278,6 +295,20 @@
             document.getElementById('adv_title').focus();
             return false;
         }
+
+        if (document.getElementById('enrollment_no')) {            
+            var space_only = /^[ ]+$/;
+            if (document.getElementById('enrollment_no').value == '') {
+                alert('Please enter Enrollment no.');
+                document.getElementById('enrollment_no').focus();
+                return false;
+            } else if (document.getElementById('enrollment_no').value.match(space_only)) {
+                alert('Please enter Enrollment no.');
+                document.getElementById('enrollment_no').focus();
+                return false;
+            }
+        }
+        
         if (document.getElementById('adv_name')) {
             var letters = /^[A-Za-z .]+$/;
             var space_only = /^[ ]+$/;
@@ -317,6 +348,27 @@
             }
         }
 
+        if (document.getElementById('enrollment_date')) {
+                var space_only = /^[ ]+$/;
+                var date_format = /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$/;
+
+                var date_value = document.getElementById('enrollment_date').value.trim();
+
+                if (date_value === '') {
+                    alert('Please enter Enrollment Date');
+                    document.getElementById('enrollment_date').focus();
+                    return false;
+                } else if (space_only.test(date_value)) {
+                    alert('Please enter Enrollment Date');
+                    document.getElementById('enrollment_date').focus();
+                    return false;
+                } else if (!date_format.test(date_value)) {
+                    alert('Please enter Enrollment Date in DD-MM-YYYY format (e.g., 01-04-2025)');
+                    document.getElementById('enrollment_date').focus();
+                    return false;
+                }
+        }
+
         if (document.getElementById('adv_address')) {
             var space_only = /^[ ]+$/;
             if (document.getElementById('adv_address').value == '') {
@@ -326,6 +378,31 @@
             } else if (document.getElementById('adv_address').value.match(space_only)) {
                 alert('Please fill Address');
                 document.getElementById('adv_address').focus();
+                return false;
+            }
+        }
+
+        if (document.getElementById('adv_p_p')) {
+            var space_only = /^[ ]+$/;
+            if (document.getElementById('adv_p_p').value == '') {
+                alert('Please Enter Practice City');
+                document.getElementById('adv_p_p').focus();
+                return false;
+            } else if (document.getElementById('adv_p_p').value.match(space_only)) {
+                alert('Please Enter Practice City');
+                document.getElementById('adv_p_p').focus();
+                return false;
+            }
+        }
+        if (document.getElementById('adv_year')) {
+            var space_only = /^[ ]+$/;
+            if (document.getElementById('adv_year').value == '') {
+                alert('Please Enter Passing Year');
+                document.getElementById('adv_year').focus();
+                return false;
+            } else if (document.getElementById('adv_year').value.match(space_only)) {
+                alert('Please Enter Passing Year');
+                document.getElementById('adv_year').focus();
                 return false;
             }
         }
@@ -345,6 +422,18 @@
             } else {
                 alert('Please enter Alphabet Characters only');
                 document.getElementById('adv_city').focus();
+                return false;
+            }
+        }
+        if (document.getElementById('adv_mob')) {
+            var space_only = /^[ ]+$/;
+            if (document.getElementById('adv_mob').value == '') {
+                alert('Please Enter Mobile Number.');
+                document.getElementById('adv_mob').focus();
+                return false;
+            } else if (document.getElementById('adv_mob').value.match(space_only)) {
+                alert('Please Enter Mobile Number.');
+                document.getElementById('adv_mob').focus();
                 return false;
             }
         }
