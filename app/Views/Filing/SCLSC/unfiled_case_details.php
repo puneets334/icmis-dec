@@ -8,7 +8,7 @@
     <?//= csrf_field() ?>
         <?php
     
-        if ($unfiled_case_details) {
+        if (isset($unfiled_case_details) && $unfiled_case_details) {
         ?>
             <div class="container-fluid">
                 <section>
