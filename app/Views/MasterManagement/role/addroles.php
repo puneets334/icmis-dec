@@ -1,14 +1,6 @@
 <?= view('header') ?>
 <style>
-    div.dataTables_wrapper div.dataTables_filter label {
-        display: flex;
-        justify-content: end;
-    }
-
-    div.dataTables_wrapper div.dataTables_filter label input.form-control {
-        width: auto !important;
-        padding: 4px;
-    }
+   
 
     .hide {
     display: none !important;
@@ -36,8 +28,47 @@ ul ul, ol ul, ul ol, ol ol {
     border-radius: 4px;
     margin: 5px 0px 0px 0px !important;
 }
-.input-group-addon:first-child {
-    border-right: 0;
+
+div.dataTables_wrapper div.dataTables_filter label {
+    font-weight: normal;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.dt-buttons {
+    position: absolute !important;
+    display: block !important;
+    padding: 2px 12px;
+    font-size: 20px;
+    border-radius: 6px;
+    border: none !important;
+    left: 0px !important;   
+}
+
+div.dt-buttons {
+    position: absolute !important;
+}
+
+div.dataTables_wrapper .dt-buttons.btn-group {
+    margin-top: 3px;
+}
+
+button.btn.btn-secondary.buttons-collection.dropdown-toggle.buttons-colvis {
+    display: none;
+}
+
+div.dataTables_wrapper .dt-buttons.btn-group {
+    margin-top: 5px;
+    margin-left: 158px;
+}
+
+.form-control, select, input {
+    border-radius: 15px !important;
+    border: 1px solid #E1E1E1 !important;
+    padding: 6px 15px !important;
+    font-size: 14px !important;
+    line-height: 20px !important;
+    margin: 5px;
 }
 </style>
 <link href="<?php echo base_url(); ?>/user_management/style.css" rel="stylesheet">
@@ -170,9 +201,9 @@ ul ul, ol ul, ul ol, ol ol {
                                                     <table id="roleTable" class="table table-striped table-bordered text-left" style="width:100%">
                                                         <thead>
                                                             <tr>
-                                                                <th><b>#</b></th>
-                                                                <th><b>Role Name</b></th>
-                                                                <th><b>Action</b></th>
+                                                                <th style="background: #e5e5e5;"><b>#</b></th>
+                                                                <th style="background: #e5e5e5;"><b>Role Name</b></th>
+                                                                <th style="background: #e5e5e5;"><b>Action</b></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -183,8 +214,9 @@ ul ul, ol ul, ul ol, ol ol {
                                                             //$rs->execute();
 
                                                             foreach ($rolelist as $rows) {
+																 
                                                                 echo '<tr>
-														<td>' . $count . '</td>								
+														<td><input type="hidden" name="'.csrf_token().'" value="'. csrf_hash().'" id="token_'.$rows['id'].'"/>' . $count . '</td>								
 														<td>' . $rows['role_desc'] . '</td>								
 														<td>
 															<a class="fa fa-trash text-danger" data-id="' . $rows['id'] . '" id="roleDelete" href="javascript: void(0);" title="Click to delete this role"></a>&nbsp;&nbsp;
@@ -221,14 +253,59 @@ ul ul, ol ul, ul ol, ol ol {
 
 <script src="<?php echo base_url(); ?>/user_management/selfjs.js"></script>
 <script>
-    $("#roleTable").DataTable({
-        "responsive": true,
-        "lengthChange": false,
-        "autoWidth": false,
-        "dom": 'Bfrtip',
-        "bProcessing": true,
-        "buttons": ["excel", "pdf"]
+   $(document).ready(function() {
+        
+        
+		$(function() {
+            $("#roleTable").DataTable({                
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "dom": 'Blfrtip',
+                "buttons": [
+                        {
+							extend: 'csv',
+							exportOptions: {
+                                columns: ':visible'
+                            }
+						},
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        'colvis'
+                    ]    
+            }).buttons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
+
+        });
+		
+		
+		
+		
+        
+		
     });
+
+
+
+
+
+
+    
 
     /*  $('#roleList, #addrole').click(function(e) {
           e.preventDefault();
