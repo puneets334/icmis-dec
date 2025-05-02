@@ -1322,8 +1322,7 @@ class PrintAdvance extends BaseController
 
         // Get POST parameters
         $mainhead   = $request->getPost('mainhead');
-        //$list_dt    = $request->getPost('list_dt');
-        $list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
+        $list_dt    = $request->getPost('list_dt');
         if (!empty($request->getPost('roster_id'))) {
             $roster_id  = $request->getPost('roster_id');
         } else {
@@ -2053,7 +2052,6 @@ class PrintAdvance extends BaseController
         $jud_ros = explode("|", $request->getPost('jud_ros'));
 
         $results = $this->PrintAdvanceModel->get_prev_cl_printed($list_dt, $mainhead, $part_no, $jud_ros[1]);
-        
         $output = '';
         if (!empty($results)) {
             $output .= '<div class="row"><div class="col-md-6">

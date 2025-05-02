@@ -208,7 +208,12 @@ class EliminationModel extends Model
         //$list_dt = '2023-05-19';
 
         $builder = $this->db->table('transfer_old_com_gen_cases t')
-        ->select("tentative_section(m.diary_no::text) as section_name, submaster_id, h.coram, t.*, m.reg_no_display, m.mf_active, m.pet_name, m.res_name, pno, rno, m.diary_no_rec_date")
+        ->select("tentative_section(m.diary_no::text) as section_name, submaster_id, h.coram,
+         t.diary_no, t.next_dt_old, t.next_dt_new, t.tentative_cl_dt_old, 
+         t.tentative_cl_dt_new, t.listorder, t.conn_key, t.ent_dt,
+         t.test2, t.listorder_new, t.board_type, t.listtype, t.reason,
+         t.updated_by_ip, t.updated_by, t.updated_on, t.create_modify,
+         m.reg_no_display, m.mf_active, m.pet_name, m.res_name, pno, rno, m.diary_no_rec_date")
         ->join('main m', 't.diary_no = m.diary_no', 'left')
         ->join('heardt h', 'h.diary_no = m.diary_no', 'left')
         ->join('conct c', "c.conn_key = CAST(m.conn_key AS BIGINT) AND c.list = 'Y'", 'inner')

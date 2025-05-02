@@ -724,7 +724,7 @@ class Registration extends BaseController
 
     function mphc_sms($mobile,$cnt,$from_adr,$template_id){
 
-        define('SMS_KEY', 'sdjkfgbsjh$1232_12nmnh');//key for 67 server kjuy@98123_-fgbvgAD and key for 60 server sdjkfgbsjh$1232_12nmnh
+        //define('SMS_KEY', 'sdjkfgbsjh$1232_12nmnh');//key for 67 server kjuy@98123_-fgbvgAD and key for 60 server sdjkfgbsjh$1232_12nmnh
 
         if(empty($mobile)){
         $err_msg = " Mobile No. Empty.";

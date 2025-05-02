@@ -119,6 +119,7 @@ function get_cl_1() {
             CSRF_TOKEN: CSRF_TOKEN_VALUE
         },
         beforeSend: function() {
+            $("#btn1").attr("disabled", true);
             $("#dv_res1").html(
                 "<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>"
             );
@@ -126,12 +127,14 @@ function get_cl_1() {
         type: 'POST',
         success: function(data, status) {
             updateCSRFToken();
+            $("#btn1").attr("disabled", false);
             $('#dv_res1').html(data);
             if (data)
                 $('#res_on_off').show();
         },
         error: function(xhr) {
             updateCSRFToken();
+            $("#btn1").attr("disabled", false);
             alert("Error: " + xhr.status + " " + xhr.statusText);
         }
     });
