@@ -33,8 +33,8 @@
                         $num_files += 1;
                     }
 
-                    echo "WEEKLY LIST No. $num_files OF $list_year FROM: " . date('d-m-Y', strtotime($_POST['list_dt'])) .
-                        " To " . date('d-m-Y', strtotime($_POST['list_dt_to']));
+                    echo "WEEKLY LIST No. $num_files OF $list_year FROM: " . date('d-m-Y', strtotime($list_dt)) .
+                        " To " . date('d-m-Y', strtotime($list_dt_to));
 
                     $_SESSION['json_weekly_num_file'] = $num_files; 
                 ?>
