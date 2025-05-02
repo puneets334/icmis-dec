@@ -1590,9 +1590,6 @@ class DirectDisposeModel extends Model{
 
     function insert_rec_an_disp($data){
 
-        // $db = \Config\Database::connect();
-        // $db->transStart();
-
         $check_for_regular_case="";
         $temp_mh='';
         $tdt_str='';
@@ -1705,7 +1702,10 @@ class DirectDisposeModel extends Model{
             $dyear=date('Y');   
         }
 
-        for($ivar=0; $ivar < $cncntr; $ivar++){  
+        for($ivar=0; $ivar < $cncntr; $ivar++) {
+            
+            $this->db->transStart();
+
             if($ivar>0){
                 $fno=$cncases[$ivar-1];
             }
@@ -1851,10 +1851,9 @@ class DirectDisposeModel extends Model{
             
             // Archival Process
             $this->archived_data($fno);
-        
+
+            $this->db->transComplete();
         }
-        
-        
     }
 
 
