@@ -65,8 +65,9 @@
         </div>
 
         <!-- Results Container -->
-        <div id="dv_res1" class="mt-3"></div>
+       
     </div>
+    <div id="dv_res1" class="mt-3"></div>
     <?php echo form_close(); ?>
 </div>
 
