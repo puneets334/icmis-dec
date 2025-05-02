@@ -66,14 +66,24 @@
 
 <script>
     $(document).ready(function() {
+        var reportTitle = "Verification Report";
         $("#reportTable1").DataTable({
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
             "dom": 'Bfrtip',
             "bProcessing": true,
-            "buttons": ["excel", "pdf"]
-        });
+            "buttons": [
+                        {
+                        extend: 'excelHtml5',
+                        title: reportTitle
+                        },
+                        {
+                        extend: 'pdfHtml5',
+                        title: reportTitle
+                        }
+                        ]
+                        });
     });
 
     $(document).on("focus", ".dtp", function() {
@@ -90,6 +100,7 @@
         let txt_td = $('#txt_td').val();
         let csrfName = $("#csrf_token").attr('name');
         let csrfHash = $("#csrf_token").val();
+        var reportTitle = "Verification Report";
 
         $.ajax({
             url: "<?php echo base_url('Listing/Report/get_verification'); ?>",
@@ -143,7 +154,16 @@
                         "autoWidth": false,
                         "dom": 'Bfrtip',
                         "bProcessing": true,
-                        "buttons": ["excel", "pdf"]
+                        "buttons": [
+                        {
+                        extend: 'excelHtml5',
+                        title: reportTitle
+                        },
+                        {
+                        extend: 'pdfHtml5',
+                        title: reportTitle
+                        }
+                        ]
                     });
                 } else {
                     $('#dv_data').html('<div style="text-align: center"><b>No Record Found</b></div>');
