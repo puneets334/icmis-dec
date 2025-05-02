@@ -66,7 +66,7 @@
         let csrfName = $("#csrf_token").attr('name');
         let csrfHash = $("#csrf_token").val();
         let ddl_nv_r = $('#ddl_nv_r').val();
-
+        var reportTitle = "Not Verified Report";
         $.ajax({
             url: "<?php echo base_url('Listing/Report/getNotVerified'); ?>",
             method: 'POST',
@@ -102,7 +102,16 @@
                         "autoWidth": false,
                         "dom": 'Bfrtip',
                         "bProcessing": true,
-                        "buttons": ["excel", "pdf"]
+                        "buttons": [
+                        {
+                        extend: 'excelHtml5',
+                        title: reportTitle
+                        },
+                        {
+                        extend: 'pdfHtml5',
+                        title: reportTitle
+                        }
+                        ]
                     });
                 } else {
                     $('#dv_data').html('<div style="text-align: center"><b>No Record Found</b></div>');

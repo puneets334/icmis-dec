@@ -70,13 +70,24 @@
 
 <script>
     $(document).ready(function() {
+        var reportTitle = "Registered Matters( Not Verified And Not Listed)";
         $("#reportTable1").DataTable({
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
             "dom": 'Bfrtip',
             "bProcessing": true,
-            "buttons": ["excel", "pdf"]
+            "buttons": [
+                        {
+                        extend: 'excelHtml5',
+                        title: reportTitle
+                        },
+                        {
+                        extend: 'pdfHtml5',
+                        pageSize: 'A3',
+                        title: reportTitle
+                        }
+                        ]
         });
     });
 
@@ -93,6 +104,7 @@
         let ddl_nv_r = $('#caseType').val();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var reportTitle = "Registered Matters( Not Verified And Not Listed)";
         $.ajax({
             url: "<?php echo base_url('Listing/Report/get_data_registerd_not_verified_not_listed'); ?>",
             cache: false,
@@ -136,7 +148,17 @@
                         "autoWidth": false,
                         "dom": 'Bfrtip',
                         "bProcessing": true,
-                        "buttons": ["excel", "pdf"]
+                        "buttons": [
+                        {
+                        extend: 'excelHtml5',
+                        title: reportTitle
+                        },
+                        {
+                        extend: 'pdfHtml5',
+                        pageSize: 'A3',
+                        title: reportTitle
+                        }
+                        ]
                     });
                 } else {
                     updateCSRFToken();
