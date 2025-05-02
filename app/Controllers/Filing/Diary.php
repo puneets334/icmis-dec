@@ -300,7 +300,7 @@ class Diary extends BaseController
             //$data_array=is_data_from_table('main',['diary_no'=>$diary_no]);
             //$data_array = $this->Model_main->select("*")->where(['diary_no' => $diary_no])->findAll();
             $data_array = is_data_from_table('main',['diary_no'=>$diary_no],'*','');
-           
+
             if ($data_array) {
                 $data_log = [
                     'deleted_reason' => $remarks,
@@ -312,11 +312,11 @@ class Diary extends BaseController
                 ];
                 //unset($data_array[0]['id']);
                 $final_array = array_merge($data_log, $data_array);
-                 //echo '<pre>';print_r($final_array);exit();
                 if (!empty($final_array)) {
                     $this->db = \Config\Database::connect();
                     $this->db->transStart();
                     $is_success = insert('main_deleted_cases', $final_array);
+                    
                     if ($is_success) {
                         //$is_success_deteled=$this->Model_main->delete('diary_no',$diary_no);
                         $is_success_deteled = delete('main', ['diary_no' => $diary_no]);

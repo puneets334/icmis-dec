@@ -68,15 +68,20 @@
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             beforeSend: function() {
+                $("#btn_search").prop('disabled',true);
                 $('#result').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             type: 'POST',
             success: function(data, status) {
-                updateCSRFToken();
                 $("#result").html(data);
             },
-            error: function(xhr) {
+            complete: function() {
                 updateCSRFToken();
+                $("#btn_search").prop('disabled',false);
+
+            },
+            
+            error: function(xhr) {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
@@ -137,26 +142,30 @@
                 updateCSRFToken();
                 console.log(data);
                 if (data.status == 'SUCCESS') {
+                    alert(data.status);
                     $("#d_" + diary_no).html("<span class='text-success font-weight-bolder'>Success</span>");
-                    swal({
-                        title: "Success!",
-                        text: "Generated Diary No. " + data.diary_no,
-                        icon: "success",
-                        button: "success!"
-                    });
+                    // swal({
+                    //     title: "Success!",
+                    //     text: "Generated Diary No. " + data.diary_no,
+                    //     icon: "success",
+                    //     button: "success!"
+                    // });
                     $("#myModal .close").click();
                 } else {
-                    swal({
-                        title: "Error!",
-                        text: data.status,
-                        icon: "error",
-                        button: "error!"
-                    });
+                    alert(data.status);
+                    // swal({
+                    //     title: "Error!",
+                    //     text: data.status,
+                    //     icon: "error",
+                    //     button: "error!"
+                    // });
                     //$("#d_"+diary_no).children(".delete_action").html('Delete');
                 }
             },
-            error: function(xhr) {
+            complete: function() {
                 updateCSRFToken();
+            },
+            error: function(xhr) {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });

@@ -10,6 +10,12 @@
         width: auto !important;
         padding: 4px;
     }
+    table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
 </style>
 <link rel="stylesheet" href="<?= base_url() ?>/assets/vendor/sweetalert2/sweetalert2.css">
 <!-- Main content -->
@@ -92,7 +98,7 @@
                                             <!-- <div class="row mx-0"> -->
                                             <!-- <div class="col-md-12"> -->
                                             <div class="table-responsive">
-                                                <table id="example1" class="table table-striped custom-table showData">
+                                                <table id="example1" class="table table-striped table-bordered showData">
                                                     <thead>
                                                         <tr>
                                                             <th>Action</th>
