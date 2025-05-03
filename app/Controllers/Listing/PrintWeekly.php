@@ -176,11 +176,11 @@ class PrintWeekly extends BaseController
 
         // Validate and sanitize input
         //For testing
-         $list_dt = date('Y-m-d', strtotime('2025-03-25'));
-         $list_dt_to = date('Y-m-d', strtotime('2025-03-25'));
+        //  $list_dt = date('Y-m-d', strtotime('2025-03-25'));
+        //  $list_dt_to = date('Y-m-d', strtotime('2025-03-25'));
         //For Production
-        //$list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
-        //$list_dt_to = date('Y-m-d', strtotime($request->getPost('list_dt_to')));
+        $list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
+        $list_dt_to = date('Y-m-d', strtotime($request->getPost('list_dt_to')));
         $mainhead = 'F';//$request->getPost('mainhead');
         $courtno = 1;//$request->getPost('courtno');
 
@@ -632,7 +632,7 @@ class PrintWeekly extends BaseController
         file_put_contents($data_file, $pdf_cont);
 
         // PDF generation logic (use mPDF)
-        include '/var/www/html/supreme_court/MPDF60/mpdf.php';
+        // include '/var/www/html/supreme_court/MPDF60/mpdf.php';
         $mpdf = new \Mpdf\Mpdf();
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->WriteHTML(file_get_contents($data_file));
