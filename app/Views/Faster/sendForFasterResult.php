@@ -11,7 +11,7 @@
                                                 <button class="btn btn-success  m-1" id="modifyFaster" style="float: right;">Revert</button>
                                             </div>
 
-                                            <table id="tbl_history" class="table table-striped table-bordered">
+                                            <table id="tbl_history" class="custom-table table table-striped table-bordered">
                                                 <thead>
                                                     <th>Item No.</th>
                                                     <th>Case No.</th>
