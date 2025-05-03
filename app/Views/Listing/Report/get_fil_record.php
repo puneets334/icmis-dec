@@ -1,3 +1,4 @@
+
 <div class="table-responsive mt-5">
 <table width="100%" class="table table-striped custom-table">
 <thead>
@@ -73,6 +74,7 @@
         <tbody>
     <?php
     $sno=1;
+    $total_pages = 0; 
     foreach ($sql as $row ) {
        
         ?>
@@ -310,13 +312,14 @@
             
             //$rs_query =  is_data_from_table('main', "diary_no=$row[diary_no]", 'case_pages', $row = 'A');
             $rs_query =  $Monitoring->getCasePage($row['diary_no']);
-           // pr($rs_query);
-           $total_pages = 0; // Initialize total_pages
-
+            
+          // pr($rs_query[0]['case_pages']);
+           // Initialize total_pages
+           $total_pages += $rs_query[0]['case_pages'];
            foreach ($rs_query as $row_query) {
            
             $pages = $row_query['case_pages'];
-            $total_pages += (int)$pages;
+           // $total_pages += (int)$pages;
             ?>
             <td><?php echo $pages; ?></td>
             <?php
