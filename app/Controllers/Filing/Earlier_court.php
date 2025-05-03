@@ -943,10 +943,16 @@ class Earlier_court extends BaseController
     public function copylowercourt(){
         $from_diary_no = $this->request->getPost('from_diary_no');
         $to_diary_number = $this->request->getPost('to_diary_number');
-        $diary_details = is_data_from_table('main_a', ['diary_no' => $to_diary_number], 'c_status','R');
+
+        $diary_details = is_data_from_table('main', ['diary_no' => $to_diary_number, 'c_status' => 'D'], 'c_status','R');
+        if(empty($diary_details))
+        {   
+            $diary_details = is_data_from_table('main_a', ['diary_no' => $to_diary_number], 'c_status','R');
+        }
+        
 
         if(!empty($diary_details) && $diary_details['c_status'] == 'D') {
-            echo '<div class="col-2"></div><div class="col-8"><font style="text-align: center;font-size: 20px;color: red"><b><center><br>DETAILS CANNOT BE COPIED IN A DISPOSED OFF MATTER</center></b></font></div><div class="col-2"></div>';
+            echo '<div class="col-2"></div><div class="col-8"><font style="text-align: center;font-size: 20px;color: red"><center><br>DETAILS CANNOT BE COPIED IN A DISPOSED OFF MATTER</center></font></div><div class="col-2"></div>';
             exit();
         }
 
