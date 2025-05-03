@@ -537,8 +537,6 @@ class Notices extends BaseController
         }
         $txtFromDate = date('Y-m-d',  strtotime($_REQUEST['txtFromDate']));
         $txtToDate = date('Y-m-d',  strtotime($_REQUEST['txtToDate']));
-
-
         $data['serve_status'] = $this->notices_model->getNoticeDetails($txtFromDate, $txtToDate, $user_code);
 
         return view('Extension/Notices/get_rep_rec_tal', $data);
