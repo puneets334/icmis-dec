@@ -1327,7 +1327,7 @@ class PrintAdvance extends BaseController
             $roster_id  = $request->getPost('roster_id');
         } else {
             $jud_ros = explode("|", $request->getPost('jud_ros'));
-            $roster_id = $jud_ros[1];
+            $roster_id = isset($jud_ros[1]) ? $jud_ros[1] : 0;
         }
 
         $board_type = $request->getPost('board_type');
@@ -2315,7 +2315,8 @@ class PrintAdvance extends BaseController
         $judge_id = $jud_ros[0];
         $roster_id = $jud_ros[1];
         $prtContent = $request->getPost('prtContent');
-        // $cntt = base64_encode($request->getPost('prtContent')); 
+        
+        $cntt = base64_encode($request->getPost('prtContent')); 
 
         // $pdf_cont = str_replace("scilogo.png", "/home/judgment/cl/scilogo.png", $request->getPost('prtContent'));
         $pdf_cont = str_replace("scilogo.png", "scilogo.png", $request->getPost('prtContent'));
@@ -2339,8 +2340,8 @@ class PrintAdvance extends BaseController
             'part_no'    => $part_no,
             'judge_id'   => $judge_id,
             'roster_id'  => $roster_id,
-            //'cntt'       => $cntt,
-            'cntt'       => $prtContent,
+            'cntt'       => $cntt,
+            //'cntt'       => $prtContent,
             // 'usercode'   => $ucode,
             //  'pdf_cont' => $pdf_cont,
             'main_supp_flag' => $main_supp_flag, // Add `main_supp_flag` to the data array
