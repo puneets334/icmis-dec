@@ -1,8 +1,16 @@
+<div class="row table-responsive" style="width:98%;overflow-x:scroll;">
  <?php  
      if(!empty($serve_status))
      {
          ?>
-<table align="center" style="margin-top: 10px;" class="table c_vertical_align tbl_border" width="70%">
+         <style>
+    table> thead > tr >th{
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+</style>
+<table align="center" style="margin-top: 10px;" class="table table-bordered">
     <thead>
     <tr>
         <th>SNo.</th>        
@@ -210,3 +218,4 @@
      }
  
     ?>
+</div>
