@@ -9,6 +9,10 @@
         width: auto !important;
         padding: 4px;
     }
+    .modal_custom_class{    
+    max-height: 600px;
+    overflow-y: scroll;
+}
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -72,6 +76,7 @@
                                             </form>
                                         </div>
                                         <div id="dv_data">
+                                        <div id="gg"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -84,6 +89,26 @@
     </div>
 </section>
 
+<div class="modal fade" id="modal-default" style="display: none;">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content modal_custom_class">
+                                            <div class="modal-header">
+                                                <!-- <button type="button" style="width:15%;float:left" id="print" name="print" onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button> -->
+                                                <button type="button" style="float:right" class="btn btn-danger" data-dismiss="modal">X</button>
+                                            </div>
+                                            <div class="modal-body" id="printable">
+                                                <div class="table-responsive" id="reportTable">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+
+                                                <button type="button" class="btn btn-warning" id="prnnt1">Print</button>
+                                                <!-- <button type="button" style="width:15%;float:left" id="print" name="print" onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 <script>
     $(document).ready(function() {
         $("#reportTable1").DataTable({
@@ -143,6 +168,7 @@
     async function get_rec(str)
     {
         await updateCSRFTokenSync();
+        $('#reportTable').html('');
         let sp_split = str.split('_');
         let r_sp_split = sp_split[1];
         let l_sp_split = sp_split[0];
@@ -160,7 +186,7 @@
                     async: true,
                     beforeSend: function()
                     {
-                        $('#ggg').html('<table width="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
+                        $('#reportTable').html('<table widht="100%" align="center"><tr><td><img src="../../images/load.gif"/></td></tr></table>');
                     },
                     data: {
                         hd_nm_id: hd_nm_id,
@@ -174,8 +200,13 @@
                     type: 'POST',
                     success: function(data, status) {
                        // updateCSRFToken();
-                        $('#ggg').html(data);
-                        $('input[name="' + csrfName + '"]').val(data.newToken);
+                        // $('#ggg').html(data);
+                        // $('input[name="' + csrfName + '"]').val(data.newToken);
+                        console.log("AJAX Response:", data); 
+            updateCSRFToken();
+            $('#reportTable').html(data);
+            
+             $("#modal-default").modal('show'); 
                     },
                     error: function(xhr) {
                        // updateCSRFToken();

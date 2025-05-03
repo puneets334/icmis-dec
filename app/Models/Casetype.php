@@ -1778,6 +1778,8 @@ GROUP BY GROUPING SETS ((daName), ())";
           AND u.display = 'Y'  $chk_users
         GROUP BY u.usercode ";
     }
+    // echo $sql;
+    // die();
 
     $query = $this->db->query($sql);
 
@@ -2232,7 +2234,7 @@ GROUP BY GROUPING SETS ((daName), ())";
     //r_sp_split
     // $ddl_users = '102';
     // $l_sp_split = 'sptotpen';
-    $r_sp_split = 0;
+    //$r_sp_split = 0;
 
     if ($ddl_users == '103') {
       $remarks = " AND remarks = 'DE -> SCR'";
@@ -2272,6 +2274,8 @@ GROUP BY GROUPING SETS ((daName), ())";
     $cat_m1 = '';
     $mn_c = '';
     $r_user_id =  is_data_from_table('master.users', "empid=$hd_nm_id", 'usercode', '')['usercode'];
+    // pr($r_user_id);
+    // die();
     if ($ddl_users == '103') {
       $com_rmk = "SCR -> AOR";
       $mn_fil = "  AND (mn.fil_no IS  NULL  or mn.fil_no='')";
@@ -2308,10 +2312,12 @@ GROUP BY GROUPING SETS ((daName), ())";
       $cat_m1 = " or ww.remarks = 'CAT -> SCN' or ww.remarks = 'CAT -> IB-EX' ";
     }
 
-
+    
 
     if ($r_sp_split != 0) {
+      
       if ($ddl_users == '101') {
+       
         // $user_id = "Select usercode from master.users where empid='$hd_nm_id'";
         // $user_id = mysql_query($user_id) or die("Error: " . __LINE__ . mysql_error());
         // $r_user_id = mysql_result($user_id, 0);
@@ -2336,14 +2342,14 @@ GROUP BY GROUPING SETS ((daName), ())";
 
         if ($usercode != 1 && $r_section != '30' && $r_usertype != '4')
           $emp_nm = " and diary_user_id='$usercode'";
-        $jn_users = " join master.users u on u.usercode = c.disp_by and u.display='Y'
+        $jn_users = " join master.users u on u.usercode = c.diary_user_id and u.display='Y'
                     JOIN fil_trap_users t_u 
                   ON u.usercode = t_u.usercode and t_u.usertype = '$ddl_users' 
                 AND t_u.display = 'Y'";
       } else if ($ddl_users == '109') {
         if ($usercode != 1 && $r_section != '30' && $r_usertype != '4')
           $emp_nm = " and disp_by='$usercode'";
-        $jn_users = " join master.users u on u.usercode = c.disp_by and u.display='Y'
+        $jn_users = " join master.users u on u.usercode = c.diary_user_id and u.display='Y'
                     JOIN fil_trap_users t_u 
               ON u.usercode = t_u.usercode and t_u.usertype = '$ddl_users' 
             AND t_u.display = 'Y'";
@@ -2411,7 +2417,10 @@ GROUP BY GROUPING SETS ((daName), ())";
               $mn_fil
               )order by disp_dt,d_by_empid";
     } else if ($l_sp_split == 'spallot') {
+     
       if ($ddl_users == '101') {
+        // echo $emp_nm;
+        // die();
         $sql = "Select diary_no,  diary_user_id d_to_empid,diary_no_rec_date disp_dt from main c $jn_users
                   where date(diary_no_rec_date) 
       between '$frm_dt' AND '$to_dt' $emp_nm ";
@@ -2443,19 +2452,20 @@ GROUP BY GROUPING SETS ((daName), ())";
 
       if ($ddl_users == '101') {
         //remove vkg
-
+//  echo $emp_nm;
+//  die();
         // $sql = "Select diary_no, diary_user_id d_to_empid,diary_no_rec_date disp_dt from main c $jn_users
         //        where date(diary_no_rec_date) 
         //       between '$frm_dt' AND '$to_dt' $emp_nm ";
         $sql = "Select diary_no, diary_user_id d_to_empid,diary_no_rec_date disp_dt
                   from main c  
-                  join master.users u on u.usercode = c.usercode 
+                  join master.users u on u.usercode = c.diary_user_id 
                   and u.display='Y'
                   JOIN fil_trap_users t_u 
                   ON u.usercode = t_u.usercode and t_u.usertype = '101' 
                   AND t_u.display = 'Y'
                   where date(diary_no_rec_date) 
-                  between '2021-02-01' AND '2025-02-08'  ";
+                  between '$frm_dt' AND '$to_dt' $emp_nm  ";
         // echo $sql;
         // die;
 
@@ -2985,6 +2995,8 @@ ORDER BY zz.disp_dt, zz.d_by_empid";
         order by disp_dt,d_by_empid
               ";
     }
+    // echo $sql;
+    // die();
     $query = $this->db->query($sql);
 
     return $query->getResultArray();
