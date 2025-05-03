@@ -5,6 +5,7 @@ namespace App\Controllers\Listing;
 use App\Controllers\BaseController;
 use App\Models\Listing\Heardt;
 use App\Models\Listing\PrintModel;
+use Mpdf\Mpdf;
 
 class PrintWeekly extends BaseController
 {
@@ -305,11 +306,11 @@ class PrintWeekly extends BaseController
         
         //For Pduction
 
-        $sms_url='http://xxxx/eAdminSCI/a-push-sms-gw?mobileNos='.'9630100950,9810884595,9319170909,9821411915,9868069855,9718009598,9818782386,9910727768,9968281944,9968319828,9968811042,9971685090,9999100724,9312570277,9910431438,9643323531,7838900365,8800307859,8800928316,9810855890,9711475023,9711475578,9810263541,9810464620,9810481741,9810485122,9810506860,9810594145,9811471402,9811904000,9818617598,9868186878,9868200903,9868216440,9868280279,9868281372,9868631191,9868996564,9811316333,9871922703,9868207383,9899016720,9899249150,9899518586,9899924364,9910431438,9911675788,9968281944,9968319828,9968811042,9971685090,8860012863,9810267531'.'&message='.$sms_text.'&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=sdjkfgbsjh$1232_12nmnh&templateId=1107161578957835848';
+        /* $sms_url='http://xxxx/eAdminSCI/a-push-sms-gw?mobileNos='.'9630100950,9810884595,9319170909,9821411915,9868069855,9718009598,9818782386,9910727768,9968281944,9968319828,9968811042,9971685090,9999100724,9312570277,9910431438,9643323531,7838900365,8800307859,8800928316,9810855890,9711475023,9711475578,9810263541,9810464620,9810481741,9810485122,9810506860,9810594145,9811471402,9811904000,9818617598,9868186878,9868200903,9868216440,9868280279,9868281372,9868631191,9868996564,9811316333,9871922703,9868207383,9899016720,9899249150,9899518586,9899924364,9910431438,9911675788,9968281944,9968319828,9968811042,9971685090,8860012863,9810267531'.'&message='.$sms_text.'&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=sdjkfgbsjh$1232_12nmnh&templateId=1107161578957835848';
 
         $sms_response = file_get_contents($sms_url);
         $sms_response = $this->fetch_api_response($sms_url);
-        $json = json_decode($sms_response);
+        $json = json_decode($sms_response); 
 
         if ($sms_response === false || empty($json)) {
             return $this->response->setJSON([
@@ -320,28 +321,26 @@ class PrintWeekly extends BaseController
             $sms_status = "Success: Causelist Uploaded alert SMS sent.";
         } else {
             $sms_status = "Error: Causelist Uploaded alert SMS could not be sent.";
-        }
-        
+        } */
+          
 
         return $this->response->setJSON([
             'status' => 'success',
             'message' => 'Weekly List Ported/Published Successfully.',
             'file_path' => base_url("writable/judgment/cl/wk/{$list_dt}_{$list_dt_to}/weekly.pdf"),
-            'sms_status' => $sms_status
+            'sms_status' => 'Error: Causelist Uploaded alert SMS could not be sent.'
         ]);
     }
 
 
     
 
-    public function wk_cl_print()
-    {
+    public function wk_cl_print(){
         $data['dates']  = $this->Heardt->getListDates();
         return view('Listing/print_advance/wk_cl_print', $data);
     }
 
-    public function cl_print_verify()
-    {
+    public function cl_print_verify(){
         $request = service('request');
         $data['listingDates']  = $this->Heardt->getListingDatesMV1();
         $data['benches'] = $this->Heardt->getBenchJudges();
