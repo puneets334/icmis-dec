@@ -1311,6 +1311,7 @@ ORDER BY sub_name1";
 
     public function getCasesListWeek($list_dt, $courtno)
     {
+		
         $builder = $this->db->table('master.roster r');
 
         $builder->select('r.id, '
@@ -1340,10 +1341,10 @@ ORDER BY sub_name1";
         $builder->where('r.display', 'Y');
         $builder->where('r.courtno', $courtno);
         //For Testing 
-        $builder->where('r.from_date', '2017-05-09');
-        $builder->where('r.m_f', '1');
-        //$builder->where('r.from_date', $list_dt);
-        //$builder->where('r.m_f', '2');
+        //$builder->where('r.from_date', '2017-05-09');
+        //$builder->where('r.m_f', '1');
+        $builder->where('r.from_date', $list_dt);
+        $builder->where('r.m_f', '2');
 
 
         // Group By
@@ -1361,8 +1362,8 @@ ORDER BY sub_name1";
         $builder->orderBy('j.judge_seniority');
 
         // Debugging Output
-        // echo $builder->getCompiledSelect();
-        // exit();
+         //echo $builder->getCompiledSelect();
+         //exit();
 
         $query = $builder->get();
         return $query->getResultArray();
