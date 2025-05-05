@@ -8,6 +8,10 @@
     opacity: 0.5;
     float: right;
 }
+table#mainbtl thead tr td {
+    background: #eee;
+    font-weight: 900;
+}
 </style>    
 <?php
 if ($jud_sel == '')
@@ -41,7 +45,7 @@ $auth_name = 0;
 $view_rs = $model->getUsers($dept, $auth_name, $authValue, $secValue, $desg, $usercode, $cur_user_type, $judge_selector, $orderjud);
 if (count($view_rs) > 0) {
 ?><div class="table-responsive">
-    <table class="table table-striped custom-table" id="mainbtl">
+    <table class="table1 table-striped1 custom-table1" id="mainbtl">  
         <?php
         if ($auth_name != '0') {
         ?>
@@ -57,22 +61,22 @@ if (count($view_rs) > 0) {
         ?>
         <thead>
         <tr>
-            <th>S.No.</th>
-            <th>Usercode</th>
+            <td>S.No.</td>
+            <td>Usercode</td>
             <?php
             if ($dept == 'ALL') {
             ?>
-                <th>Department</th>
+                <th>Department</td>
             <?php
             }
             ?>
-            <th>Section</th>
-            <th>Designation</th>
-            <th>User's Name</th>
-            <th>Emp ID</th>
-            <th>Last Login</th>
-            <th class="notfor-print">Active From</th>
-            <th>Status</th>
+            <td>Section</td>
+            <td>Designation</td>
+            <td>User's Name</td>
+            <td>Emp ID</td>
+            <td>Last Login</td>
+            <td class="notfor-print">Active From</td>
+            <td>Status</td>
             <?php
             if ($desg == 'ALL') {
             ?>
@@ -81,14 +85,14 @@ if (count($view_rs) > 0) {
             }
 
             ?>
-            <th>
+            <td>
                 <!-- Alloted Halls -->
                 DA Cases
-            </th>
-            <th>
+            </td>
+            <td>
                 <!-- DA Alloted Cases<br>(Except Halls) -->
                 Total Cases
-            </th>
+            </td>
         </tr>
         </thead>
         <tbody>
