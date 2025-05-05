@@ -9,6 +9,13 @@
             margin: 0 auto;
             border: 0.6px dotted #d8d8d8;
         }
+
+    table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
     </style>
 
 
@@ -54,7 +61,7 @@
                                                     <div class="col-md-12">
                                                         <h3 class="card-title" style="float: none !important; text-align: center;">RECORDS TO BE VERIFY FOR <?= $userDetails_verify != '' ? $userDetails_verify : '' ?> </h3>
                                                         <div class="table-responsive mt-3">
-														<table id="example3" class="table table-striped custom-table">
+														<table id="example3" class="table table-striped ctable-bordered">
                                                             <thead>
                                                                 <tr>
                                                                     <th>S.No.</th>

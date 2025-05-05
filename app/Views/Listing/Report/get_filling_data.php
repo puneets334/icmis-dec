@@ -1,4 +1,8 @@
-
+<style>
+    .cl_hover {
+    color: blue;
+}
+    </style>
 <div class="table-responsive mt-5">
 <table class="table table-striped custom-table" id="reportTable1">
 <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf_token" />
@@ -100,15 +104,15 @@
                     $row['s'] = $row['ss'];
                 }
                 ?>
-                <span id="spallot_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_alloted = $tot_alloted + $row['s'];
+                <span  id="spallot_<?php echo $sno; ?>" class="cl_hover" <?php if($row['s'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)" <?php } ?>><?php $tot_alloted = $tot_alloted + $row['s'];
                                                                                                     echo $row['s']; ?></span>
             </td>
             <td>
-                <span id="spcomp_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_comp = $tot_comp + $row['ss'];
+                <span  id="spcomp_<?php echo $sno; ?>" class="cl_hover" <?php if($row['ss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_comp = $tot_comp + $row['ss'];
                                                                                                     echo $row['ss']; ?></span>
             </td>
             <td>
-                <span id="spnotcomp_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_rem = $tot_rem + $row['s'] - $row['ss'];
+                <span id="spnotcomp_<?php echo $sno; ?>" class="cl_hover" <?php if(($row['s']- $row['ss']) !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_rem = $tot_rem + $row['s'] - $row['ss'];
                                                                                                         echo $row['s'] - $row['ss']; ?></span>
             </td>
             <?php
@@ -116,58 +120,58 @@
 
             ?>
                 <td>
-                    <span id="spallotr_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_allotedr = $tot_allotedr + $row['r_s'];
+                    <span id="spallotr_<?php echo $sno; ?>" class="cl_hover" <?php if($row['r_s'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_allotedr = $tot_allotedr + $row['r_s'];
                                                                                                         echo $row['r_s']; ?></span>
                 </td>
                 <td>
-                    <span id="spcompr_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_compr = $tot_compr + $row['r_ss'];
+                    <span id="spcompr_<?php echo $sno; ?>" class="cl_hover" <?php if($row['r_ss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_compr = $tot_compr + $row['r_ss'];
                                                                                                         echo $row['r_ss']; ?></span>
                 </td>
                 <td>
-                    <span id="spnotcompr_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php
+                    <span id="spnotcompr_<?php echo $sno; ?>" class="cl_hover" <?php if(($row['r_s'] - $row['r_ss']) !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php
                                                                                                             $tot_remr = $tot_remr + $row['r_s'] - $row['r_ss'];
                                                                                                             echo $row['r_s'] - $row['r_ss'];
                                                                                                             ?></span>
                 </td>
 
                 <td>
-                    <span id="sptotpen_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_s = $tot_s + $row['sss'];
+                    <span id="sptotpen_<?php echo $sno; ?>" class="cl_hover" <?php if($row['sss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_s = $tot_s + $row['sss'];
                                                                                                         echo $row['sss']; ?></span>
 
                 </td>
                 <td>
-                    <span id="sptotref_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_ref = $tot_ref + $row['r_sss'];
+                    <span id="sptotref_<?php echo $sno; ?>" class="cl_hover" <?php if($row['r_sss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_ref = $tot_ref + $row['r_sss'];
                                                                                                         echo $row['r_sss']; ?></span>
                 </td>
                 <td>
-                    <span id="sptotpenr_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_ssrs = $tot_ssrs + $row['sssss'];
+                    <span id="sptotpenr_<?php echo $sno; ?>" class="cl_hover" <?php if($row['sssss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_ssrs = $tot_ssrs + $row['sssss'];
                                                                                                             echo $row['sssss']; ?></span>
                 </td>
                 <td>
-                    <span id="sptwd_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_ss = $tot_ss + $row['ssss'];
+                    <span id="sptwd_<?php echo $sno; ?>" class="cl_hover" <?php if($row['ssss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_ss = $tot_ss + $row['ssss'];
                                                                                                         echo $row['ssss']; ?></span>
                 </td>
                 <td>
-                    <span id="sptwdr_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_sss = $tot_sss + $row['r_sssss'];
+                    <span id="sptwdr_<?php echo $sno; ?>" class="cl_hover" <?php if($row['r_sssss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_sss = $tot_sss + $row['r_sssss'];
                                                                                                         echo $row['r_sssss']; ?></span>
                 </td>
                 <td>
-                    <span id="sptwdd_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_ssr = $tot_ssr + $row['r_ssss'];
+                    <span id="sptwdd_<?php echo $sno; ?>" class="cl_hover" <?php if($row['r_ssss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_ssr = $tot_ssr + $row['r_ssss'];
                                                                                                         echo $row['r_ssss']; ?></span>
                 </td>
             <?php } else  if ($ddl_users != '101' && $ddl_users != '109') {
             ?>
                 <td>
-                    <span id="sptotpen_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_s = $tot_s + $row['sss'];
+                    <span id="sptotpen_<?php echo $sno; ?>" class="cl_hover" <?php if($row['sss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_s = $tot_s + $row['sss'];
                                                                                                         echo $row['sss']; ?></span>
 
                 </td>
                 <td>
-                    <span id="sptotpenr_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_ssrs = $tot_ssrs + $row['sssss'];
+                    <span id="sptotpenr_<?php echo $sno; ?>" class="cl_hover" <?php if($row['sssss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_ssrs = $tot_ssrs + $row['sssss'];
                                                                                                             echo $row['sssss']; ?></span>
                 </td>
                 <td>
-                    <span id="sptwd_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_ss = $tot_ss + $row['ssss'];
+                    <span id="sptwd_<?php echo $sno; ?>" class="cl_hover" <?php if($row['ssss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_ss = $tot_ss + $row['ssss'];
                                                                                                         echo $row['ssss']; ?></span>
                 </td>
             <?php
@@ -207,13 +211,13 @@
                 ?>
         </td>
         <td>
-          <span id="spallot_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_alloted=$tot_alloted+$row['s']; echo $row['s']; ?></span>
+          <span id="spallot_<?php echo $sno; ?>" class="cl_hover" <?php if($row['s'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_alloted=$tot_alloted+$row['s']; echo $row['s']; ?></span>
         </td>
          <td>
             
         </td>
         <td>
-           <span id="spnotcomp_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php
+           <span id="spnotcomp_<?php echo $sno; ?>" class="cl_hover" <?php if($row['s'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php
           $tot_rem=$tot_rem+$row['s'];  echo $row['s'];
             ?></span>
         </td>
@@ -222,29 +226,29 @@
         if($ddl_users=='108'){ 
         ?>
          <td>
-            <span id="spallotr_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_allotedr=$tot_allotedr+$row['r_s']; echo $row['r_s']; ?></span>
+            <span id="spallotr_<?php echo $sno; ?>" class="cl_hover" <?php if($row['r_s'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_allotedr=$tot_allotedr+$row['r_s']; echo $row['r_s']; ?></span>
         </td>
          <td>
-            <span id="spcompr_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_compr=$tot_compr+$row['r_ss']; echo $row['r_ss']; ?></span>
+            <span id="spcompr_<?php echo $sno; ?>" class="cl_hover" <?php if($row['r_ss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_compr=$tot_compr+$row['r_ss']; echo $row['r_ss']; ?></span>
         </td>
         <td>
-            <span id="spnotcompr_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php
+            <span id="spnotcompr_<?php echo $sno; ?>" class="cl_hover" <?php if(($row['r_s']-$row['r_ss']) !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php
           $tot_remr=$tot_remr+$row['r_s']-$row['r_ss'];  echo $row['r_s']-$row['r_ss'];
             ?></span>
         </td>
         
         <td>
-            <span id="sptotpen_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_s=$tot_s+$row['sss']; echo $row['sss']; ?></span>
+            <span id="sptotpen_<?php echo $sno; ?>" class="cl_hover" <?php if($row['sss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_s=$tot_s+$row['sss']; echo $row['sss']; ?></span>
            
         </td>
         <td>
-             <span id="sptotref_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_ref=$tot_ref+$row['r_sss']; echo $row['r_sss']; ?></span>
+             <span id="sptotref_<?php echo $sno; ?>" class="cl_hover" <?php if($row['r_sss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_ref=$tot_ref+$row['r_sss']; echo $row['r_sss']; ?></span>
         </td>
         <?php }
         else {
         ?>
         <td>
-            <span id="sptotpen_<?php echo $sno; ?>" class="cl_hover" onclick="get_rec(this.id)"><?php $tot_s=$tot_s+$row['sss']; echo $row['sss']; ?></span>
+            <span id="sptotpen_<?php echo $sno; ?>" class="cl_hover" <?php if($row['sss'] !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php $tot_s=$tot_s+$row['sss']; echo $row['sss']; ?></span>
            
         </td>
       
@@ -257,39 +261,39 @@
 
 <tr>
         <th colspan="2">Total</th>
-        <td><span id="spallot_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_alloted; ?></span></td>
-         <td><span id="spcomp_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_comp; ?></span></td>
-         <td><span id="spnotcomp_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_rem; ?></span></td>
+        <td><span id="spallot_0" class="cl_hover" <?php if($tot_alloted !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_alloted; ?></span></td>
+         <td><span id="spcomp_0" class="cl_hover" <?php if($tot_comp !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_comp; ?></span></td>
+         <td><span id="spnotcomp_0" class="cl_hover" <?php if($tot_rem !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_rem; ?></span></td>
            <?php
         if($ddl_users=='103' || $ddl_users=='108'){ 
         ?>
-         <td><span id="spallotr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_allotedr; ?></span></td>
-           <td> <span id="spcompr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_compr; ?></span></td>
-            <td> <span id="spnotcompr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_remr; ?></span></td>
-         <td> <span id="sptotpen_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_s; ?></span></td>
-         <td> <span id="sptotref_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ref; ?></span></td>
+         <td><span id="spallotr_0" class="cl_hover" <?php if($tot_allotedr !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_allotedr; ?></span></td>
+           <td> <span id="spcompr_0" class="cl_hover" <?php if($tot_compr !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_compr; ?></span></td>
+            <td> <span id="spnotcompr_0" class="cl_hover" <?php if($tot_remr !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_remr; ?></span></td>
+         <td> <span id="sptotpen_0" class="cl_hover" <?php if($tot_s !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_s; ?></span></td>
+         <td> <span id="sptotref_0" class="cl_hover" <?php if($tot_ref !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_ref; ?></span></td>
         
            <td>
-             <span id="sptotpenr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ssrs; ?></span>
+             <span id="sptotpenr_0" class="cl_hover" <?php if($tot_ssrs !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_ssrs; ?></span>
          </td>
        
           <td>
-             <span id="sptwd_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ss; ?></span>
+             <span id="sptwd_0" class="cl_hover" <?php if($tot_ss !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_ss; ?></span>
          </td>
          
           <td>
-             <span id="sptwdr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_sss; ?></span>
+             <span id="sptwdr_0" class="cl_hover" <?php if($tot_sss !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_sss; ?></span>
         </td>
          <td>
-            <span id="sptwdd_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ssr; ?></span>
+            <span id="sptwdd_0" class="cl_hover" <?php if($tot_ssr !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_ssr; ?></span>
         </td>
         <?php }
         else  if($ddl_users!='101' && $ddl_users!='109'){ 
             ?>
-         <td> <span id="sptotpen_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_s; ?></span></td>
-         <td><span id="sptotpenr_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ssrs; ?></span></td>
+         <td> <span id="sptotpen_0" class="cl_hover" <?php if($tot_s !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_s; ?></span></td>
+         <td><span id="sptotpenr_0" class="cl_hover" <?php if($tot_ssrs !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_ssrs; ?></span></td>
            <td>
-             <span id="sptwd_0" class="cl_hover" onclick="get_rec(this.id)"><?php echo $tot_ss; ?></span>
+             <span id="sptwd_0" class="cl_hover" <?php if($tot_ss !== 0){ ?>data-toggle="modal" data-target="#modal-default" onclick="get_rec(this.id)"<?php } ?>><?php echo $tot_ss; ?></span>
          </td>
          <?php
         }
@@ -299,3 +303,4 @@
     </tbody>
 </table>
 </div>
+

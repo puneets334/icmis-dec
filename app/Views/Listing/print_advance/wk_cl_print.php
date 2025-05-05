@@ -276,6 +276,7 @@
                     $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
                 },
                 success: function(response, status) {
+					alert(response);
                     try {
                         // Ensure response is a proper JSON object
                         var data = typeof response === 'string' ? JSON.parse(response) : response;
@@ -293,7 +294,7 @@
                         }
 
                     } catch (error) {
-                        console.error("JSON Parsing Error:", error);
+                        console.log("JSON Parsing Error:", error);
                         alert("Invalid server response.");
                     }
                 },
@@ -323,7 +324,7 @@
                 beforeSend: function() {
                     $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
                 },
-                success: function(data, status) {
+                success: function(response, status) {
                     try {
                         // Ensure response is a proper JSON object
                         var data = typeof response === 'string' ? JSON.parse(response) : response;
@@ -342,7 +343,7 @@
                         }
 
                     } catch (error) {
-                        console.error("JSON Parsing Error:", error);
+                        console.log("JSON Parsing Error:", error);
                         alert("Invalid server response.");
                     }
             

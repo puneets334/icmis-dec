@@ -291,7 +291,7 @@ class CourtCauseListController extends BaseController
         //$printFrm = 0;
 
         //$pr_mf = $mf;
-
+        
         $tdt1 = date('Y-m-d',strtotime($dtd));
 
 
@@ -340,9 +340,8 @@ class CourtCauseListController extends BaseController
         }
 
 
-
         return view('Court/CourtCauseList/reader_cl_process', $data);
-        die;
+        // die;
     }
 
 

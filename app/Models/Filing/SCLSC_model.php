@@ -502,7 +502,7 @@ class SCLSC_model extends Model
         $query = $builder->get();
 
         // Fetch the row and return the 'Name' field
-        $row = $query->getRowArray()['name'];
+        $row = $query->getRowArray()['name']??'';
 
         return $row;
     }

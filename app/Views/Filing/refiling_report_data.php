@@ -57,14 +57,43 @@
             "lengthChange": true,
             "ordering": false,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", {
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    pageSize: 'LEGAL'
+            "dom": 'Bfrtip',
+            "buttons": [{
+                    extend: "copy",
+                    title: "Matters Refiled on <?php echo $dateFrom; ?>"
                 },
                 {
-                    extend: 'colvis',
-                    text: 'Show/Hide'
+                    extend: "csv",
+                    title: "Matters Refiled on <?php echo $dateFrom; ?>"
+                },
+                {
+                    extend: "excel",
+                    title: "Matters Refiled on <?php echo $dateFrom; ?>"
+                },
+                {
+                    extend: "pdf",
+                    title: "Matters Refiled on <?php echo $dateFrom; ?>",
+                    customize: function(doc) {
+                        doc.content.splice(0, 0, {
+                            text: "",
+                            fontSize: 12,
+                            alignment: "center",
+                            margin: [0, 0, 0, 12]
+                        });
+                    }
+                },
+                {
+                  extend: "print",
+                  title: "Matters Refiled on <?php echo $dateFrom; ?>",
+                    customize: function (win) {
+                      $(win.document.body).find('h1').remove();
+                        $(win.document.body).prepend(
+                            `<h3 style="text-align: center; margin-bottom: 20px;">
+                                Matters Refiled on <?php echo $dateFrom; ?>
+                            </h3>`
+                        );
+                    }
+                   
                 }
             ],
             "bProcessing": true,

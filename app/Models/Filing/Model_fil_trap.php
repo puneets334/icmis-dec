@@ -334,7 +334,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
                     'disp_dt' => $row['disp_dt'],
                     'rece_dt' => $row['rece_dt'],
                     'comp_dt' => $row['comp_dt'],
-                    'disp_dt_seq' => $row['disp_dt_seq'],
+                    'disp_dt_seq' => $row['disp_dt_seq'] ,
                     'other' => $row['other'],
                     'scr_lower' => $row['scr_lower']
                 ];
@@ -349,7 +349,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
                         'r_by_empid' => $row['r_by_empid'],
                         'rece_dt' => $row['rece_dt'],
                         'comp_dt' => $row['comp_dt'],
-                        'disp_dt_seq' => $row['disp_dt_seq'],
+                        'disp_dt_seq' => (!empty($row['disp_dt_seq'])) ? $row['disp_dt_seq'] : '',
                         'other' => $row['other'],
                         'scr_lower' => $row['scr_lower'],
                         'thisdt' => date("Y-m-d H:i:s"),
