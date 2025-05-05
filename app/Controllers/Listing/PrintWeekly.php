@@ -99,8 +99,7 @@ class PrintWeekly extends BaseController
         ]);
     }
 
-    public function cl_print_save_wk()
-    {
+    public function cl_print_save_wk() {
         $session = session();
         $request = service('request');
 
@@ -124,7 +123,7 @@ class PrintWeekly extends BaseController
 
         // Get the writable path for storing files (use WRITEPATH for CI writable folder)
         $file_path = $courtno;
-        $path_dir = WRITEPATH . "wk/{$list_dt}_{$list_dt_to}/";  // Store in writable folder
+        $path_dir = FCPATH . "wk/{$list_dt}_{$list_dt_to}/";  // Store in writable folder
         
         if (!file_exists($path_dir)) {
             mkdir($path_dir, 0777, true);  // Create the directory if it doesn't exist
@@ -143,12 +142,7 @@ class PrintWeekly extends BaseController
         // Write the HTML content to mPDF
         $mpdf->WriteHTML($pdf_cont);
 
-        // Define file path in writable folder
-        $path_dir = WRITEPATH . "wk/{$list_dt}_{$list_dt_to}/";
-        if (!file_exists($path_dir)) {
-            mkdir($path_dir, 0777, true);  // Create directory if it doesn't exist
-        }
-
+        
         // Define the output PDF file path
         $data_file1 = $path_dir . $courtno . '.pdf';
 
@@ -158,12 +152,9 @@ class PrintWeekly extends BaseController
         return $this->response->setJSON([
             'status' => 'success',
             'message' => 'Cause List Ported/Published Successfully.',
-            'file_path' => $data_file1  // Optionally, return the file path to the frontend
+            'file_path' => base_url("public/wk/{$list_dt}_{$list_dt_to}").'/'.$file_path.'.pdf' 
         ]);
     }
-
-
-
 
 
     public function get_causelist_weekly_verify()
@@ -174,22 +165,12 @@ class PrintWeekly extends BaseController
         // Get user code from session
         $ucode = $session->get('dcmis_user_idd') ?? $session->get('login')['usercode'];
 
-        // Validate and sanitize input
-        //For testing
-        //  $list_dt = date('Y-m-d', strtotime('2025-03-25'));
-        //  $list_dt_to = date('Y-m-d', strtotime('2025-03-25'));
-        //For Production
         $list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
         $list_dt_to = date('Y-m-d', strtotime($request->getPost('list_dt_to')));
-        $mainhead = 'F';//$request->getPost('mainhead');
-        $courtno = 1;//$request->getPost('courtno');
+        $mainhead = $request->getPost('mainhead');
+        $courtno = $request->getPost('courtno');
 
-        // Prepare data for view
-        $data = [
-            //For Testing
-            // 'list_dt' => '2023-02-06',
-            // 'list_dt_to' => '2023-03-27',
-            //For Production
+       $data = [
             'list_dt' => $list_dt,
             'list_dt_to' => $list_dt_to,
             'mainhead' => $mainhead,
@@ -243,7 +224,7 @@ class PrintWeekly extends BaseController
         }
 
         // Define writable path for storing files
-        $path_dir = WRITEPATH . "judgment/cl/wk/{$list_dt}_{$list_dt_to}/";
+        $path_dir = FCPATH . "judgment/cl/wk/{$list_dt}_{$list_dt_to}/";
 
         // Ensure the directory exists
         if (!file_exists($path_dir)) {
@@ -327,7 +308,7 @@ class PrintWeekly extends BaseController
         return $this->response->setJSON([
             'status' => 'success',
             'message' => 'Weekly List Ported/Published Successfully.',
-            'file_path' => base_url("writable/judgment/cl/wk/{$list_dt}_{$list_dt_to}/weekly.pdf"),
+            'file_path' => base_url("public/judgment/cl/wk/{$list_dt}_{$list_dt_to}/weekly.pdf"),
             'sms_status' => 'Error: Causelist Uploaded alert SMS could not be sent.'
         ]);
     }

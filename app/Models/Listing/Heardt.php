@@ -1309,8 +1309,7 @@ ORDER BY sub_name1";
     //get_cause_list_week.php Convert In modal for CAUSE LIST PRINT MODULE
 
 
-    public function getCasesListWeek($list_dt, $courtno)
-    {
+    public function getCasesListWeek($list_dt, $courtno){
 		
         $builder = $this->db->table('master.roster r');
 

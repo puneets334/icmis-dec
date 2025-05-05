@@ -276,11 +276,10 @@
                     $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
                 },
                 success: function(response, status) {
-					alert(response);
-                    try {
+					try {
                         // Ensure response is a proper JSON object
                         var data = typeof response === 'string' ? JSON.parse(response) : response;
-                        
+                        alert(data.message);
                         if (data.status === 'success') {
                             $('#res_loader').html(`
                                 <h3 class="bg-success p-2 text-center">${data.message}</h3>
