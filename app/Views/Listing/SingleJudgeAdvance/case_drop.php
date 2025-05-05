@@ -13,7 +13,7 @@
                             <div class="col-sm-10">
                                 <h3 class="card-title">SINGLE JUDGE ADVANCE CASE DROP MODULE</h3>
                             </div>
-
+                            <?= view('Filing/filing_filter_buttons'); ?>
                         </div>
                     </div>
                     <div class="row">
@@ -87,7 +87,8 @@
 
 
         });
-        $('#component_search').on('submit', function() {
+        $('#component_search').on('submit', async function() {
+            
             var search_type = $("input[name='search_type']:checked").val();
             if (search_type.length == 0) {
                 alert("Please select case type");
