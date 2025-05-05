@@ -89,7 +89,8 @@
             //updateCSRFToken();
             let result = res;
             if(result.solve== true){
-                $("#result").html(result.Message);                    
+                $("#result").html(result.Message);  
+                $('#urlinput').val('');                  
             }
             else{
                 $("#result").html(result.Message);

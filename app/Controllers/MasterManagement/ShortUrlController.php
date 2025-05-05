@@ -1,22 +1,21 @@
 <?php
 
 namespace App\Controllers\MasterManagement;
-
 use App\Controllers\BaseController;
-use App\Models\MasterManagement\UserManagementModel;
 use App\Models\Record_room\Model_record;
 use CodeIgniter\Controller;
 use CodeIgniter\Model;
 use CodeIgniter\I18n\Time;
 
 class ShortUrlController extends BaseController
-{
-    public $UserManagementModel;
+{    
     public $Model_record;
+    protected  $eservicesdb;
+    
     function __construct()
     {
         ini_set('memory_limit', '51200M'); // This also needs to be increased in some cases. Can be changed to a higher value as per need)
-        $this->UserManagementModel = new UserManagementModel();
+        $this->eservicesdb = \Config\Database::connect('eservices');        
         $this->Model_record = new Model_record();
     }
 
@@ -32,19 +31,26 @@ class ShortUrlController extends BaseController
     public function process_shortner()
     {
         $urlinput = $this->request->getPost('urlinput');
-
-        $builder = $this->db->table('master.test_redirect a');        
+        $builder = $this->eservicesdb->table('public.redirect a');        
         $builder->select('*');        
         $builder->where('url', $urlinput);                    
         //echo $builder->getCompiledSelect();die;
         $query = $builder->get();
-        $checkexist = $query->getRowArray();
-        
+        $checkexist = $query->getRowArray();        
         if( is_array($checkexist) &&  count($checkexist) > 0  )
-        {
-            $mainurl = 'https://cleanuri.com/';
+        {          
+            
+            $checkDate = date('Y-m-d', strtotime($checkexist['date']));
+            $todayDate = '2025-02-16'; // for comparison
+
+            if ($checkDate > $todayDate) {
+                $mainurl = 'https://cleanuri.com/';
+            } else {
+                $mainurl = 'https://anu.sci.gov.in/';
+            }           
+            
             $hits = $checkexist['hits']+1;
-            $builder = $this->db->table('master.test_redirect');
+            $builder = $this->eservicesdb->table('public.redirect');
             $builder->set(['hits' => $hits])
                 ->where('url', $urlinput)
                 ->update();
@@ -95,10 +101,8 @@ class ShortUrlController extends BaseController
                 'date' => date('Y-m-d H:i:s'),
                 'hits' => 0,                
             ];
-
-            $builder = $this->db->table('master.test_redirect');
-            $builder->insert($insertData); 
-            
+            $builder = $this->eservicesdb->table('public.redirect');
+            $builder->insert($insertData);             
             $html ='';
             $html = '<div class="row">
                             <div class="col-md-6 text-right font-weight-bold" style="font-size: larger">
