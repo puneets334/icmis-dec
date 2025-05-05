@@ -1386,7 +1386,9 @@ function insert_disp(str,filno,j1,jcodes,sbdb)
         if (xhr2.readyState == 4 && xhr2.status == 200)
         {
             var data = xhr2.responseText;
-            var inmsg = parseInt(msg1.indexOf("Message :"));
+            var parsedData = JSON.parse(data);
+            // var inmsg = parseInt(msg1.indexOf("Message :"));
+
             if (inmsg >= 0)
                 msg1 = msg1.substr(0, inmsg) + "Message : " + document.getElementById("msgbox").value;
             else

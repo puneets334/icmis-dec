@@ -690,12 +690,15 @@
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
+        if (advocate_id < 1) {
+            alert("Please Select AOR");
+            return false;
+        }
         if (remarks == '') {
             alert("Remarks cannot be empty");
             return false;
         }
-        // alert(advocate_id);
-        // return false;
+        
 
         var result = confirm("Are you sure to add caveator name?");
         // console.log(result);
