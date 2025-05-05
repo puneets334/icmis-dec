@@ -31,6 +31,13 @@ div.dataTables_wrapper {
 thead{
     color: rgb(169, 68, 66);
 }
+table tr th {
+    background: #eee;
+    color: #000;
+}
+table thead tr th.sorting_asc,table thead tr th.sorting {
+    font-weight: bold !important;
+}
 .dataTables_paginate.paging_simple_numbers{min-height:85px;}
 .dataTables_paginate .previous::before,.dataTables_paginate .next::before{
     background:#f9f9f9 !important;margin-top:14px;
@@ -104,8 +111,7 @@ thead{
                                 </div>
 
 
-                                <div id="display" class="box box-danger">
-                                   
+                                <div id="display" class="box box-danger2">                                   
                                     <br>
                                     <hr>
                                     <div class="table-responsive">
@@ -222,7 +228,7 @@ thead{
                     'X-CSRF-Token': CSRF_TOKEN_VALUE  
                     },
                     success: function (data) {
-                      alert('Insert successful!');
+                      alert('Insert successfully!');
                       location.reload();
                        // updateCSRFToken();
                         //$('#reportTable1').DataTable().destroy();
@@ -243,7 +249,7 @@ thead{
             }
             else
             {
-                updateCSRFToken();
+                //updateCSRFToken();
                 //alert("Blank Data can't be inserted !");
             }
         });
