@@ -32,7 +32,7 @@
                                 <td><input type="text" class="form-control" value="<?= esc($bar['name']) ?>" id="name"></td>
                             </tr>
                             <tr>
-                                <td><b>Current Address</b></td>
+                                <td><b>Current Address <span class="text-danger">*</span></b></td>
                                 <td><input type="text" class="form-control" value="<?= esc($bar['caddress']) ?>" id="cadd" onblur="remove_apos(this.value,this.id)" /></td>
                             </tr>
                             <tr>

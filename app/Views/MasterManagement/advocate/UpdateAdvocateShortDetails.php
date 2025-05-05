@@ -264,7 +264,34 @@ function save_data() {
         document.getElementById('name').focus();
         return false;
     }
+
+    if (document.getElementById('cadd')) {
+            var space_only = /^[ ]+$/;
+            if (document.getElementById('cadd').value == '') {
+                alert('Please fill Current Address');
+                document.getElementById('cadd').focus();
+                return false;
+            } else if (document.getElementById('cadd').value.match(space_only)) {
+                alert('Please fill Current Address');
+                document.getElementById('cadd').focus();
+                return false;
+            }
+        }    
    
+        if (document.getElementById('ccity')) {
+            var space_only = /^[ ]+$/;
+            if (document.getElementById('ccity').value == '') {
+                alert('Please Enter Current City');
+                document.getElementById('ccity').focus();
+                return false;
+            } else if (document.getElementById('ccity').value.match(space_only)) {
+                alert('Please Enter Current City');
+                document.getElementById('ccity').focus();
+                return false;
+            }
+        }
+
+
         if ($("#adv_aor").val() == 'Y') {
             if (document.getElementById('adv_aor_code').value == '' || document.getElementById('adv_aor_code').value == 0) {
                 alert('Please Fill AOR Code');
