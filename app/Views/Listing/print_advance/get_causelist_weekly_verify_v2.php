@@ -320,9 +320,7 @@
         
 
         <?php get_header_footer_print($list_dt, $mainhead, $roster_id, $part_no, 'F'); ?>
-    <?php else : ?>
-        <h3 class="bg-warning text-center p-2">No Records Found</h3>
-    <?php endif; ?>
+    
     <br>
     <p align='left' style="font-size: 12px;"><b>NEW DELHI<BR />
         <?php 
@@ -346,5 +344,8 @@
             <button class="btn btn-primary" name="unpub" type="button" id="unpub">Un-Publish</button>
         <?php } ?>
     </div>
+	<?php else : ?>
+        <h3 class="bg-warning text-center p-2">No Records Found</h3>
+    <?php endif; ?>
     <center></center>
 </div>

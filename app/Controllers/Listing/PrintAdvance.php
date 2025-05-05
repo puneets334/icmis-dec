@@ -1946,7 +1946,7 @@ class PrintAdvance extends BaseController
                             $todt = $to_dt[2] . "-" . $to_dt[1] . "-" . $to_dt[0];
 
                             $weekly_files[] = [
-                                'pdf_path' => base_url("writable/judgment/cl/wk/$file/weekly.html"),
+                                'pdf_path' => base_url("public/judgment/cl/wk/$file/weekly.html"),
                                 'label' => "$fromdt to $todt"
                             ];
                         }
@@ -1962,7 +1962,7 @@ class PrintAdvance extends BaseController
     {
         $request = \Config\Services::request();
         $list_dt = $request->getPost('list_dt');
-
+		
         if (!file_exists($list_dt)) {
             return $this->response->setJSON(['status' => 'error', 'message' => 'File not found!']);
         }
@@ -1973,9 +1973,9 @@ class PrintAdvance extends BaseController
         $content = file_get_contents($list_dt);
 
         $updated_content = str_replace('/home/judgment/cl/scilogo.png', '<img src="' . $logo_url . '" width="50px" height="80px">', $content);
-
-
-        return $this->response->setJSON(['status' => 'success', 'content' => $updated_content]);
+      
+	    
+	    return $this->response->setJSON(['status' => 'success', 'content' => $updated_content]);
     }
 
 

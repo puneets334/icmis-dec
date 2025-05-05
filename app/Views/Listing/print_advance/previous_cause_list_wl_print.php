@@ -116,13 +116,11 @@
                 },
                
                 success: function(data, status) {
-                    if (data.status === 'success') {
-                        $('#dv_res1').html(data.content); // Display the updated HTML content
+					if (status === 'success') {
+                        $('#dv_res1').html(data); 
                     } else {
                         $('#dv_res1').html('<div class="alert alert-warning alert-dismissible fade show" role="alert"><strong>' + data.message + '</strong><button type="button" class="btn-close close" data-dismiss="alert" aria-label="Close">x</button></div>');
-             
-                        
-                    }
+                   } 
                 },
 
                 error: function(xhr) {

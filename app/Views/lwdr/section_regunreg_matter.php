@@ -55,7 +55,7 @@
 
         var section = $('.sel_sec').val();
 
-        if (section == '') {
+        if (section == '0') {
             alert("Please Select Section");
             return false;
         }
