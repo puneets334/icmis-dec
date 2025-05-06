@@ -159,12 +159,12 @@
                                     </div>
 
                                     <div class="form-group col-sm-2">
-                                        <label for="from">From Date</label>
-                                        <input type="date" name="txt_frm_dt" id="txt_frm_dt"  class="form-control datepick" autocomplete="off" placeholder="From Date">
+                                        <label for="from">From Date2</label>
+                                        <input type="date" name="txt_frm_dt" id="txt_frm_dt"  class="form-control datepick" autocomplete="off" placeholder="From Date" value="<?= date('Y-m-d') ?>" /> 
                                     </div>
                                     <div class="form-group col-sm-2">
                                         <label for="to">To Date</label>
-                                        <input type="date" name="txt_to_dt" id="txt_to_dt" class="form-control datepick" placeholder="To Date" autocomplete="off">
+                                        <input type="date" name="txt_to_dt" id="txt_to_dt" class="form-control datepick" placeholder="To Date" autocomplete="off" value="<?= date('Y-m-d') ?>">
                                     </div>
 
                                     <div class="form-group col-sm-3 pull-right">
@@ -294,6 +294,7 @@
             type: 'POST',
             success: function(data, status) {
                 $('#dv_load').html(data);
+                alert(data);
                 get_records();
             },
             error: function(xhr) {

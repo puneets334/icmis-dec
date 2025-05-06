@@ -1078,7 +1078,7 @@ class DispatchController extends BaseController
         }
 
         $usercode = session()->get('login')['usercode'];
-    
+        $blank_table_diary = '';
         for ($index = 0; $index < count($diary_no); ) {
             for ($index1 = 0; $index1 < count($users); $index1++) {
             $ind_rec= $users[$index1];
@@ -1119,9 +1119,14 @@ class DispatchController extends BaseController
                     }
                 }else{
                     $chk_record = "Select count(uid) from fil_trap where diary_no='$ex_diary' and d_to_empid='$_REQUEST[ddl_users_nm]' $remarks";
+                    
                 $chk_record = $this->db->query($chk_record);
-                $r_chk_record = $chk_record->getNumRows();
-                if ($r_chk_record > 0) {
+                $row_list = $chk_record->getRowArray();               
+                
+                //$r_chk_record = $chk_record->getNumRows();
+                $r_chk_record = $row_list['count'];
+                $blank_table_diary = ''; 
+                if ($r_chk_record != 0) {
                     $up_record = "Update fil_trap set d_to_empid='$first_user',r_by_empid=if(r_by_empid!=0,$first_user,0) where diary_no='$ex_diary'";
                     if (!$this->db->query($up_record)) {
                         die("Error: Please contact to Computre cell");
@@ -1137,10 +1142,20 @@ class DispatchController extends BaseController
                         <?php
                     }
                 }
+                else{
+                    $blank_table_diary .= $ex_diary.', ';
+                    $blank_table_diary = rtrim($blank_table_diary, ', ');
+                    echo $blank_table_diary." diary no is blank in Table"; die; 
+                }
             }
             $index++;
            // }
         }
+        if(!empty($blank_table_diary))  {
+            $blank_table_diary = rtrim($blank_table_diary, ',');                    
+                    echo $blank_table_diary;die;
+        }
+        
         }
     }
 

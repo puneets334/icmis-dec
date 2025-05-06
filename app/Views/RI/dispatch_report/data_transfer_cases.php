@@ -90,7 +90,6 @@ $(document).on('click', '.cl_users, .cl_allot_case', function() {
 function transferCases() {
     let diary_no = getSelectedCases('.cl_allot_case');
     let users = getSelectedUsers('.cl_users');
-
     if (diary_no.length === 0) {
         alert("Please select at least one Diary No. to be transferred");
     } else if (users.length === 0) {
@@ -122,7 +121,7 @@ function transferCases() {
                 get_records();
             },
             error: function(xhr) {
-                updateCSRFToken();
+                //updateCSRFToken();
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });
