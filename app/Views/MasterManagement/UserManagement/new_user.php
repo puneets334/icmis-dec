@@ -207,6 +207,7 @@
                         $("#_username_name_nu").val(aray_args[9]);
                         $("#_username_name_nu").attr("disabled", "true");
                     }
+                    
                 })
                 .fail(function() {
                     updateCSRFToken();
@@ -653,6 +654,9 @@
                     $(".add_result").css("color", "red");
                     $(".add_result").html(msg);
                 }
+                alert("Updated Successfully.")                
+                location.reload();
+
             })
             .fail(function() {
                 updateCSRFToken();
