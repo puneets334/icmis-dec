@@ -13,8 +13,4 @@ sharedsheet/
 info.php
 /vendor
 MasterJSON/state.json
-/public/assets
-/public/user_management
-/public/uploaded_documents
-/public/reports
-/public/requisition
+/public/judgment
