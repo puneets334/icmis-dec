@@ -866,14 +866,24 @@ class UserManagementModel extends Model
         return $result;
     }
     public function edit_user($udept, $usec, $utype, $empid, $tempid, $name, $service, $ucode, $user)
-    {
+    {        
         $employee = 0;
         if ($empid != 0) {
             $builder = $this->db->table('master.users');
             $builder->where('empid', $empid);
             $builder->where('display', 'Y');
             $query = $builder->get();
-            $checker = $query->getResultArray();
+            $getresultarr = $query->getRowArray();
+            if(count($getresultarr) > 0 ){
+                if($ucode == NULL)
+                    $checker = 1;
+                    else{                        
+                        if($getresultarr['usercode'] == $ucode)
+                        $checker = 0;
+                        else
+                        $checker = 1;
+                    }
+            } 
             $employee = $empid;
         } else if ($tempid != 0) {
             $builder = $this->db->table('master.users');
@@ -881,26 +891,26 @@ class UserManagementModel extends Model
             $builder->where('display', 'Y');
             $query = $builder->get();
             $checker = $query->getResultArray();
-
             $employee = $tempid;
         } else {
-            $checker = 0;
-            $checker2 = 0;
+            $checker = 0;            
         }
-        if ($checker == 0 && $checker2 == 0) {
+        $checker2 = 0;        
+        if ($checker == 0 && $checker2 == 0) {            
             if ($service == 'J') 
                 $name = 'Justice ' . $name;
                 $data = [
-                    'name' => $name,
-                    'usertype' => $utype,
-                    'udept' => $udept,
-                    'section' => $usec,
-                    'empid' => $employee,
-                    'service' => $service,
-                    'upuser' => $user,
-                    'updt' => date('Y-m-d H:i:s')
+                        'name' => $name,
+                        'usertype' => $utype,
+                        'udept' => $udept,
+                        'section' => $usec,
+                        'empid' => $employee,
+                        'service' => $service,
+                        'upuser' => $user,
+                        'updt' => date('Y-m-d H:i:s'),
+                        'updated_by' => session()->get('login')['usercode'],
+                        'updated_by_ip' => getClientIP(),
                 ];
-
                 $builder = $this->db->table('master.users');
                 $builder->where('usercode', $ucode);
                 $builder->update($data);
