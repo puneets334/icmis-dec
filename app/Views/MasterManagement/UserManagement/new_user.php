@@ -489,9 +489,7 @@
                 $("#btnMain").val("Update");
                 $("#btnMain").attr("onclick", "edit_user()");
                 $("#btnCan").css("display", "inline");
-
-                newuser_manage_mat_5(msg2);
-                
+                newuser_manage_mat_5(msg2);                
             })
             .fail(function() {
                 updateCSRFToken();
