@@ -73,7 +73,7 @@ class DAK extends BaseController
 
             // $query->join("main$is_archival_table m", 'a.diary_no = m.diary_no', 'left');
             $query->join('master.casetype ct', 'casecode = active_casetype_id', 'left');
-            $query->where('docnum', $diary_number);
+            $query->where('CAST(docnum AS BIGINT)', $diary_number);
             $query->where('docyear', $diary_year);
             $query->whereIn('a.display', ['Y', 'E']);
             $query = $query->get();

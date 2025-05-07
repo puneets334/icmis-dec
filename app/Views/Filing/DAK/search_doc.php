@@ -175,12 +175,14 @@
                         url: "<?php echo base_url('Filing/DAK/get_search_doc'); ?>",
                         data: form_data,
                         beforeSend: function() {
-                           
+                           $('#submit').prop('disabled',true);
                             // $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
                         },
                         success: function(data) {
                             $("#loader").html('');
                             updateCSRFToken();
+                            $('#submit').prop('disabled',false);
+
                             var resArr = data.split('@@@');
                             if (resArr[0] == 1) {
                                 $('.alert-error').hide();
@@ -194,6 +196,8 @@
                         },
                         error: function() {
                             updateCSRFToken();
+                            $('#submit').prop('disabled',false);
+
                             $('#search_load_data').html('');
                             alert('Something went wrong! please contact computer cell');
                         }
