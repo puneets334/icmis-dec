@@ -39,7 +39,8 @@
                                     $attribute = array('class' => 'form-horizontal','name' => 'caveat_diary_matched_search', 'id' => 'caveat_diary_matched_search', 'autocomplete' => 'off');
                                     echo form_open(base_url('#'), $attribute);
                                     ?>
-                                    <h3>Caveat and Diary matched but not Linked   <button type="submit" class="btn btn-primary" id="submit">Submit</button></h3>
+                                    <h4 class="ml-4 ">Caveat and Diary matched but not Linked -----
+                                    <button type="submit" class="btn btn-primary" id="submit">Submit</button></h4>
 
                                     <br/>
                                     <div class="row d-none">
@@ -116,7 +117,8 @@
                         url: "<?=base_url('Caveat/Caveat_diary_matched/get_caveat_diary_matched')?>",
                         data: form_data,
                         beforeSend: function () {
-                            $('.dak_submit').val('Please wait...');
+                            $("#div_result").html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
+                            $('.dak_submit').val('Please wait...'); 
                             $('.dak_submit').prop('disabled', true);
                         },
                         success: function (data) {

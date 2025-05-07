@@ -40,10 +40,11 @@
 	h4 {
 		line-height: 0px;
 	}
-</style>
-<link href="<?php echo base_url(); ?>/css/jquery-ui.css" rel="stylesheet">
 
-<style type="text/css">
+	div.dataTables_wrapper div.dataTables_filter {
+    margin-top: -40px;
+}
+
 	#sp_amo {
 		cursor: pointer;
 		color: blue;
@@ -53,6 +54,9 @@
 		text-decoration: underline
 	}
 </style>
+<link href="<?php echo base_url(); ?>/css/jquery-ui.css" rel="stylesheet">
+
+
 
 <section class="content">
 	<div class="container-fluid">
@@ -126,7 +130,7 @@
 						</div>
 					</div>
 					<div id="dv_content1">
-						<div id="dv_res1" style="align-content: center"></div>
+						<div class="row" id="dv_res1" style="align-content: center"></div>
 						<div id="ank"></div>
 					</div>
 				</div>
@@ -184,7 +188,7 @@
 			alert('The start date (From Date) cannot be later than the end date (To Date).');
 			return; 
 		}
-
+		$('#btnGetDiaryList').prop('disabled',true);
 		$("#dv_res1").html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
 
 		var CSRF_TOKEN = 'CSRF_TOKEN';
@@ -200,11 +204,14 @@
 				CSRF_TOKEN: CSRF_TOKEN_VALUE
 			},
 			success: function(r) {
-				updateCSRFToken();
 				$("#dv_res1").html(r);
 			},
-			error: function() {
+			complete:function()
+			{
 				updateCSRFToken();
+				$('#btnGetDiaryList').prop('disabled',false);
+			},
+			error: function() {
 				alert('ERROR');
 			}
 		});

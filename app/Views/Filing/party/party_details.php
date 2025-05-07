@@ -1712,7 +1712,7 @@ if($check_if_fil_user > 0 ){
             "lengthChange": false,
             "autoWidth": false,
             "searching": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            "buttons": ["csv", "excel", "pdf", "print"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
         $("#example2").DataTable({
@@ -1720,7 +1720,7 @@ if($check_if_fil_user > 0 ){
             "lengthChange": false,
             "autoWidth": false,
             "searching": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            "buttons": ["csv", "excel", "pdf", "print"]
         }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
 
         $("#example11").DataTable({
@@ -1728,7 +1728,7 @@ if($check_if_fil_user > 0 ){
             "lengthChange": false,
             "autoWidth": false,
             "searching": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            "buttons": ["csv", "excel", "pdf", "print"]
         }).buttons().container().appendTo('#example11_wrapper .col-md-6:eq(0)');
 
         $("#example22").DataTable({
@@ -1736,7 +1736,7 @@ if($check_if_fil_user > 0 ){
             "lengthChange": false,
             "autoWidth": false,
             "searching": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print"]
+            "buttons": ["csv", "excel", "pdf", "print"]
         }).buttons().container().appendTo('#example22_wrapper .col-md-6:eq(0)');
 
 
