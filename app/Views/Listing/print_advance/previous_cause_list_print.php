@@ -176,14 +176,17 @@
             },
             beforeSend: function() {
                 $('#dv_res1').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>');
-            },
+                $('#btn1').attr('disabled','disabled');
+			},
             success: function(data, status) {
                 $('#dv_res1').html(data);
                 updateCSRFToken();
+				$('#btn1').removeAttr('disabled');
             },
             error: function(xhr) {
                 updateCSRFToken();
                 alert("Error: " + xhr.status + " " + xhr.statusText);
+				$('#btn1').removeAttr('disabled');
             }
         });
     });
