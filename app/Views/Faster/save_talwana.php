@@ -4,16 +4,19 @@ $dairy_no = $_REQUEST['d_no'] . $_REQUEST['d_yr'];
 $sq_ck = '';
 $year = date('Y');
 $date = date('Y-m-d');
+$flag = 1;
 $_REQUEST['sp_nm'] = !empty($_REQUEST['sp_nm']) ? htmlspecialchars_decode(htmlentities($_REQUEST['sp_nm'])) : '';
 $_REQUEST['sp_add'] = !empty($_REQUEST['sp_add']) ? htmlspecialchars_decode(htmlentities($_REQUEST['sp_add'])) : '';
 $_REQUEST['txtNote'] = !empty($_REQUEST['txtNote']) ? htmlspecialchars_decode(htmlentities($_REQUEST['txtNote'])) : '';
 $_REQUEST['txtSub_nm'] = !empty($_REQUEST['txtSub_nm']) ? htmlspecialchars_decode(htmlentities(($_REQUEST['txtSub_nm']))) : '';
-
+$db = \Config\Database::connect();
 $txtFFX = !empty($_REQUEST['txtFFX']) ? date('Y-m-d',  strtotime($_REQUEST['txtFFX'])) : '';
 if ($txtFFX == '1970-01-01')
     $txtFFX = '0000-00-00';
+
+// pr($_REQUEST['hd_new_upd']);
 if ($_REQUEST['hd_new_upd'] == '0') {
-    $db = \Config\Database::connect();
+
     $year = $_REQUEST['d_yr'];
     $builder = $db->table('master.tw_max_process');
     $process = $builder->select('processid')->where('year', $year)->get()->getRow();
@@ -41,37 +44,57 @@ if ($_REQUEST['hd_new_upd'] == '0') {
             'tal_district'          => $_REQUEST['ddlCity'],
             'enrol_no'              => $_REQUEST['hdinenroll'],
             'enrol_yr'              => $_REQUEST['hdinenrollyr'],
-            'order_dt'              => ($_REQUEST['hd_order_date']) ? $_REQUEST['hd_order_date'] : NULL,
+            'order_dt'              => (isset($_REQUEST['hd_order_date']) && ($_REQUEST['hd_order_date'] != 'undefined')) ? $_REQUEST['hd_order_date'] : NULL,
             'office_notice_rpt'     => (isset($_REQUEST['ddl_not_office']) && ($_REQUEST['ddl_not_office'])) ? $_REQUEST['ddl_not_office'] : '',
             'individual_multiple'   => isset($_REQUEST['individual_multiple']) ? $_REQUEST['individual_multiple'] : NULL,
             'print'                 => 0,
-            'individual_multiple'   => isset($_REQUEST['individual_multiple']) ? $_REQUEST['individual_multiple'] : '',
-            'notice_path'           => ''
+            'notice_path'           => '',
+            'create_modify'         => date("Y-m-d H:i:s"),
+            'updated_by'            => session()->get('login')['usercode'],
+            'updated_by_ip'         => getClientIP()
         ];
 
         $builder = $db->table('tw_tal_del');
         $s_ins_tw = $builder->select('id')
-                ->where(['process_id' => $res, 'rec_dt' => $date])
-                ->get()
-                ->getRow();
+            ->where(['process_id' => $res, 'rec_dt' => $date])
+            ->get()
+            ->getRow();
 
         // Insert data into tw_tal_del table
         // $insert = $db->table('tw_tal_del')->replace($data);
-    if (!$s_ins_tw) {
-        $insert = $db->table('tw_tal_del')->insert($data);
-        if (!$insert) {
-            $sq_ck = 0; // Or log the error as needed
+        if (!$s_ins_tw) {
+            $insert = $db->table('tw_tal_del')->insert($data);
+            if (!$insert) {
+                $sq_ck = 0; // Or log the error as needed
+                $flag = 0;
+            }
+        } else {
+            $flag = 0;                      ////// NEED to change value 0 after test
+            // $res = $process->processid;     ////// NEED to remove after test
+            $sq_ck = 0;
         }
+    } else {
+        $flag = 0;
+        $sq_ck = 0;
     }
-        
+
+
+
+    if (!$flag) {
+        $sq_ck = 0;
+        // echo 'Step-1 ';
     } else {
         $data = [
-            'processid' => $res
+            'processid' => $res,
+            'create_modify'   => date("Y-m-d H:i:s"),
+            'updated_by'      => session()->get('login')['usercode'],
+            'updated_by_ip'   => getClientIP()
         ];
 
         // Update the tw_max_process table
         $builder = $db->table('master.tw_max_process');
         $update = $builder->where('year', $year)->update($data);
+        // echo 'Step-2 ';
 
         if (!$update) {
             // Handle error
@@ -85,13 +108,20 @@ if ($_REQUEST['hd_new_upd'] == '0') {
                 ->get()
                 ->getRow();
 
+            // echo 'Step-3 ';
+
             if (!$s_ins_tw) {
+                // echo 'Step-4 ';
                 $return['message'] = 'No recrd found';
                 return json_encode($return); // Handle no result scenario if needed
             }
 
             $r_s_ins_tw = $s_ins_tw->id;
-            $ex_explode = explode(',', $this->request->getVar('del_ty'));
+            // pr(base64_decode($_GET['del_ty']));
+            // echo 'Step-5 ';
+            // pr($_REQUEST['del_ty']);
+            // $ex_explode = explode(',', $this->request->getGet('del_ty'));
+            $ex_explode = explode(',', $_REQUEST['del_ty']);
 
             foreach ($ex_explode as $k => $value) {
                 $ex_in_exp = explode('!', $value);
@@ -102,10 +132,14 @@ if ($_REQUEST['hd_new_upd'] == '0') {
                     ->countAllResults();
 
                 if ($res_sel_dt <= 0) {
+                    // echo 'Step-6 ';
                     // Insert new record
                     $db->table('tw_o_r')->insert([
-                        'tw_org_id' => $r_s_ins_tw,
-                        'del_type' => $ex_in_exp[0]
+                        'tw_org_id'       => $r_s_ins_tw,
+                        'del_type'        => $ex_in_exp[0],
+                        'create_modify'   => date("Y-m-d H:i:s"),
+                        'updated_by'      => session()->get('login')['usercode'],
+                        'updated_by_ip'   => getClientIP()
                     ]);
                 }
 
@@ -116,12 +150,25 @@ if ($_REQUEST['hd_new_upd'] == '0') {
                     ->get()
                     ->getRow();
 
+
+                // echo 'Step-7 ';
+
                 if (!$res_tw_o_r) {
+                    // echo 'Step-8 ';
                     continue; // Handle no result scenario if needed
                 }
 
                 $res_tw_o_r = $res_tw_o_r->id;
                 $ex_send_to = explode('~', $ex_in_exp[1]);
+                // echo $res_tw_o_r;
+                // pr($ex_send_to);
+
+                // $key = array_search('undefined', $ex_send_to);
+                // if (false !== $key) {
+                //     unset($ex_send_to[$key]);
+                // }
+
+                // pr($ex_send_to);
 
                 // Check tw_comp_not count
                 $res_comp_not = $db->table('tw_comp_not')
@@ -129,24 +176,54 @@ if ($_REQUEST['hd_new_upd'] == '0') {
                     ->countAllResults();
 
                 if ($res_comp_not <= 0) {
+                    // echo 'Step-9 ';
                     // Insert new tw_comp_not record
-                    $db->table('tw_comp_not')->insert([
-                        'tw_o_r_id' => $res_tw_o_r,
-                        'tw_sn_to' => $ex_send_to[0],
-                        'copy_type' => '0',
-                        'sendto_state' => $ex_send_to[1],
-                        'sendto_district' => $ex_send_to[2],
-                        'send_to_type' => $ex_send_to[3]
-                    ]);
+
+                    // $db->table('tw_comp_not')->insert([
+                    //     'tw_o_r_id'       => $res_tw_o_r,
+                    //     'tw_sn_to'        => $ex_send_to[0],
+                    //     'copy_type'       => '0',
+                    //     'sendto_state'    => $ex_send_to[1] ?? '',
+                    //     'sendto_district' => $ex_send_to[2] ?? '',
+                    //     'send_to_type'    => $ex_send_to[3] ?? ''
+                    // ]);
+
+                    if ($ex_send_to[0] != 'undefined') {
+                        // echo 'Step-10 ';
+                        $db->table('tw_comp_not')->insert([
+                            'tw_o_r_id'       => $res_tw_o_r,
+                            'tw_sn_to'        => $ex_send_to[0] ?? '',
+                            'copy_type'       => '0',
+                            'sendto_state'    => $ex_send_to[1] ?? '',
+                            'sendto_district' => $ex_send_to[2] ?? '',
+                            'send_to_type'    => $ex_send_to[3] ?? '',
+                            'l_ljs_p_d'       => '',
+                            'l_hjs_p_d'       => '',
+                            'l_ljs_pt'        => '',
+                            'l_hjs_pt'        => '',
+                            't_ljs_p_d'       => '',
+                            't_hjs_p_d'       => '',
+                            't_ljs_rem'       => '',
+                            't_hjs_rem'       => '',
+                            'dis_remark'      => '',
+                            'create_modify'   => date("Y-m-d H:i:s"),
+                            'updated_by'      => session()->get('login')['usercode'],
+                            'updated_by_ip'   => getClientIP()
+                        ]);
+                    }
                 } else {
+                    // echo 'Step-11 ';
                     // Update existing record
                     $db->table('tw_comp_not')
                         ->where(['tw_o_r_id' => $res_tw_o_r, 'copy_type' => '0', 'display' => 'Y'])
                         ->update([
-                            'tw_sn_to' => $ex_send_to[0],
-                            'sendto_state' => $ex_send_to[1],
-                            'sendto_district' => $ex_send_to[2],
-                            'send_to_type' => $ex_send_to[3]
+                            'tw_sn_to' => $ex_send_to[0] ?? '',
+                            'sendto_state' => $ex_send_to[1] ?? '',
+                            'sendto_district' => $ex_send_to[2] ?? '',
+                            'send_to_type' => $ex_send_to[3] ?? '',
+                            'create_modify'   => date("Y-m-d H:i:s"),
+                            'updated_by'      => session()->get('login')['usercode'],
+                            'updated_by_ip'   => getClientIP()
                         ]);
                 }
 
@@ -155,6 +232,7 @@ if ($_REQUEST['hd_new_upd'] == '0') {
                     $ex_send_to = explode('$', $ex_in_exp[2]);
 
                     foreach ($ex_send_to as $send) {
+                        // echo 'Step-12 ';
                         $in_exp = explode('~', $send);
 
                         // Check for existing records
@@ -163,14 +241,27 @@ if ($_REQUEST['hd_new_upd'] == '0') {
                             ->countAllResults();
 
                         if ($res_comp_not <= 0) {
+                            // echo 'Step-13 ';
                             // Insert new record
                             $db->table('tw_comp_not')->insert([
                                 'tw_o_r_id' => $res_tw_o_r,
-                                'tw_sn_to' => $in_exp[0],
+                                'tw_sn_to' => $in_exp[0] ?? '',
                                 'copy_type' => '1',
                                 'sendto_state' => $in_exp[1],
-                                'sendto_district' => $in_exp[2],
-                                'send_to_type' => $in_exp[3]
+                                'sendto_district' => $in_exp[2] ?? '',
+                                'send_to_type' => $in_exp[3] ?? '',
+                                'l_ljs_p_d'       => '',
+                                'l_hjs_p_d'       => '',
+                                'l_ljs_pt'        => '',
+                                'l_hjs_pt'        => '',
+                                't_ljs_p_d'       => '',
+                                't_hjs_p_d'       => '',
+                                't_ljs_rem'       => '',
+                                't_hjs_rem'       => '',
+                                'dis_remark'      => '',
+                                'create_modify'   => date("Y-m-d H:i:s"),
+                                'updated_by'      => session()->get('login')['usercode'],
+                                'updated_by_ip'   => getClientIP()
                             ]);
                         }
                     }
@@ -178,43 +269,56 @@ if ($_REQUEST['hd_new_upd'] == '0') {
             }
 
             $data = [
-                'state' => $this->request->getVar('ddlState'),
-                'city' => $this->request->getVar('ddlCity')
+                'state'           => $_REQUEST['ddlState'],
+                'city'            => $_REQUEST['ddlCity'],
+                'create_modify'   => date("Y-m-d H:i:s"),
+                'updated_by'      => session()->get('login')['usercode'],
+                'updated_by_ip'   => getClientIP()
             ];
 
-            $builder = $this->db->table('party');
+            $builder = $db->table('party');
             $builder->where([
                 'diary_no' => $dairy_no,
-                'pet_res' => $this->request->getVar('hd_pet_res'),
-                'sr_no' => $this->request->getVar('hd_sr_no')
+                'pet_res' => $_REQUEST['hd_pet_res'],
+                'sr_no' => $_REQUEST['hd_sr_no']
             ]);
-
+            // echo 'Step-14 ';
             $result = $builder->update($data);
         }
     }
 } else if ($_REQUEST['hd_new_upd'] == '1') {
-
-
+    // die('In Step-2');
+    // echo 'Step-15 ';
     $data = [
-        'name' => $this->request->getVar('sp_nm'),
-        'address' => $this->request->getVar('sp_add'),
-        'nt_type' => $this->request->getVar('ddl_val'),
-        'amount' => $this->request->getVar('txtAmount'),
+        'name' => $_REQUEST['sp_nm'],
+        'address' => $_REQUEST['sp_add'],
+        'nt_type' => $_REQUEST['ddl_val'],
+        'amount' => $_REQUEST['txtAmount'],
         'user_id' => $ucode,
         'display' => 'Y',
-        'amt_wor' => $this->request->getVar('nm_wd'),
-        'fixed_for' => $this->request->getVar('txtFFX'),
-        'sub_tal' => $this->request->getVar('txtSub_nm'),
-        'tal_state' => $this->request->getVar('ddlState'),
-        'tal_district' => $this->request->getVar('ddlCity'),
-        'enrol_no' => $this->request->getVar('hdinenroll'),
-        'enrol_yr' => $this->request->getVar('hdinenrollyr'),
-        'order_dt' => $this->request->getVar('hd_order_date'),
-        'individual_multiple' => $this->request->getVar('individual_multiple')
+        'amt_wor' => $_REQUEST['nm_wd'],
+        'fixed_for' => ($_REQUEST['txtFFX']) ? $_REQUEST['txtFFX'] : NULL,
+        'sub_tal' => $_REQUEST['txtSub_nm'],
+        'tal_state' => $_REQUEST['ddlState'],
+        'tal_district' => $_REQUEST['ddlCity'],
+        'enrol_no' => $_REQUEST['hdinenroll'],
+        'enrol_yr' => $_REQUEST['hdinenrollyr'],
+        'order_dt' => (isset($_REQUEST['hd_order_date']) && ($_REQUEST['hd_order_date'] != 'undefined')) ? $_REQUEST['hd_order_date'] : NULL,
+        'individual_multiple' => $_REQUEST['individual_multiple'],
+        'create_modify'   => date("Y-m-d H:i:s"),
+        'updated_by'      => session()->get('login')['usercode'],
+        'updated_by_ip'   => getClientIP()
     ];
 
-    $builder = $this->db->table('tw_tal_del');
-    $builder->where('id', $this->request->getVar('hd_mn_id'));
+    $builder = $db->table('tw_tal_del');
+    // $builder->set($data);
+    $builder->where('id', $_REQUEST['hd_mn_id']);
+
+    //     $sql = $builder->getCompiledUpdate();
+
+    // // Print or log the compiled query
+    // echo $sql;
+    // die;
 
     $result = $builder->update($data);
 
@@ -223,8 +327,9 @@ if ($_REQUEST['hd_new_upd'] == '0') {
     if (!$result) {
         return false; // Update failed
     } else {
-        $r_s_ins_tw = $this->request->getPost('hd_mn_id');
-        $ex_explode = explode(',', $this->request->getPost('del_ty'));
+        // echo 'Step-15 ';
+        $r_s_ins_tw = $_REQUEST['hd_mn_id'];
+        $ex_explode = explode(',', $_REQUEST['del_ty']);
         $del_type_del = [];
 
         $db = db_connect(); // Get a database connection
@@ -266,12 +371,24 @@ if ($_REQUEST['hd_new_upd'] == '0') {
 
                     if ($res_comp_not <= 0) {
                         $db->table('tw_comp_not')->insert([
-                            'tw_o_r_id' => $res_tw_o_r['id'],
-                            'tw_sn_to' => $ex_send_to[0],
-                            'copy_type' => '0',
-                            'sendto_state' => $ex_send_to[1],
-                            'sendto_district' => $ex_send_to[2],
-                            'send_to_type' => $ex_send_to[3],
+                            'tw_o_r_id'       => $res_tw_o_r['id'],
+                            'tw_sn_to'        => $ex_send_to[0],
+                            'copy_type'       => '0',
+                            'sendto_state'    => $ex_send_to[1] ?? '',
+                            'sendto_district' => $ex_send_to[2] ?? '',
+                            'send_to_type'    => $ex_send_to[3] ?? '',
+                            'l_ljs_p_d'       => '',
+                            'l_hjs_p_d'       => '',
+                            'l_ljs_pt'        => '',
+                            'l_hjs_pt'        => '',
+                            't_ljs_p_d'       => '',
+                            't_hjs_p_d'       => '',
+                            't_ljs_rem'       => '',
+                            't_hjs_rem'       => '',
+                            'dis_remark'      => '',
+                            'create_modify'   => date("Y-m-d H:i:s"),
+                            'updated_by'      => session()->get('login')['usercode'],
+                            'updated_by_ip'   => getClientIP()
                         ]);
                     } else {
                         $db->table('tw_comp_not')
@@ -280,9 +397,12 @@ if ($_REQUEST['hd_new_upd'] == '0') {
                             ->where('display', 'Y')
                             ->update([
                                 'tw_sn_to' => $ex_send_to[0],
-                                'sendto_state' => $ex_send_to[1],
-                                'sendto_district' => $ex_send_to[2],
-                                'send_to_type' => $ex_send_to[3],
+                                'sendto_state' => $ex_send_to[1] ?? '',
+                                'sendto_district' => $ex_send_to[2] ?? '',
+                                'send_to_type' => $ex_send_to[3] ?? '',
+                                'create_modify'   => date("Y-m-d H:i:s"),
+                                'updated_by'      => session()->get('login')['usercode'],
+                                'updated_by_ip'   => getClientIP()
                             ]);
                     }
 
@@ -305,28 +425,51 @@ if ($_REQUEST['hd_new_upd'] == '0') {
                                     'tw_o_r_id' => $res_tw_o_r['id'],
                                     'tw_sn_to' => $in_exp[0],
                                     'copy_type' => '1',
-                                    'sendto_state' => $in_exp[1],
-                                    'sendto_district' => $in_exp[2],
-                                    'send_to_type' => $in_exp[3],
+                                    'sendto_state' => $in_exp[1] ?? '',
+                                    'sendto_district' => $in_exp[2] ?? '',
+                                    'send_to_type' => $in_exp[3] ?? '',
+                                    'l_ljs_p_d'       => '',
+                                    'l_hjs_p_d'       => '',
+                                    'l_ljs_pt'        => '',
+                                    'l_hjs_pt'        => '',
+                                    't_ljs_p_d'       => '',
+                                    't_hjs_p_d'       => '',
+                                    't_ljs_rem'       => '',
+                                    't_hjs_rem'       => '',
+                                    'dis_remark'      => '',
+                                    'create_modify'   => date("Y-m-d H:i:s"),
+                                    'updated_by'      => session()->get('login')['usercode'],
+                                    'updated_by_ip'   => getClientIP()
                                 ]);
                             }
                         }
                     }
 
-                    $not_send_to_in = $tot_copt_send_to ? " AND tw_sn_to NOT IN ($tot_copt_send_to)" : '';
+                    $not_send_to_in = $tot_copt_send_to ? $tot_copt_send_to : '';
 
-                    $db->table('tw_comp_not')
+                    $builder = $db->table('tw_comp_not')
                         ->set('display', 'N')
                         ->where('tw_o_r_id', $res_tw_o_r['id'])
                         ->where('copy_type', '1')
                         ->where('display', 'Y')
-                        ->where('tw_sn_to !=', $not_send_to_in) // Note: Adapt as needed
-                        ->update();
+                        ->whereNotIn('tw_sn_to', [$not_send_to_in]); // Note: Adapt as needed
+
+                    // echo $sql = $builder->getCompiledUpdate();
+                    // die;
+
+                    $builder->update();
                 }
             }
         }
         $db->table('tw_o_r')
-            ->set(['display' => 'N'])
+            ->set(
+                [
+                    'display' => 'N',
+                    'create_modify'   => date("Y-m-d H:i:s"),
+                    'updated_by'      => session()->get('login')['usercode'],
+                    'updated_by_ip'   => getClientIP()
+                ]
+            )
             ->where('tw_org_id', $r_s_ins_tw)
             ->where('display', 'Y')
             ->whereNotIn('del_type', $del_type_del)
@@ -334,8 +477,11 @@ if ($_REQUEST['hd_new_upd'] == '0') {
 
         // Update party table
         $data = [
-            'state' => $_REQUEST['ddlState'],
-            'city' => $_REQUEST['ddlCity']
+            'state'           => $_REQUEST['ddlState'],
+            'city'            => $_REQUEST['ddlCity'],
+            'create_modify'   => date("Y-m-d H:i:s"),
+            'updated_by'      => session()->get('login')['usercode'],
+            'updated_by_ip'   => getClientIP()
         ];
 
         $updated = $db->table('party')

@@ -1464,12 +1464,15 @@ class FasterController extends BaseController
         $dairy_no = $_REQUEST['d_no'] . $_REQUEST['d_yr'];
         $db = \Config\Database::connect();
         $builder = $db->table('master.tw_send_to');
+        $flag = 0;
 
         if ($_REQUEST['id_val'] == 2) {
+            $flag = 1;
             $query = $builder->select('id, desg')
                             ->where('display', 'Y')
                             ->get();
         } else if ($_REQUEST['id_val'] == 1) {
+            $flag = 1;
             $query = $db->table('advocate a')
                                 ->select("advocate_id as id, concat(name, '-', aor_code) as desg")
                                 ->join('master.bar b', 'a.advocate_id = b.bar_id', 'left')
@@ -1478,6 +1481,7 @@ class FasterController extends BaseController
                                 ->orderBy('pet_res')
                                 ->get();
         } else if ($_REQUEST['id_val'] == 3) {
+            $flag = 1;
             $additional_diary = '';
             $casetype_id = $db->table('main')
                                     ->select('active_casetype_id')
@@ -1531,19 +1535,21 @@ class FasterController extends BaseController
                 ->where('diary_no', $dairy_no)
                 ->where('lw_display', 'Y')
                 ->where('b.display', 'Y')
-                ->groupBy('l_state, l_dist, ct_code, b.name')
+                ->groupBy("l_state, l_dist, ct_code, b.name $lct_judge_desg")
                 ->get();
 
         }
         $html = '';
         // Fetching results
-        foreach ($query->getResultArray() as $row) {
-            $lct_judge_desg_s = '';
-            if (isset($row['lct_judge_desg']) && $row['lct_judge_desg'] != '0') {
-                $get_lower_court_judge = get_lower_court_judge($row['lct_judge_desg']);
-                $lct_judge_desg_s = $get_lower_court_judge;
+        if($flag){
+            foreach ($query->getResultArray() as $row) {
+                $lct_judge_desg_s = '';
+                if (isset($row['lct_judge_desg']) && $row['lct_judge_desg'] != '0') {
+                    $get_lower_court_judge = get_lower_court_judge($row['lct_judge_desg']);
+                    $lct_judge_desg_s = $get_lower_court_judge;
+                }
+                $html .= '<option value="'.$row['id'].'">'.$lct_judge_desg_s . $row['desg'].'</option>';
             }
-            $html .= '<option value="'.$row['id'].'">'.$lct_judge_desg_s . $row['desg'].'</option>';
         }
         return $html;
     }
@@ -1607,6 +1613,10 @@ class FasterController extends BaseController
     public function save_talwana(){
         return view('Faster/save_talwana');
     }
+
+    public function get_records(){
+        return view('Faster/get_records');
+    }
     
     public function get_ck_mul_rem(){
         $db = \Config\Database::connect();
@@ -1616,7 +1626,7 @@ class FasterController extends BaseController
         // Fetch the latest remarks
         $builder = $db->table('case_remarks_multiple');
         $builder->select('cl_date, r_head');
-        $builder->where('fil_no', $dairy_no);
+        $builder->where('diary_no', $dairy_no);
         $builder->whereIn('r_head', [
             '90', '91', '9', '10', '117', '62', '11',
             '60', '74', '75', '65', '2', '1', '94',

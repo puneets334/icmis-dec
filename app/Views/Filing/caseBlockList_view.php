@@ -63,11 +63,11 @@
                                             <div class="row mt-1">
                                                 <div class="col-md-3">
                                                     <label>Diary No.</label>
-                                                    <input type="text" class="form-control" id="dno" placeholder="Diary No.">
+                                                    <input type="text" class="form-control" id="dno" maxlength="10" placeholder="Diary No.">
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Year</label>
-                                                    <input type="text" class="form-control" id="dyr" placeholder="Year">
+                                                    <input type="text" class="form-control" maxlength="4" id="dyr" placeholder="Year">
                                                 </div>
 
                                                 <div class="col-md-3">
@@ -106,7 +106,8 @@
                                                             <?php
                                                             // echo "<pre>"; print_r($caseBlock_list); die;
                                                             if (!empty($caseBlock_list)) {
-                                                                foreach ($caseBlock_list as $sno => $row) { ?>
+                                                                foreach ($caseBlock_list as $sno => $row) {
+                                                                     ?>
                                                                     <tr>
                                                                         <td>
                                                                            
