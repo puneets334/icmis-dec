@@ -10,6 +10,9 @@
         width: auto !important;
         padding: 4px;
     }
+    div.dataTables_wrapper div.dataTables_filter {
+    margin-top: -40px;
+}
 </style>
 <section class="content">
     <div class="container-fluid">
@@ -118,7 +121,7 @@
             return;
         }
 
-
+        $('#btnGetDiaryList').prop('disabled',true);
         $("#dv_res1").html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
@@ -133,11 +136,15 @@
             },
             //cache: false,
             success: function(r) {
-                updateCSRFToken();
                 $("#dv_res1").html(r);
             },
-            error: function() {
+            complete:function()
+            {
                 updateCSRFToken();
+                $('#btnGetDiaryList').prop('disabled',false);
+
+            },
+            error: function() {
                 alert('ERROR');
             }
         });
