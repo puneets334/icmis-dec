@@ -869,12 +869,15 @@ class NoticesModel extends Model
 
         $query = $this->db->query($sql, [$diary_no]); // Execute query safely
 
+        // echo $this->db->getLastQuery();
+        // die;
+
         return $query->getRowArray(); // Fetch single row as an array
     }
 
     public function getTalDelDetails($diary_no, $dt, $fil_nm)
     {
-        return $this->db->table('tw_tal_del')
+        $result = $this->db->table('tw_tal_del')
             ->select("
                 id,
                 process_id,
@@ -903,20 +906,23 @@ class NoticesModel extends Model
             ->orderBy('process_id, pet_res, sr_no', 'ASC')
             ->get()
             ->getResultArray();
+
+        return $result;
     }
 
     public function getSendToDetails($org_id, $del_type,$copy_type)
     {
         $query =  $this->db->table('tw_o_r a')
-            ->select('a.tw_sn_to, a.sendto_state, a.sendto_district, a.send_to_type')
+            ->select('b.tw_sn_to, b.sendto_state, b.sendto_district, b.send_to_type')
             ->join('tw_comp_not b', 'a.id = b.tw_o_r_id')
             ->where('a.display', 'Y')
             ->where('b.display', 'Y')
             ->where('a.tw_org_id', $org_id)
             ->where('b.copy_type', $copy_type)
-            ->where('a.tw_sn_to !=', 0)
+            ->where('b.tw_sn_to !=', 0)
             ->where('a.del_type', $del_type)
             ->get();
+
             if($copy_type == 0)
             {
                 return $query->getRowArray();
@@ -928,33 +934,39 @@ class NoticesModel extends Model
 
     public function getMultiSendTp($diary_no, $rec_dt, $nt_type, $del_type)
     {
-        $sql = "
-            SELECT 
-                a.tw_sn_to, 
-                a.sendto_state, 
-                a.sendto_district, 
-                a.send_to_type,
+        $sql = "SELECT 
+                b.tw_sn_to, 
+                b.sendto_state, 
+                b.sendto_district, 
+                b.send_to_type,
                 z.tal_state, 
                 z.tal_district, 
                 z.name, 
                 z.address,
                 
-                STRING_AGG(CONCAT(z.process_id, '/', EXTRACT(YEAR FROM z.rec_dt)) ORDER BY z.pet_res, z.sr_no, z.process_id, ', ') AS process_id,
+                STRING_AGG(
+                    CONCAT(z.process_id::text, '/', EXTRACT(YEAR FROM z.rec_dt)::text),
+                    ', '
+                    ORDER BY z.pet_res, z.sr_no, z.process_id
+                ) AS process_id,
                 EXTRACT(YEAR FROM z.rec_dt) AS rec_dt,
                 
-                STRING_AGG(CONCAT(z.pet_res, '[', z.sr_no, ']') ORDER BY z.pet_res, z.sr_no, z.process_id, ', ') AS p_sno,
+                STRING_AGG(
+                    CONCAT(z.pet_res::text, '[', z.sr_no, ']'),
+                    ', '
+                    ORDER BY z.pet_res, z.sr_no, z.process_id
+                ) AS p_sno,
                 
                 z.pet_res, 
                 z.sr_no, 
-                z.del_type, 
+                del_type, 
                 z.nt_type, 
-                z.section
+                section
                 
             FROM tw_tal_del z
             JOIN tw_o_r a ON z.id = a.tw_org_id
             JOIN tw_comp_not b ON a.id = b.tw_o_r_id
-            JOIN tw_notice tn ON tn.id = z.nt_type AND tn.display = 'Y' AND tn.war_notice != 'L'
-            
+            JOIN master.tw_notice tn ON tn.id = z.nt_type::integer AND tn.display = 'Y' AND tn.war_notice != 'L'            
             WHERE 
                 a.display = 'Y' 
                 AND z.display = 'Y' 
@@ -964,27 +976,30 @@ class NoticesModel extends Model
                 AND b.display = 'Y'
                 AND b.copy_type = 0
                 AND z.nt_type = ?
-                AND z.del_type = ?
+                AND del_type = ?
             
             GROUP BY 
                 CASE 
-                    WHEN a.tw_sn_to != 0 
-                    THEN CONCAT(a.send_to_type, a.tw_sn_to, z.pet_res, z.sr_no, a.sendto_state, z.id) 
-                    ELSE z.id 
+                    WHEN b.tw_sn_to != 0 
+                    THEN CONCAT(b.send_to_type, b.tw_sn_to, z.pet_res, z.sr_no, b.sendto_state, z.id) 
+                    ELSE z.id::text
                 END,
-                a.tw_sn_to, a.sendto_state, a.sendto_district, a.send_to_type, 
+                b.tw_sn_to, b.sendto_state, b.sendto_district, b.send_to_type, 
                 z.tal_state, z.tal_district, z.name, z.address, 
-                z.pet_res, z.sr_no, z.del_type, z.nt_type, z.section, z.rec_dt
+                z.pet_res, z.sr_no, del_type, z.nt_type, section, z.rec_dt, z.process_id
             
             ORDER BY 
-                (CASE WHEN TRY_CAST(z.sr_no AS INTEGER) = 0 THEN 1 ELSE 0 END),
+                (CASE 
+                    WHEN z.sr_no ~ '^\d+$' AND CAST(z.sr_no AS INTEGER) = 0 THEN 1 
+                    WHEN z.sr_no !~ '^\d+$' THEN 1 
+                    ELSE 0 
+                END),
                 CAST(split_part(z.sr_no, '.', 1) AS INTEGER),
                 CAST(split_part(CONCAT(z.sr_no, '.0'), '.', 2) AS INTEGER),
                 CAST(split_part(CONCAT(z.sr_no, '.0.0'), '.', 3) AS INTEGER),
                 CAST(split_part(CONCAT(z.sr_no, '.0.0.0'), '.', 4) AS INTEGER),
                 z.pet_res, 
-                z.process_id;
-        ";
+                z.process_id";
 
         return $this->db->query($sql, [$diary_no, $rec_dt, $nt_type, $del_type])->getResultArray();
     }
@@ -1142,7 +1157,7 @@ class NoticesModel extends Model
         $builder->select('tw_sn_to, sendto_state, sendto_district, send_to_type, del_type');
         $builder->join('tw_o_r a', 'z.id = a.tw_org_id', 'inner');
         $builder->join('tw_comp_not b', 'a.id = b.tw_o_r_id', 'inner');
-        $builder->join('tw_notice tn', 'tn.id = z.nt_type AND tn.display = "Y" AND tn.war_notice != "L"', 'inner');
+        $builder->join('master.tw_notice tn', "tn.id = CAST(z.nt_type AS int) AND tn.display = 'Y' AND tn.war_notice != 'L'", 'inner');
         
         $builder->where('a.display', 'Y');
         $builder->where('z.display', 'Y');
@@ -1153,6 +1168,9 @@ class NoticesModel extends Model
         $builder->where('nt_type', $nt_type);
         $builder->where('copy_type', 1);
         $builder->where('del_type', $del_type[$dtc]);
+
+        // $query = $builder->getCompiledSelect();
+        // pr($query);
 
         // Execute the query and return the result
         $query = $builder->get();
