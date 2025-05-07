@@ -962,10 +962,10 @@ function get_advocates($dairy_no)
     // Get database connection
     $db = \Config\Database::connect();
     // Build the query
-    $builder = $db->table('advocate');
-    $builder->select('advocate_id AS id, CONCAT(name, "-", aor_code) AS desg');
-    $builder->join('master.bar', 'advocate.advocate_id = bar.bar_id', 'left');
-    $builder->where(['advocate.display' => 'Y', 'bar.diary_no' => $dairy_no]);
+    $builder = $db->table("advocate");
+    $builder->select("advocate_id AS id, CONCAT(name, '-', aor_code) AS desg");
+    $builder->join("master.bar", "advocate.advocate_id = bar.bar_id", "left");
+    $builder->where(['advocate.display' => 'Y', 'diary_no' => $dairy_no]);
     $builder->orderBy('pet_res');
     // echo $query = $builder->getCompiledSelect();
     // die;
@@ -1028,99 +1028,223 @@ function get_display_status_with_date_differnces($tentative_cl_dt)
     return $tentative_cl_date_greater_than_today_flag;
 }
 
+// function get_lc_highcourt($dairy_no)
+// {
+//     $db = \Config\Database::connect();
+
+//     // Fetch the case type ID
+//     $builder = $db->table('main');
+//     $builder->select('active_casetype_id');
+//     $builder->where('diary_no', $dairy_no);
+//     $query = $builder->get();
+//     $res_casetype_id = $query->getRow()->active_casetype_id;
+
+//     // Initialize additional diary condition
+//     $additional_diary = '';
+
+//     // Check if the case type ID matches the specified values
+//     if (in_array($res_casetype_id, ['9', '10', '25', '26'])) {
+//         $builder = $db->table('lowerct');
+//         $builder->select('lct_casetype, lct_caseno, lct_caseyear');
+//         $builder->where('diary_no', $dairy_no);
+//         $builder->where('ct_code', '4');
+//         $builder->where('lw_display', 'Y');
+//         $builder->whereNotIn('lct_casetype', ['9', '10', '25', '26']);
+//         $query = $builder->get();
+
+//         if (count($query->getResultArray()) > 0) {
+//             $get_diary_case_type = function ($casetype, $caseno, $caseyear) {
+//                 // Implement the logic for get_diary_case_type or include relevant file
+//                 // This is a placeholder, replace with actual implementation
+//                 return 'some_case_type';
+//             };
+
+//             $cases = $query->getResultArray();
+//             $diaries = [];
+//             foreach ($cases as $row) {
+//                 $case_type = $get_diary_case_type($row['lct_casetype'], $row['lct_caseno'], $row['lct_caseyear']);
+//                 $diaries[] = $case_type;
+//             }
+//             $additional_diary = " OR diary_no IN (" . implode(',', $diaries) . ")";
+//         }
+//     }
+
+//     // Determine if additional field for judge designation is needed
+//     $lct_judge_desg_s = '';
+//     if (in_array($res_casetype_id, ['7', '8'])) {
+//         $lct_judge_desg = ", lct_judge_desg";
+//     } else {
+//         $lct_judge_desg = '';
+//     }
+
+//     // Build and execute the main query
+//     // $builder = $db->table('lowerct a');
+//     // $builder->select("DISTINCT MIN(lower_court_id) AS id, CONCAT(
+//     //     IF (
+//     //         ct_code = 3, (
+//     //             SELECT Name
+//     //             FROM master.state s
+//     //             WHERE s.id_no = a.l_dist
+//     //             AND display = 'Y'
+//     //         ), (
+//     //             SELECT agency_name
+//     //             FROM master.ref_agency_code c
+//     //             WHERE c.cmis_state_id = a.l_state
+//     //             AND c.id = a.l_dist
+//     //             AND is_deleted = 'f'
+//     //         )
+//     //     ), ' ', b.Name
+//     // ) AS desg $lct_judge_desg");
+//     // $builder->join('master.state b', 'a.l_state = b.id_no');
+//     // $builder->where('a.diary_no', $dairy_no);
+//     // $builder->where('a.lw_display', 'Y');
+//     // $builder->where('b.display', 'Y');
+//     // $builder->groupBy('a.l_state, a.l_dist' . $lct_judge_desg);
+//     // $query = $builder->get();
+
+//     $builder = $db->table('lowerct a');
+
+//     $subquery = "
+//         CASE 
+//             WHEN ct_code = 3 THEN (
+//                 SELECT s.name 
+//                 FROM master.state s 
+//                 WHERE s.id_no = a.l_dist AND s.display = 'Y'
+//             )
+//             ELSE (
+//                 SELECT c.agency_name 
+//                 FROM master.ref_agency_code c 
+//                 WHERE c.cmis_state_id = a.l_state 
+//                 AND c.id = a.l_dist 
+//                 AND c.is_deleted = 'f'
+//             )
+//         END
+//     ";
+
+//     $builder->select("DISTINCT MIN(lower_court_id) AS id, CONCAT(($subquery), ' ', b.name) AS desg" . $lct_judge_desg);
+//     $builder->join('master.state b', 'a.l_state = b.id_no');
+//     $builder->where('a.diary_no', $dairy_no);
+//     $builder->where('a.lw_display', 'Y');
+//     $builder->where('b.display', 'Y');
+//     $builder->groupBy('a.l_state, a.l_dist, a.ct_code, b.name' . $lct_judge_desg);
+
+//     $query = $builder->get();
+
+//     // Fetch results
+//     $result = $query->getResultArray();
+
+//     // Process results
+//     $send_too = [];
+//     foreach ($result as $row) {
+//         if (!empty($row['lct_judge_desg']) && $row['lct_judge_desg'] != '0') {
+//             // Implement get_lower_court_judge or include relevant file
+//             // This is a placeholder, replace with actual implementation
+//             $get_lower_court_judge = function ($judge_desg) {
+//                 return 'Judge Name';
+//             };
+//             $lct_judge_desg_s = $get_lower_court_judge($row['lct_judge_desg']) . ' - ';
+//         }
+//         $send_too[] = $row['id'] . '^' . $lct_judge_desg_s . $row['desg'];
+//     }
+
+//     return $send_too;
+// }
+
 function get_lc_highcourt($dairy_no)
 {
     $db = \Config\Database::connect();
+    $send_to = [];
+    $additional_diary = '';
+    $lct_judge_desg = '';
+    $lct_judge_desg_s = '';
 
-    // Fetch the case type ID
+    // Step 1: Get active_casetype_id
     $builder = $db->table('main');
     $builder->select('active_casetype_id');
     $builder->where('diary_no', $dairy_no);
     $query = $builder->get();
-    $res_casetype_id = $query->getRow()->active_casetype_id;
+    $res = $query->getRow();
+    $res_casetype_id = $res->active_casetype_id ?? null;
 
-    // Initialize additional diary condition
-    $additional_diary = '';
-
-    // Check if the case type ID matches the specified values
+    // Step 2: Check for related lowerct records
     if (in_array($res_casetype_id, ['9', '10', '25', '26'])) {
         $builder = $db->table('lowerct');
         $builder->select('lct_casetype, lct_caseno, lct_caseyear');
-        $builder->where('diary_no', $dairy_no);
-        $builder->where('ct_code', '4');
-        $builder->where('lw_display', 'Y');
+        $builder->where([
+            'diary_no' => $dairy_no,
+            'ct_code' => '4',
+            'lw_display' => 'Y'
+        ]);
         $builder->whereNotIn('lct_casetype', ['9', '10', '25', '26']);
-        $query = $builder->get();
+        $result = $builder->get();
 
-        if (count($query->getResultArray()) > 0) {
-            $get_diary_case_type = function ($casetype, $caseno, $caseyear) {
-                // Implement the logic for get_diary_case_type or include relevant file
-                // This is a placeholder, replace with actual implementation
-                return 'some_case_type';
-            };
+        $add_diary_array = [];
 
-            $cases = $query->getResultArray();
-            $diaries = [];
-            foreach ($cases as $row) {
-                $case_type = $get_diary_case_type($row['lct_casetype'], $row['lct_caseno'], $row['lct_caseyear']);
-                $diaries[] = $case_type;
+        foreach ($result->getResult() as $row) {
+            $case_type_str = get_diary_case_type($row->lct_casetype, $row->lct_caseno, $row->lct_caseyear);
+            if (!empty($case_type_str)) {
+                $add_diary_array[] = $case_type_str;
             }
-            $additional_diary = " OR diary_no IN (" . implode(',', $diaries) . ")";
+        }
+
+        if (!empty($add_diary_array)) {
+            $additional_diary = $add_diary_array; // array of diary_no values
         }
     }
 
-    // Determine if additional field for judge designation is needed
-    $lct_judge_desg_s = '';
+    // Step 3: Judge designation condition
     if (in_array($res_casetype_id, ['7', '8'])) {
-        $lct_judge_desg = ", lct_judge_desg";
-    } else {
-        $lct_judge_desg = '';
+        $lct_judge_desg = ', lct_judge_desg';
     }
 
-    // Build and execute the main query
-    $builder = $db->table('lowerct a');
-    $builder->select("DISTINCT MIN(lower_court_id) AS id, CONCAT(
-        IF (
-            ct_code = 3, (
-                SELECT Name
-                FROM master.state s
-                WHERE s.id_no = a.l_dist
-                AND display = 'Y'
-            ), (
-                SELECT agency_name
-                FROM master.ref_agency_code c
-                WHERE c.cmis_state_id = a.l_state
-                AND c.id = a.l_dist
-                AND is_deleted = 'f'
-            )
-        ), ' ', b.Name
-    ) AS desg $lct_judge_desg");
-    $builder->join('master.state b', 'a.l_state = b.id_no');
-    $builder->where('a.diary_no', $dairy_no);
-    $builder->where('a.lw_display', 'Y');
-    $builder->where('b.display', 'Y');
-    $builder->groupBy('a.l_state, a.l_dist' . $lct_judge_desg);
-    $query = $builder->get();
+    // Step 4: Final SQL with JOINs and conditions
+    // Due to complexity, using raw SQL (can refactor to Builder if needed)
+    $diary_in_clause = '';
+    if (!empty($additional_diary)) {
+        $diary_in_values = implode(",", array_map(fn($v) => "'$v'", $additional_diary));
+        $diary_in_clause = " OR a.diary_no IN ($diary_in_values)";
+    }
 
-    // Fetch results
-    $result = $query->getResultArray();
+    $sql = "
+        SELECT DISTINCT MIN(a.lower_court_id) AS id,
+        CONCAT(
+            CASE 
+                WHEN a.ct_code = 3 THEN (
+                    SELECT s.name 
+                    FROM master.state s 
+                    WHERE s.id_no = a.l_dist AND s.display = 'Y'
+                )
+                ELSE (
+                    SELECT c.agency_name 
+                    FROM master.ref_agency_code c 
+                    WHERE c.cmis_state_id = a.l_state AND c.id = a.l_dist AND c.is_deleted = 'f'
+                )
+            END, 
+            ' ', b.name
+        ) AS desg
+        $lct_judge_desg
+        FROM lowerct a
+        JOIN master.state b ON a.l_state = b.id_no
+        WHERE (a.diary_no = ? $diary_in_clause)
+        AND a.lw_display = 'Y'
+        AND b.display = 'Y'
+        GROUP BY a.l_state, a.l_dist,a.ct_code, b.name $lct_judge_desg
+    ";
 
-    // Process results
-    $send_too = [];
-    foreach ($result as $row) {
-        if (!empty($row['lct_judge_desg']) && $row['lct_judge_desg'] != '0') {
-            // Implement get_lower_court_judge or include relevant file
-            // This is a placeholder, replace with actual implementation
-            $get_lower_court_judge = function ($judge_desg) {
-                return 'Judge Name';
-            };
-            $lct_judge_desg_s = $get_lower_court_judge($row['lct_judge_desg']) . ' - ';
+    $query = $db->query($sql, [$dairy_no]);
+
+    foreach ($query->getResult() as $row) {
+        if (isset($row->lct_judge_desg) && $row->lct_judge_desg !== '0') {
+            $get_lower_court_judge = get_lower_court_judge($row->lct_judge_desg);
+            $lct_judge_desg_s = $get_lower_court_judge . ' - ';
         }
-        $send_too[] = $row['id'] . '^' . $lct_judge_desg_s . $row['desg'];
+
+        $send_to[] = $row->id . '^' . $lct_judge_desg_s . $row->desg;
     }
 
-    return $send_too;
+    return $send_to;
 }
+
 
 if (!function_exists('get_citys')) {
     function get_citys($str)
@@ -2655,6 +2779,9 @@ function da()
         ";
 
         $query = $db->query($sql, [$diary_no, $diary_no, $date]);
+
+        // echo $db->getLastQuery();
+        // die;
         
         return $results = $query->getResultArray();
     }
@@ -3988,7 +4115,7 @@ function da()
     function send_to_nm($str)
     {        
         $db = \Config\Database::connect();
-        $res_send_to = $db->table('tw_send_to')       
+        $res_send_to = $db->table('master.tw_send_to')       
             ->select('desg')
             ->where('id', $str)
             ->where('display', 'Y')
@@ -4022,44 +4149,47 @@ function da()
     function send_to_court($str,$chk_casetype='')
     {
         $db = \Config\Database::connect();
-        $is_order_challenged='';
+        $is_order_challenged = '';
         if($chk_casetype!='7' && $chk_casetype!='8')
         {
-            $is_order_challenged="AND is_order_challenged = 'Y'";
+            $is_order_challenged = "is_order_challenged = 'Y'";
         }
+        
         $res_send_to =  $db->table('lowerct a')
-        ->select("a.name,
-            CASE 
-                WHEN a.ct_code = 3 THEN 
-                    (SELECT s.name FROM state s WHERE s.id_no = a.l_dist AND s.display = 'Y') 
-                ELSE 
-                    (SELECT CONCAT(c.agency_name, ', ', c.address) 
-                     FROM ref_agency_code c 
-                     WHERE c.cmis_state_id = a.l_state 
-                     AND c.id = a.l_dist 
-                     AND c.is_deleted = 'f')
-            END AS agency_name,
-            a.lct_judge_desg
-        ")
-        ->join('master.state b', 'a.l_state = b.id_no AND b.display = \'Y\'', 'left')
-        ->join('main e', 'e.diary_no = a.diary_no', 'inner')
-        ->where('a.lower_court_id', $str)
-        ->where('a.lw_display', 'Y')
-        ->where($is_order_challenged) // Dynamic condition
-        ->get()
-        ->getResultArray();
+            ->select("name,
+                CASE 
+                    WHEN a.ct_code = 3 THEN 
+                        (SELECT s.name FROM master.state s WHERE s.id_no = a.l_dist AND s.display = 'Y') 
+                    ELSE 
+                        (SELECT CONCAT(c.agency_name, ', ', c.address) 
+                        FROM master.ref_agency_code c 
+                        WHERE c.cmis_state_id = a.l_state 
+                        AND c.id = a.l_dist 
+                        AND c.is_deleted = 'f')
+                END AS agency_name,
+                a.lct_judge_desg
+            ")
+            ->join('master.state b', 'a.l_state = b.id_no AND b.display = \'Y\'', 'left')
+            ->join('main e', 'e.diary_no = a.diary_no', 'inner')
+            ->where('a.lower_court_id', $str)
+            ->where('a.lw_display', 'Y');
+
+            if($is_order_challenged){
+                $res_send_to->where($is_order_challenged); // Dynamic condition
+            }
+
+            $res_send_res = $res_send_to->get()->getRowArray();
 
  
-        if($res_send_to['lct_judge_desg']!=0)
+        if($res_send_res['lct_judge_desg'] != 0)
         {
- 
-            $get_lower_court_judge= get_lower_court_judge($res_send_to['lct_judge_desg']);
-            $lct_judge_desg=$get_lower_court_judge;
+            $get_lower_court_judge  = get_lower_court_judge($res_send_res['lct_judge_desg']);
+            $lct_judge_desg         = $get_lower_court_judge;
             return $lct_judge_desg;
         }
         else
         {
-            return $res_send_to['agency_name'].' '. $res_send_to['name'];
+            return $res_send_res['agency_name'].' '. $res_send_res['name'];
         }
     }
 

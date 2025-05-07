@@ -1,3 +1,17 @@
+<style>
+    span.cl_add_cst {
+        text-decoration: underline;
+    }
+
+    span.cl_add_cst:hover {
+        text-decoration: underline;
+        font-weight: bold;
+    }
+
+    span.cl_add_cst:active {
+        text-decoration: underline;
+    }
+</style>
 <section class="content ">
     <div class="container-fluid">
         <div class="row">
@@ -553,8 +567,10 @@
                                                     <span style="color: #2b15db"><b id="sp_pet_res_id<?php echo $sno; ?>"><?php echo $row1['pet_res'] . '-' . $row1['sr_no']; ?></b></span>
                                                 </td>
                                                 <td style="width: 23%;" id="td_cell_s<?php echo $sno; ?>">
-                                                    <textarea id="sp_nm<?php echo $sno; ?>" style="resize:none;width: 80%" onfocus="clear_data(this.id)"><?php if ($ck_en_nt == '0') { echo trim($row1['partyname']); if ($row1['sonof'] != '') { if ($row1['sonof'] == 'S') echo " S/o "; else if ($row1['sonof'] == 'D') echo " D/o "; else if ($row1['sonof'] == 'W') echo " W/o "; else echo ""; echo $row1['prfhname']; } } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['name']; $get_advocates =  get_advocates($diary_no); $get_lc_highcourt = get_lc_highcourt($diary_no); } ?></textarea>
+                                                    <textarea id="sp_nm<?php echo $sno; ?>" style="resize:none;width: 80%" onfocus="clear_data(this.id)"><?php if ($ck_en_nt == '0') { echo trim($row1['partyname']); if ($row1['sonof'] != '') { if ($row1['sonof'] == 'S') echo " S/o "; else if ($row1['sonof'] == 'D') echo " D/o "; else if ($row1['sonof'] == 'W') echo " W/o "; else echo ""; echo $row1['prfhname']; } } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['name'];  } ?></textarea>
                                                     <?php
+                                                    $get_advocates =  get_advocates($diary_no); 
+                                                    $get_lc_highcourt = get_lc_highcourt($diary_no);
                                                     if ($row1['enrol_no'] != '' && $row1['enrol_yr'] != '') {
                                                     ?>
                                                         <span id="sp_enroll<?php echo $sno; ?>">No.</span>
@@ -679,8 +695,8 @@
                                                 </td>
                                             </tr>
                                             <tr style="border: 0px;border-color: white;<?php if ($ck_en_nt != '1') { ?>display: none; <?php } ?>" id="tr_del_send_copy<?php echo  $sno;  ?>">
-                                                <td colspan="7" style="border: 0px;border-color: white;">
-                                                    <table style="width: 100%" class="c_vertical_align tbl_border table_tr_th_w_clr">
+                                                <td colspan="5" style="border: 0px;border-color: white;">
+                                                    <table style="width: 100%" class="c_vertical_align tbl_border table_tr_th_w_clr border border-info">
                                                         <tr>
                                                             <th style="width: 10%">
                                                                 Delivery Mode
@@ -859,16 +875,19 @@
                                                                                 $s_to_d = $get_advocates;
                                                                             else  if ($sendto_type == 3)
                                                                                 $s_to_d = $get_lc_highcourt;
-                                                                            foreach ($s_to_d as $k1) {
-                                                                                $key1 =  explode('^', $k1);
-                                                                                if ($ck_en_nt == '0') {
+                                                                            if(!empty($s_to_d) && is_array($s_to_d))
+                                                                            {
+                                                                                foreach ($s_to_d as $k1) {
+                                                                                    $key1 =  explode('^', $k1);
+                                                                                    if ($ck_en_nt == '0') {
                                                                         ?>
-                                                                                    <option value="<?php echo $key1[0]; ?>"><?php echo $key1[1]; ?></option>
-                                                                                <?php
-                                                                                } else if ($ck_en_nt == '1') {
-                                                                                ?>
-                                                                                    <option value="<?php echo $key1[0]; ?>" <?php if ($tw_send_s == $key1[0]) { ?> selected="selected" <?php } ?>><?php echo $key1[1]; ?></option>
-                                                                        <?php
+                                                                                        <option value="<?php echo $key1[0]; ?>"><?php echo $key1[1]; ?></option>
+                                                                                    <?php
+                                                                                    } else if ($ck_en_nt == '1') {
+                                                                                    ?>
+                                                                                        <option value="<?php echo $key1[0]; ?>" <?php if ($tw_send_s == $key1[0]) { ?> selected="selected" <?php } ?>><?php echo $key1[1]; ?></option>
+                                                                            <?php
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         }
@@ -916,16 +935,20 @@
                                                                                     $s_to_d = $sen_cp_to;
                                                                                 else  if ($c_sendto_type == 1)
                                                                                     $s_to_d = $get_advocates;
-                                                                                foreach ($s_to_d as $k1) {
-                                                                                    $key1 =  explode('^', $k1);
-                                                                                    if ($ck_en_nt == '0') {
+
+                                                                                if(!empty($s_to_d) && is_array($s_to_d))
+                                                                                {
+                                                                                    foreach ($s_to_d as $k1) {
+                                                                                        $key1 =  explode('^', $k1);
+                                                                                        if ($ck_en_nt == '0') {
                                                                             ?>
-                                                                                        <option value="<?php echo $key1[0]; ?>"><?php echo $key1[1]; ?></option>
-                                                                                    <?php
-                                                                                    } else if ($ck_en_nt == '1') {
-                                                                                    ?>
-                                                                                        <option value="<?php echo $key1[0]; ?>" <?php if ($ck_en_nt == 1) { if ($c_tw_send_s == $key1[0]) { ?> selected="selected" <?php } } ?>><?php echo $key1[1]; ?></option>
-                                                                            <?php
+                                                                                            <option value="<?php echo $key1[0]; ?>"><?php echo $key1[1]; ?></option>
+                                                                                        <?php
+                                                                                        } else if ($ck_en_nt == '1') {
+                                                                                        ?>
+                                                                                            <option value="<?php echo $key1[0]; ?>" <?php if ($ck_en_nt == 1) { if ($c_tw_send_s == $key1[0]) { ?> selected="selected" <?php } } ?>><?php echo $key1[1]; ?></option>
+                                                                                <?php
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                             }
@@ -1029,7 +1052,7 @@
                                                                             }
                                                                             ?>
                                                                         </div>
-                                                                        <div style="text-align: center" id="dvad_<?php echo $mode . '_' . $sno; ?>" class="cl_add_cst">Add</div>
+                                                                        <div style="text-align: right"><span id="dvad_<?php echo $mode . '_' . $sno; ?>" class="cl_add_cst">Add</span></div>
                                                                         <input type="hidden" name="hd_Sendcopyto_<?php echo $mode . $sno; ?>" id="hd_Sendcopyto_<?php echo $mode . $sno; ?>" value="<?php echo $ini_val; ?>" />
 
                                                                     </div>
@@ -1043,12 +1066,13 @@
                                                     <?php if ($ck_en_nt == '1' && $ct_tt == 0) {
                                                         $ct_tt = 1;
                                                     ?>
-                                                        <input type="hidden" name="hd_jud1" id="hd_jud1" value="<?php if ($ck_en_nt == '0') { echo ''; } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['jud1']; } ?>" />
-                                                        <input type="hidden" name="hd_jud2" id="hd_jud2" value="<?php if ($ck_en_nt == '0') { echo ''; } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['jud2']; } ?>" />
+                                                        <input type="hidden" name="hd_jud1" id="hd_jud1" value="<?php if ($ck_en_nt == '0') { echo ''; } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['jud1'] ?? ''; } ?>" />
+                                                        <input type="hidden" name="hd_jud2" id="hd_jud2" value="<?php if ($ck_en_nt == '0') { echo ''; } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['jud2'] ?? ''; } ?>" />
                                                     <?php } ?>
                                                 </td>
+                                                <td style="background: none;"></td>
                                             </tr>
-                                        <?php
+                                            <?php
                                             $sno++;
                                         }
                                         ?>
@@ -1065,7 +1089,7 @@
                                         <input type="button" name="btnSubmit" id="btnSubmit" value="Submit" onclick="get_save_dt()" class="bb_sub_m" />
                                     </div>
                                 </div>
-                            <?php
+                                <?php
                             }   // if case status is pending
                             else {
                             ?>
@@ -1241,30 +1265,30 @@
                                             if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['nt_type'] == '') {
                                                 $ck_en_nt_x['nt_type'] = $row1['nt_type'];
                                             }
-                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['del_type'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && (isset($ck_en_nt_x['del_type']) && $ck_en_nt_x['del_type'] == '')) {
                                                 $ck_en_nt_x['del_type'] = $row1['del_type'];
                                             }
-                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['send_to'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && (isset($ck_en_nt_x['send_to']) && $ck_en_nt_x['send_to'] == '')) {
                                                 $ck_en_nt_x['send_to'] = $row1['send_to'];
                                             }
-                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['cp_sn_to'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && (isset($ck_en_nt_x['cp_sn_to']) && $ck_en_nt_x['cp_sn_to'] == '')) {
                                                 $ck_en_nt_x['cp_sn_to'] = $row1['cp_sn_to'];
                                             }
 
-                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['id'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && (isset($ck_en_nt_x['id']) && $ck_en_nt_x['id'] == '')) {
                                                 $ck_en_nt_x['id'] = $row1['id'];
                                             }
 
-                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['jud1'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && (isset($ck_en_nt_x['jud1']) && $ck_en_nt_x['jud1'] == '')) {
                                                 $ck_en_nt_x['jud1'] = $row1['jud1'];
                                             }
-                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['jud2'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && (isset($ck_en_nt_x['jud2']) && $ck_en_nt_x['jud2'] == '')) {
                                                 $ck_en_nt_x['jud2'] = $row1['jud2'];
                                             }
-                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['note'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && (isset($ck_en_nt_x['note']) && $ck_en_nt_x['note'] == '')) {
                                                 $ck_en_nt_x['note'] = $row1['note'];
                                             }
-                                            if (isset($ck_en_nt_x['name']) && $ck_en_nt_x['amount'] == '') {
+                                            if (isset($ck_en_nt_x['name']) && (isset($ck_en_nt_x['amount']) && $ck_en_nt_x['amount'] == '')) {
                                                 $ck_en_nt_x['amount'] = $row1['amount'];
                                             }
                                             if ($row1['pet_res'] == 'P' && $c_pet == 0 && $row1['sr_no'] == 1) {
@@ -1471,7 +1495,7 @@
 
                                             </tr>
                                             <tr style="border: 0px;border-color: white;<?php if ($ck_en_nt != '1') { ?>display: none;<?php } ?>" id="tr_del_send_copy<?php echo  $sno;  ?>">
-                                                <td colspan="7" style="border: 0px;border-color: white">
+                                                <td colspan="5" style="border: 0px;border-color: white">
                                                     <table style="width: 100%" class="c_vertical_align tbl_border">
                                                         <tr>
                                                             <th style="width: 10%">
@@ -1649,18 +1673,20 @@
                                                                                 $s_to_d = $get_advocates;
                                                                             else  if ($sendto_type == 3)
                                                                                 $s_to_d = $get_lc_highcourt;
-
-                                                                            foreach ($s_to_d as $k1) {
-                                                                                $key1 =  explode('^', $k1);
-                                                                                if ($ck_en_nt == '0') {
+                                                                            
+                                                                            if($s_to_d){
+                                                                                foreach ($s_to_d as $k1) {
+                                                                                    $key1 =  explode('^', $k1);
+                                                                                    if ($ck_en_nt == '0') {
 
                                                                         ?>
-                                                                                    <option value="<?php echo $key1[0]; ?>"><?php echo $key1[1]; ?></option>
-                                                                                <?php
-                                                                                } else if ($ck_en_nt == '1') {
-                                                                                ?>
-                                                                                    <option value="<?php echo $key1[0]; ?>" <?php if ($tw_send_s == $key1[0]) { ?> selected="selected" <?php } ?>><?php echo $key1[1]; ?></option>
-                                                                        <?php
+                                                                                        <option value="<?php echo $key1[0]; ?>"><?php echo $key1[1]; ?></option>
+                                                                                    <?php
+                                                                                    } else if ($ck_en_nt == '1') {
+                                                                                    ?>
+                                                                                        <option value="<?php echo $key1[0]; ?>" <?php if ($tw_send_s == $key1[0]) { ?> selected="selected" <?php } ?>><?php echo $key1[1]; ?></option>
+                                                                                    <?php
+                                                                                    }
                                                                                 }
                                                                             }
                                                                         }
@@ -1714,16 +1740,19 @@
                                                                                     $s_to_d = $sen_cp_to;
                                                                                 else  if ($c_sendto_type == 1)
                                                                                     $s_to_d = $get_advocates;
-                                                                                foreach ($s_to_d as $k1) {
-                                                                                    $key1 =  explode('^', $k1);
-                                                                                    if ($ck_en_nt == '0') {
+
+                                                                                if($s_to_d){
+                                                                                    foreach ($s_to_d as $k1) {
+                                                                                        $key1 =  explode('^', $k1);
+                                                                                        if ($ck_en_nt == '0') {
                                                                             ?>
-                                                                                        <option value="<?php echo $key1[0]; ?>"><?php echo $key1[1]; ?></option>
-                                                                                    <?php
-                                                                                    } else if ($ck_en_nt == '1') {
-                                                                                    ?>
-                                                                                        <option value="<?php echo $key1[0]; ?>" <?php if ($ck_en_nt == 1) { if ($c_tw_send_s == $key1[0]) { ?> selected="selected" <?php } } ?>><?php echo $key1[1]; ?></option>
+                                                                                            <option value="<?php echo $key1[0]; ?>"><?php echo $key1[1]; ?></option>
+                                                                                        <?php
+                                                                                        } else if ($ck_en_nt == '1') {
+                                                                                        ?>
+                                                                                            <option value="<?php echo $key1[0]; ?>" <?php if ($ck_en_nt == 1) { if ($c_tw_send_s == $key1[0]) { ?> selected="selected" <?php } } ?>><?php echo $key1[1]; ?></option>
                                                                             <?php
+                                                                                        }
                                                                                     }
                                                                                 }
                                                                             }
@@ -1826,7 +1855,7 @@
                                                                             }
                                                                             ?>
                                                                         </div>
-                                                                        <div style="text-align: center" id="dvad_<?php echo $mode . '_' . $sno; ?>" class="cl_add_cst">Add</div>
+                                                                        <div style="text-align: right"><span id="dvad_<?php echo $mode . '_' . $sno; ?>" class="cl_add_cst">Add</span></div> 
                                                                         <input type="hidden" name="hd_Sendcopyto_<?php echo $mode . $sno; ?>" id="hd_Sendcopyto_<?php echo $mode . $sno; ?>" value="<?php echo $ini_val; ?>" />
                                                                     </div>
                                                                 </td>
@@ -1838,10 +1867,11 @@
                                                     <?php if ($ck_en_nt == '1' && $ct_tt == 0) {
                                                         $ct_tt = 1;
                                                     ?>
-                                                        <input type="hidden" name="hd_jud1" id="hd_jud1" value="<?php if ($ck_en_nt == '0') { echo ''; } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['jud1']; } ?>" />
-                                                        <input type="hidden" name="hd_jud2" id="hd_jud2" value="<?php if ($ck_en_nt == '0') { echo ''; } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['jud2']; } ?>" />
+                                                        <input type="hidden" name="hd_jud1" id="hd_jud1" value="<?php if ($ck_en_nt == '0') { echo ''; } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['jud1'] ?? ''; } ?>" />
+                                                        <input type="hidden" name="hd_jud2" id="hd_jud2" value="<?php if ($ck_en_nt == '0') { echo ''; } else if ($ck_en_nt == '1') { echo $ck_en_nt_x['jud2'] ?? ''; } ?>" />
                                                     <?php } ?>
                                                 </td>
+                                                <td style="background: none;"></td>
                                             </tr>
                                         <?php
                                             $sno++;
@@ -1863,7 +1893,7 @@
                             <?php
                             }
                             ?>
-                            <input type="hidden" name="hd_c_stat" id="hd_c_stat" value="<?php echo $row['c_status'] ?>" />
+                            <input type="hidden" name="hd_c_stat" id="hd_c_stat" value="<?php echo $row['c_status'] ?? ''; ?>" />
                         <?php
                         } else {
                         ?>

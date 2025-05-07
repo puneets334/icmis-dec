@@ -84,6 +84,7 @@ class DropRequestModel extends Model
         ->join('master.submaster b', 'a.submaster_id = b.id')
         ->where('a.diary_no',$diary_no)
         ->where('a.display', 'Y');
+        // pr($builder->getCompiledSelect());
         $query = $builder->get();
         $category_details = $query->getResultArray();
         $category_nm = $mul_category = '';
@@ -109,6 +110,7 @@ class DropRequestModel extends Model
         ->where('c.display', 'Y')
         ->where('diary_no', $diary_no)
         ->groupBy('a.act, c.act_name');
+        
         $query = $builder->get();
         $results = $query->getResultArray();
         $act_section = '';
@@ -136,7 +138,7 @@ class DropRequestModel extends Model
         $builder = $this->db->table('heardt')
         ->select('tentative_cl_dt')
         ->where('diary_no', $diary_no);
-
+        
         $query = $builder->get();
         $result = $query->getRow();
         return isset($result->tentative_cl_dt) ? $result->tentative_cl_dt : '';
