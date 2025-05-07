@@ -1712,4 +1712,167 @@ ORDER BY sub_name1";
         } 
         return $return;  
     }
+	
+	public function s_crm( $list_dt, $list_dt_to, $courtno){
+		$sql = "UPDATE heardt h 
+					SET coram = h.judges 
+					FROM master.roster r 
+					WHERE r.id = h.roster_id 
+					  AND h.next_dt BETWEEN '$list_dt' AND '$list_dt_to'
+					  AND r.from_date BETWEEN '$list_dt' AND '$list_dt_to'
+					  AND h.brd_slno > 0 
+					  AND h.mainhead = 'F' 
+					  AND r.m_f = '2' 
+					  AND r.courtno = $courtno 
+					  AND r.display = 'Y' 
+					  AND h.board_type = 'J' 
+					  AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2) 
+					  AND h.coram != h.judges;";
+        $this->db->query($sql);
+	}
+	
+	public function s_roster_weekly($list_dt, $list_dt_to, $courtno, $ucode){
+		$list_year = date('Y', strtotime($list_dt));
+		if($list_year == 2017){
+			$for_2017 = 18;
+		}
+		else{
+			$for_2017 = 0;
+		}
+		
+		$dir_dt = glob(FCPATH . "judgment/cl/wk/$list_dt*");
+		$dir = glob(FCPATH . "judgment/cl/wk/$list_year*");
+        
+		$num_files = count($dir);
+		$num_files_dt = count($dir_dt);
+		if($num_files == 0){
+			$num_files = 1;
+		}else if($num_files_dt == 0 and $num_files != 0){
+			$num_files = $num_files + 1;
+		}
+		
+		$sql = " SELECT * FROM (
+					SELECT 
+						r.id, 
+						GROUP_CONCAT(j.jcode ORDER BY j.judge_seniority) AS jcd, 
+						GROUP_CONCAT(j.jname ORDER BY j.judge_seniority) AS jnm, 
+						r.courtno, 
+						rb.bench_no, 
+						mb.abbr, 
+						mb.board_type_mb, 
+						r.tot_cases, 
+						r.frm_time, 
+						r.session, 
+						j.judge_seniority
+					FROM master.roster r 
+					LEFT JOIN master.roster_bench rb ON rb.id = r.bench_id 
+					LEFT JOIN master.master_bench mb ON mb.id = rb.bench_id
+					LEFT JOIN master.roster_judge rj ON rj.roster_id = r.id 
+					LEFT JOIN master.judge j ON j.jcode = rj.judge_id
+					WHERE j.is_retired != 'Y' 
+					  AND j.display = 'Y' 
+					  AND rj.display = 'Y' 
+					  AND rb.display = 'Y' 
+					  AND mb.display = 'Y' 
+					  AND r.display = 'Y' 
+					  AND r.courtno = ? 
+					  AND r.from_date = ? 
+					  AND r.m_f = '2'
+					GROUP BY r.id,r.courtno, rb.bench_no,mb.abbr,mb.board_type_mb,r.tot_cases,r.frm_time,r.session,j.judge_seniority
+					ORDER BY r.id, j.judge_seniority
+				) a 
+				ORDER BY LENGTH(jcd) DESC, id, judge_seniority";
+
+		$query = $this->db->query($sql, [$courtno, $list_dt]);
+		$result = $query->getResultArray();
+		foreach($result as $row_ros){
+			$bench_no = $row_ros['bench_no'];
+			$roster_id = $row_ros['id'];
+			$bench_session = $row_ros['session'];
+			$bench_time = $row_ros['frm_time'];
+			$bench_judge_name = stripcslashes(str_replace(",", "<br/>", $row_ros['jnm']));
+			$bench_court = $row_ros['courtno'];
+			$jcd_rp = $row_ros['jcd'];
+			$board_type_mb = $row_ros['board_type_mb'];
+			$frm_time = $row_ros['frm_time'];
+			
+			$sql = "INSERT INTO weekly_list (
+							item_no, diary_no, conn_key, next_dt, from_dt, to_dt, judges_code,
+							courtno, listorder, usercode, ent_dt, weekly_no, weekly_year
+						)
+						SELECT 
+							h.brd_slno,
+							h.diary_no,
+							CAST(m.conn_key AS INTEGER),
+							h.next_dt,
+							? AS from_dt,
+							? AS to_dt,
+							? AS judges_code,
+							? AS courtno,
+							h.listorder,
+							? AS usercode,
+							NOW(),
+							? AS weekly_no,
+							? AS weekly_year
+						FROM heardt h
+						LEFT JOIN main m ON m.diary_no = h.diary_no 
+						LEFT JOIN master.casetype c1 ON active_casetype_id = c1.casecode
+						LEFT JOIN master.listing_purpose l ON l.code = h.listorder
+						INNER JOIN master.roster r ON r.id = h.roster_id 
+							AND r.display = 'Y' 
+							AND r.from_date BETWEEN ? AND ? 
+							AND r.courtno = ?
+						LEFT JOIN weekly_list w ON w.diary_no = h.diary_no 
+							AND w.next_dt = h.next_dt 
+							AND w.item_no = h.brd_slno 
+							AND w.courtno = ?
+						WHERE 
+							w.diary_no IS NULL 
+							AND h.next_dt BETWEEN ? AND ? 
+							AND mainhead = 'F' 
+							AND h.judges = ? 
+							AND h.clno > 0 
+							AND h.brd_slno > 0 
+							AND h.roster_id > 0 
+							AND l.display = 'Y'
+						ORDER BY 
+							CHAR_LENGTH(h.judges) DESC,
+							h.next_dt,
+							h.brd_slno,
+							CASE WHEN h.conn_key = h.diary_no THEN 0 ELSE 99 END,
+							CAST(SUBSTRING(m.diary_no::text, LENGTH(m.diary_no::text) - 3) AS INTEGER) ASC,
+							CAST(LEFT(m.diary_no::text, LENGTH(m.diary_no::text) - 4) AS INTEGER) ASC
+						";
+
+					$this->db->query($sql, [
+						$list_dt,
+						$list_dt_to,
+						$jcd_rp,
+						$courtno,
+						$ucode,
+						$num_files,
+						$list_year,
+						$list_dt,
+						$list_dt_to,
+						$courtno,
+						$courtno,
+						$list_dt,
+						$list_dt_to,
+						$jcd_rp
+					]);
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
 }
