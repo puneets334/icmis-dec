@@ -2351,10 +2351,10 @@ class CaseAdd extends Model
         // Connected Cases
         if (!empty($filters['connected']) && is_array($filters['connected']) && in_array(1, $filters['connected'])) {
             $builder->groupStart()
-                ->where('m.conn_key', 'm.diary_no')
-                ->orWhere('m.conn_key IS NULL')
-                ->orWhere('m.conn_key', '')
-                ->orWhere('m.conn_key', 0)
+                ->where('cast(m.conn_key::TEXT)', 'cast(m.diary_no::TEXT)')
+                ->orWhere('cast(m.conn_key::TEXT) IS NULL')
+                ->orWhere('cast(m.conn_key::TEXT)', '')
+                ->orWhere('cast(m.conn_key::TEXT)', '0')
                 ->groupEnd();
         }
 
@@ -2641,23 +2641,29 @@ class CaseAdd extends Model
         if (!empty($sort_by2)) {
             $sort_by_query = "ORDER BY ";
             foreach ($sort_by2 as $sort_by_value) {
-                if ('diary_no' == $sort_by_value) {
+                if (in_array('diary_no', $add_columns)) {
+               // if ('diary_no' == $sort_by_value) {
                     // Cast diary_no to text first so that RIGHT() and LEFT() work
                     $sort_by_query .= "CAST(RIGHT(CAST(m.diary_no AS text), 4) AS INTEGER) ASC, CAST(LEFT(CAST(m.diary_no AS text), LENGTH(CAST(m.diary_no AS text)) - 4) AS INTEGER) ASC, ";
                 }
-                if ('section' == $sort_by_value) {
+                if (in_array('section', $add_columns)) {
+               // if ('section' == $sort_by_value) {
                     $sort_by_query .= "SECTION, ";
                 }
-                if ('da' == $sort_by_value) {
+                if (in_array('da', $add_columns)) {
+                // if ('da' == $sort_by_value) {
                     $sort_by_query .= "DA, ";
                 }
-                if ('category' == $sort_by_value) {
+                if (in_array('category', $add_columns)) {
+                //if ('category' == $sort_by_value) {
                     $sort_by_query .= "CATEGORY, ";
                 }
-                if ('coram' == $sort_by_value) {    
+                if (in_array('coram', $add_columns)) {
+               // if ('coram' == $sort_by_value) {    
                     $sort_by_query .= "Coram, ";//seniority_code
                 }
-                if ('tentative_date' == $sort_by_value) {
+                if (in_array('tentative_date', $add_columns)) {
+               // if ('tentative_date' == $sort_by_value) {
                     $sort_by_query .= "h.next_dt, ";
                     $group_by[] = 'h.next_dt';
                 }
@@ -2677,6 +2683,8 @@ class CaseAdd extends Model
                 $sort_by_query 
                 $limit";
         //die();
+        // echo $sql;
+        // die();
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
 
