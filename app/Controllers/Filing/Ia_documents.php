@@ -200,14 +200,12 @@ class Ia_documents extends BaseController
             $length = null;
         }
         
-        // Define column mapping for sorting (match DataTables column order)
-        $columns = [          
-             
+        $columns = [            
             'diary_no',
-            'parties',
+            'pet_name',
             'reason_blk',
             'section_name',
-            'date'
+            'a.ent_dt'
         ];
         $orderColumn = $columns[$orderColumnIndex] ?? 'sn'; // Default sorting column
     
@@ -300,7 +298,7 @@ class Ia_documents extends BaseController
         // Database query to check if the record already exists
         $builder = $this->db->table('loose_block');
         $builder->where(['diary_no' => $dno, 'display' => 'Y']);
-        $query = $builder->get();
+        $query = $builder->get();   
 
         if ($query->getNumRows() > 0) {
             echo "0~RECORD ALREADY PRESENT";

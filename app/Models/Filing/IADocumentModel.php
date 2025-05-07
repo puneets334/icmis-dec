@@ -2341,7 +2341,7 @@ class IADocumentModel extends Model
     }
 
     // Apply sorting
-    $builder->orderBy($orderColumn, $orderDir);
+    $builder->orderBy('ent_dt', $orderDir);
 
     // Apply pagination
     $builder->limit($length, $start);
