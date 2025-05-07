@@ -40,18 +40,26 @@ class PreviousAdvanceList extends BaseController
         }
 
         $listing_date = date('Y-m-d', strtotime($list_dt));
-        $base_path = WRITEPATH . 'cl/advance/';
+        $base_path = 'judgment/cl/advance/';
         $date_folder = $base_path . $listing_date;
+        
         $file_path = $date_folder . '/M_J_ALL.html';
-        if (!is_dir($date_folder)) {
-            mkdir($date_folder, 0777, true);
-        }
+        
+        // if (!is_dir($date_folder)) {
+        //     mkdir($date_folder, 0777, true);
+        // }
         if (!file_exists($file_path)) {
-            file_put_contents($file_path, '<p>Placeholder content for M_J_ALL.html</p>');
+            file_put_contents($file_path, '<div align="center" id="getlogo" style="font-size: 12px;" class="mb-5">
+                            <img src="judgment/cl/scilogo.png" width="50px" height="80px"><br>
+                            <span style="text-align: center;font-weight: 600;font-size: 14px;font-family: verdana;" align="center">
+                                SUPREME COURT OF INDIA
+                            </span>
+                        </div><p>ALL COURTS PREVIOUS ADVANCE LIST MODULE</p>');
             return $response->setBody("<p style='text-align: center; font-weight: bold; color:red;'>Sorry, Advance list not available for dated " . esc($list_dt) . "</p>");
         }
+        $logopath = base_url('judgment/cl/scilogo.png');
         $content = file_get_contents($file_path);
-        $updated_content = str_replace("/home/judgment/cl/scilogo.png", "scilogo.png", $content);
+        $updated_content = str_replace("judgment/cl/scilogo.png", $logopath, $content);
         return $response->setBody($updated_content);
     }
     

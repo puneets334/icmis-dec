@@ -207,6 +207,7 @@
                         $("#_username_name_nu").val(aray_args[9]);
                         $("#_username_name_nu").attr("disabled", "true");
                     }
+                    
                 })
                 .fail(function() {
                     updateCSRFToken();
@@ -465,6 +466,9 @@
     }
 
     function edit_user_set_fields(val) {
+        if (val == 0){            
+            return false;            
+        }
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $("input[name='CSRF_TOKEN']").val();
         $.ajax({
@@ -485,9 +489,7 @@
                 $("#btnMain").val("Update");
                 $("#btnMain").attr("onclick", "edit_user()");
                 $("#btnCan").css("display", "inline");
-
-                newuser_manage_mat_5(msg2);
-                
+                newuser_manage_mat_5(msg2);                
             })
             .fail(function() {
                 updateCSRFToken();
@@ -653,6 +655,9 @@
                     $(".add_result").css("color", "red");
                     $(".add_result").html(msg);
                 }
+                alert("Updated Successfully.")                
+                location.reload();
+
             })
             .fail(function() {
                 updateCSRFToken();
@@ -665,6 +670,7 @@
         $("#rdbtn_u").prop("checked", false);
         $("#rdbtn_n").prop("checked", true);
         $("#for_up_users").val(0);
+        $("#for_up_users").val("0").trigger("change");
         $("#for_up_users").prop("disabled", true);
         $("#_userdept_nu").val(0);
         $("#_usersec_nu").val(0);

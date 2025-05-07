@@ -50,13 +50,13 @@ class CourtCauseListController extends BaseController
         $this->CourtCausesListModel = new CourtCausesListModel();
         $db = \Config\Database::connect();
         $str = $this->request->getGet('str') ?? '';
-
+        
 
         // if ($str) {
         // $str1 = explode(":", $str);
 
 
-        $str = '0::2024-09-05:::::M:0:0';
+        // $str = '0::2024-09-05:::::M:0:0';
         $str1 = explode(":", $str);
 
         $str1[6] = preg_replace("/[^a-zA-Z\d\s\.]/", "", $str1[6]);
@@ -71,7 +71,7 @@ class CourtCauseListController extends BaseController
         $builder->where('ent_dt', $ent_dt);
         $query = $builder->get();
         $existingRecord = $query->getRow();
-
+        
         if ($existingRecord) {
 
             $record_insert = $this->CourtCausesListModel->insertShowCauselistHistory((array)$existingRecord);
@@ -112,13 +112,12 @@ class CourtCauseListController extends BaseController
                 'ent_dttime' => $ent_dttime,
                 'fil_no' => $str1[8],
                 'judges_list' => $str1[9],
-                'jcodes' => $str1[9],
-                'sbdb' => $str1[9],
+                'jcodes' => $str1[10],
+                'sbdb' => $str1[11],
                 'ent_by' => $ucode,
                 'is_mentioning' => 'N',
                 'msg' => $str1[6] ?? ''
             ];
-
             $insertdata = $this->CourtCausesListModel->insertShowCauselist($insertData);
         }
 
@@ -291,7 +290,7 @@ class CourtCauseListController extends BaseController
         //$printFrm = 0;
 
         //$pr_mf = $mf;
-
+        
         $tdt1 = date('Y-m-d',strtotime($dtd));
 
 
@@ -340,9 +339,8 @@ class CourtCauseListController extends BaseController
         }
 
 
-
         return view('Court/CourtCauseList/reader_cl_process', $data);
-        die;
+        // die;
     }
 
 

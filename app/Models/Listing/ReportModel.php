@@ -1429,7 +1429,7 @@ class ReportModel extends Model
           ->where('h.roster_id', $id)
           ->where('h.mainhead', $mainhead)
           ->whereIn("h.main_supp_flag", [1, 2])
-          ->where("m.diary_no = CAST(m.conn_key AS bigint) OR m.conn_key = '0' OR m.conn_key IS NULL OR m.conn_key = ''")
+          ->where("CAST(m.diary_no AS text) = CAST(m.conn_key AS text) OR CAST(m.conn_key AS text) = '0' OR CAST(m.conn_key AS text) IS NULL OR CAST(m.conn_key AS text) = ''")
           ->groupBy('h.judges');
       } else {
         // Query for past dates
@@ -1462,7 +1462,7 @@ class ReportModel extends Model
           ->where('h.judges', $jcd)
           ->where('h.mainhead', $mainhead)
           ->whereIn("h.main_supp_flag", [1, 2])
-          ->where("m.diary_no = m.conn_key OR m.conn_key = 0 OR m.conn_key IS NULL OR m.conn_key = ''")
+          ->where("CAST(m.diary_no AS text) = CAST(m.conn_key AS text) OR CAST(m.conn_key AS text) = '0' OR CAST(m.conn_key AS text) IS NULL OR CAST(m.conn_key AS text) = ''")
           ->groupBy('h.judges');
       } else {
         $builder->select('total AS ttt,

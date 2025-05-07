@@ -556,7 +556,9 @@ public $AORPendingMatters;
              'bupdt' => date('Y-m-d H:i:s'),
              'caddress' => $data['address'],
              'ccity' => $data['city'],
-              'updated_on' => (new \DateTime())->format('Y-m-d H:i:s')
+              'updated_on' => (new \DateTime())->format('Y-m-d H:i:s'),
+              'updated_by' => session()->get('login')['usercode'],
+            'updated_by_ip' => getClientIP(),
          ];
      
          try {

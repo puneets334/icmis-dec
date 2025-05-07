@@ -26,7 +26,6 @@ class FileTrap extends BaseController
     {
         // pr($_SESSION['login']);
         $fil_trap_type = $this->Model_fil_trap->get_fil_trap_type_user_details();
-
         $cur_date = date('d-m-Y');
         $new_date = date('d-m-Y', strtotime($cur_date . ' + 60 days'));
         $cat = 0;
@@ -41,9 +40,8 @@ class FileTrap extends BaseController
                 //echo 'SORRY!!!, NO RECORD FOUND';
             } else {
 
-                $data['fil_trap_type_row'] = $this->Model_fil_trap->get_fil_trap_type_user_details();
+                $data['fil_trap_type_row'] = $fil_trap_type;
                 $data['fil_trap_list'] = $this->Model_fil_trap->get_fil_trap_list();
-
                 return view('Filing/file_trap_incomplete_view', $data);
             }
 

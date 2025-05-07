@@ -387,16 +387,17 @@ class EliminationModel extends Model
                         a.priority ASC, 
                         a.no_of_time_deleted DESC, 
                         CASE 
-                            WHEN a.coram IS NOT NULL 
-                            AND a.coram::bigint != 0 
-                            AND TRIM(a.coram) != '' 
+                            WHEN a.coram::text IS NOT NULL 
+                            AND a.coram::text != '0' 
+                            AND TRIM(a.coram::text) != '' 
                             THEN 1 
                             ELSE 999 
                         END ASC,
                         COALESCE(a.ent_dt, null) ASC,
                         CAST(RIGHT(CAST(a.diary_no AS TEXT), 4) AS INTEGER) DESC,
                         CAST(LEFT(CAST(a.diary_no AS TEXT), LENGTH(CAST(a.diary_no AS TEXT)) - 4) AS INTEGER) ASC";
-
+        //  echo $sql;
+        //  die();
         $results = $this->db->query($sql)->getResultArray();
         foreach ($results as $index => $result) {
             $results[$index]['sno'] = $index + 1; // Serial number starting from 1

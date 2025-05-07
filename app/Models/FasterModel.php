@@ -735,7 +735,7 @@ class FasterModel extends Model
         // Selecting fields
         $builder1->select("
             m.diary_no, 
-            m.conn_key::INTEGER AS conn_key,
+            m.conn_key AS conn_key,
             ct.ent_dt, 
             m.reg_no_display, 
             m.res_name, 
@@ -804,7 +804,7 @@ class FasterModel extends Model
         $builder2 = $this->db->table('main m');
         $builder2->select("
             m.diary_no, 
-            m.conn_key::INTEGER AS conn_key,
+            m.conn_key AS conn_key,
             ct.ent_dt, 
             m.reg_no_display, 
             m.res_name, 
@@ -870,7 +870,7 @@ class FasterModel extends Model
 
         // $result = $this->db->query('select * from ('.$query1.' UNION '.$query2.') a GROUP BY diary_no ORDER BY brd_slno, if(conn_key=diary_no,"0000-00-00",99) ASC, if(ent_dt is not null,ent_dt,999) ASC, CAST(SUBSTRING(diary_no, - 4) AS SIGNED) ASC , CAST(LEFT(diary_no, LENGTH(diary_no) - 4) AS SIGNED) ASC');
 
-        $result = $this->db->query("
+         $final_query = "
             SELECT * 
             FROM (
                 $query1 
@@ -898,14 +898,16 @@ class FasterModel extends Model
             ORDER BY 
                 a.brd_slno ASC,
                 CASE 
-                    WHEN a.conn_key = a.diary_no THEN '1900-01-01'::DATE
-                    ELSE '9999-12-31'::DATE
-                END ASC, 
+                        WHEN a.conn_key::text IS NOT NULL AND a.conn_key::text <> '' AND a.conn_key::text = a.diary_no::text THEN '1900-01-01'
+                        ELSE '9999-12-31'
+                    END ASC,
                 CASE 
                     WHEN a.ent_dt IS NOT NULL THEN a.ent_dt 
                     ELSE '9999-12-31'::DATE
                 END ASC 
-        ");
+        ";
+        //die;
+        $result = $this->db->query($final_query);
 
 
 

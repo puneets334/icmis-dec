@@ -135,9 +135,9 @@ class RolesController extends BaseController
                 break;
     
                 case 'roleDelete':
-                        $menu_id=(int)$_POST['menu_id'];
-                        $query='update master.role_master set display="N" where id=?';
-                        $rs = $this->db->query($query, [$menu_id]);
+                        $menu_id = (int) $_POST['menu_id'];
+						$query = 'UPDATE master.role_master SET display = \'N\' WHERE id = ?';
+						$rs = $this->db->query($query, [$menu_id]);
                        
                         if($rs) 
                                 echo json_encode(array('data'=>'success', 'error'=>'0'));

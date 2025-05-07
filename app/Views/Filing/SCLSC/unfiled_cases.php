@@ -1,3 +1,12 @@
+<style>
+      table thead tr th{
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+
+</style>
+
 <?php
 //var_dump($unfiled_cases);
 if ($unfiled_cases) {
@@ -9,7 +18,7 @@ if ($unfiled_cases) {
                     <h5 class="text-uppercase">Cases Pending For Filing</h5>
                 </div>
             </div>
-            <table class="table table-striped custom-table table-hover dt-responsive">
+            <table class="table table-striped table-bordered table-hover dt-responsive">
                 <thead>
                     <tr>
                         <th>SNo.</th>
@@ -32,7 +41,8 @@ if ($unfiled_cases) {
                             <td><?= $row['pet_name'] ?></td>
                             <td><?= $row['res_name'] ?></td>
                             <td id="d_<?= $row['diary_no'] ?>">
-                                <button input="button" data-diary_no="<?= $row['diary_no'] ?>" class="unfiled_case_details_modal btn btn-info" name="unfiled_case_details_modal">View</button>
+                                <button input="button" data-diary_no="<?= $row['diary_no'] ?>" 
+                                class="unfiled_case_details_modal btn btn-primary btn-sm" name="unfiled_case_details_modal">View</button>
                              
                             </td>
                         </tr>

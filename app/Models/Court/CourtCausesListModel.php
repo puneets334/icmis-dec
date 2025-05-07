@@ -631,6 +631,7 @@ public function insertShowCauselist($causeslistarrydata)
             
             public function getConnectedCases($tmpCaseNo)
             {
+                
                 $db = \Config\Database::connect();
             
                 $sql_connected = "
@@ -650,7 +651,7 @@ public function insertShowCauselist($causeslistarrydata)
                         AND h.main_supp_flag IN (1, 2) 
                         AND h.diary_no != h.conn_key 
                     ORDER BY 
-                        CASE WHEN cast(m.conn_key as BIGINT) = h.diary_no THEN '0000-00-00' ELSE '99' END ASC, 
+                        CASE WHEN m.conn_key ~ '^\d+$' AND CAST(m.conn_key AS BIGINT) = h.diary_no THEN '0000-00-00' ELSE '99' END ASC, 
                         CAST(SUBSTRING(h.diary_no::TEXT FROM LENGTH(h.diary_no::TEXT) - 3 FOR 4) AS INTEGER) ASC, 
                         CAST(SUBSTRING(h.diary_no::TEXT FROM 1 FOR LENGTH(h.diary_no::TEXT) - 4) AS INTEGER) ASC;
                 ";

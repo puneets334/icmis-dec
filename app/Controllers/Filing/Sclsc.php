@@ -124,7 +124,6 @@ class SCLSC extends BaseController
     {
         // Use the incoming() method to handle POST data
         $diary_no = $this->request->getPost('diary_no');
-
         // Initialize the data array
         $data = [];
 
@@ -143,6 +142,7 @@ class SCLSC extends BaseController
         $party_sclsc = $this->SCLSC_model->getPartyDetails($diary_no);
         $data['aor_details'] = $this->SCLSC_model->getAORdetail($data['unfiled_case_details'][0]['aor_code']);
 
+
         $data['from_court_name'] = $this->SCLSC_model->getFromCourt($data['unfiled_case_details'][0]['from_court']);
 
         $data['agency_state_name'] = $this->SCLSC_model->getNameOfPlace($data['unfiled_case_details'][0]['ref_agency_state_id']);
@@ -150,10 +150,10 @@ class SCLSC extends BaseController
             $data['unfiled_case_details'][0]['from_court'],
             $data['unfiled_case_details'][0]['ref_agency_code_id']
         );
-
+        
         // Add columns to the party_sclsc array
-        foreach ($party_sclsc as &$row) {
-            $row['stateName'] = $this->SCLSC_model->getNameOfPlace($row['state']);
+        foreach ($party_sclsc as $row) {
+            $row['stateName'] = $this->SCLSC_model->getNameOfPlace($row['state']);            
             $row['districtName'] = $this->SCLSC_model->getNameOfPlace($row['city']);
         }
 

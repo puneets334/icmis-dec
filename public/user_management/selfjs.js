@@ -453,18 +453,39 @@ $(function () {
     });
 
 	$(document).on('click', '#roleDelete', function() {
-		alert();
-		
-		
-		
-		
+		var id = $(this).attr('data-id');
+        var action = $(this).attr('id');
+		var roleDesc = $(this).attr('role-desc');
+        var postUrl= base_url +'/MasterManagement/RolesController/roleparameter'; 
+        var CSRF_TOKEN = 'CSRF_TOKEN';
+        var csrf = $("#token_"+id).val();
+		$.ajax({
+                url: postUrl,
+                type: 'post',
+                data: {menu_id:id, action: action, CSRF_TOKEN: csrf},
+                dataType: 'json',
+                success: function(resp){
+                    updateCSRFToken();
+                    if(action == 'roleDelete') {
+                        if(resp.data == 'success') {
+                            alert('Selected role has been deleted successfully');
+                            window.location.reload(true);
+                        }
+                        else if(resp.data == '0') {
+                            alert(resp.error);
+                        }
+                    }
+				},
+                error: function(){
+                    updateCSRFToken();
+                    alert('Server busy, try later');
+                }
+            });
 	});
 
 
-    $('a#roleDelete, a#roleEdit').click(function(e)
-    {
-		alert(); 
-        var id,
+    $('a#roleEdit').click(function(e){
+		var id,
         action,
         rtnType='json', 
         postUrl= base_url +'/MasterManagement/RolesController/roleparameter', 
@@ -475,7 +496,7 @@ $(function () {
             $('#FormRoleEdit').submit();
         }
         else {
-            $.ajax({
+			$.ajax({
                 url: postUrl,
                 type: 'post',
                 data: {menu_id:id, action: action},

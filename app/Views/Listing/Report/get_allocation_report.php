@@ -1,3 +1,4 @@
+<div>
 <div id="prnnt" class="text-center">
     <h3>Case Allocation Report for Dated <?php echo $list_dt; ?> (<?php echo $mainhead_descri; ?>)</h3>
 
@@ -6,14 +7,14 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Court No.</th>
-                        <th>Hon'ble Judges</th>
-                        <th>Fixed</th>
+                        <th style="font-weight: bold; color: #dce38d;background: #918788;">Court No.</th>
+                        <th style="font-weight: bold; color: #dce38d;background: #918788;">Hon'ble Judges</th>
+                        <th style="font-weight: bold; color: #dce38d;background: #918788;">Fixed</th>
                         <?php if ($mainhead == "M") { ?>
-                            <th>Fresh</th>
+                            <th style="font-weight: bold; color: #dce38d;background: #918788;">Fresh</th>
                         <?php } ?>
-                        <th>Other</th>
-                        <th>Total</th>
+                        <th style="font-weight: bold; color: #dce38d;background: #918788;">Other</th>
+                        <th style="font-weight: bold; color: #dce38d;background: #918788;">Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,28 +24,62 @@
                     $fr_t = 0;
                     $ors_t = 0;
                     $ttt_t = 0;
-                    foreach ($result_array as $row) { ?>
+                    foreach ($result_array as $row) { 
+                        $sno1 = $sno % 2;   
+                        if($sno1 == '1'){ 
+                        ?>
+
                         <tr>
-                            <td><?php echo $row['courtno']; ?></td>
-                            <td><?php echo str_replace(",", "<br/>", $row['jnm']); ?></td>
+                            <td style="vertical-align: top;background: #ececec;"><?php echo $row['courtno']; ?></td>
+                            <td style="vertical-align: top;background: #ececec;"><?php echo str_replace(",", "<br/>", $row['jnm']); ?></td>
                             <?php
                             $row1 = $ReportModel->get_m_data($mainhead, $board_type, $list_dt, $row["jcd"], $row["id"]);
 
-                            if (!empty($row1)) {
+                            if (!empty($row1)) { 
                             ?>
-                                <td class="text-right" style="vertical-align: top;"><?php echo $row1['fd'];
+                                <td class="text-right" style="vertical-align: top;background: #ececec;"><?php echo $row1['fd'];
                                                                                     $fd_t += $row1['fd'] ?></td>
                                 <?php if ($mainhead == "M") { ?>
-                                    <td class="text-right" style="vertical-align: top;"><?php echo $row1['fr'];
+                                    <td class="text-right" style="vertical-align: top;background: #ececec;"><?php echo $row1['fr'];
                                                                                         $fr_t += $row1['fr']; ?></td>
                                 <?php } ?>
-                                <td class="text-right" style="vertical-align: top;"><?php echo $row1['ors'];
+                                <td class="text-right" style="vertical-align: top;background: #ececec;"><?php echo $row1['ors'];
                                                                                     $ors_t += $row1['ors']; ?></td>
-                                <td class="text-right" style="vertical-align: top;"><?php echo $row1['ttt'];
+                                <td class="text-right" style="vertical-align: top;background: #ececec;"><?php echo $row1['ttt'];
                                                                                     $ttt_t += $row1['ttt']; ?></td>
+                            <?php
+                            } ?>
                         </tr>
-                <?php
-                            }
+                        
+                           
+                            <?php } else { ?>
+                                <tr>
+                            <td style="vertical-align: top;background: #f6e0f3;"><?php echo $row['courtno']; ?></td>
+                            <td style="vertical-align: top;background: #f6e0f3;"><?php echo str_replace(",", "<br/>", $row['jnm']); ?></td>
+                            <?php
+                            $row1 = $ReportModel->get_m_data($mainhead, $board_type, $list_dt, $row["jcd"], $row["id"]);
+
+                            if (!empty($row1)) { 
+                            ?>
+                                <td class="text-right" style="vertical-align: top;background: #f6e0f3;"><?php echo $row1['fd'];
+                                                                                    $fd_t += $row1['fd'] ?></td>
+                                <?php if ($mainhead == "M") { ?>
+                                    <td class="text-right" style="vertical-align: top;background: #f6e0f3;"><?php echo $row1['fr'];
+                                                                                        $fr_t += $row1['fr']; ?></td>
+                                <?php } ?>
+                                <td class="text-right" style="vertical-align: top;background: #f6e0f3;"><?php echo $row1['ors'];
+                                                                                    $ors_t += $row1['ors']; ?></td>
+                                <td class="text-right" style="vertical-align: top;background: #f6e0f3;"><?php echo $row1['ttt'];
+                                                                                    $ttt_t += $row1['ttt']; ?></td>
+                            <?php
+                            } ?>
+                        </tr>
+                
+            <?php        
+            }     
+            ?>
+
+                            <?php
                         }
                 ?>
                 </tbody>
@@ -91,15 +126,11 @@
     <?php } else {
         echo '<p>No Record Found</p>';
     } ?>
-    <div class="container-fluid fixed-bottom text-center py-1" style="z-index: 0;">
-        <div class="d-flex justify-content-center">
-            <!-- Optional buttons for notes or actions -->
-            <!-- <button class="btn btn-link" id="sh4" onClick="toggle_note4(this.id)">Header Note</button>
-        <button class="btn btn-link" id="sh5" onClick="toggle_note5(this.id)">Footer Note</button>
-        <button class="btn btn-link" id="sh3" onClick="toggle_note3(this.id)">Drop Note</button> -->
-
-            <!-- Print Button -->
-            <button class="btn btn-primary ml-2" id="prnnt1">Print</button>
-        </div>
-    </div>
+   
 </div>
+<?php if (count($result_array) > 0) { ?>
+    <div style="text-align: center;">
+    <button class="btn btn-primary ml-2" id="prnnt1">Print</button>
+        </div>
+
+    <?php } ?>

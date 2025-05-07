@@ -5,6 +5,7 @@ namespace App\Controllers\Listing;
 use App\Controllers\BaseController;
 use App\Models\Listing\Heardt;
 use App\Models\Listing\PrintModel;
+use Mpdf\Mpdf;
 
 class PrintWeekly extends BaseController
 {
@@ -98,8 +99,7 @@ class PrintWeekly extends BaseController
         ]);
     }
 
-    public function cl_print_save_wk()
-    {
+    public function cl_print_save_wk() {
         $session = session();
         $request = service('request');
 
@@ -123,7 +123,7 @@ class PrintWeekly extends BaseController
 
         // Get the writable path for storing files (use WRITEPATH for CI writable folder)
         $file_path = $courtno;
-        $path_dir = WRITEPATH . "wk/{$list_dt}_{$list_dt_to}/";  // Store in writable folder
+        $path_dir = FCPATH . "wk/{$list_dt}_{$list_dt_to}/";  // Store in writable folder
         
         if (!file_exists($path_dir)) {
             mkdir($path_dir, 0777, true);  // Create the directory if it doesn't exist
@@ -142,12 +142,7 @@ class PrintWeekly extends BaseController
         // Write the HTML content to mPDF
         $mpdf->WriteHTML($pdf_cont);
 
-        // Define file path in writable folder
-        $path_dir = WRITEPATH . "wk/{$list_dt}_{$list_dt_to}/";
-        if (!file_exists($path_dir)) {
-            mkdir($path_dir, 0777, true);  // Create directory if it doesn't exist
-        }
-
+        
         // Define the output PDF file path
         $data_file1 = $path_dir . $courtno . '.pdf';
 
@@ -157,12 +152,9 @@ class PrintWeekly extends BaseController
         return $this->response->setJSON([
             'status' => 'success',
             'message' => 'Cause List Ported/Published Successfully.',
-            'file_path' => $data_file1  // Optionally, return the file path to the frontend
+            'file_path' => base_url("public/wk/{$list_dt}_{$list_dt_to}").'/'.$file_path.'.pdf' 
         ]);
     }
-
-
-
 
 
     public function get_causelist_weekly_verify()
@@ -173,22 +165,12 @@ class PrintWeekly extends BaseController
         // Get user code from session
         $ucode = $session->get('dcmis_user_idd') ?? $session->get('login')['usercode'];
 
-        // Validate and sanitize input
-        //For testing
-        // $list_dt = date('Y-m-d', strtotime('2023-02-06'));
-        // $list_dt_to = date('Y-m-d', strtotime('2023-03-27'));
-        //For Production
         $list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
         $list_dt_to = date('Y-m-d', strtotime($request->getPost('list_dt_to')));
         $mainhead = $request->getPost('mainhead');
         $courtno = $request->getPost('courtno');
 
-        // Prepare data for view
-        $data = [
-            //For Testing
-            // 'list_dt' => '2023-02-06',
-            // 'list_dt_to' => '2023-03-27',
-            //For Production
+       $data = [
             'list_dt' => $list_dt,
             'list_dt_to' => $list_dt_to,
             'mainhead' => $mainhead,
@@ -242,7 +224,7 @@ class PrintWeekly extends BaseController
         }
 
         // Define writable path for storing files
-        $path_dir = WRITEPATH . "judgment/cl/wk/{$list_dt}_{$list_dt_to}/";
+        $path_dir = FCPATH . "judgment/cl/wk/{$list_dt}_{$list_dt_to}/";
 
         // Ensure the directory exists
         if (!file_exists($path_dir)) {
@@ -305,11 +287,11 @@ class PrintWeekly extends BaseController
         
         //For Pduction
 
-        $sms_url='http://xxxx/eAdminSCI/a-push-sms-gw?mobileNos='.'9630100950,9810884595,9319170909,9821411915,9868069855,9718009598,9818782386,9910727768,9968281944,9968319828,9968811042,9971685090,9999100724,9312570277,9910431438,9643323531,7838900365,8800307859,8800928316,9810855890,9711475023,9711475578,9810263541,9810464620,9810481741,9810485122,9810506860,9810594145,9811471402,9811904000,9818617598,9868186878,9868200903,9868216440,9868280279,9868281372,9868631191,9868996564,9811316333,9871922703,9868207383,9899016720,9899249150,9899518586,9899924364,9910431438,9911675788,9968281944,9968319828,9968811042,9971685090,8860012863,9810267531'.'&message='.$sms_text.'&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=sdjkfgbsjh$1232_12nmnh&templateId=1107161578957835848';
+        /* $sms_url='http://xxxx/eAdminSCI/a-push-sms-gw?mobileNos='.'9630100950,9810884595,9319170909,9821411915,9868069855,9718009598,9818782386,9910727768,9968281944,9968319828,9968811042,9971685090,9999100724,9312570277,9910431438,9643323531,7838900365,8800307859,8800928316,9810855890,9711475023,9711475578,9810263541,9810464620,9810481741,9810485122,9810506860,9810594145,9811471402,9811904000,9818617598,9868186878,9868200903,9868216440,9868280279,9868281372,9868631191,9868996564,9811316333,9871922703,9868207383,9899016720,9899249150,9899518586,9899924364,9910431438,9911675788,9968281944,9968319828,9968811042,9971685090,8860012863,9810267531'.'&message='.$sms_text.'&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=sdjkfgbsjh$1232_12nmnh&templateId=1107161578957835848';
 
         $sms_response = file_get_contents($sms_url);
         $sms_response = $this->fetch_api_response($sms_url);
-        $json = json_decode($sms_response);
+        $json = json_decode($sms_response); 
 
         if ($sms_response === false || empty($json)) {
             return $this->response->setJSON([
@@ -320,28 +302,26 @@ class PrintWeekly extends BaseController
             $sms_status = "Success: Causelist Uploaded alert SMS sent.";
         } else {
             $sms_status = "Error: Causelist Uploaded alert SMS could not be sent.";
-        }
-        
+        } */
+          
 
         return $this->response->setJSON([
             'status' => 'success',
             'message' => 'Weekly List Ported/Published Successfully.',
-            'file_path' => base_url("writable/judgment/cl/wk/{$list_dt}_{$list_dt_to}/weekly.pdf"),
-            'sms_status' => $sms_status
+            'file_path' => base_url("public/judgment/cl/wk/{$list_dt}_{$list_dt_to}/weekly.pdf"),
+            'sms_status' => 'Error: Causelist Uploaded alert SMS could not be sent.'
         ]);
     }
 
 
     
 
-    public function wk_cl_print()
-    {
+    public function wk_cl_print(){
         $data['dates']  = $this->Heardt->getListDates();
         return view('Listing/print_advance/wk_cl_print', $data);
     }
 
-    public function cl_print_verify()
-    {
+    public function cl_print_verify(){
         $request = service('request');
         $data['listingDates']  = $this->Heardt->getListingDatesMV1();
         $data['benches'] = $this->Heardt->getBenchJudges();
@@ -633,7 +613,7 @@ class PrintWeekly extends BaseController
         file_put_contents($data_file, $pdf_cont);
 
         // PDF generation logic (use mPDF)
-        include '/var/www/html/supreme_court/MPDF60/mpdf.php';
+        // include '/var/www/html/supreme_court/MPDF60/mpdf.php';
         $mpdf = new \Mpdf\Mpdf();
         $mpdf->SetDisplayMode('fullpage');
         $mpdf->WriteHTML(file_get_contents($data_file));

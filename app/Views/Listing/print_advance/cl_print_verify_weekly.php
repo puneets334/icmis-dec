@@ -160,9 +160,11 @@
     </div>
 </section>
 <script>
-     $('.select-box').select2({
-        selectOnClose: true
+     $(document).on("click", "#resf_span", function() {
+        $("#resh_from_txt").toggle("slow", "linear");
     });
+	
+
      function get_mainhead() {
         var mainhead = "";
         $('input[type=radio]').each(function() {
@@ -204,10 +206,7 @@
         });
     });
 
-    $(document).on("click", "#resf_span", function() {
-        $("#resh_from_txt").toggle("slow", "linear");
-    });
-
+   
     $(document).on("click", "#prnnt1", function() {
         var prtContent = $("#prnnt").html();
         var mainhead = get_mainhead();
@@ -221,4 +220,157 @@
         WinPrint.focus();
         WinPrint.print();
     });
+	
+	
+	$(document).on("click", "#unpub", async function() {
+        await updateCSRFTokenSync();
+            var prtContent = $("#prnnt").html();
+            var list_dt = $("#listing_dts").val();
+            var list_dt_to = $("#listing_dts_to").val();
+            var courtno = $("#courtno").val();
+            var CSRF_TOKEN = 'CSRF_TOKEN';
+            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            $.ajax({
+                url: "<?php echo base_url('Listing/PrintWeekly/cl_print_unpublish_wk'); ?>",
+                //: 'cl_print_unpublish_wk.php',
+                cache: false,
+                async: true,
+                type: 'POST',
+                data: {
+                    list_dt: list_dt,
+                    list_dt_to: list_dt_to,
+                    courtno: courtno,
+                    prtContent: prtContent,
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE
+                },
+                beforeSend: function() {
+                    $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
+                },
+       
+                success: function(response, status) {
+                    try {
+                        // Ensure response is a proper JSON object
+                        var data = typeof response === 'string' ? JSON.parse(response) : response;
+                        
+                        if (data.status === 'success') {
+                            $('#res_loader').html(`<h3 class="bg-success p-2 text-center">${data.message}</h3>`);
+                            alert(data.message); // Show an alert with the response message
+                        } else {
+                            alert("An error occurred. Please try again.");
+                        }
+                    } catch (error) {
+                        console.error("JSON Parsing Error:", error);
+                        alert("Invalid server response.");
+                    }
+                },
+
+
+                error: function(xhr) {
+                    alert("Error: " + xhr.status + " " + xhr.statusText);
+                }
+            });
+        });
+        $(document).on("click", "#ebublish", async function() {
+            await updateCSRFTokenSync();
+            var prtContent = $("#prnnt").html();
+            var list_dt = $("#listing_dts").val();
+            var list_dt_to = $("#listing_dts_to").val();
+            var courtno = $("#courtno").val();
+            var CSRF_TOKEN = 'CSRF_TOKEN';
+            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            $.ajax({
+                url: "<?php echo base_url('Listing/PrintWeekly/cl_print_save_wk'); ?>",
+                //url: 'cl_print_save_wk.php',
+                cache: false,
+                async: true,
+                type: 'POST',
+                data: {
+                    list_dt: list_dt,
+                    list_dt_to: list_dt_to,
+                    courtno: courtno,
+                    prtContent: prtContent,
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE
+                },
+                beforeSend: function() {
+                    $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
+                },
+                success: function(response, status) {
+					try {
+                        // Ensure response is a proper JSON object
+                        var data = typeof response === 'string' ? JSON.parse(response) : response;
+                        alert(data.message);
+                        if (data.status === 'success') {
+                            $('#res_loader').html(`
+                                <h3 class="bg-success p-2 text-center">${data.message}</h3>
+                                <p class="text-center">
+                                    <a href="${data.file_path}" class="btn btn-primary" download>Download File</a>
+                                </p>
+                            `);
+                            alert(data.message); // Show an alert with the response message
+                        } else {
+                            alert("An error occurred. Please try again.");
+                        }
+
+                    } catch (error) {
+                        console.log("JSON Parsing Error:", error);
+                        alert("Invalid server response.");
+                    }
+                },
+                error: function(xhr) {
+                    alert("Error: " + xhr.status + " " + xhr.statusText);
+                }
+            });
+        });
+
+        $(document).on("click", "#mbublish", async function() {
+            await updateCSRFTokenSync();
+            var list_dt = $("#listing_dts").val();
+            var list_dt_to = $("#listing_dts_to").val();
+            var CSRF_TOKEN = 'CSRF_TOKEN';
+            var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            $.ajax({
+                url: "<?php echo base_url('Listing/PrintWeekly/cl_print_save_wk_merge'); ?>",
+                //url: 'cl_print_save_wk_merge.php',
+                cache: false,
+                async: true,
+                type: 'POST',
+                data: {
+                    list_dt: list_dt,
+                    list_dt_to: list_dt_to,
+                    CSRF_TOKEN: CSRF_TOKEN_VALUE
+                },
+                beforeSend: function() {
+                    $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
+                },
+                success: function(response, status) {
+                    try {
+                        // Ensure response is a proper JSON object
+                        var data = typeof response === 'string' ? JSON.parse(response) : response;
+                        
+                        if (data.status === 'success') {
+                            $('#res_loader').html(`
+                                <h3 class="bg-success p-2 text-center">${data.message}</h3>
+                                <p class="bg-success p-2 text-center">${data.sms_status}</p>
+                                <p class="text-center">
+                                    <a href="${data.file_path}" class="btn btn-primary" download>Download File</a>
+                                </p>
+                            `);
+                            alert(data.message); // Show an alert with the response message
+                        } else {
+                            alert("An error occurred. Please try again.");
+                        }
+
+                    } catch (error) {
+                        console.log("JSON Parsing Error:", error);
+                        alert("Invalid server response.");
+                    }
+            
+                },
+                error: function(xhr) {
+                    alert("Error: " + xhr.status + " " + xhr.statusText);
+                }
+            });
+        });
+	
+	
 </script>

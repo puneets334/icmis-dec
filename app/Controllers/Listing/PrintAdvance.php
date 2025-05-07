@@ -1322,12 +1322,12 @@ class PrintAdvance extends BaseController
 
         // Get POST parameters
         $mainhead   = $request->getPost('mainhead');
-        $list_dt    = $request->getPost('list_dt');
+        $list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
         if (!empty($request->getPost('roster_id'))) {
             $roster_id  = $request->getPost('roster_id');
         } else {
             $jud_ros = explode("|", $request->getPost('jud_ros'));
-            $roster_id = $jud_ros[1];
+            $roster_id = isset($jud_ros[1]) ? $jud_ros[1] : 0;
         }
 
         $board_type = $request->getPost('board_type');
@@ -1946,7 +1946,7 @@ class PrintAdvance extends BaseController
                             $todt = $to_dt[2] . "-" . $to_dt[1] . "-" . $to_dt[0];
 
                             $weekly_files[] = [
-                                'pdf_path' => base_url("writable/judgment/cl/wk/$file/weekly.html"),
+                                'pdf_path' => base_url("public/judgment/cl/wk/$file/weekly.html"),
                                 'label' => "$fromdt to $todt"
                             ];
                         }
@@ -1962,7 +1962,7 @@ class PrintAdvance extends BaseController
     {
         $request = \Config\Services::request();
         $list_dt = $request->getPost('list_dt');
-
+		
         if (!file_exists($list_dt)) {
             return $this->response->setJSON(['status' => 'error', 'message' => 'File not found!']);
         }
@@ -1973,9 +1973,9 @@ class PrintAdvance extends BaseController
         $content = file_get_contents($list_dt);
 
         $updated_content = str_replace('/home/judgment/cl/scilogo.png', '<img src="' . $logo_url . '" width="50px" height="80px">', $content);
-
-
-        return $this->response->setJSON(['status' => 'success', 'content' => $updated_content]);
+      
+	    
+	    return $this->response->setJSON(['status' => 'success', 'content' => $updated_content]);
     }
 
 
@@ -2315,7 +2315,8 @@ class PrintAdvance extends BaseController
         $judge_id = $jud_ros[0];
         $roster_id = $jud_ros[1];
         $prtContent = $request->getPost('prtContent');
-        // $cntt = base64_encode($request->getPost('prtContent')); 
+        
+        $cntt = base64_encode($request->getPost('prtContent')); 
 
         // $pdf_cont = str_replace("scilogo.png", "/home/judgment/cl/scilogo.png", $request->getPost('prtContent'));
         $pdf_cont = str_replace("scilogo.png", "scilogo.png", $request->getPost('prtContent'));
@@ -2339,8 +2340,8 @@ class PrintAdvance extends BaseController
             'part_no'    => $part_no,
             'judge_id'   => $judge_id,
             'roster_id'  => $roster_id,
-            //'cntt'       => $cntt,
-            'cntt'       => $prtContent,
+            'cntt'       => $cntt,
+            //'cntt'       => $prtContent,
             // 'usercode'   => $ucode,
             //  'pdf_cont' => $pdf_cont,
             'main_supp_flag' => $main_supp_flag, // Add `main_supp_flag` to the data array

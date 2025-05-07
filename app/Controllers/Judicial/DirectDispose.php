@@ -159,7 +159,5 @@ class DirectDispose extends BaseController
             echo json_encode($modal_details);
         }
     }
-
     
-
 }

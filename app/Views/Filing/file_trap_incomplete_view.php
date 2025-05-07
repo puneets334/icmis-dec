@@ -1,5 +1,12 @@
 <?= view('header'); ?>
-
+<style>
+      table.dataTable>thead .sorting,
+    table.dataTable>thead {
+        background-color: #0d48be !important;
+        color: #fff !important;
+        white-space: nowrap;
+    }
+</style>
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -199,7 +206,7 @@
                                                                                         $nature = !empty($row['nature']) ? 'comp' . $row['nature'] : 'comp9999';
                                                                                     ?>
                                                                                         <td><!--<input type="button" id="comp<?php /*echo $row['uid'];*/ ?>comp<?php /*echo $row['nature'];*/ ?>" value="<?php /*if($fil_trap_type_row['usertype']==108 && ($row['remarks']=='AOR -> FDR' || $row['remarks']=='FDR -> AOR') ){ echo "Allot To Scruitny User"; } else if($fil_trap_type_row['usertype']==108 && $row['remarks']=='SCR -> FDR') { echo "Return to AOR" ;} else echo "Dispatch"; */ ?>" disabled/>-->
-                                                                                            <input class="btn btn-primary quick-btn" type="button" id="comp<?php echo $row['uid']; ?><?php echo $nature; ?>" value="<?php if ($fil_trap_type_row['usertype'] == 108 && ($row['remarks'] == 'AOR -> FDR' || $row['remarks'] == 'FDR -> AOR')) { echo "Allot To Scruitny User";} else if ($fil_trap_type_row['usertype'] == 108 && $row['remarks'] == 'SCR -> FDR') { echo "Return to AOR";} else echo "Dispatch"; ?>" <?php //if($row[rece_dt]=='0000-00-00 00:00:00') echo "disabled";?> />
+                                                                                            <input class="btn btn-primary quick-btn btn-sm" type="button" id="comp<?php echo $row['uid']; ?><?php echo $nature; ?>" value="<?php if ($fil_trap_type_row['usertype'] == 108 && ($row['remarks'] == 'AOR -> FDR' || $row['remarks'] == 'FDR -> AOR')) { echo "Allot To Scruitny User";} else if ($fil_trap_type_row['usertype'] == 108 && $row['remarks'] == 'SCR -> FDR') { echo "Return to AOR";} else echo "Dispatch"; ?>" <?php //if($row[rece_dt]=='0000-00-00 00:00:00') echo "disabled";?> />
                                                                                             <?php
                                                                                             if ($cat == 1) {
                                                                                             ?>
@@ -212,7 +219,7 @@
                                                                                     <?php } ?>
                                                                                     <td>
                                                                                         <?php if ($row['efiling_no'] != '') { ?>
-                                                                                            <div class="btn ui-button-text-icon-primary " style="background-color: #555555;color: #fff;cursor:pointer;font-size: large;" onclick="efiling_number('<?= $row['efiling_no'] ?>')">View</div>
+                                                                                            <div class="btn ui-button-text-icon-primary btn-sm" style="background-color: #555555;color: #fff;cursor:pointer;font-size: large;" onclick="efiling_number('<?= $row['efiling_no'] ?>')">View</div>
                                                                                         <?php } ?>
                                                                                     </td>
                                                                                 </tr>
