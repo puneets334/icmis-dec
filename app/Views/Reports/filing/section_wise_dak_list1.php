@@ -26,10 +26,13 @@
         <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4">
             <?php
             if(!empty($section_wise_dak_data1)):?>
+                <button type="submit"  id="print" name="print" onclick="printDiv('printable')" class="btn btn-block_ btn-primary">Print</button>
+                <div id="printable" class="box box-danger">
+                <?php $on_date=$for_date ?>
+                <h3 style="text-align: center;"> Section wise DAK for  <?php echo date('d-m-Y', strtotime($on_date));?></h3>
                 <table  id="ReportFileTrap" class="table table-striped custom-table table-hover dt-responsive">
                     <thead>
-                    <?php $on_date=$for_date ?>
-                    <h3 style="text-align: center;"> Section wise DAK for  <?php echo date('d-m-Y', strtotime($on_date));?></h3>
+                   
                     <tr>
                         <th rowspan='1'>SNo.</th>
                         <th rowspan='1'>Section</th>
@@ -62,6 +65,7 @@
                     <tr style="font-weight: bold;"><td colspan="2">Total</td><td><?= $total_dak?></tr>
                     </tbody>
                 </table>
+            </div>
             <?php else: { echo "Record Not Found"; } endif; ?>
             <!-- end of fileTrap -->
         </div>
@@ -85,5 +89,13 @@
                 }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
 
                 });
+
+                function printDiv(printable) {
+                     var originalContents = document.body.innerHTML;
+                    var printContents = document.getElementById(printable).innerHTML;
+                    document.body.innerHTML = printContents;
+                    window.print();
+                    document.body.innerHTML = originalContents;
+                }
         </script>
- <?=view('sci_main_footer') ?>
+ <?//=view('sci_main_footer') ?>

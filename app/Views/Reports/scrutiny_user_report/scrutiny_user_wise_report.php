@@ -66,14 +66,18 @@
 
                                 <div class="box-body">
 
-                                    <div class="form-group">
+                                    <div class="row">
                                         <div class="col-sm-4">
                                             <label for="on_date" class="col-sm-6">On Date:</label>
                                             <input type="text" id="on_date" value="<?php echo isset($_POST['on_date']) ? $_POST['on_date'] : ''; ?>" name="on_date" class="form-control datepick" autocomplete="off" placeholder="On Date" required="required">
                                         </div>
+
+                                        <div class="col-sm-4">
+                                        <button type="submit"  id="view" name="view" class="btn btn-block btn-primary mt-5">View</button>
+                                        </div>
                                     </div>
                                     <div class="box-footer">
-                                        <button type="submit" style="width:15%;float:right" id="view" name="view" class="btn btn-block btn-primary">View</button>
+                                        
                                     </div>
                                 </div>
                             </form>

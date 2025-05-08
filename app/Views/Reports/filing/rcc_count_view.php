@@ -83,7 +83,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body" id="modal_id">
+      <div class="modal-body" id="modal_id" style="padding-top:5px !important;">
         
       </div>
       <div class="modal-footer">

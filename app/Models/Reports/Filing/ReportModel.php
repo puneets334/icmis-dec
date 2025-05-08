@@ -2086,7 +2086,54 @@ class ReportModel extends Model
     }
 
 
-
+    public function tagged_matter_report()
+    {
+        $query = "SELECT
+        b.main_case,
+        CONCAT(SUBSTRING(b.diary_no::text, -4)) AS connected_case,
+        connected
+    FROM
+        (
+            SELECT
+                CONCAT(SUBSTRING(c.conn_key::text, -4)) AS main_case,
+                c.diary_no,
+                CASE
+                    WHEN c.conn_type = 'C' THEN 'connected'
+                    ELSE 'Linked'
+                END AS connected
+            FROM
+                (
+                    SELECT
+                        m.*
+                    FROM
+                        main m
+                    LEFT JOIN mul_category mc ON mc.diary_no = m.diary_no
+                        AND mc.display = 'Y'
+                        AND mc.submaster_id IN (239, 240)
+                    WHERE
+                        (m.diary_no::text = m.conn_key::text)
+                        AND m.c_status = 'P'
+                        AND mc.diary_no IS NOT NULL
+                    GROUP BY
+                        m.diary_no
+                ) a
+            LEFT JOIN conct c ON c.conn_key::text = a.diary_no::text
+                AND c.diary_no::text != a.diary_no::text
+            WHERE
+                c.list = 'Y'
+                AND DATE(c.ent_dt) >= '2017-05-08'
+        ) b
+    LEFT JOIN heardt h ON h.diary_no = b.diary_no
+    WHERE
+        (h.subhead IN (811, 812)
+            OR listorder = '32')
+    ORDER BY
+        main_case;
+     ";
+         
+        $results = $this->db->query($query)->getResult();
+        return $results;
+    }
 
 
     function change_category_report_data($frm_dt, $to_dt, $report_type = 1)
