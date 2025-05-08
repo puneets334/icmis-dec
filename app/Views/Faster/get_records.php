@@ -98,11 +98,8 @@ foreach($results AS $row)
 </table>
 <div id="dv_sh_hd" style="display: none;position: fixed;top: 0;width: 100%;height: 100%;background-color: black;opacity: 0.6;left: 0;overflow: hidden;z-index: 103" >
        &nbsp;
-    </div>
-    <div id="dv_fixedFor_P" style="position: fixed;top:0;display: none;
-	left:0;
-	width:100%;
-	height:100%;z-index: 105;">
+</div>
+<div id="dv_fixedFor_P" style="position: fixed;top:0;display: none; left:0;	width:100%;	height:100%;z-index: 105;">
          <div id="sp_close" style="text-align: right;cursor: pointer;width: 40px;float: right" onclick="closeData()" ><b><img src="../../images/close_btn.png" style="width:30px;height:30px"/></b></div>
          
 <div style="text-align: center;background-color: white;clear: both;" id="dv_edi" >
