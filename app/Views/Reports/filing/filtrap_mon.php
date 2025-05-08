@@ -74,8 +74,13 @@
     $(document).on("click", "#btn1", function() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+        var dateVal = $('#date_for').val();
 
-       
+        if (dateVal === '') {
+            alert('Enter the date');
+            return false;
+        }
+
         $.ajax({
             url: "<?php echo base_url('Reports/Filing/Filing_Reports/get_filtrap_mon'); ?>",
             method: 'POST',
@@ -83,16 +88,13 @@
                 $('#result').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             data: {
-                date:$("#date_for").val(),
+                date: dateVal,
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             cache: false,
             success: function(response) {
                 updateCSRFToken();
                 $('#result').html(response);
-
-                $("#csrf_token").val(response.csrfHash);
-                $("#csrf_token").attr('name', response.csrfName);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 updateCSRFToken();

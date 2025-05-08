@@ -110,6 +110,7 @@ class Filing_Reports extends BaseController
 
         $date = $this->request->getPost('date');
         $date = $this->revertDate_hiphen($date);
+        $data['date'] = $date;
         $data['result'] = $trapModel->get_filtrap_mon_data($date);
         return view('Reports/filing/get_filtrap_mon_table', $data);
     }
