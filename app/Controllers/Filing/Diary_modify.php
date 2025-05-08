@@ -153,7 +153,7 @@ class Diary_modify extends BaseController
             $ctrl = 0;
             $insup2 = "";
             //echo $q1 = "select pet_name,res_name from main where diary_no = '$d_y'";
-
+            $pet_cause_title=''; $res_cause_title = '';
             $sclsc = 0; 
             //error_reporting(0);
              
@@ -197,7 +197,6 @@ class Diary_modify extends BaseController
             if (!isset($_REQUEST['r_age'])){$_REQUEST['r_age']=0;}
             if (!isset($_REQUEST['r_sex'])){$_REQUEST['r_sex']=0;}
             if (!isset($_REQUEST['res_rel'])){$_REQUEST['res_rel']='';}
-
             $this->db = \Config\Database::connect();
             $this->db->transStart();
 
@@ -313,6 +312,7 @@ class Diary_modify extends BaseController
 
             }
             else if($_REQUEST['p_type']!='I' && $_REQUEST['r_type']!='I'){
+
                 if($_REQUEST['p_cause_t1']==1)
                     $pet_cause_title = strtoupper(trim($_REQUEST['pet_statename'])).' ';
                 if($_REQUEST['p_cause_t2']==1)

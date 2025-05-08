@@ -1,5 +1,9 @@
 <?= view('header') ?>
 <style>
+    #dv_add_parties
+    {
+        overflow-x:scroll;
+    }
     .custom-radio {
         float: left;
         display: inline-block;
@@ -1553,7 +1557,7 @@
 
                                     <div class="col-md-4" id="padvno_">
                                         <div class="form-group row">
-                                            <label for="inputEmail3" class="col-sm-5 col-form-label">AOR-Code/Enrol. <span class="text-red">*</span> :</label>
+                                            <label for="inputEmail3" class="col-sm-5 col-form-label">AOR-Code/Enrol. :</label>
                                             <div class="col-sm-7">
                                                 <input type="text" class="form-control" id="padvno" size="25" 
                                                     onkeypress="return onlynumbersadv(event)"
@@ -1666,7 +1670,7 @@
                                     </div>
                                     <div class="col-md-4" id="radvno_">
                                         <div class="form-group row">
-                                            <label for="inputEmail3" class="col-sm-5 col-form-label">AOR-Code/Enrol. <span class="text-red">*</span> :</label>
+                                            <label for="inputEmail3" class="col-sm-5 col-form-label">AOR-Code/Enrol. :</label>
                                             <div class="col-sm-7">
                                                 <input type="text" class="form-control" id="radvno" size="25" onblur="getAdvocate_for_main(this.id,'R')" value="<?php if (!empty($resadv_info_rw) && ($resadv_info_rw['aor_state'] == 'A' || $resadv_info_rw['aor_state'] == '')) {
                                                                                                                                                                         echo $resadv_info_rw['aor_code'];
@@ -1885,7 +1889,7 @@
             $('#txt_efil_no').prop('disabled',true);
         }
         $('#txt_efil_no').val('');
-        $('#ddl_sclsc_yr').val('');
+        // $('#ddl_sclsc_yr').val('');
     }
 
     function is_type_special_nature(type) {
