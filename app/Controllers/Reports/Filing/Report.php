@@ -167,6 +167,9 @@ class Report extends BaseController
 
     public function diary_search()
     {
+
+        extract($_POST);
+        
         $ReportModel = new ReportModel();
         $data['from_date'] = date('Y-m-d',strtotime($this->request->getPost('from_date')));
         $data['to_date'] = date('Y-m-d',strtotime($this->request->getPost('to_date')));
@@ -1009,7 +1012,7 @@ class Report extends BaseController
                         <tr><th colspan="2">Total Pendency till above Date</th></tr>
                         <tr><th>Pending for Tagging Verification</th><th>Pending Verification after Re-filing</th></tr></thead>
                         <tbody>
-                        <tr><td>' . $result_array['pending_tagging'] . '</td><td><span onclick="get_complete_filing_details(' . $report_for . ',1)">' . $result_array['pending_ver_aft_ref'] . '</span> ( <span onclick="get_complete_filing_details(' . $report_for . ',2)">' . $result_array['pending_ver_aft_ref_registered'] . ' Reg)</span></td></tr><tbody>
+                        <tr><td>' . $result_array['pending_tagging'] . '</td><td><a href="javascript:void(0)" onclick="get_complete_filing_details(' . $report_for . ',1)">' . $result_array['pending_ver_aft_ref'] . '</a> ( <a href="javascript:void(0)" onclick="get_complete_filing_details(' . $report_for . ',2)">' . $result_array['pending_ver_aft_ref_registered'] . ' Reg)</a></td></tr><tbody>
                     </table>
                     </div></div>';
         }
@@ -1018,20 +1021,23 @@ class Report extends BaseController
 
     public function get_complete_filing_details()
     {
-        $table = '<br><br>';
+        $table = '';
         $ReportModel = new ReportModel();
         $result_array = $ReportModel->get_complete_filing_details($_POST['report_for'], $_POST['type']);
         if ($_POST['type'] == 1 or $_POST['type'] == 2) {
             $sno = 1;
-            $table .= '<table style="margin-left: auto;margin-right: auto;border-collapse: collapse" border="1">
-                        <tr><th colspan="5">Records for Pending Verification after Re-filing</th></tr>
+            $table .= '<table class="custom-table" style="margin-left: auto;margin-right: auto;border-collapse: collapse" border="1"><thead>                        
                         <tr><th>SNo.</th><th>Diary No</th><th>Reg. No.</th><th>Date of Sending to Tagging</th><th>Date of Registration</th>' . (($_POST['report_for'] == '584' || $_POST['report_for'] == '0') ? '<th>Petitioner In Person</th>' : '') . (($_POST['report_for'] == 'C' || $_POST['report_for'] == '0') ? '<th>Caveat No.</th>' : '');
+            
+            $table .=  '</thead><tbody>';
+          //pr($result_array);
             foreach ($result_array as $row) {
                 $row['verification_date'] = (isset($row['verification_date'])) ? $row['verification_date'] : '';
                 $row['caveat_no'] = (isset($row['caveat_no'])) ? $row['caveat_no'] : '';
                 $row['caveat_no1'] = (isset($row['caveat_no1'])) ? $row['caveat_no1'] : '';
-                $table .= '<tr><th>' . $sno++ . '</th><td>' . substr($row['diary_no'], 0, -4) . '/' . substr($row['diary_no'], -4) . '</td><td>' . ((!is_null($row['fil_dt'])) ? $row['short_description'] . SUBSTR($row['fil_no'], 3) . '/' . $row['active_reg_year'] : '') . '</td><td>' . date('d-m-Y h:i:s A', strtotime($row['verification_date'])) . '</td><td>' . ((!is_null($row['fil_dt'])) ? date('d-m-Y h:i:s A', strtotime($row['fil_dt'])) : '') . '</td>' . (($_POST['report_for'] == 'C' or $_POST['report_for'] == '584') ? ('<td>' . $row['caveat_no'] . '</td>') : '') . ((($_POST['report_for']) == '0') ? ('<td>' . $row['caveat_no'] . '</td><td>' . $row['caveat_no1'] . '</td>') : '') . '</tr>';
+                $table .= '<tr><th>' . $sno++ . '</th><td>' . substr($row['diary_no'], 0, -4) . '/' . substr($row['diary_no'], -4) . '</td><td>' . ((!empty($row['fil_no'])) ? $row['short_description'] . SUBSTR($row['fil_no'], 3) . '/' . $row['active_reg_year'] : '') . '</td><td>' . date('d-m-Y h:i:s A', strtotime($row['verification_date'])) . '</td><td>' . ((!is_null($row['fil_dt'])) ? date('d-m-Y h:i:s A', strtotime($row['fil_dt'])) : '') . '</td>' . (($_POST['report_for'] == 'C' or $_POST['report_for'] == '584') ? ('<td>' . $row['caveat_no'] . '</td>') : '') . ((($_POST['report_for']) == '0') ? ('<td>' . $row['caveat_no'] . '</td><td>' . $row['caveat_no1'] . '</td>') : '') . '</tr>';
             }
+            $table .=  '</tbody>';
         } else {
             $table .= '<div style="text-align: center;color: red">SORRY, NO RECORD FOUND!!!</div>';
         }
@@ -1092,7 +1098,15 @@ class Report extends BaseController
         $ReportModel = new ReportModel();
         $report_data = $ReportModel->rcc_section_detail_report($_POST['from_dt'], $_POST['to_date'], $_POST['condition'], $_POST['section']);
         if (sizeof($report_data)) {
-            $table = '<div style="margin-top: 0px"></div>
+            $section = (!empty($_POST['section'])) ? $_POST['section'] : ' ALL';
+            $table = '
+            <input name="print2" type="button" id="print2" value="Print">
+            <div style="margin-top: 0px" id="printDiv2">
+                    <h1 style="color: blue;font-size: 1.2em;text-align: center;margin: 0;">Section:'. $section.'</h1>
+                <h1 style="color: blue;font-size: 1.2em;text-align: center">Total Diary: '. count($report_data) .'</h1>
+
+                <h2 style="text-align: center;text-transform: capitalize;color: blue;margin: 0;"> Diary Received between '.$_POST['from_dt'].' and '.$_POST['from_dt'].'  IN  R.P/Curative/Contempt Petition    </h2>
+    
                 <table class="table table-striped custom-table table-hover dt-responsive" style="width:100%;" id="diaryReport" width="100%" border="1" cellspacing="1">
                         <thead>
                         <tr bgcolor="#dcdcdc">
@@ -1121,7 +1135,7 @@ class Report extends BaseController
                         <td>' . $doc . '</td>
                         <td>' . $row['da_name'] . '</td>' . (($_POST['section'] == '') ? '<td>' . $row['section_name'] . '</td>' : '') . '</tr>';
             }
-            $table .= '</table>';
+            $table .= '</table></div>';
         } else
             $table = '<div style="text-align: center"><b>No Record Found</b></div>';
         echo $table;
@@ -1378,6 +1392,18 @@ class Report extends BaseController
     {
         $data['url'] = 'defective_matters_not_listed';
         return view('Reports/filing/report', $data);
+    }
+
+    public function tagged_matter_report()
+    {
+        $ReportModel = new ReportModel();
+        $result_array = $ReportModel->tagged_matter_report();
+        if (!empty($result_array)) {
+            $data['tagged_result'] = $result_array;
+            return view('Reports/filing/tagged_report_defective', $data);
+        } else {
+            return view('Reports/filing/tagged_report_defective');
+        }
     }
 
     public function defectiveMattersDetails()
