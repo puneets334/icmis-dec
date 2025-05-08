@@ -406,6 +406,9 @@
                     $("#_usersec_nu").val("0");
                     emp_reset();
                     $(".add_result").slideUp(3000);
+                    alert("User Section Added Successfully");
+                    location.reload();
+
                 } else {
                     $(".add_result").css("display", "block");
                     $(".add_result").css("color", "red");
