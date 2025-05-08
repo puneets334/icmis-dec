@@ -572,6 +572,7 @@ function f_get_cat_diary_basis($parm1)
         return false;
     }
 }
+
 function f_get_judge_names_inshort($chk_jud_id)
 {
 
@@ -4136,7 +4137,6 @@ function da()
         $res_send_to = $db->table('master.bar')       
             ->select('name,title,caddress')
             ->where('bar_id', $str)
-            ->where('display', 'Y')
             ->get()->getRowArray();
 
         if($tot_parties!='')
@@ -4641,3 +4641,738 @@ function get_display_status_with_date_differences_new($tentative_cl_dt)
 
     return $tentative_cl_date_greater_than_today_flag;
 }
+
+function get_delivery_mod($pid,$recdt){
+    $mod='';
+    $db = \Config\Database::connect();
+    // $tw_o_r_s="select case when o.del_type='R' then 'Registered' else 'Ordinary' end from tw_tal_del t join tw_o_r o on t.id=o.tw_org_id where process_id='$pid' and t.rec_dt='$recdt' and t.display='Y' and o.display='Y'";
+    // $tw_o_r_s=mysql_query($tw_o_r_s) or die("Error: ".__LINE__.mysql_error());
+    // if(mysql_num_rows($tw_o_r_s)>0) {
+    //     while ($mode = mysql_fetch_array($tw_o_r_s))
+
+    //         $mod=$mode[0];
+    // }
+    $builder = $db->table('tw_tal_del t');
+    $builder->select("CASE WHEN o.del_type = 'R' THEN 'Registered' ELSE 'Ordinary' END AS del_type_label");
+    $builder->join('tw_o_r o', 't.id = o.tw_org_id');
+    $builder->where([
+        'process_id' => $pid,
+        't.rec_dt'   => $recdt,
+        't.display'  => 'Y',
+        'o.display'  => 'Y'
+    ]); 
+    $query = $builder->get();
+
+    if ($query->getNumRows() > 0) {
+        foreach ($query->getResult() as $row) {
+            $mod = $row->del_type_label; // or break if you just want the first row
+            break;
+        }
+    }
+    return $mod;
+}
+
+function lower_court($dairy_no) {
+    $db = \Config\Database::connect();
+
+    // Step 1: Get active_casetype_id
+    $subQuery = $db->table('main')
+                   ->select('active_casetype_id')
+                   ->where('diary_no', $dairy_no)
+                   ->get()
+                   ->getRow();
+
+    $res_chk_casetype = $subQuery->active_casetype_id ?? null;
+
+    // Step 2: Add conditional filter
+    $is_order_challenged = null;
+    if (!in_array($res_chk_casetype, [25, 26, 7, 8])) {
+        $is_order_challenged = 'Y';
+    }
+
+    // Step 3: Build the main query
+    $builder = $db->table('lowerct a');
+
+    $builder->select("
+        a.lct_dec_dt,
+        b.name,
+        CASE 
+            WHEN a.ct_code = 3 THEN (
+                SELECT s.name FROM master.state s 
+                WHERE s.id_no = a.l_dist AND s.display = 'Y'
+            )
+            ELSE (
+                SELECT CONCAT(c.agency_name, ', ', c.address)
+                FROM master.ref_agency_code c
+                WHERE c.cmis_state_id = a.l_state AND c.id = a.l_dist AND c.is_deleted = 'f'
+            )
+        END AS agency_name,
+        a.lct_caseno,
+        a.lct_caseyear,
+        a.lct_casetype,
+        a.lct_judge_desg,
+        a.lower_court_id,
+        CASE 
+            WHEN a.ct_code = 4 THEN (
+                SELECT short_description
+                FROM master.casetype ct
+                WHERE ct.display = 'Y' AND ct.casecode = a.lct_casetype
+            )
+            ELSE (
+                SELECT type_sname
+                FROM master.lc_hc_casetype d
+                WHERE d.lccasecode = a.lct_casetype AND d.display = 'Y'
+            )
+        END AS type_sname
+    ");
+
+    $builder->join('master.state b', 'a.l_state = b.id_no AND b.display = \'Y\'', 'left');
+    $builder->join('main e', 'e.diary_no = a.diary_no');
+    $builder->where('a.diary_no', $dairy_no);
+    $builder->where('lw_display', 'Y');
+
+    if ($is_order_challenged) {
+        $builder->where('is_order_challenged', 'Y');
+    }
+
+    $builder->orderBy('a.lower_court_id');
+
+    // echo $builder->getCompiledSelect();
+    // die;
+
+    $query = $builder->get();
+
+    $outer_array = [];
+
+    if ($query->getNumRows() > 0) {
+        foreach ($query->getResult() as $row) {
+            $outer_array[] = [
+                $row->lct_dec_dt,
+                $row->name,
+                $row->agency_name,
+                $row->type_sname,
+                $row->lct_caseno,
+                $row->lct_caseyear,
+                $row->lct_casetype,
+                $row->lct_judge_desg,
+                $row->lower_court_id
+            ];
+        }
+    }
+
+    return $outer_array;
+}
+
+function get_notice_dt($dairy_no) {
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('case_remarks_multiple');
+    $builder->select('cl_date');
+    $builder->where('diary_no', $dairy_no);
+    $builder->whereIn('r_head', [3, 62, 181, 182, 183, 184]);
+    $builder->orderBy('cl_date', 'DESC');
+    $builder->limit(1);
+
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    return $row->cl_date ?? null;
+}
+
+function get_misc_re($dairy_no) {
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('main_casetype_history a');
+    $builder->select('new_registration_number, new_registration_year, short_description, casename, order_date');
+    // $builder->join('master.casetype b', 'SUBSTRING(a.new_registration_number, 1, 2) = b.casecode'); casename
+    $builder->join(
+        'master.casetype b',
+        "CAST(SUBSTRING(a.new_registration_number, 1, 2) AS INTEGER) = b.casecode"
+    );
+    $builder->where('a.diary_no', $dairy_no);
+    $builder->where('a.is_deleted', 'f');
+    $builder->where('b.display', 'Y');
+    $builder->where('b.cs_m_f', 'M');
+    $builder->orderBy('a.updated_on', 'DESC');
+    $builder->limit(1);
+
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    if ($row) {
+        $outer_array = [];
+
+        // Format registration number
+        $reg_num = substr($row->new_registration_number, 3); // skip first 3 chars
+        $reg_parts = explode('-', $reg_num);
+        if (count($reg_parts) > 1) {
+            $reg_no = ltrim($reg_parts[0], '0') . '-' . ltrim($reg_parts[1], '0');
+        } else {
+            $reg_no = ltrim($reg_parts[0], '0');
+        }
+
+        $outer_array[0] = $row->short_description;
+        $outer_array[1] = $reg_no;
+        $outer_array[2] = $row->new_registration_year;
+        $outer_array[3] = $row->casename;
+        $outer_array[4] = $row->order_date;
+
+        return $outer_array;
+    }
+
+    return null;
+}
+
+function get_tentative_date($dairy_no) {
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('heardt');
+    $builder->select('tentative_cl_dt');
+    $builder->where('diary_no', $dairy_no);
+    $builder->limit(1);
+
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    return $row->tentative_cl_dt ?? null;
+}
+
+function get_first_listed_date($dairy_no) {
+    $db = \Config\Database::connect();
+
+    $sql = "
+        SELECT next_dt FROM heardt 
+        WHERE diary_no = :dno: AND (main_supp_flag = 1 OR main_supp_flag = 2)
+        UNION
+        SELECT next_dt FROM last_heardt 
+        WHERE diary_no = :dno: 
+        AND (main_supp_flag = 1 OR main_supp_flag = 2)
+        AND (bench_flag IS NULL OR bench_flag = '')
+        ORDER BY next_dt ASC 
+        LIMIT 1
+    ";
+
+    $query = $db->query($sql, ['dno' => $dairy_no]);
+    $row = $query->getRow();
+
+    return $row->next_dt ?? null;
+}
+
+
+function get_petitioner_advocate($dairy_no) {
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('advocate a');
+    $builder->select('title, name');
+    $builder->join('master.bar b', 'a.advocate_id = b.bar_id');
+    $builder->where('a.diary_no', $dairy_no);
+    $builder->where('a.display', 'Y');
+    $builder->where('a.pet_res', 'P');
+    $builder->where('a.adv_type', 'M');
+    $builder->limit(1);
+
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    if ($row) {
+        return trim($row->title . ' ' . $row->name);
+    }
+
+    return null;
+}
+
+function get_application_registration($dairy_no) {
+    $db = \Config\Database::connect();
+    $builder = $db->table('docdetails a');
+
+    $builder->select('b.docdesc, a.other1, a.docnum, a.docyear');
+    $builder->join('master.docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1');
+    $builder->where('a.display', 'Y');
+    $builder->where('b.display', 'Y');
+    $builder->where('a.diary_no', $dairy_no);
+    $builder->where('a.iastat', 'P');
+    $builder->where('a.doccode', '8');
+
+    $query = $builder->get();
+    $result = $query->getResult();
+
+    $outer_array = [];
+
+    foreach ($result as $row) {
+        $docname = ($row->docdesc !== 'XTRA') ? $row->docdesc : $row->other1;
+
+        $inner_array = [
+            $docname,
+            $row->docnum . '/' . $row->docyear
+        ];
+
+        $outer_array[] = $inner_array;
+    }
+
+    return $outer_array;
+}
+
+
+function connected_cases($dairy_no) {
+    $db = \Config\Database::connect();
+
+    // Step 1: Get conn_key from main
+    $builder = $db->table('main');
+    $builder->select('conn_key');
+    $builder->where('diary_no', $dairy_no);
+    $builder->where("conn_key IS NOT NULL");
+    $builder->where("conn_key !=", '');
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    $outer_array = [];
+
+    if ($row && $row->conn_key) {
+        $conn_key = $row->conn_key;
+
+        // Step 2: Check if list='Y' for this conn_key and same diary_no
+        $chk = $db->table('conct')
+            ->selectCount('diary_no')
+            ->where('conn_key', $conn_key)
+            ->where('diary_no', $dairy_no)
+            ->where('list', 'Y')
+            ->get()
+            ->getRow();
+
+        if ($chk && $chk->count > 0) {
+            // Step 3: Get all other connected diary numbers
+            $builder2 = $db->table('conct');
+            $builder2->select('diary_no');
+            $builder2->where('conn_key', $conn_key);
+            $builder2->where('list', 'Y');
+            $builder2->where('diary_no !=', $dairy_no);
+
+            $query2 = $builder2->get();
+            $result2 = $query2->getResult();
+
+            foreach ($result2 as $r) {
+                $outer_array[] = [$r->diary_no];
+            }
+        } else {
+            $outer_array[] = 0;
+        }
+    } else {
+        $outer_array[] = 0;
+    }
+
+    return $outer_array;
+}
+
+
+function get_application_registration_all($dairy_no) {
+    $db = \Config\Database::connect();
+    $builder = $db->table('docdetails a');
+
+    // Select fields, casting ent_dt to date
+    $builder->select("
+        b.docdesc,
+        a.other1,
+        a.docnum,
+        a.docyear,
+        DATE(a.ent_dt) AS ent_dt
+    ");
+    $builder->join(
+        'master.docmaster b',
+        'a.doccode = b.doccode AND a.doccode1 = b.doccode1'
+    );
+    $builder->where('a.display', 'Y');
+    $builder->where('b.display', 'Y');
+    $builder->where('a.diary_no', $dairy_no);
+    $builder->where('a.doccode', '8');
+
+    $query = $builder->get();
+    $rows  = $query->getResult();
+
+    $outer_array = [];
+
+    foreach ($rows as $row) {
+        // Determine which description to use
+        $docname = ($row->docdesc !== 'XTRA') ? $row->docdesc : $row->other1;
+
+        $outer_array[] = [
+            $docname,
+            $row->docnum . '/' . $row->docyear,
+            $row->ent_dt,
+        ];
+    }
+
+    return $outer_array;
+}
+
+function get_text_pdf($dairy_no, $n_date_ymd) 
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('ordernet');
+
+    $builder->select('pdfname, orderdate');
+    $builder->where('diary_no', $dairy_no);
+    $builder->where('display', 'Y');
+    $builder->where('orderdate', $n_date_ymd);
+    $builder->orderBy('orderdate', 'DESC');
+    $builder->orderBy('ent_dt', 'DESC');
+    $builder->limit(1);
+
+    $query = $builder->get();
+    $result = $query->getRow();
+
+    if ($result) {
+        $path = "/home/reports/" . $result->pdfname;
+
+        // Validate and securely extract the directory path
+        $realPath = realpath($path);
+        // if (!$realPath || !file_exists($realPath)) {
+        //     log_message('error', "PDF not found: " . $path);
+        //     return false;
+        // }
+
+        $dir = dirname($realPath);
+        $outputFile = $dir . '/dummy_text.txt';
+
+        // Always escape shell arguments
+        $cmd = 'pdftotext -layout ' . escapeshellarg($realPath) . ' ' . escapeshellarg($outputFile);
+        exec($cmd, $output, $return);
+
+    } 
+    else {
+        $db = \Config\Database::connect();
+        $builder = $db->table('tempo');
+
+        $builder->select('pdfname, dated AS orderdate');
+        $builder->where('diary_no', $dairy_no);
+        $builder->where('dated', $n_date_ymd);
+        $builder->where('jt', 'rop');
+        $builder->orderBy('dated', 'DESC');
+        $builder->limit(1);
+
+        $query = $builder->get();
+        $result = $query->getRow();
+
+        if ($result) {
+            $path = "/home/judgment/" . $result->pdfname;
+    
+            // Validate and resolve the file path
+            $realPath = realpath($path);
+            // if (!$realPath || !file_exists($realPath)) {
+            //     log_message('error', "PDF not found: " . $path);
+            //     return false;
+            // }
+    
+            // Extract directory path
+            $dir = dirname($realPath);
+            $outputFile = $dir . '/dummy_text.txt';
+    
+            // Sanitize and execute command
+            $cmd = 'pdftotext -layout ' . escapeshellarg($realPath) . ' ' . escapeshellarg($outputFile);
+            exec($cmd, $output, $return);
+    
+            // if ($return !== 0) {
+            //     log_message('error', "pdftotext failed: $cmd");
+            //     return false;
+            // }
+        } 
+        else {
+            $db = \Config\Database::connect();
+            $builder = $db->table('rop_text_web.old_rop');
+
+            $builder->select("CONCAT('ropor/rop/all/', pno, '.pdf') AS pdfname, orderDate AS orderdate", false);
+            $builder->where('dn', $dairy_no);
+            $builder->where('orderDate', $n_date_ymd);
+            $builder->orderBy('orderDate', 'DESC');
+            $builder->limit(1);
+
+            $query = $builder->get();
+            $result = $query->getRow();
+
+            if ($result) {
+                $path = "/home/judgment/" . $result->pdfname;
+
+                // Secure and safe handling
+                $realPath = realpath($path);
+                // if (!$realPath || !file_exists($realPath)) {
+                //     log_message('error', "PDF file not found: $path");
+                //     return false;
+                // }
+
+                $dir = dirname($realPath);
+                $outputFile = $dir . '/dummy_text.txt';
+
+                // Safe execution
+                $cmd = 'pdftotext -layout ' . escapeshellarg($realPath) . ' ' . escapeshellarg($outputFile);
+                exec($cmd, $output, $return);
+            
+            } 
+            else {
+                $db = \Config\Database::connect();
+                $builder = $db->table('scordermain');
+
+                $builder->select("CONCAT('judis/', filename, '.pdf') AS pdfname, juddate AS orderdate", false);
+                $builder->where('dn', $dairy_no);
+                $builder->where('juddate', $n_date_ymd);
+                $builder->orderBy('juddate', 'DESC');
+                $builder->limit(1);
+
+                $query = $builder->get();
+                $result = $query->getRow();
+
+                if ($result) {
+                    $path = "/home/judgment/" . $result->pdfname;
+
+                    // Check if file exists securely
+                    $realPath = realpath($path);
+                    // if (!$realPath || !file_exists($realPath)) {
+                    //     log_message('error', "PDF file not found: $path");
+                    //     return false;
+                    // }
+
+                    $dir = dirname($realPath);
+                    $outputFile = $dir . '/dummy_text.txt';
+
+                    // Safely run shell command
+                    $cmd = 'pdftotext -layout ' . escapeshellarg($realPath) . ' ' . escapeshellarg($outputFile);
+                    exec($cmd, $output, $return);
+
+                } else {
+                    $db = \Config\Database::connect();
+
+                    $builder = $db->table('rop_text_web.ordertext');
+                    $builder->select("CONCAT('bosir/orderpdf/', pno, '.pdf') AS pdfname, orderdate", false);
+                    $builder->where('dn', $dairy_no);
+                    $builder->where('orderdate', $n_date_ymd);
+                    $builder->orderBy('orderdate', 'DESC');
+                    $builder->limit(1);
+
+                    $query = $builder->get();
+                    $result = $query->getRow();
+
+                    if ($result) {
+                        $path = "/home/judgment/" . $result->pdfname;
+
+                        // Secure path resolution
+                        $realPath = realpath($path);
+                        // if (!$realPath || !file_exists($realPath)) {
+                        //     log_message('error', "PDF not found: $path");
+                        //     return false;
+                        // }
+
+                        $dir = dirname($realPath);
+                        $outputFile = $dir . '/dummy_text.txt';
+
+                        // Secure shell execution
+                        $cmd = 'pdftotext -layout ' . escapeshellarg($realPath) . ' ' . escapeshellarg($outputFile);
+                        exec($cmd, $output, $return);
+
+                    } 
+                    else {
+                        $db = \Config\Database::connect();
+
+                        $builder = $db->table('rop_text_web.oldordtext');
+                        $builder->select("CONCAT('bosir/orderpdfold/', pno, '.pdf') AS pdfname, orderdate", false);
+                        $builder->where('dn', $dairy_no);
+                        $builder->where('orderdate', $n_date_ymd);
+                        $builder->orderBy('orderdate', 'DESC');
+                        $builder->limit(1);
+
+                        $query = $builder->get();
+                        $result = $query->getRow();
+
+                        if ($result) {
+                            $path = "/home/judgment/" . $result->pdfname;
+
+                            // Verify and resolve path
+                            $realPath = realpath($path);
+                            // if (!$realPath || !file_exists($realPath)) {
+                            //     log_message('error', "PDF not found: $path");
+                            //     return false;
+                            // }
+
+                            $dir = dirname($realPath);
+                            $outputFile = $dir . '/dummy_text.txt';
+
+                            // Execute pdftotext securely
+                            $cmd = 'pdftotext -layout ' . escapeshellarg($realPath) . ' ' . escapeshellarg($outputFile);
+                            exec($cmd, $output, $return);
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return $fil_nm = $outputFile . "dummy_text.txt";
+}
+
+
+function read_txt_file(string $filePath) {
+    if (!file_exists($filePath) || !is_readable($filePath)) {
+        // log_message('error', "File not found or unreadable: $filePath");
+        return;
+    }
+
+    $content = file_get_contents($filePath);
+
+    // Remove the file after reading
+    if (!unlink($filePath)) {
+        // log_message('error', "Unable to delete file: $filePath");
+    }
+
+    // Extract and display content after "O R D E R"
+    $splitContent = explode('O R D E R', $content, 2);
+
+    if (!empty($splitContent[1])) {
+        echo $splitContent[1];
+    } else {
+        echo $content;
+    }
+}
+
+
+function last_listed_date($dairyNo, $asc = false)
+{
+    $db = \Config\Database::connect();
+
+    $builder1 = $db->table('heardt')
+        ->select("next_dt, board_type, tentative_cl_dt, judges")
+        ->where('diary_no', $dairyNo)
+        ->where('clno !=', 0)
+        ->where('brd_slno !=', 0)
+        ->whereIn('main_supp_flag', ['1', '2'])
+        ->where('next_dt <=', date('Y-m-d'));
+
+    $builder2 = $db->table('last_heardt')
+        ->select("next_dt, board_type, tentative_cl_dt, judges")
+        ->where('diary_no', $dairyNo)
+        ->where('clno !=', 0)
+        ->where('brd_slno !=', 0)
+        ->whereIn('main_supp_flag', ['1', '2'])
+        ->groupStart()
+            ->where('bench_flag IS NULL')
+            ->orWhere('bench_flag', '')
+        ->groupEnd()
+        ->where('next_dt <=', date('Y-m-d'));
+
+    // Union both queries
+    $sql = "({$builder1->getCompiledSelect()}) UNION ({$builder2->getCompiledSelect()}) ORDER BY next_dt " . ($asc ? "ASC" : "DESC") . " LIMIT 1";
+    $query = $db->query($sql);
+    $row = $query->getRowArray();
+
+    if (!$row) {
+        return null;
+    }
+
+    $result = [];
+
+    // 0: Formatted listing date
+    $result[0] = date('F d, Y', strtotime($row['next_dt']));
+    // 1: Raw listing date (Y-m-d)
+    $result[1] = $row['next_dt'];
+    // 2: Tentative closing date or placeholder
+    $result[2] = (empty($row['tentative_cl_dt']) || $row['tentative_cl_dt'] == '0000-00-00')
+        ? '...... '
+        : date('d-m-Y', strtotime($row['tentative_cl_dt']));
+    // 3: Court type
+    $result[3] = match ($row['board_type']) {
+        'J' => " Hon'ble Court",
+        'R' => "Ld. Registrar's Court",
+        'C' => " Hon'ble Court (In Chambers)",
+        default => '',
+    };
+    // 4: Judges
+    $result[4] = $row['judges'];
+
+    return $result;
+}
+
+function get_registration_diary($dairyNo)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('main');
+    $builder->select('active_fil_no, DATE(active_fil_dt) as active_fil_dt');
+    $builder->where('diary_no', $dairyNo);
+
+    $query = $builder->get();
+    $result = $query->getRowArray();
+
+    if ($result) {
+        return [
+            $result['active_fil_no'],
+            $result['active_fil_dt'],
+        ];
+    }
+
+    return [null, null];
+}
+
+
+function get_casetype_code($skey)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('master.casetype');
+    $builder->select('short_description');
+    $builder->where([
+        'casecode' => $skey,
+        'display'  => 'Y'
+    ]);
+
+    $query = $builder->get();
+    $row = $query->getRowArray();
+
+    return $row ? $row['short_description'] : null;
+}
+
+
+function get_section_user($ucode)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('master.users b');
+    $builder->select('c.section_name');
+    $builder->join('master.usersection c', 'c.id = b.section');
+    $builder->where([
+        'b.usercode' => $ucode,
+        'b.display'  => 'Y',
+        'c.display'  => 'Y',
+    ]);
+
+    $query = $builder->get();
+    $row = $query->getRowArray();
+
+    return $row ? $row['section_name'] : null;
+}
+
+function get_text_msg(){
+    $msg="All Communications Should be Addressed to Registrar by Designation and not by Name.<BR>Pin Code - 110001";
+    return $msg;
+}
+
+
+function get_dismissal_type($dairy_no)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('dispose a');
+    $builder->select('a.disp_type, b.dispname');
+    $builder->join('master.disposal b', 'a.disp_type = b.dispcode');
+    $builder->where('a.diary_no', $dairy_no);
+    $builder->where('display', 'Y');
+
+    $row = $builder->get()->getRowArray();
+
+    return $row ? [$row['disp_type'], $row['dispname']] : null;
+}
+
+function dispose_detail($diaryNo)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('dispose');
+    $builder->select('ord_dt');
+    $builder->where('diary_no', $diaryNo);
+    $query = $builder->get();
+
+    $row = $query->getRow();
+
+    return $row ? $row->ord_dt : null;
+}
+
