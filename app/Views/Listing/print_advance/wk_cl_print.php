@@ -193,12 +193,15 @@
             },
             beforeSend: function() {
                 $('#dv_res1').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
-            },
+                $('#btn1').attr('disabled','disabled');   
+			},
             success: function(data, status) {
                 $('#dv_res1').html(data);
+				$('#btn1').removeAttr('disabled');
             },
             error: function(xhr) {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
+				$('#btn1').removeAttr('disabled');
             }
         });
     });
@@ -226,7 +229,8 @@
                 },
                 beforeSend: function() {
                     $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
-                },
+                    $('#unpub').attr('disabled','disabled');  
+				},
        
                 success: function(response, status) {
                     try {
@@ -234,12 +238,15 @@
                         var data = typeof response === 'string' ? JSON.parse(response) : response;
                         
                         if (data.status === 'success') {
+							$('#unpub').removeAttr('disabled');
                             $('#res_loader').html(`<h3 class="bg-success p-2 text-center">${data.message}</h3>`);
                             alert(data.message); // Show an alert with the response message
                         } else {
+							$('#unpub').removeAttr('disabled');
                             alert("An error occurred. Please try again.");
                         }
                     } catch (error) {
+						$('#unpub').removeAttr('disabled');
                         console.error("JSON Parsing Error:", error);
                         alert("Invalid server response.");
                     }
@@ -248,6 +255,7 @@
 
                 error: function(xhr) {
                     alert("Error: " + xhr.status + " " + xhr.statusText);
+					$('#unpub').removeAttr('disabled');
                 }
             });
         });
@@ -274,13 +282,15 @@
                 },
                 beforeSend: function() {
                     $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
-                },
+                     $('#ebublish').attr('disabled','disabled');  
+				},
                 success: function(response, status) {
 					try {
                         // Ensure response is a proper JSON object
                         var data = typeof response === 'string' ? JSON.parse(response) : response;
                         alert(data.message);
                         if (data.status === 'success') {
+							$('#ebublish').removeAttr('disabled');
                             $('#res_loader').html(`
                                 <h3 class="bg-success p-2 text-center">${data.message}</h3>
                                 <p class="text-center">
@@ -289,15 +299,18 @@
                             `);
                             alert(data.message); // Show an alert with the response message
                         } else {
+							$('#ebublish').removeAttr('disabled');
                             alert("An error occurred. Please try again.");
                         }
 
                     } catch (error) {
+						$('#ebublish').removeAttr('disabled');
                         console.log("JSON Parsing Error:", error);
                         alert("Invalid server response.");
                     }
                 },
                 error: function(xhr) {
+					$('#ebublish').removeAttr('disabled');
                     alert("Error: " + xhr.status + " " + xhr.statusText);
                 }
             });
@@ -322,13 +335,15 @@
                 },
                 beforeSend: function() {
                     $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
-                },
+                   $('#mbublish').attr('disabled','disabled');  
+				},
                 success: function(response, status) {
                     try {
                         // Ensure response is a proper JSON object
                         var data = typeof response === 'string' ? JSON.parse(response) : response;
                         
                         if (data.status === 'success') {
+							$('#mbublish').removeAttr('disabled');
                             $('#res_loader').html(`
                                 <h3 class="bg-success p-2 text-center">${data.message}</h3>
                                 <p class="bg-success p-2 text-center">${data.sms_status}</p>
@@ -339,16 +354,19 @@
                             alert(data.message); // Show an alert with the response message
                         } else {
                             alert("An error occurred. Please try again.");
+							$('#mbublish').removeAttr('disabled');
                         }
 
                     } catch (error) {
                         console.log("JSON Parsing Error:", error);
                         alert("Invalid server response.");
+						$('#mbublish').removeAttr('disabled');
                     }
             
                 },
                 error: function(xhr) {
                     alert("Error: " + xhr.status + " " + xhr.statusText);
+					$('#mbublish').removeAttr('disabled');
                 }
             });
         });

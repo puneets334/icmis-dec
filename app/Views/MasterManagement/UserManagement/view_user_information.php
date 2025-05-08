@@ -43,6 +43,7 @@ th{
 $auth_name = 0;
 
 $view_rs = $model->getUsers($dept, $auth_name, $authValue, $secValue, $desg, $usercode, $cur_user_type, $judge_selector, $orderjud);
+
 if (count($view_rs) > 0) {
 ?><div class="table-responsive">
     <table class="table1 table-striped1 custom-table1" id="mainbtl">  
@@ -66,7 +67,7 @@ if (count($view_rs) > 0) {
             <?php
             if ($dept == 'ALL') {
             ?>
-                <th>Department</td>
+                <td>Department</td>
             <?php
             }
             ?>

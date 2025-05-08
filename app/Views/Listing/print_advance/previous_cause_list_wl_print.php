@@ -113,7 +113,8 @@
                 },
                 beforeSend: function() {
                     $('#dv_res1').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>');
-                },
+                    $('#btn_get').attr('disabled','disabled');  
+				},
                
                 success: function(data, status) {
 					if (status === 'success') {
@@ -121,10 +122,12 @@
                     } else {
                         $('#dv_res1').html('<div class="alert alert-warning alert-dismissible fade show" role="alert"><strong>' + data.message + '</strong><button type="button" class="btn-close close" data-dismiss="alert" aria-label="Close">x</button></div>');
                    } 
+				   $('#btn_get').removeAttr('disabled');
                 },
 
                 error: function(xhr) {
                     alert("Error: " + xhr.status + " " + xhr.statusText);
+					$('#btn_get').removeAttr('disabled');
                 }
             });
         });

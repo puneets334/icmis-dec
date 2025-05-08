@@ -1924,7 +1924,7 @@ class PrintAdvance extends BaseController
 
     public function previousClWll()
     {
-        $path_dir = WRITEPATH . 'judgment/cl/wk/';
+        $path_dir = FCPATH . 'judgment/cl/wk/';
         $weekly_files = [];
 
         if (is_dir($path_dir)) {
