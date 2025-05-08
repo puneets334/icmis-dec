@@ -9,10 +9,11 @@
 <div id="prnnt" style="text-align: center; font-size:10px;">
     <h3 class="h4">Cause List for Dated <?php echo $list_dt; ?> (<?php echo $mainhead_descri; ?>)<br><?php echo $main_suppl_descri; ?></h3>
     <?php if (!empty($getCases)) { ?>
-        <table align="left" width="100%" border="0" style="font-size: 14px;" class="table table-bordered table-stripped table-responsive">
+	<div class="table-responsive">
+        <table class="table table-striped custom-table" id="example1">
             <thead>
             <tr>
-                <th width="5%">SrNo.</th>
+                <th width="5%">SrNo.11</th>
                 <th width="5%">Court No.</th>
                 <th width="5%">Item No.</th>
                 <th width="7%">Diary No</th>
@@ -239,7 +240,7 @@
                                     $d_yr = $office_report['d_yr'];
                                     $order_dt = $office_report['order_dt'];
                                     $rec_dt = $office_report['rec_dt'];
-                                    $fil_nm = "../../officereport/" . $d_yr . '/' . $dno . '/' . $res_office_report;
+                                    $fil_nm = base_url('public/officereport')."/". $d_yr . '/' . $dno . '/' . $res_office_report;
 
                                     $pos = stripos($res_office_report, '.pdf');
                                     if ($pos !== false) {
@@ -261,14 +262,11 @@
                     <?php
                 }    ?>
         </table>
+	</div>	
 <?php }
     } else {
         echo "<h5 class='text-danger'>No Records Found</h5>";
     }
 ?>
 </div>
-
-<div style="width: 100%; padding-bottom:1px; background-color: #ddf1f9; text-align: center; border-top: 1px solid #000; position: fixed; bottom: 0; left: 0; right: 0; z-index: 0; display:block;">
-    <span id="toggle_hw" style="color: #0066cc; font-weight: bold; cursor: pointer; padding-right: 1px;"></span>
-    <input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary">
-</div>
+<input name="prnnt1" type="button" id="prnnt1" value="Print" class="btn btn-primary">

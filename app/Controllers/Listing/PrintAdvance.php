@@ -509,7 +509,7 @@ class PrintAdvance extends BaseController
                 //For lOcal Dir
                 //'filePath' => $filePath
                 // For Live Server dir
-                'filePath' => base_url('writable/judgment/cl/vacation/' . $fileName)
+                'filePath' => base_url('public/judgment/cl/vacation/' . $fileName)
             ]);
         } catch (\Exception $e) {
             return $this->response->setJSON([
@@ -2470,18 +2470,20 @@ class PrintAdvance extends BaseController
     {
         $request = \Config\Services::request();
 
-        $listDt = $request->getPost('list_dt');
-        $mainhead = $request->getPost('mainhead');
-        $boardType = $request->getPost('board_type');
+        $listDt = '01-04-2025';//$request->getPost('list_dt');
+        $mainhead = 'M';//$request->getPost('mainhead');
+        $boardType = 'J';//$request->getPost('board_type');
 
         // Convert Date Format
         $listDate = date('Y-m-d', strtotime($listDt));
 
         // Fetch Data
         $results = $this->Heardt->getSectionList($listDate, $mainhead, $boardType);
-
+		//echo "<pre>";
+		//print_r($results);
+		//die;
         // Define File Path
-        $pathDir = WRITEPATH . "sectionlist/{$listDate}";
+        $pathDir = FCPATH . "sectionlist/{$listDate}";
         $filePath = "{$pathDir}/sectionlist_M_{$boardType}_{$listDate}.html";
 
         // Ensure Directory Exists
@@ -2498,7 +2500,7 @@ class PrintAdvance extends BaseController
                 'board_type' => $boardType,
                 'filePath'   => $filePath
             ];
-
+         $data['model'] = $this->Heardt;   
             return view('Listing/print_advance/sec_list_get', $data);
         } else {
             return $this->response->setJSON([
@@ -2535,7 +2537,7 @@ class PrintAdvance extends BaseController
 
         $printContent = $pubTime . $request->getPost('prtContent');
         $filePath = "sectionlist_{$mainhead}_{$boardType}_{$listDt}.html";
-        $pathDir = WRITEPATH . "sectionlist/{$listDt}/";
+        $pathDir = FCPATH . "sectionlist/{$listDt}/";
 
         if (!is_dir($pathDir)) {
             mkdir($pathDir, 0777, true);

@@ -65,7 +65,7 @@ class PrintWeekly extends BaseController
 
         // Define paths
         $timestamp = date('Y-m-d_H-i-s');
-        $baseDir = WRITEPATH . "judgment/causelist/{$list_dt}_{$list_dt_to}/";
+		$baseDir = FCPATH . "judgment/causelist/{$list_dt}_{$list_dt_to}/";
         $unpublishedDir = $baseDir . "Unpublished/";
 
         // Ensure directory exists
