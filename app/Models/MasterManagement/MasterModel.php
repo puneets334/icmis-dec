@@ -224,11 +224,12 @@ class MasterModel extends Model
             $to_dt_ent_dt = date("Y-m-d H:i:s");
             $to_dt_usercode = $usercode;
         }
-    
+        
         // Update logic
-        if ($priority != $priorityDb) {
-            $sql_close = "UPDATE master.judge_category SET to_dt = date(now()), to_dt_usercode = ?, to_dt_ent_dt = now() WHERE id = ?";
-            $this->db->query($sql_close, [$usercode, $id]);
+        if ($priority != $priorityDb) {            
+            //$sql_close = "UPDATE master.judge_category SET to_dt = date(now()), to_dt_usercode = ?, to_dt_ent_dt = now() WHERE id = ?";
+            $sql_close = "UPDATE master.judge_category SET to_dt = ?, to_dt_usercode = ?, to_dt_ent_dt = now() WHERE id = ?";
+            $this->db->query($sql_close, [$toDate,$usercode, $id]);
     
             // Insert a new record
             // $sql_update = "INSERT INTO master.judge_category (j1, submaster_id, priority, from_dt, ent_dt, usercode, display, to_dt, to_dt_ent_dt, to_dt_usercode, m_f) 
@@ -243,13 +244,14 @@ class MasterModel extends Model
                   ent_dt = NOW(), 
                   usercode = ?, 
                   display = 'Y', 
-                  to_dt = date(now()), 
+                  to_dt = ?, 
                   to_dt_ent_dt = now(), 
                   to_dt_usercode = 0, 
                   m_f = ?
                WHERE id = ?";
-            $this->db->query($sql_update, [$jcode, $subject, $priority, $usercode, $mf, $id]);
+            $this->db->query($sql_update, [$jcode, $subject, $priority, $usercode, $toDate, $mf, $id]);
         } else {
+            
             $sql_close = "UPDATE master.judge_category SET to_dt = ?, to_dt_usercode = ?, to_dt_ent_dt = now() WHERE id = ?";
             $this->db->query($sql_close, [$toDate, $usercode, $id]);
         }
