@@ -27,7 +27,7 @@
                         <div class="row">
                           <div class="col-md-3">
                             <label for="dno"><b>Diary No.</b></label>
-                            <input type="text" id="dno" name="dno" onChange='gct(1);' class="form-control" />
+                            <input type="text" id="dno" name="dno" onChange='gct(1);' class="form-control numbersonly" />
                           </div>
 
                           <div class="col-md-3">
