@@ -125,6 +125,7 @@
                 var validateFlag = true;
                 var form_data = $(this).serialize();
                 if(validateFlag){
+                    $("#submit").prop('disabled',true);
                     $('.alert-error').hide();
                     $("#loader").html('');
                     $('#result_data').html('');
@@ -135,9 +136,7 @@
                         beforeSend: function () {
                             $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
                         },
-                        success: function (response) {
-                            $("#loader").html('');
-                            updateCSRFToken();
+                        success: function (response) {                            
                             var resArr = response.split('@@@');
                             if (resArr[0] == 1) {
                                 $('#result_data').html(resArr[1]);
@@ -145,6 +144,13 @@
                                 $('.alert-error').show();
                                 $(".form-response").html("<p class='message invalid' id='msgdiv'>&nbsp;&nbsp;&nbsp; " + resArr[1] + "</p>");
                             }
+                        },
+                        complete:function()
+                        {
+                            updateCSRFToken();
+                            $("#loader").html('');
+                            $("#submit").prop('disabled',false);
+
                         },
                         error: function() {
                             updateCSRFToken();

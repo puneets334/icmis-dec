@@ -218,6 +218,7 @@
                 var form_data = $(this).serialize();
                 if(validateFlag){
                     $('.alert-error').hide();
+                    $("#btn-shift-assign").prop('disabled',true);
                     $("#loader").html('');
                     $('#result_data').html('');
                     $('#reqResult').append('')
@@ -230,7 +231,6 @@
                         },
                         success: function (response) {
                             $("#loader").html('');
-                            updateCSRFToken();
                             var resArr = response.split('@@@');
                             if (resArr[0] == 1) {
                                 $('.alert-error').hide();
@@ -242,8 +242,14 @@
                                 $(".form-response").html("<p class='message invalid' id='msgdiv'>&nbsp;&nbsp;&nbsp; " + resArr[1] + "</p>");
                             }
                         },
-                        error: function() {
+                        complete:function()
+                        {
                             updateCSRFToken();
+                            $("#loader").html("");
+                            $("#btn-shift-assign").prop('disabled',false);
+
+                        },
+                        error: function() {
                             $('#result_data').html('');
                             alert('Something went wrong! please contact computer cell');
                         }
@@ -315,7 +321,9 @@
                  form_data={CSRF_TOKEN: CSRF_TOKEN_VALUE,transaction_id:transaction_id,ack_id:ack_id,ack_year:ack_year};
             }
 
-            $('.alert-error').hide(); $(".form-response").html(""); $("#loader").html('');
+            $('.alert-error').hide(); 
+            $(".form-response").html("");
+            $("#loader").html('');
           if (url !='') {
               $('#result_data_modal').html('');
               $.ajax({

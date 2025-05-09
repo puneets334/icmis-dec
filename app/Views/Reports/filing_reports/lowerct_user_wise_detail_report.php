@@ -71,17 +71,17 @@
                             <div class="container">
                                 <div class="box-footer">
                                     <form>
-                                        <button type="submit" class="btn btn-warning" id="print" name="print" onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button>
+                                        <button type="button" class="btn btn-warning" id="print" name="print" onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button>
                                     </form>
                                 </div>
                                 <!-- Main content -->
-                                <section class="content">
+                                <section class="content"   id="printable"> 
 
                                     <?php
 
                                     if (isset($case_result) && !empty($case_result)) {
                                     ?>
-
+                                       <h3 class="card-title_ text-center"> Lower Court entered by <?php echo $name1; ?> on <?php echo date('d-m-Y', strtotime($on_date)); ?></h3>
                                         <div class="table-responsive">
                                             <table width="100%" id="reportTable" class="table table-striped custom-table">
                                                 <thead>
@@ -139,4 +139,12 @@
         "bProcessing": true,
         "buttons": ["excel", "pdf"]
     });
+
+    function printDiv(printable) {
+        var printContents = document.getElementById(printable).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
 </script>

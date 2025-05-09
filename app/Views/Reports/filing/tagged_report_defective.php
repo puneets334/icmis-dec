@@ -1,5 +1,5 @@
 <!-- Main content -->
-<?= view('header') ?>
+<?//= view('header') ?>
 <section class="content">
     <div class="container_">
         <div class="card">
@@ -84,6 +84,7 @@
   
 $(function () {
     $("#query_builder_report_new").DataTable({
+        dom: 'Bfrtip',
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,

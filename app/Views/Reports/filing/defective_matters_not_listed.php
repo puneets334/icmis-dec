@@ -61,12 +61,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-4">
+                            <input type="button" name="defective_matter_not_list_search" id="defective_matter_not_list_search" class="defective_matter_not_list_search btn btn-primary" value="Search">
+                            <input type="reset" name="reset_search" id="reset_search" class="reset_search btn btn-primary" value="Reset">
+                        </div>
                     </div>
-                    <div class="row">
+                    <div class="row tag_matt_button_div" style="display: none;">
                         <div class="col-sm-6">
                         </div>
                         <div class="col-sm-6">
-                            <input type="submit" name="defective_matter_not_list_search" id="defective_matter_not_list_search" class="defective_matter_not_list_search btn btn-primary" value="Search">
+                            <input type="button" name="tag_matt_button" id="tag_matt_button" class="tag_matt_button btn btn-primary" value="Search">
                             <input type="reset" name="reset_search" id="reset_search" class="reset_search btn btn-primary" value="Reset">
                         </div>
                     </div>
@@ -86,9 +90,31 @@
     $('.Defective_Matters').on('click', function() {
         $("#defective_matters_not_list_search_data").html('');
         $('.tag_matt_no_need').show();
+        $('.tag_matt_button_div').hide();
+    });
+
+    $('.tag_matt').on('click', function() {
+        $("#defective_matters_not_list_search_data").html('');
+        $('.tag_matt_no_need').hide();
+        $('.tag_matt_button_div').show();
     });
 
     $('.defective_matter_not_list_search').on('click', function() {
+       
+        if($('#days').val() == '')
+        {
+            alert('Please Enter No. of days!!');
+            $('#days').focus();
+            return false;
+        }
+
+        if($('#section').val() == '')
+        {
+            alert('Please select section!!');
+            $('#section').focus();
+            return false;
+        }
+        
         var form_data = $('#defective_matter_not_list_search_form').serialize();
         if (form_data) {
             $('.alert-error').hide();
@@ -97,6 +123,7 @@
                 url: "<?php echo base_url('Reports/Filing/Report/get_defective_matters_not_listed'); ?>",
                 data: form_data,
                 beforeSend: function() {
+                    $("#defective_matters_not_list_search_data").html('');
                     $('#defective_matter_not_list_search').val('Please wait...');
                     $('#defective_matter_not_list_search').prop('disabled', true);
                 },
@@ -119,32 +146,33 @@
     });
 </script>
 <script>
-    $('.tag_matt').on('click', function() {
+    $('.tag_matt_button').on('click', function() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-
+      
         $('.alert-error').hide();
         $.ajax({
             type: "GET",
-            url: "<?php echo base_url('Reports/Filing/Filing_Reports/tagged_matter_report'); ?>",
-            data: {
-                CSRF_TOKEN: CSRF_TOKEN_VALUE
-            },
+            url: "<?php echo base_url('Reports/Filing/Report/tagged_matter_report'); ?>",
+             data: {
+                 CSRF_TOKEN: CSRF_TOKEN_VALUE
+             },
             beforeSend: function() {
-                $('#defective_matter_not_list_search').val('Please wait...');
-                $('#defective_matter_not_list_search').prop('disabled', true);
+                $("#defective_matters_not_list_search_data").html('');
+                $('#tag_matt_button').val('Please wait...');
+                $('#tag_matt_button').prop('disabled', true);
             },
             success: function(data) {
                 $('.tag_matt_no_need').hide();
-                $('#defective_matter_not_list_search').prop('disabled', false);
-                $('#defective_matter_not_list_search').val('Submit');
+                $('#tag_matt_button').prop('disabled', false);
+                $('#tag_matt_button').val('Submit');
                 $("#defective_matters_not_list_search_data").html(data);
-                updateCSRFToken();
+                //updateCSRFToken();
             },
             error: function() {
-                updateCSRFToken();
-                $('#defective_matter_not_list_search').prop('disabled', false);
-                $('#defective_matter_not_list_search').val('Submit');
+               // updateCSRFToken();
+                $('#tag_matt_button').prop('disabled', false);
+                $('#tag_matt_button').val('Submit');
                 alert('Please Contact to Comouter Cell');
             }
 

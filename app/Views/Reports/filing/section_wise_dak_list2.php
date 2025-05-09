@@ -4,10 +4,12 @@
 <div class="card">
     <div class="card-body" >
         <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4">
-             
+        <button type="submit"  id="print" name="print" onclick="printDiv('printable')" class="btn btn-block_ btn-primary">Print</button>
+            <div id="printable" class="box box-danger">
+                <h3 style="text-align: center;"> DAK Report of Section - <?php echo $section;?>    <?php echo date('d-m-Y', strtotime($for_date));?></h3>
                 <table  id="ReportFileTrap" class="table table-striped custom-table table-hover dt-responsive">
                     <thead>
-                    <h3 style="text-align: center;"> DAK Report of Section - <?php echo $section;?>    <?php echo date('d-m-Y', strtotime($for_date));?></h3>
+                   
                     <tr>
                         <th rowspan='2'>SNo.</th>
                         <th rowspan='2'>Document No.</th>
@@ -36,7 +38,7 @@
                     <?php }?>
                     </tbody>
                 </table>
-            
+            </div>
             <!-- end of fileTrap -->
         </div>
     </div>
@@ -50,5 +52,13 @@
                 }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
 
                 });
+
+                function printDiv(printable) {
+                    var originalContents = document.body.innerHTML;
+                    var printContents = document.getElementById(printable).innerHTML;
+                    document.body.innerHTML = printContents;
+                    window.print();
+                    document.body.innerHTML = originalContents;
+                }
         </script>
  

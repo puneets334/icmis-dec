@@ -17,37 +17,65 @@ class Model_efiling extends Model
 
     public function get_efiling_documents($id, $year, $transaction_no = 0)
     {
-        $condition = "1=1";
+
+        $condition = [];
         if ($transaction_no != 0) {
-            $condition = "transaction_id=$transaction_no";
+            $condition['transaction_id'] = $transaction_no;
         }
-        $query_diary = $this->db->table('main')->select("diary_no")->where(['ack_id' => $id, 'ack_rec_dt' => "$year"]);
-        $res = $query_diary->get();
-        if ($res->getNumRows() >= 1) {
-            $diary_data = $res->getRowArray();
-            $query = $this->db->table('indexing');
-            $query->select("indexing.*, users.name, users.email_id, users.mobile_no, (select docdesc from master.docmaster where docmaster.doccode=indexing.doccode and doccode1=0 and (display='Y' or display='E') ) as docdesc");
-            $query->select("LEFT(CAST(diary_no AS CHAR), -4) AS dy_prefix, RIGHT(CAST(diary_no AS CHAR), 4) AS dy_suffix");
-            $query->select("CONCAT('https://main.sci.gov.in/e_filing/index_pdf/', RIGHT(CAST(diary_no AS text), 4), '/',LEFT(CAST(diary_no AS text), -4), '/', pdf_name) AS pdf_file");
-            $query->join('master.users', "users.usercode=indexing.ucode", 'left');
-            $query->where('diary_no', $diary_data['diary_no']);
-            // $query->where('docmaster.display', 'Y');
-            if ($transaction_no != 0) {
-                $query->where('transaction_id', $transaction_no);
-            }
-            $query->orderBy('fp', 'asc');
+
+        $subQuery = $this->db->table('main')
+            ->select('diary_no')
+            ->where('ack_id', $id)
+            ->where("EXTRACT(YEAR FROM TO_DATE(ack_rec_dt, 'YYYY-MM-DD'))", $year)
+            ->getCompiledSelect();
+
+        $builder = $this->db->table('e_filing.indexing');
+        $builder->select("indexing.*, users.name, users.email_id as email, users.mobile_no,
+            (select docdesc from master.docmaster where docmaster.doccode=indexing.doccode and doccode1=0 and (display='Y' or display='E')) as docdesc,
+            LEFT(CAST(diary_no AS CHAR), LENGTH(CAST(diary_no AS CHAR)) - 4) as dn,
+            RIGHT(CAST(diary_no AS CHAR), 4) as dy,
+            CONCAT('https://main.sci.gov.in/e_filing/index_pdf/', RIGHT(CAST(diary_no AS CHAR), 4), '/', LEFT(CAST(diary_no AS CHAR), LENGTH(CAST(diary_no AS CHAR)) - 4), '/', pdf_name) as pdf_file"
+        );
+        $builder->join('master.users', 'users.usercode = indexing.ucode', 'left');
+        $builder->where("diary_no = ($subQuery)", null, false);
+        $builder->where('indexing.display', 'Y');
+        if (!empty($condition)) {
+            $builder->where($condition);
+        }
+        $builder->orderBy('fp', 'asc');
+        $query = $builder->get();
+        return $query->getResultArray();
+        // $condition = "1=1";
+        // if ($transaction_no != 0) {
+        //     $condition = "transaction_id=$transaction_no";
+        // }
+        // $query_diary = $this->e_filing->table('main')->select("diary_no")->where(['ack_id' => $id, 'ack_rec_dt' => "$year"]);
+        // $res = $query_diary->get();
+        // if ($res->getNumRows() >= 1) {
+        //     $diary_data = $res->getRowArray();
+        //     $query = $this->e_filing->table('indexing');
+        //     $query->select("indexing.*, users.name, users.email_id, users.mobile_no, (select docdesc from master.docmaster where docmaster.doccode=indexing.doccode and doccode1=0 and (display='Y' or display='E') ) as docdesc");
+        //     $query->select("LEFT(CAST(diary_no AS CHAR), -4) AS dy_prefix, RIGHT(CAST(diary_no AS CHAR), 4) AS dy_suffix");
+        //     $query->select("CONCAT('https://main.sci.gov.in/e_filing/index_pdf/', RIGHT(CAST(diary_no AS text), 4), '/',LEFT(CAST(diary_no AS text), -4), '/', pdf_name) AS pdf_file");
+        //     $query->join('master.users', "users.usercode=indexing.ucode", 'left');
+        //     $query->where('diary_no', $diary_data['diary_no']);
+        //     // $query->where('docmaster.display', 'Y');
+        //     if ($transaction_no != 0) {
+        //         $query->where('transaction_id', $transaction_no);
+        //     }
+        //     $query->orderBy('fp', 'asc');
           
-            $query = $query->get();
+        //     $query = $query->get();
             
-            if ($query->getNumRows() >= 1) {
-                $result = $query->getResultArray();
-                return $result;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
+        //     if ($query->getNumRows() >= 1) {
+        //         $result = $query->getResultArray();
+        //         return $result;
+        //     } else {
+        //         return false;
+        //     }
+        // } else {
+        //     return false;
+        // }
     }
     public function get_transactions_by_refID($ack_id, $ack_year)
     {

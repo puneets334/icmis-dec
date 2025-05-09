@@ -22,8 +22,9 @@
                                         <select class="form-control" id="section" name="section[]" multiple required="required">
                                             <option value="0" disabled>Select multiple</option>                                            
                                             <?php
+											 
                                             foreach($sections as $section)
-                                                echo '<option value="'.$section['section_name'].'">'.$section['section_name'].'</option>';
+                                                echo '<option value="'.$section->section_name.'">'.$section->section_name.'</option>';
                                             ?>
                                         </select>
                                     </div>
@@ -77,7 +78,7 @@
 		 
 			$.ajax({
 				type: 'POST',
-				url: base_url+"/Reports/Filing/Report/defectiveMattersDetails",
+				url: base_url+"/Reports/Filing/Report/get_defective_matters_not_listed",
 				beforeSend: function (xhr) {
 					$("#result1").html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
 				},
