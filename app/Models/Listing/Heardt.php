@@ -774,7 +774,7 @@ class Heardt extends Model
         // pr($builder->getCompiledSelect());
 
         $query = $builder->get();
-        return $query->getResult();
+        return $query->getResultArray();
     }
 
 
@@ -1861,16 +1861,45 @@ ORDER BY sub_name1";
 						$jcd_rp
 					]);
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
+	
+	function get_adv_details($diary_no){
+		
+		
+		$advsql = "SELECT a.diary_no, 
+                  a.name, 
+                  STRING_AGG(a.name || CASE WHEN pet_res = 'R' THEN grp_adv END, '' ORDER BY adv_type DESC, pet_res_no ASC) AS r_n,
+                  STRING_AGG(a.name || CASE WHEN pet_res = 'P' THEN grp_adv END, '' ORDER BY adv_type DESC, pet_res_no ASC) AS p_n,
+                  STRING_AGG(a.name || CASE WHEN pet_res = 'I' THEN grp_adv END, '' ORDER BY adv_type DESC, pet_res_no ASC) AS i_n 
+            FROM 
+                  (SELECT a.diary_no, b.name, 
+                          STRING_AGG(COALESCE(a.adv, '') || '', '' ORDER BY CASE WHEN pet_res = 'I' THEN 99 ELSE 0 END ASC, adv_type DESC, pet_res_no ASC) AS grp_adv, 
+                          a.pet_res, a.adv_type, pet_res_no
+                   FROM advocate a 
+                   LEFT JOIN master.bar b ON a.advocate_id = b.bar_id AND b.isdead != 'Y' 
+                   WHERE a.diary_no='" . $diary_no . "' AND a.display = 'Y' 
+                   GROUP BY a.diary_no, b.name, a.pet_res, a.adv_type, pet_res_no
+                   ORDER BY CASE WHEN pet_res = 'I' THEN 99 ELSE 0 END ASC, adv_type DESC, pet_res_no ASC) a 
+            GROUP BY a.diary_no, a.name";
+			
+		$query = $this->db->query($advsql);
+		return $query->getResultArray();
+	}
+	
+	
+	public function section_ten_rs_details($casetype_displ, $ten_reg_yr, $state){
+        $builder = $this->db->table('da_case_distribution a')
+            ->select('dacode, section_name, name')
+            ->join('master.users b', 'usercode = dacode', 'left')
+            ->join('master.usersection c', 'b.section = c.id', 'left')
+            ->where('master.case_type', $casetype_displ)
+            ->where("{$ten_reg_yr} BETWEEN case_f_yr AND case_t_yr")  // Ensures the year condition is handled correctly
+            ->where('state', $state)
+            ->where('a.display', 'Y');
+
+       return $builder->get()->getResultArray();
+    }
+	
 	
 	
 	
