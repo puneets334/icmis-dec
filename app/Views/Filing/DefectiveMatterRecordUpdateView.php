@@ -23,7 +23,7 @@
                   <div class="tab-content">
                     <div class="active tab-pane">
                       <form method="POST">
-                      <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf_token" />
+                        <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" id="csrf_token" />
                         <div class="row">
                           <div class="col-md-3">
                             <label for="dno"><b>Diary No.</b></label>
@@ -32,37 +32,37 @@
 
                           <div class="col-md-3">
                             <label for="dyr"><b>Diary Year</b></label>
-                            <input type="text" id="dyr" maxlength="4" size="4" value="<?php echo date('Y'); ?>" onkeypress="return isNumber(event)" class="form-control"/>
+                            <input type="text" id="dyr" maxlength="4" size="4" onkeypress="return isNumber(event)" class="form-control" />
                           </div>
 
                           <div class="col-md-3">
                             <label for="section"><b>Section</b></label>
-                            <input type="text" id="section" maxlength="10" size="10" readonly class="form-control"/>
+                            <input type="text" id="section" maxlength="10" size="10" readonly class="form-control" />
                           </div>
 
                           <div class="col-md-3">
                             <label for="courtfee"><b>Court Fees</b></label>
-                            <input type="text" id="courtfee" maxlength="10" size="10" readonly class="form-control"/>
+                            <input type="text" id="courtfee" maxlength="10" size="10" readonly class="form-control" />
                           </div>
 
                           <div class="col-md-3 mt-3">
                             <label for="notfdate"><b>Date of Notification</b></label>
-                            <input type="text" id="notfdate" maxlength="10" size="10" readonly class="form-control"/>
+                            <input type="text" id="notfdate" maxlength="10" size="10" readonly class="form-control" />
                           </div>
 
                           <div class="col-md-3 mt-3">
                             <label for="rackno"><b>Rack No.</b></label>
-                            <input type="text" id="rackno" maxlength="10" size="10" onkeypress="return isNumber(event)" class="form-control"/>
+                            <input type="text" id="rackno" maxlength="10" size="10" onkeypress="return isNumber(event)" class="form-control" />
                           </div>
 
                           <div class="col-md-3 mt-3">
                             <label for="shelfno"><b>Shelf No.</b></label>
-                            <input type="text" id="shelfno" maxlength="10" size="10" onkeypress="return isNumber(event)"  class="form-control"/>
+                            <input type="text" id="shelfno" maxlength="10" size="10" onkeypress="return isNumber(event)" class="form-control" />
                           </div>
                           <input type="hidden" id="a_id" name="a_id" />
                           <div class="col-12 text-center">
-                          <input type="button" name="update" value="Update" onclick="update_data()" class="btn btn-primary mt-5" />
-                          <input type="button" name="delete" value="Delete" onclick="delete_data()" class="btn btn-primary mt-5"/>
+                            <input type="button" name="update" value="Update" onclick="update_data()" class="btn btn-primary mt-5" />
+                            <input type="button" name="delete" value="Delete" onclick="delete_data()" class="btn btn-primary mt-5" />
                           </div>
                         </div>
                       </form>
@@ -86,12 +86,20 @@
     }
     return true;
   }
+  var dataLoaded = false;
+
   $(document).on("blur", "#dyr", function() {
     var diaryno = $('#dno').val();
     var diaryyear = $('#dyr').val();
+    dataLoaded = false; // Reset flag when year changes
 
     if (diaryno == '') {
       alert("Please enter diary no.");
+      $('#dno').focus();
+      return false;
+    }
+    if (diaryyear == '') {
+      alert("Please Enter Year.");
       $('#dno').focus();
       return false;
     }
@@ -113,23 +121,28 @@
           $('#rackno').val(vcal[3]);
           $('#shelfno').val(vcal[4]);
           $('#a_id').val(vcal[5]);
+          dataLoaded = true; // Set flag to true on successful load
         } else {
-          $('#section').val("");
-          $('#courtfee').val("");
-          $('#notfdate').val("");
-          $('#rackno').val("");
-          $('#shelfno').val("");
-          $('#a_id').val("");
+          clearFields();
           alert("No record found!!!!!");
+          location.reload();
         }
       },
       error: function(xhr, status, error) {
         console.error("AJAX Error: " + status + ": " + error);
+        dataLoaded = false;
       }
     });
   });
 
   function update_data() {
+    // Check if data was loaded successfully
+    if (!dataLoaded) {
+      alert("Please first enter the  diary year.");
+      return false;
+    }
+
+    // Rest of your existing validation and AJAX code
     var dno = $('#dno').val();
     var dyr = $('#dyr').val();
     var rackno = $('#rackno').val();
@@ -192,13 +205,7 @@
       success: function(response) {
         if (response == 1) {
           alert("Record Updated Successfully");
-          $('#dno').val("").focus();
-          $('#section').val("");
-          $('#courtfee').val("");
-          $('#notfdate').val("");
-          $('#rackno').val("");
-          $('#shelfno').val("");
-          $('#a_id').val("");
+          location.reload();
         } else {
           alert(response);
         }
@@ -207,6 +214,15 @@
         console.error("AJAX Error: " + status + ": " + error);
       }
     });
+  }
+
+  function clearFields() {
+    $('#section').val("");
+    $('#courtfee').val("");
+    $('#notfdate').val("");
+    $('#rackno').val("");
+    $('#shelfno').val("");
+    $('#a_id').val("");
   }
 
 

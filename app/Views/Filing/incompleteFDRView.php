@@ -98,6 +98,7 @@
         const searchType = document.querySelector('#stype').value;
         const diaryNo = $("#dno").val();
         const diaryYear = $("#dyr").val();
+        const btn = document.querySelector('#yourShowButtonId'); // Replace with actual ID
 
         if (searchType === 'select_dno') {
             if (!validateDiaryInput(diaryNo, diaryYear)) return;
@@ -105,7 +106,7 @@
                 stype: searchType,
                 dno: diaryNo,
                 dyr: diaryYear
-            });
+            }, btn); // Pass the button to disable
         }
     }
 
@@ -128,9 +129,13 @@
         return true;
     }
 
-    function fetchData(data) {
+    function fetchData(data, triggerButton = null) {
         const CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         data.CSRF_TOKEN = CSRF_TOKEN_VALUE;
+
+        if (triggerButton) {
+            $(triggerButton).prop("disabled", true); // Disable button
+        }
 
         $.ajax({
             url: "<?= base_url('Filing/IncompleteFDR/incompleteFDR_alt') ?>",
@@ -148,10 +153,16 @@
             error: function() {
                 updateCSRFToken();
                 alert("ERROR, Please Contact Server Room");
+            },
+            complete: function() {
+                if (triggerButton) {
+                    $(triggerButton).prop("disabled", false); // Re-enable button
+                }
             }
         });
     }
-    
+
+
     $("#sendSMS").click(function(e) {
         e.preventDefault();
         var usercode = $('#usercode').val();

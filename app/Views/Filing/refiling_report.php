@@ -25,11 +25,10 @@
                       <form method="post" action="<?= site_url(uri_string()) ?>">
                         <?= csrf_field() ?>
                         <div class="row">
-                          <div class="col-md-4 mx-auto">
-                            <label for="dno"><b>Refiling Date.</b></label>
+                          <div class="col-sm-12 col-md-3 mb-3">
+                            <label for="">Refiling Date:</label>
                             <input type="text" name="from_dt1" id="from_dt1" class="dtp form-control" maxlength="10" autocomplete="off" size="9" />
                           </div>
-
                           <div class="col-12 text-center">
                             <input type="button" id="btnGetDiaryList" value="Show" class="btn btn-primary mb-4" />
                           </div>
@@ -57,36 +56,44 @@
       yearRange: '1950:2050'
     });
 
-    // Handle button click
-    $("#btnGetDiaryList").click(function() {
-      var dateFrom = $('#from_dt1').val();
-      var dateTo = $('#from_dt2').val();
-     
+   $("#btnGetDiaryList").click(function() {
+    var $btn = $(this); // Cache the button element
+    var dateFrom = $('#from_dt1').val().trim();
 
-      var CSRF_TOKEN = 'CSRF_TOKEN';
-      var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+    if (dateFrom === '') {
+        alert('Please enter the Refiling Date.');
+        $('#from_dt1').focus();
+        return; // Stop execution
+    }
 
-      $.ajax({
+    var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
+    $btn.prop("disabled", true); // Disable the button
+
+    $.ajax({
         url: '<?= base_url('Filing/RefilingReport/GetRefilingReport') ?>',
         type: "POST",
         data: {
-          dateFrom: dateFrom,
-          dateTo: dateTo,
-          CSRF_TOKEN: CSRF_TOKEN_VALUE
+            dateFrom: dateFrom,
+            CSRF_TOKEN: CSRF_TOKEN_VALUE
         },
         beforeSend: function() {
-          $('#dv_res1').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+            $('#dv_res1').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
         },
         success: function(response) {
-          updateCSRFToken();
-          $("#dv_res1").html(response);
+            updateCSRFToken();
+            $("#dv_res1").html(response);
         },
         error: function() {
-          updateCSRFToken();
-          alert('Error occurred while fetching the report.');
+            updateCSRFToken();
+            alert('Error occurred while fetching the report.');
+        },
+        complete: function() {
+            $btn.prop("disabled", false); // Re-enable the button
         }
-      });
     });
+});
+
   });
 
   $(document).on("click", "#prnnt1", function() {
@@ -98,8 +105,4 @@
     WinPrint.focus();
     WinPrint.print();
   });
-
-  // $(document).ready(function() {
-  //   $('#diaryReport').DataTable();
-  // });
 </script>
