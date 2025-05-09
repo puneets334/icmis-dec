@@ -33,7 +33,7 @@
                             </tr>
                             <tr>
                                 <td><b>Current Address <span class="text-danger">*</span></b></td>
-                                <td><input type="text" class="form-control" value="<?= esc($bar['caddress']) ?>" id="cadd" onblur="remove_apos(this.value,this.id)" /></td>
+                                <td><input type="text" class="form-control" value="<?= esc($bar['caddress']) ?>" id="cadd" onblur="remove_apos(this.value,this.id)"  maxlength="120" /></td>
                             </tr>
                             <tr>
                                 <td><b>Current City</b></td>

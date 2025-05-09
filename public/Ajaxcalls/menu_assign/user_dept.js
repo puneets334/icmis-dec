@@ -1,7 +1,8 @@
 
 $(document).ready(function () {
   $("#name_udept,#uside_flag").on("input", function () {
-    this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+    //this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+    this.value = this.value.replace(/[^A-Za-z]/g, '');
   });
   $("#btnMain").click(function () {
     var regABC = new RegExp("^[A-z]+$");
