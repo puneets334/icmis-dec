@@ -481,7 +481,7 @@ class PrintAdvance extends BaseController
         $prtContent = $this->removeIgnoreInPrintDiv($encprtContent);
 
         // Prepare the save path
-        $savePath = WRITEPATH . 'judgment/cl/vacation/' . $v_year . '/';
+        $savePath = FCPATH . 'judgment/cl/vacation/' . $v_year . '/';
         if (!is_dir($savePath)) {
             mkdir($savePath, 0777, true); // Create directory if it doesn't exist
         }
@@ -2470,23 +2470,20 @@ class PrintAdvance extends BaseController
     {
         $request = \Config\Services::request();
 
-        $listDt = '01-04-2025';//$request->getPost('list_dt');
-        $mainhead = 'M';//$request->getPost('mainhead');
-        $boardType = 'J';//$request->getPost('board_type');
+        $listDt = $request->getPost('list_dt');
+        $mainhead = $request->getPost('mainhead');
+        $boardType = $request->getPost('board_type');
 
         // Convert Date Format
         $listDate = date('Y-m-d', strtotime($listDt));
 
         // Fetch Data
         $results = $this->Heardt->getSectionList($listDate, $mainhead, $boardType);
-		//echo "<pre>";
-		//print_r($results);
-		//die;
+		
         // Define File Path
         $pathDir = FCPATH . "sectionlist/{$listDate}";
         $filePath = "{$pathDir}/sectionlist_M_{$boardType}_{$listDate}.html";
-
-        // Ensure Directory Exists
+       // Ensure Directory Exists
         if (!is_dir($pathDir)) {
             mkdir($pathDir, 0777, true);
         }
@@ -2500,15 +2497,19 @@ class PrintAdvance extends BaseController
                 'board_type' => $boardType,
                 'filePath'   => $filePath
             ];
+			
          $data['model'] = $this->Heardt;   
             return view('Listing/print_advance/sec_list_get', $data);
         } else {
-            return $this->response->setJSON([
-                'status'  => 'error',
-                'message' => 'Section list file already exists.',
-                'file'    => $filePath
-            ]);
-        }
+			$data = [
+                'list_date'  => $listDate,
+                'results'    => $results,
+                'mainhead'   => $mainhead,
+                'board_type' => $boardType,
+                'filePath'   => $filePath
+            ];
+		  return view('Listing/print_advance/sec_list_get', $data);
+		}
     }
 
 
