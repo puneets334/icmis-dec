@@ -79,17 +79,17 @@ class DropRequest extends BaseController
 
         $data['pet_name'] = $pet_name;
         $data['res_name'] = $res_name;
-        $data['mul_category'] = $this->DropRequestModel->get_multiple_category($filing_details['diary_number']);
-        $data['act_section'] = $this->DropRequestModel->get_act_section($filing_details['diary_number']);
+        $data['mul_category'] = $this->DropRequestModel->get_multiple_category($filing_details['diary_no']);
+        $data['act_section'] = $this->DropRequestModel->get_act_section($filing_details['diary_no']);
         $data['law'] = $this->DropRequestModel->get_provision_of_law($filing_details['actcode']);
-        $tentative_date = $this->DropRequestModel->get_tentative_date($filing_details['diary_number']);
+        $tentative_date = $this->DropRequestModel->get_tentative_date($filing_details['diary_no']);
         $data['tentative_date'] = date('d-m-Y', strtotime($tentative_date));
 
-        $data['hearing_date_list'] = $this->DropRequestModel->hearing_date_list($filing_details['diary_number']);
-        $data['hearing_last_date_list'] = $this->DropRequestModel->hearing_last_date_list($filing_details['diary_number']);
+        $data['hearing_date_list'] = $this->DropRequestModel->hearing_date_list($filing_details['diary_no']);
+        $data['hearing_last_date_list'] = $this->DropRequestModel->hearing_last_date_list($filing_details['diary_no']);
 
-        $data['get_interlocutary_app'] = $this->DropRequestModel->get_interlocutary_app($filing_details['diary_number']);
-        $data['get_other_docs'] = $this->DropRequestModel->get_other_docs($filing_details['diary_number']);
+        $data['get_interlocutary_app'] = $this->DropRequestModel->get_interlocutary_app($filing_details['diary_no']);
+        $data['get_other_docs'] = $this->DropRequestModel->get_other_docs($filing_details['diary_no']);
         return  view('Listing/drop_request/get_report',$data);
     }
 

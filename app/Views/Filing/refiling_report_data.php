@@ -33,11 +33,11 @@
                     if ($row['attend'] == 'A') echo "<font color='red'> [Absent]</font>";
                     ?></td>
                 <td style="text-align: center;"><?php
-                    if ($row['token_no'] == null or $row['token_no'] == 0) {
-                      $row['token_no'] = $model->RefilingReportData($row['diary_no'], $row['diary_year'], $dateFromFormatted);
-                    }
-                    echo $row['token_no'];
-                    ?>
+                                                if ($row['token_no'] == null or $row['token_no'] == 0) {
+                                                  $row['token_no'] = $model->RefilingReportData($row['diary_no'], $row['diary_year'], $dateFromFormatted);
+                                                }
+                                                echo $row['token_no'];
+                                                ?>
                 </td>
                 <td></td>
               </tr>
@@ -51,55 +51,32 @@
   </div>
 
   <script>
- $(function() {
-        $("#diaryReport").DataTable({
-            "responsive": true,
-            "lengthChange": true,
-            "ordering": false,
-            "autoWidth": false,
-            "dom": 'Bfrtip',
-            "buttons": [{
-                    extend: "copy",
-                    title: "Matters Refiled on <?php echo $dateFrom; ?>"
-                },
-                {
-                    extend: "csv",
-                    title: "Matters Refiled on <?php echo $dateFrom; ?>"
-                },
-                {
-                    extend: "excel",
-                    title: "Matters Refiled on <?php echo $dateFrom; ?>"
-                },
-                {
-                    extend: "pdf",
-                    title: "Matters Refiled on <?php echo $dateFrom; ?>",
-                    customize: function(doc) {
-                        doc.content.splice(0, 0, {
-                            text: "",
-                            fontSize: 12,
-                            alignment: "center",
-                            margin: [0, 0, 0, 12]
-                        });
-                    }
-                },
-                {
-                  extend: "print",
-                  title: "Matters Refiled on <?php echo $dateFrom; ?>",
-                    customize: function (win) {
-                      $(win.document.body).find('h1').remove();
-                        $(win.document.body).prepend(
-                            `<h3 style="text-align: center; margin-bottom: 20px;">
-                                Matters Refiled on <?php echo $dateFrom; ?>
-                            </h3>`
-                        );
-                    }
-                   
+  $(function() {
+    $("#diaryReport").DataTable({
+        "responsive": false,
+        "lengthChange": false,
+        "autoWidth": false,
+        "dom": 'Bfrtip',
+        "buttons": [
+            {
+                extend: "pdfHtml5",
+                title: "Matters Refiled on\n(As on <?php echo $dateFrom; ?>)",
+                customize: function(doc) {
+                    doc.content.splice(0, 0, {
+                        text: "Matters Refiled on\n(As on <?php echo $dateFrom; ?>)",
+                        fontSize: 12,
+                        alignment: "center",
+                        margin: [0, 0, 0, 12]
+                    });
                 }
-            ],
-            "bProcessing": true,
-            "extend": 'colvis',
-            "text": 'Show/Hide'
-        }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
+            },
+            {
+                extend: "print",
+                title: "",
+                messageTop: "<h3 style='text-align:center;'>Matters Refiled on<br>(As on <?php echo $dateFrom; ?>)</h3>"
+            }
+        ]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+});
 
-    });
-</script>
+  </script>

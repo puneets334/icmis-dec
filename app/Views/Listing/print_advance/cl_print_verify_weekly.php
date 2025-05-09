@@ -195,34 +195,21 @@
                 CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             beforeSend: function() {
-                $('#dv_res1').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>');
-            },
+                $('#dv_res1').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
+                $('#btn1').attr('disabled','disabled');   
+			},
             success: function(data, status) {
                 $('#dv_res1').html(data);
+				$('#btn1').removeAttr('disabled');
             },
             error: function(xhr) {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
+				$('#btn1').removeAttr('disabled');
             }
         });
     });
 
-   
-    $(document).on("click", "#prnnt1", function() {
-        var prtContent = $("#prnnt").html();
-        var mainhead = get_mainhead();
-        var list_dt = $("#listing_dts").val();
-        var jud_ros = $("#jud_ros").val();
-        var part_no = $("#part_no").val();
-        var temp_str = prtContent;
-        var WinPrint = window.open('', '', 'left=100,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1');
-        WinPrint.document.write(temp_str);
-        WinPrint.document.close();
-        WinPrint.focus();
-        WinPrint.print();
-    });
-	
-	
-	$(document).on("click", "#unpub", async function() {
+    $(document).on("click", "#unpub", async function() {
         await updateCSRFTokenSync();
             var prtContent = $("#prnnt").html();
             var list_dt = $("#listing_dts").val();
@@ -245,7 +232,8 @@
                 },
                 beforeSend: function() {
                     $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
-                },
+                    $('#unpub').attr('disabled','disabled');  
+				},
        
                 success: function(response, status) {
                     try {
@@ -253,12 +241,15 @@
                         var data = typeof response === 'string' ? JSON.parse(response) : response;
                         
                         if (data.status === 'success') {
+							$('#unpub').removeAttr('disabled');
                             $('#res_loader').html(`<h3 class="bg-success p-2 text-center">${data.message}</h3>`);
                             alert(data.message); // Show an alert with the response message
                         } else {
+							$('#unpub').removeAttr('disabled');
                             alert("An error occurred. Please try again.");
                         }
                     } catch (error) {
+						$('#unpub').removeAttr('disabled');
                         console.error("JSON Parsing Error:", error);
                         alert("Invalid server response.");
                     }
@@ -267,6 +258,7 @@
 
                 error: function(xhr) {
                     alert("Error: " + xhr.status + " " + xhr.statusText);
+					$('#unpub').removeAttr('disabled');
                 }
             });
         });
@@ -293,13 +285,15 @@
                 },
                 beforeSend: function() {
                     $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
-                },
+                     $('#ebublish').attr('disabled','disabled');  
+				},
                 success: function(response, status) {
 					try {
                         // Ensure response is a proper JSON object
                         var data = typeof response === 'string' ? JSON.parse(response) : response;
                         alert(data.message);
                         if (data.status === 'success') {
+							$('#ebublish').removeAttr('disabled');
                             $('#res_loader').html(`
                                 <h3 class="bg-success p-2 text-center">${data.message}</h3>
                                 <p class="text-center">
@@ -308,15 +302,18 @@
                             `);
                             alert(data.message); // Show an alert with the response message
                         } else {
+							$('#ebublish').removeAttr('disabled');
                             alert("An error occurred. Please try again.");
                         }
 
                     } catch (error) {
+						$('#ebublish').removeAttr('disabled');
                         console.log("JSON Parsing Error:", error);
                         alert("Invalid server response.");
                     }
                 },
                 error: function(xhr) {
+					$('#ebublish').removeAttr('disabled');
                     alert("Error: " + xhr.status + " " + xhr.statusText);
                 }
             });
@@ -341,13 +338,15 @@
                 },
                 beforeSend: function() {
                     $('#res_loader').html('<table widht="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>'); 
-                },
+                   $('#mbublish').attr('disabled','disabled');  
+				},
                 success: function(response, status) {
                     try {
                         // Ensure response is a proper JSON object
                         var data = typeof response === 'string' ? JSON.parse(response) : response;
                         
                         if (data.status === 'success') {
+							$('#mbublish').removeAttr('disabled');
                             $('#res_loader').html(`
                                 <h3 class="bg-success p-2 text-center">${data.message}</h3>
                                 <p class="bg-success p-2 text-center">${data.sms_status}</p>
@@ -358,19 +357,36 @@
                             alert(data.message); // Show an alert with the response message
                         } else {
                             alert("An error occurred. Please try again.");
+							$('#mbublish').removeAttr('disabled');
                         }
 
                     } catch (error) {
                         console.log("JSON Parsing Error:", error);
                         alert("Invalid server response.");
+						$('#mbublish').removeAttr('disabled');
                     }
             
                 },
                 error: function(xhr) {
                     alert("Error: " + xhr.status + " " + xhr.statusText);
+					$('#mbublish').removeAttr('disabled');
                 }
             });
         });
+
+    $(document).on("click", "#prnnt1", function() {
+        var prtContent = $("#prnnt").html();
+        var mainhead = get_mainhead();
+        var list_dt = $("#listing_dts").val();
+        var jud_ros = $("#jud_ros").val();
+        var part_no = $("#part_no").val();
+        var temp_str = prtContent;
+        var WinPrint = window.open('', '', 'left=100,top=0,align=center,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1');
+        WinPrint.document.write(temp_str);
+        WinPrint.document.close();
+        WinPrint.focus();
+        WinPrint.print();
+    });
 	
 	
 </script>

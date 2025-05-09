@@ -559,7 +559,7 @@
 
                                                     <div class="col-md-4">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-5 col-form-label">Phone/Mobile <span class="text-red">*</span>:</label>
+                                                            <label class="col-sm-5 col-form-label">Phone/Mobile :</label>
                                                             <div class="col-sm-7">
                                                                 <input type="text" class="form-control" id="pmobd" name="pmobd" value="<?php echo $pet_rw['contact']?>" maxlength="10" onkeypress="return onlynumbers(event)" onblur="remove_apos(this.value,this.id)" placeholder="Enter contact no.">
                                                             </div>
@@ -568,7 +568,7 @@
 
                                                     <div class="col-md-4">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-5 col-form-label">Email Id <span class="text-red">*</span>:</label>
+                                                            <label class="col-sm-5 col-form-label">Email Id :</label>
                                                             <div class="col-sm-7">
                                                                 <input type="text" class="form-control" id="pemaild" name="pemaild" value="<?php echo $pet_rw['email']?>" onblur="remove_apos(this.value,this.id)" placeholder="Enter Email Id">
                                                             </div>
@@ -772,7 +772,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="form-group row">
-                                                            <label  class="col-sm-5 col-form-label">Phone/Mobile <span class="text-red">*</span>:</label>
+                                                            <label  class="col-sm-5 col-form-label">Phone/Mobile :</label>
                                                             <div class="col-sm-7">
                                                                 <input type="text" class="form-control" id="rmobi" name="rmobi" value="<?php echo $res_rw['contact'] ?? ''?>" maxlength="10" onkeypress="return onlynumbers(event)" placeholder="Enter contact no.">
                                                             </div>

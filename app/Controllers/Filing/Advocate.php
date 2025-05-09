@@ -926,7 +926,7 @@ class Advocate extends BaseController
 				
 				$chk_rs = $this->model->getAdvocateDetails($diary_no, $advocate_id, $if_pet_res, $party, $party_srno_show, $stateadv, $inperson_condition);				
                 	
-                if($chk_rs == 0)
+                if(count($chk_rs) > 0)
 				{
 					
 				 	 /* $up_rs = "UPDATE advocate

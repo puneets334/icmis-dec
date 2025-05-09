@@ -18,20 +18,6 @@
         width: 50%;
     }
 
-    table.dataTable>thead .sorting,
-    table.dataTable>thead {
-        background-color: #0d48be !important;
-        color: #fff !important;
-    }
-
-    table.dataTable thead th,
-    table.dataTable tfoot th {
-        background-color: rgb(221 222 230) !important;
-        color: #000 !important;
-        font-weight: 600 !important;
-        font-size: small;
-        text-transform: capitalize;
-    }
 </style>
 <!-- Main content -->
 <section class="content">
@@ -194,7 +180,7 @@
                                                 </div>
 
                                                 <div class="col-md-4">
-                                                    <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.:</label>
+                                                    <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.*</label>
                                                     <div class="input-group date" id="impugned_date" data-target-input="nearest">
                                                         <input type="text" class="form-control dtp" data-target="#impugned_date"
                                                          id="impugned_date_s" name="impugned_date_s" value="<?php if ($ct_code == '4') 
@@ -242,7 +228,7 @@
 
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.:</label>
+                                                    <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.*</label>
                                                     <div class="input-group date" id="impugned_date1_" data-target-input="nearest">
                                                         <input type="text" class="form-control dtp_" data-target="#impugned_date1_" id="impugned_date_1" name="impugned_date_1" value="<?php if ($ct_code == '1') {
                                                                                                                                                                                                             echo $lct_dec_dt;
@@ -282,7 +268,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.:</label>
+                                                    <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.*</label>
                                                     <div class="input-group date" id="impugned_date2" data-target-input="nearest">
                                                         <input type="text" class="form-control dtp" id="impugned_date_2" name="impugned_date_2" data-target="#impugned_date2" value="<?php if ($ct_code == '5') {
                                                                                                                                                                                                             echo $lct_dec_dt;
@@ -440,7 +426,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.:</label>
+                                                    <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.*</label>
                                                     <div class="input-group date" id="impugned_date3" data-target-input="nearest">
                                                         <input type="text" class="form-control dtp" data-target="#impugned_date3" />
                                                         <!-- <div class="input-group-append" data-target="#impugned_date3" data-toggle="datetimepicker">
@@ -609,7 +595,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.:</label>
+                                                    <label> Date of Impugned Judgement/Order/Award/Notification/Circular etc.*</label>
                                                     <div class="input-group date" id="impugned_date5" data-target-input="nearest">
                                                         <input type="text" class="form-control dtp" data-target="#impugned_date5"
                                                          id="impugned_date_5" name="impugned_date_5" value="<?php if ($ct_code == '3')
@@ -664,14 +650,14 @@
                                             </div>
                                         <?php } ?>
                                         <?php if (is_array($result)) : ?>
-                                            <div class="card">
+                                            <div class="">
                                                 <div class="card-header">
                                                     <h3 class="card-title">Lower Court List</h3>
 
                                                 </div>
 
                                                 <div class="card-body">
-                                                    <table id="lowercourtdata" class="table table-bordered table-striped">
+                                                    <table id="lowercourtdata" class="table custom-table table-striped">
                                                         <thead>
                                                             <tr>
                                                                 <?php if (!empty($action_status) && $action_status == 'Y') { ?> <th>Action</th><?php } ?>
@@ -826,7 +812,7 @@
                                                             <?php $sn++;
                                                             } ?>
                                                         </tbody>
-                                                        <tfoot>
+                                                        <!-- <tfoot>
                                                             <tr>
                                                                 <?php if (!empty($action_status) && $action_status == 'Y') { ?> <th>Action</th><?php } ?>
                                                                 <th>Court</th>
@@ -850,7 +836,7 @@
                                                                 <th>Transfer To court / State / District / No. </th>
                                                                 <th>Government Notification State / No. / Date </th>
                                                             </tr>
-                                                        </tfoot>
+                                                        </tfoot> -->
                                                     </table>
 
                                                 </div>
@@ -1510,7 +1496,6 @@
             var diary_recieved_date = jQuery("#diary_recieved_date").val();
             diary_date = new Date(diary_recieved_date);
             let ig_year = date_impug.getFullYear();
-
 
             if (court_type == "4" && impugned_date_s.val().length == 0) {
                 alert("Please enter Date of Impugned Judgement");

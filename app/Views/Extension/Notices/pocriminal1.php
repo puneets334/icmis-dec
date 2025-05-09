@@ -1,25 +1,26 @@
 <?php
-$dis_co_nm='';
-$diary_no=$_REQUEST['fil_no'];
-$year_s=substr( $diary_no , -4 );
+$dis_co_nm  = '';
+$diary_no   = $_REQUEST['fil_no'];
+$year_s     = substr( $diary_no , -4 );
 $no_s=substr( $diary_no, 0, strlen( $diary_no ) -4 );
-$fil_nm=$_REQUEST['fil_nm'];
+$fil_nm = isset($_REQUEST['fil_nm']) ? $_REQUEST['fil_nm'] : '';
+$ind_org = '';
 
 $short_description_s=''; 
 
     $res_fil_det = $noticesModel->getFileDetails($diary_no);
     $r_nature='';
-    if($res_fil_det['nature']=='C')
+    if(isset($res_fil_det['nature']) && $res_fil_det['nature']=='C')
     {
         $r_nature='Civil';
     }
-    else if($res_fil_det['nature']=='R')
+    else if(isset($res_fil_det['nature']) && $res_fil_det['nature']=='R')
     {
         $r_nature='Criminal';
 
     }
 
-    if($res_fil_det['casetype_id']==0)
+    if(isset($res_fil_det['casetype_id']) && $res_fil_det['casetype_id'] == 0)
     {
         $res_fil_det['casename']='Diary';
         $case_range=substr($diary_no,0,-4);
@@ -31,14 +32,14 @@ $short_description_s='';
     }
     else
     {
-        $short_description_s=$res_fil_det['casename'];
-        $case_range=substr($res_fil_det['fil_no'],3);
+        $short_description_s = isset($res_fil_det['casename']) ? $res_fil_det['casename'] : '';
+        $case_range = substr($res_fil_det['fil_no'], 3);
         $ex_case_range=  explode('-', $case_range);
-        $c_range='';
-        $chk_range='';
-        $cnt_tot_reg_cases=0;
+        $c_range = '';
+        $chk_range = '';
+        $cnt_tot_reg_cases = 0;
         for ($index1 = 0; $index1 < count($ex_case_range); $index1++) {
-            if($c_range=='')
+            if($c_range == '')
                 $c_range =  intval ($ex_case_range[$index1]);
             else
             {
@@ -48,12 +49,12 @@ $short_description_s='';
             $chk_range=intval ($ex_case_range[$index1]);
             $cnt_tot_reg_cases++;
         }
+
         if($c_range!='')
             $case_range=$c_range;
         else
             $case_range=  intval ($case_range) ;
         $reg_year=date('Y',strtotime($res_fil_det['fil_dt']));
-
 
     }
     $last_order=$res_fil_det['lastorder'];
@@ -91,7 +92,7 @@ $short_description_s='';
     if($r_sql_letter==1)
         $r_sql_letter=0;
 
-    $sql_res = $noticesModel->getTalDelDetails($diary_no, $_REQUEST['dt'], $_REQUEST['fil_nm']);
+    $sql_res = $noticesModel->getTalDelDetails($diary_no, $_REQUEST['dt'], $fil_nm);    // $_REQUEST['fil_nm']
    
     if((!empty($sql_res)) && count($sql_res)>0)
     {
@@ -120,24 +121,23 @@ $short_description_s='';
         foreach ($sql_res as $row)
         {
 
-            if($row['individual_multiple']==2 && $chk_mul_letter!=$row['nt_type'])
+            if($row['individual_multiple'] == 2 && $chk_mul_letter != $row['nt_type'])
             {
                 foreach ($nt_type_ar as $key => $value) {
-                    if($key==$row['nt_type'])
+                    if($key == $row['nt_type'])
                     {
-                        $brk_limit=$value;
+                        $brk_limit = $value;
                     }
                 }
-                $chk_mul_letter=$row['nt_type'];
+                $chk_mul_letter = $row['nt_type'];
             }
-            $ck_mul_ind=$ck_mul_ind+1;
-            $state_nm_m=state_name($row['tal_state']);
-            $district_nm_m=state_name($row['tal_district']);
-            $fixed_for=date('d-m-Y',strtotime($row['fixed_for']));
+            $ck_mul_ind     = $ck_mul_ind+1;
+            $state_nm_m     = state_name($row['tal_state']);
+            $district_nm_m  = state_name($row['tal_district']);
+            $fixed_for      = ($row['fixed_for']) ? date('d-m-Y', strtotime($row['fixed_for'])) : NULl;
 
-           
             $del_type_s = is_data_from_table('tw_o_r',  " tw_org_id='$row[id]' and display='Y' group by tw_org_id "," STRING_AGG(del_type, '') AS del_types ",'');
-            $del_type= $del_type_s['del_types'];
+            $del_type   = $del_type_s['del_types'];
              
 
 
@@ -214,10 +214,8 @@ $short_description_s='';
                         foreach ($send_copy_to_det as $rw_send_copy_to_det)
                         {
 
-
                             if($row['individual_multiple']==1 ||  $ck_mul_ind>$sql_res_rw)
                             {
-
                                 if($rw_send_copy_to_det['send_to_type']=='1')
                                     $advocate_nm= send_to_advocate($rw_send_copy_to_det['tw_sn_to']);
                                 else if($rw_send_copy_to_det['send_to_type']=='2')
@@ -227,8 +225,6 @@ $short_description_s='';
                                     $advocate_nm=  send_to_court($rw_send_copy_to_det['tw_sn_to'],'');
 
                                 }
-
-
 
                                 $state_nm_c=state_name($rw_send_copy_to_det['sendto_state']);
                                 $district_nm_c=state_name($rw_send_copy_to_det['sendto_district']);
@@ -257,11 +253,12 @@ $short_description_s='';
 
                     }
                     ?>
-                    <div id="<?php echo $row['id'] ?>_<?php echo $n_ind_d; ?>_<?php echo $del_type[$dtc]; ?>" class="ind_no_w_vc" style="position: relative;background-image: url('/var/www/html/supreme_court/images/scilogo.png');background-position: center;background-repeat: no-repeat;padding-left: 2px;padding-right: 2px;position: relative;<?php if($ck_pbb!=0) { ?> page-break-before:always; <?php ;} ?>">
+                    <div id="<?php echo $row['id'] ?>_<?php echo $n_ind_d; ?>_<?php echo $del_type[$dtc]; ?>" class="ind_no_w_vc" style="position: relative;background-image: url('/images/scilogo.png');background-position: center;background-repeat: no-repeat;padding-left: 2px;padding-right: 2px;position: relative;margin-top: 20px;<?php if($ck_pbb!=0) { ?> page-break-before:always; <?php ;} ?>">
                         <?php
                         if($row['individual_multiple']==2 )
                         {                            
-                          $mul_send_tp =   $noticesModel->getMultiSendTp($diary_no, $rec_dt, $nt_type, $del_type);
+                          $mul_send_tp =   $noticesModel->getMultiSendTp($diary_no, $dt, $nt_type, $del_type);
+                          
                             if(!empty($mul_send_tp))
                             {
                                 $tot_records='';
@@ -399,7 +396,7 @@ $short_description_s='';
                                         }
                                     }
 
-                            $ext_data='';
+                                    $ext_data='';
                                     if($row1['tw_sn_to']!=0)
                                     {
                                         
@@ -458,8 +455,7 @@ $short_description_s='';
 
                                     $address_c='';
                                     if($address_m!='')
-                                        $address_c='<p style="color: #000000;margin: 0px;padding: 0px 2px 0px 2px;width: 100%;clear:both" > <b> 
-       <font style="font-size: 13pt; " face="Times New Roman"  >  <b style="font-size: 13pt; " face="Times New Roman" >'. $address_m. '</b>, </font></b></p>';
+                                        $address_c='<p style="color: #000000;margin: 0px;padding: 0px 2px 0px 2px;width: 100%;clear:both" > <b>  <font style="font-size: 13pt; " face="Times New Roman"  >  <b style="font-size: 13pt; " face="Times New Roman" >'. $address_m. '</b>, </font></b></p>';
                                     $margin_t='';
                                     if($cnt_first_rec==0 || $ext_data!='')
                                         $margin_t="0px";
@@ -467,8 +463,7 @@ $short_description_s='';
                                         $margin_t="10px";
 
 
-                                    $tot_records=$tot_records.' <tr> <td style="color: #000000;margin: 0px;padding: 0px 2px 0px 2px;font-size: 13pt;width:6%;vertical-align:top;"> <p style="margin:'. $margin_t.' 0px 0px 42px;font-size: 13pt">'.$ss_no.'</p></td><td style="width:49%">'.$ext_data.'<p style="color: #000000;margin:'. $margin_t.' 0px 0px 0px;padding: 0px 2px 0px 2px;width: 100%;float:left;clear:both;" >
-        <b> <font style="font-size: 13pt; " face="Times New Roman"  >'.$h_c_rg.$tw_sn_to.'</b>, </p> ';
+                                    $tot_records=$tot_records.' <tr> <td style="color: #000000;margin: 0px;padding: 0px 2px 0px 2px;font-size: 13pt;width:6%;vertical-align:top;"> <p style="margin:'. $margin_t.' 0px 0px 42px;font-size: 13pt">'.$ss_no.'</p></td><td style="width:49%">'.$ext_data.'<p style="color: #000000;margin:'. $margin_t.' 0px 0px 0px;padding: 0px 2px 0px 2px;width: 100%;float:left;clear:both;" > <b> <font style="font-size: 13pt; " face="Times New Roman"  >'.$h_c_rg.$tw_sn_to.'</b>, </p> ';
 
  
                                     if($row1['sr_no']!='0')
@@ -487,19 +482,19 @@ $short_description_s='';
                                     $tot_records=$tot_records.$address_c;
                                     $tot_records=$tot_records.' <p style="color: #000000;margin: 0px;padding: 0px 2px 0px 2px;width: 100%;float: left;clear:both"><b> <font  style="font-size: 13pt; " face="Times New Roman" >   District- <b style="font-size: 13pt; " face="Times New Roman" >' .  strtoupper(trim($district_nm)).', '.$state_nm.$pin_code.'</b></font></b> </p>'.$fir_dls.$dis_det.$ref_det.'</td> <td>';
 
-            $caseno_='';
-            if($case_range!='')
-            {
-                if($res_fil_det['short_description']!='')
-                    {  
-                        $caseno_= $caseno_.$res_fil_det['short_description']; 
-                    }
-                    else $caseno_=$caseno_. "Diary No. ";
-                        $caseno_=$caseno_.$case_range.'/'.$reg_year; 
-                }
+                                    $caseno_='';
+                                    if($case_range!='')
+                                    {
+                                        if($res_fil_det['short_description']!='')
+                                        {  
+                                            $caseno_= $caseno_.$res_fil_det['short_description']; 
+                                        }
+                                        else $caseno_=$caseno_. "Diary No. ";
+                                            $caseno_=$caseno_.$case_range.'/'.$reg_year; 
+                                    }
 
-                //     $tot_records=$tot_records.'<p style="color: #000000;margin:'. $margin_t.'0px 0px 0px;padding: 0px 30px 0px 2px;float:left" >  <b> <font style="font-size: 13pt; " face="Times New Roman"  >PId: '.$row1['process_id'].$row1[pet_res].$row1[sr_no].$in_reg_cases.' (Sec '.get_section($dairy_no).')('.$caseno_.')</b></p></td></tr><tr style="width: 100%;"><td colspan="3" /></tr>';
-                 $tot_records=$tot_records.'<p style="color: #000000;margin:'. $margin_t.'0px 0px 0px;padding: 0px 30px 0px 2px;float:left" > <b> <font style="font-size: 13pt; " face="Times New Roman"  >PId: '.$row1['process_id'].$row1['pet_res'].$row1['sr_no'].' in '.$in_reg_cases.$caseno_.' (Sec '.get_section($dairy_no).')</b></p></td></tr><tr style="width: 100%;"><td colspan="3" /></tr>';
+                                    //     $tot_records=$tot_records.'<p style="color: #000000;margin:'. $margin_t.'0px 0px 0px;padding: 0px 30px 0px 2px;float:left" >  <b> <font style="font-size: 13pt; " face="Times New Roman"  >PId: '.$row1['process_id'].$row1[pet_res].$row1[sr_no].$in_reg_cases.' (Sec '.get_section($dairy_no).')('.$caseno_.')</b></p></td></tr><tr style="width: 100%;"><td colspan="3" /></tr>';
+                                    $tot_records=$tot_records.'<p style="color: #000000;margin:'. $margin_t.'0px 0px 0px;padding: 0px 30px 0px 2px;float:left" > <b> <font style="font-size: 13pt; " face="Times New Roman"  >PId: '.$row1['process_id'].$row1['pet_res'].$row1['sr_no'].' in '.$in_reg_cases.$caseno_.' (Sec '.get_section($dairy_no).')</b></p></td></tr><tr style="width: 100%;"><td colspan="3" /></tr>';
                                     $cnt_first_rec++;
                                     $ex_del_type=$row1['del_type'];
 
@@ -509,29 +504,30 @@ $short_description_s='';
                                 $tot_records=$tot_records.'</table></div>';
                             }
                             
-                          /* $mul_send_tp1="SELECT distinct tw_sn_to, sendto_state, sendto_district, send_to_type,del_type
-                            FROM tw_tal_del z
-                            JOIN tw_o_r a ON z.id = a.tw_org_id
-                            JOIN tw_comp_not b ON a.id = b.tw_o_r_id
-                            join tw_notice tn on tn.id=z.nt_type and tn.display='Y' and  	
-                            war_notice!='L'
-                            WHERE a.display = 'Y'
-                            AND z.display = 'Y'
+                            /* $mul_send_tp1="SELECT distinct tw_sn_to, sendto_state, sendto_district, send_to_type,del_type
+                                FROM tw_tal_del z
+                                JOIN tw_o_r a ON z.id = a.tw_org_id
+                                JOIN tw_comp_not b ON a.id = b.tw_o_r_id
+                                join tw_notice tn on tn.id=z.nt_type and tn.display='Y' and  	
+                                war_notice!='L'
+                                WHERE a.display = 'Y'
+                                AND z.display = 'Y'
 
-                            AND diary_no = '$dairy_no'
-                            AND rec_dt = '$_REQUEST[dt]'
-                            AND print = '0'
-                            AND b.display = 'Y' and nt_type='$row[nt_type]'
-                            AND copy_type =1
-                            AND del_type = '$del_type[$dtc]'";
-                            $mul_send_tp1=  mysql_query($mul_send_tp1) or die("Error: ".__LINE__.mysql_error()); */
+                                AND diary_no = '$dairy_no'
+                                AND rec_dt = '$_REQUEST[dt]'
+                                AND print = '0'
+                                AND b.display = 'Y' and nt_type='$row[nt_type]'
+                                AND copy_type =1
+                                AND del_type = '$del_type[$dtc]'";
+                                $mul_send_tp1=  mysql_query($mul_send_tp1) or die("Error: ".__LINE__.mysql_error()); */
 
                             $mul_send_tp1 = $noticesModel->getMulSendTp1($diary_no, $_REQUEST['dt'], $row['nt_type'], $del_type, $dtc);
                             if(!empty($mul_send_tp1))
                             {
                                 $tot_copy_send_to='';
                                 $tot_copy_send_to_adv='';
-                                foreach ($mul_send_tp1 as $row11) {
+                                foreach ($mul_send_tp1 as $row11) 
+                                {
                                     if($row11['send_to_type']=='1')
                                         $advocate_nm1= send_to_advocate($row11['tw_sn_to']);
                                     else if($row11['send_to_type']=='2')
@@ -567,45 +563,60 @@ $short_description_s='';
                                 $tot_copy='';
                                 $ex_c_s_t=explode('@',$tot_copy_send_to);
                                 $tot_copy=$tot_copy.'<div style="margin-left: 30px"><table>';
-                                for ($index = 0; $index < count($ex_c_s_t); $index++) {
+                                for ($index = 0; $index < count($ex_c_s_t); $index++) 
+                                {
                                     $ex_explode=explode('!',$ex_c_s_t[$index]);
-                                    $tot_copy=$tot_copy.'<tr>
-                  <td style="font-size: 13pt;vertical-align: top">'.$c_sno;
-                                    $tot_copy=$tot_copy.'</td>
-                    <td >
-                        <div style="font-size: 13pt; " face="Times New Roman" >';
-                                    $ex_exp=  explode('~', $ex_explode[0]);
-                                    $tot_copy=$tot_copy. $ex_exp[1].' '. ucwords(strtolower($ex_exp[0])).' '.ucwords(strtolower($ex_exp[2]));
-                                    $tot_copy=$tot_copy.'</div>
-                        <div style="font-size: 13pt; " face="Times New Roman" >'.ucwords(strtolower($ex_explode[2])).', '.ucwords(strtolower($ex_explode[1])).'</div></td>
-              </tr>';
+                                    $tot_copy=$tot_copy.'<tr><td style="font-size: 13pt;vertical-align: top">'.$c_sno; $tot_copy=$tot_copy.'</td>
+                                    <td >
+                                        <div style="font-size: 13pt; " face="Times New Roman" >';
+                                        $ex_exp=  explode('~', $ex_explode[0]);
+                                        // $ex_exp1 = ($ex_exp[1]) ?? '';
+                                        // $ex_exp2 = ($ex_exp[2]) ?? '';
+                                        $tot_copy=$tot_copy. (isset($ex_exp[1]) ? $ex_exp[1] : '').' '. ucwords(strtolower($ex_exp[0])).' '.(isset($ex_exp[2]) ? ucwords(strtolower($ex_exp[2])) : '');
+                                        $tot_copy=$tot_copy.'</div>
+                                        <div style="font-size: 13pt; " face="Times New Roman" >'.ucwords(strtolower($ex_explode[2])).', '.ucwords(strtolower($ex_explode[1])).'</div></td>
+                                    </tr>';
                                     $c_sno++;
 
-                                }  $tot_copy=$tot_copy.'</table></div>';
+                                }  
+                                $tot_copy=$tot_copy.'</table></div>';
 
                             }
                             else
                             {
                                 $tot_copy='';
                             }
-                            if($ex_del_type=='H')
+
+                            if(isset($ex_del_type) &&  $ex_del_type=='H')
                             {
-                                if($notice_type!='63')
+                                if($notice_type != '63')
                                 {
-                                    $tot_copy=$tot_copy.'<p style="font-size: 13pt; " face="Times New Roman" > (*Copies of dasti notice are enclosed herewith. You are requested to file affidavit of service forthwith.) </p>';
+                                    $tot_copy = $tot_copy.'<p style="font-size: 13pt; " face="Times New Roman" > (*Copies of dasti notice are enclosed herewith. You are requested to file affidavit of service forthwith.) </p>';
                                 }
                             }
                         }
 
 
                         $v_cx++;
-                        $fn_del_type= $del_type[$dtc];
-
+                        $data['fn_del_type'] = $del_type[$dtc];
+                        $data['row'] = $row;
+                        $data['dairy_no'] = $diary_no;
+                        $data['res_fil_det'] = $res_fil_det;
+                        $data['case_range'] = $case_range;
+                        $data['reg_year'] = $reg_year;
+                        $data['pno'] = $pno;
+                        $data['rno'] = $rno;
+                        $data['tot_records'] = ($tot_records) ?? '';
+                        $data['tot_copy'] = $tot_copy;
+                        $data['ind_org'] = $ind_org;
+                        $data['tw_sn_to'] = $tw_sn_to;
+                        $data['address_m'] = $address_m;
+                        $data['district_nm'] = $district_nm;
+                        $data['state_nm'] = $state_nm;
+                        $data['tot_copy_send_to'] = $tot_copy_send_to;
 
                         switch ($n_ind_d)
                         {
-
-
                             case 1:
                                 include ('NoticeType/SLP(C)/returnable_notice.php');
                                 break;
@@ -886,7 +897,8 @@ $short_description_s='';
                                 include ('NoticeType/SLP(Crl)/92.php');
                                 break;
                             case 93:
-                                include ('NoticeType/SLP(Crl)/93.php');
+                                // include ('NoticeType/SLP(Crl)/93.php');
+                                echo view('NoticeType/SLP(Crl)/93.php', $data);
                                 break;
                             case 94:
                                 include ('NoticeType/SLP(Crl)/94.php');
@@ -946,7 +958,8 @@ $short_description_s='';
                                 include ('NoticeType/SLP(C)/111.php');
                                 break;
                             case 112:
-                                include ('NoticeType/SLP(C)/112.php');
+                                // include ('NoticeType/SLP(C)/112.php');
+                                echo view('NoticeType/SLP(C)/112.php', $data);
                                 break;
                             case 113:
                                 include ('NoticeType/SLP(C)/113.php');

@@ -1,7 +1,7 @@
 <?php
 $year = date('Y');
 $res_status = $officeReportModel->get_chk_status($diary_no);
-if (count($res_status) > 0) {
+if (!empty($res_status)) {
 
     $pno = '';
     $rno = '';

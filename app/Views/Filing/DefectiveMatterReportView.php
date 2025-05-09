@@ -61,8 +61,21 @@
   });
 
   $(document).on("click", "#btn1", function() {
+    var $btn = $(this);
+
+    // Check if button is already in processing state
+    if ($btn.data('processing')) {
+      return false;
+    }
+
+    // Set processing state
+    $btn.data('processing', true);
+    $btn.prop('disabled', true);
+    $btn.html('Processing...');
+
     var CSRF_TOKEN = 'CSRF_TOKEN';
     var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+
     $.ajax({
         type: 'POST',
         url: "<?php echo base_url('Filing/DefectiveMatter/GetDefectiveReport'); ?>",
@@ -77,13 +90,20 @@
         }
       })
       .done(function(msg) {
-        $("#result").html(msg);
         updateCSRFToken();
-
+        $("#result").html(msg);
+        
       })
       .fail(function() {
-        alert("ERROR, Please Contact Server Room");
         updateCSRFToken();
+        alert("ERROR, Please Contact Server Room");
+      })
+      .always(function() {
+        setTimeout(function() {
+          $btn.data('processing', false);
+          $btn.prop('disabled', false);
+          $btn.html('Submit');
+        }, 500); // 500ms delay
       });
   });
 </script>

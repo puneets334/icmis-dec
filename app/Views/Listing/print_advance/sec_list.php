@@ -129,7 +129,7 @@
         var board_type = $("#board_type").val();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
-        $.ajax({
+		$.ajax({
             url: "<?php echo base_url('Listing/PrintAdvance/sec_list_get'); ?>",
             cache: false,
             async: true,
@@ -142,15 +142,18 @@
             },
             beforeSend: function() {
                 $('#dv_res1').html('<table width="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>');
-            },
+                $('#btn1').attr('disabled','disabled');
+			},
  
             success: function(data, status) {
                 $('#dv_res1').html(data);
                 if (data)
                     $('#res_on_off').show();
+				$('#btn1').removeAttr('disabled');
             },
             error: function(xhr) {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
+				$('#btn1').removeAttr('disabled');
             }
         });
     }
@@ -163,6 +166,7 @@
         var board_type = $("#board_type").val();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+		
         $.ajax({
             // url: 'sec_list_save.php',
             url: "<?php echo base_url('Listing/PrintAdvance/sec_list_save'); ?>",
@@ -178,13 +182,16 @@
             },
             beforeSend: function() {
                 $('#res_loader').html('<table width="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>');
-            },
+                $('#ebublish').attr('disabled','disabled');
+			},
             success: function(data, status) {
-                $('#res_loader').html(`<h3 class="text-success">${data}</h3>`); // Template literals
+				$('#res_loader').html(`<h3 class="text-success">${data}</h3>`); // Template literals
                 alert(data);
+				$('#ebublish').removeAttr('disabled');
             },
             error: function(xhr) {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
+				$('#ebublish').removeAttr('disabled');
             }
         });
     });

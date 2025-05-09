@@ -65,7 +65,7 @@ class PrintWeekly extends BaseController
 
         // Define paths
         $timestamp = date('Y-m-d_H-i-s');
-        $baseDir = WRITEPATH . "judgment/causelist/{$list_dt}_{$list_dt_to}/";
+		$baseDir = FCPATH . "judgment/causelist/{$list_dt}_{$list_dt_to}/";
         $unpublishedDir = $baseDir . "Unpublished/";
 
         // Ensure directory exists
@@ -98,64 +98,6 @@ class PrintWeekly extends BaseController
             'message' => 'Cause List Un-Published Successfully. Please Publish / Merge again.'
         ]);
     }
-
-    public function cl_print_save_wk() {
-        $session = session();
-        $request = service('request');
-
-        // Retrieve user session ID
-        $ucode = $session->get('dcmis_user_idd') ?? $session->get('login')['usercode'];
-
-        // Get posted form data
-        $list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
-        $list_dt_to = date('Y-m-d', strtotime($request->getPost('list_dt_to')));
-        $courtno = $request->getPost('courtno');
-
-        if (!$list_dt || !$list_dt_to || !$courtno) {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid input data']);
-        }
-
-        // Get the base URL
-        $base_url = base_url(); 
-
-        // Replace "scilogo.png" with the full URL
-        $pdf_cont = str_replace("scilogo.png", 'scilogo.png', $request->getPost('prtContent'));
-
-        // Get the writable path for storing files (use WRITEPATH for CI writable folder)
-        $file_path = $courtno;
-        $path_dir = FCPATH . "wk/{$list_dt}_{$list_dt_to}/";  // Store in writable folder
-        
-        if (!file_exists($path_dir)) {
-            mkdir($path_dir, 0777, true);  // Create the directory if it doesn't exist
-        }
-
-        $data_file = $path_dir . $file_path . ".html";
-        $data_file1 = $path_dir . $file_path . ".pdf";
-        
-        // Initialize mPDF
-        $mpdf = new \Mpdf\Mpdf();
-
-        // Set mPDF settings
-        $mpdf->SetDisplayMode('fullpage');
-        $mpdf->showImageErrors = true;
-
-        // Write the HTML content to mPDF
-        $mpdf->WriteHTML($pdf_cont);
-
-        
-        // Define the output PDF file path
-        $data_file1 = $path_dir . $courtno . '.pdf';
-
-        // Output PDF to the file
-        $mpdf->Output($data_file1, \Mpdf\Output\Destination::FILE);  // Save as a file in the writable folder
-
-        return $this->response->setJSON([
-            'status' => 'success',
-            'message' => 'Cause List Ported/Published Successfully.',
-            'file_path' => base_url("public/wk/{$list_dt}_{$list_dt_to}").'/'.$file_path.'.pdf' 
-        ]);
-    }
-
 
     public function get_causelist_weekly_verify()
     {
@@ -207,6 +149,67 @@ class PrintWeekly extends BaseController
         return view('Listing/print_advance/get_causelist_weekly_verify_v2', $data);
     }
 
+   public function cl_print_save_wk() {
+        $session = session();
+        $request = service('request');
+
+        // Retrieve user session ID
+        $ucode = $session->get('dcmis_user_idd') ?? $session->get('login')['usercode'];
+
+        // Get posted form data
+        $list_dt = date('Y-m-d', strtotime($request->getPost('list_dt')));
+        $list_dt_to = date('Y-m-d', strtotime($request->getPost('list_dt_to')));
+        $courtno = $request->getPost('courtno');
+
+        if (!$list_dt || !$list_dt_to || !$courtno) {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Invalid input data']);
+        }
+		
+		$this->Heardt->s_crm( $list_dt,$list_dt_to, $courtno);
+		$this->Heardt->s_roster_weekly( $list_dt, $list_dt_to, $courtno, $ucode);
+		$pdf_cont = str_replace("scilogo.png", 'scilogo.png', $request->getPost('prtContent'));
+		
+		$path_dir = FCPATH . "judgment/cl/wk/{$list_dt}_{$list_dt_to}/";
+		if (!file_exists($path_dir)) {
+				mkdir($path_dir, 0777, true);
+		}
+		$file_path = $courtno;
+		$path=$path_dir;
+		$data_file= $path.$file_path.".html";
+		$data_file1= $path.$file_path.".pdf";
+		
+		if(file_exists("$data_file"))
+			unlink("$data_file");
+			touch("$data_file");
+			$fp=fopen($data_file,"w+");
+			fwrite($fp,$pdf_cont);
+		
+        
+        // Initialize mPDF
+        $mpdf = new \Mpdf\Mpdf();
+
+        // Set mPDF settings
+        $mpdf->SetDisplayMode('fullpage');
+        $mpdf->showImageErrors = true;
+
+        // Write the HTML content to mPDF
+        $mpdf->WriteHTML($pdf_cont);
+
+        
+        // Define the output PDF file path
+        $data_file1 = $path_dir . $courtno . '.pdf';
+
+        // Output PDF to the file
+        $mpdf->Output($data_file1, \Mpdf\Output\Destination::FILE);  // Save as a file in the writable folder
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Cause List Ported/Published Successfully.',
+            'file_path' => base_url("public/judgment/cl/wk/{$list_dt}_{$list_dt_to}").'/'.$file_path.'.pdf' 
+        ]);
+    }
+
+
     public function cl_print_save_wk_merge()
     {
         $session = session();
@@ -249,6 +252,16 @@ class PrintWeekly extends BaseController
 
         // Define output PDF file path
         $data_file1 = $path_dir . "weekly.pdf";
+        $data_file = $path_dir . "weekly.html";
+		
+		// Generate HTML File
+		if (file_exists("$data_file")){
+			unlink("$data_file");
+		}
+		
+		touch("$data_file");
+		$fp= fopen($data_file,"w+");
+		fwrite($fp, $pdf_cont);
 
         // Generate PDF using mPDF
         $mpdf = new \Mpdf\Mpdf();

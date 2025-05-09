@@ -195,7 +195,8 @@
     </div>
 </section>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function()
+    {
         $('input[required], select[required], textarea[required]').each(function() {
             var id = $(this).attr('id');
             if (id) {
@@ -291,6 +292,11 @@
         }
         if ($('#adv_aor').val() === '') {
             alert('Please Select AOR/NAOR');
+            $('#adv_aor').focus();
+        }
+
+        if ($('#adv_enroll_no').val() === '') {
+            alert('Please Select Enrollment No.');
             $('#adv_aor').focus();
         }
 

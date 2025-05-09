@@ -4,13 +4,13 @@ if (!empty($result) > 0) {
     <div class="table-responsive">
         <table id="get_filtrap_mon" class="table table-striped custom-table">
             <thead>
-            <tr>
-                <th>SNo.</th>
-                <th>User</th>
-                <th>Dispatched</th>
-                <th>Completed</th>
-                <th>Total Pending</th>
-            </tr>
+                <tr>
+                    <th>SNo.</th>
+                    <th>User</th>
+                    <th>Dispatched</th>
+                    <th>Completed</th>
+                    <th>Total Pending</th>
+                </tr>
             </thead>
             <tbody>
                 <?php
@@ -45,6 +45,35 @@ if (!empty($result) > 0) {
         "autoWidth": false,
         "dom": 'Bfrtip',
         "bProcessing": true,
-        "buttons": ["excel", "pdf"]
-    });
+        "buttons": [{
+                extend: "copy",
+                title: "CONSOLIDATED FILING-TRAP REPORT FOR\n(As on <?php echo date('d-m-Y'); ?>)"
+            },
+            {
+                extend: "csv",
+                title: "CONSOLIDATED FILING-TRAP REPORT FOR\n(As on <?php echo date('d-m-Y'); ?>)"
+            },
+            {
+                extend: "excel",
+                title: "CONSOLIDATED FILING-TRAP REPORT FOR\n(As on <?php echo date('d-m-Y'); ?>)"
+            },
+            {
+                extend: "pdfHtml5",
+                title: "CONSOLIDATED FILING-TRAP REPORT FOR\n(As on <?php echo date('d-m-Y'); ?>)",
+                customize: function(doc) {
+                    doc.content.splice(0, 0, {
+                        text: "CONSOLIDATED FILING-TRAP REPORT FOR\n(As on <?php echo date('d-m-Y'); ?>)",
+                        fontSize: 12,
+                        alignment: "center",
+                        margin: [0, 0, 0, 12]
+                    });
+                }
+            },
+            {
+                extend: "print",
+                title: "",
+                messageTop: "<h3 style='text-align:center;'>ADVOCATE ON RECORD NOT GO BEFORE JUDGE<br>(As on <?php echo date('d-m-Y'); ?>)</h3>"
+            }
+        ]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 </script>

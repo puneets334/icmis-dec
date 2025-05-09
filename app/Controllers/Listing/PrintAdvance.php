@@ -481,7 +481,7 @@ class PrintAdvance extends BaseController
         $prtContent = $this->removeIgnoreInPrintDiv($encprtContent);
 
         // Prepare the save path
-        $savePath = WRITEPATH . 'judgment/cl/vacation/' . $v_year . '/';
+        $savePath = FCPATH . 'judgment/cl/vacation/' . $v_year . '/';
         if (!is_dir($savePath)) {
             mkdir($savePath, 0777, true); // Create directory if it doesn't exist
         }
@@ -509,7 +509,7 @@ class PrintAdvance extends BaseController
                 //For lOcal Dir
                 //'filePath' => $filePath
                 // For Live Server dir
-                'filePath' => base_url('writable/judgment/cl/vacation/' . $fileName)
+                'filePath' => base_url('public/judgment/cl/vacation/' . $fileName)
             ]);
         } catch (\Exception $e) {
             return $this->response->setJSON([
@@ -1924,7 +1924,7 @@ class PrintAdvance extends BaseController
 
     public function previousClWll()
     {
-        $path_dir = WRITEPATH . 'judgment/cl/wk/';
+        $path_dir = FCPATH . 'judgment/cl/wk/';
         $weekly_files = [];
 
         if (is_dir($path_dir)) {
@@ -2479,12 +2479,11 @@ class PrintAdvance extends BaseController
 
         // Fetch Data
         $results = $this->Heardt->getSectionList($listDate, $mainhead, $boardType);
-
+		
         // Define File Path
-        $pathDir = WRITEPATH . "sectionlist/{$listDate}";
+        $pathDir = FCPATH . "sectionlist/{$listDate}";
         $filePath = "{$pathDir}/sectionlist_M_{$boardType}_{$listDate}.html";
-
-        // Ensure Directory Exists
+       // Ensure Directory Exists
         if (!is_dir($pathDir)) {
             mkdir($pathDir, 0777, true);
         }
@@ -2498,15 +2497,19 @@ class PrintAdvance extends BaseController
                 'board_type' => $boardType,
                 'filePath'   => $filePath
             ];
-
+			
+         $data['model'] = $this->Heardt;   
             return view('Listing/print_advance/sec_list_get', $data);
         } else {
-            return $this->response->setJSON([
-                'status'  => 'error',
-                'message' => 'Section list file already exists.',
-                'file'    => $filePath
-            ]);
-        }
+			$data = [
+                'list_date'  => $listDate,
+                'results'    => $results,
+                'mainhead'   => $mainhead,
+                'board_type' => $boardType,
+                'filePath'   => $filePath
+            ];
+		  return view('Listing/print_advance/sec_list_get', $data);
+		}
     }
 
 
@@ -2535,7 +2538,7 @@ class PrintAdvance extends BaseController
 
         $printContent = $pubTime . $request->getPost('prtContent');
         $filePath = "sectionlist_{$mainhead}_{$boardType}_{$listDt}.html";
-        $pathDir = WRITEPATH . "sectionlist/{$listDt}/";
+        $pathDir = FCPATH . "sectionlist/{$listDt}/";
 
         if (!is_dir($pathDir)) {
             mkdir($pathDir, 0777, true);

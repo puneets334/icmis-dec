@@ -27,10 +27,10 @@ $(document).ready(function () {
 
       $("#append_data").append(
         '<p id="dvytr_' +
-          sp_idd[1] +
-          '" style="margin-top:0px;text-align:center;">' +
-          sp_dname +
-          "</p>"
+        sp_idd[1] +
+        '" style="margin-top:0px;text-align:center;">' +
+        sp_dname +
+        "</p>"
       );
     } else if ($(this).is(":not(:checked)")) {
       $("#dvytr_" + sp_idd[1]).remove();
@@ -69,8 +69,8 @@ $(document).ready(function () {
         connected_case: connected_case
       },
       headers: {
-        'X-CSRF-Token': CSRF_TOKEN_VALUE  
-         },
+        'X-CSRF-Token': CSRF_TOKEN_VALUE
+      },
 
       type: "POST",
       success: function (data, status) {
@@ -100,10 +100,10 @@ function get_report_type(ddl_nature) {
     async: true,
     data: { ddl_nature: ddl_nature },
     headers: {
-      'X-CSRF-Token': CSRF_TOKEN_VALUE  
-       },
+      'X-CSRF-Token': CSRF_TOKEN_VALUE
+    },
     type: "POST",
-    
+
     success: function (data, status) {
       updateCSRFToken();
       $("#ddl_rt").html(data);
@@ -111,7 +111,7 @@ function get_report_type(ddl_nature) {
     error: function (xhr) {
       updateCSRFToken();
       alert("Error: " + xhr.status + " " + xhr.statusText);
-      
+
     },
   });
 }
@@ -153,10 +153,10 @@ function get_report() {
     url: baseURL + "/Filing/OfficeReport/get_office_report",
     //cache: false,
     //async: true,
-    data: { d_no: t_h_cno, d_yr: t_h_cyt, ddl_rt: ddl_rt,CSRF_TOKEN: CSRF_TOKEN_VALUE },
+    data: { d_no: t_h_cno, d_yr: t_h_cyt, ddl_rt: ddl_rt, CSRF_TOKEN: CSRF_TOKEN_VALUE },
     headers: {
-      'X-CSRF-Token': CSRF_TOKEN_VALUE  
-       },
+      'X-CSRF-Token': CSRF_TOKEN_VALUE
+    },
     beforeSend: function () {
       $("#div_result").html(
         '<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>'
@@ -164,56 +164,58 @@ function get_report() {
     },
     type: "POST",
     success: function (data) {
-      updateCSRFToken();
+     // updateCSRFToken();
       $("#div_result").html(data);
       $("#btn_publish").css("display", "inline");
-	  setTimeout(function () {
-		get_ia(t_h_cno,t_h_cyt);
-	   },2000);
+      // setTimeout(function () {
+        get_ia(t_h_cno, t_h_cyt);
+     // }, 2000);
     },
     error: function (xhr) {
-      updateCSRFToken();
+     // updateCSRFToken();
       alert("Error: " + xhr.status + " " + xhr.statusText);
-	  setTimeout(function () {
-		get_ia(t_h_cno,t_h_cyt);
-	   },2000);
+      //setTimeout(function () {
+        get_ia(t_h_cno, t_h_cyt);
+      //}, 2000);
     },
   });
-
-
-
   return;
 }
 
 
-function get_ia(t_h_cno,t_h_cyt)
-{
-	  //alert("hello!!. this is javascript");
- var CSRF_TOKEN = 'CSRF_TOKEN';
+ async function get_ia(t_h_cno, t_h_cyt) {
+  await updateCSRFTokenSync();
+  var CSRF_TOKEN = 'CSRF_TOKEN';
   var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
   $.ajax({
     url: baseURL + "/Filing/OfficeReport/get_ia",
     cache: false,
     async: true,
-    data: { d_no: t_h_cno, d_yr: t_h_cyt,CSRF_TOKEN: CSRF_TOKEN_VALUE },
+    data: { d_no: t_h_cno, d_yr: t_h_cyt, CSRF_TOKEN: CSRF_TOKEN_VALUE },
     headers: {
-      'X-CSRF-Token': CSRF_TOKEN_VALUE  
-       },
+      'X-CSRF-Token': CSRF_TOKEN_VALUE
+    },
     beforeSend: function () {
-      // $('#new_ia').html('<table widht="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
+      $('#sub').prop('disabled', true);
     },
     type: "POST",
     success: function (data, status) {
       updateCSRFToken();
       $("#tb_docdetails1").html(data);
-      // $('#btn_publish').css('display','inline');
+
+      // Re-enable the submit button
+      $('#sub').prop('disabled', false);
     },
     error: function (xhr) {
       updateCSRFToken();
       alert("Error: " + xhr.status + " " + xhr.statusText);
+
+      // Re-enable the submit button
+      $('#sub').prop('disabled', false);
     },
   });
 }
+
 
 
 function save_off_report() {
@@ -270,10 +272,10 @@ function save_off_report() {
       // WinPrint.document.write($('#pnt_rec').html())
       WinPrint.document.write(
         '<link rel="stylesheet" href="../css/menu_css.css">' +
-          "<style>" +
-          $("#pnt_rec").html() +
-          "</style>" +
-          prtContent.innerHTML
+        "<style>" +
+        $("#pnt_rec").html() +
+        "</style>" +
+        prtContent.innerHTML
       );
       WinPrint.print();
       get_report();
