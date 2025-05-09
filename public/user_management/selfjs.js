@@ -383,11 +383,11 @@ $(function () {
             }
         });
     });
-
-
+        
     //****** role Management *******//
     $('#addNewrole').submit(function(e){
         e.preventDefault();
+        
         var selected_smenus="", data_form, action='createRole', submitBtnType='', roleMid='';
         submitBtnType=$("input[type='submit']").val(), roleMid=$('#roleMid').val();
         data_form=new FormData(this);
@@ -395,10 +395,12 @@ $(function () {
             action='updateRole';
             data_form.append('roleMid',roleMid);
         }
-        data_form.append('action',action);
-        $.each($("input[name='menuIds']:checked"), function(){  
+        data_form.append('action',action);       
+        
+        $.each($(".tree.well input[name='menuIds']:checked"), function(){  
             selected_smenus += $(this).val()+',';  
         });
+        
 
         data_form.append('menuIds',selected_smenus);
         if (selected_smenus) {
