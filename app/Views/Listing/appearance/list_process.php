@@ -2,13 +2,15 @@
 
 <?php
 
-$title = "APPEARANCE REPORT FOR CAUSE LIST DATE " . $list_date_ymd . ' COURT NO. ' . $courtno . " (As on " . date('d-m-Y H:i:s') . ")";
+//$title = "APPEARANCE REPORT FOR CAUSE LIST DATE " . $list_date_ymd . ' COURT NO. ' . $courtno . " (As on " . date('d-m-Y H:i:s') . ")";
+
+$title = "APPEARANCE REPORT FOR CAUSE LIST DATE ".$list_date_ymd.' COURT NO. '. ($courtno == '21' ? 'Registrar Court' : $courtno) ." (As on ".date('d-m-Y H:i:s').")";
 
 if (count($result) > 0) {
 ?>
 
     <div class="table-responsive">
-        <h2><?= $title ?></h2>
+        <h2 style="text-align: center;"><?= $title ?></h2>
         <table class="table table-striped custom-table" id="tab">
             <thead>
                 <tr>
