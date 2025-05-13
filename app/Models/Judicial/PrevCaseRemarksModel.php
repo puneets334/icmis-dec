@@ -46,7 +46,7 @@ class PrevCaseRemarksModel extends Model
         ->where('side', 'D')
         ->where('display', 'Y')
         ->whereNotIn('sno', [
-            33, 42, 144, 163, 164, 40, 167, 29, 37, 31, 78, 73, 134, 168, 43, 41,
+            33, 42, 144, 163, 164, 40, 167, 29, 37, 31, 78, 73, 168, 43, 41,
             166, 169, 161, 160, 44, 173, 45, 187, 165, 34
         ])
         ->orderBy('(CASE WHEN sno IN (134, 144, 27, 28, 30, 36) THEN 0 ELSE 1 END) ASC')  // Replacing IF() with CASE
@@ -162,7 +162,9 @@ class PrevCaseRemarksModel extends Model
                     ->where('(lh.diary_no)::text !=', 'lh.conn_key')
             )
             ->join('main m', 'm.diary_no = h.diary_no')
+            ->join('conct ct', 'm.diary_no = ct.diary_no and ct.list=\'Y\'', 'LEFT')
             ->orderBy('CASE WHEN m.conn_key = (h.diary_no)::text THEN \'0\' ELSE 99 END', 'ASC')
+            ->orderBy('CASE WHEN ct.ent_dt is not null THEN ct.ent_dt ELSE 99 END', 'ASC')
             ->orderBy('CAST(SUBSTRING(m.diary_no::text FROM LENGTH(m.diary_no::text) - 3 FOR 4) AS INTEGER)', 'ASC')
             ->orderBy('CAST(SUBSTRING(m.diary_no::text FROM 1 FOR LENGTH(m.diary_no::text) - 4) AS INTEGER)', 'ASC');
 
@@ -1657,14 +1659,16 @@ class PrevCaseRemarksModel extends Model
                 $result = $query->getResultArray();
                 $mul_category = "";
                 foreach ($result as $row2) {
-                    if ($row2['subcode1'] > 0 and $row2['subcode2'] == 0 and $row2['subcode3'] == 0 and $row2['subcode4'] == 0)
-                        $category_nm =  $row2['sub_name1'];
-                    elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] == 0 and $row2['subcode4'] == 0)
-                        $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name4'];
-                    elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] > 0 and $row2['subcode4'] == 0)
-                        $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name2'] . " : " . $row2['sub_name4'];
-                    elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] > 0 and $row2['subcode4'] > 0)
-                        $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name2'] . " : " . $row2['sub_name3'] . " : " . $row2['sub_name4'];
+                    // if ($row2['subcode1'] > 0 and $row2['subcode2'] == 0 and $row2['subcode3'] == 0 and $row2['subcode4'] == 0)
+                    //     $category_nm =  $row2['sub_name1'];
+                    // elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] == 0 and $row2['subcode4'] == 0)
+                    //     $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name4'];
+                    // elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] > 0 and $row2['subcode4'] == 0)
+                    //     $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name2'] . " : " . $row2['sub_name4'];
+                    // elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] > 0 and $row2['subcode4'] > 0)
+                    //     $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name2'] . " : " . $row2['sub_name3'] . " : " . $row2['sub_name4'];
+
+                    $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name4'];
 
                     if ($mul_category == '') {
                         $mul_category = $category_nm;
@@ -1672,7 +1676,7 @@ class PrevCaseRemarksModel extends Model
                         $mul_category = $mul_category . ',<br> ' . $category_nm;
                     }
 
-                    $id=$row2['id'];
+                    $id=$row2['category_sc_old'];
                 }
             }
         }
