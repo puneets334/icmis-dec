@@ -164,7 +164,7 @@ class PrevCaseRemarksModel extends Model
             ->join('main m', 'm.diary_no = h.diary_no')
             ->join('conct ct', 'm.diary_no = ct.diary_no and ct.list=\'Y\'', 'LEFT')
             ->orderBy('CASE WHEN m.conn_key = (h.diary_no)::text THEN \'0\' ELSE 99 END', 'ASC')
-            ->orderBy('CASE WHEN ct.ent_dt is not null THEN ct.ent_dt ELSE 99 END', 'ASC')
+            ->orderBy('CASE WHEN ct.ent_dt is not null THEN ct.ent_dt ELSE NULL END', 'ASC', false)
             ->orderBy('CAST(SUBSTRING(m.diary_no::text FROM LENGTH(m.diary_no::text) - 3 FOR 4) AS INTEGER)', 'ASC')
             ->orderBy('CAST(SUBSTRING(m.diary_no::text FROM 1 FOR LENGTH(m.diary_no::text) - 4) AS INTEGER)', 'ASC');
 
