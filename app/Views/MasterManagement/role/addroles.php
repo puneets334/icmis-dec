@@ -138,7 +138,7 @@ div.dataTables_wrapper .dt-buttons.btn-group {
                                                         <div class="col-md-12">
                                                             <div class="input-group row">
                                                                 <span class="input-group-addon col-md-2">Role's Caption</span>
-                                                                <input id="rcaption" name="rcaption" type="text" class="form-control col-md-10" value="<?php echo $rHeading ?>" placeholder="Enter role's caption" required>
+                                                                <input id="rcaption" name="rcaption" type="text" class="form-control col-md-10" value="<?php echo $rHeading ?>" maxlength="50" placeholder="Enter role's caption" required>
                                                             </div>
                                                         </div>
 
