@@ -386,17 +386,20 @@ $(function () {
         
     //****** role Management *******//
     $('#addNewrole').submit(function(e){
-        e.preventDefault();
-        
+        e.preventDefault();        
         var selected_smenus="", data_form, action='createRole', submitBtnType='', roleMid='';
         submitBtnType=$("input[type='submit']").val(), roleMid=$('#roleMid').val();
         data_form=new FormData(this);
+        let checkedCount = $('input[name="menuIds"]:checked').length;
+        if(checkedCount == 21){
+            alert("Please select atleast one value in rolelist");
+            return false;
+        }
         if(submitBtnType=='Update') {
             action='updateRole';
             data_form.append('roleMid',roleMid);
         }
-        data_form.append('action',action);       
-        
+        data_form.append('action',action);
         $.each($(".tree.well input[name='menuIds']:checked"), function(){  
             selected_smenus += $(this).val()+',';  
         });
