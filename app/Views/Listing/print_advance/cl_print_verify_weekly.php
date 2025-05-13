@@ -73,6 +73,7 @@
                                                     <label for="listing_dts" class="form-label">From</label>
                                                     <select class="form-select select-box" name="listing_dts" id="listing_dts">
                                                         <option value="-1" selected>SELECT</option>
+                                                        <option value="2025-03-25">25-03-2025</option>
                                                         <?php if (!empty($dates)) : ?>
                                                             <?php foreach ($dates as $date) : ?>
                                                                 <option value="<?= $date['next_dt']; ?>"><?= date("d-m-Y", strtotime($date['next_dt'])); ?></option>
@@ -86,6 +87,7 @@
                                                     <label for="listing_dts_to" class="form-label">To</label>
                                                     <select class="form-select select-box" name="listing_dts_to" id="listing_dts_to">
                                                         <option value="-1" selected>SELECT</option>
+                                                        <option value="2025-03-25">25-03-2025</option>
                                                         <?php if (!empty($dates)) : ?>
                                                             <?php foreach ($dates as $date) : ?>
                                                                 <option value="<?= $date['next_dt']; ?>"><?= date("d-m-Y", strtotime($date['next_dt'])); ?></option>
