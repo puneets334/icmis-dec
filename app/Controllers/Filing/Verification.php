@@ -265,8 +265,7 @@ class Verification extends BaseController
         if ($sql_q->getNumRows() > 0) {
             $row = $sql_q->getRow();
             $result_casetype = $row->casetype_id;
-            $check_section = $db->query("SELECT * 
-                                   FROM master.users u 
+            $check_section = $db->query("SELECT * FROM master.users u 
                                    JOIN master.usersection us ON u.section = us.id 
                                    WHERE u.usercode = '$ucode' AND u.display = 'Y'");
 
