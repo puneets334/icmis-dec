@@ -477,12 +477,11 @@ class SCLSC_model extends Model
     public function getSubjectCategory($diaryNo)
     {
         // Prepare the SQL query with parameter binding
-        $sql = "
-        SELECT b.* 
-        FROM mul_category a 
-        INNER JOIN submaster b ON a.submaster_id = b.id 
-        WHERE a.diary_no = ? AND a.display = 'Y' AND b.display = 'Y' 
-        LIMIT 1";
+        $sql = "SELECT b.* 
+                FROM mul_category a 
+                INNER JOIN submaster b ON a.submaster_id = b.id 
+                WHERE a.diary_no = ? AND a.display = 'Y' AND b.display = 'Y' 
+                LIMIT 1";
         // Execute the query with parameter binding
         $query = $this->sci_cmis_final_77->query($sql, [$diaryNo]);
         // Return the result as an array
