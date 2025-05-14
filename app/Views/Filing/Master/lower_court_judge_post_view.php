@@ -36,7 +36,6 @@
                                     <div class="tab-content">
                                         <div class="active tab-pane">
                                             <span class="alert-danger"><?= \Config\Services::validation()->listErrors() ?></span>
-                                            <span class="alert-danger"><?= \Config\Services::validation()->listErrors() ?></span>
 
                                             <?php if (session()->getFlashdata('error')) { ?>
                                                 <div class="alert alert-danger text-white ">
