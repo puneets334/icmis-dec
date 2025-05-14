@@ -97,7 +97,6 @@
                                                     <select class="ele" name="board_type" id="board_type">
                                                         <option value="0">-ALL-</option>
                                                         <option value="J">Court</option>
-                                                        <option value="S">Single Judge</option>
                                                         <option value="C">Chamber</option>
                                                         <option value="R">Registrar</option>
                                                     </select>
@@ -261,8 +260,7 @@
             async: true,
             beforeSend: function() {
                 $('#dv_res1').html('<table width="100%" align="center"><tr><td class="text-center"><img src="<?php echo base_url('images/load.gif'); ?>"/></td></tr></table>');
-                 $('#btn1').attr('disabled','disabled');
-		   },
+            },
             success: function(data, status) {
                 updateCSRFToken(); 
                 $('#dv_res1').html(''); 
@@ -276,12 +274,10 @@
                     // Optional: Implement additional logic, e.g., show PDF preview
                     // Example: $('#res_on_off').show();
                 }
-				$('#btn1').removeAttr('disabled');
             },
             error: function(xhr) {
                 updateCSRFToken(); // Update the CSRF token on error as well
                 alert("Error: " + xhr.status + " " + xhr.statusText); // Error handling
-				$('#btn1').removeAttr('disabled');
             }
         });
         updateCSRFToken();
