@@ -72,14 +72,14 @@ if($check_if_fil_user > 0 ){
                                                 <div class="col-12 col-sm-12 col-md-4 col-lg-4">
                                                     <div class="form-group row clearfix">
                                                         <label class="col-form-label"><strong>From Diary No.</strong></label>
-                                                        <input type="text" class="form-control frmCpy" id="dno" onkeyup="copyFrom(this);" name="dno" placeholder="Enter From Diary Number">
+                                                        <input type="text" class="form-control frmCpy" id="dno" onblur="copyFrom(this);" name="dno" placeholder="Enter From Diary Number">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-12 col-sm-12 col-md-4 col-lg-4">
                                                     <div class="form-group row clearfix">
                                                         <label class="col-form-label"><strong>From Year</strong></label>
-                                                        <input type="text" class="form-control frmCpy" id="dyr" name="dyr" onkeyup="copyFrom(this);" placeholder="Enter From Year">
+                                                        <input type="text" class="form-control frmCpy" id="dyr" name="dyr" onblur="copyFrom(this);" placeholder="Enter From Year">
                                                     </div>
                                                 </div>
 
@@ -92,7 +92,7 @@ if($check_if_fil_user > 0 ){
                                                     <div class="form-group row clearfix">
                                                         <label class="col-form-label"><strong>To Diary No.</strong></label>
 
-                                                        <input type="text" class="form-control toCpy" id="dno1" name="dno1" onkeyup="copyTo(this);" placeholder="Enter To Diary Number">
+                                                        <input type="text" class="form-control toCpy" id="dno1" name="dno1" onblur="copyTo(this);" placeholder="Enter To Diary Number">
 
                                                     </div>
                                                 </div>
@@ -101,7 +101,7 @@ if($check_if_fil_user > 0 ){
                                                     <div class="form-group row clearfix">
                                                         <label class="col-form-label"><strong>To Year</strong></label>
 
-                                                        <input type="text" class="form-control toCpy" id="dyr1" name="dyr1" onkeyup="copyTo(this);" placeholder="Enter Enter To Year">
+                                                        <input type="text" class="form-control toCpy" id="dyr1" name="dyr1" onblur="copyTo(this);" placeholder="Enter Enter To Year">
 
                                                     </div>
                                                 </div>

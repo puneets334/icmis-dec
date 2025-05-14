@@ -72,7 +72,7 @@
 
                                                 <div class="col-md-3">
                                                     <label>Reason to Block the Case</label>
-                                                    <input type="text" class="form-control" id="bl_reason" placeholder="Reason">
+                                                    <input type="text" class="form-control" maxlength="100" id="bl_reason" placeholder="Reason">
                                                 </div>
 
                                                 <div class="col-md-3 ">

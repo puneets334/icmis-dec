@@ -8,180 +8,187 @@
                 color: #fff !important;
                 white-space: nowrap;
             }
+
+            #grid thead th {
+                pointer-events: none !important;
+                cursor: default !important;
+            }
         </style>
-        <table class="table table-striped custom-table" id="grid">
-            <thead>
-                <tr>
-                    <th>SNo.</th>
-                    <th>Diary No.</th>
-                    <th>Case No.</th>
-                    <th>Issue Date</th>
-                    <th> Prepared By</th>
-                    <th> Published By</th>
-                    <th>Notice Type</th>
-                    <th>Process Id</th>
-                    <th> Name</th>
-                    <th>Address</th>
-                    <th>Mode</th>
-                    <th>Generate Notice</th>
-                    <th>Discard Notice</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $sno = 1;
-                $srlno = 1;
-                $cnt_diary = '';
-                $file_name = '';
-                foreach ($serve_status as $row) {
-                ?>
+        <div class="container-fluid">
+            <table id="grid" class="table table-striped custom-table">
+                <thead>
                     <tr>
-                        <?php
-                        if ($cnt_diary != $row['diary_no'] || $file_name != $row['notice_path']) {
-                        ?>
-                            <td rowspan="<?php echo $row['s'] ?>">
-                                <?php echo $srlno; ?>
-                            </td>
-
-                            <td rowspan="<?php echo $row['s'] ?>">
-                                <?php
-                                echo substr($row['diary_no'], 0, -4) . '-' . substr($row['diary_no'], -4);
-                                ?>
-                                <input type="hidden" name="hd_diary_no<?php echo $sno; ?>" id="hd_diary_no<?php echo $sno; ?>" value="<?php echo $row['diary_no']; ?>" />
-                                <input type="hidden" name="hd_rec_dt<?php echo $sno; ?>" id="hd_rec_dt<?php echo $sno; ?>" value="<?php echo $row['rec_dt']; ?>" />
-                            </td>
-                            <td rowspan="<?php echo $row['s'] ?>">
-                                <?php
-                                echo $row['reg_no_display'];
-                                ?>
-                            </td>
-                            <td rowspan="<?php echo $row['s'] ?>">
-                                <?php
-                                echo date('d-m-Y', strtotime($row['rec_dt']));
-                                ?>
-                            </td>
-
-                            <td rowspan="<?php echo $row['s'] ?>">
-
-                                <?php
-                                $user_id = $row['user_id'];
-                                $nn = is_data_from_table('master.users', ['usercode' => $user_id], 'name', '');
-                                echo $nn['name'] ?? '';
-                                ?>
-                            </td>
-                            <td rowspan="<?php echo $row['s'] ?>">
-
-                                <?php
-                                $published_by = $row['published_by'];
-                                $nn1 = is_data_from_table('master.users', ['usercode' => $published_by], 'name', '');
-                                echo $nn1['name'] ?? '';
-                                ?>
-                            </td>
-                        <?php
-                        } ?>
-                        <td>
-                            <?php echo $row['nt_type']; ?>
-                        </td>
-                        <td>
+                        <th>SNo.</th>
+                        <th>Diary No.</th>
+                        <th>Case No.</th>
+                        <th>Issue Date</th>
+                        <th> Prepared By</th>
+                        <th> Published By</th>
+                        <th>Notice Type</th>
+                        <th>Process Id</th>
+                        <th> Name</th>
+                        <th>Address</th>
+                        <th>Mode</th>
+                        <th>Generate Notice</th>
+                        <th>Discard Notice</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $sno = 1;
+                    $srlno = 1;
+                    $cnt_diary = '';
+                    $file_name = '';
+                    foreach ($serve_status as $row) {
+                    ?>
+                        <tr>
                             <?php
-                            echo $row['process_id'] . '/' . date('Y', strtotime($row['rec_dt']));
-                            ?>
-                            <div style="color: red">
-                                <?php
-                                if ($row['copy_type'] == 1) {
-                                    echo "Copy";
-                                }
-                                ?>
-                            </div>
-                        </td>
-                        <td>
-                            <?php
-
-                            if ($row['name'] != '' && $row['send_to_type'] == 0) {
-                                echo $row['name'];
-                            }
-                            if ($row['name'] != '' && $row['tw_sn_to'] != 0 && $row['send_to_type'] == 0) {
-                                echo "Through ";
-                            }
-                            if ($row['tw_sn_to'] != 0) {
-                                $send_to_name = send_to_name($row['send_to_type'], $row['tw_sn_to']);
-                            }
-                            echo $send_to_name ?? '';
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                            if ($row['address'] != '') {
-                                echo $row['address'];
-                            }
-                            $district = get_district($row['sendto_district']);
-                            $state = get_state($row['sendto_state']);
-                            echo $district . ' ' . $state;
-                            ?>
-                        </td>
-                        <td>
-                            <?php
-                            echo $row['del_type'];
-                            ?>
-                        </td>
-                        <?php
-                        $fil_nm = "../pdf_notices/" . $row['notice_path'];
-                        ?>
-                        <input type="hidden" name="hd_diary_no<?php echo $sno; ?>" id="hd_diary_no<?php echo $sno; ?>" value="<?php echo $row['diary_no']; ?>" />
-                        <input type="hidden" name="hd_rec_dt<?php echo $sno; ?>" id="hd_rec_dt<?php echo $sno; ?>" value="<?php echo $row['rec_dt']; ?>" />
-
-                        <input type="hidden" name="hd_fil_nm<?php echo $sno; ?>" id="hd_fil_nm<?php echo $sno; ?>" value="<?php echo $fil_nm; ?>" />
-                        <?php
-                        if ($row['dispatch_dt'] != '') {
-
-                            if ($cnt_diary != $row['diary_no'] || $file_name != $row['notice_path']) {
-                        ?>
-                                <td rowspan="<?php echo $row['s']; ?>">
-                                    <a href="<?php echo $fil_nm; ?>" target="popup"
-                                        onclick="window.open('<?php echo $fil_nm; ?>', 'popup', 'width=800,height=400'); return false;">
-                                        View Notice
-                                    </a>
-                                </td>
-
-                            <?php
-                            }
-                        } else {
-
                             if ($cnt_diary != $row['diary_no'] || $file_name != $row['notice_path']) {
                             ?>
                                 <td rowspan="<?php echo $row['s'] ?>">
-                                    <input type="button" name="btn_generate<?php echo $sno; ?>" id="btn_generate<?php echo $sno; ?>"
-                                        value="Generate" class="cl_generate" />
+                                    <?php echo $srlno; ?>
+                                </td>
+
+                                <td rowspan="<?php echo $row['s'] ?>">
+                                    <?php
+                                    echo substr($row['diary_no'], 0, -4) . '-' . substr($row['diary_no'], -4);
+                                    ?>
+                                    <input type="hidden" name="hd_diary_no<?php echo $sno; ?>" id="hd_diary_no<?php echo $sno; ?>" value="<?php echo $row['diary_no']; ?>" />
+                                    <input type="hidden" name="hd_rec_dt<?php echo $sno; ?>" id="hd_rec_dt<?php echo $sno; ?>" value="<?php echo $row['rec_dt']; ?>" />
+                                </td>
+                                <td rowspan="<?php echo $row['s'] ?>">
+                                    <?php
+                                    echo $row['reg_no_display'];
+                                    ?>
+                                </td>
+                                <td rowspan="<?php echo $row['s'] ?>">
+                                    <?php
+                                    echo date('d-m-Y', strtotime($row['rec_dt']));
+                                    ?>
+                                </td>
+
+                                <td rowspan="<?php echo $row['s'] ?>">
+
+                                    <?php
+                                    $user_id = $row['user_id'];
+                                    $nn = is_data_from_table('master.users', ['usercode' => $user_id], 'name', '');
+                                    echo $nn['name'] ?? '';
+                                    ?>
+                                </td>
+                                <td rowspan="<?php echo $row['s'] ?>">
+
+                                    <?php
+                                    $published_by = $row['published_by'];
+                                    $nn1 = is_data_from_table('master.users', ['usercode' => $published_by], 'name', '');
+                                    echo $nn1['name'] ?? '';
+                                    ?>
                                 </td>
                             <?php
-
-                            }
-                        }
-
-                        if ($cnt_diary != $row['diary_no'] || $file_name != $row['notice_path']) {
-                            ?>
-                            <td rowspan="<?php echo $row['s'] ?>">
-                                <input type="button" name="btn_back<?php echo $sno; ?>" id="btn_back<?php echo $sno; ?>"
-                                    value="Discard Notice" class="cl_back" />
+                            } ?>
+                            <td>
+                                <?php echo $row['nt_type']; ?>
                             </td>
-                        <?php
-                        }
-                        if ($cnt_diary != $row['diary_no'] || $file_name != $row['notice_path']) {
-                            $srlno++;
-                        }
+                            <td>
+                                <?php
+                                echo $row['process_id'] . '/' . date('Y', strtotime($row['rec_dt']));
+                                ?>
+                                <div style="color: red">
+                                    <?php
+                                    if ($row['copy_type'] == 1) {
+                                        echo "Copy";
+                                    }
+                                    ?>
+                                </div>
+                            </td>
+                            <td>
+                                <?php
 
-                        $sno++;
-                        $cnt_diary = $row['diary_no'];
-                        $file_name = $row['notice_path'];
+                                if ($row['name'] != '' && $row['send_to_type'] == 0) {
+                                    echo $row['name'];
+                                }
+                                if ($row['name'] != '' && $row['tw_sn_to'] != 0 && $row['send_to_type'] == 0) {
+                                    echo "Through ";
+                                }
+                                if ($row['tw_sn_to'] != 0) {
+                                    $send_to_name = send_to_name($row['send_to_type'], $row['tw_sn_to']);
+                                }
+                                echo $send_to_name ?? '';
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                if ($row['address'] != '') {
+                                    echo $row['address'];
+                                }
+                                $district = get_district($row['sendto_district']);
+                                $state = get_state($row['sendto_state']);
+                                echo $district . ' ' . $state;
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+                                echo $row['del_type'];
+                                ?>
+                            </td>
+                            <?php
+                            $fil_nm = "../pdf_notices/" . $row['notice_path'];
+                            ?>
+                            <input type="hidden" name="hd_diary_no<?php echo $sno; ?>" id="hd_diary_no<?php echo $sno; ?>" value="<?php echo $row['diary_no']; ?>" />
+                            <input type="hidden" name="hd_rec_dt<?php echo $sno; ?>" id="hd_rec_dt<?php echo $sno; ?>" value="<?php echo $row['rec_dt']; ?>" />
 
-                        ?>
-                    </tr>
-                <?php
+                            <input type="hidden" name="hd_fil_nm<?php echo $sno; ?>" id="hd_fil_nm<?php echo $sno; ?>" value="<?php echo $fil_nm; ?>" />
+                            <?php
+                            if ($row['dispatch_dt'] != '') {
 
-                }
-                ?>
-            </tbody>
-        </table>
+                                if ($cnt_diary != $row['diary_no'] || $file_name != $row['notice_path']) {
+                            ?>
+                                    <td rowspan="<?php echo $row['s']; ?>">
+                                        <a href="<?php echo $fil_nm; ?>" target="popup"
+                                            onclick="window.open('<?php echo $fil_nm; ?>', 'popup', 'width=800,height=400'); return false;">
+                                            View Notice
+                                        </a>
+                                    </td>
+
+                                <?php
+                                }
+                            } else {
+
+                                if ($cnt_diary != $row['diary_no'] || $file_name != $row['notice_path']) {
+                                ?>
+                                    <td rowspan="<?php echo $row['s'] ?>">
+                                        <input type="button" name="btn_generate<?php echo $sno; ?>" id="btn_generate<?php echo $sno; ?>"
+                                            value="Generate" class="cl_generate" />
+                                    </td>
+                                <?php
+
+                                }
+                            }
+
+                            if ($cnt_diary != $row['diary_no'] || $file_name != $row['notice_path']) {
+                                ?>
+                                <td rowspan="<?php echo $row['s'] ?>">
+                                    <input type="button" name="btn_back<?php echo $sno; ?>" id="btn_back<?php echo $sno; ?>"
+                                        value="Discard Notice" class="cl_back" />
+                                </td>
+                            <?php
+                            }
+                            if ($cnt_diary != $row['diary_no'] || $file_name != $row['notice_path']) {
+                                $srlno++;
+                            }
+
+                            $sno++;
+                            $cnt_diary = $row['diary_no'];
+                            $file_name = $row['notice_path'];
+
+                            ?>
+                        </tr>
+                    <?php
+
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
         <input type="hidden" name="hd_active_filez" id="hd_active_filez" />
         <input type="hidden" name="hd_fil_no_x" id="hd_fil_no_x" />
         <input type="hidden" name="hd_recdt" id="hd_recdt" />
@@ -196,20 +203,25 @@
 
     ?>
 </div>
-
 <script>
-   $(function() {
-    $("#grid").DataTable({
-        "responsive": false,
-        "lengthChange": false,
-        "autoWidth": false,
-        "buttons": [
-            {
+    $(function() {
+        // Initialize DataTable with ordering disabled
+        var table = $("#grid").DataTable({
+            responsive: false,
+            lengthChange: false,
+            autoWidth: false,
+            ordering: false, // Disable internal ordering
+            buttons: [{
                 extend: "print",
                 title: "",
                 messageTop: "<h3 style='text-align:center;'>ADVOCATE ON RECORD NOT GO BEFORE JUDGE<br>(As on <?php echo date('d-m-Y'); ?>)</h3>"
-            }
-        ]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-});
+            }]
+        });
+
+        // Append buttons to correct container
+        table.buttons().container().appendTo('#grid_wrapper .col-md-6:eq(0)');
+
+        // Disable pointer cursor and click events on headers
+        $('#grid thead th').css('pointer-events', 'none').css('cursor', 'default');
+    });
 </script>

@@ -48,7 +48,9 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('click', '#btn_submit', function () {
+    $(document).on('click', '#btn_submit', async function ()
+     {
+        await updateCSRFTokenSync();
         var ddl_court = $('#ddl_court').val();
         var ddl_st_agncy = $('#ddl_st_agncy').val();
         var ddl_bench = $('#ddl_bench').val();
