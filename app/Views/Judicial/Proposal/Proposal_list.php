@@ -48,7 +48,7 @@ $check_for_regular_case = "";
 
                                 <tr>
                                     <td style="width: 15%">Case Category</td>
-                                    <td><?php echo $mul_category; ?></td>
+                                    <td><?php echo '[' . $category_id . ']-' . $mul_category; ?></td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -351,7 +351,10 @@ $check_for_regular_case = "";
                                         onchange="checkFutureDate();checkInAdvance();" size="15">&nbsp;(dd-mm-yyyy)&nbsp;
                                     <!--[<font color="green">Tentative Date: <?php /*echo change_date_format($t_pdate) */ ?></font>]-->
                                 <?php
-                                } else {
+                                }  else if (($lo == '7' && $listorder == '0' && $editable == '1')  && in_array($ucode, explode(',', $result_array['always_allowed_users']))) { ?>
+                                    <input class="dtp" type="text" name="thdate" id="thdate" value="<?php echo $t_pdate; ?>"
+                                        onchange="checkFutureDate();checkInAdvance();" size="15">&nbsp;(dd-mm-yyyy)&nbsp;
+                                <?php } else {
 
                                 ?>
                                     <input class="dtp" type="text" name="thdate" id="thdate" value="<?php echo $t_pdate; ?>"
@@ -368,7 +371,7 @@ $check_for_regular_case = "";
 
                             }
                             ?>
-
+                            <input type="hidden" name="always_allowed_users" id="always_allowed_users" value='<?php echo $result_array['always_allowed_users']; ?>' />
                             <input type="hidden" name="thdate_h" id="thdate_h" value="<?php echo $pdate; ?>">
                             <input type="hidden" name="thdate_nm" id="thdate_nm" value="<?php echo $nextmonday; ?>">
 
@@ -413,7 +416,7 @@ $check_for_regular_case = "";
                     </tr>
                     <tr valign="top">
                         <td align="right">Case Category :</td>
-                        <td align="left" colspan="2"><?php echo $mul_category; ?></td>
+                        <td align="left" colspan="2"><?php echo '[' . $category_id . ']' . $mul_category; ?></td>
                     </tr>
                     <?php
                     $bf = "";
@@ -465,6 +468,12 @@ $check_for_regular_case = "";
                         </td>
                     </tr>
                     <!--purpose//-->
+                    <tr valign="top">
+                        <td align="center" colspan="3">
+                            <font color="red"> <b>*Note: Please ensure proper format while entering Statutory Remarks. It is advised to give space between words and after comma for separating words/ IA numbers etc.</font>
+                            </b>
+                        </td>
+                    </tr>
                     <tr valign="top">
                         <td align="right">
                             Statutory Information :
@@ -716,7 +725,7 @@ $(function() {
         } else
             document.getElementById('sj').value = 1;
 
-        var category = '<?php echo $mul_category; ?>';
+        var category = '<?php echo $category_id; ?>';
         if ((option == 'J' || option == 'S') && category == '') { //Condition modified by Preeti Agrawal on 17062022. Added condition for Single Judge also
             alert("Subject Category not updated. Hence, case cannot be proposed for listing in Hon'ble Court");
             document.getElementById('insert1').hidden = true;
@@ -752,7 +761,7 @@ $(function() {
         else
             document.getElementById('sj').value = 1;
 
-        var category = '<?php echo $mul_category; ?>';
+        var category = '<?php echo $category_id; ?>';
         if ((option == 'J' || option == 'S') && category == '') { //Condition modified by Preeti Agrawal on 17062022. Added condition for Single Judge also
             // alert("Subject Category not updated. Hence, case cannot be proposed for listing in Hon'ble Court");
             document.getElementById('insert1').hidden = true;
