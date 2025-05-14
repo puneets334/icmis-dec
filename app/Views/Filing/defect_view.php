@@ -348,7 +348,6 @@
             dataArr.push(defeId);
 
         })
-        // console.log(dataArr);
         bigdiv.each(function(v, k)
         {
             var remark = $(k).children().closest(".div2").children().closest('input').val();
@@ -359,8 +358,8 @@
             }
             dataArr1.push(remark)
         })
-        // console.log(dataArr);
-        if(dataArr !='') {
+
+        if(Array.isArray(dataArr) && dataArr.length > 0) {
 
             $.ajax({
                 type: "POST",

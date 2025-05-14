@@ -120,6 +120,14 @@ class Category extends BaseController
 
             $inserteddata = $this->Model_category->insertMulCategory($insert_nul_categoryarray);
         }
+        $subCategoryPost = $this->request->getPost('sub_category');
+        if ($subCategoryPost !== null && empty($subCategoryPost)) {
+            session()->setFlashdata("error", 'Kindly Select Sub-Category.');
+        }
+
+
+
+
         $data['main_categories'] = $this->Model_category->get_main_category_list();
         $data['fixed_for'] = $this->Dropdown_list_model->get_fixed_for_list();
         $data['keywords'] = get_from_table_json('ref_keyword', 'f', 'is_deleted');
