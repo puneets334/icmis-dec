@@ -151,7 +151,7 @@ class Model_case_status extends Model
         $builder1 = $this->db->table("mul_category" . $flag . " mc");
         $builder1->select("s.*");
         $builder1->join('master.submaster s', "mc.submaster_id=s.id");
-        $builder1->where('diary_no', $diary_no);
+        $builder1->where('CAST(diary_no AS TEXT)', $diary_no);
         $builder1->where('mc.display', 'Y');
         $query = $builder1->get();
 

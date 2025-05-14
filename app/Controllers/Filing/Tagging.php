@@ -148,7 +148,7 @@ class Tagging extends BaseController
         $builder1->select("pet_res_no,adv, advocate_id, pet_res,name,enroll_no,enroll_date, isdead,date_part('year', enroll_date) as eyear");
         $builder1->join('master.bar b', "a.advocate_id=b.bar_id");
         $builder1->whereIn('pet_res', ['P', 'R']);
-        $builder1->where('diary_no', $diary_no);
+        $builder1->where('CAST(diary_no AS TEXT)', $diary_no);
         $builder1->where('display', 'Y');
         $builder1->orderBy("pet_res,pet_res_no, pet_res_show_no ");
         $query = $builder1->get();
@@ -201,7 +201,7 @@ class Tagging extends BaseController
 {
     $builder1 = $this->db->table("heardt a");
     $builder1->select("to_char(a.next_dt,'DD-MM-YYYY') as next_dt, roster_id AS judgename1, judges, next_dt as nd1");
-    $builder1->where('diary_no', $diary_no);
+    $builder1->where('CAST(diary_no AS TEXT)', $diary_no);
     $builder1->where('next_dt > current_date');
     $builder1->where('roster_id > 0');
     $builder1->whereIn('main_supp_flag', ['1', '2']);
@@ -449,7 +449,7 @@ class Tagging extends BaseController
         $is_archived_flag = '';
         $data['section'] =  $data['old_category_name'] = '';
 
-        $main_table_data =  is_data_from_table('main', ['diary_no' => $diaryno_conn],  "pet_name,res_name,TO_CHAR(diary_no_rec_date, 'DD-MM-YYYY') as diary_no_rec_date", 'R');
+        $main_table_data =  is_data_from_table('main', ['CAST(diary_no AS TEXT)' => $diaryno_conn],  "pet_name,res_name,TO_CHAR(diary_no_rec_date, 'DD-MM-YYYY') as diary_no_rec_date", 'R');
         if (empty($main_table_data)) {
             $is_archived_flag = '_a';
             $main_table_data =  is_data_from_table('main_a', ['diary_no' => $diaryno_conn], "pet_name,res_name,TO_CHAR(diary_no_rec_date, 'DD-MM-YYYY') as diary_no_rec_date", 'R');
