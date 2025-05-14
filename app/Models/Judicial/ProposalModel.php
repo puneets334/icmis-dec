@@ -1359,14 +1359,16 @@ class ProposalModel extends Model
             $result = $query->getResultArray();
             $mul_category = "";
             foreach ($result as $row2) {
-                if ($row2['subcode1'] > 0 and $row2['subcode2'] == 0 and $row2['subcode3'] == 0 and $row2['subcode4'] == 0)
-                    $category_nm =  $row2['sub_name1'];
-                elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] == 0 and $row2['subcode4'] == 0)
-                    $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name4'];
-                elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] > 0 and $row2['subcode4'] == 0)
-                    $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name2'] . " : " . $row2['sub_name4'];
-                elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] > 0 and $row2['subcode4'] > 0)
-                    $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name2'] . " : " . $row2['sub_name3'] . " : " . $row2['sub_name4'];
+                // if ($row2['subcode1'] > 0 and $row2['subcode2'] == 0 and $row2['subcode3'] == 0 and $row2['subcode4'] == 0)
+                //     $category_nm =  $row2['sub_name1'];
+                // elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] == 0 and $row2['subcode4'] == 0)
+                //     $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name4'];
+                // elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] > 0 and $row2['subcode4'] == 0)
+                //     $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name2'] . " : " . $row2['sub_name4'];
+                // elseif ($row2['subcode1'] > 0 and $row2['subcode2'] > 0 and $row2['subcode3'] > 0 and $row2['subcode4'] > 0)
+                //     $category_nm =  $row2['sub_name1'] . " : " . $row2['sub_name2'] . " : " . $row2['sub_name3'] . " : " . $row2['sub_name4'];
+                    
+                $category_nm=  $row2['sub_name1']." : ".$row2['sub_name4'];
 
                 if ($mul_category == '') {
                     $mul_category = $category_nm;
@@ -1374,7 +1376,7 @@ class ProposalModel extends Model
                     $mul_category = $mul_category . ',<br> ' . $category_nm;
                 }
 
-                $id = $row2['id'];
+                $id = $row2['category_sc_old'];
             }
         }
 
@@ -2685,9 +2687,14 @@ class ProposalModel extends Model
             else
                 $output1 = "1|#|RIGHT DA|#|" . $row_lp123["dacode"];
         }
+
         //$users_to_ignore = array(1, 469, 742, 646, 613, 3633,559,1068,1485);
         // $users_to_ignore = array(1, 559,1485);
-        $users_to_ignore = array(1, 2229, 47, 770, 3564, 846, 1366, 1363, 586, 1224, 148, 2431, 723, 724, 109, 2977, 747, 742, 1504, 935, 9919, 49, 723, 757, 744, 94, 663, 722, 753, 985, 637, 10606, 10605, 12, 1169, 1206, 3623, 3625, 770, 9912, 9919, 9988, 633, 762, 10674, 10675, 10705, 10656, 10670, 10730, 10739, 3113, 10749); // 94 & 663 added on 22-12-2022 on suggetion of Preeti Agrawal
+        // $users_to_ignore = array(1, 2229, 47, 770, 3564, 846, 1366, 1363, 586, 1224, 148, 2431, 723, 724, 109, 2977, 747, 742, 1504, 935, 9919, 49, 723, 757, 744, 94, 663, 722, 753, 985, 637, 10606, 10605, 12, 1169, 1206, 3623, 3625, 770, 9912, 9919, 9988, 633, 762, 10674, 10675, 10705, 10656, 10670, 10730, 10739, 3113, 10749); // 94 & 663 added on 22-12-2022 on suggetion of Preeti Agrawal
+        
+        $result_array = $this->get_case_status_flag('tentative_listing_date');
+        $users_to_ignore = explode(',', $result_array['always_allowed_users']);
+
         $result_da = explode("|#|", $output1);
         $rmtable = "";
         //Added on 14.03.2019 by preeti to allow CM to change remarks for 2 days then DA for 3rd and 4th day and after that DMT or Listing Section
