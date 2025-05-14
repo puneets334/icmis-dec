@@ -5,6 +5,7 @@ $ifMain = 1;
 if ($ct != '')
 {
     $get_dno = $model->getDiaryNo($ct, $cn, $cy);
+   
     if (!empty($get_dno))
     {
         $get_dno = $get_dno;

@@ -466,7 +466,7 @@ WHERE EXTRACT(YEAR FROM next_dt) = EXTRACT(YEAR FROM DATE '$list_dt')
         $db = \Config\Database::connect();
         $builder = $db->table('master.sc_working_days');
         $builder->select('is_nmd');
-        $builder->where('working_date', $cldt); //vkg
+        $builder->where('working_date', $cldt);
         $builder->where('is_holiday', 0);
         $builder->where('display', 'Y');
         $query = $builder->get();
@@ -474,34 +474,75 @@ WHERE EXTRACT(YEAR FROM next_dt) = EXTRACT(YEAR FROM DATE '$list_dt')
         return $result;
     }
 
-    public function isNMDOne($cldt)
-    {
-        $sql = "SELECT CONCAT(p1, ',', p2, CASE WHEN p3 != 0 THEN CONCAT(',', p3) ELSE '' END) AS jcd,jg.p1,jg.p2,jg.p3,j.abbreviation, 
-                (SELECT CASE WHEN SNo = 1 THEN 15 ELSE 10 END AS old_limit
-                    FROM (SELECT ROW_NUMBER() OVER () AS SNo, s.* FROM master.sc_working_days s
-                        WHERE EXTRACT(WEEK FROM working_date) = EXTRACT(WEEK FROM DATE '$cldt')
-                        AND is_holiday = 0 
-                        AND is_nmd = 1 
-                        AND display = 'Y' 
-                        AND EXTRACT(YEAR FROM working_date) = EXTRACT(YEAR FROM DATE '$cldt')
-                        ORDER BY working_date
-                        ) a
-                    WHERE working_date = DATE '$cldt'
-                ) AS old_limit
-                FROM judge_group jg 
-                LEFT JOIN master.judge j ON j.jcode = jg.p1
-                WHERE jg.to_dt IS NULL 
-                AND jg.display = 'Y' 
-                AND j.is_retired != 'Y'
-                ORDER BY j.judge_seniority";
+    // public function isNMDOne($cldt)
+    // {
+    //     $sql = "SELECT CONCAT(p1, ',', p2, CASE WHEN p3 != 0 THEN CONCAT(',', p3) ELSE '' END) AS jcd,jg.p1,jg.p2,jg.p3,j.abbreviation, 
+    //             (SELECT CASE WHEN SNo = 1 THEN 15 ELSE 10 END AS old_limit
+    //                 FROM (SELECT ROW_NUMBER() OVER () AS SNo, s.* FROM master.sc_working_days s
+    //                     WHERE EXTRACT(WEEK FROM working_date) = EXTRACT(WEEK FROM DATE '$cldt')
+    //                     AND is_holiday = 0 
+    //                     AND is_nmd = 1 
+    //                     AND display = 'Y' 
+    //                     AND EXTRACT(YEAR FROM working_date) = EXTRACT(YEAR FROM DATE '$cldt')
+    //                     ORDER BY working_date
+    //                     ) a
+    //                 WHERE working_date = DATE '$cldt'
+    //             ) AS old_limit
+    //             FROM judge_group jg 
+    //             LEFT JOIN master.judge j ON j.jcode = jg.p1
+    //             WHERE jg.to_dt IS NULL 
+    //             AND jg.display = 'Y' 
+    //             AND j.is_retired != 'Y'
+    //             ORDER BY j.judge_seniority";
 
-        $query = $this->db->query($sql);
-        $results = $query->getResultArray();
-        if (empty($results)) {
-            return [];
-        }
-        return $results;
-    }
+    //     $query = $this->db->query($sql);
+    //     $results = $query->getResultArray();
+    //     if (empty($results)) {
+    //         return [];
+    //     }
+    //     return $results;
+    // }
+
+    public function isNMDOne($cldt)
+{
+    $db = \Config\Database::connect();
+    $subQuery = "
+        SELECT CASE WHEN SNo = 1 THEN 15 ELSE 10 END AS old_limit
+        FROM (
+            SELECT ROW_NUMBER() OVER () AS SNo, s.*
+            FROM master.sc_working_days s
+            WHERE EXTRACT(WEEK FROM working_date) = EXTRACT(WEEK FROM DATE '{$cldt}')
+              AND is_holiday = 0 
+              AND is_nmd = 1 
+              AND display = 'Y'
+              AND EXTRACT(YEAR FROM working_date) = EXTRACT(YEAR FROM DATE '{$cldt}')
+            ORDER BY working_date
+        ) a
+        WHERE working_date = DATE '{$cldt}'
+    ";
+
+    // Main query
+    $builder = $db->table('judge_group jg');
+    $builder->select("
+        CONCAT(p1, ',', p2, CASE WHEN p3 != 0 THEN CONCAT(',', p3) ELSE '' END) AS jcd,
+        jg.p1,
+        jg.p2,
+        jg.p3,
+        j.abbreviation,
+        ({$subQuery}) AS old_limit
+    ");
+    $builder->join('master.judge j', 'j.jcode = jg.p1', 'left');
+    $builder->where('jg.to_dt IS NULL');
+    $builder->where('jg.display', 'Y');
+    $builder->where('j.is_retired !=', 'Y');
+    $builder->orderBy('j.judge_seniority');
+
+    $query = $builder->get();
+    $results = $query->getResultArray();
+
+    return !empty($results) ? $results : [];
+}
+
 
     public function isNMDZero()
     {
