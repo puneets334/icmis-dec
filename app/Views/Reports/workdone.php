@@ -51,7 +51,7 @@
  												<div class="col-sm-12 col-md-3 mb-3">
  													<label for="From" class="col-form-label">FOR THE DATE OF</label>
 
- 													<input type="text" class="form-control dtp" id="date_for" name="date_for" placeholder="Select Date" required>
+ 													<input type="text" class="form-control dtp" autocomplete="off" id="date_for" name="date_for" placeholder="Select Date" required>
 
  												</div>
 
@@ -123,6 +123,7 @@
  						type: 'POST',
  						url: "<?php echo base_url('Reports/Filing/Report/ibget_workdone'); ?>",
  						beforeSend: function(xhr) {
+							$("#btnreport").prop("disabled",true);
  							$("#result_main").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
  						},
  						data: {
@@ -133,6 +134,7 @@
  					})
  					.done(function(msg_new) {
  						updateCSRFToken();
+						 $("#btnreport").prop("disabled",false);
  						$("#result_main").html(msg_new);
  					})
  					.fail(function() {

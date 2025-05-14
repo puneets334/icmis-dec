@@ -11,17 +11,19 @@ $(document).ready(function () {
             async: true,
             data: {CSRF_TOKEN: csrf,d_no: t_h_cno, d_yr: t_h_cyt},
             beforeSend: function () {
+                $("#sub").prop("disabled",true);
                 $('#div_result').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
             },
             type: 'POST',
             success: function (data, status) {
-
                 $('#div_result').html(data);
-				updateCSRFToken();
-
             },
-            error: function (xhr) {
+            complete: function () {
 				updateCSRFToken();
+                $("#sub").prop("disabled",false);
+            },
+            
+            error: function (xhr) {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
 

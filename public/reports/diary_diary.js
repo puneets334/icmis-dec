@@ -104,17 +104,21 @@ $(document).ready(function () {
                 ddl_ref_caseyr_nm: ddl_ref_caseyr_nm, CSRF_TOKEN: CSRF_TOKEN_VALUE
             },
             beforeSend: function () {
+                $("#btn_submit").prop("disabled",true);
                 $('#dv_result').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
             },
             type: 'POST',
             success: function (data, status) {
-                updateCSRFToken();
                 $("#printbutton").show();
                 $('#dv_result').html(data);
                 $('#btn_submit').attr('disabled', false);
             },
-            error: function (xhr) {
+            complete: function () {
                 updateCSRFToken();
+                $("#btn_submit").prop("disabled",false);
+
+            },
+            error: function (xhr) {
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
 

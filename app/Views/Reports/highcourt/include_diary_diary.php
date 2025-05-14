@@ -137,7 +137,7 @@ if (!empty($result)) {
             Diary No.
           </th>
           <th>
-            Petitioner<br />Vs<br />Respondent
+            Petitioner<br />Vs<br />Respondents
           </th>
           <th>
             From Court
@@ -211,4 +211,19 @@ if (!empty($result)) {
   <?php
 }
 ?>
+
  
+<script>
+    $(function() {
+        var table = $("#customers").DataTable({
+            "responsive": true,
+            "searching": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "pageLength": 20,
+            "processing": true,
+            "ordering": true,
+            "paging": true
+        });
+    });
+</script>
