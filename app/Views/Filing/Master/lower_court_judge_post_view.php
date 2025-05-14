@@ -67,9 +67,7 @@
 
                                                 <div class="col-sm-12 col-md-3 mb-3">
                                                     <label for="designation" class="">Designation<span class="text-red">*</span> :</label>
-                                                    <input type="text" class="form-control" id="designation" name="designation" value="<?php if (!empty($param) && $param['designation']) {
-                                                                                                                                            echo $param['designation'];
-                                                                                                                                        } ?>" onkeyup="this.value=this.value.replace(/[^a-z,^A-Z,&()-/.\s]/g,'');" placeholder="Enter designation" required>
+                                                    <input type="text" class="form-control" id="designation" name="designation" value="<?php if (!empty($param) && $param['designation']) {echo $param['designation'];} ?>" onkeyup="this.value=this.value.replace(/[^a-z,^A-Z,&()-/.\s]/g,'');" placeholder="Enter designation" required>
                                                 </div>
 
                                                 <div class="col-md-2">
@@ -98,20 +96,18 @@
                                                             </tr>
                                                         <?php } ?>
                                                     </tbody>
-
                                                 </table>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 </section>
 <script>
     $(function() {
