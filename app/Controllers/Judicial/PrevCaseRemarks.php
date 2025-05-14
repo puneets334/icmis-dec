@@ -1161,6 +1161,9 @@ class PrevCaseRemarks extends BaseController
         $results_od = $this->PrevCaseRemarksModel->getDocumentsFiled($diary_no);
         $data['results_od'] = $results_od;
 
+        $mul_category = $this->PrevCaseRemarksModel->get_mul_category($diary_no);
+        $data['mul_category'] = $mul_category;
+
         $results_conncases = $this->PrevCaseRemarksModel->get_conn_cases($diary_no);
         foreach ($results_conncases as $indexKey => $link) {        
             $results_conncases[$indexKey]['get_real_diaryno'] = get_real_diaryno($link['diary_no']);

@@ -183,10 +183,10 @@ $t_table = '';
                                     <td>
                                         <?php
                                         $case_category = "";
-                                        $mul_category = get_mul_category($diary_no);
+                                        // $mul_category = get_mul_category($diary_no);
                                         //echo $mul_category;
                                         if(!empty($mul_category)) {
-                                            echo $mul_category[0];
+                                            echo '['.$mul_category[1].']-'.$mul_category[0];
                                         }
                                         ?>
                                     </td>

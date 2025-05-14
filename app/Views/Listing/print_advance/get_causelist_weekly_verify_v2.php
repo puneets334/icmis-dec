@@ -166,7 +166,7 @@
                             <?php if(!empty($subheading != $subheading_rep)) {
                                 if ($jcd_rp !== "117,210" and $jcd_rp != "117,198") {
                                     echo "<tr><td colspan='4' style='font-size:12px; font-weight:bold; text-decoration:underline; text-align:center;'>" . $subheading . "</td></tr>";
-                                    $subheading_rep = $subheading;
+                                    $subheading_rep = @$subheading;
                                 }
                             } ?>
 
@@ -180,7 +180,7 @@
                                 // $print_brdslno = "&nbsp;".$detail["brd_slno"].".".++$con_no;
                                 $is_connected = "<span style='color:red;'>Connected</span><br/>";
                             }
-
+                            
                             $m_f_filno = $detail['active_fil_no'];
                             $m_f_fil_yr = $detail['active_reg_year'];
 
@@ -196,13 +196,14 @@
                             } else {
                                 $comlete_fil_no_prt = $detail['reg_no_display'];
                             }
+                            
                             if (!empty($detail['advocate'])):
                                foreach ($detail['advocate'] as $advocate): 
 
-                                    $radvname = strtoupper($advocate["r_n"]);
-                                    $padvname = strtoupper($advocate["p_n"]);
-                                    $impldname = strtoupper($advocate["i_n"]);
-                                    $intervenorname = strtoupper($advocate["intervenor"]);
+                                    $radvname = strtoupper($advocate["r_n"] ?? '');
+                                    $padvname = strtoupper($advocate["p_n"] ?? '');
+                                    $impldname = strtoupper($advocate["i_n"] ?? '');
+                                    $intervenorname = strtoupper($advocate["intervenor"] ?? '');
                                 endforeach;
                             endif;
                             if ($detail['pno'] == 2) {
@@ -219,6 +220,7 @@
                             } else {
                                 $res_name = $detail['res_name'];
                             }
+                            
                             if (($detail['section_name'] == null or $detail['section_name'] == '') and $detail['ref_agency_state_id'] != '' and $detail['ref_agency_state_id'] != 0) {
                                 if ($detail['active_reg_year'] != 0)
                                     $ten_reg_yr = $detail['active_reg_year'];

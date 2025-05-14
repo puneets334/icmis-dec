@@ -108,9 +108,45 @@ class CourtMasterModel extends Model
         }
 
     }
+	
+	function getBenchByJudgeModified($causelistDate, $pJudge, $main_head,$board_type){
+			$m_f=1;
+			if($main_head=='F'){
+				$m_f=2;
+			}
+			
+			if ($causelistDate == null) {
+                $causelistDate = date('Y-m-d');
+            }
+        
+			$causelistDate = date('Y-m-d', strtotime($causelistDate));
+			
+			$builder = $this->db->table('master.roster r');
+			$builder->distinct();
+			$builder->select('r.id as roster_id, session, r.frm_time, r.courtno');
+			$builder->join('master.roster_judge rj', 'r.id = rj.roster_id');
+			$builder->join('cl_printed cp', 'r.id = cp.roster_id');
+			$builder->join('master.roster_bench rb', 'r.bench_id = rb.id');
+			$builder->join('master.master_bench mb', 'rb.bench_id = mb.id');
+			
+			$builder->where('r.display', 'Y');
+			$builder->where('cp.display', 'Y');
+			$builder->where('mb.board_type_mb', $board_type);
+			$builder->where("r.m_f = CAST(" . $m_f . " AS TEXT)");
+			$builder->where('rj.judge_id', $pJudge);
+			$builder->where('cp.next_dt', $causelistDate);
+            $builder->where("((to_date IS NULL and from_date<='" . $causelistDate . "' ) or ('" . $causelistDate . "' between  from_date and to_date))");
+		    $query = $builder->get();
+			if ($query->getNumRows() > 0) {
+				return $query->getResultArray();
+			} else {
+				return [];
+			}
+	}
+	
+	
 
-    public function getCmNsh()
-    {
+    public function getCmNsh(){
 
         $builder = $this->db->table("master.users u");
         $builder->select("u.*");
@@ -1745,6 +1781,8 @@ class CourtMasterModel extends Model
                 
             }
         }
+		
+		
 
 
 

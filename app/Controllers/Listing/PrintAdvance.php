@@ -1826,7 +1826,7 @@ class PrintAdvance extends BaseController
         $final_supply = $request->getPost('final_supply');
 
         // Create the save path using WRITEPATH (a writable path defined in CI config)
-        $savePath = WRITEPATH . 'judgment/cl/' . $list_dt . '/';
+        $savePath = 'judgment/cl/' . $list_dt . '/';
 
         // Check if the directory exists, if not, create it
         if (!is_dir($savePath)) {
