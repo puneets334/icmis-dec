@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Filing;
 
 use CodeIgniter\Model;
@@ -13,25 +14,25 @@ class DefectModel extends Model
         $this->db = db_connect();
     }
 
-//public function get_defect_list($dataFind)
-//{
-//
-//     $builder = $this->db->table("main");
-//     $builder->select("pet_name,res_name,to_char(diary_no_rec_date,'dd-mm-yyyy') dt, case_grp,fil_no,c_status,casetype_id,dacode");
-//     $builder->where('diary_no',$dataFind);
-//     $query = $builder->get();
-//     $result = $query->getResultArray();
-//     return $result;
-//}
+    //public function get_defect_list($dataFind)
+    //{
+    //
+    //     $builder = $this->db->table("main");
+    //     $builder->select("pet_name,res_name,to_char(diary_no_rec_date,'dd-mm-yyyy') dt, case_grp,fil_no,c_status,casetype_id,dacode");
+    //     $builder->where('diary_no',$dataFind);
+    //     $query = $builder->get();
+    //     $result = $query->getResultArray();
+    //     return $result;
+    //}
 
     public function get_all_defect($old_defect)
     {
         //  print_r($old_defect);die;
 
         $eliminate_other_from_old_defect_array = array_diff($old_defect, array(302));
-//        echo "<pre>";
-//        print_r($eliminate_other_from_old_defect_array);
-//        die;
+        //        echo "<pre>";
+        //        print_r($eliminate_other_from_old_defect_array);
+        //        die;
         $builder = $this->db->table("master.objection");
         $builder->select("objcode org_id,objdesc obj_name,sideflg ci_cri");
         $builder->where('display', 'Y');
@@ -40,43 +41,41 @@ class DefectModel extends Model
         }            // $builder->whereNotIn('objcode', $old_defect);
         $builder->orderBy('defect_code_main', 'defect_code_sub', 'objdesc');
         $query = $builder->get();
-//           $query=$this->db->getLastQuery();echo (string) $query;exit();
+        //           $query=$this->db->getLastQuery();echo (string) $query;exit();
         $result = $query->getResultArray();
         return $result;
-
-
     }
     /*THIS METHOD IS NOT IN USE NOW  STARTING FROM LINE 45-58 */
-//    public function get_existing_otherdefect($diary_no)
-//    {
-//
-//        $builder = $this->db->table("obj_save a");
-//        $builder->select("diary_no,a.org_id,objdesc obj_name, rm_dt,remark, ARRAY_TO_STRING(ARRAY_AGG(mul_ent), ',') mul_ent");
-//        $builder->join('master.objection b', 'a.org_id = b.objcode', 'inner', false);
-//        $builder->where('diary_no', $diary_no)->where('a.org_id', '302')->where('a.display', 'Y');
-//        $builder->groupBy('diary_no,a.org_id, a.remark,b.objdesc,rm_dt,a.id');
-//        $builder->orderBy('id');
-//        $query = $builder->get();
-//        $result = $query->getResultArray();
-//        return $result;
-//
-//    }
+    //    public function get_existing_otherdefect($diary_no)
+    //    {
+    //
+    //        $builder = $this->db->table("obj_save a");
+    //        $builder->select("diary_no,a.org_id,objdesc obj_name, rm_dt,remark, ARRAY_TO_STRING(ARRAY_AGG(mul_ent), ',') mul_ent");
+    //        $builder->join('master.objection b', 'a.org_id = b.objcode', 'inner', false);
+    //        $builder->where('diary_no', $diary_no)->where('a.org_id', '302')->where('a.display', 'Y');
+    //        $builder->groupBy('diary_no,a.org_id, a.remark,b.objdesc,rm_dt,a.id');
+    //        $builder->orderBy('id');
+    //        $query = $builder->get();
+    //        $result = $query->getResultArray();
+    //        return $result;
+    //
+    //    }
 
 
-public function get_all_existing_defect($diary_no)
-{
-    $builder = $this->db->table("obj_save a");
-    $builder->select("a.diary_no, a.id, a.org_id, b.objdesc AS obj_name, a.rm_dt, a.remark, ARRAY_TO_STRING(ARRAY_AGG(a.mul_ent), ',') AS mul_ent");
-    $builder->join('master.objection b', 'a.org_id = b.objcode', 'inner', false);
-    $builder->where('a.diary_no', $diary_no);
-    $builder->where('a.display', 'Y');
-    $builder->groupBy('a.diary_no, a.org_id, a.remark, b.objdesc, a.rm_dt, a.id');
-    $builder->orderBy('a.id');
-    $query = $builder->get();
+    public function get_all_existing_defect($diary_no)
+    {
+        $builder = $this->db->table("obj_save a");
+        $builder->select("a.diary_no, a.id, a.org_id, b.objdesc AS obj_name, a.rm_dt, a.remark, ARRAY_TO_STRING(ARRAY_AGG(a.mul_ent), ',') AS mul_ent");
+        $builder->join('master.objection b', 'a.org_id = b.objcode', 'inner', false);
+        $builder->where('a.diary_no', $diary_no);
+        $builder->where('a.display', 'Y');
+        $builder->groupBy('a.diary_no, a.org_id, a.remark, b.objdesc, a.rm_dt, a.id');
+        $builder->orderBy('a.id');
+        $query = $builder->get();
 
-    $result = $query->getResultArray();
-    return $result;
-}
+        $result = $query->getResultArray();
+        return $result;
+    }
 
 
     public function navigate_diary($diary_no)
@@ -90,8 +89,6 @@ public function get_all_existing_defect($diary_no)
         //  $query=$this->db->getLastQuery();echo (string) $query;exit();
         $result = $query->getResultArray();
         return $result;
-
-
     }
 
     public function check_section($user)
@@ -103,10 +100,9 @@ public function get_all_existing_defect($diary_no)
         $builder->where('u.usercode', "'$user'", false)->where('us.isda', '\'Y\'', false)->where('u.display', '\'Y\'', false);
         // pr($builder->getCompiledSelect());
         $query = $builder->get();
-//    $query=$this->db->getLastQuery();echo (string) $query;exit();
+        //    $query=$this->db->getLastQuery();echo (string) $query;exit();
         $result = $query->getNumRows();
         return $result;
-
     }
 
     public function get_da($diary_no)
@@ -122,10 +118,9 @@ public function get_all_existing_defect($diary_no)
         if (count($result) > 0) {
             $da = $result[0]['dacode'];
             return $da;
-        }else{
+        } else {
             return 0;
         }
-
     }
 
     public function check_if_chamber_listed($diary_no)
@@ -177,34 +172,32 @@ public function get_all_existing_defect($diary_no)
         and diary_no='$diary_no')aa where next_dt in(select listing_date from defective_chamber_listing where display='Y')";
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
-//        echo $query->getNumRows();
-//        echo "ttt";
-//        echo $this->db->getLastQuery(); exit();
-        if($query->getNumRows() > 0)
-        {
+        //        echo $query->getNumRows();
+        //        echo "ttt";
+        //        echo $this->db->getLastQuery(); exit();
+        if ($query->getNumRows() > 0) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
-}
+    }
 
     public function check_if_listed($diary_no)
     {
-            $sql = "select min(next_dt) as next_dt
+        $sql = "select min(next_dt) as next_dt
                             from( select diary_no,next_dt from heardt where main_supp_flag in (1,2) and diary_no='$diary_no'
                             union select diary_no,next_dt from last_heardt where main_supp_flag in(1,2) and (bench_flag is null or bench_flag='')
                             and  diary_no='$diary_no') as aa where next_dt >= CURRENT_DATE ";
 
-            $query1 = $this->db->query($sql);
+        $query1 = $this->db->query($sql);
         $result = $query1->getResultArray();
-//           echo $this->db->getLastQuery(); exit();
-//        echo "<pre>";
-//        print_r($result);
-//        die;
-        if($result)
-        {
+        //           echo $this->db->getLastQuery(); exit();
+        //        echo "<pre>";
+        //        print_r($result);
+        //        die;
+        if ($result) {
             return $result[0];
-        }else{
+        } else {
             return 0;
         }
     }
@@ -217,18 +210,17 @@ public function get_all_existing_defect($diary_no)
         $builder->where('diary_no', $diary_no)->where('verification_status', '0');
         $query = $builder->get();
         $result = $query->getResultArray();
-//        echo $this->db->getLastQuery(); exit();
-//        echo $query->getNumRows();die;
-        if ($query->getNumRows() > 0)
-        {
-           return 1;
-        }else{
+        //        echo $this->db->getLastQuery(); exit();
+        //        echo $query->getNumRows();die;
+        if ($query->getNumRows() > 0) {
+            return 1;
+        } else {
             return 0;
         }
     }
 
 
-/*
+    /*
             if ($resultCheckIfListed[0]['next_dt']!=NULL &&  $resultCheckIfListed[0]['next_dt']!='')
             {
                 $check_if_listed = $resultCheckIfListed[0];
@@ -285,7 +277,7 @@ public function get_all_existing_defect($diary_no)
         }
 
 */
-//    }
+    //    }
 
 
     public function get_soft_copy_user($uCode)
@@ -297,13 +289,11 @@ public function get_all_existing_defect($diary_no)
         $builder->where('usercode', $uCode);
         $query4 = $builder->get();
         //   $result = $query4->getResultArray();
-//        echo $this->db->getLastQuery();exit;
+        //        echo $this->db->getLastQuery();exit;
 
-        if ($query4->getNumRows() > 0)
-        {
+        if ($query4->getNumRows() > 0) {
             return 1;
-
-        }else{
+        } else {
             return 0;
         }
     }
@@ -314,16 +304,13 @@ public function get_all_existing_defect($diary_no)
         $query2 = $this->db->table('main')->select('diary_no')->where('diary_no', $diary_no)->where('ack_id!=', '0');
 
         $builder = $query1->union($query2)->get();
-//          echo $this->db->getLastQuery(); exit();
+        //          echo $this->db->getLastQuery(); exit();
         //  echo $builder->getNumRows();die;
-        if ($builder->getNumRows() > 0)
-        {
+        if ($builder->getNumRows() > 0) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
-
-
     }
 
     public function check_if_registered($diary_no)
@@ -333,15 +320,14 @@ public function get_all_existing_defect($diary_no)
         $builder->where('diary_no', $diary_no)->where('active_fil_no is not null')->where('active_fil_no!=', '');
         $query = $builder->get();
         $result = $query->getResultArray();
-//      echo $this->db->getLastQuery();exit;
-//        echo "<pre>";
-//        print_r($result);
-//        die;
+        //      echo $this->db->getLastQuery();exit;
+        //        echo "<pre>";
+        //        print_r($result);
+        //        die;
 
-        if ($query->getNumRows() > 0)
-        {
+        if ($query->getNumRows() > 0) {
             return $result[0];
-        }else{
+        } else {
             return 0;
         }
     }
@@ -354,13 +340,12 @@ public function get_all_existing_defect($diary_no)
         $builder->where('diary_no', $diary_no)->where('display', 'Y');
         $query4 = $builder->get();
 
-//       echo $this->db->getLastQuery();exit;
+        //       echo $this->db->getLastQuery();exit;
 
-        if ($query4->getNumRows() > 0)
-        {
+        if ($query4->getNumRows() > 0) {
             $result = $query4->getResultArray();
             return $result;
-        }else{
+        } else {
             return [];
         }
     }
@@ -369,19 +354,16 @@ public function get_all_existing_defect($diary_no)
     {
         $builder = $this->db->table("fil_trap f ");
         $builder->select("remarks, d_to_empid, usercode,name");
-        $builder->join('master.users u',' f.d_to_empid=u.empid');
+        $builder->join('master.users u', ' f.d_to_empid=u.empid');
         $builder->where('diary_no', $diary_no);
         $query = $builder->get();
         $result = $query->getResultArray();
-//        echo $this->db->getLastQuery();exit;
-        if($result)
-        {
+        //        echo $this->db->getLastQuery();exit;
+        if ($result) {
             return $result;
-        }else{
+        } else {
             return [];
         }
-
-
     }
 
     public function insert_function($dataArr)
@@ -392,61 +374,41 @@ public function get_all_existing_defect($diary_no)
         $orgId = $dataArr['defid'];
         $remark = $dataArr['remark'];
 
-//        echo count($orgId);
-//        echo "<pre>";
-//        print_r($orgId);
+        // echo "<pre>";
+        $query = false;
+        for ($i = 0; $i < count($orgId); $i++) {
+            if (!empty($orgId[$i])) {
+                $columnsData = array(
+                    'org_id' => $orgId[$i],
+                    'save_dt' => 'NOW()',
+                    'usercode' => $sessionUCode,
+                    'remark' => $remark[$i],
+                    'mul_ent' => '',
+                    'diary_no' => $diaryNo,
+                    'display' => 'Y',
+                    'create_modify' => date("Y-m-d H:i:s"),
+                    'updated_on' => date("Y-m-d H:i:s"),
+                    'updated_by' => session()->get('login')['usercode'],
+                    'updated_by_ip' => getClientIP()
+                );
 
-        for($i=0; $i<count($orgId);$i++) {
+                $builder = $this->db->table('obj_save');
 
-            //  $org_id =$orgId[$i];
-            //  $remark_str = $remark[$i];
-
-            //    echo $org_id.">>>>".$remark_str;
-
-//                $sql = " Insert Into obj_save (org_id,save_dt,usercode,remark,mul_ent,diary_no)
-//                         values ($orgId[$i],'NOW()',$sessionUCode,'$remark[$i]','',$diaryNo) ";
-//             //   echo $sql."<br>";
-//            $query = $this->db->query($sql);
-
-            // }
-            //die;
-            $columnsData = array(
-                'org_id' => $orgId[$i],
-                'save_dt' => 'NOW()',
-                'usercode' => $sessionUCode,
-                'remark' => $remark[$i],
-                'mul_ent' => '',
-                'diary_no' => $diaryNo,
-                'display' =>'Y',
-                'create_modify' => date("Y-m-d H:i:s"),
-                'updated_on' => date("Y-m-d H:i:s"),
-                'updated_by' => session()->get('login')['usercode'],
-                'updated_by_ip' => getClientIP()
-            );
-
-//            echo "<pre>";
-//            print_r($columnsData);
-//            die;
-
-            $builder = $this->db->table('obj_save');
-
-            $query = $builder->insert($columnsData);
+                $query = $builder->insert($columnsData);
+            }
         }
-//echo $query;die;
-        if($query) {
+
+        //echo $query;die;
+        if ($query) {
             return 1;
-        }else
-        {
+        } else {
             return 0;
         }
-
-
-
     }
 
     public function update_function($data)
     {
-//        $defectName = $data['def_name'];
+        //        $defectName = $data['def_name'];
         $remarkUpdate = $data['new_remark'];
         $id = $data['defid'];
         $diaryNo = $data['diaryno'];
@@ -454,308 +416,283 @@ public function get_all_existing_defect($diary_no)
 
 
         $columnsUpdate = array(
-            'remark' =>$remarkUpdate,
+            'remark' => $remarkUpdate,
             'updated_on' => date("Y-m-d H:i:s"),
             'updated_by' => session()->get('login')['usercode'],
             'updated_by_ip' => getClientIP()
         );
 
         $builder = $this->db->table('obj_save');
-        $builder->where('id', $id)->where('diary_no',$diaryNo)->where('usercode', $usercode);
+        $builder->where('id', $id)->where('diary_no', $diaryNo)->where('usercode', $usercode);
         $query = $builder->update($columnsUpdate);
-        if($query) {
+        if ($query) {
             return 1;
-        }else
-        {
+        } else {
             return 0;
         }
-
     }
-	
-	
-	public function getMainTableData($diary_no)
-	{
 
-		$builder = $this->db->table('main');
-		$builder->select("pet_name, res_name, TO_CHAR(diary_no_rec_date, 'DD-MM-YYYY') AS dt, case_grp, fil_no, c_status,casetype_id");
-		$builder->where('diary_no', $diary_no);
-		//$query = $builder->get();
+
+    public function getMainTableData($diary_no)
+    {
+
+        $builder = $this->db->table('main');
+        $builder->select("pet_name, res_name, TO_CHAR(diary_no_rec_date, 'DD-MM-YYYY') AS dt, case_grp, fil_no, c_status,casetype_id");
+        $builder->where('diary_no', $diary_no);
+        //$query = $builder->get();
 
         $builder2 = $this->db->table('main_a');
-		$builder2->select("pet_name, res_name, TO_CHAR(diary_no_rec_date, 'DD-MM-YYYY') AS dt, case_grp, fil_no, c_status,casetype_id");
-		$builder2->where('diary_no', $diary_no);
-		//$query = $builder->get();
+        $builder2->select("pet_name, res_name, TO_CHAR(diary_no_rec_date, 'DD-MM-YYYY') AS dt, case_grp, fil_no, c_status,casetype_id");
+        $builder2->where('diary_no', $diary_no);
+        //$query = $builder->get();
         //pr($builder->union($builder2)->getCompiledSelect());
         $query = $builder->union($builder2)->get();
-		if ($query->getNumRows() > 0) {
-			return $result = $query->getRowArray();
-		} else {
-			log_message('error', 'No records found');
-			return false; 
-		}
-	}	
+        if ($query->getNumRows() > 0) {
+            return $result = $query->getRowArray();
+        } else {
+            log_message('error', 'No records found');
+            return false;
+        }
+    }
 
-	public function checkifListed($diary_no)
-{
-    // Build the first subquery
-    $subquery1 = $this->db->table('heardt')
-        ->select('diary_no, next_dt')
-        ->whereIn('main_supp_flag', [1, 2])
-        ->where('diary_no', $diary_no)
-        ->getCompiledSelect();
+    public function checkifListed($diary_no)
+    {
+        // Build the first subquery
+        $subquery1 = $this->db->table('heardt')
+            ->select('diary_no, next_dt')
+            ->whereIn('main_supp_flag', [1, 2])
+            ->where('diary_no', $diary_no)
+            ->getCompiledSelect();
 
-    // Build the second subquery
-    $subquery2 = $this->db->table('last_heardt')
-        ->select('diary_no, next_dt')
-        ->whereIn('main_supp_flag', [1, 2])
-        ->groupStart()
+        // Build the second subquery
+        $subquery2 = $this->db->table('last_heardt')
+            ->select('diary_no, next_dt')
+            ->whereIn('main_supp_flag', [1, 2])
+            ->groupStart()
             ->where('bench_flag IS NULL', null, false)
             ->orWhere('bench_flag', '')
-        ->groupEnd()
-        ->where('diary_no', $diary_no)
-        ->getCompiledSelect();
+            ->groupEnd()
+            ->where('diary_no', $diary_no)
+            ->getCompiledSelect();
 
-    // Combine subqueries with UNION
-    $unionSubquery = "($subquery1 UNION $subquery2) AS aa";
+        // Combine subqueries with UNION
+        $unionSubquery = "($subquery1 UNION $subquery2) AS aa";
 
-    // Build the main query using the combined subquery
-    $builder = $this->db->table($unionSubquery, false)
-        ->select('MIN(next_dt) AS next_dt');
+        // Build the main query using the combined subquery
+        $builder = $this->db->table($unionSubquery, false)
+            ->select('MIN(next_dt) AS next_dt');
 
-      //  pr($builder->getCompiledSelect());
-    // Execute the query
-    $query = $builder->get();
+        //  pr($builder->getCompiledSelect());
+        // Execute the query
+        $query = $builder->get();
 
-    // Fetch the result
-    if ($query->getNumRows() > 0) {
-        $result = $query->getRowArray();
-        return $result['next_dt']; // Return the minimum next_dt
-    } else {
-        log_message('error', 'No records found');
-        return false; // Or handle the error accordingly
+        // Fetch the result
+        if ($query->getNumRows() > 0) {
+            $result = $query->getRowArray();
+            return $result['next_dt']; // Return the minimum next_dt
+        } else {
+            log_message('error', 'No records found');
+            return false; // Or handle the error accordingly
+        }
     }
-}
 
-	
-	
-	public function defectsVerification($diary_no)
-	{
-		// Build the query
-		$builder = $this->db->table('defects_verification');
-		$builder->select('*');
-		$builder->where('diary_no', $diary_no);
-		$builder->where('verification_status', '0');
+
+
+    public function defectsVerification($diary_no)
+    {
+        // Build the query
+        $builder = $this->db->table('defects_verification');
+        $builder->select('*');
+        $builder->where('diary_no', $diary_no);
+        $builder->where('verification_status', '0');
         //pr($builder->getCompiledSelect());
-		// Execute the query
-		$query = $builder->get();
+        // Execute the query
+        $query = $builder->get();
 
-		// Fetch the result
-		if ($query->getNumRows() > 0) {
-			return $query->getResultArray(); // Return the results as an array
-		} else {
-			log_message('error', 'No records found');
-			return false; // Or handle the error accordingly
-		}
-
-	}
-	
-	
-	public function checkIfRegd($diary_no)
-	{
-		// Build the query
-		$builder = $this->db->table('main');
-		$builder->select('*');
-		$builder->where('diary_no', $diary_no);
-		$builder->groupStart();
-		$builder->where('fil_no IS NOT NULL', null, false);
-		$builder->orWhere("fil_no !=''");
-		$builder->groupEnd();
-
-		// Execute the query
-		$query = $builder->get();
-		return $query->getNumRows();		 
-
-	}
-	
-	
-	public function getObjSaveData($diary_no)
-	{
-		$builder = $this->db->table('obj_save');
-		$builder->select("DATE(rm_dt) AS rm_dt, status");
-		$builder->where('diary_no', $diary_no);
-		$builder->where('display', 'Y');
-		$query = $builder->get();
-		if ($query->getNumRows() > 0) {
-			return $query->getResultArray();
-		} else {
-			log_message('error', 'No records found');
-			return false; 
-		}
-	}
-
-	public function getObjectionDetails($diary_no)
-{
-    // Build the query
-    $builder = $this->db->table('obj_save a');
-    $builder->select('a.org_id, b.objdesc AS obj_name, a.rm_dt, a.remark, STRING_AGG(b.mul_ent, \',\') AS mul_ent');
-    $builder->join('master.objection b', 'a.org_id = b.objcode', 'inner');
-    $builder->where('a.diary_no', $diary_no);
-    $builder->where('a.display', 'Y');
-    $builder->where('a.status', 0);
-    $builder->where('a.rm_dt IS NOT NULL'); // Filter out NULL dates
-    $builder->groupBy(['a.diary_no', 'a.org_id', 'a.remark', 'b.objdesc','a.rm_dt','a.id']);
-    $builder->orderBy('a.id');
-
-    // Execute the query
-    $query = $builder->get();
-
-    // Check for results and handle accordingly
-    if ($query->getNumRows() > 0) {
-        return $query->getResultArray(); // Return the fetched data
-    } else {
-        log_message('error', 'No records found');
-        return false; // Or handle the error accordingly
+        // Fetch the result
+        if ($query->getNumRows() > 0) {
+            return $query->getResultArray(); // Return the results as an array
+        } else {
+            log_message('error', 'No records found');
+            return false; // Or handle the error accordingly
+        }
     }
-}
 
-	
-	public function checkIfBO($ucode)
-	{
-		$builder = $this->db->table('master.users');
-		$builder->select('*');
-		$builder->where('usercode', $ucode);
-		$builder->where('section', '19');
-		$builder->where('usertype', '14');
 
-		$query = $builder->get();
-		return $query->getNumRows();
-		// Fetch the result
-		 
-	}
-	
-	
-	public function def_notify($diary_no)
-	{
-		$builder = $this->db->table('obj_save');
-		$builder->select('MIN(DATE(save_dt)) AS save_dt, MIN(DATE(rm_dt)) AS rm_dt');
-		$builder->where('diary_no', $diary_no);
-		$builder->where('display', 'Y');
-		$builder->groupBy('diary_no');
+    public function checkIfRegd($diary_no)
+    {
+        // Build the query
+        $builder = $this->db->table('main');
+        $builder->select('*');
+        $builder->where('diary_no', $diary_no);
+        $builder->groupStart();
+        $builder->where('fil_no IS NOT NULL', null, false);
+        $builder->orWhere("fil_no !=''");
+        $builder->groupEnd();
 
-		$query = $builder->get();
-		// Check for results and handle accordingly
-		if ($query->getNumRows() > 0) {
-			return $query->getResultArray(); // Return the fetched data
-		} else {
-			log_message('error', 'No records found');
-			return false; // Or handle the error accordingly
-		}
-		 
-	}
-	
-	
-	
-	public function gatObjSave($diary_no)
-{
-    // Start building the query
-    $builder = $this->db->table('obj_save a');
+        // Execute the query
+        $query = $builder->get();
+        return $query->getNumRows();
+    }
 
-    // Join the related tables
-    $builder->join('master.objection b', 'a.org_id = b.objcode');
-    $builder->join('master.users u', 'a.usercode = u.usercode');
-    $builder->join('master.users u1', 'a.rm_user_id = u1.usercode', 'left');
 
-    // Select the required columns
-    $builder->select('b.objdesc, a.save_dt, a.rm_dt, a.remark, u.name as ent_by, u1.name as rem_by, a.mul_ent');
+    public function getObjSaveData($diary_no)
+    {
+        $builder = $this->db->table('obj_save');
+        $builder->select("DATE(rm_dt) AS rm_dt, status");
+        $builder->where('diary_no', $diary_no);
+        $builder->where('display', 'Y');
+        $query = $builder->get();
+        if ($query->getNumRows() > 0) {
+            return $query->getResultArray();
+        } else {
+            log_message('error', 'No records found');
+            return false;
+        }
+    }
 
-    // Apply the conditions
-    $builder->where('a.display', 'Y');
-    $builder->groupStart()
+    public function getObjectionDetails($diary_no)
+    {
+        // Build the query
+        $builder = $this->db->table('obj_save a');
+        $builder->select('a.org_id, b.objdesc AS obj_name, a.rm_dt, a.remark, STRING_AGG(b.mul_ent, \',\') AS mul_ent');
+        $builder->join('master.objection b', 'a.org_id = b.objcode', 'inner');
+        $builder->where('a.diary_no', $diary_no);
+        $builder->where('a.display', 'Y');
+        $builder->where('a.status', 0);
+        $builder->where('a.rm_dt IS NOT NULL'); // Filter out NULL dates
+        $builder->groupBy(['a.diary_no', 'a.org_id', 'a.remark', 'b.objdesc', 'a.rm_dt', 'a.id']);
+        $builder->orderBy('a.id');
+
+        // Execute the query
+        $query = $builder->get();
+
+        // Check for results and handle accordingly
+        if ($query->getNumRows() > 0) {
+            return $query->getResultArray(); // Return the fetched data
+        } else {
+            log_message('error', 'No records found');
+            return false; // Or handle the error accordingly
+        }
+    }
+
+
+    public function checkIfBO($ucode)
+    {
+        $builder = $this->db->table('master.users');
+        $builder->select('*');
+        $builder->where('usercode', $ucode);
+        $builder->where('section', '19');
+        $builder->where('usertype', '14');
+
+        $query = $builder->get();
+        return $query->getNumRows();
+        // Fetch the result
+
+    }
+
+
+    public function def_notify($diary_no)
+    {
+        $builder = $this->db->table('obj_save');
+        $builder->select('MIN(DATE(save_dt)) AS save_dt, MIN(DATE(rm_dt)) AS rm_dt');
+        $builder->where('diary_no', $diary_no);
+        $builder->where('display', 'Y');
+        $builder->groupBy('diary_no');
+
+        $query = $builder->get();
+        // Check for results and handle accordingly
+        if ($query->getNumRows() > 0) {
+            return $query->getResultArray(); // Return the fetched data
+        } else {
+            log_message('error', 'No records found');
+            return false; // Or handle the error accordingly
+        }
+    }
+
+
+
+    public function gatObjSave($diary_no)
+    {
+        $builder = $this->db->table('obj_save a');
+        $builder->join('master.objection b', 'a.org_id = b.objcode');
+        $builder->join('master.users u', 'a.usercode = u.usercode');
+        $builder->join('master.users u1', 'a.rm_user_id = u1.usercode', 'left');
+        $builder->select('b.objdesc, a.save_dt, a.rm_dt, a.remark, u.name as ent_by, u1.name as rem_by, a.mul_ent');
+        $builder->where('a.display', 'Y');
+        $builder->groupStart()
             ->where('b.display', 'Y')
             ->orGroupStart()
-                ->where('b.display', 'N')
-                ->where('b.objcode <', 10075)
+            ->where('b.display', 'N')
+            ->where('b.objcode <', 10075)
             ->groupEnd()
-        ->groupEnd();
+            ->groupEnd();
 
-    // Filter by the given diary number
-    $builder->where('a.diary_no', $diary_no);
+        $builder->where("CAST(a.diary_no AS BIGINT)", $diary_no);
+        $builder->orderBy('a.id');
+        $query = $builder->get();
+        if ($query->getNumRows() > 0) {
+            return $query->getResultArray();
+        } else {
+            log_message('error', 'No records found for diary number: ' . $diary_no);
+            return false; 
+        }
+    }
 
-    // Order the results by ID
-    $builder->orderBy('a.id');
 
-    // Execute the query
-    $query = $builder->get();
 
-    // Check if any results were found
-    if ($query->getNumRows() > 0) {
-        return $query->getResultArray(); // Return the fetched data as an array
-    } else {
-        log_message('error', 'No records found for diary number: ' . $diary_no);
-        return false; // Handle the case where no records are found
+    public function getTotalDefects($diary_no)
+    {
+        // Build the query
+        $builder = $this->db->table('obj_save');
+
+        // Select the count of IDs
+        $builder->selectCount('id');
+
+        // Apply the conditions
+        $builder->where('display', 'Y');
+        $builder->where('diary_no', $diary_no);
+
+        // Group by the diary number
+        $builder->groupBy('diary_no');
+
+        // Execute the query
+        $query = $builder->get();
+
+        // Fetch the result (the total count of defects)
+        $tot_defects = $query->getRowArray();
+
+        // If there is a result, get the count, otherwise set to 0
+        return $total_count = isset($tot_defects['id']) ? $tot_defects['id'] : 0;
+    }
+
+
+    public function getAdvocateName($diary_no)
+    {
+        // Build the query
+        $builder = $this->db->table('advocate a');
+
+        // Join the 'bar' table
+        $builder->join('master.bar b', 'a.advocate_id = b.bar_id');
+
+        // Select the advocate's name
+        $builder->select('b.name');
+
+        // Apply the conditions
+        $builder->where('a.display', 'Y');
+        $builder->where('diary_no', $diary_no);
+        $builder->where('pet_res', 'P');
+        $builder->where('adv_type', 'M');
+        $builder->where('pet_res_no', 1);
+
+        // Execute the query
+        $query = $builder->get();
+        // Check if any results were found
+        if ($query->getNumRows() > 0) {
+            return $query->getResultArray(); // Return the fetched data as an array
+        } else {
+            log_message('error', 'No records found for diary number: ' . $diary_no);
+            return false; // Handle the case where no records are found
+        }
     }
 }
-
-	
-	
-	public function getTotalDefects($diary_no)
-	{
-		// Build the query
-		$builder = $this->db->table('obj_save');
-
-		// Select the count of IDs
-		$builder->selectCount('id');
-
-		// Apply the conditions
-		$builder->where('display', 'Y');
-		$builder->where('diary_no', $diary_no);
-
-		// Group by the diary number
-		$builder->groupBy('diary_no');
-
-		// Execute the query
-		$query = $builder->get();
-
-		// Fetch the result (the total count of defects)
-		$tot_defects = $query->getRowArray(); 
-
-		// If there is a result, get the count, otherwise set to 0
-		return $total_count = isset($tot_defects['id']) ? $tot_defects['id'] : 0;
-	}
-	
-	
-	public function getAdvocateName($diary_no)
-	{
-		// Build the query
-		$builder = $this->db->table('advocate a');
-
-		// Join the 'bar' table
-		$builder->join('master.bar b', 'a.advocate_id = b.bar_id');
-
-		// Select the advocate's name
-		$builder->select('b.name');
-
-		// Apply the conditions
-		$builder->where('a.display', 'Y');
-		$builder->where('diary_no', $diary_no);
-		$builder->where('pet_res', 'P');
-		$builder->where('adv_type', 'M');
-		$builder->where('pet_res_no', 1);
-
-		// Execute the query
-		$query = $builder->get();
-		// Check if any results were found
-		if ($query->getNumRows() > 0) {
-			return $query->getResultArray(); // Return the fetched data as an array
-		} else {
-			log_message('error', 'No records found for diary number: ' . $diary_no);
-			return false; // Handle the case where no records are found
-		}
-	}
-
-
-
-
-}
-
-?>

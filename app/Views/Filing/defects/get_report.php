@@ -1,4 +1,8 @@
- <style>.cl_center{text-align: center;}</style>
+ <style>
+     .cl_center {
+         text-align: center;
+     }
+ </style>
  <div style="margin-top: 20px" id="dv_print">
      <div class="cl_center" style="font-size: 17px;">SUPREME COURT OF INDIA</div>
 
@@ -44,8 +48,8 @@
 
          </div>
      </div>
-     <div class="table-responsive">
-         <table class="table table-striped custom-table">
+     <div class="row table-responsive">
+         <table id="defect_report" class="table table-striped custom-table" style="width:98%">
              <thead>
                  <tr>
                      <th>
@@ -117,3 +121,34 @@
  <div cl class="cl_center">
      <input type="button" name="btn_pnt" id="btn_pnt" value="Print" />
  </div>
+
+<script>
+    $(function() {
+        var table = $("#defect_report").DataTable({
+            "responsive": true,
+            "searching": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "pageLength": 20,
+            "buttons": [
+                {
+                    extend: 'excel',
+                    title: 'CASE SCRUTINY : LIST OF DEFECTS <?php echo date("d-m-Y h:i:sa");?>',
+                    filename: 'CASE-SCRUTINY:LIST-OF-DEFECTS-<?php echo date("d-m-Y h:i:sa");?>'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'Orientation',
+                    pageSize: 'LEGAL',
+                    title: 'CASE SCRUTINY : LIST OF DEFECTS <?php echo date("d-m-Y h:i:sa");?>',
+                    filename: 'CASE-SCRUTINY:LIST-OF-DEFECTS-<?php echo date("d-m-Y h:i:sa");?>'
+                }
+            ],
+            "processing": true,
+            "ordering": true,
+            "paging": true
+        });
+
+        table.buttons().container().appendTo('#defect_report_wrapper .col-md-6:eq(0)');
+    });
+</script>

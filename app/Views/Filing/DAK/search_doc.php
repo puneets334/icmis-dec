@@ -99,7 +99,7 @@
                                             <div class="form-group row">
                                                 <label for="diary_number" class="col-sm-5 col-form-label">Document No</label>
                                                 <div class="col-sm-7">
-                                                    <input type="number" class="form-control" id="diary_number" name="diary_number" placeholder="Document No">
+                                                    <input type="text" maxlength="10" onkeypress="return onlynumbers(event)" class="form-control" id="diary_number" name="diary_number" placeholder="Document No">
                                                 </div>
                                             </div>
                                         </div>
@@ -147,6 +147,16 @@
 <script src="<?php echo base_url('plugins/jquery-validation/jquery.validate.js'); ?>"></script>
 <script src="<?php echo base_url('plugins/jquery-validation/additional-methods.js'); ?>"></script>
 <script>
+      function onlynumbers(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        //alert(charCode);
+        if ((charCode >= 48 && charCode <= 57) || charCode == 9 || charCode == 8 || charCode == 37 || charCode == 39) {
+            return true;
+        }
+        return false;
+    }
+    
     $(document).ready(function() {
         $('#search').on('submit', function() {
             var diary_number = $("#diary_number").val();
