@@ -2984,62 +2984,62 @@ class PrintAdvanceModel extends Model
                 $split_judges_name = explode(",", $row['listed_before']);
                 $cc_header = "LIST OF CURATIVE & REVIEW PETITIONS (BY CIRCULATION) IN THE CHAMBERS OF " . str_replace("\n", '\"', $split_judges_name[0]);
                 $lines = array($cc_header);
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
                 $header_data_h = array();
                 $lines1 = array($cc_header);
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
             }
             if ($value == '280' && $mainhead == 'F') {
                 $header_data = array();
                 $header_data_h = array();
 
                 array_push($lines, 'Parties to file list of dates and brief note of submissions not exceeding three pages, two days before the date of listing.');
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
                 $header_data_h = array();
                 array_push($lines1, 'Parties to file list of dates and brief note of submissions not exceeding three pages, two days before the date of listing.');
 
 
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
             }
             if ($value == '280' && $mainhead == 'M') {
                 $header_data = array();
                 $header_data_h = array();
 
                 array_push($lines, 'Fresh matters including the pass over fresh matters will be taken up before After Notice matters.');
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
                 $header_data_h = array();
                 array_push($lines1, 'Fresh matters including the pass over fresh matters will be taken up before After Notice matters.');
 
 
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
             }
             if ($value == '270' && $mainhead == 'F') {
                 $header_data = array();
                 $header_data_h = array();
 
                 array_push($lines, 'NOTE :- NO REQUEST FOR PASS OVER OR ADJOURNMENT WILL BE ENTERTAINED IN ITEM NOS. 101 TO 105. IN THE EVENT THE PARTIES ARE NOT REPRESENTED WHEN THE MATTERS ARE CALLED OUT, THE COURT WILL HEAR AND DECIDE THE MATTERS IN THEIR ABSENCE.');
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
                 $header_data_h = array();
                 array_push($lines1, 'NOTE :- NO REQUEST FOR PASS OVER OR ADJOURNMENT WILL BE ENTERTAINED IN ITEM NOS. 101 TO 105. IN THE EVENT THE PARTIES ARE NOT REPRESENTED WHEN THE MATTERS ARE CALLED OUT, THE COURT WILL HEAR AND DECIDE THE MATTERS IN THEIR ABSENCE.');
 
 
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
             }
             if ($value == '219') {
                 $header_data = array();
@@ -3052,9 +3052,9 @@ class PrintAdvanceModel extends Model
                     'The soft copies which are emailed should not be scanned copies of printed submissions. No other documents other than written submissions should be filed in this email.'
                 );
 
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
 
 
                 $header_data_h = array();
@@ -3065,9 +3065,9 @@ class PrintAdvanceModel extends Model
                     'The soft copies which are emailed should not be scanned copies of printed submissions. No other documents other than written submissions should be filed in this email.'
                 );
 
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
             }
 
 
@@ -3082,12 +3082,12 @@ class PrintAdvanceModel extends Model
                 );
 
 
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
 
 
-                $header_data_h = array();
+               // $header_data_h = array();
                 array_push(
                     $lines1,
                     'Whenever written submissions are directed to be filed by the Court in any proceeding, advocates and parties in person are requested to email a soft copy in a pdf form on or before the stipulated date to the following email id :',
@@ -3095,9 +3095,37 @@ class PrintAdvanceModel extends Model
                     'The soft copies which are emailed should not be scanned copies of printed submissions. No other documents other than written submissions should be filed in this email.'
                 );
 
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
+            }
+            if ($value == '288') {
+                //  $header_data = array();
+                //  $header_data_h = array();
+                  array_push($lines, "Whenever written submissions are directed to be filed in matter(s) reserved for judgment/order by this Hon’ble Court, the advocates and parties in person are requested to email a soft copy in a pdf form on or before the directed/stipulated date to the following email id :
+      <br><br>
+      <center>writtensubmissions.jbp@gmail.com.</center>
+      <br><br>
+      The soft copies which are to be emailed should not be scanned copies of printed submissions. No document other than written submissions in matter(s) reserved for judgment/order should be filed in this email.");
+      
+              
+                  
+              
+               
+                //  $header_data_h = array();
+                  array_push($lines1, "Whenever written submissions are directed to be filed in matter(s) reserved for judgment/order by this Hon’ble Court, the advocates and parties in person are requested to email a soft copy in a pdf form on or before the directed/stipulated date to the following email id :
+      <br><br>
+      <center>writtensubmissions.jbp@gmail.com.</center>
+      <br><br>
+      The soft copies which are to be emailed should not be scanned copies of printed submissions. No document other than written submissions in matter(s) reserved for judgment/order should be filed in this email.");
+                 
+              }
+
+            foreach ($lines as $line) {
+                $header_data[] = (object) array('header_name' => $line);
+            }
+            foreach ($lines1 as $lines1) {
+                $header_data_h[] = (object) array('header_name' => $lines1);
             }
 
             $rowadv =  $this->get_res_pets($diary_no);
@@ -3879,10 +3907,10 @@ class PrintAdvanceModel extends Model
             $leftjoin_subhead = "LEFT JOIN master.subheading s ON s.stagecode = h.subhead AND s.display = 'Y' AND s.listtype = '$mainhead'";
             $leftjoin_submaster = "";
         } else {
-            $sub_head_name = "sm.sub_name1, sm.sub_name2, sm.sub_name3, sm.sub_name4";
-            $leftjoin_subhead = "LEFT JOIN category_allottment c ON  h.subhead = c.submaster_id AND c.ros_id = '$roster_id' AND c.display = 'Y'";
+            $sub_head_name = "s.stagename, sm.sub_name1, sm.sub_name2, sm.sub_name3, sm.sub_name4";
+            $leftjoin_subhead = "LEFT JOIN master.subheading s ON s.stagecode = h.subhead and s.display = 'Y' and s.listtype = 'M'";
 
-            $leftjoin_submaster = "LEFT JOIN master.submaster sm ON h.subhead = sm.id AND sm.display = 'Y'";
+            $leftjoin_submaster = "LEFT JOIN master.submaster sm ON h.subhead = sm.id AND sm.display = 'Y' and sm.is_old = 'N'";
         }
 
         $sql = "SELECT 
@@ -4032,20 +4060,20 @@ class PrintAdvanceModel extends Model
         SELECT 
             a.diary_no,
             STRING_AGG(
-                a.name || COALESCE(CASE WHEN a.pet_res = 'R' THEN a.grp_adv END, ''), 
-                '' ORDER BY a.adv_type DESC, a.pet_res_no ASC
+                a.name || COALESCE(CASE WHEN a.pet_res = 'R' THEN a.grp_adv END, ' '), 
+                ' ' ORDER BY a.adv_type DESC, a.pet_res_no ASC
             ) AS r_n,
             STRING_AGG(
-                a.name || COALESCE(CASE WHEN a.pet_res = 'P' THEN a.grp_adv END, ''), 
-                '' ORDER BY a.adv_type DESC, a.pet_res_no ASC
+                a.name || COALESCE(CASE WHEN a.pet_res = 'P' THEN a.grp_adv END, ' '), 
+                ' ' ORDER BY a.adv_type DESC, a.pet_res_no ASC
             ) AS p_n,
             STRING_AGG(
-                a.name || COALESCE(CASE WHEN a.pet_res = 'I' THEN a.grp_adv END, ''), 
-                '' ORDER BY a.adv_type DESC, a.pet_res_no ASC
+                a.name || COALESCE(CASE WHEN a.pet_res = 'I' THEN a.grp_adv END, ' '), 
+                ' ' ORDER BY a.adv_type DESC, a.pet_res_no ASC
             ) AS i_n,
             STRING_AGG(
-                a.name || COALESCE(CASE WHEN a.pet_res = 'N' THEN a.grp_adv END, ''), 
-                '' ORDER BY a.adv_type DESC, a.pet_res_no ASC
+                a.name || COALESCE(CASE WHEN a.pet_res = 'N' THEN a.grp_adv END, ' '), 
+                ' ' ORDER BY a.adv_type DESC, a.pet_res_no ASC
             ) AS intervenor 
         FROM ({$subquery}) a 
         GROUP BY a.diary_no
