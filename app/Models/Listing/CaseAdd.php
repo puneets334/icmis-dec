@@ -163,7 +163,7 @@ class CaseAdd extends Model
         $builder->join('advance_allocated aa', 'CAST(b.diary_no AS BIGINT) = CAST(aa.diary_no AS BIGINT) AND b.next_dt = aa.next_dt', 'left');
         $builder->where('b.diary_no ', $dno);
         $query = $builder->get();
-        //echo $this->db->getLastQuery();die;
+        
         return $query->getRowArray();
     }
 
