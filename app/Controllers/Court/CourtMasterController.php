@@ -203,6 +203,35 @@ class CourtMasterController extends BaseController
                 $main_supp_flag = '1';
                 $board_type = 'CC';
                 break;
+                case 1:
+                    $main_head = 'F';
+                    $main_supp_flag = '1';
+                    $board_type = 'J';
+                    break;
+                case 2:
+                    $main_head = 'F';
+                    $main_supp_flag = '2';
+                    $board_type = 'J';
+                    break;
+                case 3:
+                    $main_head = 'M';
+                    $main_supp_flag = '1';
+                    $board_type = 'J';
+                    break;
+                case 4:
+                    $main_head = 'M';
+                    $main_supp_flag = '2';
+                    $board_type = 'J';
+                    break;
+                case 5:
+                    //$main_head='M';
+                    $main_supp_flag = '1';
+                    $board_type = 'C';
+                    break;
+                case 6:
+                    //$main_head='M';
+                    $main_supp_flag = '2';
+                    $board_type = 'C';
 	   case 11:
                 $main_head = 'M';
                 $main_supp_flag = '1';

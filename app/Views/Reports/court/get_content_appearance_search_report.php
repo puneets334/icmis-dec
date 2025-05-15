@@ -1,6 +1,8 @@
 <div class="card">
     <div class="card-body" >
         <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4">
+        <?php $title = "APPEARANCE REPORT FOR CAUSE LIST DATE ".$listing_dts.' COURT NO. '. ($courtno == '21' ? 'Registrar Court' : $courtno) ." (As on ".date('d-m-Y H:i:s').")"; ?>
+        <h2 style="text-align: center;"><?= $title ?></h2>
             <?php  if(!empty($appearanceSearchData)):?>
                 <table  id="ReportsVJR" class="table table-bordered table-striped">
                     <thead>
