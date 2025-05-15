@@ -9,6 +9,12 @@
     width: auto !important;
     padding: 4px;
   }
+
+    #reportTable thead th {
+        pointer-events: none !important;
+        cursor: default !important;
+    }
+
 </style>
 <section class="content">
   <div class="container-fluid">
@@ -34,7 +40,7 @@
                   <div class="tab-content">
                     <div class="active tab-pane">
                       <form method="post" id="push-form" action="<?= site_url(uri_string()) ?>">
-                         
+
                         <?= csrf_field() ?>
                         <div class="row">
                           <div class="col-sm-12 col-md-3 mb-3">
@@ -51,62 +57,58 @@
                     </div>
                   </div>
                 </div>
-                <div class="">
-                  <?php
-                  if (isset($_POST) && isset($_POST['on_date']) && $_POST['on_date'] != '') {
-                    
-                    if (isset($_POST) && !empty($case_result)) {
-                  ?>
-                        <div class="box-footer">
-                          <form>
-                            <button type="button" id="print" name="print" onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button>
-                          </form>
-                        </div>
+
+                <?php
+                if (isset($_POST) && isset($_POST['on_date']) && $_POST['on_date'] != '') {
+
+                  if (isset($_POST) && !empty($case_result)) {
+                ?>
+                   
                     <div class="table-responsive">
-                      <div id="printable" class="box box-danger">
-                        <table id="reportTable" class="table table-striped custom-table">
-                          <thead>
-                            <h3 style="text-align: center;"> User Wise Diary Report on <?php echo $_POST['on_date'] ?></h3>
+                      <table id="reportTable" class="table table-striped custom-table">
+                        <thead>
+                          <h3 style="text-align: center;"> User Wise Diary Report on <?php echo $_POST['on_date'] ?></h3>
+                          <tr>
+                            <th rowspan='2'>SNo.</th>
+                            <th rowspan='2'>Diary User</th>
+                            <th rowspan='2'>Section</th>
+                            <th rowspan='2'>Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php
+                          $i = 0;
+                          $total_diary = 0;
+                          foreach ($case_result as $result) {
+                            $i++;
+                          ?>
                             <tr>
-                              <th rowspan='2'>SNo.</th>
-                              <th rowspan='2'>Diary User</th>
-                              <th rowspan='2'>Section</th>
-                              <th rowspan='2'>Total</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <?php
-                            $i = 0;
-                            $total_diary = 0;
-                            foreach ($case_result as $result) {
-                              $i++;
-                            ?>
-                              <tr>
-                                <td><?php echo $i; ?></td>
-                                <td><?php echo $result['diary_user_name']; ?></td>
-                                <td><?php echo $result['section']; ?></td>
-                                <td><a target="_blank" href="<?php echo base_url('Reports/Filing/Filing_Reports/diary_user_wise_detail_report') ?>/<?= $result['usercode']; ?>/<?= $result['filing_date']; ?>/<?= str_replace(array(' ', '.'), '_', $result['diary_user_name']); ?>"> <?= $result['total']; ?></a></td>
+                              <td><?php echo $i; ?></td>
+                              <td><?php echo $result['diary_user_name']; ?></td>
+                              <td><?php echo $result['section']; ?></td>
+                              <td><a target="_blank" href="<?php echo base_url('Reports/Filing/Filing_Reports/diary_user_wise_detail_report') ?>/<?= $result['usercode']; ?>/<?= $result['filing_date']; ?>/<?= str_replace(array(' ', '.'), '_', $result['diary_user_name']); ?>"> <?= $result['total']; ?></a></td>
 
-                              </tr>
-                            <?php
-                              $total_diary += $result['total'];
-                            }
-                            ?>
-                            <tr style="font-weight: bold;">
-                              <td colspan="3">Total</td>
-                              <td><?= $total_diary ?>
                             </tr>
-                          </tbody>
-                          <tfoot></tfoot>
-                        </table>
+                          <?php
+                            $total_diary += $result['total'];
+                          }
+                          ?>
+                          <tr style="font-weight: bold;">
+                            <td colspan="3">Total</td>
+                            <td><?= $total_diary ?>
+                          </tr>
+                        </tbody>
+                        <tfoot></tfoot>
+                      </table>
 
-                     
-                      </div>
+
                     </div>
-                    <?php }else{ ?>
-                      <p>No record found!!!</p>
-                      <?php } }?>
-                </div>
+
+                  <?php } else { ?>
+                    <p>No record found!!!</p>
+                <?php }
+                } ?>
+
               </div>
             </div>
           </div>
@@ -126,11 +128,5 @@
     });
   });
 
-  function printDiv(printable) {
-    var printContents = document.getElementById(printable).innerHTML;
-    var originalContents = document.body.innerHTML;
-    document.body.innerHTML = printContents;
-    window.print();
-    document.body.innerHTML = originalContents;
-  }
+  
 </script>
