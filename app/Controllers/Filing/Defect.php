@@ -362,6 +362,7 @@ class Defect extends BaseController
     {
 
         $dataForInsertion = $_POST;
+        $insertData = false;
         if (!empty($dataForInsertion)) {
             $insertData = $this->dModel->insert_function($dataForInsertion);
         }
@@ -476,7 +477,14 @@ class Defect extends BaseController
     public function getReport()
     {
         //$filing_details = session()->get('filing_details');
-        $dairy_no = $_REQUEST['d_no'] . $_REQUEST['d_yr'];
+        // Check if both d_no and d_yr are set and are integers
+        if (!empty($_REQUEST['d_no']) && !empty($_REQUEST['d_yr']) && is_numeric($_REQUEST['d_no']) && is_numeric($_REQUEST['d_yr']))
+        {
+            $dairy_no = $_REQUEST['d_no'] . $_REQUEST['d_yr'];
+        } else {
+            echo "<p style='color:red;text-align:center;'>Invalid diary number or year. Only integers are allowed.</p>";
+            return;
+        }
         if (!empty($dairy_no)) {
 
             $data['dModel'] = $this->dModel;
@@ -484,7 +492,7 @@ class Defect extends BaseController
             $data['tot_defects'] = $this->dModel->getTotalDefects($dairy_no);
             $data['row'] = is_data_from_table('main', ['diary_no' => $dairy_no], 'pet_name,res_name,pno,rno', '');
             if (!$data['row']) {
-                echo "<p style='color:red;'>No data found for the given diary number.</p>";
+                echo "<p style='color:red;text-align:center;'>No data found for the given diary number.</p>";
                 return;
             }
             $data['advocate'] = $this->dModel->getAdvocateName($dairy_no);

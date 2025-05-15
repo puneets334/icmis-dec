@@ -311,7 +311,7 @@ if (!empty($result))
 
 				if( $_REQUEST['ddl_st_agncy']=='490506')
 					$sql="SELECT id_no id, court_name as agency_name,Name districtname 
-					FROM state s join delhi_district_court d on s.state_code=d.state_code and s.district_code=d.district_code WHERE s.State_code = (SELECT State_code FROM state WHERE 
+					FROM master.state s join master.delhi_district_court d on s.state_code=d.state_code and s.district_code=d.district_code WHERE s.State_code = (SELECT State_code FROM master.state WHERE 
 						id_no =  '$_REQUEST[ddl_st_agncy]' AND display = 'Y' ) AND s.display = 'Y' AND s.Sub_Dist_code =0 AND s.Village_code =0 AND s.District_code !=0 order by trim(Name)";
 				else
 					$sql="SELECT id_no id, Name agency_name FROM master.state WHERE State_code = (SELECT State_code FROM master.state WHERE 

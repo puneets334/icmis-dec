@@ -3,6 +3,16 @@
 <div id="dv_res1"></div>
 <?php echo csrf_field(); ?>
 <script type="text/javascript">
+
+// $csf_sql="SELECT * FROM case_status_flag where flag_name = 'update_heardt_empid'";
+//         $csf_qur=mysql_query($csf_sql);
+//         $csf_res=mysql_fetch_assoc($csf_qur);
+//         $allowed_users = explode(',', $csf_res['always_allowed_users']);
+//       if(!in_array($usertype[6], $allowed_users))
+//        {
+//             echo "YOU ARE NOT AUTHORISED";
+//             exit();
+//         }
     function getDetails() 
     {
         $('.alert').hide();

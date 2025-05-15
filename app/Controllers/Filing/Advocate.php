@@ -924,10 +924,10 @@ class Advocate extends BaseController
 				 $diary_no =  $_REQUEST['dno'];
 				 
 				
-				$chk_rs = $this->model->getAdvocateDetails($diary_no, $advocate_id, $if_pet_res, $party, $party_srno_show, $stateadv, $inperson_condition);				
-                	
-                if(count($chk_rs) > 0)
-				{
+                $chk_rs = $this->model->getAdvocateDetails($diary_no, $advocate_id, $if_pet_res, $party, $party_srno_show, $stateadv, $inperson_condition);				
+
+                if(is_array($chk_rs) && count($chk_rs) > 0)
+                {
 					
 				 	 /* $up_rs = "UPDATE advocate
                                 SET

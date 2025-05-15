@@ -282,7 +282,6 @@ class Report extends BaseController
         if (!empty($data['listing_dts'])){
             $data['appearanceSearchData']= $ReportModel->getAppearanceSearchReport($data);
             $data['report_title'] = 'Appearance Search';
-           //  print_r($data);exit;
         }
         return view('Reports/court/get_content_appearance_search_report',$data);exit;
 

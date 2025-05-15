@@ -30,32 +30,13 @@ class CourtMasterController extends BaseController
         $this->qrlib = new Qrlib();
         $this->Fpdf = new Fpdf();
         $this->Dropdown_list_model = new Dropdown_list_model();
+		$this->request = service('request');
+		$uri = $this->request->uri;
 
-        // if(empty(session()->get('filing_details')['diary_no'])){
-        //     header('Location:'.base_url('Filing/Diary/search'));exit();
-        // }else{
-        //     $this->diary_no = session()->get('filing_details')['diary_no'];
-        // }
-
-        $this->request = service('request');
-        // Get the URI object
-        $uri = $this->request->uri;
-
-        // Get segments from the URI
         $segment1 = $uri->getSegment(1); // First segment
         $segment2 = $uri->getSegment(2); // Second segment
         $segment3 = $uri->getSegment(3); // Third segment (if exists)
-        // if (!empty($segment3)) {
-        //     if ($segment3 == 'get_session_upload' || $segment3 == 'getCasesForUploading') {
-        //     }
-        // } else {
-        //     if (empty(session()->get('filing_details')['diary_no'])) {
-        //         header('Location:' . base_url('Filing/Diary/search'));
-        //         exit();
-        //     } else {
-        //         $this->diary_no = session()->get('filing_details')['diary_no'];
-        //     }
-        // }
+      
     }
 
     public function index()
@@ -169,7 +150,138 @@ class CourtMasterController extends BaseController
         }
         echo $result;
     }
+	
+	public function getBenchMM()
+    {
+        extract($this->request->getGet());
+        $main_head = '';
+        $main_supp_flag = '';
+        $board_type = '';
+        switch ($causelistType) {
+            case 1:
+                $main_head = 'F';
+                $main_supp_flag = '1';
+                $board_type = 'J';
+                break;
+            case 2:
+                $main_head = 'F';
+                $main_supp_flag = '2';
+                $board_type = 'J';
+                break;
+            case 3:
+                $main_head = 'M';
+                $main_supp_flag = '1';
+                $board_type = 'J';
+                break;
+            case 4:
+                $main_head = 'M';
+                $main_supp_flag = '2';
+                $board_type = 'J';
+                break;
+            case 5:
+                //$main_head='M';
+                $main_supp_flag = '1';
+                $board_type = 'C';
+                break;
+            case 6:
+                //$main_head='M';
+                $main_supp_flag = '2';
+                $board_type = 'C';
+                break;
+            case 7:
+                $main_head = 'M';
+                $main_supp_flag = '1';
+                $board_type = 'R';
+                break;
+            case 8:
+                $main_head = 'M';
+                $main_supp_flag = '2';
+                $board_type = 'R';
+                break;
+            case 9:
+                $main_head = 'M';
+                $main_supp_flag = '1';
+                $board_type = 'CC';
+                break;
+                case 1:
+                    $main_head = 'F';
+                    $main_supp_flag = '1';
+                    $board_type = 'J';
+                    break;
+                case 2:
+                    $main_head = 'F';
+                    $main_supp_flag = '2';
+                    $board_type = 'J';
+                    break;
+                case 3:
+                    $main_head = 'M';
+                    $main_supp_flag = '1';
+                    $board_type = 'J';
+                    break;
+                case 4:
+                    $main_head = 'M';
+                    $main_supp_flag = '2';
+                    $board_type = 'J';
+                    break;
+                case 5:
+                    //$main_head='M';
+                    $main_supp_flag = '1';
+                    $board_type = 'C';
+                    break;
+                case 6:
+                    //$main_head='M';
+                    $main_supp_flag = '2';
+                    $board_type = 'C';
+	   case 11:
+                $main_head = 'M';
+                $main_supp_flag = '1';
+                $board_type = 'S';
+                break;
 
+        }
+        //$data['bench']=$this->CourtMasterModel->getBenchByCourt();
+        $benches = $this->model->getBenchByJudgeModified($causelistDate, $pJudge, $main_head,$board_type);
+        //var_dump($city);
+        $result = "<option value=''>Select Bench</option>";
+        $bench_desc = "";
+        foreach ($benches as $bench) {
+            $court = "";
+            if ($bench['courtno'] == 21)
+                $court = "R1";
+            else if ($bench['courtno'] == 22)
+                $court = "R2";
+            else if ($bench['courtno'] > 30 && $bench['courtno'] <= 60) {
+                $court = "VC- ".($bench['courtno']-30);
+            }
+            else if ($bench['courtno'] > 60 && $bench['courtno'] <= 62) {
+                $court = "RVC- ".($bench['courtno']-60);
+            }
+            else
+                $court = $bench['courtno'];
+            if ($bench['session'] == 'Whole Day' && $bench['courtno'] != "" && $bench['courtno'] != 0 && $bench['courtno'] != null) {
+                $bench_desc = $bench['session'] . ' in Court ' . $court;
+            } else if ($bench['courtno'] != "" && $bench['courtno'] != 0 && $bench['courtno'] != null) {
+                $bench_desc = $bench['session'] . ' @ ' . $bench['frm_time'] . ' in Court ' . $court;
+            } else {
+                $bench_desc = $bench['session'];
+            }
+            /*if($bench['session']=='Whole Day' && $bench['courtno']!="" && $bench['courtno']!=0 && $bench['courtno']!=null){
+                $bench_desc= $bench['session'].' in Court '.$bench['courtno'];
+            }
+            else if($bench['courtno']!="" && $bench['courtno']!=0 && $bench['courtno']!=null){
+                $bench_desc= $bench['session'].' @ '.$bench['frm_time'].' in Court '.$bench['courtno'];
+            }
+            else{
+                $bench_desc= $bench['session'];
+            }*/
+            $result .= "<option value='" . $bench['roster_id'] . "'>" . $bench_desc . "</option>";
+            //$result.="<option value='".$bench['roster_id']."'>".$bench['judgename']."</option>";
+        }
+        echo $result;
+
+    }
+
+	
     public function getCasesForGeneration()
     {
 
@@ -333,7 +445,7 @@ class CourtMasterController extends BaseController
                 if ($causelistType == 9)
                     $docDataString .= "                        " . "               SECTION " . $section_name;
                 else if ($causelistType == 7)
-                    $docDataString .= "        REGISTRAR COURT. " . $courtNoDisplay . "          SECTION " . $section_name;
+                   $docDataString .= "        REGISTRAR COURT           SECTION " . $section_name;
                 else if ($court_no >= 31 && $court_no <= 47)
                     $docDataString .= "     " . $courtNoDisplay . "          SECTION " . $section_name;
                 else
@@ -347,9 +459,9 @@ class CourtMasterController extends BaseController
                     }
                 }
 
-                if (($caseDetails->casetype_id != 13) && ($caseDetails->casetype_id != 14) && $caseDetails->ia != null && !($caseDetails->ia == "") && !($caseDetails->ia == "null")) {
+                /* if (($caseDetails->casetype_id != 13) && ($caseDetails->casetype_id != 14) && $caseDetails->ia != null && !($caseDetails->ia == "") && !($caseDetails->ia == "null")) {
                     $docDataString .= 'IA ' . $caseDetails->ia . " in ";
-                }
+                } */
                 $regNoDisplay = substr($caseDetails->reg_no_display, (strripos($caseDetails->reg_no_display, " ")));
 
                 if ($caseDetails->registration_number == "" || $caseDetails->registration_number == null) {
@@ -421,6 +533,24 @@ class CourtMasterController extends BaseController
                         $docDataString .= "Petition(s) for Diary ";
                     else if ($caseDetails->casetype_id == 30)
                         $docDataString .= "Petition(s) for File ";
+					else if ($caseDetails->casetype_id == 32)
+					$docDataString .= "SUO MOTO WRIT PETITION(CIVIL) ";
+					else if ($caseDetails->casetype_id == 33)
+					$docDataString .= "SUO MOTO WRIT PETITION(CRIMINAL) ";
+					else if ($caseDetails->casetype_id == 34)
+					$docDataString .= "SUO MOTO CONTEMPT PETITION(CIVIL) ";
+					else if ($caseDetails->casetype_id == 35)
+					$docDataString .= "SUO MOTO CONTEMPT PETITION(CRIMINAL) ";
+					else if ($caseDetails->casetype_id == 36)
+					$docDataString .= "REF. U/S 143 ";
+					else if ($caseDetails->casetype_id == 37)
+					$docDataString .= "REF. U/S 14 RTI ";
+					else if ($caseDetails->casetype_id == 38)
+					$docDataString .= "REF. U/S 17 RTI ";
+					else if ($caseDetails->casetype_id == 40)
+					$docDataString .= "SUO MOTO TRANSFER PETITION(CIVIL) ";
+					else if ($caseDetails->casetype_id == 41)
+					$docDataString .= "SUO MOTO TRANSFER PETITION(CRIMINAL) ";
 
                     if ($caseDetails->casetype_id != 39 && $caseDetails->casetype_id != 9 && $caseDetails->casetype_id != 10 && $caseDetails->casetype_id != 19 && $caseDetails->casetype_id != 20 && $caseDetails->casetype_id != 25 && $caseDetails->casetype_id != 26 && $caseDetails->registration_number != "" && $caseDetails->registration_number != null) {
                         $docDataString .= " No(s). " . $regNoDisplay;
@@ -433,7 +563,7 @@ class CourtMasterController extends BaseController
                     if (($caseDetails->casetype_id != 3) && ($caseDetails->casetype_id != 4) && ($caseDetails->casetype_id != 5) && ($caseDetails->casetype_id != 6) && ($caseDetails->casetype_id != 7) && ($caseDetails->casetype_id != 8) && ($caseDetails->casetype_id != 19) && ($caseDetails->casetype_id != 20)) {
                         $lowerCourtCaseNumber = $judgementdt = $agencyname = "";
                         if (count($lowerCourtDetails) > 0) {
-                            $docDataString .= "(Arising out of impugned final judgment and order dated ";
+							$docDataString .= "[Arising out of impugned final judgment and order dated ";
                             foreach ($lowerCourtDetails as $lowerDetail) {
                                 if ($lowerDetail['casetype'] != null && $lowerDetail['lct_caseno'] != null && $lowerDetail['casetype'] != "" && $lowerDetail['lct_caseno'] != "" && $lowerDetail['lct_dec_dt'] != null) {
                                     $lowerCourtCaseNumber = $lowerDetail['casetype'] . " No. " . $lowerDetail['lct_caseno'] . "/" . $lowerDetail['lct_caseyear'];
@@ -444,8 +574,8 @@ class CourtMasterController extends BaseController
                                 }
                                 $docDataString = substr($docDataString, 0, strlen($docDataString) - 2);
                             }
-                            $agencyname = $this->convertToTitleCase($agencyname);
-                            $docDataString .= " passed by the " . $agencyname . ")</w:t> <w:cr/><w:t></w:t> <w:cr/><w:t>";
+                            // $agencyname = $this->CourtMasterModel->convertToTitleCase($agencyname);
+                            $docDataString .= " passed by the " . $agencyname . "]</w:t> <w:cr/><w:t></w:t> <w:cr/><w:t>";
                         } else {
                             $docDataString .= " ";
                         }
@@ -503,17 +633,17 @@ class CourtMasterController extends BaseController
                 if (count($iaDetails) > 0) {
                     foreach ($iaDetails as $iaDetail) {
                         $doc_desrip .= "</w:t><w:cr/> <w:t>";
-                        $doc_desrip .= " IA No. " . $iaDetail['docnum'] . "/" . $iaDetail['docyear'] . " - " . $iaDetail['docdesp'];
-                        $doc_desrip .= "</w:t><w:t>";
+                        $doc_desrip .= "IA No. " . $iaDetail['docnum'] . "/" . $iaDetail['docyear'] . " - " . $iaDetail['docdesp'];
+						$doc_desrip .= "</w:t><w:t>";
                     }
                 }
 
                 if ($caseDetails->remark != null && $caseDetails->remark != "") {
                     $remarks = strip_tags($caseDetails->remark);
-                    $docDataString .= "(" . $remarks . " ";
+                    $docDataString .= $remarks . " ";
                 }
 
-                $docDataString .= $doc_desrip . ")</w:t> <w:cr/><w:t> ";
+                $docDataString .= $doc_desrip . "</w:t> <w:cr/><w:t> ";
 
                 //For Conncted matters and their Applications
                 if (count($connectedCaseDetails) > 0) {
@@ -548,20 +678,21 @@ class CourtMasterController extends BaseController
                             $conn_doc_desrip .= "</w:t> <w:t>";
                         }
                     }
-                    //END
+                    //END 
 
 
-                    if ($connDetails['remark'] != null && $connDetails['remark'] != "") {
-                        $docDataString .= "(" . $connDetails['remark'];
+                    if (($connDetails['remark'] != null && $connDetails['remark'] != "") ||($conn_doc_desrip != null && $conn_doc_desrip != "")) {
+						$docDataString .=  $connDetails['remark']. $conn_doc_desrip . "</w:t> <w:cr/><w:t> ";
+
                     }
-                    $docDataString .= $conn_doc_desrip . ")</w:t> <w:cr/><w:t> ";
+
                 }
 
                 $listingdate = date("d-m-Y", strtotime($causelistDate));
 
                 if ($caseDetails->ia != null && $caseDetails->ia != "" && $caseDetails->ia != 'null') {
                     $iaArray = explode(',', $caseDetails->ia);
-                    if (count($iaArray) > 1) {
+                    if (count($connectedCaseDetails) > 0) {
                         $docDataString .= "</w:t> <w:cr/><w:t>Date : " . $listingdate . " These matters were called on for hearing today.</w:t> <w:cr/><w:t></w:t> <w:cr/><w:t>";
                     } else {
                         $docDataString .= "</w:t> <w:cr/><w:t>Date : " . $listingdate . " This matter was called on for hearing today.</w:t> <w:cr/><w:t></w:t> <w:cr/><w:t>";
@@ -623,9 +754,9 @@ class CourtMasterController extends BaseController
                 //For Petitioner advocate
                 if ($causelistType != 9) {
                     if ($caseDetails->casetype_id == 3 || $caseDetails->casetype_id == 4)
-                        $docDataString .= "</w:t> <w:cr/><w:t>For Appellant(s)</w:t> <w:cr/><w:t>";
+                         $docDataString .= "</w:t> <w:cr/><w:t>For Appellant(s) : ";
                     else
-                        $docDataString .= "</w:t> <w:cr/><w:t></w:t> <w:cr/><w:t>For Petitioner(s)</w:t> <w:cr/><w:t>";
+                         $docDataString .= "</w:t> <w:cr/><w:t></w:t> <w:cr/><w:t>For Petitioner(s) : ";
 
                     if (count($pAdvDetails) > 0) {
                         $pAdvFinal = $pAdv = "";
@@ -654,7 +785,7 @@ class CourtMasterController extends BaseController
                         }
                         $docDataString .= $pAdvFinal;
                     }
-                    $docDataString .= "</w:t> <w:cr/><w:t>For Respondent(s)</w:t> <w:cr/><w:t>";
+                     $docDataString .= "</w:t> <w:cr/><w:t>For Respondent(s) : ";
 
                     if (count($rAdvDetails) > 0) {
                         $rAdvFinal = $rAdv = "";
@@ -710,7 +841,7 @@ class CourtMasterController extends BaseController
                         $designation1 = $signatory1->type_name;
                         $linelength = strlen($designation1);
                         $docDataString .= $designation1;
-                        for ($l = 1; $l <= (50 - $linelength); $l++)
+                        for ($l = 1; $l <= (45 - $linelength); $l++)
                             $docDataString .= " ";
                         $docDataString .= " " . $signatory2->type_name . "</w:t> <w:cr/><w:t>";
                     } else if ($causelistType == 7) {

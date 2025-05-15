@@ -2,19 +2,15 @@
 
 $ifPending = 1;
 $ifMain = 1;
-if ($ct != '')
-{
+if ($ct != '') {
     $get_dno = $model->getDiaryNo($ct, $cn, $cy);
-    if (!empty($get_dno))
-    {
+
+    if (!empty($get_dno)) {
         $get_dno = $get_dno;
         $dno = $get_dno['dn'] . $get_dno['dy'];
-    }
-    else
+    } else
         $dno = 0;
-}
-else
-{
+} else {
     $dno = $dn . $dyr;
 }
 
@@ -57,22 +53,27 @@ $details = $model->getCaseDetails($dno);
 <table align="center" id="tb_clr" cellspacing="3" cellpadding="2">
     <?php
 
-    if (isset($details['c_status']) && $details['c_status'] == 'D') {
+    if (isset($details['c_status']) && $details['c_status'] == 'D')
+    {
         $ifPending = 0;
     ?>
         <tr>
-            <th colspan="4" style="color:red">The Case is Disposed!!!</th>
+            <th colspan="4" style="color:red; text-align:center;">The Case is Disposed!!!</th>
         </tr>
+
     <?php
     }
     ?>
     <tr>
         <th colspan="4" style="color:blue; text-align:center;">
             <?php
-            if (isset($details['pet_name']) && isset($details['res_name'])) {
+            if (isset($details['pet_name']) && isset($details['res_name']))
+            {
 
                 echo $details['pet_name'] . "<span style='color:black'> - Vs - </span>" . $details['res_name'];
-            } else {
+            }
+            else
+            {
 
                 echo "--";
             }
@@ -179,14 +180,12 @@ $details = $model->getCaseDetails($dno);
         <td>
             <?php
             $ifAdvanceAllocated = 0;
-            if (isset($details['next_dt']))
-            {
+            if (isset($details['next_dt'])) {
                 $advance_dates = $model->getAdvanceDate($details['next_dt']);
             }
-           
 
-            if (!empty($advance_dates))
-            {
+
+            if (!empty($advance_dates)) {
                 $ifAdvanceAllocated = 1;
                 echo "<select id='advance_list_date' name='advance_list_date'>";
                 foreach ($advance_dates as $row) {
@@ -239,10 +238,9 @@ $details = $model->getCaseDetails($dno);
     </div>
 </div> -->
 <?php
-if (!isset($details['advance_list_date']) || is_null($details['advance_list_date'])) 
-{
+if (!isset($details['advance_list_date']) || is_null($details['advance_list_date'])) {
     // Debugging line (Remove if not needed)
-     //pr('vinit garg'); 
+    //pr('vinit garg'); 
 
     if ($ifAdvanceAllocated == 1 && $ifPending == 1 && $ifReady == 1 && $ifMain == 1) {
 ?>
@@ -259,11 +257,9 @@ if (!isset($details['advance_list_date']) || is_null($details['advance_list_date
         </div>
     <?php
     }
-} 
-else 
-{
+} else {
     $advance_list_date = htmlspecialchars($details['advance_list_date'] ?? '--');
-?>
+    ?>
     <div>
         <div style="color: red; text-align: center">
             <span>

@@ -576,8 +576,19 @@ function chg_def1() {
         $('#thdate').prop('disabled', false);
     }
     else {
+        // $('#thdate').val(tdt1);
+        // $('#thdate').prop('disabled', true);
         $('#thdate').val(tdt1);
-        $('#thdate').prop('disabled', true);
+        var allow_users = $('#always_allowed_users').val()
+        // console.log("allow_users: ", allow_users)
+        // console.log("usercode: ", usercode)
+        if (lo == "7" && (allow_users.includes(usercode))) {
+            // alert(true)
+            $('#thdate').prop('disabled', false);
+        } else {
+            // alert(false)
+            $('#thdate').prop('disabled', true);
+        }
     }
 }
 

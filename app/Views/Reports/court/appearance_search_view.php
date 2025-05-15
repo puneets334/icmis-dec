@@ -41,8 +41,9 @@
                                         <option value="15">15</option>
                                         <option value="16">16</option>
                                         <option value="17">17</option>
-                                        <option value="21">21 (Registrar)</option>
-                                        <option value="22">22 (Registrar)</option>
+                                        <option value="21">Registrar Court</option>
+                                        <!-- <option value="21">21 (Registrar)</option> -->
+                                        <!-- <option value="22">22 (Registrar)</option> -->
                                     </select>
                                 </div>
                             </div>
