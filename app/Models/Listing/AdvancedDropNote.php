@@ -93,8 +93,8 @@ class AdvancedDropNote extends Model
     public function getNotes($list_dt, $board_type)
     {
         //REmove 
-        //$list_dt ='2025-08-02';
-        //$list_dt ='2023-05-02';
+        // $list_dt ='2025-08-02';
+        // $list_dt ='2023-05-02';
         if ($board_type === 'C')
         {
             $list_dt_exploded = explode("_", $list_dt);
