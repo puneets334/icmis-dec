@@ -2300,11 +2300,7 @@ class PrintAdvance extends BaseController
         $request = \Config\Services::request();
 
         // Get user code from session
-        if (!empty(session()->get('dcmis_user_idd'))) {
-            $ucode = session()->get('dcmis_user_idd');
-        } else {
-            $ucode = session()->get('login')['usercode'];
-        }
+        $ucode = session()->get('login')['usercode'];
 
         // Retrieve POST data
         $mainhead = $request->getPost('mainhead');
@@ -2344,7 +2340,7 @@ class PrintAdvance extends BaseController
             //'cntt'       => $prtContent,
             // 'usercode'   => $ucode,
             //  'pdf_cont' => $pdf_cont,
-            'main_supp_flag' => $main_supp_flag, // Add `main_supp_flag` to the data array
+            'main_supp_flag' => $main_supp_flag, 
             'min_brd_no'    => $minMax['min_brd_no'],
             'max_brd_no'    => $minMax['max_brd_no']
         ];
@@ -2353,9 +2349,9 @@ class PrintAdvance extends BaseController
         // Fetch previous cause list print records
         $results = $this->PrintAdvanceModel->cl_print_save($data);
      
-        if ($results == 1)
+        if ($results['flag'] == 1)
         {
-
+            $board_type = $results['board_type'];
             $file_path = $mainhead . "_" . $board_type . "_" . $main_supp_flag . "_" . $part_no . "_" . $roster_id;
             
             // $path_dir = WRITEPATH . '/home/judgment/cl/' . $list_dt . '/';

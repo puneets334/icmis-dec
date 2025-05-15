@@ -103,7 +103,6 @@
                                                     <select class="ele" name="board_type" id="board_type">
                                                         <option value="0">-ALL-</option>
                                                         <option value="J">Court</option>
-                                                        <option value="S">Single Judge</option>
                                                         <option value="C">Chamber</option>
                                                         <option value="R">Registrar</option>
                                                     </select>
@@ -484,8 +483,9 @@
             },
 
             success: function(data, status) {
-
-                $('#res_loader').html(data.message);
+                $(".ebublish").html('');
+                $('#res_loader').html(data.message).addClass('alert alert-success');
+                $(".ebublish").html('Already Published');
                 
             },
             error: function(xhr) {

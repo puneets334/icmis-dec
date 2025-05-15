@@ -1,9 +1,5 @@
 <?php
-if (!empty(session()->get('dcmis_user_idd'))) {
-    $ucode = session()->get('dcmis_user_idd');
-} else {
-    $ucode = session()->get('login')['usercode'];
-}
+$ucode = session()->get('login')['usercode'];
 $list_dt = date('Y-m-d', strtotime($list_dt));
 $mainhead = $mainhead;
 $part_no = $part_no;
@@ -27,13 +23,6 @@ $session->set('list_dt', $list_dt);
 $session->set('advance_json_mainhead', $mainhead);
 $session->set('json_judge_code', $first_jcd_cc);
 $session->set('json_part_no', $part_no);
-
-
-
-
-
-
-
 
 
 $res_ros = $model->getRosterTitle($roster_id);
@@ -217,8 +206,7 @@ if (!empty($res_ros)) {
                 ?>
 
                 <?php
-                $sql_scw = "select * from sc_working_days where working_date = '$list_dt' and is_nmd = 0 and display ='Y'";
-
+               
                 $res_scw = $model->getWorkingDays($list_dt);
                 if (!empty($res_scw)) {
                     $misc_day = "YES";
@@ -250,7 +238,7 @@ if (!empty($res_ros)) {
                     </tr>
                 <?php
                 }
-                if ($first_jcd_cc == '280' and $mainhead == 'M') {
+                if ($first_jcd_cc == '279' and $mainhead == 'M') {
                 ?>
                     <tr>
                         <th colspan="4" style="text-align: left;">
@@ -259,7 +247,23 @@ if (!empty($res_ros)) {
                     </tr>
                 <?php
                 }
-
+                if ($first_jcd_cc == '280' and $mainhead == 'M') {
+                    ?>
+                        <tr>
+                            <th colspan="4" style="text-align: left;">                                    
+                                <br><b><span style="font-size: 14px;">NOTE :- Fresh matters including the pass over fresh matters will be taken up before After Notice matters.</span></b><br>
+                            </th>
+                        </tr>
+                    <?php                        
+                } if ($first_jcd_cc == '293' and $mainhead == 'M') {
+                    ?>
+                            <tr>
+                                <th colspan="4" style="text-align: left;">                                    
+                                    <br><b><span style="font-size: 14px;">NOTE :- Fresh matters, including the passed over fresh matters, will be taken up before After Notice Matters.</span></b><br>
+                                </th>
+                            </tr>
+                        <?php
+                    }
                 if ($first_jcd_cc == '270' and $mainhead == 'F') {
                 ?>
                     <tr>
@@ -307,6 +311,23 @@ if (!empty($res_ros)) {
                         </th>
                     </tr>
                 <?php
+                }
+                if ($first_jcd_cc == '288') {
+                    //Whenever written submissions are filed in a matter reserved by this Hon'ble Court, Advocates and parties in person are requested to email a soft copy in a pdf form to the email id : "writtensubmissions.jbp@gmail.com"                                                                        
+                    ?>
+                        <tr>
+                            <th colspan="4" style="text-align: left;">
+                                <b>NOTE :</b><br>                                    
+"Whenever written submissions are directed to be filed in matter(s) reserved for judgment/order by this Hon’ble Court, the advocates and parties in person are requested to email a soft copy in a pdf form on or before the directed/stipulated date to the following email id :
+<br><br>
+<center>writtensubmissions.jbp@gmail.com.</center>
+<br><br>
+The soft copies which are to be emailed should not be scanned copies of printed submissions. No document other than written submissions in matter(s) reserved for judgment/order should be filed in this email."
+
+
+                            </th>
+                        </tr>
+                    <?php
                 }
 
                 ?>
@@ -520,11 +541,6 @@ if (!empty($res_ros)) {
                         $impldname = "";
                         $intervenorname = "";
                         if ($part_no != "50" and $part_no != "51") {
-
-
-
-
-
 
                             $resultsadv = $model->getAdv($row["diary_no"]);
 
@@ -750,7 +766,7 @@ if (!empty($res_ros)) {
                
                 if (!empty($result_case_updation)) {
                      ?>
-                        <input name="prnnt1" type="button" id="ebublish" value="e-Publish"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="ebublish"><input name="prnnt1" type="button" id="ebublish" value="e-Publish"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 <?php
                 } else {
                     echo "Not Published";
