@@ -103,7 +103,7 @@
                             else if ($getbench->board_type == 'R')
                                 echo "Registrar";
 
-                            echo " " . $getbench->jname;
+                            echo " " .isset( $getbench->jname) ? $getbench->jname : '';
                         }
                     } else {
                         echo "Not Listed";
