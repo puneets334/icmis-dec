@@ -60,7 +60,7 @@ if (!empty($res_ros)) {
     <div id="prnnt" style="font-size:12px;">
 
         <div align=center style="font-size:12px;"><SPAN style="font-size:12px;" align="center"><b>
-                    <img src="<?php echo base_url('images/scilogo.png'); ?>" width="50px" height="80px" /><br />
+                    <img src="<?php echo base_url('images/scilogo.png'); ?>" width="80px" height="80px" /><br />
 
                     <link rel="icon" href="<?php echo base_url('images/scilogo.png'); ?>" type="image/x-icon">
 
@@ -228,7 +228,6 @@ if (!empty($res_ros)) {
                 }
 
 
-
                 if ($first_jcd_cc == '280' and $mainhead == 'F') {
                 ?>
                     <tr>
@@ -254,7 +253,8 @@ if (!empty($res_ros)) {
                                 <br><b><span style="font-size: 14px;">NOTE :- Fresh matters including the pass over fresh matters will be taken up before After Notice matters.</span></b><br>
                             </th>
                         </tr>
-                    <?php                        
+                    <?php        
+                                    
                 } if ($first_jcd_cc == '293' and $mainhead == 'M') {
                     ?>
                             <tr>
@@ -425,8 +425,8 @@ The soft copies which are to be emailed should not be scanned copies of printed 
                             $if_sclsc = "";
                         }
                         if ($mainhead == "F") {
-                            if ($row['subhead'] == "911" or $row['subhead'] == "912") {
-                                $retn = $row["sub_name1"];
+                            if ($row['subhead'] < 1000) {
+                                $retn = $row["stagename"];
                             } else {
                                 $retn = $row["sub_name1"];
                                 if ($row["sub_name2"])
