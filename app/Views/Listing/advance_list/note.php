@@ -30,6 +30,8 @@
         font-weight: bold;
         cursor: pointer;
     }
+    .container-wrapped-section{display: inline-block;
+        width: 100%;}
 </style>
 <div class="container-fluid">
     <div class="row">
@@ -107,13 +109,12 @@
                  
                 </div>
             </form>
+   
+        <div class="container-wrapped-section">
+                <div id="dv_res1" style="text-align: left;"></div>                           
+                       
         </div>
-        <div class="container">
-                        <div class="col-md-12 ">
-                            <div id="dv_res1" style="text-align: left;"></div>    
-                        </div>
-                    </div>
-                    
+        
 
 
                     
@@ -269,6 +270,7 @@
     //main function 
     $(document).on("click", "#btn1", function()
     {
+        //alert('hello vkg');
         
         if (updateCSRFToken()) {
             var mainhead = get_mainhead();
