@@ -11,7 +11,6 @@
   							<div class="col-sm-10">
   								<h3 class="card-title"> Caveat Search</h3>
   							</div>
-
   							<?= view('Filing/filing_filter_buttons'); ?>
   						</div>
   					</div>
