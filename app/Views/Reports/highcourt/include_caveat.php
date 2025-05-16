@@ -26,7 +26,7 @@ if ($_REQUEST['u_t'] == '1') {
         $ddl_court_t = "  a.ct_code = b.ct_code";
     }
     if ($_REQUEST['txt_order_date'] != '') {
-        $_REQUEST['txt_order_date'] = date('Y-m-d',  strtotime($_REQUEST[txt_order_date]));
+        $_REQUEST['txt_order_date'] = date('Y-m-d',  strtotime($_REQUEST['txt_order_date']));
         $txt_order_date = " and lct_dec_dt = '$_REQUEST[txt_order_date]'";
         $txt_order_date_t = " AND a.lct_dec_dt = b.lct_dec_dt";
     }
@@ -291,112 +291,133 @@ if (!empty($result)) {
     <div class="table-responsive">
         <table id="example1" class="table table-striped custom-table">
             <thead>
-            <tr>
-                <th>
-                    S.No.
-                </th>
-                <th>
-                    Diary No.
-                </th>
-                <th>
-                    Registration No.
-                </th>
-                <th>
-                    Petitioner<br />Vs<br />Respondent
-                </th>
-                <th>
-                    From Court
-                </th>
-                <th>
-                    State
-                </th>
-                <th>
-                    Bench
-                </th>
-                <th>
-                    Case No.
-                </th>
-                <th>
-                    Judgement Date
-                </th>
-                <th>
-                    Caveat
-                </th>
-            </tr>
+                <tr>
+                    <th>
+                        S.No.
+                    </th>
+                    <th>
+                        Diary No.
+                    </th>
+                    <th>
+                        Registration No.
+                    </th>
+                    <th>
+                        Petitioner<br />Vs<br />Respondent
+                    </th>
+                    <th>
+                        From Court
+                    </th>
+                    <th>
+                        State
+                    </th>
+                    <th>
+                        Bench
+                    </th>
+                    <th>
+                        Case No.
+                    </th>
+                    <th>
+                        Judgement Date
+                    </th>
+                    <th>
+                        Caveat
+                    </th>
+                </tr>
             </thead>
             <tbody>
-            <?php
-            //$s_no=1;
-            //echo "bb".$s_no.'bb';
-            foreach ($result as $row) {
-            ?>
-                <tr>
-                    <td>
-                        <?php echo  $s_no; ?>
-                    </td>
-                    <td>
-                        <?php echo substr($row['diary_no'], 0, -4) . '-' .  substr($row['diary_no'], -4); ?>
-                    </td>
-                    <td>
-                        <?php
-                        $active_fil_no = '';
-                        $active_fil_dt = '';
-                        if ($row['active_fil_no'] != '')
-                            $active_fil_no = '-' . intval(substr($row['active_fil_no'], 3));
-                        if ($row['active_fil_dt'] != '0000-00-00 00:00:00')
-                            $active_fil_dt = '/' . date('Y', strtotime($row['active_fil_dt'] ?? ''));
-                        echo $row['short_description'] . $active_fil_no . $active_fil_dt; ?>
-                    </td>
-                    <td>
-                        <?php
+                <?php
+                //$s_no=1;
+                //echo "bb".$s_no.'bb';
+                foreach ($result as $row) {
+                ?>
+                    <tr>
+                        <td>
+                            <?php echo  $s_no; ?>
+                        </td>
+                        <td>
+                            <?php echo substr($row['diary_no'], 0, -4) . '-' .  substr($row['diary_no'], -4); ?>
+                        </td>
+                        <td>
+                            <?php
+                            $active_fil_no = '';
+                            $active_fil_dt = '';
+                            if ($row['active_fil_no'] != '')
+                                $active_fil_no = '-' . intval(substr($row['active_fil_no'], 3));
+                            if ($row['active_fil_dt'] != '0000-00-00 00:00:00')
+                                $active_fil_dt = '/' . date('Y', strtotime($row['active_fil_dt'] ?? ''));
+                            echo $row['short_description'] . $active_fil_no . $active_fil_dt; ?>
+                        </td>
+                        <td>
+                            <?php
 
-                        echo $row['pet_name'] . '<br/>Vs<br/>' . $row['res_name'];
-                        ?>
-                    </td>
-                    <td>
-                        <?php echo $row['court_name']; ?>
-                    </td>
-                    <td>
-                        <?php
-                        echo $row['name'];
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                        echo $row['agency_name'];
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                        echo  $row['type_sname'] . '-' . $row['lct_caseno'] . '-' . $row['lct_caseyear'];
-                        ?>
-                    </td>
-                    <td>
-                        <?php echo date('d-m-Y', strtotime($row['lct_dec_dt'] ?? '')); ?>
-                    </td>
-                    <td>
+                            echo $row['pet_name'] . '<br/>Vs<br/>' . $row['res_name'];
+                            ?>
+                        </td>
+                        <td>
+                            <?php echo $row['court_name']; ?>
+                        </td>
+                        <td>
+                            <?php
+                            echo $row['name'];
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            echo $row['agency_name'];
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            echo  $row['type_sname'] . '-' . $row['lct_caseno'] . '-' . $row['lct_caseyear'];
+                            ?>
+                        </td>
+                        <td>
+                            <?php echo date('d-m-Y', strtotime($row['lct_dec_dt'] ?? '')); ?>
+                        </td>
+                        <td>
 
-                        <?php echo  substr($row['caveat_no'], 0, -4) . '-' .  substr($row['caveat_no'], -4); ?>
+                            <?php echo  substr($row['caveat_no'], 0, -4) . '-' .  substr($row['caveat_no'], -4); ?>
 
-                    </td>
-                    <!--        <td>
+                        </td>
+                        <!--        <td>
        <?php echo $row['link_dt']; ?>
         </td>-->
-                </tr>
-            <?php
-                $s_no++;
-            }
-            ?>
+                    </tr>
+                <?php
+                    $s_no++;
+                }
+                ?>
             </tbody>
         </table>
 
         <input type="hidden" name="inc_tot_pg" id="inc_tot_pg" value="<?php echo $s_no; ?>" />
     </div>
-    <?php
+<?php
 } else {
-    ?>
-        <div class="cl_center"><b>No Record Found.</b></div>
-    <?php
-}?>
+?>
+    <div class="cl_center"><b>No Record Found.</b></div>
+<?php
+} ?>
 
- 
+<script>
+    $(function() {
+        $("#example1").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "bProcessing": true,
+            "extend": 'colvis',
+            "text": 'Show/Hide',
+            "dom": 'Bfrtip', 
+            "buttons": [{
+                extend: 'print',
+                text: 'Print',
+                title: 'Report',
+                autoPrint: true, 
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }]
+        }).buttons().container().appendTo('#query_builder_wrapper .col-md-6:eq(0)');
+    });
+</script>
