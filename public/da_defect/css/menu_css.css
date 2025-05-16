@@ -1,0 +1,153 @@
+*
+{
+    font-size: 13px;
+font-family:verdana;
+
+}
+
+html,body { 
+       Padding: 0;
+      Margin: 0;
+      height:100%; }
+
+.table_tr_th_w_clr,.tbl_border
+{
+     border-collapse: collapse;
+}
+
+.table_tr_th_w_clr  tr, .table_tr_th_w_clr  td, .table_tr_th_w_clr th,.tbl_border tr, .tbl_border td,.tbl_border th{
+  
+   
+    border: 1px solid lightgrey;
+}
+.table_tr_th_w_clr tr:nth-child(even) 
+{
+    background-color: #f2f2f2;
+}
+
+#ul_menu,#ul_submenu,#ul_sub_sub_menu
+{
+
+padding:5px 0px 5px 0px ;
+/*padding:0px 0px 0px 0px ;*/
+}
+
+#ul_submenu
+{
+	 margin:0px;padding:0px;
+     list-style-type: none;
+}
+
+.li_menu
+{
+
+display: inline;
+}
+/*.li_submenu
+{
+   
+}*/
+
+ .sp_cl,.sp_sub_mn,.sp_sub_sub_mn {
+/*    background-color: whitesmoke;
+    color: black;
+    padding: 3px 5px;
+    margin: 0px 1px;
+    text-decoration: none;
+    border-radius: 3px ;*/
+  background-color: whitesmoke;
+    color: black;
+    border: none;
+    cursor: pointer;
+    padding: 2px 12px 3px 12px;
+    text-decoration: none;
+    border-radius: 10px ;
+
+}
+
+.sp_cl:hover,.sp_sub_mn:hover,.sp_sub_sub_mn:hover
+{
+    background: #005875;
+    color: white;
+    cursor: pointer;
+}
+
+#a_l
+{
+    text-decoration: none;
+    color: black;
+    
+}
+#a_l:hover
+{
+    cursor: pointer;
+    
+}
+.dv_clr
+{
+   background-color:#026D9F; /*  #0089b7; */
+  
+}
+#dv_mn_menu {line-height: 200%;}
+#dv_mn_menu,#dv_sub_sub_menu
+{
+    /*padding: 1px 0px 1px 0px;*/
+}
+.pd_submenu {
+
+margin-bottom:10px;}
+.hindi 
+{
+    font-family:'Kruti Dev 010';
+    font:'Kruti Dev 010';
+    font-size:'large';
+display:block;
+}
+.hindi,.hindi1 
+{
+background-color:FFF8C6;
+/*#ffff99;*/
+}
+.hindi1 {font-family:'Kruti Dev 010';font:'Kruti Dev 010'; font-size:'large';
+display:block;}
+
+tr {vertical-align:top}
+
+.linkcolor {
+font: 600 12px verdana,sans-serif;
+color: blue;
+}
+ .c_vertical_align  td, .c_vertical_align th
+{
+    vertical-align: middle;
+}
+.cl_center
+{
+    text-align: center
+}
+.table_small_fomt *
+{
+    font-size: 10px;
+}
+
+@media print
+{
+thead { display: table-header-group ;}
+}
+.cl_supreme
+{
+    color: green;
+}
+.cl_other
+{
+    color: blue;
+}
+#dv_edi *
+{
+    font-size: 9px;
+}
+.cl_left_css
+{
+    text-align: left
+}
+
