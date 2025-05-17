@@ -118,7 +118,8 @@
 </section>   
 <script>
 $(document).on("click","#btngetr",function(){
-      $('#dv_res1').html(""); 
+    
+    $('#dv_res1').html(""); 
     var obj_type = $("#obj_type").val();
     var obj_text= $("#obj_type option:selected").text();
     var status = $("#status").val();
@@ -136,15 +137,18 @@ var CSRF_TOKEN = 'CSRF_TOKEN';
             async: true,
             data: {obj_type: obj_type,status: status,from_date: from_date,to_date:to_date,obj_text:obj_text,CSRF_TOKEN: CSRF_TOKEN_VALUE},
             beforeSend:function(){
+                $("#btngetr").prop('disabled',true);
                $('#dv_res1').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
             },
             type: 'POST',
             success: function(data, status){                
-               updateCSRFToken();      
                $('#dv_res1').html(data);                  
             },
+            complete: function(){                
+               updateCSRFToken();      
+               $("#btngetr").prop('disabled',false);
+            },
             error: function(xhr) {
-				updateCSRFToken();
                 alert("Error: " + xhr.status + " " + xhr.statusText);
             }
         });

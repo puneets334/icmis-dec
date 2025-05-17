@@ -70,6 +70,8 @@ class Verification extends BaseController
                 'ent_dt' => $doc->ent_dt
             ];
         }
+
+
         $defects['cat'] = $model->getcategory($diary_no);
         $cat_details_list = [];
         foreach ($defects['cat'] as $cat_detail) {
@@ -84,6 +86,8 @@ class Verification extends BaseController
             // 
 
         }
+
+
         $defects['cat_emp1'] = $this->VerificationModel->other_categoryinfo($diary_no);
         $cat_code = $id = $defects['cat'][0]->id ?? '';
         if (!empty($defects['cat_emp1'])) {
@@ -108,6 +112,7 @@ class Verification extends BaseController
         $defects['category'] = $category->index('category');
  
         $defects['get_verification_text'] =  $this->get_verification_dup();
+
         return view('Filing/verification_view', $defects);
     }
 

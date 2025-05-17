@@ -85,6 +85,7 @@
             url: "<?php echo base_url('Reports/Filing/Filing_Reports/get_filtrap_mon'); ?>",
             method: 'POST',
             beforeSend: function() {
+                $("#btn1").prop('disabled',true);
                 $('#result').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
             },
             data: {
@@ -93,11 +94,14 @@
             },
             cache: false,
             success: function(response) {
-                updateCSRFToken();
                 $('#result').html(response);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            complete:function()
+            {
                 updateCSRFToken();
+                $("#btn1").prop('disabled',false);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
                 alert("Error: " + jqXHR.status + " " + errorThrown);
             }
         });

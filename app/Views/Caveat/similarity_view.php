@@ -63,7 +63,7 @@
                         //echo form_open(base_url('Caveat/Similarity'), $attribute);
                         echo form_open(base_url('#'), $attribute);
                         ?>
-                        <div class="row">
+                        <div class="row d-none">
                             <div class="col-md-2"></div>
                             <div class="col-md-3">
                                 <div class="form-group row">

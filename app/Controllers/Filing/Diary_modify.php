@@ -100,7 +100,7 @@ class Diary_modify extends BaseController
         $data['update_button']='';
         if (!empty($fetch_rw)){
             if (!empty($fetch_rw['c_status']) && $fetch_rw['c_status']=='P'){
-                $data['update_button']="<input type='button' class='btn btn-success' value='Update' onclick='call_update_main()' id='svbtn' onkeydown='if (event.keyCode == 13) document.getElementById('svbtn').click()' ><input type='button' class='btn btn-gray' value='Cancel' onclick='window.location.reload()'>";
+                $data['update_button']="<input type='button' class='btn btn-success' value='Update' onclick='call_update_main()' id='svbtn' onkeydown='if (event.keyCode == 13) document.getElementById('svbtn').click()' ><input type='button' class='btn btn-primary' value='Cancel' onclick='window.location.reload()'>";
             }
         }
         //echo '<pre>';print_r(session()->get('filing_details'));exit();
