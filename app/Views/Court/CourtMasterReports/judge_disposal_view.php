@@ -87,13 +87,13 @@
 			return false;
 		}
 
-        date1 = new Date(dateFrom.split('-')[2], dateFrom.split('-')[1] - 1, dateFrom.split('-')[0]);
-		date2 = new Date(dateTo.split('-')[2], dateTo.split('-')[1] - 1, dateTo.split('-')[0]);
-		if (date1 > date2) {
-			alert("To Date must be greater than From date");
+       // date1 = new Date(dateFrom.split('-')[2], dateFrom.split('-')[1] - 1, dateFrom.split('-')[0]);
+		//date2 = new Date(dateTo.split('-')[2], dateTo.split('-')[1] - 1, dateTo.split('-')[0]);
+		//if (date1 > date2) {
+		//	alert("To Date must be greater than From date");
 
-			return false;
-		}
+		//	return false;
+		//}
 
 		$("#dv_res1").html('');
         $.ajax({
