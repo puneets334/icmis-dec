@@ -84,8 +84,8 @@ function getDetails()
         }
     }
     // xmlhttp.open("GET","getReport51-II.php?seljudgename="+seljudgename+"&frm="+frm+"&toDate="+toDate,true);
-    xmlhttp.open("GET","get_data?d_no="+t_h_cno+"&d_yr="+t_h_cyt,true);
-    xmlhttp.send(null);
+    //xmlhttp.open("GET","get_data?d_no="+t_h_cno+"&d_yr="+t_h_cyt,true);
+    //xmlhttp.send(null);
 }
 
 
@@ -631,8 +631,8 @@ function rem_obj()
                 if(document.getElementById('sp_hide'+i))
                     document.getElementById('sp_hide'+i).style.display='none';
                 // xmlhttp.open("GET","getReport51-II.php?seljudgename="+seljudgename+"&frm="+frm+"&toDate="+toDate,true);
-                xmlhttp.open("GET","modify_data?hd_id="+hd_id+"&filling_no="+filling_no+"&i="+cn_to_y+"&total="+cn_to_y_ck,false);
-                xmlhttp.send(null);
+                //xmlhttp.open("GET","modify_data?hd_id="+hd_id+"&filling_no="+filling_no+"&i="+cn_to_y+"&total="+cn_to_y_ck,false);
+                //xmlhttp.send(null);
             }
             else
             {
@@ -682,8 +682,8 @@ function show_fdDR()
 
 
     // xmlhttp.open("GET","getReport51-II.php?seljudgename="+seljudgename+"&frm="+frm+"&toDate="+toDate,true);
-    xmlhttp.open("GET","getFDdr?total="+filling_no,true);
-    xmlhttp.send(null);
+    //xmlhttp.open("GET","getFDdr?total="+filling_no,true);
+    //xmlhttp.send(null);
 }
 
 function getDone_upd(str)
@@ -1099,43 +1099,42 @@ $(document).ready(function () {
                 }
             });
 
-            alert(defectResponse); // This will now work
+            //alert(defectResponse); // This will now work
 
             if (defectResponse === 'no_entries') {
                 alert('Kindly add defects.');
                 return;
             }
-            location.reload();
 
             var confirmSend = confirm("Further defects will not be added, Do you want to proceed?");
             if (!confirmSend) return;
 
             // Step 4: Refresh CSRF before final SMS call
-            // await updateCSRFTokenSync();
-            // CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+            await updateCSRFTokenSync();
+            CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
-            // $.ajax({
-            //     url: 'save_sms_det',
-            //     type: 'POST',
-            //     cache: false,
-            //     async: true,
-            //     data: {
-            //         d_no: t_h_cno,
-            //         d_yr: t_h_cyt,
-            //         sms_status: 'D',
-            //         [CSRF_TOKEN]: CSRF_TOKEN_VALUE
-            //     },
-            //     beforeSend: function () {
-            //         $('#sp_sms_status').html('<table width="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
-            //     },
-            //     success: function (data) {
-            //         $('#sp_sms_status').html(data);
-            //         location.reload();
-            //     },
-            //     error: function (xhr) {
-            //         alert("Error: " + xhr.status + " " + xhr.statusText);
-            //     }
-            // });
+            $.ajax({
+                url: 'save_sms_det',
+                type: 'POST',
+                cache: false,
+                async: true,
+                data: {
+                    d_no: t_h_cno,
+                    d_yr: t_h_cyt,
+                    sms_status: 'D',
+                    [CSRF_TOKEN]: CSRF_TOKEN_VALUE
+                },
+                beforeSend: function () {
+                    $('#sp_sms_status').html('<table width="100%" align="center"><tr><td><img src="../images/load.gif"/></td></tr></table>');
+                },
+                success: function (data) {
+                    $('#sp_sms_status').html(data);
+                    //location.reload();
+                },
+                error: function (xhr) {
+                    alert("Error: " + xhr.status + " " + xhr.statusText);
+                }
+            });
 
         } catch (err) {
             alert("Failed: " + err);
@@ -1172,17 +1171,5 @@ async function send_email(t_h_cno, t_h_cyt) {
     });
 }
 
-function obj_auto_com(str)
-{
 
-    $("#"+str).autocomplete({
-        //source: "../filing/new_filing_autocomp_post.php",
-        source: "../defects/get_defect_name.php",
-        width: 450,
-        matchContains: true,
-        minLength: 8,
-        selectFirst: false,
-        autoFocus: false
-    });
-}
  

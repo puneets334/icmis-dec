@@ -243,7 +243,155 @@ class DefectsModel extends Model{
             return 'no_entries'; 
         }
     }
-    
-    
+
+    function get_main_row($dairy_no){
+        $builder = $this->db->table('main m');
+        $builder->select('m.dacode, u.empid');
+        $builder->join('master.users u', 'm.dacode = u.usercode', 'left');
+        $builder->where('diary_no', $dairy_no);
+        $query = $builder->get();
+        return $result = $query->getRowArray();
+    }
+
+    function get_fil_trap_row($dairy_no)
+    {
+        $builder = $this->db->table('public.fil_trap');
+        $builder->select("*");        
+        $builder->where('diary_no', $dairy_no);
+        //echo $builder->getCompiledSelect();
+        //exit();
+        $query = $builder->get();
+        return $query->getRowArray();
+    }
+
+    function get_main_row_nested($dairy_no){
+        $builder = $this->db->table('main m');
+        $builder->select('m.dacode, u.empid');
+        $builder->join('users u', 'm.dacode = u.usercode', 'left');
+        $builder->where('m.diary_no', $diary_no);
+        $query = $builder->get();
+        return $result = $query->getRowArray();
+    }
+
+    function get_fil_trap_his_new($row)
+    {
+        $builder = $this->db->table('public.fil_trap_his');
+        $builder->where([
+            'diary_no'     => $row['diary_no'],
+            'd_by_empid'   => $row['d_by_empid'],
+            'd_to_empid'   => $d_to_empid,
+            'disp_dt'      => $row['disp_dt'],
+            'r_by_empid'   => $row['r_by_empid'],
+            'rece_dt'      => $row['rece_dt'],
+            'comp_dt'      => $row['comp_dt'],
+            'disp_dt_seq'  => $row['disp_dt_seq'],
+            'other'        => $row['other'],
+            'scr_lower'    => $row['scr_lower']
+        ]);
+
+        $query = $builder->get();
+        $result = $query->getRowArray();
+    }
+    function get_obj_save_sms($diary_no,$display,$rm_dt){
+
+        $builder = $this->db->table('public.obj_save');
+        $builder->where('diary_no', $diary_no);
+        //$builder->where('docd_id', $doc_id);
+        if(!empty($display)){
+            $builder->where('display', $display);    
+        }
+        if(!empty($rm_dt)){
+            $builder->where('rm_dt', $rm_dt);    
+        }        
+        return $count = $builder->countAllResults();
+
+    }
+
+    function get_obj_save_ia_sms($diary_no,$doc_id,$display,){
+
+        $builder = $this->db->table('obj_save_ia');
+        $builder->where('diary_no', $diary_no);
+        //$builder->where('docd_id', $doc_id);
+        if(!empty($display)){
+            $builder->where('display', $display);    
+        }
+        if(!empty($doc_id)){
+            $builder->where('docd_id', $doc_id);    
+        }        
+        return $count = $builder->countAllResults();
+    }
+
+    function get_advocate_mob($caveat_no){
+        $builder = $this->db->table('public.caveat_advocate a');
+        $builder->select('b.mobile');
+        $builder->join('master.bar b', 'a.advocate_id = b.bar_id');
+        $builder->where('a.caveat_no', $caveat_no);
+        $builder->where('a.display', 'Y');
+        $builder->where('a.pet_res', 'P');
+        echo $builder->getCompiledSelect();
+         exit();
+        $query = $builder->get();
+        return $result = $query->getRowArray(); 
+    }
+
+    function get_caveat_info($caveat_no){
+        $builder = $this->db->table('public.caveat');
+        $builder->select('pet_name,res_name');        
+        $builder->where('caveat_no', $caveat_no);        
+        $query = $builder->get();
+        return $result = $query->getRowArray(); 
+    }
+    function get_pet_res($diary_no){
+        $builder = $this->db->table('main');
+        $builder->select('pet_name,res_name');        
+        $builder->where('diary_no', $diary_no);        
+        $query = $builder->get();
+        return $result = $query->getRowArray(); 
+    }
+    function get_sql_ia($doc_id)
+    {
+        $builder = $this->db->table('public.docdetails');
+        $builder->select('docnum,docyear');        
+        $builder->where('docd_id', $doc_id);        
+        $query = $builder->get();
+        return $result = $query->getRowArray(); 
+    }
+
+    function get_sqlparty($diary_no)
+    {
+        $builder = $this->db->table('public.party');
+        $builder->select('contact');        
+        $builder->where('diary_no', $diary_no);
+        $builder->where('pet_res', 'P');        
+        $query = $builder->get();
+        return $result = $query->getResultArray(); 
+    }
+
+    function get_advocate_mob_new($doc_id) 
+    {
+        $builder = $this->db->table('public.docdetails d');
+        $builder->select('b.mobile');
+        $builder->join('master.bar b', 'd.advocate_id = b.aor_code');
+        if(!empty($doc_id)){
+            $builder->where('d.docd_id', $doc_id);
+        }
+        $query = $builder->get();
+        return $result = $query->getResultArray();
+    }
+
+    function get_advocate_mob_adv($diary_no,$display,$pet_res) 
+    {        
+        $builder = $this->db->table('advocate a');
+        $builder->select('b.mobile');
+        $builder->join('master.bar b', 'a.advocate_id = b.bar_id');
+        $builder->where([
+            'a.diary_no' => $diary_no,
+            'display'    => 'Y',
+            'pet_res'    => 'P'
+        ]);            
+        $query = $builder->get();
+        $result = $query->getResultArray();
+    }
+
 
 }  
