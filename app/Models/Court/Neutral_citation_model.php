@@ -17,16 +17,16 @@ class Neutral_citation_model extends Model
         $builder = $this->db->table("master.judge");
         $builder->select("*");
         $builder->where("jtype","J");
-        $builder->where("is_retired","N");
+        //$builder->where("is_retired","N");
         $builder->where("display","Y");
-        $builder->orderBy("judge_seniority");
+        $builder->orderBy('is_retired, judge_seniority');
         $query =$builder->get();
 
         if($query->getNumRows() >= 1) {
             return $result = $query->getResultArray();
         }else{
             return [];
-        }
+        } 
     }
 
     public function get_neutral_citation_details($diary_no){
@@ -163,7 +163,7 @@ class Neutral_citation_model extends Model
         }
     }
 
-    public function deleteandUpdate($diary_number,$case_no,$date_judgment, $reason,$ip_address,$ucode){
+    public function deleteandUpdate($diary_number,$case_no,$date_judgment, $reason, $ip_address, $ucode){
 
         $builder = $this->db->table("public.neutral_citation");
         $builder->select("*");
