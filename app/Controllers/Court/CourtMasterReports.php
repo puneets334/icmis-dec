@@ -48,8 +48,8 @@ class CourtMasterReports extends BaseController
 
     public function reports_listing_get(){
         $request = \Config\Services::request();
-		$fromDate = '2023-02-01';//date('Y-m-d', strtotime($request->getPost('fromDate')));
-		$toDate = '2023-04-01';//date('Y-m-d', strtotime($request->getPost('toDate')));
+		$fromDate = date('Y-m-d', strtotime($request->getPost('dateFrom')));
+		$toDate = date('Y-m-d', strtotime($request->getPost('dateTo')));
 		$judge= $request->getPost('judge_selected');
 		if($judge!=''){
 			$judge= explode('^',$judge);
@@ -114,13 +114,19 @@ class CourtMasterReports extends BaseController
    }
 
 
-   public function detailed_result($point_no,$fromDate,$toDate,$jcode,$judgename,$CSRF_TOKEN){
-		extract($_POST);
+   public function detailed_result(){
+	    $point_no = $this->request->getPost('point_no');
+		$fromDate = $this->request->getPost('fromDate');
+		$toDate = $this->request->getPost('toDate');
+		$jcode = $this->request->getPost('jcode');
+		$judgename = $this->request->getPost('judgename');
+		$CSRF_TOKEN = $this->request->getPost('CSRF_TOKEN');
+
 		$data['fromDate']= $fromDate;
 		$data['toDate']= $toDate;
 		$data['judgename']= $judgename;
-		$curdate=date('d-m-Y');
-		$cur_time=date('h:i A');
+		$curdate= date('d-m-Y');
+		$cur_time= date('h:i A');
 		if($point_no=='1') {
 			$data['heading']='List of matters which are disposed off from <b>'.date('d-m-Y',strtotime($fromDate)).'</b> to <b>'.date('d-m-Y',strtotime($toDate)).
 				'</b> by the bench in which <b>'.$judgename.'</b> was participant as on '.$curdate.' at '.$cur_time;
@@ -181,7 +187,7 @@ class CourtMasterReports extends BaseController
 				'</b> by <b>'.$judgename.'</b> as Presiding Judge as on '.$curdate.' at '.$cur_time;
 			$data['detail_result'] = $this->model->stats_notice_disposal_regular($fromDate, $toDate, $jcode);
 		}
-		return view('CourtMasterReports/judge_disposal_detail',$data);
+		return view('Court/CourtMasterReports/judge_disposal_detail', $data);
    }
 
 
