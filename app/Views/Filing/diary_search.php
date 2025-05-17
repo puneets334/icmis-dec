@@ -112,6 +112,7 @@
                         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
                         $('.alert-error').hide(); $(".form-response").html("");
                         $("#loader").html('');
+                        $("#submit").prop('disabled',true);
                         $.ajax({
                             type: "POST",
                             url: "<?php echo base_url('Filing/Diary/search'); ?>",
@@ -121,7 +122,6 @@
                             },
                             success: function (data) {
                                 $("#loader").html('');
-                                updateCSRFToken();
                                 var resArr = data.split('@@@');
                                 if (resArr[0] == 1) {
                                     //window.location.reload();
@@ -131,8 +131,11 @@
                                     $(".form-response").html("<p class='message invalid' id='msgdiv'>&nbsp;&nbsp;&nbsp; " + resArr[1] + "</p>");
                                 }
                             },
-                            error: function() {
+                            complete: function() {
                                 updateCSRFToken();
+                                $("#submit").prop('disabled',false);
+                            },
+                            error: function() {
                                 alert('Something went wrong! please contact computer cell');
                             }
                         });

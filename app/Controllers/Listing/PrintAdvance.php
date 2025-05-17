@@ -2154,22 +2154,22 @@ class PrintAdvance extends BaseController
         file_put_contents($data_file, $pdf_cont);
 
         ///////// this is commentted for Class \"Mpdf\\Mpdf\" not found///////////////////////////    
-        // try {
-        //     $mpdf = new \Mpdf\Mpdf();
-        //     //$mpdf = new Mpdf();
-        //     $mpdf->SetDisplayMode('fullpage');
-        //     $mpdf->showImageErrors = true;
-        //     $mpdf->shrink_tables_to_fit = 0;
-        //     $mpdf->keep_table_proportions = true;
+        try {
+            $mpdf = new \Mpdf\Mpdf();
+            //$mpdf = new Mpdf();
+            $mpdf->SetDisplayMode('fullpage');
+            $mpdf->showImageErrors = true;
+            $mpdf->shrink_tables_to_fit = 0;
+            $mpdf->keep_table_proportions = true;
 
-        //     $mpdf->WriteHTML(file_get_contents($data_file));
-        //     $mpdf->Output($data_file1, \Mpdf\Output\Destination::FILE);
-        //     return true;
-        // } catch (\Mpdf\MpdfException $e) {
-        //     // Handle mPDF errors
-        //     log_message('error', 'PDF generation failed: ' . $e->getMessage());
-        //     return false;
-        // }
+            $mpdf->WriteHTML(file_get_contents($data_file));
+            $mpdf->Output($data_file1, \Mpdf\Output\Destination::FILE);
+            return true;
+        } catch (\Mpdf\MpdfException $e) {
+            // Handle mPDF errors
+            log_message('error', 'PDF generation failed: ' . $e->getMessage());
+            return false;
+        }
         /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -2212,17 +2212,27 @@ class PrintAdvance extends BaseController
         }
 
         $causelist_title .= 'List dated ' . $_POST['list_dt'] . ' [' . $file_path . ']';
-        $sms_text = rawurlencode($causelist_title . ' List has been published on www.sci.gov.in at ' . date("d-m-Y H:i:s", time()) . ' - Supreme Court Of India');
-
-        $sms_url = 'http://xxxx/eAdminSCI/a-push-sms-gw?mobileNos=' . '9630100950,9810884595,9319170909,9821411915,9868069855,9718009598,9818782386,9910727768,9968281944,9968319828,9968811042,9971685090,9999100724,9312570277,9910431438,9643323531,7838900365,8800307859,8800928316,9810855890,9711475023,9711475578,9810263541,9810464620,9810481741,9810485122,9810506860,9810594145,9811471402,9811904000,9818617598,9868186878,9868200903,9868216440,9868280279,9868281372,9868631191,9868996564,9811316333,9871922703,9868207383,9899016720,9899249150,9899518586,9899924364,9910431438,9911675788,9968281944,9968319828,9968811042,9971685090,8860012863,9810267531' . '&message=' . $sms_text . '&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=' . SMS_KEY . '&templateId=' . SCISMS_list_publish;
-
-        $sms_response = file_get_contents($sms_url);
-        $json = json_decode($sms_response);
-        if ($json->{'responseFlag'} == "success") {
+        $sms_text = rawurlencode($causelist_title . ' List has been published on https://www.sci.gov.in at ' . date("d-m-Y H:i:s", time()) . ' - Supreme Court Of India');
+        $template_id = '1107172603275349270';
+        $mobile_no = '9630100950,9810884595,9319170909,9821411915,9868069855,9718009598,9818782386,9910727768,9968281944,9968319828,9971685090,9999100724,9312570277,9910431438,9643323531,7838900365,8800307859,8800928316,9810855890,9711475023,9810263541,9810464620,9810481741,9810485122,9810506860,9810594145,9811471402,9811904000,9818617598,9868186878,9868216440,9868280279,9868281372,9868631191,9811316333,9871922703,9868207383,9899016720,9899249150,9899518586,9899924364,9910431438,9911675788,9968281944,9968319828,9971685090,8860012863,9810267531';
+       
+        $sms_response= sendSMS($mobile_no, $sms_text, $template_id);
+        if ($sms_response === true) {
             echo 'Success: Causelist Uploaded alert SMS sent.';
         } else {
             echo 'Error: Causelist Uploaded alert SMS could not be sent.';
         }
+
+        // $sms_url = 'http://xxxxx/eAdminSCI/a-push-sms-gw?mobileNos=' . '9630100950,9810884595,9319170909,9821411915,9868069855,9718009598,9818782386,9910727768,9968281944,9968319828,9968811042,9971685090,9999100724,9312570277,9910431438,9643323531,7838900365,8800307859,8800928316,9810855890,9711475023,9711475578,9810263541,9810464620,9810481741,9810485122,9810506860,9810594145,9811471402,9811904000,9818617598,9868186878,9868200903,9868216440,9868280279,9868281372,9868631191,9868996564,9811316333,9871922703,9868207383,9899016720,9899249150,9899518586,9899924364,9910431438,9911675788,9968281944,9968319828,9968811042,9971685090,8860012863,9810267531' . '&message=' . $sms_text . '&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=' . SMS_KEY . '&templateId=' . SCISMS_list_publish;
+
+        // $sms_response = file_get_contents($sms_url);
+        // $json = json_decode($sms_response);
+        // if ($json->{'responseFlag'} == "success") {
+        //     echo 'Success: Causelist Uploaded alert SMS sent.';
+        // } else {
+        //     echo 'Error: Causelist Uploaded alert SMS could not be sent.';
+        // }
+        
 
 
         //DISABLED ON 09-02-2022 : AS PER BOCC DIRECTIONS ON 08-02-2022 CAUSE LIST IN CSV FORMAT NOT REQUIRED FURTHER
@@ -2300,11 +2310,7 @@ class PrintAdvance extends BaseController
         $request = \Config\Services::request();
 
         // Get user code from session
-        if (!empty(session()->get('dcmis_user_idd'))) {
-            $ucode = session()->get('dcmis_user_idd');
-        } else {
-            $ucode = session()->get('login')['usercode'];
-        }
+        $ucode = session()->get('login')['usercode'];
 
         // Retrieve POST data
         $mainhead = $request->getPost('mainhead');
@@ -2344,7 +2350,7 @@ class PrintAdvance extends BaseController
             //'cntt'       => $prtContent,
             // 'usercode'   => $ucode,
             //  'pdf_cont' => $pdf_cont,
-            'main_supp_flag' => $main_supp_flag, // Add `main_supp_flag` to the data array
+            'main_supp_flag' => $main_supp_flag, 
             'min_brd_no'    => $minMax['min_brd_no'],
             'max_brd_no'    => $minMax['max_brd_no']
         ];
@@ -2353,9 +2359,9 @@ class PrintAdvance extends BaseController
         // Fetch previous cause list print records
         $results = $this->PrintAdvanceModel->cl_print_save($data);
      
-        if ($results == 1)
+        if ($results['flag'] == 1)
         {
-
+            $board_type = $results['board_type'];
             $file_path = $mainhead . "_" . $board_type . "_" . $main_supp_flag . "_" . $part_no . "_" . $roster_id;
             
             // $path_dir = WRITEPATH . '/home/judgment/cl/' . $list_dt . '/';

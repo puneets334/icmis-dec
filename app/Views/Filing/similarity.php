@@ -155,7 +155,8 @@
                                                         <td><?php echo $sn1; ?></td>
                                                         <td>
                                                             <?php if ($row['res_connect_case'] == '' && $res_listed <= 0 && $row['res_listed1'] <= 0 && $row['c_status'] == 'P') { ?>
-                                                                <input title="Based on State, Bench, Case No. and Judgement Date" type="button" name="btnlink_<?php echo $sn1; ?>" id="btnlink_<?php echo $sn1; ?>" value="Link" class="cl_link btn-success btn" disabled />
+                                                                <input title="Based on State, Bench, Case No. and Judgement Date" type="button" name="btnlink_<?php echo $sn1; ?>" 
+                                                                id="btnlink_<?php echo $sn1; ?>" value="Link" class="cl_link btn-success btn" disabled />
                                                             <?php } ?>
                                                         </td>
                                                         <td>

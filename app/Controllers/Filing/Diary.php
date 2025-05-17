@@ -882,9 +882,9 @@ class Diary extends BaseController
                         $da_diary = trim(($_REQUEST['dd']) . ($_REQUEST['dyr']));
 
                         if (!empty($da_diary) && $da_diary != 0 && $da_diary != null) {
-                            $row_caseno = $this->Model_main_a->select("active_fil_no,active_reg_year,DATE_PART('year',diary_no_rec_date) as diary_no_rec_date")->where('diary_no', $da_diary)->get()->getRowArray();
+                            $row_caseno = $this->Model_main->select("active_fil_no,active_reg_year,DATE_PART('year',diary_no_rec_date) as diary_no_rec_date")->where('diary_no', $da_diary)->get()->getRowArray();
                             if (empty($row_caseno)) {
-                                $row_caseno = $this->Model_main->select("active_fil_no,active_reg_year,DATE_PART('year',diary_no_rec_date) as diary_no_rec_date")->where('diary_no', $da_diary)->get()->getRowArray();
+                                $row_caseno = $this->Model_main_a->select("active_fil_no,active_reg_year,DATE_PART('year',diary_no_rec_date) as diary_no_rec_date")->where('diary_no', $da_diary)->get()->getRowArray();
                             }
                             $case_no1 = $row_caseno['active_fil_no'];
                             $reg_year1 = $row_caseno['active_reg_year'];
@@ -933,8 +933,13 @@ class Diary extends BaseController
                         if ($_REQUEST['ddl_nature'] == 39) {
                             //  echo "miscelleneous aplication ";
 
+                            $is_sql_insert_advocate_by_da_diary = '';   
+                            $rs_advocate = is_data_from_table('advocate', ['diary_no' => $da_diary, 'display' => 'Y']);
+                            
+                            if(empty($rs_advocate)) {
+                                $rs_advocate = is_data_from_table('advocate_a', ['diary_no' => $da_diary, 'display' => 'Y']);
+                            }
 
-                            $rs_advocate = is_data_from_table('advocate_a', ['diary_no' => $da_diary, 'display' => 'Y']);
                             if (!empty($rs_advocate)) {
                                 foreach ($rs_advocate as $rw_advocate) {
                                     $sql_insert_advocate_by_da_diary = [
@@ -965,9 +970,15 @@ class Diary extends BaseController
                             }
                             /* code to copy the parties  */
 
-                            $rs_party_data = is_data_from_table('party_a', ['diary_no' => $da_diary, 'sr_no <> ' => 1, 'sr_no_show <> ' => 1, 'pflag <> ' => 'T']);
+                            $rs_party_data = is_data_from_table('party', ['diary_no' => $da_diary, 'sr_no <> ' => 1, 'sr_no_show <> ' => '1', 'pflag <> ' => 'T']);
+                            if(empty($rs_party_data)) {
+                                $rs_party_data = is_data_from_table('party_a', ['diary_no' => $da_diary, 'sr_no <> ' => 1, 'sr_no_show <> ' => '1', 'pflag <> ' => 'T']);
+                            }
+
+                            $usercode = session()->get('login')['usercode'];
 
                             $tr = 1;
+                            $is_sql_insert_party_by_da_diary = '';
                             if (!empty($rs_party_data)) {
                                 foreach ($rs_party_data as $row) {
                                     $tr++;
@@ -993,7 +1004,7 @@ class Diary extends BaseController
                                         'pin' => $row['pin'],
                                         'email' => $row['email'],
                                         'contact' => $row['contact'],
-                                        'ucode' => 1,
+                                        'usercode' => $usercode,
                                         'ent_dt' => $row['ent_dt'],
                                         'pflag' => 'P',
                                         'dstname' => $row['dstname'],
@@ -1004,13 +1015,13 @@ class Diary extends BaseController
                                         'education' => $row['education'],
                                         'occ_code' => $row['occ_code'],
                                         'edu_code' => $row['edu_code'],
-                                        'lowercase_id' => $row['dada'],
-                                        'auto_generated_id' => $row['dada'],
-                                        'remark_lrs' => $row['dada'],
-                                        'remark_del' => $row['dada'],
-                                        'cont_pro_info' => $row['dada'],
-                                        'last_dt' => '',
-                                        'last_usercode' => '',
+                                        'lowercase_id' => $row['lowercase_id'],
+                                        // 'auto_generated_id' => $row['auto_generated_id'],
+                                        'remark_lrs' => $row['remark_lrs'],
+                                        'remark_del' => $row['remark_del'],
+                                        'cont_pro_info' => $row['cont_pro_info'],
+                                        'last_dt' => $row['last_dt'],
+                                        'last_usercode' => $row['last_usercode'],
 
                                         'create_modify' => date("Y-m-d H:i:s"),
                                         'updated_by' => session()->get('login')['usercode'],
@@ -1022,10 +1033,11 @@ class Diary extends BaseController
                             }
                             if ($is_sql_insert_party_by_da_diary) {
 
-                                echo $tr . " Records Found and Copied Successfully";
-                            } else {
-                                echo ("Error!!. Contact Server Room.");
+                                echo '<div class="alert alert-success">'. $tr . " Records Found and Copied Successfully</div>";
                             }
+                            //  else {
+                            //     echo ("Error!!. Contact Server Room.");
+                            // }
 
 
                             /* end of the code  - copy party in MA*/
@@ -1042,7 +1054,12 @@ class Diary extends BaseController
 
                         //echo " the da diary is ". $da_diary;
 
-                        $list_mul_category = is_data_from_table('mul_category_a', ['diary_no' => $da_diary, 'display' => 'Y']);
+                        $list_mul_category = is_data_from_table('mul_category', ['diary_no' => $da_diary, 'display' => 'Y']);
+                        
+                        if(empty($list_mul_category)) {
+                            $list_mul_category = is_data_from_table('mul_category_a', ['diary_no' => $da_diary, 'display' => 'Y']);
+                        }
+
                         if (!empty($list_mul_category)) {
                             foreach ($list_mul_category as $rw_cat) {
                                 $submaster_id = $rw_cat['submaster_id'];
@@ -1113,7 +1130,12 @@ class Diary extends BaseController
                         /*****************retreival of disposal date of main matter*************************/
 
 
-                        $rw_da_main_case_grp = is_data_from_table('main_a', ['diary_no' => $da_diary], 'case_grp', 'R');
+                        $rw_da_main_case_grp = is_data_from_table('main', ['diary_no' => $da_diary], 'case_grp', 'R');
+
+                        if(empty($rw_da_main_case_grp)) {
+                            $rw_da_main_case_grp = is_data_from_table('main_a', ['diary_no' => $da_diary], 'case_grp', 'R');
+                        }
+
                         if (!empty($rw_da_main_case_grp)) {
                             $case_grp = $rw_da_main_case_grp['case_grp'];
                             $update_query_result = update('main', ['case_grp' => $case_grp], ['diary_no' => $diary_no]);
@@ -1718,7 +1740,7 @@ class Diary extends BaseController
                 </table>
             </div>
 
-<?php
+            <?php
             $diary_copy = $fil . $year;
             $alpha = '';
             for ($index1 = 0; $index1 < 4; $index1++) {

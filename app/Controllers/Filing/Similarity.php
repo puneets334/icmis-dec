@@ -35,6 +35,8 @@ class Similarity extends BaseController
     public function index()
     {
         $data['param']=array();       
+        $data['diary_no']=session()->get('filing_details')['diary_number'];
+        $data['diary_year']=session()->get('filing_details')['diary_year'];
         return view('Filing/similarity_view',$data);
     }
 
@@ -405,7 +407,7 @@ class Similarity extends BaseController
 
     public function case_details(){
         ini_set('memory_limit', '1024M');
-        $diary_no = $this->request->getPost('diary_no');
+        $diary_no = $this->request->getVar('diary_no');
         $diary_info = get_diary_numyear($diary_no);
         $main_diary_number = array('dn' => $diary_info[0] , 'dy' => $diary_info[1]);
         echo $this->component_case_status_process_tab($main_diary_number);exit();

@@ -144,6 +144,7 @@ class UpdateHeardt extends BaseController
         $main_case = $this->CaseAdd->getMainOrConnectedCase($dno);
         $getCoramEntries = $this->CaseAdd->getCoramEntries($dno);
         $mainSuppOptions  = $this->CaseAdd->getAllMainSupp($dno);
+        $getNextDt  = $this->CaseAdd->getNextDt($dno);
         $listingPurpose = $this->ListingPurpose->getPurposeList();
         //$applications = $this->CaseAdd->getInterlocutoryApplications($dno);
         $if_list_is_printed = false;
@@ -186,7 +187,7 @@ class UpdateHeardt extends BaseController
         if ($caseDetails['mainhead'] != 'F') {
             $subheadings = $this->Subheading->getSubheadings($caseDetails['mainhead'], $caseDetails['case_grp']);
         } else {
-            $subheadings = $this->Subheading->getMulCategorySubheadings($dno);
+            $subheadings = $this->Subheading->getMulCategorySubheadings($dno,$caseDetails['case_grp']);
         }
         
         if (!empty($caseDetails['tentative_cl_dt'])) {
@@ -213,7 +214,8 @@ class UpdateHeardt extends BaseController
             'judgeData'=>$judgeData,
             'casetype'=> $casetype,
             'r_case'=> $r_case,
-            'main_case'=> $main_case
+            'main_case'=> $main_case,
+            'getNextDt'=> $getNextDt
         ]);
     }
 

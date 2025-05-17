@@ -1210,7 +1210,7 @@ class PrintAdvanceModel extends Model
 
         // Determine JOIN condition based on `mf`
         if ($mf != 'F') {
-            $leftjoin_subhead = "LEFT JOIN subheading s ON s.stagecode = h.subhead 
+            $leftjoin_subhead = "LEFT JOIN master.subheading s ON s.stagecode = h.subhead 
                                 AND s.display = 'Y' AND s.listtype = '$mf'";
             $order_by = "s.priority, SUBSTRING(h.diary_no FROM LENGTH(h.diary_no) - 3 FOR 4) ASC, 
                         SUBSTRING(h.diary_no FROM 1 FOR LENGTH(h.diary_no) - 4) ASC";
@@ -1224,12 +1224,12 @@ class PrintAdvanceModel extends Model
 
         // Perform Update Query with Row Number Assignment in PostgreSQL
         $sql1 = "WITH ranked_data AS (
-                    SELECT diary_no, conn_key, 
-                        ROW_NUMBER() OVER (ORDER BY $order_by) + $new_no AS serial_number
+                    SELECT h.diary_no, m.conn_key::INTEGER AS conn_key, 
+                        ROW_NUMBER() OVER (ORDER BY s.priority ASC, SUBSTRING(h.diary_no::TEXT FROM LENGTH(h.diary_no::TEXT) - 3 FOR 4) ASC) AS serial_number
                     FROM heardt h
                     INNER JOIN main m ON m.diary_no = h.diary_no
                     $leftjoin_subhead
-                    WHERE (m.diary_no = m.conn_key OR m.conn_key = 0 OR m.conn_key IS NULL)
+                    WHERE (m.diary_no::text = m.conn_key::text OR m.conn_key::text = '0' OR m.conn_key::text IS NULL)
                     AND m.c_status = 'P' AND h.mainhead = ? 
                     AND h.next_dt = ? AND h.clno = ? AND h.brd_slno > 0 
                     AND h.judges = ? AND h.roster_id > 0
@@ -1238,8 +1238,9 @@ class PrintAdvanceModel extends Model
                 SET brd_slno = ranked_data.serial_number, conn_key = ranked_data.conn_key
                 FROM ranked_data
                 WHERE h.diary_no = ranked_data.diary_no";
-
+        
         $query1 = $this->db->query($sql1, [$mf, $listing_dt, $partno, $chk_jud_id]);
+       
         if ($query1) {
             $result = 1;
         }
@@ -1277,7 +1278,7 @@ class PrintAdvanceModel extends Model
                     h.tentative_cl_dt,
                     m.lastorder,
                     h.listed_ia,
-                    h.sitting_judges,
+                    h.sitting_judges
                 FROM heardt h
                 INNER JOIN main m ON m.diary_no = h.diary_no
                 INNER JOIN conct c ON c.conn_key = m.conn_key::int 
@@ -1682,7 +1683,7 @@ class PrintAdvanceModel extends Model
                 // ->orWhere('heardt.coram IS NULL')
                 // ->groupEnd()
                 // ->update();
-
+                $ip = getClientIP();
                 $sql = "UPDATE heardt h 
                 SET coram = CASE 
                                 WHEN m.casetype_id IN (39, 19, 20, 34, 35) 
@@ -1690,7 +1691,10 @@ class PrintAdvanceModel extends Model
                                 THEN h.judges 
                                 ELSE SPLIT_PART(h.judges, ',', 1) 
                             END, 
-                    list_before_remark = 15 
+                    list_before_remark = 15,
+                    create_modify = date('Y-m-d H:i:s'),
+                    updated_by = session()->get('login')['usercode'],
+                    updated_by_ip = $ip   
                 FROM main m
                 WHERE h.diary_no = m.diary_no -- ✅ Joining with `main` table
                 AND h.next_dt = '$list_dt' 
@@ -1728,7 +1732,10 @@ class PrintAdvanceModel extends Model
                 foreach ($mainCases as $case) {
                     $this->db->query("
                     UPDATE heardt AS h
-                    SET coram = ?
+                    SET coram = ? ,
+                    create_modify = ? ,
+                    updated_by = ? ,
+                    updated_by_ip = ? 
                     FROM main AS m
                     WHERE m.diary_no = h.diary_no
                       AND m.conn_key = ?
@@ -1741,7 +1748,10 @@ class PrintAdvanceModel extends Model
                       AND h.roster_id = ?
                       AND h.clno = ?
                 ", [
-                    $case['coram'],  
+                    $case['coram'], 
+                    date("Y-m-d H:i:s"),
+                    session()->get('login')['usercode'],
+                    getClientIP(), 
                     $case['conn_key'],  
                     $case['conn_key'],  
                     $list_dt,  
@@ -1752,7 +1762,95 @@ class PrintAdvanceModel extends Model
                 
                 }
             }
+            if($board_type == 'R'){
+                $cur_dt = date('Y-m-d');
+                $mainBoard = $this->db->table('heardt h')
+                ->select('h.diary_no, h.judges')
+                ->where('h.roster_id', $roster_id)
+                ->where('h.next_dt', $list_dt)
+                ->where('h.clno', $part_no)
+                ->where('h.mainhead', $mainhead)
+                ->where('h.brd_slno >', 0)
+                ->where('h.board_type', 'R')
+                ->groupStart()
+                ->where('h.main_supp_flag' , 1)
+                ->orWhere('h.main_supp_flag', 2)
+                ->groupEnd()
+                ->get()
+                ->getResultArray();
+                    foreach($mainBoard as $reg_cor){
+                        $builder = $this->db->table('coram');
+                        
+                        // First SELECT query
+                        $existingCoram = $builder->select('*')
+                            ->where('diary_no', $diary_no)
+                            ->where('to_dt', '0000-00-00')
+                            ->where('display', 'Y')
+                            ->where('board_type', 'R')
+                            ->get()
+                            ->getRowArray();
+                        
+                        if ($existingCoram) {
+                            if ($existingCoram['jud'] != $judges) {
+                                // UPDATE query
+                                $builder->set('to_dt', $cur_dt)
+                                    ->set('del_reason', 'By cl_print_save')
+                                    ->set('create_modify', date('Y-m-d H:i:s'))
+                                    ->set('updated_by', session()->get('login')['usercode'])
+                                    ->set('updated_by_ip', $ip )
+                                    ->where('diary_no', $diary_no)
+                                    ->where('board_type', 'R')
+                                    ->update();
+                        
+                                // INSERT query
+                                $data = [
+                                    'diary_no' => $diary_no,
+                                    'board_type' => 'R',
+                                    'jud' => $judges,
+                                    'res_id' => 2,
+                                    'from_dt' => $cur_dt,
+                                    'to_dt' => '0000-00-00',
+                                    'usercode' => $ucode,
+                                    'ent_dt' => date('Y-m-d H:i:s'), // Use CodeIgniter's time helper if needed
+                                    'display' => 'Y',
+                                    'create_modify' => date('Y-m-d H:i:s'),
+                                    
+                                ];
+                                $builder->insert($data);
+                            }
+                        } else {
+                            // INSERT query
+                            $data = [
+                                'diary_no' => $diary_no,
+                                'board_type' => 'R',
+                                'jud' => $judges,
+                                'res_id' => 2,
+                                'from_dt' => $cur_dt,
+                                'to_dt' => '0000-00-00',
+                                'usercode' => $ucode,
+                                'ent_dt' => date('Y-m-d H:i:s'), // Use CodeIgniter's time helper if needed
+                                'display' => 'Y',
+                                'create_modify' => date('Y-m-d H:i:s'),
+                            ];
+                            $builder->insert($data);
+                        }
+                }
+            }
         }
+
+    $builder = $this->db->table('last_heardt');
+
+    $builder->set('bench_flag', 'X')
+        ->where('next_dt', $list_dt)
+        ->where('clno', $part_no)
+        ->where('brd_slno >', 0)
+        ->where('mainhead', $mainhead)
+        ->where('roster_id', $roster_id)
+        ->groupStart()
+            ->where('bench_flag', '')
+            ->orWhere('bench_flag IS NULL', null, false) // Passing null and false prevents auto-escaping of NULL
+        ->groupEnd()
+        ->update();
 
         // Insert into `cl_printed` and `cl_text_save`
         $minMax = $this->db->table('heardt')
@@ -1781,6 +1879,7 @@ class PrintAdvanceModel extends Model
                'deleted_by'=>0,
                'pdf_nm'=>'',
                'pdf_dtl_nm'=>'',
+               'create_modify' => date('Y-m-d H:i:s'),
                
             ]);
         
@@ -1792,10 +1891,44 @@ class PrintAdvanceModel extends Model
                 'clp_id' => $insertedId,
                 'cl_content' => $cntt,
                 'userid' => $ucode,
-                'ent_dt' => date('Y-m-d H:i:s')
+                'ent_dt' => date('Y-m-d H:i:s'),
+                'create_modify' => date('Y-m-d H:i:s'),
             ]);
 
-        return true;
+            $builder = $this->db->table('heardt');
+
+            $builder->set('no_of_time_deleted', 0)
+                ->set('create_modify', date('Y-m-d H:i:s'))
+                ->set('updated_by', session()->get('login')['usercode'])
+                ->set('updated_by_ip', $ip )
+                ->where('next_dt', $list_dt)
+                ->where('clno', $part_no)
+                ->where('brd_slno >', 0)
+                ->where('mainhead', $mainhead)
+                ->where('roster_id', $roster_id)
+                ->where('board_type', $board_type)
+                ->where('(main_supp_flag = 1 OR main_supp_flag = 2)')
+                ->update();
+                if ($board_type == 'C') {
+                    $builder = $this->db->table('roster r')
+                        ->select('*')
+                        ->join('roster_bench rb', 'rb.id = r.bench_id', 'inner')
+                        ->where('r.id', $roster_id)
+                        ->where('r.from_date', $list_dt)
+                        ->where('r.display', 'Y')
+                        ->where('rb.display', 'Y')
+                        ->where('rb.bench_id', 14);
+                
+                    $rs_boardtype_cc = $builder->get()->getNumRows();
+                
+                    if ($rs_boardtype_cc > 0) {
+                        $board_type = 'CC';
+                    }
+                }
+           
+        $data['flag'] = 1;
+        $data['board_type'] = $board_type;
+        return $data;
     }
 
 
@@ -2851,62 +2984,62 @@ class PrintAdvanceModel extends Model
                 $split_judges_name = explode(",", $row['listed_before']);
                 $cc_header = "LIST OF CURATIVE & REVIEW PETITIONS (BY CIRCULATION) IN THE CHAMBERS OF " . str_replace("\n", '\"', $split_judges_name[0]);
                 $lines = array($cc_header);
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
                 $header_data_h = array();
                 $lines1 = array($cc_header);
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
             }
             if ($value == '280' && $mainhead == 'F') {
                 $header_data = array();
                 $header_data_h = array();
 
                 array_push($lines, 'Parties to file list of dates and brief note of submissions not exceeding three pages, two days before the date of listing.');
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
                 $header_data_h = array();
                 array_push($lines1, 'Parties to file list of dates and brief note of submissions not exceeding three pages, two days before the date of listing.');
 
 
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
             }
             if ($value == '280' && $mainhead == 'M') {
                 $header_data = array();
                 $header_data_h = array();
 
                 array_push($lines, 'Fresh matters including the pass over fresh matters will be taken up before After Notice matters.');
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
                 $header_data_h = array();
                 array_push($lines1, 'Fresh matters including the pass over fresh matters will be taken up before After Notice matters.');
 
 
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
             }
             if ($value == '270' && $mainhead == 'F') {
                 $header_data = array();
                 $header_data_h = array();
 
                 array_push($lines, 'NOTE :- NO REQUEST FOR PASS OVER OR ADJOURNMENT WILL BE ENTERTAINED IN ITEM NOS. 101 TO 105. IN THE EVENT THE PARTIES ARE NOT REPRESENTED WHEN THE MATTERS ARE CALLED OUT, THE COURT WILL HEAR AND DECIDE THE MATTERS IN THEIR ABSENCE.');
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
                 $header_data_h = array();
                 array_push($lines1, 'NOTE :- NO REQUEST FOR PASS OVER OR ADJOURNMENT WILL BE ENTERTAINED IN ITEM NOS. 101 TO 105. IN THE EVENT THE PARTIES ARE NOT REPRESENTED WHEN THE MATTERS ARE CALLED OUT, THE COURT WILL HEAR AND DECIDE THE MATTERS IN THEIR ABSENCE.');
 
 
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
             }
             if ($value == '219') {
                 $header_data = array();
@@ -2919,9 +3052,9 @@ class PrintAdvanceModel extends Model
                     'The soft copies which are emailed should not be scanned copies of printed submissions. No other documents other than written submissions should be filed in this email.'
                 );
 
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
 
 
                 $header_data_h = array();
@@ -2932,9 +3065,9 @@ class PrintAdvanceModel extends Model
                     'The soft copies which are emailed should not be scanned copies of printed submissions. No other documents other than written submissions should be filed in this email.'
                 );
 
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
             }
 
 
@@ -2949,12 +3082,12 @@ class PrintAdvanceModel extends Model
                 );
 
 
-                foreach ($lines as $line) {
-                    $header_data[] = (object) array('header_name' => $line);
-                }
+                // foreach ($lines as $line) {
+                //     $header_data[] = (object) array('header_name' => $line);
+                // }
 
 
-                $header_data_h = array();
+               // $header_data_h = array();
                 array_push(
                     $lines1,
                     'Whenever written submissions are directed to be filed by the Court in any proceeding, advocates and parties in person are requested to email a soft copy in a pdf form on or before the stipulated date to the following email id :',
@@ -2962,9 +3095,37 @@ class PrintAdvanceModel extends Model
                     'The soft copies which are emailed should not be scanned copies of printed submissions. No other documents other than written submissions should be filed in this email.'
                 );
 
-                foreach ($lines1 as $lines1) {
-                    $header_data_h[] = (object) array('header_name' => $lines1);
-                }
+                // foreach ($lines1 as $lines1) {
+                //     $header_data_h[] = (object) array('header_name' => $lines1);
+                // }
+            }
+            if ($value == '288') {
+                //  $header_data = array();
+                //  $header_data_h = array();
+                  array_push($lines, "Whenever written submissions are directed to be filed in matter(s) reserved for judgment/order by this Hon’ble Court, the advocates and parties in person are requested to email a soft copy in a pdf form on or before the directed/stipulated date to the following email id :
+      <br><br>
+      <center>writtensubmissions.jbp@gmail.com.</center>
+      <br><br>
+      The soft copies which are to be emailed should not be scanned copies of printed submissions. No document other than written submissions in matter(s) reserved for judgment/order should be filed in this email.");
+      
+              
+                  
+              
+               
+                //  $header_data_h = array();
+                  array_push($lines1, "Whenever written submissions are directed to be filed in matter(s) reserved for judgment/order by this Hon’ble Court, the advocates and parties in person are requested to email a soft copy in a pdf form on or before the directed/stipulated date to the following email id :
+      <br><br>
+      <center>writtensubmissions.jbp@gmail.com.</center>
+      <br><br>
+      The soft copies which are to be emailed should not be scanned copies of printed submissions. No document other than written submissions in matter(s) reserved for judgment/order should be filed in this email.");
+                 
+              }
+
+            foreach ($lines as $line) {
+                $header_data[] = (object) array('header_name' => $line);
+            }
+            foreach ($lines1 as $lines1) {
+                $header_data_h[] = (object) array('header_name' => $lines1);
             }
 
             $rowadv =  $this->get_res_pets($diary_no);
@@ -3437,7 +3598,8 @@ class PrintAdvanceModel extends Model
         $builder->orderBy('r.id');
         // $builder->orderBy('j.judge_seniority');
         $builder->orderBy('STRING_AGG(j.judge_seniority::text, \',\' ORDER BY j.judge_seniority)');
-
+        echo $builder->getCompiledSelect();
+        die();
         $query = $builder->get();
         $result = $query->getResultArray();
 
@@ -3721,6 +3883,8 @@ class PrintAdvanceModel extends Model
 
         // Order By
         $builder->orderBy('r.id');
+        // echo $builder->getCompiledSelect();
+        // die();
 
         $query = $builder->get();
 
@@ -3743,10 +3907,10 @@ class PrintAdvanceModel extends Model
             $leftjoin_subhead = "LEFT JOIN master.subheading s ON s.stagecode = h.subhead AND s.display = 'Y' AND s.listtype = '$mainhead'";
             $leftjoin_submaster = "";
         } else {
-            $sub_head_name = "sm.sub_name1, sm.sub_name2, sm.sub_name3, sm.sub_name4";
-            $leftjoin_subhead = "LEFT JOIN category_allottment c ON  h.subhead = c.submaster_id AND c.ros_id = '$roster_id' AND c.display = 'Y'";
+            $sub_head_name = "s.stagename, sm.sub_name1, sm.sub_name2, sm.sub_name3, sm.sub_name4";
+            $leftjoin_subhead = "LEFT JOIN master.subheading s ON s.stagecode = h.subhead and s.display = 'Y' and s.listtype = 'M'";
 
-            $leftjoin_submaster = "LEFT JOIN master.submaster sm ON h.subhead = sm.id AND sm.display = 'Y'";
+            $leftjoin_submaster = "LEFT JOIN master.submaster sm ON h.subhead = sm.id AND sm.display = 'Y' and sm.is_old = 'N'";
         }
 
         $sql = "SELECT 
@@ -3896,20 +4060,20 @@ class PrintAdvanceModel extends Model
         SELECT 
             a.diary_no,
             STRING_AGG(
-                a.name || COALESCE(CASE WHEN a.pet_res = 'R' THEN a.grp_adv END, ''), 
-                '' ORDER BY a.adv_type DESC, a.pet_res_no ASC
+                a.name || COALESCE(CASE WHEN a.pet_res = 'R' THEN a.grp_adv END, ' '), 
+                ' ' ORDER BY a.adv_type DESC, a.pet_res_no ASC
             ) AS r_n,
             STRING_AGG(
-                a.name || COALESCE(CASE WHEN a.pet_res = 'P' THEN a.grp_adv END, ''), 
-                '' ORDER BY a.adv_type DESC, a.pet_res_no ASC
+                a.name || COALESCE(CASE WHEN a.pet_res = 'P' THEN a.grp_adv END, ' '), 
+                ' ' ORDER BY a.adv_type DESC, a.pet_res_no ASC
             ) AS p_n,
             STRING_AGG(
-                a.name || COALESCE(CASE WHEN a.pet_res = 'I' THEN a.grp_adv END, ''), 
-                '' ORDER BY a.adv_type DESC, a.pet_res_no ASC
+                a.name || COALESCE(CASE WHEN a.pet_res = 'I' THEN a.grp_adv END, ' '), 
+                ' ' ORDER BY a.adv_type DESC, a.pet_res_no ASC
             ) AS i_n,
             STRING_AGG(
-                a.name || COALESCE(CASE WHEN a.pet_res = 'N' THEN a.grp_adv END, ''), 
-                '' ORDER BY a.adv_type DESC, a.pet_res_no ASC
+                a.name || COALESCE(CASE WHEN a.pet_res = 'N' THEN a.grp_adv END, ' '), 
+                ' ' ORDER BY a.adv_type DESC, a.pet_res_no ASC
             ) AS intervenor 
         FROM ({$subquery}) a 
         GROUP BY a.diary_no
@@ -3930,7 +4094,8 @@ class PrintAdvanceModel extends Model
                     d.other1, d.iastat FROM heardt h
                     INNER JOIN docdetails d ON d.diary_no = h.diary_no 
                     INNER JOIN master.docmaster dm ON dm.doccode1 = d.doccode1 AND dm.doccode = d.doccode
-                    WHERE h.diary_no = '$diary_no' AND d.doccode = 8 AND dm.display = 'Y' AND d.iastat = 'P'
+                    WHERE h.diary_no = '$diary_no' AND d.doccode = 8 AND dm.display = 'Y' AND d.iastat = 'P' 
+                    AND CAST(CONCAT(d.docnum, d.docyear) AS TEXT) = ANY(string_to_array(REPLACE(REPLACE(REPLACE(h.listed_ia, '/', ''), ' ', ''), ' ', ''), ',')) 
                     -- AND EXISTS (
                     --     SELECT 1 
                     --     FROM unnest(string_to_array(replace(replace(replace(listed_ia, '/', ''), ' ', ''), ' ', ''), ',')) AS ia_item

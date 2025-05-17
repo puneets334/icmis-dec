@@ -42,7 +42,7 @@
                                 <input type="text" name="from_dt1" id="from_dt1" class="form-control dtp" maxsize="10" value="<?= date('d-m-Y')?>"  autocomplete="on" size="9">
                                 <input type="hidden" name="hd_from_dt1" id="hd_from_dt1" value="1" />
                             </div>
-                            <div class="col-md-1 mt-4">
+                            <div class="col-md-1 mt-4">  
                                 <label for=""><b>To Date :</b></label>
                             </div>
                             <div class="col-md-2">
@@ -83,7 +83,7 @@
         var dateTo = $('#from_dt2').val();
 		var ddl_users = $('#ddl_users').val();
 		if(ddl_users==''){
-			alert('Pleas Select User Type');
+			alert('Please Select User Type');
 			return false;
 		}
 		$("#dv_res1").html('');

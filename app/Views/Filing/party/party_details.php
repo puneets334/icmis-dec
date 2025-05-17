@@ -1,4 +1,8 @@
 <?= view('header'); ?>
+
+<script src="<?php echo base_url('autocomplete/autocomplete-ui.min.js'); ?>"></script>
+    <script src="<?php echo base_url('filing/new_extraparty.js'); ?>"></script>
+
 <style>
     #wrapper_1:after {
         content: "";
@@ -318,15 +322,7 @@ if($check_if_fil_user > 0 ){
                                                                 <label for="s_causetitle"></label>
                                                             </div>
                                                             <input type="text" list="pStateList" id="p_statename" class="form-control" onkeypress="return onlyalphabnum(event)" onblur="remove_apos(this.value,this.id)">
-                                                            <datalist id="pStateList">
-                                                                <?php
-                                                                if (!empty($get_only_state_name)) {
-                                                                    foreach ($get_only_state_name as $val) { ?>
-                                                                        <option value="<?= $val['value'] ?>">
-                                                                    <?php   }
-                                                                }
-                                                                    ?>
-                                                            </datalist>
+                                                            
                                                             <input type="hidden" id="p_statename_hd">
                                                         </div>
                                                     </div>
@@ -987,6 +983,7 @@ if($check_if_fil_user > 0 ){
         <!-- /.container-fluid -->
 </section>
 <!-- /.content -->
+ 
 
 <script>
     $('.col-sm-12.col-form-label.ml-4').hide()

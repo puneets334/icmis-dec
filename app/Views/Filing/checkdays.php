@@ -169,13 +169,22 @@ echo " <br><center><b><span style='color: black;'><u> Supreme Court of India </u
 
 <script>
     function print_data() {
-
-        var prtContent=$('#d4').html();
-        var WinPrint = window.open('','','letf=100,top=0,width=800,height=1200,toolbar=1,scrollbars=1,status=1,menubar=1');
+        var prtContent = document.getElementById('d4').innerHTML;
+        var WinPrint = window.open('', '', 'left=100,top=0,width=800,height=1200,toolbar=1,scrollbars=1,status=1,menubar=1');
+        WinPrint.document.open();
+        WinPrint.document.write('<html><head><title>Print</title>');
+        WinPrint.document.write('<link rel="stylesheet" type="text/css" href="style.css">'); // Add your CSS if needed
+        WinPrint.document.write('</head><body>');
         WinPrint.document.write(prtContent);
-        WinPrint.document.getElementById('hd_print').style.display='none';
-        WinPrint.document.getElementById('dv_res_data').style.display='none';
-        // WinPrint.focus();
-        WinPrint.print();
+        WinPrint.document.write('</body></html>');
+        WinPrint.document.close();
+        WinPrint.onload = function() {
+            var btn = WinPrint.document.getElementById('hd_print');
+            if (btn) btn.style.display = 'none';
+            var dv = WinPrint.document.getElementById('dv_res_data');
+            if (dv) dv.style.display = 'none';
+            WinPrint.focus();
+            WinPrint.print();
+        };
     }
 </script>

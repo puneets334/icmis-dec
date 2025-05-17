@@ -32,7 +32,7 @@ $details = $model->getCaseDetailsSingleJudge($dno);
             </th>
         </tr>
     </table>
-    
+
 
     <table align="center" id="tb_clr" cellspacing="3" cellpadding="2">
         <?php
@@ -41,8 +41,9 @@ $details = $model->getCaseDetailsSingleJudge($dno);
             $ifPending = 0;
         ?>
             <tr>
-                <th colspan="4" style="color:red">The Case is Disposed!!!</th>
+                <th colspan="4" style="color:red; text-align:center;">The Case is Disposed!!!</th>
             </tr>
+
         <?php
         }
         ?>
@@ -53,21 +54,21 @@ $details = $model->getCaseDetailsSingleJudge($dno);
             </th>
         </tr>
         <?php
-        
+
         $query_cate = $model->getCategorySingleJudge($dno);
-       
+
         $category = '';
-        if(!empty($query_cate)) // This condition add 
+        if (!empty($query_cate)) // This condition add 
         {
-        foreach ($query_cate as $row_cate) {
-            $category .= $row_cate['sub_name1'] . '-' . $row_cate['sub_name2'] . '-' . $row_cate['sub_name3'] . '-' . $row_cate['sub_name4'] . '<br>';
-        }
+            foreach ($query_cate as $row_cate) {
+                $category .= $row_cate['sub_name1'] . '-' . $row_cate['sub_name2'] . '-' . $row_cate['sub_name3'] . '-' . $row_cate['sub_name4'] . '<br>';
+            }
         ?>
-        <tr align='center'>
-            <th colspan="4" align="center"><i>Category:</i> <span style="font-size:14px;color:brown"><?php echo $category; ?></span>
-            </th>
-        </tr>
-    <?php } ?>
+            <tr align='center'>
+                <th colspan="4" align="center"><i>Category:</i> <span style="font-size:14px;color:brown"><?php echo $category; ?></span>
+                </th>
+            </tr>
+        <?php } ?>
 
 
         <tr>
@@ -156,12 +157,12 @@ $details = $model->getCaseDetailsSingleJudge($dno);
         </td>
         <td>Ready/Not Ready</td>
         <td>
-            <?php 
-             $ifReady=0;
-             if (isset($details['main_supp_flag']) && $details['main_supp_flag'] == 0): 
-                $ifReady=1;
-             
-             ?>
+            <?php
+            $ifReady = 0;
+            if (isset($details['main_supp_flag']) && $details['main_supp_flag'] == 0):
+                $ifReady = 1;
+
+            ?>
                 <span class="green-text">Ready</span>
             <?php else: ?>
                 <span class="red-text">Not Ready</span>
@@ -172,33 +173,31 @@ $details = $model->getCaseDetailsSingleJudge($dno);
     </table>
 
     <?php
-    if (!isset($details['advance_list_date']) || is_null($details['adva:nce_list_date']))
-    {
-       //remove vkg 
-        if($ifAdvanceAllocated==1 && $ifPending==1 && $ifReady==1 && $ifMain==1) {
-            ?>
+    if (!isset($details['advance_list_date']) || is_null($details['adva:nce_list_date'])) {
+        //remove vkg 
+        if ($ifAdvanceAllocated == 1 && $ifPending == 1 && $ifReady == 1 && $ifMain == 1) {
+    ?>
             <div>
                 <div>
                     <table align="center" id="tb_clr_n" border="1" style="border-collapse: collapse">
                         <tr>
-                            <th colspan="5"><input type="button" value="Add in Advance List" name="savebutton"/>
+                            <th colspan="5"><input type="button" value="Add in Advance List" name="savebutton" />
                             </th>
                         </tr>
                     </table>
                 </div>
             </div>
-            <?php
+        <?php
         }
-    }
-    else{
-        
+    } else {
+
         ?>
         <div>
             <div>
-                <span style="color: red; text-align: center">Already Allocated in advance List dated <?=!empty($details['from_dt']) ? $details['from_dt']: '--' ?> and <?=!empty($details['to_dt']) ? $details['to_dt']: '--'?>.</span>
+                <span style="color: red; text-align: center">Already Allocated in advance List dated <?= !empty($details['from_dt']) ? $details['from_dt'] : '--' ?> and <?= !empty($details['to_dt']) ? $details['to_dt'] : '--' ?>.</span>
             </div>
         </div>
-        <?php
+    <?php
     }
     ?>
 

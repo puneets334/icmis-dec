@@ -406,6 +406,7 @@ public function insertShowCauselist($causeslistarrydata)
                 ON r.bench_id = rb.id
             JOIN master.master_bench mb 
                 ON mb.id = rb.bench_id
+            LEFT JOIN conct ct on m.diary_no=ct.diary_no and ct.list='Y'
             WHERE cl.next_dt IS NOT NULL
             ORDER BY 
                 h.judges,
@@ -416,6 +417,10 @@ public function insertShowCauselist($causeslistarrydata)
                     WHEN COALESCE(NULLIF(m.conn_key, '')::BIGINT, 0) = h.diary_no THEN ''
                     ELSE '99'
                 END ASC,
+                CASE 
+                    WHEN ct.ent_dt IS NOT NULL THEN ct.ent_dt 
+                    ELSE '9999-12-31 23:59:59'::timestamp 
+                END ASC,
                 CAST(SUBSTRING(m.diary_no::text FROM LENGTH(m.diary_no::text) - 3) AS INTEGER) ASC,
                 CAST(SUBSTRING(m.diary_no::text FROM 1 FOR LENGTH(m.diary_no::text) - 4) AS INTEGER) ASC
         ";
@@ -425,7 +430,7 @@ public function insertShowCauselist($causeslistarrydata)
             'mf' => $mf,
             'result' => $result
         ]);
-        //echo $db->getLastQuery();
+        //echo $db->getLastQuery(); die;
         return $query->getResultArray();
     }
 
@@ -513,6 +518,7 @@ public function insertShowCauselist($causeslistarrydata)
                 JOIN roster r ON r.id = h.roster_id
                 JOIN roster_bench rb ON r.bench_id = rb.id
                 JOIN master_bench mb ON mb.id = rb.bench_id
+                LEFT JOIN conct ct on m.diary_no=ct.diary_no and ct.list='Y'
                 WHERE cl.next_dt IS NOT NULL
                 ORDER BY 
                     POSITION(',' || :jcd: || ',' IN ',' || h.judges || ','), 
@@ -524,6 +530,10 @@ public function insertShowCauselist($causeslistarrydata)
                     CASE 
                         WHEN m.conn_key = h.diary_no THEN '0000-00-00'
                         ELSE '99'
+                    END ASC,
+                    CASE 
+                        WHEN ct.ent_dt IS NOT NULL THEN ct.ent_dt 
+                        ELSE '9999-12-31 23:59:59'::timestamp 
                     END ASC,
                     CAST(SUBSTRING(m.diary_no::TEXT FROM LENGTH(m.diary_no::TEXT) - 3) AS INTEGER) ASC,
                     CAST(SUBSTRING(m.diary_no::TEXT FROM 1 FOR LENGTH(m.diary_no::TEXT) - 4) AS INTEGER) ASC
@@ -643,6 +653,7 @@ public function insertShowCauselist($causeslistarrydata)
                         main m 
                     ON 
                         h.diary_no = m.diary_no 
+                    LEFT JOIN conct ct on m.diary_no=ct.diary_no and ct.list='Y' 
                     WHERE 
                         h.conn_key = :tmpCaseNo: 
                         AND h.clno != 0 
@@ -652,6 +663,10 @@ public function insertShowCauselist($causeslistarrydata)
                         AND h.diary_no != h.conn_key 
                     ORDER BY 
                         CASE WHEN m.conn_key ~ '^\d+$' AND CAST(m.conn_key AS BIGINT) = h.diary_no THEN '0000-00-00' ELSE '99' END ASC, 
+                        CASE 
+                            WHEN ct.ent_dt IS NOT NULL THEN ct.ent_dt 
+                            ELSE '9999-12-31 23:59:59'::timestamp 
+                        END ASC,
                         CAST(SUBSTRING(h.diary_no::TEXT FROM LENGTH(h.diary_no::TEXT) - 3 FOR 4) AS INTEGER) ASC, 
                         CAST(SUBSTRING(h.diary_no::TEXT FROM 1 FOR LENGTH(h.diary_no::TEXT) - 4) AS INTEGER) ASC;
                 ";

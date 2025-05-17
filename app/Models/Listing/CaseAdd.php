@@ -163,7 +163,7 @@ class CaseAdd extends Model
         $builder->join('advance_allocated aa', 'CAST(b.diary_no AS BIGINT) = CAST(aa.diary_no AS BIGINT) AND b.next_dt = aa.next_dt', 'left');
         $builder->where('b.diary_no ', $dno);
         $query = $builder->get();
-        //echo $this->db->getLastQuery();die;
+        
         return $query->getRowArray();
     }
 
@@ -1908,6 +1908,29 @@ class CaseAdd extends Model
         $query = $builder->get();
         return $query->getResultArray();
     }
+
+    public function getNextDt($dno)
+    {
+        $db = \Config\Database::connect();
+    
+        $sql = "SELECT h.diary_no, cp.next_dt 
+            FROM heardt h
+            LEFT JOIN cl_printed cp 
+                ON cp.next_dt = h.next_dt 
+                AND cp.part = h.clno 
+                AND cp.roster_id = h.roster_id 
+                AND cp.display = 'Y'
+            WHERE h.diary_no = ?
+                AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
+                AND h.next_dt >= CURRENT_DATE
+            LIMIT 1";
+            //  $finalSql = str_replace('?', "'" . addslashes($dno) . "'", $sql);
+            //  pr($finalSql);
+    
+        $query = $db->query($sql, [$dno]);
+        return $query->getRowArray(); 
+    }
+    
 
     public function getLatestReason($diaryNo)
     {

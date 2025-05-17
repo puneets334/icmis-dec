@@ -36,8 +36,6 @@
                                     $holiday_dates[]="";
                                     $current_year=date('Y');
                                     $next_year=$current_year+1;
-
-                                   
                                     $t=rand(2,'0123456789');
                                     ?>
                                     
@@ -168,7 +166,7 @@
                                         <option value="44">Hon'ble Virtual Court No.14</option>
                                         <option value="45">Hon'ble Virtual Court No.15</option>
                                         <option value="46">Hon'ble Virtual Court No.16</option>
-                                        <option value="47">Hon'ble Virtual Court No.17</option>
+                                        <option value="47">Hon'ble Virtual Cou1234rt No.17</option>
                                                                         <option value="101">Chamber</option>
                                                                             <?php
                                                                             if (!empty($regular_judges)) {

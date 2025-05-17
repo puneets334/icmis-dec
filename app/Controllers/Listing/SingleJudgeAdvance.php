@@ -55,7 +55,7 @@ class SingleJudgeAdvance extends BaseController
 
 
     //Single Judge Advance =>Add single Case
-    
+
     public function add_case()
     {
         $caseTypes = $this->CaseType->caseTypeFun();
@@ -72,7 +72,7 @@ class SingleJudgeAdvance extends BaseController
             'sessionDiaryYr' => session()->get('session_diary_yr')
         ]);
     }
-    
+
     public function get_case_details()
     {
         $request = service('request');
@@ -82,12 +82,9 @@ class SingleJudgeAdvance extends BaseController
         $dyr = $request->getPost('diary_year');
         $dn = $request->getPost('diary_number');
         $dno = '';
-        if (!empty($ct) && !empty($cn) && !empty($cy))
-        {
+        if (!empty($ct) && !empty($cn) && !empty($cy)) {
             $dno = $this->CaseAdd->getDiaryNoSingleJudge($ct, $cn, $cy); // Same h advance list wala
-        }
-        else if (!empty($dn) && !empty($dyr))
-        {
+        } else if (!empty($dn) && !empty($dyr)) {
             $dno = $dn . $dyr;
         }
         $data['model'] = $this->CaseAdd;
@@ -120,19 +117,16 @@ class SingleJudgeAdvance extends BaseController
         $data['model'] = $this->CaseAdd;
         return view('Listing/SingleJudgeAdvance/save_case_single_judge', $data);
     }
-    
+
     //Single Judge Advance =>Nominate
-    
+
     public function nominate()
     {
         $sessionData = $this->session->get();
         $ucode = $sessionData['login']['usercode'];
-        if ($ucode)
-        {
+        if ($ucode) {
             return $this->singleJudgeNominateAdd($ucode);
-        }
-        else
-        {
+        } else {
             return "Session Out, Please login.";
         }
     }
@@ -141,11 +135,9 @@ class SingleJudgeAdvance extends BaseController
     {
         $data = [];
         $data['judge'] = $this->Judge->getJudges();
-        if (!empty($ucode))
-        {
+        if (!empty($ucode)) {
             $singleJudgeData = $this->SingleJudgeNominate->getSingleJudgeNominateDataById($ucode);
-            if (!empty($singleJudgeData))
-            {
+            if (!empty($singleJudgeData)) {
                 $data['nominated_judge_modify'] = $singleJudgeData;
                 $data['selected_judge_code'] = $singleJudgeData['jcode'];
             }
@@ -160,17 +152,14 @@ class SingleJudgeAdvance extends BaseController
         $inArr['day_type'] = $request->getPost('day_type') ? $request->getPost('day_type') : NULL;
         $inArr['is_active'] = 1;
         $output = $this->SingleJudgeNominate->selectData('master.single_judge_nominate', $inArr);
-        if ($output)
-        {
+        if ($output) {
             $return_arr = ["status" => "success"];
-        }
-        else
-        {
+        } else {
             $return_arr = ["status" => "Error"];
         }
         return $this->response->setJSON($return_arr);
     }
-    
+
     public function getSingleJudgeNominatedData()
     {
         $output =  $this->SingleJudgeNominate->getSingleJudgeNominatedData();
@@ -181,8 +170,7 @@ class SingleJudgeAdvance extends BaseController
         $request = service('request');
         $id = $request->getGet('single_judge_id');
         $judgeData = $this->SingleJudgeNominate->getSingleJudgeNominatedData1($id);
-        if ($judgeData)
-        {
+        if ($judgeData) {
             echo json_encode($judgeData);
         } else {
             echo json_encode(['error' => 'No data found']);
@@ -202,9 +190,10 @@ class SingleJudgeAdvance extends BaseController
         session()->setFlashdata('success', 'Data updated successfully!');
         return $this->response->setJSON(['status' => 'success', 'message' => 'Data updated successfully!']);
     }
-    
+
     public function singleJudgeNominateAddSubmit()
     {
+
         $request = service('request');
         $requestData = $request->getVar();
         $judge = $request->getGet('judge');
@@ -212,8 +201,7 @@ class SingleJudgeAdvance extends BaseController
         $effect_date = $request->getGet('effect_date');
         $submit_action_type = $request->getGet('submit_action_type');
         $update_id = $request->getGet('update_id');
-        if (empty($judge))
-        {
+        if (empty($judge)) {
             echo "Judge is required.";
             exit;
         }
@@ -224,16 +212,17 @@ class SingleJudgeAdvance extends BaseController
             'from_date' => $effect_date ? date('Y-m-d', strtotime($effect_date)) : NULL,
             'to_date' => $effect_date ? date('Y-m-d', strtotime($effect_date)) : date('Y-m-d'),
             'entry_date' =>  $entryDate,
+            'create_modify' => date("Y-m-d H:i:s"),
+            'updated_by' => session()->get('login')['usercode'],
+            'updated_by_ip' => getClientIP(),
         ];
         $session = session();
-        if (!$session->has('login') || !$session->get('login')['usercode'])
-        {
+        if (!$session->has('login') || !$session->get('login')['usercode']) {
             echo "Session expired";
             exit;
         }
         $inArr['usercode'] = (int)$session->get('login')['usercode'];
-        if ($submit_action_type == "update")
-        {
+        if ($submit_action_type == "update") {
             $id = $update_id ? (int)$update_id : NULL;
             $inArrUpdate = [
                 'is_active' => 0,
@@ -241,34 +230,30 @@ class SingleJudgeAdvance extends BaseController
                 'update_by' => $session->get('login')['usercode'],
                 'delete_reason' => "Edition",
                 'entry_date' =>  $entryDate,
+                'create_modify' => date("Y-m-d H:i:s"),
+                'updated_by' => session()->get('login')['usercode'],
+                'updated_by_ip' => getClientIP(),
             ];
             $resUpdate =  $this->SingleJudgeNominate->updateData($id, $inArrUpdate);
-            if ($resUpdate)
-            {
+            if ($resUpdate) {
                 $res =  $this->SingleJudgeNominate->insertData($inArr);
                 $return_arr['flash_msg'] = '<div class="alert alert-warning text-center">Single Judge details have been updated successfully.</div>';
                 session()->setFlashdata('success', '<div class="alert alert-warning text-center">Single Judge details have been updated successfully.</div>');
-            }
-            else
-            {
+            } else {
                 $session->setFlashdata('error', 'Something went wrong, Please try again.');
             }
-            $session->set($return_arr) ;
-        }
-        else
-        {
+            $session->set($return_arr);
+        } else {
             $res = $this->SingleJudgeNominate->insertData($inArr);
-            if ($res)
-            {
+            if ($res) {
                 session()->setFlashdata('success', 'Single Judge details have been added successfully');
-            } else
-            {
+            } else {
                 session()->setFlashdata('error', 'Something went wrong, Please try again.');
             }
         }
         return redirect()->to('Listing/SingleJudgeAdvance/nominate');
     }
-    
+
     public function singleJudgeNominatedDeActive()
     {
         $request = service('request');
@@ -307,10 +292,10 @@ class SingleJudgeAdvance extends BaseController
         }
         return $this->response->setJSON($return_arr);
     }
-    
-    
+
+
     //Single Judge Advance=>Allocation
-    
+
     public function singleJudgeAdvanceAllocationIndex()
     {
         return view('Listing/SingleJudgeAdvance/singleJudgeAdvanceAllocationIndex');
@@ -335,11 +320,11 @@ class SingleJudgeAdvance extends BaseController
         $from_date = $request['from_date'] ?? null;
         $to_date = $request['to_date'] ?? null;
 
-        
-        
+
+
         $data['post_data'] = $request;
         $data['listed_cases'] = $this->SingleJudgeNominate->getSingleJudgeListed($from_date, $to_date);
-        
+
         $data['case_in_pool'] = $this->SingleJudgeNominate->getSingleJudgePools($from_date, $to_date);
         $data['listing_purpose'] = $this->SingleJudgeNominate->getListingPurposes();
         return view('Listing/SingleJudgeAdvance/single_judges_advance_allocation_inputs', $data);
@@ -362,17 +347,13 @@ class SingleJudgeAdvance extends BaseController
             return $this->response->setJSON(['status' => 'error', 'msg' => 'To Date Required']);
         } elseif (empty($number_of_cases)) {
             return $this->response->setJSON(['status' => 'error', 'msg' => 'No. of Cases to list Required']);
-        } else
-        {
+        } else {
             $from_date = date('Y-m-d', strtotime($from_date_selected));
             $to_date = date('Y-m-d', strtotime($to_date_selected));
             $is_list_printed = $this->SingleJudgeNominate->isPrinted($from_date, $to_date);
-            if ($is_list_printed)
-            {
+            if ($is_list_printed) {
                 return $this->response->setJSON(['status' => 'error', 'msg' => 'List Already Published']);
-            }
-            else
-            {
+            } else {
                 $inArr = [
                     'from_date' => $from_date,
                     'to_date' => $to_date,
@@ -383,13 +364,10 @@ class SingleJudgeAdvance extends BaseController
                     'max_item_number' =>  $this->SingleJudgeNominate->single_judge_advance_max_cause_list_number($from_date, $to_date),
                 ];
                 $total_case_allocated = $this->SingleJudgeNominate->singleJudgeAdvanceAllocation($inArr); // Proper check query pending
-                if ($total_case_allocated > 0)
-                {
+                if ($total_case_allocated > 0) {
                     $this->SingleJudgeNominate->single_judge_advance_connected_cases_allocation($inArr);
                     return $this->response->setJSON(['status' => 'success', 'msg' => "Total $total_case_allocated Case(s) Allocated"]);
-                }
-                else
-                {
+                } else {
                     return $this->response->setJSON(['status' => 'error', 'msg' => 'Cases Not Found.']);
                 }
             }
@@ -403,34 +381,28 @@ class SingleJudgeAdvance extends BaseController
         $toDate = date('Y-m-d', strtotime($request->getPost('to_date_selected')));
         $usercode = session()->get('login')['usercode'];
         $isListPrinted = $this->SingleJudgeNominate->isPrinted($fromDate, $toDate);
-        if ($isListPrinted)
-        {
+        if ($isListPrinted) {
             echo json_encode(array("status" => "error", "msg" => "List Already Publised"));
             exit;
-        }
-        else
-        {
+        } else {
             $result = $this->SingleJudgeNominate->singleJudgeAdvanceCasesSendToPool($fromDate, $toDate, $usercode);
-            if ($result > 0)
-            {
+            if ($result > 0) {
                 echo json_encode(array("status" => "success", "msg" => "Successfully Sent to Pool"));
                 exit;
-            }
-            else
-            {
+            } else {
                 echo json_encode(array("status" => "error", "msg" => "List Already Publised"));
                 exit;
             }
         }
     }
-    
+
     //Single Judge Advance=>Case Drop
-    
+
     public function case_drop()
     {
         return view('Listing/SingleJudgeAdvance/case_drop');
     }
-    
+
     public function field_case_drop_old()
     {
         $request = service('request');
@@ -443,15 +415,11 @@ class SingleJudgeAdvance extends BaseController
         $caseYear = $request->getPost('case_year');
         //$radioFlag = $request->getPost('radio_flag');
 
-        if ($searchType == "C")
-        {
+        if ($searchType == "C") {
             $diary = $this->CaseAdd->getDiaryNumber($caseType, $caseNumber, $caseYear, $searchType);
-            if ($diary)
-            {
+            if ($diary) {
                 $dno = $diary['dn'] . $diary['dy'];
-            }
-            else
-            {
+            } else {
                 $dno = 0;
             }
         } else {
@@ -459,8 +427,7 @@ class SingleJudgeAdvance extends BaseController
         }
         pr($dno);
         $availableCases = $this->CaseAdd->checkAvailability($dno);
-        if (empty($availableCases))
-        {
+        if (empty($availableCases)) {
             return view('Listing/SingleJudgeAdvance/drop_case_view_no_record');
         }
         $case = $availableCases[0];
@@ -486,7 +453,7 @@ class SingleJudgeAdvance extends BaseController
     {
         $request = service('request');
         $formData = $request->getPost();
-        
+
         $dn = $request->getPost('diary_number');
         $dyr = $request->getPost('diary_year');
         $ct = $request->getPost('case_type');
@@ -496,27 +463,22 @@ class SingleJudgeAdvance extends BaseController
         $data['SingleJudgeNominate'] = $this->SingleJudgeNominate;
         $data['CaseAdd'] = $this->CaseAdd;
         $dno = '';
-        if (!empty($ct) && !empty($cn) && !empty($cy))
-        {
+        if (!empty($ct) && !empty($cn) && !empty($cy)) {
             $data['dno'] = $this->CaseAdd->getDiaryNoSingleJudge($ct, $cn, $cy); // Same h advance list wala
-        }
-        else if (!empty($dn) && !empty($dyr))
-        {
+        } else if (!empty($dn) && !empty($dyr)) {
             $data['dno'] = $dn . $dyr;
         }
         //pr($data['dno']);
-        return view('Listing/SingleJudgeAdvance/field_case_drop',$data);
-
-       
+        return view('Listing/SingleJudgeAdvance/field_case_drop', $data);
     }
 
     public function dropNoteNow()
     {
-     
+
         // print_r($_POST);die;
-       
+
         $request = service('request');
-       
+
         $ucode = session()->get('login')['usercode'];
         $next_dt = $request->getPost('next_dt');
         $from_dt = $request->getPost('from_dt');
@@ -524,7 +486,7 @@ class SingleJudgeAdvance extends BaseController
         $brd_slno = $request->getPost('brd_slno');
         $partno = $request->getPost('partno');
         $dno = $request->getPost('dno');
-       
+
         $drop_rmk = $request->getPost('drop_rmk');
         $mainhead = $request->getPost('mainhead');
         //log_message('debug', "Input values: " . json_encode(compact('ucode', 'next_dt', 'from_dt', 'to_dt', 'brd_slno', 'partno', 'dno', 'drop_rmk', 'mainhead')));
@@ -533,16 +495,16 @@ class SingleJudgeAdvance extends BaseController
 
         if ($result == 1) {
             //pr('1');
-            return $this->response->setJSON(['status'=>'success','message' => 'Drop Note Created Successfully']);
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Drop Note Created Successfully']);
         } else {
-           // pr('2');
-            return $this->response->setJSON(['status'=>'error','error' => 'Unable to Make Drop Note']);
+            // pr('2');
+            return $this->response->setJSON(['status' => 'error', 'error' => 'Unable to Make Drop Note']);
         }
     }
 
     public function caseDropNow()
     {
-       
+
         $request = service('request');
         $dno = $request->getPost('dno');
         $next_dt = $request->getPost('next_dt');
@@ -550,33 +512,32 @@ class SingleJudgeAdvance extends BaseController
         $to_dt = $request->getPost('to_dt');
         $ucode = session()->get('login')['usercode'];
         $result = $this->SingleJudgeNominate->fAdvanceClDropCase($dno, $ucode, $next_dt, $from_dt, $to_dt);
-         //pr($result);
-      
+        //pr($result);
+
         if ($result == 1) {
-            return $this->response->setJSON(['status'=>'success','message' => 'Case Dropped Successfully']);
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Case Dropped Successfully']);
         } else {
 
-            return $this->response->setJSON(['status'=>'error', 'error' => 'Unable to Drop']);
+            return $this->response->setJSON(['status' => 'error', 'error' => 'Unable to Drop']);
         }
     }
 
-    
-    
-    
+
+
+
     //Single Judge Advance=>Drop Note
-    
+
     public function note()
     {
         $data['listing_dates'] = $this->SingleJudgeNominate->getAdvanceListingDates();
         return view('Listing/SingleJudgeAdvance/note', $data);
     }
-    
+
     public function note_field_old()
     {
         $request = service('request');
         $listDt = $request->getPost('list_dt');
-        if (!empty($listDt))
-        {
+        if (!empty($listDt)) {
             $listDtExplode = explode('_', $listDt);
             $fromDt = $listDtExplode[0];
             $toDt = $listDtExplode[1];
@@ -594,9 +555,7 @@ class SingleJudgeAdvance extends BaseController
             //     $row['advocate_names'] = implode('<br>', $advocate_names);
             // }
             return view('Listing/SingleJudgeAdvance/single_judge_advance_drop_notes', $data);
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', 'Invalid date range provided.');
         }
     }
@@ -605,8 +564,7 @@ class SingleJudgeAdvance extends BaseController
     {
         $request = service('request');
         $listDt = $request->getPost('list_dt');
-        if (!empty($listDt))
-        {
+        if (!empty($listDt)) {
             $listDtExplode = explode('_', $listDt);
             $fromDt = $listDtExplode[0];
             $toDt = $listDtExplode[1];
@@ -614,15 +572,13 @@ class SingleJudgeAdvance extends BaseController
             $data['to_dt'] = $toDt;
             $data['model'] = $this->SingleJudgeNominate;
             return view('Listing/SingleJudgeAdvance/single_judge_advance_drop_notes', $data);
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', 'Invalid date range provided.');
         }
     }
 
-   
-   
+
+
     //Single Judge Advance=>Print/Publish
 
     public function cl_print_single_judge_advance()
@@ -647,38 +603,31 @@ class SingleJudgeAdvance extends BaseController
         $data['board_type'] = $board_type;
         return view('Listing/SingleJudgeAdvance/get_cause_list_single_judge_advance', $data);
     }
-    
+
     public function call_reshuffle_function_single_judge_advance()
     {
         $request = service('request');
         $response = service('response');
-        if ($request->getMethod() === 'post')
-        {
+        if ($request->getMethod() === 'post') {
             $list_dt = $request->getPost('list_dt');
             $from_cl_no = $request->getPost('from_cl_no');
             $list_dt_explode = explode('_', $list_dt);
-            if (count($list_dt_explode) == 2)
-            {
+            if (count($list_dt_explode) == 2) {
                 $from_dt = $list_dt_explode[0];
                 $to_dt = $list_dt_explode[1];
                 $result = $this->SingleJudgeNominate->callReshuffleFunctionSingleJudgeAdvance($from_dt, $to_dt, $from_cl_no);
-                if ($result == 1)
-                {
+                if ($result == 1) {
                     return $this->response->setJSON([
                         'status' => 'success',
                         'message' => 'Reshuffled Successfully'
                     ]);
-                }
-                else
-                {
+                } else {
                     return $this->response->setJSON([
                         'status' => 'error',
                         'message' => 'Error: Reshuffling Failed'
                     ]);
                 }
-            }
-            else
-            {
+            } else {
                 return $this->response->setJSON([
                     'status' => 'error',
                     'message' => 'Error: Invalid List Date format. Please use "YYYY-MM-DD_YYYY-MM-DD".'
@@ -706,38 +655,32 @@ class SingleJudgeAdvance extends BaseController
         $board_type = 'S';
         $pdf_cont = str_replace("scilogo.png", "/home/judgment/cl/scilogo.png", $encprtContent);
         $exists = $this->SingleJudgeNominate->checkIfPrinteds($from_dt, $to_dt);
-        if (!empty($exists))
-        {
+        if (!empty($exists)) {
             return $this->response->setJSON(['status' => 'error', 'message' => 'Already Printed.']);
-        }
-        else
-        {
-            $weekly_number = !empty($weekly_number) ? (int)$weekly_number : 0; 
+        } else {
+            $weekly_number = !empty($weekly_number) ? (int)$weekly_number : 0;
             $weekly_year = !empty($weekly_year) ? (int)$weekly_year : 0;
             $data =
-            [
-                'from_dt' => $from_dt,
-                'to_dt' => $to_dt,
-                'weekly_no' => $weekly_number,
-                'weekly_year' => $weekly_year,
-                'usercode' => $ucode,
-            ];
+                [
+                    'from_dt' => $from_dt,
+                    'to_dt' => $to_dt,
+                    'weekly_no' => $weekly_number,
+                    'weekly_year' => $weekly_year,
+                    'usercode' => $ucode,
+                ];
             $success = $this->SingleJudgeNominate->insertPrintedCauseList($data);
-            if (!empty($success))
-            {
+            if (!empty($success)) {
                 $prtContent = $this->removeIgnoreInPrintDiv($encprtContent);
                 $savePath = WRITEPATH . 'single_judge_advance/' . $list_dt . '/';
-                if (!is_dir($savePath))
-                {
-                    mkdir($savePath, 0777, true); 
+                if (!is_dir($savePath)) {
+                    mkdir($savePath, 0777, true);
                 }
-                
+
                 $fileName = 'AV_' . $board_type . '.pdf';
                 $filePath = $mainhead . "_" . $board_type;
-                
-                try
-                {
-                    $mpdf = new Mpdf(); 
+
+                try {
+                    $mpdf = new Mpdf();
                     $mpdf->SetDisplayMode('fullpage');
                     $mpdf->SetHTMLFooter('<div style="text-align: center; font-size: 12px;">Page {PAGENO} of {nbpg}</div>');
                     $mpdf->WriteHTML($prtContent);
@@ -745,19 +688,18 @@ class SingleJudgeAdvance extends BaseController
                     return $this->response->setJSON([
                         'status' => 'success',
                         'message' => 'PDF generated successfully!',
-                       //For lOcal Dir
+                        //For lOcal Dir
                         //'filePath' => $filePath
                         // For Live Server dir
-                        'filePath' => base_url('writable/single_judge_advance/' . $fileName) 
+                        'filePath' => base_url('writable/single_judge_advance/' . $fileName)
                     ]);
-                }
-                catch (\Exception $e)
-                {
+                } catch (\Exception $e) {
                     return $this->response->setJSON([
                         'status' => 'error',
                         'message' => 'Failed to generate PDF: ' . $e->getMessage()
                     ]);
-                } } else {
+                }
+            } else {
                 return $this->response->setJSON(['status' => 'error', 'message' => 'Error: Cause List Not Ported/Published.']);
             }
         }
@@ -769,8 +711,7 @@ class SingleJudgeAdvance extends BaseController
         @$dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD); // Suppress warnings for malformed HTML
         $xpath = new \DOMXPath($dom);
         $nodes = $xpath->query('//*[contains(@class, "ignore_in_print")]');
-        foreach ($nodes as $node)
-        {
+        foreach ($nodes as $node) {
             $node->parentNode->removeChild($node);
         }
 

@@ -103,7 +103,7 @@
                             else if ($getbench->board_type == 'R')
                                 echo "Registrar";
 
-                            echo " " . $getbench->jname;
+                            echo " " .isset( $getbench->jname) ? $getbench->jname : '';
                         }
                     } else {
                         echo "Not Listed";
@@ -190,10 +190,10 @@
                 </button>
             </div>
             <div class="modal-body" id="limitationData1">
-                <form>
-                    <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>">
+                <!-- <form>
+                    <input type="hidden"  name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>"> -->
                     <?= $category ?>
-                </form>
+                <!-- </form> -->
 
             </div>
         </div>

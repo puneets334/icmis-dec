@@ -17,8 +17,7 @@ class Model_case_status extends Model
     {
         //$diary_disposal_date = is_data_from_table('dispose', ['diary_no' => $diary_no], 'disp_dt,disp_type,dispjud,rj_dt,usercode', 'R');
 
-        $sql = "
-            SELECT
+        $sql = "SELECT
                 d.rj_dt,
                 d.jud_id,
                 TO_CHAR(d.disp_dt, 'DD-MM-YYYY') AS ddt,
@@ -41,7 +40,7 @@ class Model_case_status extends Model
             LEFT JOIN
                 master.usersection us ON us.id = u.section
             LEFT JOIN
-                master.judge j ON j.jcode = ANY(string_to_array(d.jud_id, ',')::int[])
+                master.judge j ON j.jcode = ANY(ARRAY(SELECT TRIM(value)::int FROM unnest(string_to_array(d.jud_id, ',')) AS value WHERE TRIM(value) <> ''))
             WHERE
                 d.diary_no = ?
             GROUP BY
@@ -151,7 +150,7 @@ class Model_case_status extends Model
         $builder1 = $this->db->table("mul_category" . $flag . " mc");
         $builder1->select("s.*");
         $builder1->join('master.submaster s', "mc.submaster_id=s.id");
-        $builder1->where('diary_no', $diary_no);
+        $builder1->where('CAST(diary_no AS TEXT)', $diary_no);
         $builder1->where('mc.display', 'Y');
         $query = $builder1->get();
 
