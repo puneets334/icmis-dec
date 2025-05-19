@@ -73,7 +73,8 @@ autoFocus: false
 //Function Autocomplete start pet deptt------------------------------------------------
 $(document).on("focus","#p_deptt",function(){
 $("#p_deptt").autocomplete({
-    source:"../filing/new_filing_autocomp_deptt.php?type="+$("#party_type").val(),
+    // source:"../filing/new_filing_autocomp_deptt.php?type="+$("#party_type").val(),
+    source:"/Common/Ajaxcalls/new_filing_autocomp_deptt?type="+$("#party_type").val(),
     width: 450,
     matchContains: true,	
     minChars: 1,
