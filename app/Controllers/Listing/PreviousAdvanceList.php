@@ -30,39 +30,58 @@ class PreviousAdvanceList extends BaseController
     }
 
 
+    // public function prev_advance_list_all_get()
+    // {
+    // $request = \Config\Services::request();
+    // $response = \Config\Services::response();
+    // $list_dt = $request->getPost('list_dt');
+    // if (!$list_dt) {
+    //     return $response->setBody("<p style='text-align: center; font-weight: bold; color:red;'>Invalid Date Provided</p>");
+    // }
+
+    // $listing_date = date('Y-m-d', strtotime($list_dt));
+    // $base_path = 'judgment/cl/advance/';
+    // $date_folder = $base_path . $listing_date;
+
+    // $file_path = $date_folder . '/M_J_ALL.html';
+
+    // if (!is_dir($date_folder)) {
+    //     mkdir($date_folder, 0777, true);
+    // }
+    // if (!file_exists($file_path)) {
+    //     file_put_contents($file_path, '<div align="center" id="getlogo" style="font-size: 12px;" class="mb-5">
+    //                     <img src="judgment/cl/scilogo.png" width="50px" height="80px"><br>
+    //                     <span style="text-align: center;font-weight: 600;font-size: 14px;font-family: verdana;" align="center">
+    //                         SUPREME COURT OF INDIA
+    //                     </span>
+    //                 </div><p>ALL COURTS PREVIOUS ADVANCE LIST MODULE</p>');
+    //     return $response->setBody("<p style='text-align: center; font-weight: bold; color:red;'>Sorry, Advance list not available for dated " . esc($list_dt) . "</p>");
+    // }
+    // $logopath = base_url('judgment/cl/scilogo.png');
+    // $content = file_get_contents($file_path);
+    // $updated_content = str_replace("judgment/cl/scilogo.png", $logopath, $content);
+    // return $response->setBody($updated_content);
+    //}
+
     public function prev_advance_list_all_get()
     {
-        $request = \Config\Services::request();
-        $response = \Config\Services::response();
-        $list_dt = $request->getPost('list_dt');
-        if (!$list_dt) {
-            return $response->setBody("<p style='text-align: center; font-weight: bold; color:red;'>Invalid Date Provided</p>");
-        }
 
-        $listing_date = date('Y-m-d', strtotime($list_dt));
-        $base_path = 'judgment/cl/advance/';
-        $date_folder = $base_path . $listing_date;
+
+        $request = \Config\Services::request();
         
-        $file_path = $date_folder . '/M_J_ALL.html';
-        
-        // if (!is_dir($date_folder)) {
-        //     mkdir($date_folder, 0777, true);
-        // }
-        if (!file_exists($file_path)) {
-            file_put_contents($file_path, '<div align="center" id="getlogo" style="font-size: 12px;" class="mb-5">
-                            <img src="judgment/cl/scilogo.png" width="50px" height="80px"><br>
-                            <span style="text-align: center;font-weight: 600;font-size: 14px;font-family: verdana;" align="center">
-                                SUPREME COURT OF INDIA
-                            </span>
-                        </div><p>ALL COURTS PREVIOUS ADVANCE LIST MODULE</p>');
-            return $response->setBody("<p style='text-align: center; font-weight: bold; color:red;'>Sorry, Advance list not available for dated " . esc($list_dt) . "</p>");
+        $lising_date = $request->getPost('list_dt');
+      
+        $str_address = "judgment/cl/advance/" . $lising_date . "/M_J_ALL.html";
+      
+        if (!file_exists($str_address)) {
+           
+            echo "<p style='text-align: center; font-weight: bold; color:red;'>Sorry, Advance list not available for dated " . $lising_date . "</p>";
+        } else {
+            $content = file_get_contents($str_address);
+            echo str_replace("/home/judgment/cl/scilogo.png", "scilogo.png", $content);
         }
-        $logopath = base_url('judgment/cl/scilogo.png');
-        $content = file_get_contents($file_path);
-        $updated_content = str_replace("judgment/cl/scilogo.png", $logopath, $content);
-        return $response->setBody($updated_content);
     }
-    
+
     public function getAdvanceList()
     {
         $request = \Config\Services::request();
