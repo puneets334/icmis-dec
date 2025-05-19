@@ -293,29 +293,42 @@ class PrintWeekly extends BaseController
         // Send SMS Notification
         date_default_timezone_set('Asia/Kolkata');
         $causelist_title = "Weekly List dated " . $_POST['list_dt'];
-        $sms_text = rawurlencode($causelist_title . " has been published on www.sci.gov.in at " . date("d-m-Y H:i:s") . " - Supreme Court Of India");
-
+        $sms_text = rawurlencode($causelist_title . " has been published on https://www.sci.gov.in at " . date("d-m-Y H:i:s") . " - Supreme Court Of India");
+        $template_id = '1107172603192080461';
+        $mobile_no = '9810884595,9319170909,9630100950,9718009598,9818782386,9910727768,9968319828,9312570277,8800307859,8800928316,9810855890,9711475578,9810464620,9810481741,9810485122,9810506860,9811471402,9811904000,9868216440,9811316333,9871922703,9868207383,9899016720,9899924364,9810267531';
         //For Testing
-        // $sms_url = "http://xxxx/eAdminSCI/a-push-sms-gw?mobileNos=8756413330&message={$sms_text}&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=sdjkfgbsjh$1232_12nmnh&templateId=1107161578957835848";
+        $sms_response= sendSMS($mobile_no, $sms_text, $template_id);
+         //$sms_url = "http://xxxxx/eAdminSCI/a-push-sms-gw?mobileNos=8218878366&message={$sms_text}&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=sdjkfgbsjh$1232_12nmnh&templateId=1107161578957835848";
         
         //For Pduction
+       //$sms_url='http://xxxxx/eAdminSCI/a-push-sms-gw?mobileNos='.'9810884595,9319170909,9630100950,9718009598,9818782386,9910727768,9968319828,9312570277,8800307859,8800928316,9810855890,9711475578,9810464620,9810481741,9810485122,9810506860,9811471402,9811904000,9868216440,9811316333,9871922703,9868207383,9899016720,9899924364,9810267531'.'&message='.$sms_text.'&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=sdjkfgbsjh$1232_12nmnh&templateId=1107172603192080461';
 
-        /* $sms_url='http://xxxx/eAdminSCI/a-push-sms-gw?mobileNos='.'9630100950,9810884595,9319170909,9821411915,9868069855,9718009598,9818782386,9910727768,9968281944,9968319828,9968811042,9971685090,9999100724,9312570277,9910431438,9643323531,7838900365,8800307859,8800928316,9810855890,9711475023,9711475578,9810263541,9810464620,9810481741,9810485122,9810506860,9810594145,9811471402,9811904000,9818617598,9868186878,9868200903,9868216440,9868280279,9868281372,9868631191,9868996564,9811316333,9871922703,9868207383,9899016720,9899249150,9899518586,9899924364,9910431438,9911675788,9968281944,9968319828,9968811042,9971685090,8860012863,9810267531'.'&message='.$sms_text.'&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=sdjkfgbsjh$1232_12nmnh&templateId=1107161578957835848';
+        
+        // $sms_response = file_get_contents($sms_url);
+        // $sms_response = $this->fetch_api_response($sms_url);
 
-        $sms_response = file_get_contents($sms_url);
-        $sms_response = $this->fetch_api_response($sms_url);
-        $json = json_decode($sms_response); 
+        //  $json = json_decode($sms_response); 
 
-        if ($sms_response === false || empty($json)) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'SMS API request failed. Please check the API URL and internet connection.'
-            ]);
-        }elseif ($json->{'responseFlag'} === "success") {
-            $sms_status = "Success: Causelist Uploaded alert SMS sent.";
-        } else {
-            $sms_status = "Error: Causelist Uploaded alert SMS could not be sent.";
-        } */
+        // if ($sms_response === false || empty($json)) {
+        //     return $this->response->setJSON([
+        //         'status' => 'error',
+        //         'message' => 'SMS API request failed. Please check the API URL and internet connection.'
+        //     ]);
+        // }elseif ($json->{'responseFlag'} === "success") {
+        //     $sms_status = "Success: Causelist Uploaded alert SMS sent.";
+        // } else {
+        //     $sms_status = "Error: Causelist Uploaded alert SMS could not be sent.";
+        // } 
+        if (empty($sms_response)) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'SMS API request failed. Please check the API URL and internet connection.'
+                ]);
+            }elseif ($sms_response === true) {
+                $sms_status = "Success: Causelist Uploaded alert SMS sent.";
+            } else {
+                $sms_status = "Error: Causelist Uploaded alert SMS could not be sent.";
+            } 
           
 
         return $this->response->setJSON([

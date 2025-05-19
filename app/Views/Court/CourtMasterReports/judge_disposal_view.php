@@ -7,7 +7,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Case Alloted</h3>
+                                <h3 class="card-title">Judges Disposal</h3>
                             </div>
                         </div>
                     </div>
@@ -18,39 +18,31 @@
                         ?>
                         <div class="row">
                             <div class="col-md-1 mt-4">
-                                <label for=""><b>User Type </b></label>
-                            </div>
-						    <div class="col-md-2">
-                                  <select class='form-control' name='ddl_users' id="ddl_users">
-                                  <?php if($usercode=='1' || $r_section=='30' ||  $r_usertype=='4'){ ?>
-                                         <option value="">Select</option>
-                                     <?php } foreach($user_type as $vals){ ?>
-                                        <option value="<?php echo $vals['id'] ?>"><?php echo $vals['type_name'] ?></option>
-                                    <?php } if($usercode=='1' || $r_section=='30' ||  $r_usertype=='4' || $r_section=='20'){ ?>
-                                        <option value="9796">Scaning</option>
-                                    <?php }elseif($usercode=='9796'){?>
-                                        <option value="9796">Scaning</option>
-                                    <?php }else if($r_user_type=='107') {?>
-                                        <option value="107">IB-Extention</option>
-                                    <?php }?>
-                                   </select>  
-                            </div>
-						    <div class="col-md-1 mt-4">
                                 <label for=""><b>From Date :</b></label>
                             </div>
                             <div class="col-md-2">
-                                <input type="text" name="from_dt1" id="from_dt1" class="form-control dtp" maxsize="10" value="<?= date('d-m-Y')?>"  autocomplete="on" size="9">
-                                <input type="hidden" name="hd_from_dt1" id="hd_from_dt1" value="1" />
+                                <input type="text" name="fromDate" id="fromDate" class="form-control dtp" maxsize="10" value="<?= date('d-m-Y')?>"  autocomplete="on" size="9">
+                                <input type="hidden" name="fromDate" id="fromDate" value="1" />
                             </div>
-                            <div class="col-md-1 mt-4">  
+                            <div class="col-md-1 mt-4">
                                 <label for=""><b>To Date :</b></label>
                             </div>
                             <div class="col-md-2">
-                                <input type="text" name="from_dt2" id="from_dt2" class="form-control dtp" maxsize="10" value="<?= date('d-m-Y')?>"  autocomplete="on" size="9" />
-                                <input type="hidden" name="hd_from_dt2" id="hd_from_dt2" value="1" />
+                                <input type="text" name="toDate" id="toDate" class="form-control dtp" maxsize="10" value="<?= date('d-m-Y')?>"  autocomplete="on" size="9" />
+                                <input type="hidden" name="toDate" id="toDate" value="1" />
                             </div>
-                            <div class="col-md-2 mt-4">
-                                <input type="button" id="btnGetDiaryList" class="btn btn-block_ btn-primary" value="Show" />
+                            <div class="col-md-1 mt-4">
+                                <label for=""><b>Hon'ble Judge </b></label>
+                            </div>
+						    <div class="col-md-2">
+                                    <select class="form-control" id="judge_selected" name="judge_selected">
+										<?php foreach($judges as $judge) {
+                                            echo '<option value = "' . $judge['jcode'].'^'.$judge['jname'] . '">' . $judge['jname'] . '</option>';
+										}   ?>
+									</select>
+                            </div>
+                            <div class="col-md-2 ">
+                                <input type="button" id="btnGetDiaryList" class="btn btn-block_ btn-primary" value="View" />
                             </div>
                         </div>
                         <?php echo form_close(); ?>
@@ -79,39 +71,57 @@
     $("#btnGetDiaryList").click(function() {
 		var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
-        var dateFrom = $('#from_dt1').val();
-        var dateTo = $('#from_dt2').val();
-		var ddl_users = $('#ddl_users').val();
-		if(ddl_users==''){
-			alert('Please Select User Type');
+        var dateFrom = $('#fromDate').val();
+        var dateTo = $('#toDate').val();
+		var judge_selected = $('#judge_selected').val();
+		if(judge_selected==''){
+			alert('Pleas Select Judge');
 			return false;
 		}
+        if(dateFrom==''){
+			alert('Please Select From Date');
+			return false;
+		}
+        if(dateTo==''){
+			alert('Pleas Select To Date');
+			return false;
+		}
+
+        date1 = new Date(dateFrom.split('-')[2], dateFrom.split('-')[1] - 1, dateFrom.split('-')[0]);
+		date2 = new Date(dateTo.split('-')[2], dateTo.split('-')[1] - 1, dateTo.split('-')[0]);
+		if (date1 > date2) {
+			alert("To Date must be greater than From date");
+
+			return false;
+		}
+
 		$("#dv_res1").html('');
-        //$("#dv_res1").html('<center><img src="../images/load.gif"/></center>');
         $.ajax({
-            url: '<?php echo base_url('/ReportMasterFiling/get_case_alloted_details') ?>',
+            url: '<?php echo base_url('Court/CourtMasterReports/reports_listing_get') ?>',
             type: "POST",
             cache: false,
             async: true,
 			beforeSend: function() {
                 $('#dv_res1').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+                $('#btnGetDiaryList').attr('disabled','disabled');
             },
             data: {
                 CSRF_TOKEN: csrf,
                 dateFrom: dateFrom,
                 dateTo: dateTo,
-				ddl_users:ddl_users
+				judge_selected:judge_selected
             },
             success: function(r) {
-				updateCSRFToken();
+                updateCSRFToken();
                 $("#dv_res1").html(r);
+                $('#btnGetDiaryList').removeAttr('disabled');
             },
             error: function() {
                 updateCSRFToken();
                 alert('ERRO');
+                $('#btnGetDiaryList').removeAttr('disabled');
             }
         });
-        updateCSRFToken();
     });
 
 

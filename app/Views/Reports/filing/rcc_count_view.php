@@ -200,6 +200,27 @@ $(document).ready(function() {
     }
 
 
+    function printDiv2(){        
+        var prtContent = $("#printDiv2").html();
+        var temp_str=prtContent;
+        var WinPrint = window.open('','','left=10,top=0,align=center,width=1400,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1');
+        WinPrint.document.write(temp_str);
+        WinPrint.document.close();
+        WinPrint.focus();
+        WinPrint.print();
+        WinPrint.close();
+    } 
+
+    $(document).on("click","#print1",function(){
+        var prtContent = $("#printDiv1").html();
+        var temp_str=prtContent;
+        var WinPrint = window.open('','','left=10,top=0,align=center,width=1400,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1');
+        WinPrint.document.write(temp_str);
+        WinPrint.document.close();
+        WinPrint.focus();
+        WinPrint.print();
+        WinPrint.close();
+    });
     // function efiling_number(efiling_number) {
     //     var link = document.createElement("a")
     //     link.href = "<?php echo E_FILING_URL ?>/efiling_search/DefaultController/?efiling_number="+efiling_number

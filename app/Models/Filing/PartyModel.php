@@ -282,7 +282,6 @@ class PartyModel extends Model{
             $builder1->where('pet_res',$dataArr['p_f']);            
             $query1 = $builder1->get();
             $chk_if_party = $query1->getResultArray();
-            //pr($chk_if_party);
             if(count($chk_if_party)>0){                                
                 
                 
@@ -301,7 +300,7 @@ class PartyModel extends Model{
                         $pa_num = ceil($str_new); 
                     }
                     
-                    
+
 
                     $builder3 = $this->db->table('party');
                     $builder3->set('sr_no_show', "CASE WHEN (position('.' in sr_no_show) != 0 ) and (length(sr_no_show) <= 3 ) THEN cast((sr_no +  (substring(sr_no_show, position('.' in sr_no_show))::numeric + .1) ) as text) when (position('.' in sr_no_show) != 0) and (length(sr_no_show) > 3 and length(sr_no_show) < 5 ) then cast((sr_no + (substring(sr_no_show, position('.' in sr_no_show))::numeric + 2) ) as text) when (position('.' in sr_no_show) != 0) and (length(sr_no_show) = 5 ) then CAST(split_part(sr_no_show, '.', 1)::integer || '.' || (split_part(sr_no_show, '.', 2)::integer + 1)::text ||  '.' || split_part(sr_no_show, '.', 3) AS TEXT) else cast((sr_no + 1) as text) END", false);

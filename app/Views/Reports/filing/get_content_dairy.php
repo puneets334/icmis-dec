@@ -76,7 +76,7 @@
 
         </div>
         <script>
-
+get_content_dairy
             $(function () {
            
 

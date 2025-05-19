@@ -10,13 +10,13 @@
                             <div class="col-12 col-sm-12 col-md-3 col-lg-3 ">
                                 <div class="form-group row ">
                                     <label for="From" class="col-form-label">From</label>
-                                    <input type="date" max="<?php echo date("Y-m-d"); ?>" class="form-control" id="from_date" name="from_date" placeholder="From Date" value="<?php if (!empty($formdata['from_date'])) { echo $formdata['from_date'];} ?>">
+                                    <input type="text" max="<?php echo date("Y-m-d"); ?>" class="form-control dtp" id="from_date" name="from_date" placeholder="From Date" value="<?php if (!empty($formdata['from_date'])) { echo $formdata['from_date'];} ?>">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-12 col-md-3 col-lg-3">
                                 <div class="form-group row">
                                     <label for="To" class="col-form-label">To</label>
-                                    <input type="date" max="<?php echo date("Y-m-d"); ?>" class="form-control" id="to_date" name="to_date" placeholder="TO Date" value="<?php if (!empty($formdata['to_date'])) {echo $formdata['to_date'];} ?>">
+                                    <input type="text" max="<?php echo date("Y-m-d"); ?>" class="form-control dtp" id="to_date" name="to_date" placeholder="TO Date" value="<?php if (!empty($formdata['to_date'])) {echo $formdata['to_date'];} ?>">
 
                                 </div>
                             </div>
@@ -26,7 +26,7 @@
                                 <div class="form-group ">
                                     <label for="Document No." class="col-sm-6 col-form-label">Document No.</label>
 
-                                    <input type="number" class="form-control" id="document_no" name="document_no" placeholder="Document No" value="<?php if (!empty($formdata['document_no'])) {
+                                    <input type="text" maxlength="10" class="form-control numbersonly" id="document_no" name="document_no" placeholder="Document No" value="<?php if (!empty($formdata['document_no'])) {
                                                                                                                                                         echo $formdata['document_no'];
                                                                                                                                                     } ?>">
 
@@ -154,6 +154,19 @@
 <script src="<?php echo base_url('plugins/jquery-validation/additional-methods.js'); ?>"></script>
 
 <script>
+
+$(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
+    });
+
     $(document).ready(function() {
         // Initialize the radio button change event
         var radio_selected = $('input[name="dakReportsType"]:checked').val();
@@ -178,8 +191,8 @@
                     $("#to_date").focus();
                     return false;
                 } else {
-                    var date1 = new Date(from_date.split('-')[0], from_date.split('-')[1] - 1, from_date.split('-')[2]);
-                    var date2 = new Date(to_date.split('-')[0], to_date.split('-')[1] - 1, to_date.split('-')[2]);
+                    var date1 = new Date(from_date.split('-')[2], from_date.split('-')[1] - 1, from_date.split('-')[0]);
+                    var date2 = new Date(to_date.split('-')[2], to_date.split('-')[1] - 1, to_date.split('-')[0]);
                     if (date1 > date2) {
                         alert("To Date must be greater than From date");
                         $("#to_date").focus();
