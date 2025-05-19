@@ -40,9 +40,10 @@ if(!empty($judge_result)){
     $curdate=date('d-m-Y');
 	$cur_time=date('h:i A');
 ?>
+<div id="divPrint">
 <div id="loaderDivloader"></div>
 <h3><?php echo "Information regarding cases disposed off from <b>".date('d-m-Y',strtotime($fromDate))."</b> to <b>". date('d-m-Y',strtotime($toDate)) ."</b> <br>by <b>".$judgename ."</b>"." as on ".$curdate." at ".$cur_time; ?></h3>
-<button type="submit"  style="float:left;background-color: #0d48be !important;margin-bottom: 12px;" id="print" name="print"  onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button>
+<button type="submit"  style="float:left;background-color: #0d48be !important;margin-bottom: 12px; color:#fff;" id="print" name="print"  onclick="printDiv('printable')" class="btn btn-block btn-warning">Print</button>
    <div class="table-responsive">
         <table class="table table-striped custom-table" id="example1">
         <thead>
@@ -125,7 +126,7 @@ if(!empty($judge_result)){
 </div>
 <?php }?>
 </div>
-
+</div>
 <script>
 	function getDetails(point){
 		$('#loaderDivloader').html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
@@ -145,12 +146,29 @@ if(!empty($judge_result)){
 				}
 				, function (data) {
                     updateCSRFToken();
+                    $('#loaderDivloader').html('');
 					var w = window.open('about:blank');
 					w.document.open();
 					w.document.write(data);
 					w.document.close();
 				});
 	}
+
+
+    function printDiv(){      
+        let printElement = document.getElementById('divPrint');
+        var printWindow = window.open('', 'PRINT');
+        printWindow.document.write(document.documentElement.innerHTML);
+        setTimeout(() => { // Needed for large documents
+        printWindow.document.title = "SC : CMIS";
+        printWindow.document.body.style.margin = '0 0';
+        printWindow.document.body.innerHTML = printElement.outerHTML;
+        printWindow.document.close(); // necessary for IE >= 10
+        printWindow.focus(); // necessary for IE >= 10*/
+        printWindow.print();
+        printWindow.close();
+        }, 1000)
+ }
 </script>
 </body>
 </html>
