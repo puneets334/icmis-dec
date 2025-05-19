@@ -209,14 +209,14 @@ class LimitationModel extends Model
         $builder = $this->db->table('master.m_limitation_period');
         $builder->select('category_subcode, category_subcode1, category_subcode2, limitation, order_cof');
         $builder->where('display', 'Y');
-
+        $builder->orderBy('order_cof','desc');
         if (!empty($nature)) {
             $builder->where('casetype_id', $nature);
         }
 
         $builder->where('submaster_id', '0');
         $builder->where('case_law', '0');
-        
+        $builder->getCompiledSelect();
         $query = $builder->get();
         return $query->getResultArray();
     }
