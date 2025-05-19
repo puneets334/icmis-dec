@@ -177,7 +177,7 @@ $(document).on("blur","#pet_deptt",function(){
 //Function Autocomplete start pet post------------------------------------------------
 $(function() {
     $("#res_post").autocomplete({
-        source: "../Common/Ajaxcalls/new_filing_autocomp_post",
+        source: "/Common/Ajaxcalls/new_filing_autocomp_post",
         width: 450,
         matchContains: true,
         minChars: 1,

@@ -2,6 +2,7 @@
 
 <script src="<?php echo base_url('autocomplete/autocomplete-ui.min.js'); ?>"></script>
     <script src="<?php echo base_url('filing/new_extraparty.js'); ?>"></script>
+    <link href="<?php echo base_url('autocomplete/autocomplete.css');?>" rel="stylesheet">
 
 <style>
     #wrapper_1:after {
