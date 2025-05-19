@@ -5,6 +5,7 @@
     <div class="card-body" >
         <div id="query_builder_wrapper" class="dataTables_wrapper dt-bootstrap4">
         <button type="submit"  id="print" name="print" onclick="printDiv('printable')" class="btn btn-block_ btn-primary">Print</button>
+        <a href="<?php echo base_url().'/Reports/Filing/Report/getSectionWiseDakDetails/'.date('Y-m-d', strtotime($for_date))?>">  <span type="button" style="float:right" id="back" name="back" class="btn btn-success">Back</span></a>
             <div id="printable" class="box box-danger">
                 <h3 style="text-align: center;"> DAK Report of Section - <?php echo $section;?>    <?php echo date('d-m-Y', strtotime($for_date));?></h3>
                 <table  id="ReportFileTrap" class="table table-striped custom-table table-hover dt-responsive">

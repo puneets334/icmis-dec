@@ -227,6 +227,7 @@
 </div>
 <!-- /.diary -->
 <center><span id="loader"></span> </center>
+<hr>
 <div id="result_data"></div>
 
 <script src="<?php echo base_url('plugins/jquery-validation/jquery.validate.js'); ?>"></script>
@@ -329,6 +330,7 @@ $(document).ready(function() {
                     beforeSend: function() {
                         //    $('.diary_search').val('Please wait...');
                         //  $('.diary_search').prop('disabled', true);
+                        $('#result_data').html('');
                         $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
 
                     },
@@ -343,6 +345,7 @@ $(document).ready(function() {
                             $(".form-response").html("");
                             $('#result_data').html(resArr[1]);
                         } else if (resArr[0] == 3) {
+                            $("#loader").html('');
                             $('#result_data').html('');
                             $('.alert-error').show();
                             $(".form-response").html("<p class='message invalid' id='msgdiv'>&nbsp;&nbsp;&nbsp; " + resArr[1] + "</p>");
