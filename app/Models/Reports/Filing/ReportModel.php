@@ -2018,8 +2018,9 @@ class ReportModel extends Model
         $condition = ' and 1=1';
         if (!empty($param['section']))
             $condition = " and tentative_section(b.diary_no)='" . $param['section'] . "'";
+        
         $db = \Config\Database::connect();
-        $sql = "SELECT 
+         $sql = "SELECT 
                 SUM(CASE WHEN between_28to60 = 'YES' THEN 1 ELSE 0 END) days_28,
                 SUM(CASE WHEN between_61to90 = 'YES' THEN 1 ELSE 0 END) days_60,
                 SUM(CASE WHEN days90_crossed = 'YES' THEN 1 ELSE 0 END) days_90
@@ -2037,9 +2038,8 @@ class ReportModel extends Model
                   AND CURRENT_DATE - save_dt > INTERVAL '28 days' 
                 GROUP BY diary_no) xy ON b.diary_no = xy.diary_no
                 LEFT JOIN heardt h ON h.diary_no = b.diary_no 
-                WHERE c_status = 'P' 
-                AND active_fil_no = '' AND b.diary_no_rec_date between '" . date('Y-m-d', strtotime($param['from_date'])) . "' and '" . date('Y-m-d', strtotime($param['to_date'])) . "'
-                AND b.diary_no not in (select diary_no from last_heardt lh where lh.diary_no = b.diary_no AND (lh.brd_slno != 0 OR lh.brd_slno IS NOT NULL) AND (lh.roster_id != 0 OR lh.roster_id IS NOT NULL) AND (trim(lh.judges) != '0' OR lh.judges IS NOT NULL) AND lh.bench_flag != 'X') GROUP BY b.diary_no,def_days
+                WHERE c_status = 'P' AND b.diary_no_rec_date between '" . date('Y-m-d', strtotime($param['from_date'])) . "' and '" . date('Y-m-d', strtotime($param['to_date'])) . "'
+                  $condition  AND active_fil_no = ''  AND b.diary_no not in (select diary_no from last_heardt lh where lh.diary_no = b.diary_no AND (lh.brd_slno != 0 OR lh.brd_slno IS NOT NULL) AND (lh.roster_id != 0 OR lh.roster_id IS NOT NULL) AND (trim(lh.judges) != '0' OR lh.judges IS NOT NULL) AND lh.bench_flag != 'X') GROUP BY b.diary_no,def_days
                 ) a;";
         return $db->query($sql)->getResultArray();
     }

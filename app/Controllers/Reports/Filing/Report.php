@@ -171,8 +171,8 @@ class Report extends BaseController
         extract($_POST);
         
         $ReportModel = new ReportModel();
-        $data['from_date'] = date('Y-m-d',strtotime($this->request->getPost('from_date')));
-        $data['to_date'] = date('Y-m-d',strtotime($this->request->getPost('to_date')));
+        $data['from_date'] = (!empty($this->request->getPost('from_date'))) ? date('Y-m-d',strtotime($this->request->getPost('from_date'))) : '';
+        $data['to_date'] = (!empty($this->request->getPost('to_date'))) ?   date('Y-m-d',strtotime($this->request->getPost('to_date'))) : '';
         $data['diary_no'] = $this->request->getPost('diary_no') . $this->request->getPost('diary_year');
         $data['isma'] = $this->request->getPost('isma');
         $data['is_inperson'] = $this->request->getPost('is_inperson');
@@ -388,8 +388,8 @@ class Report extends BaseController
     public function dak_search()
     {
         $ReportModel = new ReportModel();
-        $data['from_date'] = $this->request->getPost('from_date');
-        $data['to_date'] = $this->request->getPost('to_date');
+        $data['from_date'] = date('Y-m-d',strtotime($this->request->getPost('from_date')));
+        $data['to_date'] = date('Y-m-d',strtotime($this->request->getPost('to_date')));
         $data['document_no'] = $this->request->getPost('document_no');
         $data['doc_year'] = $this->request->getPost('doc_year');
         $data['respondent_department'] = $this->request->getPost('respondent_department');
@@ -1064,7 +1064,10 @@ class Report extends BaseController
            // $caseType_model = new \App\Models\Entities\Model_Casetype();
             //$casetype = $caseType_model->select('casename')->where('casecode', $_POST['report_for'])->where('display', 'Y')->get()->getRowArray();
         }
-        $table .= '<h6 style="text-align: center;text-transform: capitalize;color: blue;"> Diary Received between ' . date('d-m-Y', strtotime($_POST['from_date'])) . ' and ' . date('d-m-Y', strtotime($_POST['to_date'])) . '<br>' . (($casetype != '') ? 'Case Type:' . $casetype['casename'] : ' IN     R.P/Curative/Contempt Petition') . '</h6>';
+        $table .= '
+        <div align="center"><input name="print1" type="button" id="print1" value="Print" ></div>
+        <div id="printDiv1">
+        <h6 style="text-align: center;text-transform: capitalize;color: blue;"> Diary Received between ' . date('d-m-Y', strtotime($_POST['from_date'])) . ' and ' . date('d-m-Y', strtotime($_POST['to_date'])) . '<br>' . (($casetype != '') ? 'Case Type:' . $casetype['casename'] : ' IN     R.P/Curative/Contempt Petition') . '</h6>';
         $ReportModel = new ReportModel();
         $result_array = $ReportModel->rcc_report(date('Y-m-d', strtotime($_POST['from_date'])), date('Y-m-d', strtotime($_POST['to_date'])), $condition);
         //pr($result_array);
@@ -1090,6 +1093,7 @@ class Report extends BaseController
             }
             $table .= '<tbody><tr><td colspan="2" style="text-align: center;font-weight:bold">Total:</td><td style="text-align: center;font-weight:bold">' . $total . '</td></tr></tbody>';
         }
+        $table .= '</div>';
         echo $table;
     }
 
@@ -1100,7 +1104,7 @@ class Report extends BaseController
         if (sizeof($report_data)) {
             $section = (!empty($_POST['section'])) ? $_POST['section'] : ' ALL';
             $table = '
-            <input name="print2" type="button" id="print2" value="Print">
+            <input name="print2" type="button" id="print2_" value="Print" onclick="printDiv2();">
             <div style="margin-top: 0px" id="printDiv2">
                     <h1 style="color: blue;font-size: 1.2em;text-align: center;margin: 0;">Section:'. $section.'</h1>
                 <h1 style="color: blue;font-size: 1.2em;text-align: center">Total Diary: '. count($report_data) .'</h1>

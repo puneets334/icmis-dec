@@ -148,14 +148,14 @@
         return false;
     }
 
-
-    $(document).one("click", "#print2", function () {
-    var prtContent = $("#printDiv2").html();
-    var WinPrint = window.open('', '', 'left=10,top=0,width=800,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1');
-    WinPrint.document.write(prtContent);
-    WinPrint.document.close();
-    WinPrint.focus();
-    WinPrint.print();
-   // WinPrint.close();
-});
+    $(document).on("click","#print2",function(){
+        var prtContent = $("#printDiv2").html();
+        var temp_str=prtContent;
+        var WinPrint = window.open('','','left=10,top=0,align=center,width=1400,height=1200,menubar=1,toolbar=1,scrollbars=1,status=1');
+        WinPrint.document.write(temp_str);
+        WinPrint.document.close();
+        WinPrint.focus();
+        WinPrint.print();
+        WinPrint.close();
+    });
 </script> 

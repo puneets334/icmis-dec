@@ -47,7 +47,7 @@
                             <td><?php echo $section; ?></td>
                             <td>
                                 <?php
-                                $url= base_url().'/index.php/Reports/Filing/Report/getSectionWiseDAKCaseDetails/'.date('Y-m-d', strtotime($row->dak_date)).'/'.$section;
+                                $url= base_url().'/Reports/Filing/Report/getSectionWiseDAKCaseDetails/'.date('Y-m-d', strtotime($row->dak_date)).'/'.$section;
                                 if(!empty($is_excluded_flag)) // for casetype exclude
                                 {
                                     $url.='/'.$is_excluded_flag;
