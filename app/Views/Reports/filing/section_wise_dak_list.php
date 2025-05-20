@@ -29,7 +29,7 @@
                                 //echo $url;
                                 ?>
 
-                                <a target="_self" href="<?=$url;?>"><?=$row->total;?></a>
+                                <a target="_BLANK" href="<?=$url;?>"><?=$row->total;?></a>
                                <!-- <a class="detailed_report" target="_self" href="#" data-from_date=<?/*=$section_wise_dak_data['param'][0];*/?> data-to_date=<?/*=$section_wise_dak_data['param'][1];*/?> data-section=<?/*=$section_wise_dak_data['param'][2];*/?> data-is_exclude_flag=<?/*=$section_wise_dak_data['param'][3];*/?>> <?/*=$row->total;*/?></a>-->
                             </td>
 

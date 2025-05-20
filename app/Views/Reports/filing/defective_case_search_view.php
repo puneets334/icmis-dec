@@ -10,7 +10,7 @@
         <div class="form-group row">
             <label for="From" class="col-form-label">From</label>
             <div class="col-sm-9">
-                <input required type="date" max="<?php echo date("Y-m-d"); ?>" class="form-control" id="from_date" name="from_date" placeholder="From Date" value="<?php if(!empty($formdata['from_date'])){ echo $formdata['from_date']; } ?>" >
+                <input required type="text" max="<?php echo date("Y-m-d"); ?>" class="form-control dtp" id="from_date" name="from_date" placeholder="From Date" value="<?php if(!empty($formdata['from_date'])){ echo $formdata['from_date']; } ?>" >
             </div>
         </div>
 
@@ -19,7 +19,7 @@
         <div class="form-group row">
             <label for="To" class="col-form-label">To</label>
             <div class="col-sm-9">
-                <input type="date" max="<?php echo date("Y-m-d"); ?>" class="form-control" id="to_date" name="to_date" placeholder="To Date" value="<?php if(!empty($formdata['to_date'])){ echo $formdata['to_date']; } ?>">
+                <input type="text" max="<?php echo date("Y-m-d"); ?>" class="form-control dtp" id="to_date" name="to_date" placeholder="To Date" value="<?php if(!empty($formdata['to_date'])){ echo $formdata['to_date']; } ?>">
             </div>
         </div>
     </div>
@@ -71,6 +71,19 @@
 <script src="<?php echo base_url('plugins/jquery-validation/additional-methods.js'); ?>"></script>
 
 <script>
+
+$(document).ready(function() {
+        $('.dtp').datepicker({
+            format: 'dd-mm-yyyy',
+            todayHighlight: true,
+            autoclose: true,
+            changeMonth: true,
+            changeYear: true,
+            yearRange: '1950:2050'
+
+        });
+    });
+
     $('#defective_case_search_form').on('submit', function () {
         var from_date = $("#from_date").val();
         var to_date = $("#to_date").val();
