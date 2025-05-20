@@ -8,7 +8,7 @@
 
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Filing >> Diary Search</h3>
+                                <h3 class="card-title">Mention Memo</h3>
                             </div>
                             <?=view('Filing/filing_filter_buttons'); ?>
                         </div>

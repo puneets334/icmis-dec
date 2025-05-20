@@ -338,6 +338,188 @@ class CourtMentionMemoController extends BaseController
         
         return view('Court/CourtMentionMemo/mention_memo_search', $data);
      }
+	 
+	 
+	 public function updateMm($id){
+        
+		if ($this->request->getPost()) {
+            $access =  $this->model->getAccessDetails(($session->get('dcmis_user_idd')) ? $session->get->userdata('dcmis_user_idd') : $this->request->getPost('session_id_url'));
+            $data['access'] = $access;
+
+            if ($updated = $this->model->UpdateMmData($this->request->getPost(), $id)) {
+
+
+                $data['update'] = 'updateMentionMemo';
+                $data['caseInfo'] = '';
+                $data['listingInfo'] = '';
+                $data['session_id_url'] = $this->request->getPost('session_id_url');
+                $data['msg'] = '<div class="alert alert-success text-center">Updated Successfully !!</div>';
+                return view('Court/CourtMentionMemo/MentioningUpdate', $data);
+            }
+        }
+    }
+	 
+	 
+	 
+	  public function updateMentionMemo($session){
+		  
+		$data['session_id_url'] = session()->get('login')['usercode'];
+        if (!empty($this->request->getPost('session_id_url'))) {
+           $this->session->set('dcmis_user_idd', $this->request->getPost('session_id_url'));
+        } else {
+            $this->session->set('dcmis_user_idd', $session);
+        }
+		
+
+        $access =  $this->model->getAccessDetails(session()->get('dcmis_user_idd'));
+
+        if (empty($access)) {
+            $data['msg'] = '<div class="alert alert-danger text-center">You are not authorized to view this page</div>';
+        }
+
+
+        $data['app_name'] = 'MentionMemo';
+        $data['caseTypes'] = $this->model->get_case_type_list();
+        $diaryNumber = '';
+        $data['caseInfo'] = null;
+        $data['listingInfo'] = null;
+        $data['access'] = $access;
+       
+
+        if (!empty($this->request->getPost('session_id_url'))) {
+
+            if ($this->request->getPost('optradio') == 1) {
+                if ((!empty($this->request->getPost('caseType'))) && (!empty($this->request->getPost('caseNo')))) {
+
+                    $caseTypeId = $this->request->getPost('caseType');
+                    $caseNo = $this->request->getPost('caseNo');
+                    $caseYear = $this->request->getPost('caseYear');
+                    $data['diaryDetails'] = $this->model->get_diary_details($caseTypeId, $caseNo, $caseYear);
+                }
+            }
+            if ($this->request->getPost('optradio') == 2) {
+                $diaryNo = $this->request->getPost('diaryNumber');
+                $diaryYear = $this->request->getPost('diaryYear');
+                $data['diaryDetails'] = $this->model->get_diary_details($diaryNo, $diaryYear);
+            }
+
+            if (($data['diaryDetails'])) {
+                foreach ($data['diaryDetails'] as $row) {
+                    $diaryNumber = $row['diary_no'];
+
+                    $this->session->set('diaryNo', $row['dn']);
+                    $this->session->set('diaryYear', $row['dy']);
+                    $this->session->set('diaryNumber', $row['diary_no']);
+                    $this->session->set('roaster_id', $row['m_roaster_id']);
+                }
+
+                $data['caseInfo'] = $this->model->getCaseDetails($diaryNumber);
+                $data['listingInfo'] = $this->model->get_listings($diaryNumber);
+			    $data['judge'] = $this->cmodel->getJudge();
+                
+           } else {
+                $data['update'] = 'updateMentionMemo';
+                $data['caseInfo'] = '';
+                $data['listingInfo'] = '';
+                $data['session_id_url'] = $this->request->getPost('session_id_url');
+                $this->load->view('Court/CourtMentionMemo/MentioningUpdate', $data);
+            }
+
+            if (!empty($data['caseInfo'])) {
+
+                $dn = $data['caseInfo'][0]['diary_no'];
+                $dy = $data['caseInfo'][0]['diary_year'];
+            } else {
+                $dn = $this->request->getPost('diaryNumber');
+                $dy = $this->request->getPost('diaryYear');
+            }
+            $recivedate = '';
+
+            if (!empty($this->request->getPost('casediaryDate'))) {
+                $receivedDate = $this->request->getPost('casediaryDate');
+            } else {
+                $receivedDate = $this->request->getPost('diaryDate');
+            }
+
+            if (!empty($this->request->getPost('diary_forListType'))) {
+                $forListType = $this->request->getPost('diary_forListType');
+            } else {
+                $forListType = $this->request->getPost('forListType');
+            }
+
+
+            $bench = $data['mmData'] = $this->model->get_mmData_code($receivedDate, $dy, $dn, $forListType);  // get data from table to view in table
+
+            if (!$bench) {
+                $data['update'] = 'updateMentionMemo';
+                $data['caseInfo'] = '';
+                $data['listingInfo'] = '';
+                $data['session_id_url'] = $this->request->getPost('session_id_url');
+
+            }
+           
+            $bench_desc = "";
+
+            if ($bench->courtno == 21) {
+                $court = "R1";
+            } else if ($bench->courtno == 22) {
+                $court = "R2";
+            } else if ($bench->courtno > 30 && $bench->courtno <= 60) {
+                $court = "VC- " . ($bench->courtno - 30);
+            } else if ($bench->courtno > 60 && $bench->courtno <= 62) {
+                $court = "RVC- " . ($bench->courtno - 60);
+            } else {
+                $court = $bench->courtno;
+            }
+            if ($bench->session == 'Whole Day' && $bench->courtno != "" && $bench->courtno != 0 && $bench->courtno != null) {
+                $bench_desc = $bench->session . ' in Court ' . $court;
+            } else if ($bench->courtno != "" && $bench->courtno != 0 && $bench->courtno != null) {
+                $bench_desc = $bench->session . ' @ ' . $bench->frm_time . ' in Court ' . $court;
+            } else {
+                $bench_desc = $bench->session;
+            }
+
+
+            $data['roster_id'] = $bench->roster_id;
+            $data['bench_desc'] = $bench_desc;
+            $data['formData'] = $this->request->getPost();
+            $data['session_id_url'] = $this->request->getPost('session_id_url');
+            $data['caseInfo'] = $this->model->getCaseDetails($diaryNumber);
+
+           $user = $data ['mm_data'] = $this->model->get_mmData_code($receivedDate, $dy, $dn, $forListType);
+           $user_code = $data ['user_code'] = $this->model->getmain_data($receivedDate, $dy, $dn, $forListType);
+           $dacode = $user_code->user_id;
+           $user_detail = $data ['user_detail'] = $this->model->getuser_details($dacode);
+           $data['user_id'] = $user->user_id;
+           $data['user_det'] =  $user_detail->name .' (' . $user_detail->empid  .')'; 
+        
+           $msg_combined = ''; 
+
+            if (!empty($bench->pdfname) || !empty($bench->upload_date)) {
+                $data['session_id_url'] = $_POST['session_id_url'];
+                $msg_combined .= 'Order is already Updated !!'.'<br>';
+            }
+            if ($data['user_id'] !== $this->request->getPost('session_id_url')) {
+               $msg_combined .= 'Mentioned Information can be updated by ' . $data['user_det'] . '.<br>';
+           }
+           if(empty($data['mm_data']))
+
+           {
+            $msg_combined .= '<div class="alert alert-danger text-center">Case Not Found</div>';
+
+           }
+           
+           
+           if (!empty($msg_combined)) {
+              $data['msg_combined'] = '<div class="alert alert-danger text-center">' . $msg_combined . '</div>';
+           }
+
+        }
+        $data['session_id_url'] = session()->get('dcmis_user_idd');
+
+        return view('Court/CourtMentionMemo/MentioningUpdate', $data);
+    }
+	 
     
 }
 
