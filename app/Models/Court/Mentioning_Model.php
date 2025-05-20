@@ -1233,50 +1233,57 @@ class Mentioning_Model extends Model
 		return $this->db->get()->row();
 		//echo $this->db->last_query();
 	}
+	
+	
 	function UpdateMmData($data){
-		$this->db->trans_start(); //trans start
+		
+		  $this->db->transStart(); 
 
-		$mmCurrentRecord = $this->db->select('*')->from('mention_memo')->where('id',$data['id'])->get()->row_array();
+		  $mmCurrentRecord = $this->db->table('mention_memo')
+								  ->where('id', $data['id'])
+								  ->get()
+								  ->getRowArray();
 
-		$array = array(
-			'event_type' => 'U',
-			'ipaddress' => $_SERVER['REMOTE_ADDR'],
-			'update_user' => $data['session_id_url'],
-			'action_perform_on' => date("Y-m-d H:i:s"),
-		);
+			if (!$mmCurrentRecord) {
+				return false; 
+			}
 
-		$oldmmdata = array_merge($mmCurrentRecord,$array);
+		   $historyData = array_merge($mmCurrentRecord, [
+				'event_type'        => 'U',
+				'ipaddress'         => $_SERVER['REMOTE_ADDR'],
+				'update_user'       => $data['session_id_url'],
+				'action_perform_on' => date("Y-m-d H:i:s")
+			]);
 
+		$inserted = $this->db->table('mention_memo_history')->insert($historyData);
 
-		if($this->db->insert('mention_memo_history', $oldmmdata)){
-			//echo $this->db->last_query(); exit;
-			$array = array(
+		if ($inserted) {
+			$updateData = [
 				'date_of_received' => $data['mmReceivedDate'],
-				'date_on_decided' => $data['mmPresentedDate'],
-				'date_for_decided' =>$data['mmDecidedDate'],
-				'spl_remark' => $data['remarks'],
-				'm_brd_slno' => $data['itemNo'],
-				'm_roster_id' => $data['bench'],
-				'update_time' => date("Y-m-d H:i:s")
-			);
+				'date_on_decided'  => $data['mmPresentedDate'],
+				'date_for_decided' => $data['mmDecidedDate'],
+				'spl_remark'       => $data['remarks'],
+				'm_brd_slno'       => $data['itemNo'],
+				'm_roster_id'      => $data['bench'],
+				'update_time'      => date("Y-m-d H:i:s")
+			];
 
-			//print_r($oldmmdata); exit;
-			$this->db->set($array)->where('id', $data['id'])->update('mention_memo');
-			//echo $this->db->last_query(); exit;
-
-			if ($this->db->trans_status() === FALSE)
-			{
-				$this->db->trans_rollback();
-			}
-			else
-			{
-				$this->db->trans_commit();
-				return true;
-			}
-
+			$this->db->table('mention_memo')
+			   ->where('id', $data['id'])
+			   ->update($updateData);
 		}
 
-	}
+      $this->db->transComplete(); 
+
+		if ($this->db->transStatus() === false) {
+			return false;
+		}
+
+		return true; 
+   }
+   
+   
+   
 	function DeleteMmData($data){
 		$mmCurrentRecord = $this->db->select('*')->from('mention_memo')->where('id',$data['id'])->get()->row_array();
 
@@ -1306,9 +1313,17 @@ class Mentioning_Model extends Model
 	}
 
 	function getAccessDetails($id){
-		$array = array('usertype'=>4,'section'=>11, 'display'=>'Y', 'usercode'=>$id);
-		return $this->db->get_where('users',$array)->result();
-		//$this->db->get('users');
+		$conditions = [
+			//'usertype' => 4,
+			//'section'  => 11,
+			//'display'  => 'Y',
+			'usercode' => $id
+		];
+
+		return $this->db->table('master.users')
+				  ->where($conditions)
+				  ->get()
+				  ->getResult();
 	}
 	
     public function advocate_by_diary_number($dno) 
@@ -1601,6 +1616,80 @@ class Mentioning_Model extends Model
         }
         return $results[0]?? '';
     }
+	
+	
+	function get_diary_details($caseTypeId=null,$caseNo=null,$caseYear=null,$diaryNo=null,$diaryYear=null) {
+			$optradio = $request->getPost('optradio');
+			$sql = "";
+			$params = [];
+
+			if ($optradio == 1) {
+				$caseTypeId = $request->getPost('caseTypeId');
+				$caseNo = $request->getPost('caseNo');
+				$caseYear = $request->getPost('caseYear');
+
+				$sql = "SELECT h.diary_no,
+							   SUBSTR(h.diary_no, 1, LENGTH(h.diary_no) - 4) AS dn,
+							   SUBSTR(h.diary_no, -4) AS dy
+						FROM main_casetype_history h
+						WHERE (SUBSTRING_INDEX(h.new_registration_number, '-', 1) = ?
+							   AND CAST(? AS UNSIGNED) BETWEEN (SUBSTRING_INDEX(SUBSTRING_INDEX(h.new_registration_number, '-', 2), '-', -1))
+							   AND (SUBSTRING_INDEX(h.new_registration_number, '-', -1))
+							   AND h.new_registration_year = ?)
+							  AND h.is_deleted = 'f'";
+				$params = [$caseTypeId, $caseNo, $caseYear];
+			}
+
+			if ($optradio == 2) {
+				$diaryNo = $request->getPost('diaryNumber');
+				$diaryYear = $request->getPost('diaryYear');
+
+				$sql = "SELECT diary_no,
+							   SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) AS dn,
+							   SUBSTR(diary_no, -4) AS dy
+						FROM main
+						WHERE SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) = ?
+						  AND SUBSTR(diary_no, -4) = ?";
+				$params = [$diaryNo, $diaryYear];
+			}
+
+		   $query = $db->query($sql, $params);
+
+		if ($query->getNumRows() >= 1) {
+			return $query->getResultArray();
+		} else {
+			return array();
+		}
+	}
+	
+	
+	function get_mmData_code($date, $year, $d_no, $flistype){
+       
+		$builder = $this->db->table('mention_memo mm');
+		$builder->select('*');
+		$builder->where('mm.diary_no', $d_no.$year);
+		$builder->where('mm.date_of_received', $date);
+		$builder->orderBy('mm.update_time', 'DESC');
+
+		return $builder->get()->getRow();
+    }
+	
+	function getmain_data($date, $year, $d_no, $flistype){
+		
+		$builder = $this->db->table('mention_memo mm');
+		$builder->select('*');
+		$builder->where('mm.diary_no', $d_no.$year);
+		return $builder->get()->getRow();
+		
+      }
+	  
+	  function getuser_details($dacode){
+		  $builder = $this->db->table('master.users u');
+		  $builder->select('*');
+		  $builder->where('u.usercode', $dacode);
+		  return $builder->get()->getRow();
+	  }
+
 
 
 

@@ -2118,14 +2118,10 @@ class PrintAdvance extends BaseController
 
     public function cl_print_save_all()
     {
-
         $request = \Config\Services::request();
         $db = \Config\Database::connect();
-        if (!empty(session()->get('dcmis_user_idd'))) {
-            $ucode = session()->get('dcmis_user_idd');
-        } else {
-            $ucode = session()->get('login')['usercode'];
-        }
+      
+        $ucode = session()->get('login')['usercode'];
         $mainhead = $request->getPost('mainhead');
         $list_dt = $request->getPost('list_dt');
         $list_dts = date('Y-m-d', strtotime($list_dt));
@@ -2152,7 +2148,6 @@ class PrintAdvance extends BaseController
         $data_file = $path . $file_path . ".html";
         $data_file1 = $path . $file_path . ".pdf";
         file_put_contents($data_file, $pdf_cont);
-
         ///////// this is commentted for Class \"Mpdf\\Mpdf\" not found///////////////////////////    
         try {
             $mpdf = new \Mpdf\Mpdf();
@@ -2164,11 +2159,14 @@ class PrintAdvance extends BaseController
 
             $mpdf->WriteHTML(file_get_contents($data_file));
             $mpdf->Output($data_file1, \Mpdf\Output\Destination::FILE);
-            return true;
+            
+           // return true;
         } catch (\Mpdf\MpdfException $e) {
             // Handle mPDF errors
+        //     echo 'dfjdgfh';
+        // die();
             log_message('error', 'PDF generation failed: ' . $e->getMessage());
-            return false;
+            //return false;
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2181,6 +2179,7 @@ class PrintAdvance extends BaseController
         if ($mainhead == 'M') {
             $mf_roster_flag = 1;
         }
+        
 
         $after_allocation = $this->PrintAdvanceModel->after_allocation($list_dts, $board_type, $mf_roster_flag, $main_suppl, $mainhead, $ucode);
 

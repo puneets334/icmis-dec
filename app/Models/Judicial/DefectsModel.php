@@ -393,5 +393,157 @@ class DefectsModel extends Model{
         $result = $query->getResultArray();
     }
 
+    function get_result_casetype($dairy_no)
+    {
+        $builder = $this->db->table('public.main m');
+        $builder->select("m.pet_name, m.res_name, TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS dt, m.case_grp, m.fil_no, m.c_status, m.casetype_id");
+        $builder->where('m.diary_no', $dairy_no);
+        $query = $builder->get();
+        return $result = $query->getRowArray();
+    }
+
+    function get_check_section_rs($ucode){
+        $builder = $this->db->table('master.users u'); // Use schema if needed
+        $builder->select('*');
+        $builder->join('master.usersection us', 'u.section = us.id');
+        $builder->where([
+            'u.usercode' => $ucode,
+            'us.isda'    => 'Y',
+            'u.display'  => 'Y'
+        ]);
+        $query = $builder->get();
+        return $result = $query->getRowArray();
+    }
+
+
+    function get_rs_res($dairy_no)
+    {
+        $builder = $this->db->table('public.main m');
+        $builder->select("
+            m.pet_name || ' VS ' || m.res_name AS cause_title,
+            TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,
+            MIN(o.save_dt) AS defect_date,
+            MIN(DATE(o.save_dt)) AS df,
+            o.display
+        ");
+        $builder->join('public.obj_save o', 'm.diary_no = o.diary_no');
+        $builder->where('m.diary_no', $dairy_no);
+        $builder->where('o.display', 'Y');
+        $builder->groupBy([
+                            'm.pet_name',
+                            'm.res_name',
+                            'm.diary_no_rec_date',
+                            'o.display'
+                        ]);
+        $query = $builder->get();
+        return $result = $query->getResultArray();
+    }
+
+    function get_no_of_days_qr($c_date)
+    {
+        $builder = $this->db->table('master.defect_policy');
+        $c_date = date('Y-m-d'); // or from POST/GET
+        $builder->select('no_of_days');
+        $builder->where('master_module', '1');
+        $builder->groupStart()
+            ->where("'$c_date' BETWEEN from_date AND to_date", null, false) // ✅ FIXED: disable escaping
+            ->orGroupStart()
+                ->where('from_date <=', $c_date)
+                ->where('to_date IS NULL', null, false) // ✅ already correct
+            ->groupEnd()
+        ->groupEnd();
+        $query = $builder->get();
+        $result = $query->getRowArray();
+    }
+
+    function get_holiday($date){
+        $builder = $this->db->table('master.holidays');
+        $builder->select('hdate');
+        $builder->where('hdate', $date);
+        $builder->where('emp_hol <>', 0); // PostgreSQL supports '<>' for not equals
+
+        $query = $builder->get();
+        $result = $query->getRowArray();
+    }
+
+    function get_ia($diary_no)
+    {
+        $sql = "
+                SELECT a.*, b.docdesc 
+                FROM (
+                    SELECT doccode, doccode1, docnum, docyear, filedby, other1, ent_dt 
+                    FROM public.docdetails 
+                    WHERE doccode = '8' 
+                    AND diary_no = :diary_no: 
+                    AND iastat = 'P' 
+                    AND display = 'Y'
+                ) a 
+                JOIN master.docmaster b 
+                ON a.doccode = b.doccode 
+                AND a.doccode1 = b.doccode1 
+                AND b.display = 'Y'
+                ORDER BY CASE WHEN b.doccode1 = 28 THEN 1 ELSE b.doccode1 END
+            ";
+            $query = $this->db->query($sql, ['diary_no' => $diary_no]);
+            return $result = $query->getResultArray();
+    }
+
+    function get_causetitle_qr($diary_no)
+    {
+        $builder = $this->db->table('public.main');
+        $builder->select('pet_name,res_name,pno,rno');        
+        $builder->where('diary_no', $diary_no);                        
+        $query = $builder->get();
+        return $result = $query->getRowArray();
+    }
+
+    function get_res_wdn($w_wo_dn){
+        $sql = "
+                SELECT zz.*
+                FROM (
+                    SELECT a.*, b.c, b.dt
+                    FROM (
+                        SELECT DISTINCT 
+                            id, rm_dt, status, a.diary_no, org_id AS objcode, 
+                            pet_name, res_name, a.remark, 
+                            to_char(b.diary_no_rec_date, 'YYYY-MM-DD HH24:MI:SS') AS fdt, 
+                            save_dt, mul_ent, objdesc AS obj_name, name
+                        FROM obj_save a
+                        JOIN main b ON a.diary_no = b.diary_no
+                        JOIN master.objection c ON c.objcode = a.org_id
+                        JOIN master.users u ON u.usercode = a.usercode
+                        WHERE rm_dt IS NULL
+                        AND c_status = 'P'
+                        AND (c.display = 'Y' OR (c.display = 'N' AND c.objcode < 10075))
+                        AND status IN ('0', '11', '7')
+                        AND a.display = 'Y'
+                        AND b.fixed NOT IN ('9', '10')
+                        $w_wo_dn
+                    ) a
+                    JOIN (
+                        SELECT 
+                            COUNT(org_id) AS c, a.diary_no, b.fil_no, rm_dt, 
+                            MIN(date(save_dt)) AS dt
+                        FROM obj_save a
+                        JOIN main b ON a.diary_no = b.diary_no
+                        JOIN master.objection c ON c.objcode = a.org_id
+                        WHERE rm_dt IS NULL
+                        AND c_status = 'P'
+                        AND (c.display = 'Y' OR (c.display = 'N' AND c.objcode < 10075))
+                        AND status IN ('0', '11', '7')
+                        AND a.display = 'Y'
+                        AND b.fixed NOT IN ('9', '10')
+                        $w_wo_dn
+                        GROUP BY a.diary_no, b.fil_no, rm_dt
+                    ) b ON a.diary_no = b.diary_no
+                ) zz
+                ORDER BY id
+                ";                
+                $query = $this->db->query($sql);
+                return $result = $query->getResultArray();
+
+
+    }
+
 
 }  
