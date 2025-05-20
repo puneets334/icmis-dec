@@ -80,6 +80,7 @@ class MovementOfDocument extends BaseController
         $ucode = session()->get('login')['usercode'];
         $data['ucode'] = $ucode;
         $condition = " and 1=1";
+        $condition = "";
         $user = $this->MovementOfDocumentModel->getUserSection($ucode);
         
         if ($user) {
@@ -97,12 +98,18 @@ class MovementOfDocument extends BaseController
             
                 if (!empty($allDAUsercodes) && isset($allDAUsercodes['allda']) && !is_null($allDAUsercodes['allda'])) {
                   
-                    $condition .= " and a.disp_to in (" . $allDAUsercodes['allda'] . ")";
+                   // $condition .= " and a.disp_to in (" . $allDAUsercodes['allda'] . ")";
+
+                   //New php code 
+                    $condition .= " AND m.dacode in (" . $allDAUsercodes['allda'] . ")";
                     
                 }
             } else {
                
-                $condition .= " and a.disp_to = " . $this->db->escape($ucode);
+                //$condition .= " and a.disp_to = " . $this->db->escape($ucode);
+                
+                //New php code 
+                $condition .= " AND m.dacode = " . $this->db->escape($ucode);
             }
             
             
