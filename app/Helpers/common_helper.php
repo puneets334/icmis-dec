@@ -1618,13 +1618,15 @@ function getCaseDetails($diarySearchDetails)
     $data['diary_details'] = $diary_details;
     $data['party_details'] = json_decode($model->get_party_details($main_diary_number, $flag), true);
     $data['pet_res_advocate_details'] = json_decode($model->get_pet_res_advocate($main_diary_number, $flag), true);
-    $data['old_category'] = json_decode($model->get_old_category($main_diary_number, $flag), true);
-    $data['new_category'] = json_decode($model->get_new_category($main_diary_number, $flag), true);
+    //$data['old_category'] = json_decode($model->get_old_category($main_diary_number, $flag), true);
+    //$data['new_category'] = json_decode($model->get_new_category($main_diary_number, $flag), true);
+    //$data['new_category'] = get_new_mul_category($main_diary_number,$flag);
     $category_nm = '';
     $mul_category = '';
     $data['main_case'] = '';
     $data['new_category_name'] = '';
-    if (!empty($data['old_category'])) {
+
+   /* if (!empty($data['old_category'])) {
         foreach ($data['old_category'] as $old_category) {
             if ($old_category['subcode1'] > 0 and $old_category['subcode2'] == 0 and $old_category['subcode3'] == 0 and $old_category['subcode4'] == 0)
                 $category_nm =  $old_category['sub_name1'];
@@ -1642,11 +1644,32 @@ function getCaseDetails($diarySearchDetails)
             }
         }
         $data['old_category_name'] = $mul_category;
-    }
+    } */
 
-    if (!empty($data['new_category'])) {
-        $data['new_category_name'] = $data['new_category'][0]['category_sc_old'] . '-' . $data['new_category'][0]['sub_name1'] . ' : ' . $data['new_category'][0]['sub_name4'];
-    }
+   // $verify_qr="select diary_no from defects_verification where diary_no='$main_diary_number' and verification_status=0 and date(verification_date) < '2025-04-21'";
+    //$vrify_rs= $db->query($verify_qr);
+    $vrify_rs = $db->table('defects_verification')
+        ->select('diary_no')
+        ->where('diary_no', $main_diary_number)
+        ->where('CAST(verification_status AS INTEGER) =', 0, false)
+        ->where("CAST(verification_date AS DATE) < '2025-04-21'", null, false)
+        ->get();
+        
+        if($vrify_rs->getNumRows() > 0){
+            $data['old_category_name'] = get_mul_category($main_diary_number,$flag);
+        }
+        else{
+            $data['old_category_name'] = '';
+        }
+
+    $category_new= get_new_mul_category($main_diary_number,$flag);
+    //pr($category_new);
+    $data['new_category_name'] = !empty($category_new)?$category_new:'';
+
+    //if (!empty($data['new_category'])) {
+        //$data['new_category_name'] = 'dddd';
+        //$data['new_category_name'] = $data['new_category'][0]['category_sc_old'] . '-' . $data['new_category'][0]['sub_name1'] . ' : ' . $data['new_category'][0]['sub_name4'];
+   // }
     $data['no_of_defect_days'] = json_decode($model->get_defect_days($main_diary_number, $flag), true);
 
     $data['recalled_matters'] = json_encode($model->get_recalled_matters($main_diary_number), true, JSON_UNESCAPED_SLASHES);
@@ -2238,19 +2261,40 @@ function getBeforeNotBeforeData($diary_no)
     return $bf . "^|^" . $nbf;
 }
 
+
+/* 
+*
+* Using in CAse Status
+*
+*/
+
 function get_mul_category($diary_no, $flag = null)
 {
     $db = \Config\Database::connect();
-    $builder1 = $db->table("mul_category" . $flag . " mc");
+    $mul_category = "";
+   
+    /* $builder1 = $db->table("mul_category" . $flag . " mc");
     $builder1->select("s.*");
     $builder1->join('master.submaster s', "mc.submaster_id=s.id");
     $builder1->where('diary_no', $diary_no);
     $builder1->where('mc.display', 'Y');
-    $query = $builder1->get();
+    $query = $builder1->get(); */
+
+    $query = $db->table('mul_category' . $flag . ' a')
+        ->select('*')
+        ->join('master.submaster b', 'a.old_submaster_id = b.id')
+        ->where('a.diary_no', $diary_no)
+        ->where('a.display', 'Y')
+        ->groupStart()
+            ->where('b.is_old', 'Y')
+            ->orWhere('b.is_old IS NULL', null, false)
+        ->groupEnd()
+        ->where('b.display', 'Y')
+        ->get();
 
     if ($query->getNumRows() >= 1) {
         $result = $query->getResultArray();
-        $mul_category = "";
+        
         foreach ($result as $row2) {
             if ($row2['subcode1'] > 0 and $row2['subcode2'] == 0 and $row2['subcode3'] == 0 and $row2['subcode4'] == 0)
                 $category_nm =  $row2['sub_name1'];
@@ -2269,8 +2313,52 @@ function get_mul_category($diary_no, $flag = null)
         }
         return $mul_category;
     } else {
-        return false;
+        return $mul_category;
     }
+}
+
+/* 
+*
+* Using in CAse Status
+*
+*/
+function get_new_mul_category($dn, $flag = null)
+{
+    $db = \Config\Database::connect();
+    $mul_category="";
+    if($dn!=""){
+
+        $query =  $db->table('mul_category' . $flag . ' a')
+        ->select('b.*')
+        ->join('master.submaster b', 'a.submaster_id = b.id')
+        ->where('a.diary_no', $dn)
+        ->where('a.display', 'Y')
+        ->get();     
+      
+       if ($query->getNumRows() >= 1) {
+        $result = $query->getResultArray();        
+       
+            $category_nm = '';
+            $mul_category = '';
+            foreach ($result as $row2) {
+ 
+                if($row2['subcode1']>0 and $row2['subcode2']==0 and $row2['subcode3']==0 and $row2['subcode4']==0)
+                    $category_nm=  $row2['sub_name1'];
+                elseif($row2['subcode1']>0 and $row2['subcode2']>0 and $row2['subcode3']==0 and $row2['subcode4']==0)
+                    $category_nm=  $row2['sub_name1']." : ".$row2['sub_name4'];
+                elseif($row2['subcode1']>0 and $row2['subcode2']>0 and $row2['subcode3']>0 and $row2['subcode4']==0)
+                    $category_nm=  $row2['sub_name1']." : ".$row2['sub_name2']." : ".$row2['sub_name4'];
+                elseif($row2['subcode1']>0 and $row2['subcode2']>0 and $row2['subcode3']>0 and $row2['subcode4']>0)
+                    $category_nm=  $row2['sub_name1']." : ".$row2['sub_name2']." : ".$row2['sub_name3']." : ".$row2['sub_name4'];
+                if ($mul_category == '') {
+                    $mul_category = $row2['category_sc_old'].'-'.$category_nm;
+                } else {
+                    $mul_category = $row2['category_sc_old'].'-'.$mul_category . ',<br> ' . $category_nm;
+                }
+            }
+        }
+    }
+    return $mul_category;
 }
 
 function validate_verification($diary_no, $flag = null)
@@ -6571,22 +6659,42 @@ function get_allocation_judge_m_alc_b($p1, $cldt, $board_type)
     {
         $db = \Config\Database::connect();
         $ex_explode = explode('-', $c_no);
-        $lct_caseno = [];
+        //$lct_caseno = [];
 
-        for ($index = 0; $index < count($ex_explode); $index++) {
-            $lct_caseno[] = $ex_explode[$index];
+        $lct_caseno1='';
+        $lct_caseno2='';
+
+        if(count($ex_explode)==1) {
+            $lct_caseno1 = $ex_explode[0];
+            $lct_caseno2 = $ex_explode[0];
         }
+
+        else if(count($ex_explode)>1){
+            $lct_caseno1 = $ex_explode[0];
+            $lct_caseno2 = $ex_explode[1];       
+        }
+
+
+
+      /*  for ($index = 0; $index < count($ex_explode); $index++) {
+            $lct_caseno[] = $ex_explode[$index];
+        } */
 
         $builder = $db->table('lowerct');
         $builder->distinct()
             ->select('diary_no')
             ->where('lct_casetype', $c_type)
-            ->whereIn('lct_caseno', $lct_caseno)
+            ->where('ct_code', 4)
+            ->where('lct_caseno >=', $lct_caseno1)
+            ->where('lct_caseno <=', $lct_caseno2)
+            //->whereIn('lct_caseno', $lct_caseno)
             ->where('lct_caseyear', $c_yr)
             ->where('lw_display', 'Y');
-        $query = $builder->get();
+        $query = $builder->get(); 
 
-        $results = $query->getResultArray();
+        $results = $query->getResultArray();  
+
+
         $outer_array = array();
         foreach ($results as $row) {
             $inner_array = array();
