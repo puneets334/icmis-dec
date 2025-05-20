@@ -742,7 +742,27 @@ class Case_status extends BaseController
 
     public function get_ia()
     {
+
         if ($this->request->getMethod() === 'post') {
+            $diaryno = $this->request->getPost('diaryno');
+            
+            $diary_details = is_data_from_table('main', ['diary_no' => $diaryno], '*', 'R');
+            $flag = "";
+            if (empty($diary_details)) {
+                $flag = "_a";                
+            } 
+            $data['flag'] = $flag;
+            $data['diaryno'] =$_POST['diaryno'];
+            $data['Model_case_status'] = $this->Model_case_status;
+            $data['results_notices'] = $this->Model_case_status->getNoticesData($diaryno,$flag);              
+            return view('Common/Component/case_status/get_ia',$data);  
+            exit();
+        }
+        exit();
+
+
+
+       /* if ($this->request->getMethod() === 'post') {
             $diaryno = $this->request->getPost('diaryno');
 
             $output = "";
@@ -856,8 +876,18 @@ class Case_status extends BaseController
             return $output;
 
             exit();
-        }
+        } */
         exit();
+    }
+
+
+    public function fetch_defect_details()
+    {
+        $data['docd_id'] =$_GET['docd_id'];
+        $data['diary_no'] =$_GET['diary_no'];
+        $data['ia'] =$_GET['ia'];
+        $data['result'] = $this->Model_case_status->getIaFullDetails($_GET['diary_no'], $_GET['docd_id']);
+        return view('Common/Component/case_status/get_ia',$data);  
     }
 
     public function get_court_fees()
@@ -905,157 +935,13 @@ class Case_status extends BaseController
 
     public function get_notices()
     {
+
         if ($this->request->getMethod() === 'post') {
-            $diaryno = $this->request->getPost('diaryno');
-            $output = "";
+            $diaryno = $this->request->getPost('diaryno');         
 
-            $results_notices = $this->Model_case_status->getNoticesData($diaryno);
-              
-                if(!empty($results_notices)) {
-                        $output.= '<table width="100%" border="1" style="border-collapse: collapse;width:100%;" class="table table-striped custom-table table-hover dt-responsive" >
-                                <thead>
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Process Id</th>
-                                        <th>BarCode</th>
-                                        <th>Notice Type</th>
-                                        <th>Name</th>
-                                        <th>State / District</th>
-                                        <th>Station</th>
-                                        <th>Issue Date</th>
-                                        <th>Returnable Date</th>
-                                        <th>Dispatch Date</th>
-                                        <th>Serve Date</th>
-                                        <th>Receiving Date</th>
-                                        <th>Served/Unserved</th>
-                                        <th>View Notice</th>
-                                    </tr>
-                                </thead>';
-                                $sno=1;
-                                $get_dis_id='';
-                                $tot_st=0;
-                        
-                                foreach($results_notices as $row)
-                                {
-                                    //pr($row);
-                                    echo $get_serve=get_serve_type($row['serve']);
-                                    echo $get_serve_type=get_serve_type($row['ser_type']);
-                                    $output.= '<tr>';
-                                    $output.= '<td rowspan="">';
-                                    $output.=  $sno; 
-                                    $output.= '</td>';
-                                    $output.= '<td>';
-                                    $output.= $row['process_id'].'/'.$row['rec_dt'];
-                                    $output.= '</td>';
-                                    $output.= '<td>';
-                                    $output.= $row['barcode'];
-                                    $output.= '</td>';
-                                    $output.= '<td>';
-                                    $output.=  $row['nt_typ']; 
-                                    $output.= '</td>';
-                                    $output.= '<td>
-                                            <div style="word-wrap:break-word;width: 90px">';
-                                                if(!empty(trim($row['name'])) && $row['copy_type'] == 0)
-                                                {                                                    
-                                                    $output.= $row['name'];
-                                                }
-                                                if(trim($row['name'],' ')!='' && $row['tw_sn_to']!=0 && $row['copy_type']==0)
-                                                {                                                   
-                                                    $output.=  "<br/>Through ";
-                                                }
-                                                $send_to_name= '';
-                                                if($row['tw_sn_to']!=0)
-                                                {                                                    
-                                                    $send_to_name= send_to_name($row['send_to_type'],$row['tw_sn_to']);                                                     
-                                                }
-                                                
-                                                $output.=  $send_to_name;
-                                    
-                                    $output.= '</div><div style="color: red">';
-                                    
-                                                    if($row['copy_type']==1)
-                                                    {
-                                                        $output.=  "Copy";
-                                                    }
-                                    $output.= '</div>
-                                        </td>
-                                    <td>';
-                                    
-                                                if($row['tw_sn_to']==0)
-                                            {
-                                            $get_district=get_district($row['tal_state']);
-                                            $get_state=get_state($row['tal_district']);
-                                            
-                                            }
-                                            else 
-                                            {
-                                                $get_district=get_district($row['sendto_district']);
-                                            $get_state=get_state($row['sendto_state']);
-                                            
-                                            }
-                                            $output.=  $get_district.'/<br/>'.$get_state;
-                                    
-                                    $output.= '</td>';
-                                    $output.= '<td>';
-                                                $get_tehsil=get_state($row['station']);
-                                                $output.=  $get_tehsil; 
-                                    $output.= '</td>';
-                                    $output.= '<td>';
-                                    $output.= (!empty($row['rec_dt'])) ? date('d-m-Y',  strtotime($row['rec_dt'])) : '';          
-                                    $output.= '</td>';
-                                    $output.= '<td>';
-                                    $output.= (!empty($row['fixed_for'])) ? date('d-m-Y',  strtotime($row['fixed_for'])) : '';          
-                                    $output.= '</td>';
-                                    $output.= '<td>';
-                                    if($row['dispatch_dt'] != '')
-                                        $output.= date('d-m-Y',  strtotime($row['dispatch_dt']));
-                                    $output.= '</td>';
-                                    $output.= '<td>';
-                                    if($row['ser_date'] != '')
-                                    $output.= date('d-m-Y',  strtotime($row['ser_date']));
-                                    $output.= '</td>';
-                                    $output.= '<td>';
-                                    if($row['ser_dt_ent_dt'] != '')
-                                    $output.= date('d-m-Y',  strtotime($row['ser_dt_ent_dt']));
-                                    $output.= '</td>';
-                                    $output.= '<td>';
-                                    
-                                                // echo $get_serve.' / '.$get_serve_type;
-                                    $output.= $get_serve.' / '.$get_serve_type;
-                                    $output.= '</td>';
-                                    
-                                    
-                                    
-                                                $sno++;
-                                    $get_dis_id= $row['dispatch_id'];
-                                    
-                                    
-                                    
-                                                $output.= '<td>';
-                                    
-                                    
-                                    
-                                    $fil_nm="../pdf_notices/".$row['notice_path'];
-                                            //    $output.="<a href ='$fil_nm'>View</a>";
-                                                $output.="<a href='$fil_nm'  target='popup' onclick=window.open('$fil_nm','popup','width=600,height=400'); return false;'> view </a>";
-                                    $output.='</td>';
-                                    $output.= '</tr>';
-                                        
-                                }
-                                    
-                                    
-                            $output.= '</table>';
-                                
-                    
-                    
-            
-                }
-             
-                if($output=="")
-                    $output='<p align=center><font color=red><b>NOTICES NOT FOUND</b></font></p>';
-                return $output;
-            
-
+            $data['diaryno'] =$_POST['diaryno'];
+            $data['results_notices'] = $this->Model_case_status->getNoticesData($diaryno);              
+            return view('Common/Component/case_status/get_notice',$data);  
             exit();
         }
         exit();
@@ -2317,6 +2203,8 @@ class Case_status extends BaseController
                         $output.=  $entrydate;
                         $output.= '</td>';
                         $output.= '</tr>';  
+                        
+                        $sno=$sno+1;
                     }
                 }else{
                     $output .='<tr><td colspan="100%"><p align=center><font color=red><b>CASE INFROMATION NOT FOUND</b></font></p></td></tr>';
