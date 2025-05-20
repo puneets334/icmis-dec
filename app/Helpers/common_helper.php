@@ -6654,3 +6654,107 @@ function get_allocation_judge_m_alc_b($p1, $cldt, $board_type)
         }
         return $parts[2] . '-' . $parts[1] . '-' . $parts[0];
     }
+    if (!function_exists('get_gateinfo')) {
+    function get_gateinfo($diaryno)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('case_info');
+        $builder->select([
+            '*',
+            'case_info.usercode AS u',
+            "insert_time AS entrydate",
+            "concat(users.name, '[', users.empid, ']') AS userinfo",
+            'main.reg_no_display AS caseno'
+        ]);
+        $builder->join('master.users', 'case_info.usercode = users.usercode');
+        $builder->join('main', 'case_info.diary_no = main.diary_no');
+        $builder->where([
+            'case_info.diary_no' => $diaryno,
+            'case_info.display' => 'Y'
+        ]);
+    
+        $query = $builder->get();
+        $rs_get_case_info=$query->getResultArray();
+    if(count($rs_get_case_info)==0)
+    {
+        //$output='<p align=center><font color=red><b> CASE INFORMATION NOT FOUND</b></font></p>';
+    }
+    if(count($rs_get_case_info) > 0) {
+
+        $output = "Case Info : ";
+        $sno = 1;
+        foreach ($rs_get_case_info as $row_caseinfo)
+        {
+            $id=$row_caseinfo['id'];
+            $diary_no=$row_caseinfo['diary_no'];
+            $message=$row_caseinfo['message'];
+            $entry_time=$row_caseinfo['insert_time'];
+            $entered_by=$row_caseinfo['u'];
+            $entered_ip=$row_caseinfo['userip'];
+            $caseno=$row_caseinfo['caseno'];
+            $uninfo=$row_caseinfo['userinfo'];
+            $entrydate=$row_caseinfo['entrydate'];
+            //  echo $message;
+
+            $output.= "\n".$sno++.'. '.$message;
+
+        }
+        return $output;
+    }
+
+
+
+    }
+}
+if (!function_exists('get_last_hearing_judge_before_court_code')) {
+    function get_last_hearing_judge_before_court_code($diary_no,$list_date)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('last_heardt h')
+                    ->select('h.judges')
+                    ->join('cl_printed cp', "cp.next_dt = h.next_dt AND cp.roster_id = h.roster_id AND cp.display = 'Y' AND cp.part = h.clno", 'inner')
+                    ->where('h.next_dt !=', $list_date)
+                    ->where('h.diary_no', $diary_no)
+                    ->where('h.bench_flag IS NULL')
+                    ->orWhere('h.bench_flag', '')
+                    ->where('h.board_type !=', 'R')
+                    ->orderBy('h.next_dt', 'DESC')
+                    ->limit(1);
+
+        $query = $builder->get();
+        $result = $query->getResultArray();
+        
+        if(count($result) > 0) {
+            return $jcodes = $result[0]['judges'];
+        }
+    }
+   
+}
+
+
+if (! function_exists('f_get_all_judges_names_by_code')) {
+    function f_get_all_judges_names_by_code(string $chk_jud_id): string
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('judge');
+
+        $judgeCodes = explode(',', rtrim($chk_jud_id, ','));
+        $judgeCodes = array_map('trim', $judgeCodes);
+            $builder->select('first_name, sur_name')
+                    ->whereIn('jcode', $judgeCodes);
+
+            $query = $builder->get();
+            $results = $query->getResultArray();
+            $jname = "";
+
+            if (count($results) > 0) {
+                foreach ($results as $row) {
+                    $jname .= $row['first_name'] . " " . $row['sur_name'] . ", ";
+                }
+                return rtrim($jname, ", ");
+            }
+
+            return "";
+
+    }
+}
