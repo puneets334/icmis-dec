@@ -5376,3 +5376,200 @@ function dispose_detail($diaryNo)
     return $row ? $row->ord_dt : null;
 }
 
+if ( !function_exists( "_getwhere" ) ) {
+    function _getwhere( $sql, $multipleRow='no' )
+    {
+        $db = \Config\Database::connect();
+        if($multipleRow == 'no')
+        {
+            $query = $db->query($sql);
+            return $result = $query->getRowArray();
+        }else{
+            $query = $db->query($sql);
+            return $result = $query->getResultArray();            
+        }
+    }
+}
+
+
+if (!function_exists('get_days_difference')) {
+    function get_days_difference($last_day_of_refiling) {
+        $db = \Config\Database::connect();
+
+        $sql = "
+            SELECT DATE '2020-03-06' - DATE :ref_date: AS days
+        ";
+
+        $query = $db->query($sql, [
+            'ref_date' => $last_day_of_refiling
+        ]);
+
+        return $row = $query->getResultArray();
+
+        
+    }
+}
+
+if (!function_exists('get_date_diff_days')) {
+    function get_date_diff_days(string $refil_date, string $dff): int {
+        $db = \Config\Database::connect();
+
+        $sql = "SELECT DATE :refil_date: - DATE :dff: AS days";
+
+        $query = $db->query($sql, [
+            'refil_date' => $refil_date,
+            'dff' => $dff,
+        ]);
+
+        return $result = $query->getResultArray();        
+    }
+}
+
+if (!function_exists('get_days_difference_date')) {    
+    function get_days_difference_date(string $date1, string $date2): int
+    {
+        $db = \Config\Database::connect();
+
+        $sql = "SELECT DATE :date1: - DATE :date2: AS days";
+
+        $query = $db->query($sql, [
+            'date1' => $date1,
+            'date2' => $date2,
+        ]);
+
+        return $row = $query->getRowArray();       
+    }
+}
+
+
+
+function get_defect_days1($df,$refil_date,$last_day_of_refiling,$diary_no)
+{
+    $bl=0;
+    $delay_report="";
+    if($last_day_of_refiling <= '2020-03-07')
+    {
+        // refiling date
+        $rs1 = get_days_difference($last_day_of_refiling);
+        foreach ($rs1 as $rw) {        
+            $bl=@$rw['days']; //before corona period
+
+        }
+
+        echo "<tr><td>Delay till 06-03-2020    * pre-covid <b>(a)</b></td><td><font color='red'><b>".date_format(date_create($last_day_of_refiling),'d-m-Y') ."  to (06-03-2020) =  ". $bl. " days </font></b></td></tr>" ;
+
+        if($refil_date <= '2022-07-11')
+        {
+            $l2 =0;
+        }
+        else
+        {
+
+            $l1=0;
+            $l2=date_diff(date_create('2022-06-01'),date_create($refil_date));
+            //$l2= $l2->format("%R%a days") + 1;
+            $days = (int) $l2->format("%r%a"); // get signed integer number of days
+            $l2 = $days + 1;
+
+        }
+        $total=($bl + $l1+$l2);
+
+        echo "<tr><td>Dead(corona) Period     <b>(b)</b></td><td><font color='red'><b>(07-03-2020)  to (28-02-2022) = ".$l1 ." days </font></b></td></tr>" ;
+        if($bl==0 && $l1==0  )
+        {
+            echo "<tr><td>Delay Days Calculated   <b>(c)</b></td><td><b>". date_format(date_create($last_day_of_refiling),'d-m-Y'). " to ". date_format(date_create($refil_date),'d-m-Y')." = " .$l2 . " days </b></td></tr>" ;
+        }
+        else
+        {
+            echo "<tr><td>Delay Days Calculated   <b>(c)</b></td><td><b> (01-06-2022 to ". date_format(date_create($refil_date),'d-m-Y').") = " .$l2 . " days </b></td></tr>" ;
+
+        }
+        echo "<tr><td>total Delay   <b> [(a) + (b) + (c)] </b> <b></b></td><td><b>".$total . " days </b></td></tr>" ;
+
+    }
+    /* end of the code for before corona times */
+    /* if limiation expired in corona times */
+
+    if($last_day_of_refiling > '2020-03-07' && $last_day_of_refiling <='2022-02-28')
+    {
+        $l1=0;
+
+        if($refil_date <= '2022-07-11')
+        {
+            $l2 = 0;
+        }
+        else // if refiled after 11.07.2022
+        {
+            //  if($last_day_of_refiling < '2022-06-01')
+            //   {
+
+            $dff='2022-06-01';
+            $s = get_date_diff_days($refil_date,$dff);
+            foreach ($s as $rw) 
+            {
+                $l2=$rw['days']+1 ;
+            }            
+            //  }
+            $l2a=$l2;
+            $last_day_of_refiling=$df;
+
+        }
+        echo "<tr><td>Dead(corona) Period     <b>(a)</b></td><td><font color='red'><b>(07-03-2020)  to (28-02-2022) =  ". $l1. " days </font></b></td></tr>" ;
+        $l2a=$l2;
+        echo "<tr><td>Delay Days Calculated  b>(b)</b></td><td><b>". date_format(date_create($dff),'d-m-Y'). " to ". date_format(date_create($refil_date),'d-m-Y')." = " .$l2 . " days</b></td></tr>" ;
+        echo "<tr><td>total Delay   <b> [(a)  + (b)]  </b> <b></b></td><td><b>".$l2a . " days </b></td></tr>" ;
+
+        $total=$l2a;
+    }
+
+    if($last_day_of_refiling >'2022-02-28')
+    {
+
+        $l1=0;
+        if($refil_date <= '2022-07-11')
+        {
+            $l2 = 0;
+        }
+        else // if refiled after 11.07.2022
+        {
+            //  if($last_day_of_refiling < '2022-06-01')
+            //   {
+            // $dff='2022-06-01';
+            $diffq = get_days_difference_date($refil_date,$last_day_of_refiling);            
+            if(!empty($diffq) && count($diffq)>0){             
+                $total=$diff;
+            }            
+
+
+        }
+
+    }
+    return $total;
+}
+
+function next_date_defect($date,$day)
+{
+    $nxt_dt = $date;
+    $count=1;
+    while($count<=$day)
+    {
+        $ch = is_holiday($nxt_dt);
+       
+      
+        if($ch==1)
+        {
+           $nxt_dt = date('Y-m-d',strtotime($nxt_dt.'+1day'));
+            continue;
+        }
+        else
+        {
+            if($count==$day){
+                return $nxt_dt;
+            }
+            $count++;
+          
+            $nxt_dt = date('Y-m-d',strtotime($nxt_dt.'+1day'));
+            echo "next date is ".$nxt_dt;
+        }
+    }
+}
