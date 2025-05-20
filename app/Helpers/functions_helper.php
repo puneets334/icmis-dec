@@ -5411,7 +5411,7 @@ if (!function_exists('get_days_difference')) {
 }
 
 if (!function_exists('get_date_diff_days')) {
-    function get_date_diff_days(string $refil_date, string $dff): int {
+    function get_date_diff_days(string $refil_date, string $dff): array {
         $db = \Config\Database::connect();
 
         $sql = "SELECT DATE :refil_date: - DATE :dff: AS days";
