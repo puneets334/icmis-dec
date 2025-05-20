@@ -140,7 +140,7 @@ class Ajaxcalls extends BaseController
     {
         $q = strtolower($_GET["term"]);
         if (!$q) return;
-        $sql = "SELECT deptcode,deptname FROM (SELECT deptcode,deptname FROM master.deptt WHERE deptname ilike 'THE UNION TERRITORY%' OR deptname ilike 'THE STATE OF%' OR deptcode=2 )x WHERE deptname ilike '%$q%'";
+        $sql = "SELECT deptcode,deptname FROM (SELECT deptcode,deptname FROM master.deptt WHERE deptname ilike 'THE UNION TERRITORY%' OR deptname ilike 'THE STATE OF%' OR deptcode=2 )x WHERE deptname ilike '%$q%' LIMIT 10";
         $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1) {
             $result = $query->getResultArray();
@@ -224,7 +224,7 @@ class Ajaxcalls extends BaseController
             if ($_REQUEST['type'] == 'D3')
                 $type = " AND deptype NOT IN('S','C')  ";
 
-            $sql = "SELECT deptcode,deptname FROM master.deptt WHERE display = 'Y' $type and deptname ilike '%$q%'";
+            $sql = "SELECT deptcode,deptname FROM master.deptt WHERE display = 'Y' $type and deptname ilike '%$q%' LIMIT 10";
             $query = $this->db->query($sql);
             if ($query->getNumRows() >= 1) {
                 $result = $query->getResultArray();
@@ -237,7 +237,7 @@ class Ajaxcalls extends BaseController
             echo json_encode($json);
         } else {
             $val = $_REQUEST['val'];
-            $sql = "select deptcode from master.deptt where display='Y' and deptname ilike '%$val%'";
+            $sql = "select deptcode from master.deptt where display='Y' and deptname ilike '%$val%'  LIMIT 10";
             $query = $this->db->query($sql);
             if ($query->getNumRows() >= 1) {
                 return $result = $query->getResultArray(1);

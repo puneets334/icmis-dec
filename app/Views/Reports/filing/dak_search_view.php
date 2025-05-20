@@ -26,7 +26,7 @@
                                 <div class="form-group ">
                                     <label for="Document No." class="col-sm-6 col-form-label">Document No.</label>
 
-                                    <input type="text" maxlength="10" class="form-control numbersonly" id="document_no" name="document_no" placeholder="Document No" value="<?php if (!empty($formdata['document_no'])) {
+                                    <input type="text" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="10" class="form-control numbersonly" id="document_no" name="document_no" placeholder="Document No" value="<?php if (!empty($formdata['document_no'])) {
                                                                                                                                                         echo $formdata['document_no'];
                                                                                                                                                     } ?>">
 

@@ -47,7 +47,7 @@ if (!empty($table_record_display)) {
 ?>
     <!--                    <h4>LIST OF OFFICE REPORT GENERATED THROUGH ICMIS SOFTWARE</h4>-->
     <div class="table-responsive">
-        <table id="datatable_report" class="table table-striped table-bordered table-sm">
+        <table id="datatable_report" class="table table-striped table-bordered">
             <thead>
                 <tr>
                     <th>Sno.</th>
