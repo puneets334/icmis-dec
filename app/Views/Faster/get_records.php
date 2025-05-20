@@ -40,10 +40,7 @@ $rw_fnm='';
 foreach($results AS $row)
 // while ($row = mysql_fetch_array($sql))
     {
-    
     ?>
-
-    
     <tr>
         <td>
             <?php echo $row['process_id']; ?>
@@ -51,7 +48,6 @@ foreach($results AS $row)
         <td>
             <?php echo $row['name']; ?>
         </td>
-       
         <td>
             <?php
              $nt_type=  explode(',', $row['nt_type']);
@@ -96,53 +92,78 @@ foreach($results AS $row)
     }
 ?>
 </table>
+
 <div id="dv_sh_hd" style="display: none;position: fixed;top: 0;width: 100%;height: 100%;background-color: black;opacity: 0.6;left: 0;overflow: hidden;z-index: 103" >
        &nbsp;
 </div>
 <div id="dv_fixedFor_P" style="position: fixed;top:0;display: none; left:0;	width:100%;	height:100%;z-index: 105;">
-         <div id="sp_close" style="text-align: right;cursor: pointer;width: 40px;float: right" onclick="closeData()" ><b><img src="../../images/close_btn.png" style="width:30px;height:30px"/></b></div>
-         
-<div style="text-align: center;background-color: white;clear: both;" id="dv_edi" >
-<input type="button" name="btnItalic" id="btnItalic" value="I" onclick="getItalic()"/>
-<input type="button" name="btnBold" id="btnBold" value="B" onclick="getBold()"/>
-<input type="button" name="btnUnderline" id="btnUnderline" value="U" onclick="getUnderline()"/>
-<b>Font Size</b><select name="ddlFS" id="ddlFS" onchange="getFS(this.value)">
-    <?php
-    for($i=1;$i<=6;$i++)
-    {
-        ?>
-    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-    <?php
-    }
-    ?>
-</select>
-<!--<img src="../images/download.jpg"  onclick="jus_cen()" style="width: 20px;height: 20px" />-->
-<input type="button" name="btnJustify" id="btnJustify" value="Center" onclick="jus_cen()"/>
-<input type="button" name="btnAliLeft" id="btnAliLeft" value="Align Left" onclick="jus_left()"/>
-<input type="button" name="btnAliRight" id="btnAliRight" value="Align Right" onclick="jus_right()"/>
-<input type="button" name="btnFull" id="btnFull" value="Justify" onclick="jus_full()"/>
-<input type="button" name="btnPrintable" id="btnPrintable" value="Print and Save" onclick="get_set_prt()"/>
-<select name="ddlFontFamily" id="ddlFontFamily" onchange="getFonts(this.value)">
-    <option value="Times New Roman">Times New Roman</option>
-       <option value="'Kruti Dev 010'">Kruti Dev</option>
-     
-</select>
-<input type="button" name="btnIndent" id="btnIndent" value="Indent" onclick="get_intent()"/>
-<input type="button" name="btnsupScr" id="btnsupScr" value="Superscript" onclick="get_supScr()"/>
-
-<input type="button" name="txtRedo" id="txtRedo" onclick="gt_redo()" value="Redo"/>
-<!--
-<input type="button" name="btnFind" id="btnFind" onclick="fin_find()" value="Find"/>-->
-<input type="text" name="txtReplace" id="txtReplace" />
-<input type="button" name="btnReplace" id="btnReplace" onclick="fin_rep()" value="Replace All"/>
-<!--<input type="button" name="btnRePrint" id="btnRePrint" value="RePrint&Save" onclick="get_set_re_prt()"/>-->
-<input type="button" name="btn_sign" id="btn_sign" value="Sign" onclick="sign()" style="display:none"/>
-<input type="button" name="btn_publish" id="btn_publish" value="Publish" onclick="publish_record()"/>
-<!-- input type="button" name="btn_draft_pnt" id="btn_draft_pnt" value="Save Draft"  onclick="draft_record()"/ -->
-<input type="button" name="btn_prnt" id="btn__prnt" value="Print"  onclick="draft_record1()"/>
-
-
-</div>
-         <div contenteditable="true"  style="width: auto;background-color: white;overflow: scroll;height: 500px;margin-left: 50px;margin-right: 50px;margin-bottom: 25px;margin-top: 1px;word-wrap: break-word;" id="ggg" onkeypress="return  nb(event)" onmouseup="checkStat()">
-       </div>
+    <div id="sp_close" style="text-align: right;cursor: pointer;width: 40px;float: right" onclick="closeData()" ><b><img src="../../images/close_btn.png" style="width:30px;height:30px"/></b></div>
+    <div class="py-3">
+    <div class="card p-3 mb-3" id="dv_edi">
+        <div class="row g-2 mb-2 row-new">
+            <div class="col-auto-new">
+                <button class="btn btn-primary" id="btnItalic" onclick="getItalic()">I</button>
+                <button class="btn btn-primary" id="btnBold" onclick="getBold()">B</button>
+                <button class="btn btn-primary" id="btnUnderline" onclick="getUnderline()">U</button>
+            </div>
         </div>
+        <div class="row g-2 mb-2 row-new">
+            <div class="col-auto-new">
+                <label for="ddlFS" class="form-label mb-0"><b>Font Size</b></label>
+                <select class="form-select form-select-sm" style="width: auto !important;" id="ddlFS" onchange="getFS(this.value)">
+                    <?php for ($i = 1; $i <= 6; $i++) { ?>
+                        <option value="<?= $i ?>"><?= $i ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div class="row g-2 mb-2 row-new">
+            <div class="col-auto-new">
+                <button class="btn btn-primary" onclick="jus_cen()">Center</button>
+                <button class="btn btn-primary" onclick="jus_left()">Align Left</button>
+                <button class="btn btn-primary" onclick="jus_right()">Align Right</button>
+                <button class="btn btn-primary" onclick="jus_full()">Justify</button>
+            <!-- </div>
+        </div>
+        <div class="row g-2 mb-2 row-new">
+            <div class="col-auto-new"> -->
+                <button class="btn btn-success" onclick="get_set_prt()">Print and Save</button>
+            </div>
+            <div class="col-auto-new">
+                <select class="form-select form-select-sm" style="width: auto !important;" id="ddlFontFamily" onchange="getFonts(this.value)">
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="'Kruti Dev 010'">Kruti Dev</option>
+                </select>
+            </div>
+        </div>
+        <div class="row g-2 mb-2 row-new">
+            <div class="col-auto-new">
+                <button class="btn btn-primary" onclick="get_intent()">Indent</button>
+                <button class="btn btn-primary" onclick="get_supScr()">Superscript</button>
+                <button class="btn btn-primary" onclick="gt_redo()">Redo</button>
+            </div>
+        </div>
+        <div class="row g-2 mb-2 row-new">
+            <div class="col-auto" style="text-align: center;display:flex;">
+                <input type="text" class="form-control form-control-sm me-1" style="width: 50% !important ;" id="txtReplace" placeholder="Replace text"/>
+                <button class="btn btn-primary btn-sm" style="display: block;" onclick="fin_rep()">Replace All</button>
+            </div>
+        </div>
+        <div class="row g-2 mb-2 row-new">
+            <div class="col-auto-new">
+                <button class="btn btn-warning" id="btn_sign" onclick="sign()" style="display:none">Sign</button>
+                <button class="btn btn-primary" onclick="publish_record()">Publish</button>
+                <button class="btn btn-secondary" onclick="draft_record1()">Print</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="ggg"
+         contenteditable="true"
+         class="border p-3"
+         style="background-color: white; overflow-y: auto; height: 500px; word-wrap: break-word;"
+         onkeypress="return nb(event)"
+         onmouseup="checkStat()">
+    </div>
+</div>
+</div>

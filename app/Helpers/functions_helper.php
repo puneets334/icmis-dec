@@ -1927,7 +1927,7 @@ function get_cl_brd_remarkV1($diary_no)
     $builder->select('remark');
     $builder->where('diary_no', $diary_no);
     $query = $builder->get();
-    //echo $this->db->getLastQuery(); // This will output the query
+    //echo $db->getLastQuery(); // This will output the query
     $result = $query->getRowArray();
     if ($result) {
         return $result['remark'];
@@ -5572,4 +5572,550 @@ function next_date_defect($date,$day)
             echo "next date is ".$nxt_dt;
         }
     }
+}function get_last_listed_date($diaryNo)
+{
+    $db = \Config\Database::connect();
+
+    // Subquery 1: heardt
+    $builder1 = $db->table('heardt');
+    $builder1->select('next_dt');
+    $builder1->where('diary_no', $diaryNo);
+    $builder1->groupStart()
+                ->where('main_supp_flag', 1)
+                ->orWhere('main_supp_flag', 2)
+             ->groupEnd();
+    $builder1->where('next_dt <=', date('Y-m-d'));
+
+    // Subquery 2: last_heardt
+    $builder2 = $db->table('last_heardt');
+    $builder2->select('next_dt');
+    $builder2->where('diary_no', $diaryNo);
+    $builder2->groupStart()
+                ->where('main_supp_flag', 1)
+                ->orWhere('main_supp_flag', 2)
+             ->groupEnd();
+    $builder2->where('next_dt <=', date('Y-m-d'));
+    $builder2->groupStart()
+                ->where('bench_flag', null)
+                ->orWhere('bench_flag', '')
+             ->groupEnd();
+
+    // Combine using UNION
+    $sql1 = $builder1->getCompiledSelect();
+    $sql2 = $builder2->getCompiledSelect();
+    $unionSql = "($sql1) UNION ($sql2) ORDER BY next_dt DESC LIMIT 1";
+
+    $query = $db->query($unionSql);
+    $row = $query->getRow();
+
+    if ($row && $row->next_dt !== '') {
+        return $row->next_dt;
+    }
+
+    // Fallback to dispose_detail
+    return dispose_detail($diaryNo);
+}
+
+function get_casetype($diaryNo) {
+    $db = \Config\Database::connect();
+    
+    $builder = $db->table('main');
+    $builder->select("CASE 
+                        WHEN active_casetype_id IS NULL OR active_casetype_id = '' 
+                        THEN casetype_id 
+                        ELSE active_casetype_id 
+                      END AS casetype_id");
+    $builder->where('diary_no', $diaryNo);
+    
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    return $row ? $row->casetype_id : null;
+}
+
+function get_order_connected($diaryNo, $date, $remarkHead) {
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('case_remarks_multiple');
+    $builder->select('head_content');
+    $builder->where([
+        'r_head'    => $remarkHead,
+        'cl_date'   => $date,
+        'diary_no'  => $diaryNo
+    ]);
+    $builder->limit(1);
+
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    return $row ? $row->head_content : null;
+}
+
+function chk_ia_pending_disposed($dairyNo, $docCode, $docCode1) {
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('docdetails');
+    $builder->select('doccode, doccode1');
+    $builder->where([
+        'diary_no' => $dairyNo,
+        'display'  => 'Y',
+        'doccode'  => $docCode,
+        'doccode1' => $docCode1
+    ]);
+    $builder->limit(1);
+
+    $query = $builder->get();
+    $row = $query->getRowArray(); // returns associative array
+
+    if ($row) {
+        return [$row['doccode'], $row['doccode1']];
+    }
+
+    return [null, null];
+}
+
+
+function getCaveatInfo($dairy_no)
+{
+    $db = \Config\Database::connect();
+    return $db->table('caveat_diary_matching')
+        ->select('name, caveat.caveat_no')
+        ->join('caveat', 'caveat_diary_matching.caveat_no = caveat.caveat_no')
+        ->join('bar', 'caveat.pet_adv_id = bar.bar_id')
+        ->where([
+            'c_status' => 'P',
+            'diary_no' => $dairy_no,
+            'caveat_diary_matching.display' => 'Y'
+        ])
+        ->get()
+        ->getResult();
+}
+
+function getDateOfService($dairy_no)
+{
+    $db = \Config\Database::connect();
+    return $db->table('docdetails')
+        ->select("TO_CHAR(ent_dt, 'DD-MM-YYYY') as rec_dt", false)
+        ->where([
+            'diary_no' => $dairy_no,
+            'doccode' => 18,
+            'display' => 'Y'
+        ])
+        ->limit(1)
+        ->get()
+        ->getRow();
+}
+
+function getPartySuff($caveat_no)
+{
+    $db = \Config\Database::connect();
+    return $db->table('caveat_party')
+        ->select('partysuff')
+        ->where([
+            'caveat_no' => $caveat_no,
+            'pet_res' => 'P'
+        ])
+        ->get()
+        ->getRow('partysuff');
+}
+
+function getPartyInfo($dairy_no, $partyname)
+{
+    $db = \Config\Database::connect();
+    return $db->table('party')
+        ->select("concat(pet_res, ' [', sr_no_show, ']') AS rs_info", false)
+        ->like('partyname', $partyname)
+        ->where('diary_no', $dairy_no)
+        ->get()
+        ->getRow('rs_info');
+}
+
+
+function caveat_table($dairy_no){
+    $caveats = getCaveatInfo($dairy_no);
+    $i = 1;
+    ?>
+    <table id="cav_tbl" border="1" style="width: 100%;border-collapse: collapse;margin-top: 10px" cellpadding="5" cellspacing="5">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Respondent(s)/Caveator(s)</th>
+                <th>Status of proof of service</th>
+                <th>Date of Service</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($caveats)): ?>
+                <?php foreach ($caveats as $cav): ?>
+                    <tr onclick='selectRow(this)'>
+                        <td><?= $i++ ?></td>
+                        <td>
+                            <?= esc($cav->name) ?>
+                            <?php
+                                $partySuff = getPartySuff($cav->caveat_no);
+                                $partyInfo = $partySuff ? getPartyInfo($dairy_no, trim($partySuff)) : null;
+                                echo $partyInfo ?? '';
+                            ?>
+                        </td>
+                        <?php
+                            $dateInfo = getDateOfService($dairy_no);
+                            if ($dateInfo):
+                        ?>
+                            <td>YES</td>
+                            <td><?= esc($dateInfo->rec_dt) ?></td>
+                        <?php else: ?>
+                            <td>Awaited</td>
+                            <td></td>
+                        <?php endif; ?>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr onclick="selectRow(this)">
+                    <td colspan="4"><center>No Information Available</center></td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+
+    <div class="toberem">
+        <button class="addbtn" onclick="addRow('cav_tbl')">Add Row</button>
+        <button class="rembtn" onclick="deleteSelectedRow()">Delete Selected Row</button>
+    </div>
+<?php
+
+}
+
+
+function getTrialCourtInfo($diary_no)
+{
+    $db = \Config\Database::connect();
+    $sql = "SELECT 
+        TO_CHAR(lct_dec_dt, 'DD-MM-YYYY') AS lct_dec_dt,
+        l_dist, 
+        CASE 
+            WHEN ct_code = 2 THEN 'Other'  
+            WHEN ct_code = 3 THEN 'District Court' 
+            WHEN ct_code = 5 THEN 'State Agency' 
+        END AS ct_code, 
+        l_state, 
+        Name, 
+        CASE 
+            WHEN ct_code = 3 THEN (
+                SELECT Name FROM state s WHERE s.id_no = a.l_dist AND display = 'Y'
+            ) 
+            ELSE (
+                SELECT agency_name FROM ref_agency_code c 
+                WHERE c.cmis_state_id = a.l_state AND c.id = a.l_dist AND is_deleted = 'f'
+            ) 
+        END AS agency_name, 
+        lct_casetype, 
+        lct_caseno, 
+        lct_caseyear, 
+        CASE 
+            WHEN ct_code = 4 THEN (
+                SELECT skey FROM casetype ct WHERE ct.display = 'Y' AND ct.casecode = a.lct_casetype
+            ) 
+            ELSE (
+                SELECT type_sname FROM lc_hc_casetype d WHERE d.lccasecode = a.lct_casetype AND d.display = 'Y'
+            ) 
+        END AS type_sname, 
+        a.lower_court_id 
+    FROM lowerct a 
+    LEFT JOIN state b ON a.l_state = b.id_no AND b.display = 'Y' 
+    JOIN main e ON e.diary_no = a.diary_no 
+    WHERE 
+        ct_code NOT IN (1, 4) 
+        AND a.diary_no = :diary_no: 
+        AND lw_display = 'Y' 
+        AND c_status = 'P' 
+        AND is_order_challenged != 'Y' 
+    ORDER BY a.lower_court_id";
+
+    return $db->query($sql, ['diary_no' => $diary_no])->getResultArray();
+}
+
+function trial_court_table($diary_no)
+{
+    $rows = getTrialCourtInfo($diary_no);
+    ?>
+
+    <table id="trial_tbl" border="1" style="width: 100%;border-collapse: collapse; margin-top: 10px" cellpadding="5" cellspacing="5">
+        <thead>
+        <tr>
+            <th>S.No.</th>
+            <th>Court</th>
+            <th>State</th>
+            <th>Bench</th>
+            <th>Case No.</th>
+            <th>Order Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (!empty($rows)): ?>
+            <?php $sno = 1; ?>
+            <?php foreach ($rows as $row): ?>
+                <tr onclick="selectRow(this)">
+                    <td><?= $sno++ ?></td>
+                    <td><?= esc($row['ct_code']) ?></td>
+                    <td><?= esc($row['Name']) ?></td>
+                    <td><?= esc($row['agency_name']) ?></td>
+                    <td><?= esc($row['type_sname'] . ' ' . $row['lct_caseno'] . '/' . $row['lct_caseyear']) ?></td>
+                    <td><?= esc($row['lct_dec_dt']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr onclick="selectRow(this)">
+                <td colspan="6"><center>No Records Found</center></td>
+            </tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
+
+    <div class="toberem">
+        <button class="addbtn" onclick="addRow('trial_tbl')">Add Row</button>
+        <button class="rembtn" onclick="deleteSelectedRow()">Delete Selected Row</button>
+    </div>
+
+    <?php
+}
+
+
+function trial_court_table_old()
+{
+    ?>
+    <table id="trial_tbl" border="1" style="width: 100%; border-collapse: collapse; margin-top: 10px" cellpadding="5" cellspacing="5">
+        <thead>
+        <tr>
+            <th>S.No.</th>
+            <th>Court</th>
+            <th>State</th>
+            <th>Bench</th>
+            <th>Case No.</th>
+            <th>Order Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr onclick="selectRow(this)">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="toberem">
+        <button class="addbtn" value="add" onclick="addRow('trial_tbl')">Add Row</button>
+        <button class="rembtn" value="dlt" onclick="deleteSelectedRow()">Delete Selected Row</button>
+    </div>
+    <?php
+}
+
+function getHighCourtData($dairy_no)
+{
+    $db = \Config\Database::connect();
+    return $db->query("
+        SELECT lct_dec_dt, l_dist, ct_code, l_state, s1.Name,
+            CASE
+                WHEN ct_code = 3 THEN (
+                    SELECT Name FROM state s WHERE s.id_no = a.l_dist AND display = 'Y'
+                )
+                ELSE (
+                    SELECT agency_name FROM ref_agency_code c WHERE c.cmis_state_id = a.l_state AND c.id = a.l_dist AND is_deleted = 'f'
+                )
+            END AS agency_name,
+            lct_casetype, lct_caseno, lct_caseyear,
+            CASE
+                WHEN ct_code = 4 THEN (
+                    SELECT skey FROM casetype ct WHERE ct.display = 'Y' AND ct.casecode = a.lct_casetype
+                )
+                ELSE (
+                    SELECT type_sname FROM lc_hc_casetype d WHERE d.lccasecode = a.lct_casetype AND d.display = 'Y'
+                )
+            END AS type_sname,
+            a.lower_court_id
+        FROM lowerct a
+        LEFT JOIN state s1 ON a.l_state = s1.id_no AND s1.display = 'Y'
+        JOIN main e ON e.diary_no = a.diary_no
+        WHERE a.diary_no = ?
+            AND lw_display = 'Y'
+            AND c_status = 'P'
+            AND is_order_challenged = 'Y'
+        ORDER BY a.lower_court_id
+    ", [$dairy_no])->getResultArray();
+}
+
+function getLimitDays($dairy_no, $ord_date)
+{
+    $db = \Config\Database::connect();
+    return $db->table('case_limit')
+        ->select('limit_days')
+        ->where([
+            'diary_no' => $dairy_no,
+            'o_d' => $ord_date,
+            'case_lim_display' => 'Y'
+        ])
+        ->get()->getRowArray();
+}
+
+function getReFilingInfo($dairy_no)
+{
+    $db = \Config\Database::connect();
+    $count = $db->table('obj_save')
+        ->where('diary_no', $dairy_no)
+        ->where('display', 'Y')
+        ->where('rm_dt', '0000-00-00 00:00:00')
+        ->countAllResults();
+
+    if ($count <= 0) {
+        $data = $db->query("
+            SELECT DATE(MAX(rm_dt)) as rm_dt, DATE(MIN(save_dt)) as save_dt
+            FROM obj_save
+            WHERE diary_no = ? AND display = 'Y'
+        ", [$dairy_no])->getRowArray();
+
+        return $data;
+    }
+
+    return null;
+}
+
+
+function get_order_date($diaryNo)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('main a');
+    $builder->select('b.order_date');
+    $builder->join('main_casetype_history b', 'a.diary_no = b.diary_no AND a.active_fil_no = b.new_registration_number');
+    $builder->where('a.diary_no', $diaryNo);
+    $builder->where('is_deleted', 'f');
+    $builder->orderBy('b.order_date', 'DESC');
+    $builder->limit(1);
+
+    $query = $builder->get();
+    $row = $query->getRow();
+    $inner_array = array();
+
+    $inner_array[0] = $row ? $row->order_date : null;
+    return $inner_array;
+}
+
+function lower_court_not_challanged_conct($dairy_no)
+{
+    $db = \Config\Database::connect();
+    $sql = "SELECT 
+            lct_dec_dt, 
+            l_dist, 
+            ct_code, 
+            l_state, 
+            Name, 
+            agency_name,
+            STRING_AGG(lct_casetype ORDER BY lower_court_id, ',') AS lct_casetype,
+            STRING_AGG(lct_caseno ORDER BY lower_court_id, ',') AS lct_caseno,
+            STRING_AGG(lct_caseyear ORDER BY lower_court_id, ',') AS lct_caseyear,
+            STRING_AGG(type_sname ORDER BY lower_court_id, ',') AS type_sname
+        FROM (
+            SELECT 
+                a.lct_dec_dt, 
+                a.l_dist, 
+                a.ct_code, 
+                a.l_state, 
+                a.Name,
+                CASE 
+                    WHEN a.ct_code = 3 THEN (
+                        SELECT s.Name 
+                        FROM state s 
+                        WHERE s.id_no = a.l_dist AND s.display = 'Y'
+                    )
+                    ELSE (
+                        SELECT CONCAT(c.agency_name, ', ', c.address)
+                        FROM ref_agency_code c 
+                        WHERE c.cmis_state_id = a.l_state 
+                          AND c.id = a.l_dist 
+                          AND c.is_deleted = 'f'
+                    )
+                END AS agency_name,
+                a.crimeno, 
+                a.crimeyear, 
+                a.polstncode,
+                (
+                    SELECT p.policestndesc 
+                    FROM police p 
+                    WHERE p.policestncd = a.polstncode 
+                      AND p.display = 'Y' 
+                      AND p.cmis_state_id = a.l_state 
+                      AND p.cmis_district_id = a.l_dist
+                ) AS policestndesc,
+                a.lct_casetype, 
+                a.lct_caseno, 
+                a.lct_caseyear,
+                CASE 
+                    WHEN a.ct_code = 4 THEN (
+                        SELECT ct.short_description 
+                        FROM casetype ct 
+                        WHERE ct.display = 'Y' 
+                          AND ct.casecode = a.lct_casetype
+                    )
+                    ELSE (
+                        SELECT d.type_sname 
+                        FROM lc_hc_casetype d 
+                        WHERE d.lccasecode = a.lct_casetype 
+                          AND d.display = 'Y'
+                    )
+                END AS type_sname,
+                a.lower_court_id, 
+                a.is_order_challenged, 
+                a.full_interim_flag, 
+                a.judgement_covered_in
+            FROM lowerct a
+            LEFT JOIN state b ON a.l_state = b.id_no AND b.display = 'Y'
+            JOIN main e ON e.diary_no = a.diary_no
+            WHERE a.diary_no = :diaryNo:
+              AND a.lw_display = 'Y'
+              AND a.is_order_challenged = 'N'
+            ORDER BY a.lower_court_id
+        ) AS aa 
+        GROUP BY lct_dec_dt, l_dist, ct_code, l_state, Name, agency_name";
+
+    $query = $db->query($sql, ['diaryNo' => $dairy_no]);
+    $result = $query->getResult();
+
+    $outer_array = [];
+
+    foreach ($result as $row) {
+        $outer_array[] = [
+            $row->lct_dec_dt,
+            $row->name,
+            $row->agency_name,
+            $row->type_sname,
+            $row->lct_caseno,
+            $row->lct_caseyear,
+            $row->lct_casetype,
+        ];
+    }
+
+    return $outer_array;
+}
+
+function get_petitioner_advocate_party($diary_no, $party_type, $sno)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('advocate a');
+    $builder->select('b.title, b.name');
+    $builder->join('bar b', 'a.advocate_id = b.bar_id');
+    $builder->where([
+        'a.diary_no'     => $diary_no,
+        'a.display'      => 'Y',
+        'a.pet_res'      => $party_type,
+        'a.pet_res_no'   => $sno,
+    ]);
+    $query = $builder->get(1); // limit 1
+    $row = $query->getRow();
+
+    if ($row) {
+        return $row->title . ' ' . $row->name;
+    }
+
+    return null;
 }
