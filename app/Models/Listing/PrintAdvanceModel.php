@@ -1061,6 +1061,9 @@ class PrintAdvanceModel extends Model
         $builder->orderBy('cp.m_f');
         $builder->orderBy("(CASE WHEN cp.from_brd_no > 500 AND r.courtno != 1 THEN 1 ELSE 2 END) ASC");
         $builder->orderBy('cp.from_brd_no');
+
+        // echo $builder->getCompiledSelect();
+        // die();
         $query = $builder->get();
         $result = $query->getResultArray();
         return $result;
@@ -2135,93 +2138,115 @@ class PrintAdvanceModel extends Model
 
     public function after_allocation($list_dt, $board_type, $mf_roster_flag, $main_suppl, $mainhead, $ucode)
     {
+        $sql = "INSERT INTO master.listed_info (
+                    main_supp, remark, next_dt, mainhead, bench_flag, roster_id,
+                    fix_dt, mentioning, week_commencing, freshly_filed, freshly_filed_adj,
+                    part_heard, inperson, bail, after_week, imp_ia, ia,
+                    nr_adj, adm_order, ordinary, total, usercode, ent_dt
+                )
 
-        $db = \Config\Database::connect();
-        $builder = $db->table('master.listed_info');
-
-        // Subquery for aggregation
-
-        $sub_subquery = $this->db->table('roster r')
-            ->select('r.id, 
-        CAST(SUBSTRING_INDEX(GROUP_CONCAT(j.jcode ORDER BY j.judge_seniority), \',\', 1) AS signed) AS jcd,
-        rb.bench_no, mb.abbr, r.tot_cases, r.courtno')
-            ->join('master.roster_bench rb', 'rb.id = r.bench_id', 'left')
-            ->join('master.master_bench mb', 'mb.id = rb.bench_id', 'left')
-            ->join('master.roster_judge rj', 'rj.roster_id = r.id', 'left')
-            ->join('master.judge j', 'j.jcode = rj.judge_id', 'left')
-            ->where('j.is_retired !=', 'Y')
-            ->where('mb.board_type_mb', $board_type)
-            ->where('j.display', 'Y')
-            ->where('rj.display', 'Y')
-            ->where('rb.display', 'Y')
-            ->where('mb.display', 'Y')
-            ->where('r.display', 'Y')
-            ->where('r.m_f', $mf_roster_flag)
-            ->where('r.from_date', $list_dt)
-            ->groupBy('r.id')
-            ->orderBy('r.courtno')
-            ->orderBy('r.id')
-            ->orderBy('j.judge_seniority');
-        $sub_subqueryString = $sub_subquery->getCompiledSelect();
-
-        $subquery = $db->table('heardt h')
-            ->select('h.next_dt, h.mainhead, h.board_type, jcd, h.subhead, d.doccode1, mc.submaster_id, h.listorder, h.diary_no, 
-        COALESCE(SUM(CASE WHEN (h.listorder = 4) THEN 1 ELSE 0 END), 0) as fix_dt,
-        COALESCE(SUM(CASE WHEN (h.listorder = 5) THEN 1 ELSE 0 END), 0) as mentioning,
-        COALESCE(SUM(CASE WHEN (h.listorder = 7) THEN 1 ELSE 0 END), 0) as week_commencing,
-        COALESCE(SUM(CASE WHEN (h.listorder = 32) THEN 1 ELSE 0 END), 0) as freshly_filed,
-        COALESCE(SUM(CASE WHEN (h.listorder = 25) THEN 1 ELSE 0 END), 0) as freshly_filed_adj,
-        COALESCE(SUM(CASE WHEN (h.subhead = 824 AND h.listorder NOT IN (4,5,7,32,25)) THEN 1 ELSE 0 END), 0) as part_heard,
-        COALESCE(SUM(CASE WHEN (a.inperson = 1 AND bail != 1 AND h.subhead != 824 AND h.listorder NOT IN (4,5,7,32,25)) THEN 1 ELSE 0 END), 0) as inperson,
-        COALESCE(SUM(CASE WHEN (bail = 1 AND a.inperson != 1 AND h.subhead != 824 AND h.listorder NOT IN (4,5,7,32,25)) THEN 1 ELSE 0 END), 0) as bail,
-        COALESCE(SUM(CASE WHEN (a.inperson != 1 AND bail != 1 AND h.subhead != 824 AND h.listorder = 8) THEN 1 ELSE 0 END), 0) as after_week,
-        COALESCE(SUM(CASE WHEN (a.inperson != 1 AND bail != 1 AND h.subhead != 824 AND h.listorder = 24) THEN 1 ELSE 0 END), 0) as imp_ia,
-        COALESCE(SUM(CASE WHEN (a.inperson != 1 AND bail != 1 AND h.subhead != 824 AND h.listorder = 21) THEN 1 ELSE 0 END), 0) as ia_other_than_imp_ia,
-        COALESCE(SUM(CASE WHEN (a.inperson != 1 AND bail != 1 AND h.subhead != 824 AND h.listorder = 48) THEN 1 ELSE 0 END), 0) as nradj_not_list,
-        COALESCE(SUM(CASE WHEN (a.inperson != 1 AND bail != 1 AND h.subhead != 824 AND h.listorder = 2) THEN 1 ELSE 0 END), 0) as adm_order,
-        COALESCE(SUM(CASE WHEN (a.inperson != 1 AND bail != 1 AND h.subhead != 824 AND h.listorder = 16) THEN 1 ELSE 0 END), 0) as ordinary,
-        COUNT(*) as total')
-            ->join('main m', 'm.diary_no = h.diary_no')
-            ->join('docdetails d', 'd.diary_no = m.diary_no AND d.display = \'Y\' AND d.iastat = \'P\' AND d.doccode = 8 
-        AND d.doccode1 IN (7,66,29,56,57,28,103,133,226,3,309,73,99,40,48,72,71,27,124,2,16,41,49,71,72,102,118,131,211,309)', 'left')
-            ->join('mul_category mc', 'mc.diary_no = h.diary_no AND mc.display = \'Y\'', 'left')
-            ->join('advocate a', 'a.diary_no = m.diary_no AND a.advocate_id = 584 AND a.display = \'Y\'', 'left')
-            ->join("($sub_subqueryString) a", 'true')
-            ->where('m.diary_no = m.conn_key OR m.conn_key = \'\' OR m.conn_key IS NULL OR m.conn_key = \'0\'')
-            ->where('m.c_status = \'P\' AND h.board_type = ' . $board_type . ' AND h.mainhead = ' . $mainhead . ' AND h.next_dt = ' . $list_dt . ' AND h.main_supp_flag = 0')
-            ->groupBy('m.diary_no');
-        $subqueryString = $subquery->getCompiledSelect();
-
-        $query = $builder->set('main_supp', $main_suppl)
-            ->set('remark', 'After_Allocation')
-            ->set('next_dt', $list_dt)
-            ->set('mainhead', $mainhead)
-            ->set('bench_flag', $board_type)
-            ->set('roster_id', '0')
-            ->set('fix_dt', 0)
-            ->set('mentioning', 0)
-            ->set('week_commencing', 0)
-            ->set('freshly_filed', 0)
-            ->set('freshly_filed_adj', 0)
-            ->set('part_heard', 0)
-            ->set('inperson', 0)
-            ->set('bail', 0)
-            ->set('after_week', 0)
-            ->set('imp_ia', 0)
-            ->set('ia', 0)
-            ->set('nr_adj', 0)
-            ->set('adm_order', 0)
-            ->set('ordinary', 0)
-            ->set('total', 0)
-            ->set('usercode', 1)
-            ->set('ent_dt', date('Y-m-d'))
-            ->join("($subqueryString) a", 'true')
-            ->join('master.listed_info l', 'l.next_dt = a.next_dt AND l.mainhead = a.mainhead AND l.bench_flag = a.board_type AND l.roster_id = a.coram AND l.main_supp = ' . $main_suppl . ' AND l.remark = \'After_Allocation\'', 'left')
-            ->where('l.next_dt IS NULL');
-
-        $insert = $query->getCompiledInsert();
-        $results = $db->query($insert, [$query]);
-        return $results;
+                SELECT 
+                    '$main_suppl', 
+                    'After_Allocation',
+                    a.*,
+                    '$ucode'::integer,
+                    NOW()
+                FROM (
+                    SELECT 
+                        next_dt,
+                        mainhead,
+                        board_type,
+                        COALESCE(jcd, 0) AS coram,
+                        SUM(CASE WHEN listorder = 4 THEN 1 ELSE 0 END) AS fix_dt,
+                        SUM(CASE WHEN listorder = 5 THEN 1 ELSE 0 END) AS mentioning,
+                        SUM(CASE WHEN listorder = 7 THEN 1 ELSE 0 END) AS week_commencing,
+                        SUM(CASE WHEN listorder = 32 THEN 1 ELSE 0 END) AS freshly_filed,
+                        SUM(CASE WHEN listorder = 25 THEN 1 ELSE 0 END) AS freshly_filed_adj,
+                        SUM(CASE WHEN subhead = 824 AND listorder NOT IN (4,5,7,32,25) THEN 1 ELSE 0 END) AS part_heard,
+                        SUM(CASE WHEN inperson = 1 AND bail != 1 AND subhead != 824 AND listorder NOT IN (4,5,7,32,25) THEN 1 ELSE 0 END) AS inperson,
+                        SUM(CASE WHEN bail = 1 AND inperson != 1 AND subhead != 824 AND listorder NOT IN (4,5,7,32,25) THEN 1 ELSE 0 END) AS bail,
+                        SUM(CASE WHEN inperson != 1 AND bail != 1 AND subhead != 824 AND listorder = 8 THEN 1 ELSE 0 END) AS after_week,
+                        SUM(CASE WHEN inperson != 1 AND bail != 1 AND subhead != 824 AND listorder = 24 THEN 1 ELSE 0 END) AS imp_ia,
+                        SUM(CASE WHEN inperson != 1 AND bail != 1 AND subhead != 824 AND listorder = 21 THEN 1 ELSE 0 END) AS ia_other_than_imp_ia,
+                        SUM(CASE WHEN inperson != 1 AND bail != 1 AND subhead != 824 AND listorder = 48 THEN 1 ELSE 0 END) AS nradj_not_list,
+                        SUM(CASE WHEN inperson != 1 AND bail != 1 AND subhead != 824 AND listorder = 2 THEN 1 ELSE 0 END) AS adm_order,
+                        SUM(CASE WHEN inperson != 1 AND bail != 1 AND subhead != 824 AND listorder = 16 THEN 1 ELSE 0 END) AS ordinary,
+                        COUNT(*) AS total
+                    FROM (
+                        SELECT 
+                            h.next_dt,
+                            h.mainhead,
+                            h.board_type,
+                            jcd,
+                            h.subhead,
+                            d.doccode1,
+                            mc.submaster_id,
+                            h.listorder,
+                            h.diary_no,
+                            CASE 
+                                WHEN h.subhead = 804 OR is_bail = '1' 
+                        OR d.doccode1 IN (40,41,48,49,71,72,118,131,211,309) 
+                                THEN 1 ELSE 0 
+                            END AS bail,
+                            CASE 
+                                WHEN a.advocate_id = 584 THEN 1 ELSE 0 
+                            END AS inperson
+                        FROM public.heardt h
+                        INNER JOIN main m ON m.diary_no = h.diary_no
+                        LEFT JOIN docdetails d ON d.diary_no = m.diary_no 
+                            AND d.display = 'Y' 
+                            AND d.iastat = 'P' 
+                            AND d.doccode = 8 
+                            AND d.doccode1 IN (7,66,29,56,57,28,103,133,226,3,309,73,99,40,48,72,71,27,124,2,16,41,49,71,72,102,118,131,211,309)
+                        LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no AND mc.display = 'Y'
+                        LEFT JOIN master.submaster sm ON h.subhead = sm.id AND sm.display = 'Y' AND sm.is_old = 'N'
+                        LEFT JOIN advocate a ON a.diary_no = m.diary_no AND a.advocate_id = 584 AND a.display = 'Y'
+                        LEFT JOIN (
+                            SELECT 
+                                r.id, 
+                                CAST(NULLIF(SPLIT_PART(STRING_AGG(j.jcode::text, ',' ORDER BY j.judge_seniority), ',', 1), '') AS INTEGER) AS jcd,
+                                rb.bench_no,
+                                mb.abbr,
+                                r.tot_cases,
+                                r.courtno
+                            FROM master.roster r
+                            LEFT JOIN master.roster_bench rb ON rb.id = r.bench_id
+                            LEFT JOIN master.master_bench mb ON mb.id = rb.bench_id
+                            LEFT JOIN master.roster_judge rj ON rj.roster_id = r.id
+                            LEFT JOIN master.judge j ON j.jcode = rj.judge_id
+                            WHERE j.is_retired != 'Y'
+                                AND mb.board_type_mb = '$board_type'
+                                AND j.display = 'Y'
+                                AND rj.display = 'Y'
+                                AND rb.display = 'Y'
+                                AND mb.display = 'Y'
+                                AND r.display = 'Y'
+                                AND r.m_f = '$mf_roster_flag'
+                                AND r.from_date = '$list_dt'
+                            GROUP BY r.id, rb.bench_no, mb.abbr, r.tot_cases, r.courtno
+                        ) ab ON ab.jcd = CAST(NULLIF(SPLIT_PART(H.CORAM, ',', 1), '') AS INTEGER)
+                        WHERE 
+                            (m.diary_no::text = m.conn_key OR m.conn_key IS NULL OR m.conn_key = '' OR m.conn_key = '0')
+                            AND m.c_status = 'P'
+                            AND h.board_type = '$board_type'
+                            AND h.mainhead = '$mainhead'
+                            AND h.next_dt = '$list_dt' 
+                            AND h.main_supp_flag = 0
+                        GROUP BY m.diary_no, h.next_dt, h.mainhead, h.board_type, jcd, h.subhead, d.doccode1, mc.submaster_id, h.listorder, h.diary_no, a.advocate_id, sm.is_bail
+                    ) t
+                    
+                    GROUP BY jcd, next_dt, mainhead, board_type
+                ) a
+                LEFT JOIN master.listed_info l 
+                    ON l.next_dt = a.next_dt 
+                    AND l.mainhead = a.mainhead 
+                    AND l.bench_flag = a.board_type 
+                    AND l.roster_id = a.coram 
+                    AND l.main_supp = '$main_suppl' 
+                    AND l.remark = 'After_Allocation'
+                WHERE l.next_dt IS NULL";
+       $allocation_result = $this->db->query($sql);
+       return  $allocation_result;
     }
 
     public function translateBoardType($mainhead, $board_type)
