@@ -101,7 +101,9 @@ legend.scheduler-border {
         </div>
     </div>
 </section>
-
+<script>
+    var base_url_judicial = "<?= base_url('/Judicial/Defects') ?>"; 
+</script>
 <script src="<?= base_url(); ?>/da_defect/js/menu_js.js"></script>
 <script src="<?= base_url(); ?>/da_defect/jquery/jquery-1.9.1.js"></script>
 <script src="<?= base_url(); ?>/da_defect/calendar/datetimepicker_css.js"></script>
