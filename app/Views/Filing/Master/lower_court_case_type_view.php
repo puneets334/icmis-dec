@@ -102,7 +102,7 @@
                                                         <div class="form-group row">
                                                             <label for="case_type_code" class="col-sm-5 col-form-label">Case Type Code<span class="text-red">*</span> :</label>
                                                             <div class="col-sm-7">
-                                                                <input type="text" class="form-control" id="case_type_code" name="case_type_code" placeholder="Case Type - Code" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" required>
+                                                                <input type="text" class="form-control" id="case_type_code" maxlength="9" name="case_type_code" placeholder="Case Type - Code" onkeyup="this.value=this.value.replace(/[^0-9]/g,'');" required>
                                                             </div>
                                                         </div>
                                                     </div>

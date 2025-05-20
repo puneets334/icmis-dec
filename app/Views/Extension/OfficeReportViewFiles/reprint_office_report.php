@@ -21,7 +21,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 mt-4">
 
                                     <div class="card-body">
 <!--                                        --><?//= view('Extension/OfficeReportViewFiles/office_report_menus'); ?>
@@ -33,7 +33,6 @@
                                             echo form_open(base_url('#'), $attribute);
 //                                            ?>
 
-                                            <br><br><br>
 
                                             <div class="col-sm-12">
                                                 <div class="row">
@@ -134,17 +133,20 @@
 
                     },
                     beforeSend: function () {
-                        
+                        $("#btnSubmit").prop("disabled", true);
                         $('#table_display').html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
                     },
                     success: function (data) {
                         updateCSRFToken();
                         $("#table_display").html(data);
 
+                        $("#btnSubmit").attr("prop", false);
                     },
                     error: function (data) {
                         updateCSRFToken();
-                        alert(data);
+                        alert("Error occurred while processing your request. Please try again.");
+                        $("#btnSubmit").attr("prop", false);
+                        $('#table_display').html('');
 
                     }
 

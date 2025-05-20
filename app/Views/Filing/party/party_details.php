@@ -1066,7 +1066,6 @@ if($check_if_fil_user > 0 ){
     });
 
     function getParty_status(value, flag) {
-        updateCSRFToken();
 
         var totalval = '';
         if ($("#pri_action").val() == 'L' && flag == '') {
@@ -1131,14 +1130,14 @@ if($check_if_fil_user > 0 ){
         }
     }
 
-    $(document).on('change', '#party_flag', function() {
+    // Remove any previous event handlers to prevent double binding
+    $(document).off('change', '#party_flag').on('change', '#party_flag', function() {
         getParty_status(this.value, '');
         $("#p_cntpro").val("C");
         // if (this.value == 'P')
         //     $("#p_cntpro").prop('disabled', true);
         // else
         //     $("#p_cntpro").removeProp('disabled');
-
     });
 
     $(document).on('change', '#pri_action', function() {
