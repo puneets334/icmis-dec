@@ -330,29 +330,49 @@ class MovementOfDocumentModel extends Model
 
     public function get_select_rs($condition)
     {
-        $select_q = "SELECT date(m.diary_no_rec_date) AS diary_no_rec_date, m.casetype_id, a.diary_no, a.doccode, 
-        a.doccode1, kntgrp, b.docnum, b.docyear, docdesc, other1, m.diary_no, 
-        disp_to, disp_dt, disp_by, 
-        TO_CHAR(CAST(h.next_dt AS DATE), 'DD-MM-YYYY') AS next_dt, 
-        main_supp_flag 
-        FROM ld_move a
-        INNER JOIN docdetails b ON (a.diary_no = b.diary_no AND a.diary_no > 0 
-        AND b.diary_no > 0 AND a.doccode = b.doccode 
-        AND a.doccode1 = b.doccode1 AND a.docnum = b.docnum 
-        AND a.docyear = b.docyear AND b.display = 'Y' 
-        " . $condition . " 
-            AND a.rece_by = 0)
-        INNER JOIN main m ON a.diary_no = m.diary_no 
-        LEFT JOIN master.docmaster c ON (a.doccode = c.doccode AND a.doccode1 = c.doccode1) 
-        LEFT JOIN heardt h ON m.diary_no = h.diary_no 
-        WHERE b.iastat = 'P' 
-        ORDER BY disp_dt DESC";
 
+        // $select_q = "SELECT date(m.diary_no_rec_date) AS diary_no_rec_date, m.casetype_id, a.diary_no, a.doccode, 
+        // a.doccode1, kntgrp, b.docnum, b.docyear, docdesc, other1, m.diary_no, 
+        // disp_to, disp_dt, disp_by, 
+        // TO_CHAR(CAST(h.next_dt AS DATE), 'DD-MM-YYYY') AS next_dt, 
+        // main_supp_flag 
+        // FROM ld_move a
+        // INNER JOIN docdetails b ON (a.diary_no = b.diary_no AND a.diary_no > 0 
+        // AND b.diary_no > 0 AND a.doccode = b.doccode 
+        // AND a.doccode1 = b.doccode1 AND a.docnum = b.docnum 
+        // AND a.docyear = b.docyear AND b.display = 'Y' 
+        // " . $condition . " 
+        //     AND a.rece_by = 0)
+        // INNER JOIN main m ON a.diary_no = m.diary_no 
+        // LEFT JOIN master.docmaster c ON (a.doccode = c.doccode AND a.doccode1 = c.doccode1) 
+        // LEFT JOIN heardt h ON m.diary_no = h.diary_no 
+        // WHERE b.iastat = 'P' 
+        // ORDER BY disp_dt DESC";
+
+
+        //New php code 
+        $select_q = "SELECT date(m.diary_no_rec_date) diary_no_rec_date,m.casetype_id,a.diary_no,a.doccode,a.doccode1,kntgrp,
+        b.docnum,b.docyear,docdesc,other1,m.diary_no,disp_to,disp_dt,disp_by,TO_CHAR(CAST(h.next_dt AS DATE), 'DD-MM-YYYY') AS next_dt,main_supp_flag 
+        FROM ld_move a
+        INNER JOIN docdetails b ON (a.diary_no=b.diary_no 
+        and a.diary_no>0 
+        and b.diary_no >0 
+        and a.doccode=b.doccode 
+        AND a.doccode1=b.doccode1 
+        and a.docnum=b.docnum 
+        and a.docyear=b.docyear 
+        and b.display='Y' 
+        and a.rece_by=0)
+        INNER JOIN main m ON a.diary_no=m.diary_no " . $condition . " 
+        LEFT JOIN master.docmaster c ON (a.doccode=c.doccode AND a.doccode1=c.doccode1) 
+        LEFT JOIN heardt h ON m.diary_no=h.diary_no where b.iastat='P' 
+        Order By disp_dt desc";
         return $this->db->query($select_q)->getResultArray();
     }
 
     public function updateRecords($data, $ucode)
     {
+
         foreach ($data as $value) {
             $new_value = explode('-', $value);
 
@@ -380,7 +400,7 @@ class MovementOfDocumentModel extends Model
                 ->where('docnum', $new_value[3])
                 ->where('docyear', $new_value[4])
                 ->where('disp_by', $new_value[5])
-                ->where('disp_to', $ucode)
+                //->where('disp_to', $ucode)
                 ->update();
         }
     }
@@ -528,7 +548,7 @@ class MovementOfDocumentModel extends Model
 
     public function old_verify_process()
     {
-    
+
         if (isset($_REQUEST['ct']) && $_REQUEST['ct'] != '') {
             $get_dno = "SELECT 
             substr(cast(diary_no as text), 1, length(cast(diary_no as text)) - 4) as dn, 
@@ -602,11 +622,11 @@ class MovementOfDocumentModel extends Model
                 SUBSTR(diary_no::text, 1, LENGTH(diary_no::text) - 4) = '" . $_REQUEST['d_no'] . "'
                 AND SUBSTR(diary_no::text, -4) = '" . $_REQUEST['d_yr'] . "'";
 
-          
+
 
             $query = $this->db->query($queryString);
             if ($query->getNumRows() >= 1) {
-           
+
                 // return $query->getResultArray();
                 $html = '<div class="cl_center"><b>No Record Found</b></div>';
                 return $html;
