@@ -296,29 +296,13 @@ class PrintWeekly extends BaseController
         $sms_text = rawurlencode($causelist_title . " has been published on https://www.sci.gov.in at " . date("d-m-Y H:i:s") . " - Supreme Court Of India");
         $template_id = '1107172603192080461';
         $mobile_no = '9810884595,9319170909,9630100950,9718009598,9818782386,9910727768,9968319828,9312570277,8800307859,8800928316,9810855890,9711475578,9810464620,9810481741,9810485122,9810506860,9811471402,9811904000,9868216440,9811316333,9871922703,9868207383,9899016720,9899924364,9810267531';
-        //For Testing
+       
         $sms_response= sendSMS($mobile_no, $sms_text, $template_id);
          //$sms_url = "http://xxxxx/eAdminSCI/a-push-sms-gw?mobileNos=8218878366&message={$sms_text}&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=sdjkfgbsjh$1232_12nmnh&templateId=1107161578957835848";
         
         //For Pduction
        //$sms_url='http://xxxxx/eAdminSCI/a-push-sms-gw?mobileNos='.'9810884595,9319170909,9630100950,9718009598,9818782386,9910727768,9968319828,9312570277,8800307859,8800928316,9810855890,9711475578,9810464620,9810481741,9810485122,9810506860,9811471402,9811904000,9868216440,9811316333,9871922703,9868207383,9899016720,9899924364,9810267531'.'&message='.$sms_text.'&typeId=29&myUserId=NIC001001&myAccessId=root&authCode=sdjkfgbsjh$1232_12nmnh&templateId=1107172603192080461';
 
-        
-        // $sms_response = file_get_contents($sms_url);
-        // $sms_response = $this->fetch_api_response($sms_url);
-
-        //  $json = json_decode($sms_response); 
-
-        // if ($sms_response === false || empty($json)) {
-        //     return $this->response->setJSON([
-        //         'status' => 'error',
-        //         'message' => 'SMS API request failed. Please check the API URL and internet connection.'
-        //     ]);
-        // }elseif ($json->{'responseFlag'} === "success") {
-        //     $sms_status = "Success: Causelist Uploaded alert SMS sent.";
-        // } else {
-        //     $sms_status = "Error: Causelist Uploaded alert SMS could not be sent.";
-        // } 
         if (empty($sms_response)) {
                 return $this->response->setJSON([
                     'status' => 'error',
