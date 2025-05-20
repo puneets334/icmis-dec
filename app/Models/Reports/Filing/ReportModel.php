@@ -2802,4 +2802,99 @@ group by date1; ";
         $result =  $query->getResultArray();
         return $result;
     }
+
+    public function getCategoryWiseStats($data)
+    {
+        $dateFrom = date('Y-m-d', strtotime($data['from_date']));
+        $dateTo = date('Y-m-d', strtotime($data['to_date']));
+        $caseTypeId = $data['case_type_casecode'];
+
+        if (!empty($caseTypeId)) {
+            $caseTypeRow = $this->db->table('master.casetype')->select('casename')->where('display', 'Y')->where('casecode', $caseTypeId)
+            ->get()->getRowArray();
+            if (!empty($caseTypeRow)) {
+                $condition = "casetype_id in('$caseTypeId')";
+            } else {
+                $condition = '';
+            }
+        } else {
+            $condition = '';
+        }
+
+        $builder = $this->db->table('main m');
+        $builder->select([
+            'mc.submaster_id as submasterid',
+            "CASE WHEN category_sc_old IS NULL OR TRIM(category_sc_old) = '' THEN 'Category not updated' ELSE CONCAT('[', category_sc_old, '] ', sub_name1, ' - ', sub_name4) END as \"Subject Category Description\"",
+            'COUNT(*) as count'
+        ]);
+        $builder->join("mul_category mc", "m.diary_no = mc.diary_no AND mc.display = 'Y'", 'left');
+        $builder->join('master.submaster s', 'mc.submaster_id = s.id', 'left');
+        $builder->join('efiled_cases ef', "m.diary_no = ef.diary_no AND ef.display = 'Y' AND efiled_type = 'new_case'", 'left');
+        $builder->where("date(diary_no_rec_date) >=", $dateFrom);
+        $builder->where("date(diary_no_rec_date) <=", $dateTo);
+        if (!empty($condition)) {
+            $builder->where($condition);
+        }
+        $builder->groupBy(['mc.submaster_id', 'category_sc_old', 'sub_name1', 'sub_name4']);
+        $builder->orderBy('mc.submaster_id');
+        $query = $builder->get();
+        return $query->getResultArray();       
+    }
+
+    public function getCategoryWiseDetails($data)
+    {
+        $submaster_id_str = isset($data['submaster_id']) && $data['submaster_id'] !== null ? (string)$data['submaster_id'] : '';
+        $extract_data = explode("@", $submaster_id_str);
+        $submaster_id = isset($extract_data[0]) && $extract_data[0] !== '' ? $extract_data[0] : null;
+        $condition_ma = isset($extract_data[1]) ? $extract_data[1] : null;
+        $condition_is_inperson = isset($extract_data[2]) ? $extract_data[2] : null;
+        $condition_pfiled = isset($extract_data[3]) ? $extract_data[3] : null;
+        $condition = isset($extract_data[4]) ? $extract_data[4] : null;
+        $total = isset($extract_data[5]) ? $extract_data[5] : null;
+
+        $date_from = date('Y-m-d', strtotime($data['from']));
+        $date_to = date('Y-m-d', strtotime($data['to']));
+
+        $builder = $this->db->table('main m');
+        $builder->select([
+            "CONCAT(SUBSTR(m.diary_no::text, 1, LENGTH(m.diary_no::text) - 4),'/',SUBSTR(m.diary_no::text, -4)) AS diary_no",
+            "DATE(m.diary_no_rec_date) AS Filing_Date",
+            "CASE WHEN m.active_casetype_id IS NULL OR m.active_casetype_id=0 THEN (SELECT short_description FROM master.casetype ct WHERE ct.display = 'Y' AND ct.casecode = m.casetype_id) ELSE m.reg_no_display END AS Case_No",
+            "CONCAT(m.pet_name, ' vs ', m.res_name) AS Cause_Title",
+            "CASE WHEN category_sc_old IS NULL OR TRIM(category_sc_old) = '' THEN 'Category not updated' ELSE CONCAT('[',category_sc_old,'] ',sub_name1,' - ', sub_name4) END AS Subject_Category_Description",
+            "(SELECT agency_state FROM master.ref_agency_state r WHERE r.cmis_state_id = m.ref_agency_state_id) AS state"
+        ]);
+        $builder->join('mul_category mc', 'm.diary_no = mc.diary_no AND mc.display = \'Y\'', 'left');
+        $builder->join('master.submaster s', 'mc.submaster_id = s.id', 'left');
+
+        $builder->where("DATE(m.diary_no_rec_date) >=", $date_from);
+        $builder->where("DATE(m.diary_no_rec_date) <=", $date_to);
+
+        if (empty($total)) {
+            if ($submaster_id !== null) {
+            $builder->where('mc.submaster_id', $submaster_id);
+            } else {
+            $builder->where('mc.submaster_id IS NULL', null, false);
+            }
+        }
+        if (!empty($condition)) {
+            $builder->where($condition);
+        }
+        if (!empty($condition_ma)) {
+            $builder->where($condition_ma);
+        }
+        if (!empty($condition_is_inperson)) {
+            $builder->where($condition_is_inperson);
+        }
+        if (!empty($condition_pfiled)) {
+            $builder->where($condition_pfiled);
+        }
+
+        $builder->orderBy("COALESCE(CONCAT('[',category_sc_old,'] ',sub_name1,' - ', sub_name4),'Category not updated')");
+        $builder->orderBy('m.diary_no_rec_date');
+
+        $result = $builder->get()->getResultArray();
+        return $result;
+       
+    }
 }

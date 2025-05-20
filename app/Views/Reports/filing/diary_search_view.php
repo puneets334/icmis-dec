@@ -203,6 +203,16 @@
 
             </div>
         </div>
+        <div class="row card card-primary card-outline">
+
+        <div class="col-sm-12 mt-2 mb-2">
+                <div class="icheck-primary d-inline">
+                    <input class="form-check-input"  onchange="unchecked_rest()" id="is_category" type="checkbox" name="is_category" value="1">
+                    <label for="is_category" class="form-check-label">Category Wise Stats</label>
+                </div>
+
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-6"> </div>
             <div class="col-sm-6">
@@ -225,15 +235,43 @@
 </div>
 <?= form_close(); ?>
 </div>
-<!-- /.diary -->
-<center><span id="loader"></span> </center>
-<hr>
-<div id="result_data"></div>
+    <!-- /.diary -->
+    <center><span id="loader"></span> </center>
+    <hr>
+    <div class="row" id="result_data" ></div>
 
 <script src="<?php echo base_url('plugins/jquery-validation/jquery.validate.js'); ?>"></script>
 <script src="<?php echo base_url('plugins/jquery-validation/additional-methods.js'); ?>"></script>
 
 <script>
+function unchecked_rest() {
+    const checkbox1 = document.getElementById('is_category');
+    const otherCheckboxes = [
+        'isma',
+        'is_inperson',
+        'is_efiled_efiled',
+        'is_efiled_pfiled',
+        'reg_rmdr',
+        'reg_dm'
+    ].map(id => document.getElementById(id));
+
+    if (checkbox1.checked) {
+        otherCheckboxes.forEach(cb => {
+            if (cb) {
+                cb.checked = false;
+                cb.disabled = true;
+            }
+        });
+    } else {
+        otherCheckboxes.forEach(cb => {
+            if (cb) {
+                cb.disabled = false;
+            }
+        });
+    }
+}
+
+
 $(document).ready(function() {
         $('.dtp').datepicker({
             format: 'dd-mm-yyyy',
