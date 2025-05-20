@@ -2,29 +2,29 @@
 $dis_co_nm  = '';
 $diary_no   = $_REQUEST['fil_no'];
 $year_s     = substr( $diary_no , -4 );
-$no_s=substr( $diary_no, 0, strlen( $diary_no ) -4 );
-$fil_nm = isset($_REQUEST['fil_nm']) ? $_REQUEST['fil_nm'] : '';
-$ind_org = '';
+$no_s       = substr( $diary_no, 0, strlen( $diary_no ) -4 );
+$fil_nm     = isset($_REQUEST['fil_nm']) ? $_REQUEST['fil_nm'] : '';
+$ind_org    = '';
 
-$short_description_s=''; 
+$short_description_s = ''; 
 
     $res_fil_det = $noticesModel->getFileDetails($diary_no);
-    $r_nature='';
-    if(isset($res_fil_det['nature']) && $res_fil_det['nature']=='C')
+    $r_nature = '';
+    if(isset($res_fil_det['nature']) && $res_fil_det['nature'] == 'C')
     {
-        $r_nature='Civil';
+        $r_nature = 'Civil';
     }
-    else if(isset($res_fil_det['nature']) && $res_fil_det['nature']=='R')
+    else if(isset($res_fil_det['nature']) && $res_fil_det['nature'] == 'R')
     {
-        $r_nature='Criminal';
+        $r_nature = 'Criminal';
 
     }
 
     if(isset($res_fil_det['casetype_id']) && $res_fil_det['casetype_id'] == 0)
     {
-        $res_fil_det['casename']='Diary';
-        $case_range=substr($diary_no,0,-4);
-        $reg_year=substr($diary_no,-4);
+        $res_fil_det['casename'] = 'Diary';
+        $case_range = substr($diary_no,0,-4);
+        $reg_year = substr($diary_no,-4);
        
         $c_t_id = $res_fil_det['c_t_id'];
         $get_ten_casetype = is_data_from_table('master.casetype',  " casecode= $c_t_id and display='Y' ", 'casename', $row = '');
@@ -151,36 +151,31 @@ $short_description_s='';
 
 
 
-            $nt_type=  explode(',', $row['nt_type']);
-            $res_ct='';
-
+            $nt_type = explode(',', $row['nt_type']);
+            $res_ct = '';
 
             for ($index = 0; $index < count($nt_type); $index++)
             {
-                $n_ind_d=$nt_type[$index];
+                $n_ind_d = $nt_type[$index];
  
-                $del_type_ct=strlen($del_type);
-                $ct_del_type=0;
+                $del_type_ct = strlen($del_type);
+                $ct_del_type = 0;
                 for($dtc=0;$dtc<$del_type_ct;$dtc++)
                 {
-                    $address_m='';
+                    $address_m = '';
+                    $mul_del_ty = 0;
 
-                  
-
-                    $mul_del_ty=0;
-
-                   $rw_sn_type =  $noticesModel->getSendToDetails($row['id'], $del_type[$dtc],$copy_type = '0');
+                    $rw_sn_type =  $noticesModel->getSendToDetails($row['id'], $del_type[$dtc],$copy_type = '0');
  
                     if(!empty($rw_sn_type))
                     {
-                      
-                        $state_nm=state_name($rw_sn_type['sendto_state']);
-                        $district_nm=state_name($rw_sn_type['sendto_district']);
-                        $tw_sendto_type='';
-                        if($rw_sn_type['send_to_type']=='2')
+                        $state_nm = state_name($rw_sn_type['sendto_state']);
+                        $district_nm = state_name($rw_sn_type['sendto_district']);
+                        $tw_sendto_type = '';
+                        if($rw_sn_type['send_to_type'] == '2')
                         {
-                            $tw_sn_to=  send_to_nm($rw_sn_type['tw_sn_to']);
-                            $tw_sendto_type=2;
+                            $tw_sn_to = send_to_nm($rw_sn_type['tw_sn_to']);
+                            $tw_sendto_type = 2;
                         }
                         else  if($rw_sn_type['send_to_type']=='1')
                         {
@@ -253,7 +248,7 @@ $short_description_s='';
 
                     }
                     ?>
-                    <div id="<?php echo $row['id'] ?>_<?php echo $n_ind_d; ?>_<?php echo $del_type[$dtc]; ?>" class="ind_no_w_vc" style="position: relative;background-image: url('/images/scilogo.png');background-position: center;background-repeat: no-repeat;padding-left: 2px;padding-right: 2px;position: relative;margin-top: 20px;<?php if($ck_pbb!=0) { ?> page-break-before:always; <?php ;} ?>">
+                    <div id="<?php echo $row['id'] ?>_<?php echo $n_ind_d; ?>_<?php echo $del_type[$dtc]; ?>" class="ind_no_w_vc" style="position: relative;background-image: linear-gradient(to right, rgba(255,255,255, 0.5) 0 100%),url('/images/scilogo.png');background-position: center;background-repeat: no-repeat;padding-left: 2px;padding-right: 2px;position: relative;margin-top: 20px;<?php if($ck_pbb!=0) { ?> page-break-before:always; <?php ;} ?>">
                         <?php
                         if($row['individual_multiple']==2 )
                         {                            
@@ -614,501 +609,499 @@ $short_description_s='';
                         $data['district_nm'] = $district_nm;
                         $data['state_nm'] = $state_nm;
                         $data['tot_copy_send_to'] = $tot_copy_send_to;
+                        $data['doc_names'] = '';
+                       
 
                         switch ($n_ind_d)
                         {
                             case 1:
-                                include ('NoticeType/SLP(C)/returnable_notice.php');
+                                echo view('NoticeType/SLP(C)/returnable_notice.php', $data);
                                 break;
-
                             case 2:
-                                include ('NoticeType/SLP(Crl)/2.php');
+                                echo view('NoticeType/SLP(Crl)/2.php', $data);
                                 break;
-
                             case 3:
-                                include ('office_report/criminal/after_notice.php');
+                                // include ('office_report/criminal/after_notice.php');
+                                echo view('office_report/criminal/after_notice.php', $data);
                                 break;
                             case 4:
-                                include ('NoticeType/SLP(Crl)/4.php');
+                                echo view('NoticeType/SLP(Crl)/4.php', $data);
                                 break;
                             case 5:
-                                include ('NoticeType/SLP(Crl)/5.php');
+                                echo view('NoticeType/SLP(Crl)/5.php', $data);
                                 break;
                             case 6:
-                                include ('NoticeType/SLP(Crl)/6.php');
+                                echo view('NoticeType/SLP(Crl)/6.php', $data);
                                 break;
                             case 7:
-                                include ('NoticeType/SLP(C)/7.php');
+                                echo view('NoticeType/SLP(C)/7.php', $data);
                                 break;
                             case 8:
-                                include ('NoticeType/SLP(C)/8.php');
+                                echo view('NoticeType/SLP(C)/8.php', $data);
                                 break;
                             case 9:
-                                include ('NoticeType/SLP(C)/9.php');
+                                echo view('NoticeType/SLP(C)/9.php', $data);
                                 break;
                             case 10:
-                                include ('NoticeType/SLP(C)/10.php');
+                                echo view('NoticeType/SLP(C)/10.php', $data);
                                 break;
                             case 11:
-                                include ('NoticeType/SLP(C)/11.php');
+                                echo view('NoticeType/SLP(C)/11.php', $data);
                                 break;
                             case 12:
-                                include ('NoticeType/SLP(C)/12.php');
+                                echo view('NoticeType/SLP(C)/12.php', $data);
                                 break;
                             case 13:
-                                include ('NoticeType/SLP(C)/13.php');
+                                echo view('NoticeType/SLP(C)/13.php', $data);
                                 break;
                             case 14:
-                                include ('NoticeType/SLP(C)/14.php');
+                                echo view('NoticeType/SLP(C)/14.php', $data);
                                 break;
                             case 15:
-                                include ('NoticeType/SLP(C)/15.php');
+                                echo view('NoticeType/SLP(C)/15.php', $data);
                                 break;
                             case 16:
-                                include ('NoticeType/SLP(C)/16.php');
+                                echo view('NoticeType/SLP(C)/16.php', $data);
                                 break;
                             case 17:
-                                include ('NoticeType/SLP(C)/17.php');
+                                echo view('NoticeType/SLP(C)/17.php', $data);
                                 break;
                             case 18:
-                                include ('NoticeType/SLP(C)/18.php');
+                                echo view('NoticeType/SLP(C)/18.php', $data);
                                 break;
                             case 19:
-                                include ('NoticeType/SLP(C)/19.php');
+                                echo view('NoticeType/SLP(C)/19.php', $data);
                                 break;
                             case 20:
-                                include ('NoticeType/SLP(C)/20.php');
+                                echo view('NoticeType/SLP(C)/20.php', $data);
                                 break;
                             case 21:
-                                include ('NoticeType/SLP(Crl)/21.php');
+                                echo view('NoticeType/SLP(Crl)/21.php', $data);
                                 break;
                             case 22:
-                                include ('NoticeType/SLP(Crl)/22.php');
+                                echo view('NoticeType/SLP(Crl)/22.php', $data);
                                 break;
                             case 23:
-                                include ('NoticeType/SLP(Crl)/23.php');
+                                echo view('NoticeType/SLP(Crl)/23.php', $data);
                                 break;
                             case 24:
-                                include ('NoticeType/SLP(Crl)/24.php');
+                                echo view('NoticeType/SLP(Crl)/24.php', $data);
                                 break;
                             case 25:
-                                include ('NoticeType/SLP(Crl)/25.php');
+                                echo view('NoticeType/SLP(Crl)/25.php', $data);
                                 break;
                             case 26:
-                                include ('NoticeType/SLP(Crl)/26.php');
+                                echo view('NoticeType/SLP(Crl)/26.php', $data);
                                 break;
                             case 27:
-                                include ('NoticeType/SLP(Crl)/27.php');
+                                echo view('NoticeType/SLP(Crl)/27.php', $data);
                                 break;
                             case 28:
-                                include ('NoticeType/SLP(Crl)/28.php');
+                                echo view('NoticeType/SLP(Crl)/28.php', $data);
                                 break;
                             case 29:
-                                include ('NoticeType/SLP(Crl)/29.php');
+                                echo view('NoticeType/SLP(Crl)/29.php', $data);
                                 break;
                             case 30:
-                                include ('NoticeType/SLP(Crl)/30.php');
+                                echo view('NoticeType/SLP(Crl)/30.php', $data);
                                 break;
                             case 31:
-                                include ('NoticeType/SLP(Crl)/31.php');
+                                echo view('NoticeType/SLP(Crl)/31.php', $data);
                                 break;
                             case 32:
-                                include ('NoticeType/SLP(Crl)/32.php');
+                                echo view('NoticeType/SLP(Crl)/32.php', $data);
                                 break;
                             case 33:
-                                include ('NoticeType/SLP(Crl)/33.php');
+                                echo view('NoticeType/SLP(Crl)/33.php', $data);
                                 break;
                             case 34:
-                                include ('NoticeType/SLP(Crl)/34.php');
+                                echo view('NoticeType/SLP(Crl)/34.php', $data);
                                 break;
                             case 35:
-                                include ('NoticeType/SLP(Crl)/35.php');
+                                echo view('NoticeType/SLP(Crl)/35.php', $data);
                                 break;
                             case 36:
-                                include ('NoticeType/SLP(Crl)/36.php');
+                                echo view('NoticeType/SLP(Crl)/36.php', $data);
                                 break;
                             case 37:
-                                include ('NoticeType/SLP(Crl)/37.php');
+                                echo view('NoticeType/SLP(Crl)/37.php', $data);
                                 break;
                             case 38:
-                                include ('NoticeType/SLP(Crl)/38.php');
+                                echo view('NoticeType/SLP(Crl)/38.php', $data);
                                 break;
                             case 39:
-                                include ('NoticeType/SLP(Crl)/39.php');
+                                echo view('NoticeType/SLP(Crl)/39.php', $data);
                                 break;
                             case 40:
-                                include ('NoticeType/SLP(C)/40.php');
+                                echo view('NoticeType/SLP(C)/40.php', $data);
                                 break;
                             case 41:
-                                include ('NoticeType/SLP(C)/41.php');
+                                echo view('NoticeType/SLP(C)/41.php', $data);
                                 break;
                             case 42:
-                                include ('NoticeType/SLP(C)/42.php');
+                                echo view('NoticeType/SLP(C)/42.php', $data);
                                 break;
                             case 43:
-                                include ('NoticeType/SLP(Crl)/43.php');
+                                echo view('NoticeType/SLP(Crl)/43.php', $data);
                                 break;
                             case 44:
-                                include ('NoticeType/SLP(C)/44.php');
+                                echo view('NoticeType/SLP(C)/44.php', $data);
                                 break;
                             case 45:
-                                include ('NoticeType/SLP(C)/45.php');
+                                echo view('NoticeType/SLP(C)/45.php', $data);
                                 break;
                             case 46:
-                                include ('NoticeType/SLP(C)/46.php');
+                                echo view('NoticeType/SLP(C)/46.php', $data);
                                 break;
                             case 47:
-                                include ('NoticeType/SLP(C)/47.php');
+                                echo view('NoticeType/SLP(C)/47.php', $data);
                                 break;
                             case 48:
-                                include ('NoticeType/SLP(C)/48.php');
+                                echo view('NoticeType/SLP(C)/48.php', $data);
                                 break;
                             case 49:
-                                include ('NoticeType/SLP(C)/49.php');
+                                echo view('NoticeType/SLP(C)/49.php', $data);
                                 break;
                             case 50:
-                                include ('NoticeType/SLP(C)/12.php');
+                                echo view('NoticeType/SLP(C)/12.php', $data);
                                 break;
                             case 51:
-                                include ('NoticeType/SLP(C)/51.php');
+                                echo view('NoticeType/SLP(C)/51.php', $data);
                                 break;
                             case 52:
-                                include ('NoticeType/SLP(C)/52.php');
+                                echo view('NoticeType/SLP(C)/52.php', $data);
                                 break;
                             case 53:
-                                include ('NoticeType/SLP(C)/53.php');
+                                echo view('NoticeType/SLP(C)/53.php', $data);
                                 break;
                             case 54:
-                                include ('NoticeType/SLP(C)/54.php');
+                                echo view('NoticeType/SLP(C)/54.php', $data);
                                 break;
                             case 55:
-                                include ('NoticeType/SLP(C)/55.php');
+                                echo view('NoticeType/SLP(C)/55.php', $data);
                                 break;
                             case 56:
-                                include ('NoticeType/SLP(C)/56.php');
+                                echo view('NoticeType/SLP(C)/56.php', $data);
                                 break;
                             case 57:
-                                include ('NoticeType/SLP(C)/57.php');
+                                echo view('NoticeType/SLP(C)/57.php', $data);
                                 break;
                             case 58:
-                                include ('NoticeType/SLP(Crl)/58.php');
+                                echo view('NoticeType/SLP(Crl)/58.php', $data);
                                 break;
                             case 59:
-                                include ('NoticeType/SLP(C)/59.php');
+                                echo view('NoticeType/SLP(C)/59.php', $data);
                                 break;
                             case 60:
-                                include ('NoticeType/SLP(C)/60.php');
+                                echo view('NoticeType/SLP(C)/60.php', $data);
                                 break;
                             case 61:
-                                include ('NoticeType/SLP(C)/61.php');
+                                echo view('NoticeType/SLP(C)/61.php', $data);
                                 break;
                             case 62:
-                                include ('NoticeType/SLP(C)/62.php');
+                                echo view('NoticeType/SLP(C)/62.php', $data);
                                 break;
                             case 63:
-                                include ('NoticeType/SLP(C)/63.php');
+                                echo view('NoticeType/SLP(C)/63.php', $data);
                                 break;
                             case 64:
-                                include ('NoticeType/SLP(Crl)/2.php');
+                                echo view('NoticeType/SLP(Crl)/2.php', $data);
                                 break;
                             case 65:
-                                include ('NoticeType/SLP(C)/65.php');
+                                echo view('NoticeType/SLP(C)/65.php', $data);
                                 break;
                             case 66:
-                                include ('NoticeType/SLP(Crl)/66.php');
+                                echo view('NoticeType/SLP(Crl)/66.php', $data);
                                 break;
                             case 67:
-                                include ('NoticeType/SLP(C)/67.php');
+                                echo view('NoticeType/SLP(C)/67.php', $data);
                                 break;
                             case 68:
-                                include ('NoticeType/SLP(C)/68.php');
+                                echo view('NoticeType/SLP(C)/68.php', $data);
                                 break;
                             case 69:
-                                include ('NoticeType/SLP(C)/69.php');
+                                echo view('NoticeType/SLP(C)/69.php', $data);
                                 break;
                             case 70:
-                                include ('NoticeType/SLP(Crl)/70.php');
+                                echo view('NoticeType/SLP(Crl)/70.php', $data);
                                 break;
                             case 71:
-                                include ('NoticeType/SLP(Crl)/71.php');
+                                echo view('NoticeType/SLP(Crl)/71.php', $data);
                                 break;
                             case 72:
-                                include ('NoticeType/SLP(C)/72.php');
+                                echo view('NoticeType/SLP(C)/72.php', $data);
                                 break;
                             case 73:
-                                include ('NoticeType/SLP(C)/73.php');
+                                echo view('NoticeType/SLP(C)/73.php', $data);
                                 break;
                             case 74:
-                                include ('NoticeType/SLP(Crl)/2.php');
+                                echo view('NoticeType/SLP(Crl)/2.php', $data);
                                 break;
                             case 75:
-                                include ('NoticeType/SLP(Crl)/4.php');
+                                echo view('NoticeType/SLP(Crl)/4.php', $data);
                                 break;
                             case 76:
-                                include ('NoticeType/SLP(C)/76.php');
+                                echo view('NoticeType/SLP(C)/76.php', $data);
                                 break;
                             case 77:
-                                include ('NoticeType/SLP(Crl)/77.php');
+                                echo view('NoticeType/SLP(Crl)/77.php', $data);
                                 break;
                             case 78:
-                                include ('NoticeType/SLP(Crl)/4.php');
+                                echo view('NoticeType/SLP(Crl)/4.php', $data);
                                 break;
                             case 79:
-                                include ('NoticeType/SLP(Crl)/79.php');
+                                echo view('NoticeType/SLP(Crl)/79.php', $data);
                                 break;
                             case 80:
-                                include ('NoticeType/SLP(Crl)/80.php');
+                                echo view('NoticeType/SLP(Crl)/80.php', $data);
                                 break;
                             case 81:
-                                include ('NoticeType/SLP(Crl)/81.php');
+                                echo view('NoticeType/SLP(Crl)/81.php', $data);
                                 break;
                             case 82:
-                                include ('NoticeType/SLP(Crl)/82.php');
+                                echo view('NoticeType/SLP(Crl)/82.php', $data);
                                 break;
                             case 83:
-                                include ('NoticeType/SLP(Crl)/83.php');
+                                echo view('NoticeType/SLP(Crl)/83.php', $data);
                                 break;
                             case 84:
-                                include ('NoticeType/SLP(Crl)/84.php');
+                                echo view('NoticeType/SLP(Crl)/84.php', $data);
                                 break;
                             case 85:
-                                include ('NoticeType/SLP(Crl)/85.php');
+                                echo view('NoticeType/SLP(Crl)/85.php', $data);
                                 break;
                             case 86:
-                                include ('NoticeType/SLP(Crl)/86.php');
+                                echo view('NoticeType/SLP(Crl)/86.php', $data);
                                 break;
                             case 87:
-                                include ('NoticeType/SLP(Crl)/87.php');
+                                echo view('NoticeType/SLP(Crl)/87.php', $data);
                                 break;
-
                             case 88:
-                                include ('NoticeType/SLP(Crl)/88.php');
+                                echo view('NoticeType/SLP(Crl)/88.php', $data);
                                 break;
                             case 89:
-                                include ('NoticeType/SLP(Crl)/89.php');
+                                echo view('NoticeType/SLP(Crl)/89.php', $data);
                                 break;
                             case 90:
-                                include ('NoticeType/SLP(Crl)/90.php');
+                                echo view('NoticeType/SLP(Crl)/90.php', $data);
                                 break;
                             case 91:
-                                include ('NoticeType/SLP(Crl)/91.php');
+                                echo view('NoticeType/SLP(Crl)/91.php', $data);
                                 break;
                             case 92:
-                                include ('NoticeType/SLP(Crl)/92.php');
+                                echo view('NoticeType/SLP(Crl)/92.php', $data);
                                 break;
                             case 93:
-                                // include ('NoticeType/SLP(Crl)/93.php');
                                 echo view('NoticeType/SLP(Crl)/93.php', $data);
                                 break;
                             case 94:
-                                include ('NoticeType/SLP(Crl)/94.php');
+                                echo view('NoticeType/SLP(Crl)/94.php', $data);
                                 break;
                             case 95:
-                                include ('NoticeType/SLP(Crl)/95.php');
+                                echo view('NoticeType/SLP(Crl)/95.php', $data);
                                 break;
                             case 96:
-                                include ('NoticeType/SLP(Crl)/96.php');
+                                echo view('NoticeType/SLP(Crl)/96.php', $data);
                                 break;
                             case 97:
-                                include ('NoticeType/SLP(Crl)/97.php');
+                                echo view('NoticeType/SLP(Crl)/97.php', $data);
                                 break;
                             case 98:
-                                include ('NoticeType/SLP(Crl)/98.php');
+                                echo view('NoticeType/SLP(Crl)/98.php', $data);
                                 break;
-
                             case 99:
-                                include ('NoticeType/SLP(C)/99.php');
+                                echo view('NoticeType/SLP(C)/99.php', $data);
                                 break;
-
                             case 100:
-                                include ('NoticeType/SLP(C)/100.php');
+                                echo view('NoticeType/SLP(C)/100.php', $data);
                                 break;
-
                             case 101:
-                                include ('NoticeType/SLP(C)/101.php');
+                                echo view('NoticeType/SLP(C)/101.php', $data);
                                 break;
                             case 102:
-                                include ('NoticeType/SLP(C)/102.php');
+                                echo view('NoticeType/SLP(C)/102.php', $data);
                                 break;
                             case 103:
-                                include ('NoticeType/SLP(C)/103.php');
+                                echo view('NoticeType/SLP(C)/103.php', $data);
                                 break;
                             case 104:
-                                include ('NoticeType/SLP(C)/104.php');
+                                echo view('NoticeType/SLP(C)/104.php', $data);
                                 break;
                             case 105:
-                                include ('NoticeType/SLP(C)/105.php');
+                                echo view('NoticeType/SLP(C)/105.php', $data);
                                 break;
                             case 106:
-                                include ('NoticeType/SLP(C)/106.php');
+                                echo view('NoticeType/SLP(C)/106.php', $data);
                                 break;
                             case 107:
-                                include ('NoticeType/SLP(C)/107.php');
+                                echo view('NoticeType/SLP(C)/107.php', $data);
                                 break;
                             case 108:
-                                include ('NoticeType/SLP(C)/108.php');
+                                echo view('NoticeType/SLP(C)/108.php', $data);
                                 break;
                             case 109:
-                                include ('NoticeType/SLP(C)/109.php');
+                                echo view('NoticeType/SLP(C)/109.php', $data);
                                 break;
                             case 110:
-                                include ('NoticeType/SLP(C)/110.php');
+                                echo view('NoticeType/SLP(C)/110.php', $data);
                                 break;
                             case 111:
-                                include ('NoticeType/SLP(C)/111.php');
+                                echo view('NoticeType/SLP(C)/111.php', $data);
                                 break;
                             case 112:
-                                // include ('NoticeType/SLP(C)/112.php');
                                 echo view('NoticeType/SLP(C)/112.php', $data);
                                 break;
                             case 113:
-                                include ('NoticeType/SLP(C)/113.php');
+                                echo view('NoticeType/SLP(C)/113.php', $data);
                                 break;
                             case 114:
-                                include ('NoticeType/SLP(C)/114.php');
+                                echo view('NoticeType/SLP(C)/114.php', $data);
                                 break;
                             case 115:
-                                include ('NoticeType/SLP(C)/115.php');
+                                echo view('NoticeType/SLP(C)/115.php', $data);
                                 break;
                             case 116:
-                                include ('NoticeType/SLP(C)/116.php');
+                                echo view('NoticeType/SLP(C)/116.php', $data);
                                 break;
                             case 117:
-                                include ('NoticeType/SLP(C)/returnable_notice.php');
+                                echo view('NoticeType/SLP(C)/returnable_notice.php', $data);
                                 break;
                             case 118:
-                                include ('NoticeType/SLP(C)/118.php');
+                                echo view('NoticeType/SLP(C)/118.php', $data);
                                 break;
                             case 119:
-                                include ('NoticeType/SLP(C)/119.php');
+                                echo view('NoticeType/SLP(C)/119.php', $data);
                                 break;
                             case 120:
-                                include ('NoticeType/SLP(Crl)/120.php');
+                                echo view('NoticeType/SLP(Crl)/120.php', $data);
                                 break;
                             case 121:
-                                include ('NoticeType/SLP(Crl)/121.php');
+                                echo view('NoticeType/SLP(Crl)/121.php', $data);
                                 break;
                             case 122:
-                                include ('NoticeType/SLP(C)/122.php');
+                                echo view('NoticeType/SLP(C)/122.php', $data);
                                 break;
                             case 123:
-                                include ('NoticeType/SLP(Crl)/123.php');
+                                echo view('NoticeType/SLP(Crl)/123.php', $data);
                                 break;
                             case 124:
-                                include ('NoticeType/SLP(C)/124.php');
+                                echo view('NoticeType/SLP(C)/124.php', $data);
                                break;
                             case 125:
-                                include ('NoticeType/SLP(C)/125.php');
+                                echo view('NoticeType/SLP(C)/125.php', $data);
                                break;
                             case 126:
-                                include ('NoticeType/SLP(C)/126.php');
+                                echo view('NoticeType/SLP(C)/126.php', $data);
                                 break;
                             case 127:
-                                include ('NoticeType/SLP(C)/127.php');
+                                echo view('NoticeType/SLP(C)/127.php', $data);
                                 break;                                
                             case 128:
-                                include ('NoticeType/SLP(C)/128.php');
+                                echo view('NoticeType/SLP(C)/128.php', $data);
                                 break;
                             case 129:
-                                include ('NoticeType/SLP(C)/11.php');
+                                echo view('NoticeType/SLP(C)/11.php', $data);
                                 break;                                                                
                             case 130:
-                                include ('NoticeType/SLP(C)/130.php');
+                                echo view('NoticeType/SLP(C)/130.php', $data);
                                 break;
                             case 131:
-                                include ('NoticeType/SLP(C)/131.php');
+                                echo view('NoticeType/SLP(C)/131.php', $data);
                                 break;
                             case 132:
-                                include ('NoticeType/SLP(C)/132.php');
+                                echo view('NoticeType/SLP(C)/132.php', $data);
                                 break;
                             case 133:
-                                include ('NoticeType/SLP(C)/133.php');
+                                echo view('NoticeType/SLP(C)/133.php', $data);
                                 break;
                             case 134:
-                                include ('NoticeType/SLP(C)/122.php');
+                                echo view('NoticeType/SLP(C)/122.php', $data);
                                 break; 
                             case 135:
-                                include ('NoticeType/SLP(C)/135.php');
+                                echo view('NoticeType/SLP(C)/135.php', $data);
                                 break;
                             case 136:
-                                include ('NoticeType/SLP(C)/135.php');
+                                echo view('NoticeType/SLP(C)/135.php', $data);
                                 break;
                             case 137:
-                                include ('NoticeType/SLP(C)/136.php');
+                                echo view('NoticeType/SLP(C)/136.php', $data);
                                 break;
                             case 138:
-                                include ('NoticeType/SLP(C)/136.php');
+                                echo view('NoticeType/SLP(C)/136.php', $data);
                                 break;
                             case 139:
-                                include ('NoticeType/SLP(C)/139.php');
+                                echo view('NoticeType/SLP(C)/139.php', $data);
                                 break;
                             case 140:
-                                include ('NoticeType/SLP(C)/140.php');
+                                echo view('NoticeType/SLP(C)/140.php', $data);
                                 break;
                             case 141:
-                                include ('NoticeType/SLP(C)/141.php');
+                                echo view('NoticeType/SLP(C)/141.php', $data);
                                 break;
                             case 142:
-                                include ('NoticeType/SLP(C)/142.php');
+                                echo view('NoticeType/SLP(C)/142.php', $data);
                                 break;
                             case 143:
-                                include ('NoticeType/SLP(C)/141.php');
+                                echo view('NoticeType/SLP(C)/141.php', $data);
                                 break;
                             case 144:
-                                include ('NoticeType/SLP(C)/144.php');
+                                echo view('NoticeType/SLP(C)/144.php', $data);
                                 break;
                             case 145:
-                                include ('NoticeType/SLP(C)/145.php');
+                                echo view('NoticeType/SLP(C)/145.php', $data);
                                 break;
                             case 146:
-                                include ('NoticeType/SLP(Crl)/96.php');
+                                echo view('NoticeType/SLP(Crl)/96.php', $data);
                                 break;
-                           case 147:
-                                include ('NoticeType/SLP(C)/147.php');
+                            case 147:
+                                echo view('NoticeType/SLP(C)/147.php', $data);
                                 break;
                             case 148:
-                                include ('NoticeType/SLP(C)/148.php');
+                                echo view('NoticeType/SLP(C)/148.php', $data);
                                 break;
                             case 149:
-                                include('NoticeType/SLP(Crl)/149.php');
+                                echo view('NoticeType/SLP(Crl)/149.php', $data);
                                 break;
                             case 150:
-                                include('NoticeType/SLP(Crl)/150.php');
+                                echo view('NoticeType/SLP(Crl)/150.php', $data);
                                 break;
                             case 151:
-                                include ('NoticeType/SLP(Crl)/151.php');
+                                echo view('NoticeType/SLP(Crl)/151.php', $data);
                                 break;
                             case 152:
-                                include ('NoticeType/SLP(Crl)/152.php');
+                                echo view('NoticeType/SLP(Crl)/152.php', $data);
                                 break;
                             case 153:
-                                include('NoticeType/SLP(Crl)/153.php');
+                                echo view('NoticeType/SLP(Crl)/153.php', $data);
                                 break;
                             case 154:
-                                include('NoticeType/SLP(Crl)/154.php');
+                                echo view('NoticeType/SLP(Crl)/154.php', $data);
                                 break;
                             case 155:
-                                include('NoticeType/SLP(C)/155.php');
+                                echo view('NoticeType/SLP(C)/155.php', $data);
                                 break;
-                             case 156:
-                                include('NoticeType/SLP(C)/156.php');
+                            case 156:
+                                echo view('NoticeType/SLP(C)/156.php', $data);
                                 break;
-                             case 157:
-                                include('NoticeType/SLP(Crl)/157.php');
+                            case 157:
+                                echo view('NoticeType/SLP(Crl)/157.php', $data);
                                 break;
-                             case 160:
-                                include('NoticeType/SLP(C)/160.php');
+                            case 160:
+                                echo view('NoticeType/SLP(C)/160.php', $data);
                                 break;
-                             case 161:
-                                include('NoticeType/SLP(Crl)/161.php');
+                            case 161:
+                                echo view('NoticeType/SLP(Crl)/161.php', $data);
                                 break;
                             case 166:
-                                include('NoticeType/SLP(C)/166.php');
+                                echo view('NoticeType/SLP(C)/166.php', $data);
                                 break;
                             case 167:
-                                include('NoticeType/SLP(C)/167.php');
+                                echo view('NoticeType/SLP(C)/167.php', $data);
                                 break;
-                           default:
+                            case 168:
+                                echo view('NoticeType/SLP(Crl)/168.php', $data);
+                                break;
+                            default:
                                 break;
                         }
 
