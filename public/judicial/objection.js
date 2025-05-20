@@ -1,4 +1,3 @@
-
 var filling_no='';
 var ui='';
 function getDetails()
@@ -179,7 +178,7 @@ function getDetailsNew()
         }
     }
     // xmlhttp.open("GET","getReport51-II.php?seljudgename="+seljudgename+"&frm="+frm+"&toDate="+toDate,true);
-    xmlhttp.open("GET","da_defect_getData?d_no="+t_h_cno+"&d_yr="+t_h_cyt,true);
+    xmlhttp.open("GET",base_url_judicial+"/da_defect_getData?d_no="+t_h_cno+"&d_yr="+t_h_cyt,true);
     xmlhttp.send(null);
 }
 var com_data='';
@@ -481,7 +480,7 @@ function getDone()
                 }
                 // document.getElementById('chkbox_obj'+i).checked=false;
                 // xmlhttp.open("GET","getReport51-II.php?seljudgename="+seljudgename+"&frm="+frm+"&toDate="+toDate,true);
-                xmlhttp.open("GET","save_data?hd_id="+hd_id+"&d_no="+d_no+"&i="+cn_to_y+"&total="+cn_to_y_ck+"&getText="+getText+"&d_yr="+d_yr+"&txtRem="+txtRem+"&iu=0"+"&txtRem_mul="+txtRem_mul,false);
+                xmlhttp.open("GET",base_url_judicial+"/save_data?hd_id="+hd_id+"&d_no="+d_no+"&i="+cn_to_y+"&total="+cn_to_y_ck+"&getText="+getText+"&d_yr="+d_yr+"&txtRem="+txtRem+"&iu=0"+"&txtRem_mul="+txtRem_mul,false);
                 xmlhttp.send(null);
             }
 
@@ -975,7 +974,7 @@ function getDone1()
                 if(document.getElementById('chkbox_obj'+i))
                     document.getElementById('chkbox_obj'+i).checked=false;
                 // xmlhttp.open("GET","getReport51-II.php?seljudgename="+seljudgename+"&frm="+frm+"&toDate="+toDate,true);
-                xmlhttp.open("GET","save_data?hd_id="+hd_id+"&d_no="+d_no+"&i="+cn_to_y+"&total="+cn_to_y_ck+"&d_yr="+d_yr+"&txtRem="+txtRem+"&getText="+getText+"&iu=1"+"&txtRem_mul="+txtRem_mul,false);
+                xmlhttp.open("GET",base_url_judicial+"/save_data?hd_id="+hd_id+"&d_no="+d_no+"&i="+cn_to_y+"&total="+cn_to_y_ck+"&d_yr="+d_yr+"&txtRem="+txtRem+"&getText="+getText+"&iu=1"+"&txtRem_mul="+txtRem_mul,false);
                 xmlhttp.send(null);
             }
             else
@@ -1091,7 +1090,7 @@ $(document).ready(function () {
 
             // Step 3: Check for defects using async/await
             const defectResponse = await $.ajax({
-                url: 'obj_save_get',
+                url: base_url_judicial+'/obj_save_get',
                 type: 'POST',
                 data: {
                     diary_no: requestData,
@@ -1114,7 +1113,7 @@ $(document).ready(function () {
             CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
             $.ajax({
-                url: 'save_sms_det',
+                url: base_url_judicial+'/save_sms_det',
                 type: 'POST',
                 cache: false,
                 async: true,
@@ -1152,7 +1151,7 @@ async function send_email(t_h_cno, t_h_cyt) {
     var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
     return $.ajax({
-        url: 'send_email',
+        url: base_url_judicial+'/send_email',
         type: 'POST',
         cache: false,
         async: true,
