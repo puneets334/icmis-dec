@@ -1058,4 +1058,70 @@ class PrintModel extends Model
                     }
                     return $return;
     }
+    public function get_section_name($diary_no){
+        $return =[];
+        $sql = "SELECT tentative_section(" . $diary_no . ") as section_name";
+        $query = $this->db->query($sql);
+                    if ($query->getNumRows() >= 1) {
+                        $return = $query->getRowArray();
+                        
+                    }
+                    return $return;
+
+    }
+
+    public function getDocnumDocYear($diary_no)
+    {
+        $sql = "SELECT * FROM (
+                SELECT h.diary_no, d.docnum, d.docyear, d.doccode1,
+                    (CASE WHEN dm.doccode1 = 19 THEN other1 ELSE dm.docdesc END) AS docdesp,
+                    d.other1, d.iastat
+                FROM heardt h
+                INNER JOIN docdetails d ON d.diary_no = h.diary_no
+                INNER JOIN master.docmaster dm ON dm.doccode1 = d.doccode1 AND dm.doccode = d.doccode
+                WHERE h.diary_no = '$diary_no'
+                AND d.doccode = 8
+                AND dm.display = 'Y'
+                AND array_position(
+                        string_to_array(
+                            REPLACE(REPLACE(REPLACE(listed_ia, '/', ''), ' ', ''), ',', ','),
+                            ','
+                        ),
+                        CAST(CONCAT(docnum, docyear) AS TEXT)
+                    ) > 0
+            ) a
+            WHERE docdesp != ''
+            ORDER BY docdesp";
+        $query = $this->db->query($sql);
+        $result = $query->getResultArray();
+        return $result;
+    }
+
+    public function get_not_before_reason($list_before_remark){
+        $return =[];
+        $sql = "SELECT res_add FROM master.not_before_reason WHERE res_id = '".$list_before_remark."'";
+        $query = $this->db->query($sql);
+                    if ($query->getNumRows() >= 1) {
+                        $return = $query->getRowArray();
+                        
+                    }
+                    return $return;
+
+    }
+    public function get_lowerct_casetype($diaryNo){
+
+    $builder = $this->db->table('lowerct a')
+                    ->select('a.lct_dec_dt, a.lct_caseno, a.lct_caseyear, ct.short_description AS type_sname')
+                    ->join('master.casetype ct', "ct.casecode = a.lct_casetype AND ct.display = 'Y'", 'left')
+                    ->where('a.diary_no', $diaryNo)
+                    ->where('a.is_order_challenged', "Y")
+                    ->where('a.lw_display', "Y")
+                    ->where('a.ct_code', 4)
+                    ->orderBy('a.lct_dec_dt', 'DESC');
+
+    $query = $builder->get();
+    $results = $query->getResultArray(); 
+    return $results;
+    }
+
 }
