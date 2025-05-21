@@ -5426,7 +5426,7 @@ if (!function_exists('get_date_diff_days')) {
 }
 
 if (!function_exists('get_days_difference_date')) {    
-    function get_days_difference_date(string $date1, string $date2): int
+    function get_days_difference_date(string $date1, string $date2): array
     {
         $db = \Config\Database::connect();
 
@@ -5537,7 +5537,7 @@ function get_defect_days1($df,$refil_date,$last_day_of_refiling,$diary_no)
             // $dff='2022-06-01';
             $diffq = get_days_difference_date($refil_date,$last_day_of_refiling);            
             if(!empty($diffq) && count($diffq)>0){             
-                $total=$diff;
+                $total=$diffq;
             }            
 
 
@@ -5572,7 +5572,10 @@ function next_date_defect($date,$day)
             echo "next date is ".$nxt_dt;
         }
     }
-}function get_last_listed_date($diaryNo)
+}
+
+
+function get_last_listed_date($diaryNo)
 {
     $db = \Config\Database::connect();
 

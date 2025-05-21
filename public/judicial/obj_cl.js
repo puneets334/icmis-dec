@@ -1011,51 +1011,46 @@ function del_pro()
     xmlhttp.send(null);
 }
 
-function get_def_rec()
-{
-    // alert("zxzx");
-
+function get_def_rec() {
     var t_h_cno = $('#t_h_cno').val();
     var t_h_cyt = $('#t_h_cyt').val();
 
-    if (t_h_cno != '' && (t_h_cyt == '' || t_h_cyt.length != 4))
-    {
+    if (t_h_cno != '' && (t_h_cyt == '' || t_h_cyt.length != 4)) {
         alert("Please enter year");
         $('#t_h_cyt').focus();
-    }
-    else if ((t_h_cyt != '' && t_h_cyt.length == 4) && t_h_cno == '')
-    {
+    } else if ((t_h_cyt != '' && t_h_cyt.length == 4) && t_h_cno == '') {
         alert("Please enter Diary No.");
         $('#t_h_cno').focus();
-    }
-    else
-    {
+    } else {
+        // Disable the button
+        $('#btnSubmit').prop('disabled', true);
+
         var xmlhttp;
-        if (window.XMLHttpRequest)
-        {
+        if (window.XMLHttpRequest) {
             xmlhttp = new XMLHttpRequest();
-        }
-        else
-        {
+        } else {
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
 
-        document.getElementById('dv_dup').innerHTML = '<table widht="100%" align="center"><tr><td><img src="' + base_url + '/images/load.gif"/></td></tr></table>';
+        document.getElementById('dv_dup').innerHTML = '<table width="100%" align="center" style="text-align:center"><tr><td><img src="' + base_url + '/images/load.gif"/></td></tr></table>';                   
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4) {
+                // Re-enable the button when request is done
+                $('#btnSubmit').prop('disabled', false);
 
-        xmlhttp.onreadystatechange = function()
-        {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-            {
-                document.getElementById('dv_dup').innerHTML = xmlhttp.responseText;
+                if (xmlhttp.status == 200) {
+                    document.getElementById('dv_dup').innerHTML = xmlhttp.responseText;
+                } else {
+                    document.getElementById('dv_dup').innerHTML = 'Error retrieving data.';
+                }
             }
-        }
+        };
 
-
-        // xmlhttp.open("GET","getReport51-II.php?seljudgename="+seljudgename+"&frm="+frm+"&toDate="+toDate,true);
         xmlhttp.open("GET", "get_obj_cl_dup?d_no=" + t_h_cno + "&d_yr=" + t_h_cyt, true);
         xmlhttp.send(null);
     }
 }
+
 
 function get_refil_report(){
 
@@ -1098,8 +1093,8 @@ function get_refil_report(){
 
 
         // xmlhttp.open("GET","getReport51-II.php?seljudgename="+seljudgename+"&frm="+frm+"&toDate="+toDate,true);
-        xmlhttp.open("GET", "get_refiling_report.php?d_no=" + t_h_cno + "&d_yr=" + t_h_cyt, true);
-        xmlhttp.send(null);
+        // xmlhttp.open("GET", "get_refiling_report.php?d_no=" + t_h_cno + "&d_yr=" + t_h_cyt, true);
+        // xmlhttp.send(null);
     }
 
 }

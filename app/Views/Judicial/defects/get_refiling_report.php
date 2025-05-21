@@ -145,12 +145,13 @@ $offset=5.5*60*60;
             <?php
                 $bl=0;
                 $last_day_of_refiling=date( 'Y-m-d',strtotime($nextdate)); 
-                $total= get_defect_days1($df,$refil_date,$last_day_of_refiling,$diary_no);
-             ?>
+                $total= get_defect_days1($df,$refil_date,$last_day_of_refiling,$diary_no);                
                 
+             ?>                
                 <td>Delay in Refiling</td>
                 <td>
-                    <?php
+                    <?php                    
+                    
                      if($total<=0)
                             echo "<font color=green ><br>Refiling is within time</font>";
                         // else echo "Delay of ".$diff." days";
@@ -165,7 +166,7 @@ $offset=5.5*60*60;
                                 }
                                 else
                                 {
-                                echo "<font color=red ><br><b><font>Total Delay of " . $total. " days</b></font>";
+                                echo "<font color=red ><br><b><font>Total Delay of " . $total['days']. " days</b></font>";
                                 }
                             
                             }
