@@ -21,34 +21,48 @@ class CaseAdd extends Model
     {
        
         if (empty($ct) || empty($cn) || empty($cy)) {
-            return 0;
+           
+          return 0;
         }
 
-      
+        return $diary_no = get_diary_case_type($ct, $cn, $cy);
+        
 
-        $builder = $this->db->table('main');
-        $builder->select("
-            SUBSTRING(CAST(diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(diary_no AS TEXT)) - 4) as dn,
-            RIGHT(CAST(diary_no AS TEXT), 4) as dy
-        ");
+    //   echo $get_dno = "SELECT substr( diary_no, 1, length( diary_no ) -4 ) as dn, substr( diary_no , -4 ) as dy
+    //   FROM main 
+    //   WHERE (SUBSTRING_INDEX(fil_no, '-', 1) = $ct AND CAST($cn AS UNSIGNED) 
+    //   BETWEEN (SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no, '-', 2),'-',-1)) 
+    //   AND (SUBSTRING_INDEX(fil_no, '-', -1)) AND  if(reg_year_mh=0, YEAR(fil_dt)=$cy, reg_year_mh=$cy) ) 
+    //    or (SUBSTRING_INDEX(fil_no_fh, '-', 1) = $ct
+    //    AND CAST($cn AS UNSIGNED) BETWEEN (SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no_fh, '-', 2),'-',-1)) 
+    //    AND (SUBSTRING_INDEX(fil_no_fh, '-', -1)) AND if(reg_year_fh=0, YEAR(fil_dt_fh)=$cy, reg_year_fh=$cy))";
+    //    die();
 
-        $builder->groupStart()
-            ->where("SPLIT_PART(fil_no, '-', 1)", $ct)
-            ->where("$cn BETWEEN CAST(SPLIT_PART(SPLIT_PART(fil_no, '-', 2), '-', -1) AS INTEGER) AND CAST(SPLIT_PART(fil_no, '-', -1) AS INTEGER)")
-            ->where("(CASE WHEN reg_year_mh = 0 THEN EXTRACT(YEAR FROM fil_dt) = $cy ELSE reg_year_mh = $cy END)")
-            ->groupEnd();
-        $builder->orGroupStart()
-            ->where("SPLIT_PART(fil_no_fh, '-', 1)", $ct)
-            ->where("$cn BETWEEN CAST(SPLIT_PART(SPLIT_PART(fil_no_fh, '-', 2), '-', -1) AS INTEGER) AND CAST(SPLIT_PART(fil_no_fh, '-', -1) AS INTEGER)")
-            ->where("(CASE WHEN reg_year_fh = 0 THEN EXTRACT(YEAR FROM fil_dt_fh) = $cy ELSE reg_year_fh = $cy END)")
-            ->groupEnd();
+        // $builder = $this->db->table('main');
+        // $builder->select("
+        //     SUBSTRING(CAST(diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(diary_no AS TEXT)) - 4) as dn,
+        //     RIGHT(CAST(diary_no AS TEXT), 4) as dy
+        // ");
 
-        $query = $builder->get();
+        // $builder->groupStart()
+        //     ->where("SPLIT_PART(fil_no, '-', 1)", $ct)
+        //     ->where("$cn BETWEEN CAST(SPLIT_PART(SPLIT_PART(fil_no, '-', 2), '-', -1) AS INTEGER) AND CAST(SPLIT_PART(fil_no, '-', -1) AS INTEGER)")
+        //     ->where("(CASE WHEN reg_year_mh = 0 THEN EXTRACT(YEAR FROM fil_dt) = $cy ELSE reg_year_mh = $cy END)")
+        //     ->groupEnd();
+        // $builder->orGroupStart()
+        //     ->where("SPLIT_PART(fil_no_fh, '-', 1)", $ct)
+        //     ->where("$cn BETWEEN CAST(SPLIT_PART(SPLIT_PART(fil_no_fh, '-', 2), '-', -1) AS INTEGER) AND CAST(SPLIT_PART(fil_no_fh, '-', -1) AS INTEGER)")
+        //     ->where("(CASE WHEN reg_year_fh = 0 THEN EXTRACT(YEAR FROM fil_dt_fh) = $cy ELSE reg_year_fh = $cy END)")
+        //     ->groupEnd();
+        // // echo  $builder->getCompiledSelect();
+        // // die();
+
+        // $query = $builder->get();
 
 
-        $result = $query->getRowArray();
-        //return $result ? $result['dn'] . $result['dy'] : 0;
-        return $result ;
+        // $result = $query->getRowArray();
+        // //return $result ? $result['dn'] . $result['dy'] : 0;
+        // return $result ;
     }
     public function list_regular_advance_weekly($diary_numbers_string1)
     {

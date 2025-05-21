@@ -98,9 +98,8 @@
                     validationError = false;
                     return false;
                 }
-            } else if (search_type == 'C') {
-                //alert('Case details');
-
+            } else if (search_type == 'C')
+            {
                 if (case_type.length == 0) {
                     alert("Please select case type");
                     validationError = false;

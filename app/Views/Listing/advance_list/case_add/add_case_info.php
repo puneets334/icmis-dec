@@ -2,17 +2,28 @@
 
 $ifPending = 1;
 $ifMain = 1;
-if ($ct != '') {
-    $get_dno = $model->getDiaryNo($ct, $cn, $cy);
 
-    if (!empty($get_dno)) {
-        $get_dno = $get_dno;
-        $dno = $get_dno['dn'] . $get_dno['dy'];
-    } else
-        $dno = 0;
-} else {
+
+if (!empty($ct))
+{
+    
+    $get_dno = $model->getDiaryNo($ct, $cn, $cy);
+    
+
+    if (!empty($get_dno))
+    {
+        $dno=$get_dno;
+       
+    }
+    else
+    $dno = 0;
+}
+else
+{
+    
     $dno = $dn . $dyr;
 }
+
 
 $details = $model->getCaseDetails($dno);
 
