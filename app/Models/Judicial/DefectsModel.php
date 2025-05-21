@@ -545,5 +545,45 @@ class DefectsModel extends Model{
 
     }
 
+    function get_efiling_rs($empid) 
+    {
+        $builder = $this->db->table('public.fil_trap a');
+        $builder->select("
+            ec.efiling_no,
+            a.uid,
+            a.diary_no,
+            d_by_empid,
+            d_to_empid,
+            disp_dt,
+            remarks,
+            e.name AS d_by_name,
+            e.empid,
+            pet_name,
+            res_name,
+            rece_dt,
+            nature,
+            TO_CHAR(h.next_dt, 'DD-MM-YYYY') AS next_dt,
+            h.main_supp_flag,
+            CASE 
+                WHEN h.board_type = 'C' THEN 'CHAMBER'
+                WHEN h.board_type = 'J' THEN 'COURT'
+                ELSE 'REGISTRAR'
+            END AS board_type
+        ");
+        $builder->join('public.main b', 'a.diary_no = b.diary_no', 'left');
+        $builder->join('master.users e', 'e.usercode = b.dacode', 'left');
+        $builder->join('public.heardt h', 'b.diary_no = h.diary_no', 'left');
+        $builder->join('public.efiled_cases ec', "ec.diary_no = b.diary_no AND ec.display = 'Y'", 'left');
+        $builder->where('1=1', null, false);
+        $builder->where('e.empid', 1);
+        $builder->where('b.c_status', 'P');
+        $builder->whereIn('remarks', ['FDR -> SCR']);
+        $builder->where('comp_dt IS NULL', null, false); // Raw IS NULL condition
+        $builder->orderBy('disp_dt', 'DESC');
+        //$builder->limit(5);
+        $query = $builder->get();
+        return $result = $query->getResultArray();
+    }
+
 
 }  

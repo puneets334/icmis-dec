@@ -28,7 +28,7 @@ legend.scheduler-border {
 
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Judicial >> Defects</h3>
+                                <h3 class="card-title">Judicial >> Defects >> Add Defects</h3>
                             </div>
                             <div class="col-sm-2">
 

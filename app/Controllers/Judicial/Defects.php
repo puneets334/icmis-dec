@@ -844,6 +844,15 @@ class Defects extends BaseController
         }
     }    
 
-
+    public function incomplete_filtrap() 
+    {   
+        $data =[];             
+        $data['ucode'] = session()->get('login')['usercode'];
+        $data['empid'] = session()->get('login')['empid'];
+        $data['emp_name_login'] =  session()->get('login')['name'];
+        //echo "<pre>"; print_r(session()->get());die;       
+        $data['select_rs'] = $this->DefectsModel->get_efiling_rs($data['empid']);         
+        return view('Judicial/defects/incomplete_filtrap', $data);
+    }
     
 }
