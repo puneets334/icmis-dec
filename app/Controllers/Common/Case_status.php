@@ -885,9 +885,11 @@ class Case_status extends BaseController
     {
         $data['docd_id'] =$_GET['docd_id'];
         $data['diary_no'] =$_GET['diary_no'];
-        $data['ia'] =$_GET['ia'];
+        $data['ia'] =$_GET['ia'] ?? '';
+        $data['doc'] =$_GET['doc'] ?? '';
         $data['result'] = $this->Model_case_status->getIaFullDetails($_GET['diary_no'], $_GET['docd_id']);
-        return view('Common/Component/case_status/get_ia',$data);  
+        
+        return view('Common/Component/case_status/fetch_defect_details',$data);  
     }
 
     public function get_court_fees()

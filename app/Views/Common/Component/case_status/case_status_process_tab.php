@@ -78,7 +78,24 @@ if(!empty($diary_details)){?>
             ?>
     <h5 align="center"><?php echo $diary_details['pet_name'] . ' <span style="color:red;">vs</span> ' . $diary_details['res_name'] ?></h5>
 
-    <h5 align="right"> </h5>
+    <h5 align="right"> <?php
+        $urgent_category='';
+
+        //$sql_urg_cat="SELECT  ref_special_category_filing_id, category_name FROM special_category_filing s  join ref_special_category_filing r on s.ref_special_category_filing_id=r.id WHERE s.display='Y'and r.display='Y' and diary_no=$diaryno";
+        //$rs_urg_cat=mysql_query($sql_urg_cat);
+        if(!empty($row_urg_cat))
+        {
+            //$row_urg_cat = mysql_fetch_array($rs_urg_cat);
+            if($row_urg_cat['ref_special_category_filing_id']!=null and $row_urg_cat['ref_special_category_filing_id']!='' and $row_urg_cat['ref_special_category_filing_id']!='0')
+            { ?>
+                <br><br><span style='float:right;text-align:center;padding-bottom: 10px;padding-right:0px;padding-bottom:5px;padding-right:10px;font-size: x-large;'><span id='blink_text'>URGENT:</span><font color='purple'><?php echo $row_urg_cat['category_name']; ?> </font> </span>
+                <?php
+            }
+        }
+
+
+        ?>
+    </h5>
     <div id="collapse118">
         <div id="result118"></div>
 
@@ -138,6 +155,7 @@ if(!empty($diary_details)){?>
                         $main_status = "<div style='float:right;text-align:center;padding-right:5px;'><span class='blink_me'><font color='red' style='font-size:20px;font-weight:bold;'>" . $status . "</font></span></div>";
                     }
                     $consign_status = $efiled_status = '';
+                    $efiled_case=0;
                     if (!empty($consignment_status)) {
                         foreach ($consignment_status as $row_consigned) {
                             $consignment_date = date_create($row_consigned['consignment_date']);
@@ -146,7 +164,22 @@ if(!empty($diary_details)){?>
                             $consign_status = "<span style='float:right;text-align:center;padding-right:5px;padding-right:10px;'><span class='blink_me'><font color='red' style='font-size:15px;font-weight:bold;'>Consigned On : " . $consignment_date . "</font></span></span>";
                         }
                     }
-                    if ($diary_details['ack_id'] > 0 || !empty($efiled_cases)) {
+
+                    $sensitive_case_status='';
+                  /*  $sql_sensitive_case = "select diary_no from sensitive_cases where diary_no='".$diaryno."' and display='Y'
+                and (find_in_set(".$_SESSION['dcmis_user_idd'].",(select users_empid from sensitive_case_users))>=1)";
+                    $result_sensitive_case = mysql_query($sql_sensitive_case) or die(mysql_error()." SQL:".$sql_sensitive_case); */
+                       if(!empty($result_sensitive_case)) {
+                            $sensitive_case_status = "<span style='float:right;text-align:center;padding-right:5px;padding-right:10px;'><span class='blink_me'><font color='red' style='font-size:15px;font-weight:bold;'>Sensitive Case</font></span></span>";
+                        }
+
+
+                    if ($diary_details['ack_id'] > 0) {
+                        $efiled_status = "<span style='float:right;text-align:center;padding-right:5px;padding-right:10px;'><span class='blink_me'><font color='red' style='font-size:15px;font-weight:bold;'>E-Filed Matter</font></span></span>";
+                    }
+
+                    if (!empty($efiled_cases)) {
+                        $efiled_case=1;
                         $efiled_status = "<span style='float:right;text-align:center;padding-right:5px;padding-right:10px;'><span class='blink_me'><font color='red' style='font-size:15px;font-weight:bold;'>E-Filed Matter</font></span></span>";
                     }
 
@@ -170,13 +203,24 @@ if(!empty($diary_details)){?>
                         $act_sec_des = trim($sect) . ' ' . $act_sec_des;
                     }
 
+                    //code to check if autodiarized efiled matter
+                    $efm_diaryuser='';
+                    //$sql_autodiary="select diary_no from efiled_cases where diary_no=$diaryno and display='Y' and efiled_type='new_case' and (created_by=10531 or date(created_at)>'2023-07-19')";
+                    //$rs_autodiary=mysql_query($sql_autodiary);
+                    if(!empty($rs_autodiary))
+                    {
+                        $efm_diaryuser ="<font color='red'> [AUTO GENERATED] </font>";
+
+                    }
+
                     ?>
                     <td width="140px">Diary No.</td>
                     <td>
                         <div width="100%">
-                            <font color="blue" style="font-size:12px;font-weight:bold;"><?php echo substr($diary_details['diary_no'], 0, -4) . '/' . substr($diary_details['diary_no'], -4); ?></font> Received on <?php echo $diary_recieved_date; ?> <?php echo $u_name . $main_case . $main_status . $consign_status . $efiled_status ?>
+                            <font color="blue" style="font-size:12px;font-weight:bold;"><?php echo substr($diary_details['diary_no'], 0, -4) . '/' . substr($diary_details['diary_no'], -4); ?></font> <?php echo $efm_diaryuser;?> Received on <?php echo $diary_recieved_date; ?> <?php echo $u_name . $main_case . $main_status . $consign_status . $sensitive_case_status.$efiled_status ?>
                     </td>
                 </tr>
+                <tr><td width='140px'>Supreme Court<br> CNR Number</td><td><?php echo $diary_details['cnr']?></td></tr> 
                 <tr>
                     <td width="140px">Case No.</td>
                     <td>

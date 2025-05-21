@@ -99,57 +99,16 @@
 
 <div id="divprint">
 
-    <input type="hidden" name="hd_ci_cri" id="hd_ci_cri" value="<?php echo $cicri; ?>" />
+    <input type="hidden" name="hd_ci_cri" id="hd_ci_cri" value="<?php echo $cicri ?? ''; ?>" />
 
     <?php
-    //include("../includes/db_inc.php");
-    //include("../function/function.php");
-   // $docd_id = $_GET['docd_id'];
-    //$diary_no = $_GET['diary_no'];
-
-  /*  $query = "SELECT
-  a.diary_no,
-  a.docd_id,
-  case
-    when d.doccode = 8 then 'IA No '
-    else ' DOC No.'
-  end as ia_type,
-  rm_dt,
-  b.objdesc,
-  d.*,
-  d2.*,
-  m.*,
-  a.*,
-
-    u.name,
-    m.*
-FROM
-    obj_save_ia a
-
-JOIN docdetails d ON
-    d.docd_id = a.docd_id
-join docmaster d2 on
-	d2.doccode = d.doccode and d.doccode1=d2.doccode1
     
-join users u on
-    u.usercode = d.usercode
-    join main m on m.diary_no = a.diary_no
-    JOIN objection b ON
-    a.org_id = b.objcode
-
-WHERE
-    a.diary_no = '$diary_no' and
-    a.docd_id = '$docd_id'
-    AND a.display = 'Y'
-        ";
-
-    $result = mysql_query($query) or die(__LINE__ . ' -> ' . mysql_error()); */
+    $output1 = '';
     if (!empty($result)) {
-        $output = '<table id="customers" border=1>';
+        $output = '<table id="customers" border="1" class="table">';
         $output .= '<tr><th colspan="2" align="center">Case Details</th></tr>';
         $cntt = 1;
-        //$row = mysql_fetch_array($result);
-        //$row = $result;
+       
         foreach ($result as $key => $row) {
             if($key == 0)
             {
@@ -171,9 +130,7 @@ WHERE
                             <th>Remove Date</th>
                         </tr>';
 
-                //$cntt = 1;
-                //mysql_data_seek($result, 0);
-            
+                
                     $output .= '<tr>';
                     $output .= '<td>' . $key + 1 . '</td>';
                     $output .= '<td>' . htmlspecialchars($row['objdesc']) . '</td>';
@@ -204,9 +161,9 @@ WHERE
         }
         $output .= '</table>';
     }else{
-        $output = '<table id="customers" border=1>';
+        $output = '<table id="customers" align="center" class="table custom-table" border=1>';
         $output .= '<thead><tr><th colspan="2" align="center">Case Details</th></tr></thead>';
-        $output .= '<tbody><tr>No Record found..</tr></tbody>';
+        $output .= '<tbody><tr><td>No Record found..</td></tr></tbody>';
         $output .= '</table>';
     }
 

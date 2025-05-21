@@ -1595,6 +1595,7 @@ function getUserNameAndDesignation($usercode)
 function getCaseDetails($diarySearchDetails)
 {
     $db = \Config\Database::connect();
+    $ucode = session()->get('login')['usercode'];
     $model = new \App\Models\Common\Component\Model_case_status();
     $dropdownlist_model = new \App\Models\Common\Dropdown_list_model();
 
@@ -1677,6 +1678,8 @@ function getCaseDetails($diarySearchDetails)
     $data['sensitive_case'] = json_decode($model->get_sensitive_cases($main_diary_number), true);
     $data['efiled_cases'] = json_decode($model->get_efiled_cases($main_diary_number), true);
     $data['heardt_case'] = json_decode($model->get_heardt_case($main_diary_number, $flag), true);
+    $data['hearesult_sensitive_caserdt_case'] = $model->isSensitiveCase($main_diary_number, $ucode);
+    $data['rs_autodiary'] = $model->checkAutoDiary($main_diary_number);
     // pr($data['heardt_case']);
     $last_listed_on = "";
     $last_listed_on_jud = "";
@@ -1733,6 +1736,7 @@ function getCaseDetails($diarySearchDetails)
     $data['diary_number'] = $main_diary_number;
     $data['IB_DA_Details'] = json_decode($model->get_IB_DA_Details($main_diary_number, $flag), true);
     $data['file_movement_data'] = json_decode($model->get_file_movement_data($main_diary_number, $flag), true);
+    $data['row_urg_cat'] = $model->getUrgentCategories($main_diary_number);
 
     if (!empty($data['IB_DA_Details'])) {
         $IbDaName = "<font color='blue' style='font-size:12px;font-weight:bold;'>" . $data['IB_DA_Details']['name'] . " [" . $data['IB_DA_Details']["section_name"] . "]" . "</font>";;

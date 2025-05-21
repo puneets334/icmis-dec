@@ -1990,14 +1990,14 @@ c.name as last_u");
             ORDER BY d.ent_dt
         ";
 
-        return $db->query($sql, [$diaryno])->getResult();
+        return $db->query($sql, [$diaryno])->getResultArray();
     }
 
     public function getIaFullDetails($diary_no, $docd_id)
     {
         $db = \Config\Database::connect();
 
-        $sql = "
+         $sql = "
             SELECT
                 a.diary_no,
                 a.docd_id,
@@ -2014,17 +2014,75 @@ c.name as last_u");
                 u.name
             FROM obj_save_ia a
             JOIN docdetails d ON d.docd_id = a.docd_id
-            JOIN docmaster d2 ON d2.doccode = d.doccode AND d.doccode1 = d2.doccode1
+            JOIN master.docmaster d2 ON d2.doccode = d.doccode AND d.doccode1 = d2.doccode1
             JOIN master.users u ON u.usercode = d.usercode
             JOIN main m ON m.diary_no = a.diary_no
-            JOIN objection b ON a.org_id = b.objcode
+            JOIN master.objection b ON a.org_id = b.objcode
             WHERE a.diary_no = ?
             AND a.docd_id = ?
             AND a.display = 'Y'
         ";
-
+ 
         return $db->query($sql, [$diary_no, $docd_id])->getResultArray();
     }
+
+
+    public function isSensitiveCase($diaryno, $ucode)
+    {
+        $db = \Config\Database::connect();
+
+        $sql = "
+            SELECT diary_no 
+            FROM sensitive_cases 
+            WHERE diary_no = ?
+            AND display = 'Y'
+            AND (
+                EXISTS (
+                    SELECT 1 
+                    FROM master.sensitive_case_users 
+                    WHERE 
+                        ARRAY_POSITION(string_to_array(users_empid, ','), ?) IS NOT NULL
+                )
+            )
+        ";
+
+        $query = $db->query($sql, [$diaryno, $ucode]);
+        return $query->getRowArray(); // or getResult() if expecting multiple rows
+    }
+
+    public function checkAutoDiary($diaryno)
+    {
+        $db = \Config\Database::connect();
+
+        return $db->table('efiled_cases')
+                ->select('diary_no')
+                ->where('diary_no', $diaryno)
+                ->where('display', 'Y')
+                ->where('efiled_type', 'new_case')
+                ->groupStart()
+                    ->where('created_by', 10531)
+                    ->orWhere('created_at >', '2023-07-19') // PostgreSQL treats timestamps directly
+                ->groupEnd()
+                ->get()
+                ->getRowArray(); // use getResult() if expecting multiple rows
+    }
+
+
+    public function getUrgentCategories($diaryno)
+    {
+        $db = \Config\Database::connect();
+
+        return $db->table('special_category_filing s')
+                ->select('s.ref_special_category_filing_id, r.category_name')
+                ->join('master.ref_special_category_filing r', 's.ref_special_category_filing_id = r.id')
+                ->where('s.display', 'Y')
+                ->where('r.display', 'Y')
+                ->where('s.diary_no', $diaryno)
+                ->get()
+                ->getRowArray();
+    }
+
+
 
 
 
