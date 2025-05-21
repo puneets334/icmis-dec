@@ -361,8 +361,8 @@ class CourtMentionMemoController extends BaseController
 	 
 	 
 	 
-	  public function updateMentionMemo($session){
-		  
+	  public function updateMentionMemo(){
+		  $session = '1';
 		$data['session_id_url'] = session()->get('login')['usercode'];
         if (!empty($this->request->getPost('session_id_url'))) {
            $this->session->set('dcmis_user_idd', $this->request->getPost('session_id_url'));
@@ -388,20 +388,20 @@ class CourtMentionMemoController extends BaseController
 
         if (!empty($this->request->getPost('session_id_url'))) {
 
-            if ($this->request->getPost('optradio') == 1) {
-                if ((!empty($this->request->getPost('caseType'))) && (!empty($this->request->getPost('caseNo')))) {
+            if ($this->request->getPost('search_type') == 'C') {
+                if ((!empty($this->request->getPost('case_type'))) && (!empty($this->request->getPost('case_number')))) {
 
-                    $caseTypeId = $this->request->getPost('caseType');
-                    $caseNo = $this->request->getPost('caseNo');
-                    $caseYear = $this->request->getPost('caseYear');
+                    $caseTypeId = $this->request->getPost('case_type');
+                    $caseNo = $this->request->getPost('case_number');
+                    $caseYear = $this->request->getPost('case_year');
                     $data['diaryDetails'] = $this->model->get_diary_details($caseTypeId, $caseNo, $caseYear);
                 }
             }
-            if ($this->request->getPost('optradio') == 2) {
-                $diaryNo = $this->request->getPost('diaryNumber');
-                $diaryYear = $this->request->getPost('diaryYear');
-                $data['diaryDetails'] = $this->model->get_diary_details($diaryNo, $diaryYear);
-            }
+            if ($this->request->getPost('search_type') == 'D') {
+                $diaryNo = $this->request->getPost('diary_number');
+                $diaryYear = $this->request->getPost('diary_year');
+				$data['diaryDetails'] = $this->model->get_diary_details($diaryNo, $diaryYear);
+			}
 
             if (($data['diaryDetails'])) {
                 foreach ($data['diaryDetails'] as $row) {
@@ -410,7 +410,7 @@ class CourtMentionMemoController extends BaseController
                     $this->session->set('diaryNo', $row['dn']);
                     $this->session->set('diaryYear', $row['dy']);
                     $this->session->set('diaryNumber', $row['diary_no']);
-                    $this->session->set('roaster_id', $row['m_roaster_id']);
+                  //$this->session->set('roaster_id', $row['m_roaster_id']);
                 }
 
                 $data['caseInfo'] = $this->model->getCaseDetails($diaryNumber);
@@ -422,7 +422,7 @@ class CourtMentionMemoController extends BaseController
                 $data['caseInfo'] = '';
                 $data['listingInfo'] = '';
                 $data['session_id_url'] = $this->request->getPost('session_id_url');
-                $this->load->view('Court/CourtMentionMemo/MentioningUpdate', $data);
+                return view('Court/CourtMentionMemo/MentioningUpdate', $data);
             }
 
             if (!empty($data['caseInfo'])) {
@@ -430,15 +430,17 @@ class CourtMentionMemoController extends BaseController
                 $dn = $data['caseInfo'][0]['diary_no'];
                 $dy = $data['caseInfo'][0]['diary_year'];
             } else {
-                $dn = $this->request->getPost('diaryNumber');
-                $dy = $this->request->getPost('diaryYear');
+                $dn = $this->request->getPost('diary_number');
+                $dy = $this->request->getPost('diary_year');
             }
+			
+			
             $recivedate = '';
 
-            if (!empty($this->request->getPost('casediaryDate'))) {
-                $receivedDate = $this->request->getPost('casediaryDate');
+            if (!empty($this->request->getPost('case_year'))) {
+                $receivedDate = $this->request->getPost('case_year');
             } else {
-                $receivedDate = $this->request->getPost('diaryDate');
+                $receivedDate = $this->request->getPost('diary_year');
             }
 
             if (!empty($this->request->getPost('diary_forListType'))) {
@@ -448,8 +450,8 @@ class CourtMentionMemoController extends BaseController
             }
 
 
-            $bench = $data['mmData'] = $this->model->get_mmData_code($receivedDate, $dy, $dn, $forListType);  // get data from table to view in table
-
+            // $bench = $data['mmData'] = $this->model->get_mmData_code($receivedDate, $dy, $dn, $forListType);  // get data from table to view in table
+            $bench = $data['mmData'] = $this->model->get_mmData($receivedDate, $dy, $dn, $forListType);  // get data from table to view in table
             if (!$bench) {
                 $data['update'] = 'updateMentionMemo';
                 $data['caseInfo'] = '';
@@ -458,35 +460,36 @@ class CourtMentionMemoController extends BaseController
 
             }
            
-            $bench_desc = "";
-
-            if ($bench->courtno == 21) {
+		    $bench_desc = "";
+             
+            if ($bench['courtno'] == 21) {
                 $court = "R1";
-            } else if ($bench->courtno == 22) {
+            } else if ($bench['courtno'] == 22) {
                 $court = "R2";
-            } else if ($bench->courtno > 30 && $bench->courtno <= 60) {
-                $court = "VC- " . ($bench->courtno - 30);
-            } else if ($bench->courtno > 60 && $bench->courtno <= 62) {
-                $court = "RVC- " . ($bench->courtno - 60);
+            } else if ($bench['courtno'] > 30 && $bench['courtno'] <= 60) {
+                $court = "VC- " . ($bench['courtno'] - 30);
+            } else if ($bench['courtno'] > 60 && $bench['courtno'] <= 62) {
+                $court = "RVC- " . ($bench['courtno'] - 60);
             } else {
-                $court = $bench->courtno;
+                $court = $bench['courtno'];
             }
-            if ($bench->session == 'Whole Day' && $bench->courtno != "" && $bench->courtno != 0 && $bench->courtno != null) {
-                $bench_desc = $bench->session . ' in Court ' . $court;
-            } else if ($bench->courtno != "" && $bench->courtno != 0 && $bench->courtno != null) {
-                $bench_desc = $bench->session . ' @ ' . $bench->frm_time . ' in Court ' . $court;
+            if ($bench['session'] == 'Whole Day' && $bench['courtno'] != "" && $bench['courtno'] != 0 && $bench['courtno'] != null) {
+                $bench_desc = $bench['session'] . ' in Court ' . $court;
+            } else if ($bench['courtno'] != "" && $bench['courtno'] != 0 && $bench['courtno'] != null) {
+                $bench_desc = $bench['session'] . ' @ ' . $bench['frm_time'] . ' in Court ' . $court;
             } else {
-                $bench_desc = $bench->session;
+                $bench_desc = $bench['session'];
             }
 
 
-            $data['roster_id'] = $bench->roster_id;
+            $data['roster_id'] = $bench['roster_id'];
             $data['bench_desc'] = $bench_desc;
             $data['formData'] = $this->request->getPost();
             $data['session_id_url'] = $this->request->getPost('session_id_url');
             $data['caseInfo'] = $this->model->getCaseDetails($diaryNumber);
 
-           $user = $data ['mm_data'] = $this->model->get_mmData_code($receivedDate, $dy, $dn, $forListType);
+           //$user = $data ['mm_data'] = $this->model->get_mmData_code($receivedDate, $dy, $dn, $forListType);
+           $user = $data ['mm_data'] = $this->model->get_mmData($receivedDate, $dy, $dn, $forListType);
            $user_code = $data ['user_code'] = $this->model->getmain_data($receivedDate, $dy, $dn, $forListType);
            $dacode = $user_code->user_id;
            $user_detail = $data ['user_detail'] = $this->model->getuser_details($dacode);

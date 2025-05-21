@@ -2110,6 +2110,16 @@ function component_html($component_type = '')
     return $html;
 }
 
+function component_html_mention_meno($component_type = '')
+{
+    $html = "";
+    $data['component'] = 'component_diary_with_case';
+    $data['component_type'] = $component_type;
+    $html = view('Common/Component/updatementionmeno', $data);
+    return $html;
+}
+
+
 function tentative_da($diary_no, $row = 'R')
 {
     $db = \Config\Database::connect();
