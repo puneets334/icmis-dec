@@ -93,8 +93,16 @@ class VacationAdvanceList extends BaseController
     {
         $request = service('request');
         $userId = $request->getPost('userID');
+        if (isset($_POST['mainhead'])) {
+            $mainhead = $_POST['mainhead'];
+            $mainhead_query_part = $mainhead ? " and mainhead = '$mainhead'" : " and mainhead = ''";
+        } else {
+            $mainhead = ''; // Or null, or a default value
+            $mainhead_query_part = '';
+        }
+        $data['mainhead'] = $mainhead;
         $data['caseAddModel'] = $this->CaseAdd;
-        $data['cases']= $this->CaseAdd->getDiary();
+        $data['cases']= $this->CaseAdd->getDiary($mainhead_query_part);
         return view('Listing/VacationAdvanceList/get_vacation_advance_list', $data);
     }
 
@@ -117,7 +125,7 @@ class VacationAdvanceList extends BaseController
                         if ($record->is_fixed != 'Y') {
                             $var .= "<input type='checkbox' name='vacationList' id='vacationList' value='$record->diary_no>";
                         } else {
-                            $var .= "<span style='color:green;'>Fixed For <br> Vacation</span><br/>";
+                            $var .= "<span style='color:green;'>Fixed For <br> Partial Court Working Days</span><br/>";
                         }
                     }
                     $arr[$value] = $var;
