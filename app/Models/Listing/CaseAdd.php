@@ -3,6 +3,7 @@
 namespace App\Models\Listing;
 
 use CodeIgniter\Model;
+use CodeIgniter\Database\RawSql;
 
 class CaseAdd extends Model
 {
@@ -2236,8 +2237,12 @@ class CaseAdd extends Model
     }
 
 
-    public function getDiary()
+    public function getDiary($mainhead_query_part)
     {
+        $mainhead = '';
+        if(!empty($mainhead_query_part)){
+            $mainhead = $mainhead_query_part;
+        } 
         return $this->db->query("
             SELECT DISTINCT 
                 val.diary_no,
@@ -2268,14 +2273,13 @@ class CaseAdd extends Model
             INNER JOIN 
                 main m ON val.diary_no = m.diary_no
             WHERE 
-                vacation_list_year = EXTRACT(YEAR FROM CURRENT_DATE)
+                vacation_list_year = EXTRACT(YEAR FROM CURRENT_DATE) $mainhead
             ORDER BY 
                 fixed_order,
                 order_key,
                 main_or_connected ASC
         ")->getResultArray();
     }
-
 
 
     public function logVacationAdvances($diaryNo)
@@ -3161,31 +3165,22 @@ ORDER BY
                                     CASE WHEN v.is_deleted = 't' THEN '(Declined)' ELSE '' END, 
                                     '</font>'
                                 ), '<br/>') AS advocate")
+                ->select('COUNT(1) AS adv_count')
+                ->select(new RawSql("
+            SUM(CASE WHEN v.is_deleted = 't' THEN 1 ELSE 0 END) AS total_declined
+                "))
             ->join('master.bar b', 'b.aor_code = v.aor_code', 'inner')
             ->where('v.diary_no', $diaryNo)
             ->where('v.vacation_list_year', date('Y'))
             ->where('b.if_aor', 'Y')
             ->where('b.isdead', 'N')
             ->groupBy('v.diary_no');
+
+           
         $query = $builder->get();
         $result = $query->getRowArray();
         return $result;
 
-        /*$sql = "SELECT 
-                STRING_AGG(DISTINCT CONCAT(COALESCE(b.name, ''), 
-                '<font color=\"red\" weight=\"bold\">', 
-                
-                '</font>'), '<br/>') AS advocate
-            FROM vacation_advance_list_advocate v 
-            INNER JOIN master.bar b ON b.aor_code = v.aor_code
-            WHERE v.diary_no = ? 
-              AND v.vacation_list_year = EXTRACT(YEAR FROM CURRENT_DATE) 
-              AND b.if_aor = 'Y' 
-              AND b.isdead = 'N' 
-            GROUP BY v.diary_no";
-        $result = $this->db->query($sql, [$diaryNo])->getRowArray();*/
-        // Debugging: Log the result to check its contents
-        //log_message('debug', 'Advocates Query Result: ' . print_r($result, true));
     }
 
 

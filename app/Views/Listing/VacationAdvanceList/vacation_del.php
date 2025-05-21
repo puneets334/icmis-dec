@@ -90,6 +90,10 @@
         .print {
             display: none;
         }
+        .center-text {
+            text-align: center;
+        }
+
 
     }
 </style>
@@ -101,7 +105,7 @@
                     <div class="card-header heading">
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Decline (Vacation List Cases)</h3>
+                                <h3 class="card-title">Partial Court Working Days Advance Matters List Year</h3>
                             </div>
                         </div>
                     </div>
@@ -151,7 +155,7 @@
                 if (r != 0) {
                     $("#vacationAdvanceList").html(r);
                 } else {
-                    alert("Error in uploading Uploading Vacation Advance List");
+                    alert("Error in Uploading Vacation Advance List");
                     $("#vacationAdvanceList").html("");
                 }
             },
@@ -179,6 +183,7 @@
     function declineVacationCase(allVals) {
         var empID = $('#empid').val();
         var userID = $('#user_code').val();
+        var mainhead = get_mainhead();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var csrf = $("input[name='CSRF_TOKEN']").val();
         $.ajax({
