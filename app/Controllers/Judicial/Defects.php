@@ -755,13 +755,19 @@ class Defects extends BaseController
             if($def_notify_date!=null) 
             {
                 $c_date = date('Y-m-d');
-                $data['res_no_of_days'] = $this->DefectsModel->get_no_of_days_qr($c_date);                
+                $data['res_no_of_days'] = $this->DefectsModel->get_no_of_days_qr($c_date);  
+                $days_to_add = isset($data['res_no_of_days']) ? (int)$data['res_no_of_days'] : 0;
+              
                 $i=0;                
-                $def_rem_max_date=date(date("Y-m-d", strtotime($def_notify_date)) . " +".$i."days");
-                $def_rem_max_date = date('Y-m-d', strtotime($def_notify_date . ' + ' . @$data['res_no_of_days'] . ' days'));
-                $data['nextdate'] = $this->next_date($def_rem_max_date, 1);
-            }
+                //$def_rem_max_date=date(date("Y-m-d", strtotime($def_notify_date)) . " +".$i."days");
+                //$def_rem_max_date = date('Y-m-d', strtotime($def_notify_date . ' + ' . @$data['res_no_of_days'] . ' days'));
+                $date = new \DateTime($def_notify_date);
+                $date->modify("+{$days_to_add} days");
 
+                // Format final date (choose Y-m-d or Y-m-d H:i:s)
+                $def_rem_max_date = $date->format('Y-m-d');
+                $data['nextdate'] = $this->next_date($def_rem_max_date, 1);                
+            }
         }
 
         $data['ia'] = $this->DefectsModel->get_ia($diary_no);
