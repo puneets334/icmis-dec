@@ -1209,29 +1209,49 @@ class Mentioning_Model extends Model
     }
 
     function get_mmData($date, $year, $d_no, $flistype){
+            
+			$builder = $this->db->table('mention_memo mm');
 
-		$this->db->distinct();
-		$this->db->select('r.id roster_id, session, r.courtno, mm.diary_no, mm.date_on_decided, rj.judge_id, j.jname, j.jcode, mm.date_of_received,
-                             mm.m_brd_slno, mm.spl_remark, `hd`.`mainhead`,`hd`.`board_type`,mm.diary_no, mm.id, mm.date_for_decided, mm.pdfname,
-                             mm.upload_date');
-		$this->db->from('mention_memo mm');
-		$this->db->join('roster r', 'mm.m_roster_id = r.id', 'inner');
-		$this->db->join('roster_judge rj', 'r.id = rj.roster_id', 'inner');
-		//$this->db->join('cl_printed cp', 'r.id=cp.roster_id');
-		$this->db->join('roster_bench rb', 'r.bench_id=rb.id', 'inner');
-		$this->db->join('master_bench mb', 'rb.bench_id=mb.id', 'inner');
-		$this->db->join('judge j', 'rj.judge_id = j.jcode', 'inner');
-		$this->db->join('heardt hd', 'hd.diary_no  = mm.diary_no', 'left');
-		$this->db->WHERE('mm.diary_no', $d_no.$year);
-		$this->db->WHERE('mm.date_of_received', $date);
+			$builder->distinct();
+			$builder->select('
+				r.id AS roster_id,
+				session,
+				r.courtno,
+				mm.diary_no,
+				mm.date_on_decided,
+				rj.judge_id,
+				j.jname,
+				j.jcode,
+				mm.date_of_received,
+				mm.m_brd_slno,
+				mm.spl_remark,
+				hd.mainhead,
+				hd.board_type,
+				mm.id,
+				mm.date_for_decided,
+				mm.pdfname,
+				mm.upload_date
+			');
 
-		if($flistype == 1){
-			$where = "mm.m_roster_id is not NULL";
-			$this->db->WHERE($where);
-		}
-		//->WHERE('rj.judge_id', 254)
-		return $this->db->get()->row();
-		//echo $this->db->last_query();
+			$builder->join('master.roster r', 'mm.m_roster_id = r.id', 'inner');
+			$builder->join('master.roster_judge rj', 'r.id = rj.roster_id', 'inner');
+			// $builder->join('cl_printed cp', 'r.id=cp.roster_id', 'inner'); // Commented out as in original
+			$builder->join('master.roster_bench rb', 'r.bench_id = rb.id', 'inner');
+			$builder->join('master.master_bench mb', 'rb.bench_id = mb.id', 'inner');
+			$builder->join('master.judge j', 'rj.judge_id = j.jcode', 'inner');
+			$builder->join('heardt hd', 'hd.diary_no = CAST(mm.diary_no AS INTEGER)', 'left', false);
+
+			$builder->where('mm.diary_no', $d_no);
+			$builder->where("EXTRACT(YEAR FROM mm.date_of_received) =", $date);
+
+			if ($flistype == 1) {
+				$builder->where('mm.m_roster_id IS NOT NULL', null, false);
+			}
+
+           //echo  $builder->getCompiledSelect();die;
+
+			return $builder->get()->getRowArray();
+		
 	}
 	
 	
@@ -1619,47 +1639,54 @@ class Mentioning_Model extends Model
 	
 	
 	function get_diary_details($caseTypeId=null,$caseNo=null,$caseYear=null,$diaryNo=null,$diaryYear=null) {
-			$optradio = $request->getPost('optradio');
+			$request = \Config\Services::request();
+			$optradio = $request->getPost('search_type');
 			$sql = "";
 			$params = [];
 
-			if ($optradio == 1) {
-				$caseTypeId = $request->getPost('caseTypeId');
-				$caseNo = $request->getPost('caseNo');
-				$caseYear = $request->getPost('caseYear');
+			if ($optradio == 'C') {
+					$caseTypeId = $request->getPost('case_type');
+					$caseNo = $request->getPost('case_number');
+					$caseYear = $request->getPost('case_year');
 
-				$sql = "SELECT h.diary_no,
-							   SUBSTR(h.diary_no, 1, LENGTH(h.diary_no) - 4) AS dn,
-							   SUBSTR(h.diary_no, -4) AS dy
-						FROM main_casetype_history h
-						WHERE (SUBSTRING_INDEX(h.new_registration_number, '-', 1) = ?
-							   AND CAST(? AS UNSIGNED) BETWEEN (SUBSTRING_INDEX(SUBSTRING_INDEX(h.new_registration_number, '-', 2), '-', -1))
-							   AND (SUBSTRING_INDEX(h.new_registration_number, '-', -1))
-							   AND h.new_registration_year = ?)
-							  AND h.is_deleted = 'f'";
-				$params = [$caseTypeId, $caseNo, $caseYear];
-			}
+					// Using Active Record
+					$query = $this->db->table('main_casetype_history h')
+							->select("h.diary_no, 
+									  SUBSTRING(h.diary_no::text, 1, LENGTH(h.diary_no::text) - 4) AS dn, 
+									  SUBSTRING(h.diary_no::text, LENGTH(h.diary_no::text) - 3) AS dy")
+							->where("split_part(h.new_registration_number, '-', 1)", $caseTypeId)
+							->where("{$caseNo} BETWEEN CAST(split_part(h.new_registration_number, '-', 2) AS INTEGER) 
+												   AND CAST(split_part(h.new_registration_number, '-', 3) AS INTEGER)")
+							->where('h.new_registration_year', $caseYear)
+							->where('h.is_deleted', 'f')
+							->get();
+				}
 
-			if ($optradio == 2) {
-				$diaryNo = $request->getPost('diaryNumber');
-				$diaryYear = $request->getPost('diaryYear');
+				if ($optradio == 'D') {
+					$diaryNo = $request->getPost('diary_number');
+					$diaryYear = $request->getPost('diary_year');
+					
+					
+					$builder = $this->db->table('main');
 
-				$sql = "SELECT diary_no,
-							   SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) AS dn,
-							   SUBSTR(diary_no, -4) AS dy
-						FROM main
-						WHERE SUBSTR(diary_no, 1, LENGTH(diary_no) - 4) = ?
-						  AND SUBSTR(diary_no, -4) = ?";
-				$params = [$diaryNo, $diaryYear];
-			}
+						$builder->select("
+							diary_no,
+							LEFT(diary_no::text, LENGTH(diary_no::text) - 4) AS dn,
+							RIGHT(diary_no::text, 4) AS dy
+						");
 
-		   $query = $db->query($sql, $params);
+						$builder->where("LEFT(diary_no::text, LENGTH(diary_no::text) - 4)", $diaryNo);
+						$builder->where("RIGHT(diary_no::text, 4)", $diaryYear);
 
-		if ($query->getNumRows() >= 1) {
-			return $query->getResultArray();
-		} else {
-			return array();
-		}
+						$query = $builder->get();
+				
+				}
+
+				if ($query->getNumRows() >= 1) {
+					return $query->getResultArray();
+				} else {
+					return [];
+				} 
 	}
 	
 	
@@ -1667,11 +1694,11 @@ class Mentioning_Model extends Model
        
 		$builder = $this->db->table('mention_memo mm');
 		$builder->select('*');
-		$builder->where('mm.diary_no', $d_no.$year);
-		$builder->where('mm.date_of_received', $date);
+		$builder->where('mm.diary_no', $d_no);
+		$builder->where("EXTRACT(YEAR FROM mm.date_of_received) =", $date);
+		//$builder->where('mm.date_of_received', $date);
 		$builder->orderBy('mm.update_time', 'DESC');
-
-		return $builder->get()->getRow();
+        return $builder->get()->getResult();
     }
 	
 	function getmain_data($date, $year, $d_no, $flistype){

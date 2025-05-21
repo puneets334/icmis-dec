@@ -35,12 +35,15 @@
 
                                     <?php
                                     $attribute = array('class' => 'form-horizontal','name' => 'component_search', 'id' => 'component_search', 'autocomplete' => 'off');
-                                    echo form_open(base_url('#'), $attribute);
+                                    echo form_open(base_url("court/CourtMentionMemoController/updateMentionMemo"), $attribute);
                                     ?>
-                                    <?php echo component_html();?>
+                                    <?php echo component_html_mention_meno();?>
+									 
 
-                                    <input type="hidden" class="form-control" id="redirect_url" name="redirect_url" value="" placeholder="Enter redirect url <?=$current_page_url;?>" >
-                                           <center> <button type="submit" class="btn btn-primary" id="submit">Submit</button></center>
+                                     <center> 
+									 <input type='hidden' class="" name="session_id_url" value="<?= $session_id_url; ?>">
+									 <button type="submit" id="view" name="view" class="btn btn-primary">View</button>
+									 <button type="submit" class="btn btn-primary" id="submit">Submit</button></center>
                                     <?php form_close();?>
 
                                     <center><span id="loader"></span> </center>
@@ -114,142 +117,7 @@
             <div class="container" style="margin:0px !important;width:100% !important;">
                 <!-- Main content -->
                 <section class="content ">
-                    <div class="row" style="width: 100% !important;">
-                        <div class="col-xs-12">
-                            <h3 class="box-title">Delete/Update Mention Memo</h3>
-                            <div class="row">
-                                <?php if (!empty($msg_combined)) echo $msg_combined; ?>
-                                <?php if (!empty($msg)) echo $msg; ?>
-
-                            </div>
-                            <?= form_open(base_url("index.php/Mentioning/updateMentionMemo")) ?>
-                            <!---------------- Next Section ---------------->
-                            <div class="box box-success">
-                                
-                                <div class="box-footer">
-                                    <?php if (empty($access)) {
-                                    } else { ?>
-                                    <div class="box-header with-border ">
-                                    <span style="float: left;">
-                                        <h3 class="box-title">Search Court Option : </h3>
-                                        <label class="radio-inline"><input type="radio" name="optradio" id="caseTypebtn" value="1" checked>Case Type</label>
-                                        <label class="radio-inline"><input type="radio" name="optradio" id="diaryNobtn" value="2">Diary No.</label>
-                                    </span>
-
-
-                                </div>
-                                <!-- /.box-header -->
-                                <!-- form start -->
-
-                                <div class="box-body">
-                                    <div id="caseTypeWise">
-                                        <div class="form-group">
-                                            <table class="table">
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <label for="lodgementDate" class="control-label">Case Type</label>
-                                                        <select class="form-control" name="caseType" tabindex="1" id="caseType" required>
-                                                            <option value="">Select</option>
-                                                            <?php
-                                                            foreach ($caseTypes as $caseType) {
-                                                                echo '<option value="' . $caseType['casecode'] . '">' . $caseType['casename'] . '&nbsp;:&nbsp;' . $caseType['skey'] . '</option>';
-                                                            }
-                                                            ?>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <label for="caseNo" class="control-label">Case No.</label>
-
-                                                        <input class="form-control" id="caseNo" name="caseNo" placeholder="Case Number" type="number" maxlength="10">
-                                                    </td>
-                                                    <td>
-                                                        <label for="caseYear" class="control-label">Year</label>
-
-                                                        <select class="form-control" id="caseYear" name="caseYear">
-                                                            <?php
-                                                            for ($year = date('Y'); $year >= 1950; $year--)
-                                                                echo '<option value="' . $year . '">' . $year . '</option>';
-                                                            ?>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-
-                                                        <label for="casediaryDate" class="control-label">Receiving Date</label>
-
-                                                        <input type="date" class="form-control" id="casediaryDate" name="casediaryDate">
-
-
-                                                    </td>
-                                                    <td>
-                                                        &nbsp;&nbsp;<br>
-                                                        <label class="control-label"><input type="radio" name="forListType" value="1" checked><b>Oral Mentioning</b></label>
-                                                        &nbsp;&nbsp;
-                                                        <label class="control-label"><input type="radio" name="forListType" value="2"><b>For Mentioning List</b></label>
-                                                    </td>
-
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div id="diaryNoWise">
-                                        <div class="form-group">
-                                            <table class="table">
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <label for="diaryNumber" class="control-label">Diary No</label>
-
-                                                        <input class="form-control" id="diaryNumber" name="diaryNumber" placeholder="Diary Number" type="number" maxlength="20" required>
-
-
-                                                    </td>
-
-                                                    <td>
-                                                        <label for="diaryYear" class="control-label">Year</label>
-
-                                                        <select class="form-control" id="diaryYear" name="diaryYear">
-                                                            <?php
-                                                            for ($year = date('Y'); $year >= 1950; $year--)
-                                                                echo '<option value="' . $year . '">' . $year . '</option>';
-                                                            ?>
-                                                        </select>
-                                                    </td>
-
-                                                    <td>
-
-                                                        <label for="diaryDate" class="control-label"> Receiving Date</label>
-
-                                                        <input type="date" class="form-control" id="diaryDate" name="diaryDate">
-                                                        <input type='hidden' class="" name="session_id_url" value="<?= $session_id_url; ?>">
-                                                    </td>
-
-                                                    <td>
-                                                        &nbsp;&nbsp;<br>
-                                                        <label class="control-label"><input type="radio" name="diary_forListType" value="1" checked><b>Oral Mentioning</b></label>
-                                                        &nbsp;&nbsp;
-                                                        <label class="control-label"><input type="radio" name="diary_forListType" value="2"><b>For Mentioning List</b></label>
-                                                    </td>
-
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                        <button type="submit" style="width:15%;float:right" id="view" name="view" class="btn btn-block btn-primary">View</button>
-                                    <?php } ?>
-
-                                </div>
-                            </div>
-                            <?= form_close() ?>
-                        </div>
-                    </div>
+                    
 
 
 
@@ -604,85 +472,6 @@ if ($mmData->pdfname == NULL || $mmData->upload_date == NULL)
     <!--<script src="<?= base_url() ?>assets/js/reader_cl.js"></script>-->
 
     <script>
-        $('#caseTypebtn').on('change', function() {
-            //alert( this.value );
-            //$('#caseNo').prop('required',true);
-            //$('#casediaryDate').prop('required',true);
-        });
-
-        // $(".alert").delay(6000).slideUp(200, function() {
-        //     $(this).alert('close');
-        // });
-        $(document).ready(function() {
-            // $("#mmPresentedDate").datepicker({
-            //     format: 'dd-mm-yyyy',
-            //     autoclose:false
-            // });
-
-            // $("#mmDecidedDate").datepicker({
-            //     format: 'dd-mm-yyyy',
-            //     autoclose:false
-            // });
-            $('#diaryNumber').prop("disabled", 'disabled');
-            $('#diaryYear').prop("disabled", 'disabled');
-            $('#diaryNoWise').hide();
-
-
-            $("input[name$='optradio']").click(function() {
-                var searchValue = $(this).val();
-                if (searchValue == 1) {
-                    $('#caseType').removeAttr('disabled');
-                    $('#caseNo').removeAttr('disabled');
-                    $('#caseYear').removeAttr('disabled');
-
-                    $('#diaryNumber').prop("disabled", 'disabled');
-                    $('#diaryYear').prop("disabled", 'disabled');
-
-                    $('#diaryNoWise').hide();
-                    $('#caseTypeWise').show();
-                } else {
-                    $('#caseType').prop("disabled", 'disabled');
-                    $('#caseNo').prop("disabled", 'disabled');
-                    $('#caseYear').prop("disabled", 'disabled');
-
-                    $('#caseTypeWise').hide();
-
-                    $('#diaryNumber').removeAttr('disabled');
-                    $('#diaryYear').removeAttr('disabled');
-
-                    $('#diaryNoWise').show();
-                }
-                // $("div.desc").hide();
-                // $("#"+test).show();
-            });
-            $('#forMentioningList').show();
-            $('#forOralMentioning').show();
-            $("input[name$='forListType']").click(function() {
-                var searchValue = $(this).val();
-                if (searchValue == 1) {
-                    //$('#mmDecidedDate').val($("#ten_cl_date").val());
-                    $('#forMentioningList').show();
-                    $('#forOralMentioning').show();
-                    $('#pJudge').removeAttr('disabled');
-                    $('#causelistType').removeAttr('disabled');
-                    $('#bench').removeAttr('disabled');
-                    $('#itemNo').removeAttr('disabled');
-                } else {
-                    $('#forMentioningList').show();
-                    $('#forOralMentioning').hide();
-
-                    $('#pJudge').prop("disabled", 'disabled');
-                    $('#causelistType').prop("disabled", 'disabled');
-                    $('#bench').prop("disabled", 'disabled');
-                    $('#itemNo').prop("disabled", 'disabled');
-                }
-            });
-            $('#listinngDetails').DataTable({
-                "scrollY": "50px",
-                "scrollCollapse": true,
-                "paging": false
-            });
-
             function confirmBeforeAdd() {
                 var choice = confirm('Do you really want to List The Matter.....?');
                 if (choice === true) {
