@@ -1698,7 +1698,7 @@ class Mentioning_Model extends Model
 		$builder->where("EXTRACT(YEAR FROM mm.date_of_received) =", $date);
 		//$builder->where('mm.date_of_received', $date);
 		$builder->orderBy('mm.update_time', 'DESC');
-        return $builder->get()->getResult();
+        return $builder->get()->getRowArray();
     }
 	
 	function getmain_data($date, $year, $d_no, $flistype){
@@ -1706,7 +1706,7 @@ class Mentioning_Model extends Model
 		$builder = $this->db->table('mention_memo mm');
 		$builder->select('*');
 		$builder->where('mm.diary_no', $d_no.$year);
-		return $builder->get()->getRow();
+		return $builder->get()->getRowArray();
 		
       }
 	  
@@ -1714,7 +1714,7 @@ class Mentioning_Model extends Model
 		  $builder = $this->db->table('master.users u');
 		  $builder->select('*');
 		  $builder->where('u.usercode', $dacode);
-		  return $builder->get()->getRow();
+		  return $builder->get()->getRowArray();
 	  }
 
 

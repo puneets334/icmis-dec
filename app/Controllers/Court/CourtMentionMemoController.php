@@ -341,8 +341,10 @@ class CourtMentionMemoController extends BaseController
 	 
 	 
 	 public function updateMm($id){
-        
-		if ($this->request->getPost()) {
+        print_r($this->request->getPost()); die;
+		
+		
+		/* if ($this->request->getPost()) {
             $access =  $this->model->getAccessDetails(($session->get('dcmis_user_idd')) ? $session->get->userdata('dcmis_user_idd') : $this->request->getPost('session_id_url'));
             $data['access'] = $access;
 
@@ -355,13 +357,11 @@ class CourtMentionMemoController extends BaseController
                 $data['session_id_url'] = $this->request->getPost('session_id_url');
                 $data['msg'] = '<div class="alert alert-success text-center">Updated Successfully !!</div>';
                 return view('Court/CourtMentionMemo/MentioningUpdate', $data);
-            }
-        }
+            } 
+        }*/
     }
 	 
-	 
-	 
-	  public function updateMentionMemo(){
+	public function updateMentionMemo(){
 		  $session = '1';
 		$data['session_id_url'] = session()->get('login')['usercode'];
         if (!empty($this->request->getPost('session_id_url'))) {
@@ -377,16 +377,21 @@ class CourtMentionMemoController extends BaseController
             $data['msg'] = '<div class="alert alert-danger text-center">You are not authorized to view this page</div>';
         }
 
-
         $data['app_name'] = 'MentionMemo';
         $data['caseTypes'] = $this->model->get_case_type_list();
         $diaryNumber = '';
         $data['caseInfo'] = null;
         $data['listingInfo'] = null;
         $data['access'] = $access;
-       
-
-        if (!empty($this->request->getPost('session_id_url'))) {
+        $data['Mentioning_Model'] = $this->model;
+		$data['session_id_url'] = session()->get('dcmis_user_idd');
+		return view('Court/CourtMentionMemo/MentioningUpdate', $data);
+    }
+	
+	
+	public function updateMentionMemo_view(){
+		 $data['Mentioning_Model'] = $this->model;
+		 if (!empty($this->request->getPost('session_id_url'))) {
 
             if ($this->request->getPost('search_type') == 'C') {
                 if ((!empty($this->request->getPost('case_type'))) && (!empty($this->request->getPost('case_number')))) {
@@ -487,18 +492,18 @@ class CourtMentionMemoController extends BaseController
             $data['formData'] = $this->request->getPost();
             $data['session_id_url'] = $this->request->getPost('session_id_url');
             $data['caseInfo'] = $this->model->getCaseDetails($diaryNumber);
-
            //$user = $data ['mm_data'] = $this->model->get_mmData_code($receivedDate, $dy, $dn, $forListType);
            $user = $data ['mm_data'] = $this->model->get_mmData($receivedDate, $dy, $dn, $forListType);
-           $user_code = $data ['user_code'] = $this->model->getmain_data($receivedDate, $dy, $dn, $forListType);
-           $dacode = $user_code->user_id;
-           $user_detail = $data ['user_detail'] = $this->model->getuser_details($dacode);
-           $data['user_id'] = $user->user_id;
-           $data['user_det'] =  $user_detail->name .' (' . $user_detail->empid  .')'; 
+           //$user_code = $data ['user_code'] = $this->model->getmain_data($receivedDate, $dy, $dn, $forListType);
+           //$dacode = $user_code->user_id;
+		   $dacode = session()->get('login')['usercode'];
+		   $user_detail = $data ['user_detail'] = $this->model->getuser_details($dacode);
+		   $data['user_id'] ='1';//$user->user_id;
+           $data['user_det'] =  $user_detail['name'] .' (' . $user_detail['empid']  .')'; 
         
            $msg_combined = ''; 
 
-            if (!empty($bench->pdfname) || !empty($bench->upload_date)) {
+            if (!empty($bench['pdfname']) || !empty($bench['upload_date'])) {
                 $data['session_id_url'] = $_POST['session_id_url'];
                 $msg_combined .= 'Order is already Updated !!'.'<br>';
             }
@@ -519,9 +524,10 @@ class CourtMentionMemoController extends BaseController
 
         }
         $data['session_id_url'] = session()->get('dcmis_user_idd');
-
-        return view('Court/CourtMentionMemo/MentioningUpdate', $data);
-    }
+         
+		return view('Court/CourtMentionMemo/mention_update_meno_view', $data);
+	}
+	
 	 
     
 }
