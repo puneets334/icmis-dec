@@ -786,11 +786,11 @@ class Advocate extends BaseController
     public function bar_detail()
     {
 
-        if (!empty($this->request->getGet('advocate_detail'))) {
-            $advocate_detail = $this->request->getGet('advocate_detail');
-            $adv_no = $this->request->getGet('adv_no');
-            $adv_year = $this->request->getGet('adv_year');
-            $stateID = $this->request->getGet('stateID');
+        if (!empty($this->request->getVar('advocate_detail'))) {
+            $advocate_detail = $this->request->getVar('advocate_detail');
+            $adv_no = $this->request->getVar('adv_no');
+            $adv_year = $this->request->getVar('adv_year');
+            $stateID = $this->request->getVar('stateID');
         }
         $bar_detail = $this->model->bar_detail($advocate_detail, $adv_no, $adv_year, $stateID);
 

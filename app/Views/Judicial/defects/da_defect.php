@@ -28,7 +28,7 @@ legend.scheduler-border {
 
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Judicial >> Defects</h3>
+                                <h3 class="card-title">Judicial >> Defects >> Add Defects</h3>
                             </div>
                             <div class="col-sm-2">
 
@@ -101,7 +101,9 @@ legend.scheduler-border {
         </div>
     </div>
 </section>
-
+<script>
+    var base_url_judicial = "<?= base_url('/Judicial/Defects') ?>"; 
+</script>
 <script src="<?= base_url(); ?>/da_defect/js/menu_js.js"></script>
 <script src="<?= base_url(); ?>/da_defect/jquery/jquery-1.9.1.js"></script>
 <script src="<?= base_url(); ?>/da_defect/calendar/datetimepicker_css.js"></script>

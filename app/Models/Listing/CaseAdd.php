@@ -3,6 +3,7 @@
 namespace App\Models\Listing;
 
 use CodeIgniter\Model;
+use CodeIgniter\Database\RawSql;
 
 class CaseAdd extends Model
 {
@@ -21,34 +22,48 @@ class CaseAdd extends Model
     {
        
         if (empty($ct) || empty($cn) || empty($cy)) {
-            return 0;
+           
+          return 0;
         }
 
-      
+        return $diary_no = get_diary_case_type($ct, $cn, $cy);
+        
 
-        $builder = $this->db->table('main');
-        $builder->select("
-            SUBSTRING(CAST(diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(diary_no AS TEXT)) - 4) as dn,
-            RIGHT(CAST(diary_no AS TEXT), 4) as dy
-        ");
+    //   echo $get_dno = "SELECT substr( diary_no, 1, length( diary_no ) -4 ) as dn, substr( diary_no , -4 ) as dy
+    //   FROM main 
+    //   WHERE (SUBSTRING_INDEX(fil_no, '-', 1) = $ct AND CAST($cn AS UNSIGNED) 
+    //   BETWEEN (SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no, '-', 2),'-',-1)) 
+    //   AND (SUBSTRING_INDEX(fil_no, '-', -1)) AND  if(reg_year_mh=0, YEAR(fil_dt)=$cy, reg_year_mh=$cy) ) 
+    //    or (SUBSTRING_INDEX(fil_no_fh, '-', 1) = $ct
+    //    AND CAST($cn AS UNSIGNED) BETWEEN (SUBSTRING_INDEX(SUBSTRING_INDEX(fil_no_fh, '-', 2),'-',-1)) 
+    //    AND (SUBSTRING_INDEX(fil_no_fh, '-', -1)) AND if(reg_year_fh=0, YEAR(fil_dt_fh)=$cy, reg_year_fh=$cy))";
+    //    die();
 
-        $builder->groupStart()
-            ->where("SPLIT_PART(fil_no, '-', 1)", $ct)
-            ->where("$cn BETWEEN CAST(SPLIT_PART(SPLIT_PART(fil_no, '-', 2), '-', -1) AS INTEGER) AND CAST(SPLIT_PART(fil_no, '-', -1) AS INTEGER)")
-            ->where("(CASE WHEN reg_year_mh = 0 THEN EXTRACT(YEAR FROM fil_dt) = $cy ELSE reg_year_mh = $cy END)")
-            ->groupEnd();
-        $builder->orGroupStart()
-            ->where("SPLIT_PART(fil_no_fh, '-', 1)", $ct)
-            ->where("$cn BETWEEN CAST(SPLIT_PART(SPLIT_PART(fil_no_fh, '-', 2), '-', -1) AS INTEGER) AND CAST(SPLIT_PART(fil_no_fh, '-', -1) AS INTEGER)")
-            ->where("(CASE WHEN reg_year_fh = 0 THEN EXTRACT(YEAR FROM fil_dt_fh) = $cy ELSE reg_year_fh = $cy END)")
-            ->groupEnd();
+        // $builder = $this->db->table('main');
+        // $builder->select("
+        //     SUBSTRING(CAST(diary_no AS TEXT) FROM 1 FOR LENGTH(CAST(diary_no AS TEXT)) - 4) as dn,
+        //     RIGHT(CAST(diary_no AS TEXT), 4) as dy
+        // ");
 
-        $query = $builder->get();
+        // $builder->groupStart()
+        //     ->where("SPLIT_PART(fil_no, '-', 1)", $ct)
+        //     ->where("$cn BETWEEN CAST(SPLIT_PART(SPLIT_PART(fil_no, '-', 2), '-', -1) AS INTEGER) AND CAST(SPLIT_PART(fil_no, '-', -1) AS INTEGER)")
+        //     ->where("(CASE WHEN reg_year_mh = 0 THEN EXTRACT(YEAR FROM fil_dt) = $cy ELSE reg_year_mh = $cy END)")
+        //     ->groupEnd();
+        // $builder->orGroupStart()
+        //     ->where("SPLIT_PART(fil_no_fh, '-', 1)", $ct)
+        //     ->where("$cn BETWEEN CAST(SPLIT_PART(SPLIT_PART(fil_no_fh, '-', 2), '-', -1) AS INTEGER) AND CAST(SPLIT_PART(fil_no_fh, '-', -1) AS INTEGER)")
+        //     ->where("(CASE WHEN reg_year_fh = 0 THEN EXTRACT(YEAR FROM fil_dt_fh) = $cy ELSE reg_year_fh = $cy END)")
+        //     ->groupEnd();
+        // // echo  $builder->getCompiledSelect();
+        // // die();
+
+        // $query = $builder->get();
 
 
-        $result = $query->getRowArray();
-        //return $result ? $result['dn'] . $result['dy'] : 0;
-        return $result ;
+        // $result = $query->getRowArray();
+        // //return $result ? $result['dn'] . $result['dy'] : 0;
+        // return $result ;
     }
     public function list_regular_advance_weekly($diary_numbers_string1)
     {
@@ -2222,8 +2237,12 @@ class CaseAdd extends Model
     }
 
 
-    public function getDiary()
+    public function getDiary($mainhead_query_part)
     {
+        $mainhead = '';
+        if(!empty($mainhead_query_part)){
+            $mainhead = $mainhead_query_part;
+        } 
         return $this->db->query("
             SELECT DISTINCT 
                 val.diary_no,
@@ -2254,14 +2273,13 @@ class CaseAdd extends Model
             INNER JOIN 
                 main m ON val.diary_no = m.diary_no
             WHERE 
-                vacation_list_year = EXTRACT(YEAR FROM CURRENT_DATE)
+                vacation_list_year = EXTRACT(YEAR FROM CURRENT_DATE) $mainhead
             ORDER BY 
                 fixed_order,
                 order_key,
                 main_or_connected ASC
         ")->getResultArray();
     }
-
 
 
     public function logVacationAdvances($diaryNo)
@@ -3147,31 +3165,22 @@ ORDER BY
                                     CASE WHEN v.is_deleted = 't' THEN '(Declined)' ELSE '' END, 
                                     '</font>'
                                 ), '<br/>') AS advocate")
+                ->select('COUNT(1) AS adv_count')
+                ->select(new RawSql("
+            SUM(CASE WHEN v.is_deleted = 't' THEN 1 ELSE 0 END) AS total_declined
+                "))
             ->join('master.bar b', 'b.aor_code = v.aor_code', 'inner')
             ->where('v.diary_no', $diaryNo)
             ->where('v.vacation_list_year', date('Y'))
             ->where('b.if_aor', 'Y')
             ->where('b.isdead', 'N')
             ->groupBy('v.diary_no');
+
+           
         $query = $builder->get();
         $result = $query->getRowArray();
         return $result;
 
-        /*$sql = "SELECT 
-                STRING_AGG(DISTINCT CONCAT(COALESCE(b.name, ''), 
-                '<font color=\"red\" weight=\"bold\">', 
-                
-                '</font>'), '<br/>') AS advocate
-            FROM vacation_advance_list_advocate v 
-            INNER JOIN master.bar b ON b.aor_code = v.aor_code
-            WHERE v.diary_no = ? 
-              AND v.vacation_list_year = EXTRACT(YEAR FROM CURRENT_DATE) 
-              AND b.if_aor = 'Y' 
-              AND b.isdead = 'N' 
-            GROUP BY v.diary_no";
-        $result = $this->db->query($sql, [$diaryNo])->getRowArray();*/
-        // Debugging: Log the result to check its contents
-        //log_message('debug', 'Advocates Query Result: ' . print_r($result, true));
     }
 
 

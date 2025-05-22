@@ -1903,5 +1903,189 @@ c.name as last_u");
         return $query->getResultArray();
     }
 
+    public function getNextHearingDetails($diaryno)
+    {
+        $db = \Config\Database::connect();
+
+        $sql = "
+            SELECT a.diary_no, a.next_dt, a.listed_ia
+            FROM last_heardt a
+            LEFT JOIN master.users b ON a.usercode = b.usercode
+            LEFT JOIN master.usersection c ON b.section = c.id
+            WHERE a.diary_no = ?
+            AND a.next_dt IS NOT NULL
+            AND a.bench_flag = ''
+            AND (a.main_supp_flag = 1 OR a.main_supp_flag = 2)
+
+            UNION
+
+            SELECT a.diary_no, a.next_dt, a.listed_ia
+            FROM heardt a
+            LEFT JOIN master.users b ON a.usercode = b.usercode
+            LEFT JOIN master.usersection c ON b.section = c.id
+            WHERE a.diary_no = ?
+            AND a.next_dt IS NOT NULL
+            AND (a.main_supp_flag = 1 OR a.main_supp_flag = 2)
+        ";
+
+        return $db->query($sql, [$diaryno, $diaryno])->getResultArray();
+    }
+
+    public function getDefectStatus($diaryno, $docid_condition)
+    {
+        $db = \Config\Database::connect();
+
+        $sql = "
+            SELECT diary_no, docd_id, rm_dt,
+                CASE 
+                    WHEN TO_CHAR(rm_dt, 'YYYY-MM-DD') != '' THEN 'Defects cured'
+                    ELSE 'Defects notified'
+                END AS defect_status
+            FROM obj_save_ia
+            WHERE diary_no = ?
+            AND $docid_condition
+        ";
+
+        return $db->query($sql, [$diaryno])->getResultArray();
+    }
+
+    public function getIaDetails($diaryno)
+    {
+        $db = \Config\Database::connect();
+ 
+        $sql = "
+            SELECT 
+                d.*,
+                u1.name AS username,
+                u2.name AS modify_username,
+                u3.name AS disposedby
+            FROM docdetails d
+            LEFT JOIN master.users u1 ON d.usercode = u1.usercode
+            LEFT JOIN master.users u2 ON d.lst_user = u2.usercode
+            LEFT JOIN master.users u3 ON d.last_modified_by = u3.usercode
+            WHERE d.doccode = '8'
+            AND d.diary_no = ?
+            AND d.display = 'Y'
+            ORDER BY d.ent_dt
+        ";
+
+        return $db->query($sql, [$diaryno])->getResultArray();
+    }
+
+    public function getDmsDetails($diaryno)
+    {
+        $db = \Config\Database::connect();
+
+        $sql = "
+            SELECT d.*,
+                TO_CHAR(d.ent_dt, 'DD-MM-YYYY HH12:MI AM') AS entdt,
+                u1.name AS username,
+                u2.name AS modify_username
+            FROM docdetails d
+            LEFT JOIN master.users u1 ON d.usercode = u1.usercode
+            LEFT JOIN master.users u2 ON d.lst_user = u2.usercode
+            WHERE d.doccode != '8'
+            AND d.diary_no = ?
+            AND d.display = 'Y'
+            ORDER BY d.ent_dt
+        ";
+
+        return $db->query($sql, [$diaryno])->getResultArray();
+    }
+
+    public function getIaFullDetails($diary_no, $docd_id)
+    {
+        $db = \Config\Database::connect();
+
+         $sql = "
+            SELECT
+                a.diary_no,
+                a.docd_id,
+                CASE
+                    WHEN d.doccode = 8 THEN 'IA No '
+                    ELSE ' DOC No.'
+                END AS ia_type,
+                rm_dt,
+                b.objdesc,
+                d.*,
+                d2.*,
+                m.*,
+                a.*,
+                u.name
+            FROM obj_save_ia a
+            JOIN docdetails d ON d.docd_id = a.docd_id
+            JOIN master.docmaster d2 ON d2.doccode = d.doccode AND d.doccode1 = d2.doccode1
+            JOIN master.users u ON u.usercode = d.usercode
+            JOIN main m ON m.diary_no = a.diary_no
+            JOIN master.objection b ON a.org_id = b.objcode
+            WHERE a.diary_no = ?
+            AND a.docd_id = ?
+            AND a.display = 'Y'
+        ";
+ 
+        return $db->query($sql, [$diary_no, $docd_id])->getResultArray();
+    }
+
+
+    public function isSensitiveCase($diaryno, $ucode)
+    {
+        $db = \Config\Database::connect();
+
+        $sql = "
+            SELECT diary_no 
+            FROM sensitive_cases 
+            WHERE diary_no = ?
+            AND display = 'Y'
+            AND (
+                EXISTS (
+                    SELECT 1 
+                    FROM master.sensitive_case_users 
+                    WHERE 
+                        ARRAY_POSITION(string_to_array(users_empid, ','), ?) IS NOT NULL
+                )
+            )
+        ";
+
+        $query = $db->query($sql, [$diaryno, $ucode]);
+        return $query->getRowArray(); // or getResult() if expecting multiple rows
+    }
+
+    public function checkAutoDiary($diaryno)
+    {
+        $db = \Config\Database::connect();
+
+        return $db->table('efiled_cases')
+                ->select('diary_no')
+                ->where('diary_no', $diaryno)
+                ->where('display', 'Y')
+                ->where('efiled_type', 'new_case')
+                ->groupStart()
+                    ->where('created_by', 10531)
+                    ->orWhere('created_at >', '2023-07-19') // PostgreSQL treats timestamps directly
+                ->groupEnd()
+                ->get()
+                ->getRowArray(); // use getResult() if expecting multiple rows
+    }
+
+
+    public function getUrgentCategories($diaryno)
+    {
+        $db = \Config\Database::connect();
+
+        return $db->table('special_category_filing s')
+                ->select('s.ref_special_category_filing_id, r.category_name')
+                ->join('master.ref_special_category_filing r', 's.ref_special_category_filing_id = r.id')
+                ->where('s.display', 'Y')
+                ->where('r.display', 'Y')
+                ->where('s.diary_no', $diaryno)
+                ->get()
+                ->getRowArray();
+    }
+
+
+
+
+
+
 
 }

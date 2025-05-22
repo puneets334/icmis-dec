@@ -149,14 +149,7 @@
             $m_f_filno = $row['active_fil_no'];
             $m_f_fil_yr = $row['active_reg_year'];
             $filno_array = explode("-", $m_f_filno);
-            
-            
-            
-            /*if ($filno_array[1] == $filno_array[2]) {
-                $fil_no_print = ltrim($filno_array[1], '0');
-            } else {
-                $fil_no_print = ltrim($filno_array[1], '0') . "-" . ltrim($filno_array[2], '0');
-            }*/
+           
 
             $fil_no_print = '';
             if (isset($filno_array[1]) && !empty($filno_array[1])) {
@@ -174,7 +167,7 @@
             if ($row['reg_no_display'] == "") {
                 $comlete_fil_no_prt = "Diary No. " . substr_replace($row['diary_no'], '-', -4, 0);
             }else {
-                //$comlete_fil_no_prt = $row['short_description']."-".$fil_no_print."/".$m_f_fil_yr;
+               
                 $comlete_fil_no_prt = $row['reg_no_display'];
             }
             
@@ -216,7 +209,67 @@
                     $casetype_displ = $row['active_casetype_id'];
                 else if ($row['casetype_id'] != 0)
                     $casetype_displ = $row['casetype_id'];
-            }    
+            }  
+            
+            $section_ten_q = "SELECT tentative_section(" . $row["diary_no"] . ") as section_name";
+            $section_ten_rs = $printModel->get_section_name($row["diary_no"]);
+           
+            if (count($section_ten_rs) > 0) {
+                $row['section_name'] = $section_ten_rs["section_name"];
+            } else {
+                $row['section_name'] = '';
+            }
+
+            $cate_old_id1 = "";
+            $diary_no = $row["diary_no"];
+            
+            $res_sm = get_mul_category($row["diary_no"], $flag = null);
+            if (!empty($res_sm)) {
+                $cate_old_id1 = $res_sm;
+            }
+            $last_order_query = $last_order = "";
+
+            $last_order_query = case_verification_report_popup_inside_details($row["diary_no"]);
+            if (count($last_order_query) > 0) {
+                $last_order_url = $last_order_query;
+
+                $rjm = explode("/", $last_order_url[0]['pdfname']);
+                if ($rjm[0] == 'supremecourt') {
+                    $last_order = 'Last ROP Dated : <a href="../../jud_ord_html_pdf/' . $last_order_url[0]['pdfname'] . '" target="_blank">' . date("d-m-Y", strtotime($last_order_url[0]['orderdate'])) . '</a>';
+                } else {
+                    $last_order = 'Last ROP Dated : <a href="../../judgment/' . $last_order_url[0]['pdfname'] . '" target="_blank">' . date("d-m-Y", strtotime($last_order_url[0]['orderdate'])) . '</a>';
+                }
+            }
+   
+
+            $doc_desrip = "";
+            $listed_ias = $row['listed_ia'];
+            if (is_string($listed_ias)) {
+                $listed_ia = rtrim(trim($listed_ias), ",");
+            } else {
+                $listed_ia = ''; // Or some other appropriate default value
+            }
+           
+            if ($listed_ias) {
+                $listed_ia = "I.A. " . str_replace(',', '<br>I.A.', $listed_ia) . " In<br>";
+
+                $rs_dc = $printModel->getDocnumDocYear($row["diary_no"]);
+                if (count($rs_dc) > 0) {
+                    foreach ($rs_dc as $row_dc) {
+                        $doc_desrip .= "<tr><td></td><td></td><td style='vertical_align:top; text-align: left; padding-left:1px; padding-right:15px; font-weight:bold; color:blue;' valign='top'>";
+                        $doc_desrip .= "IA No. " . $row_dc['docnum'] . "/" . $row_dc['docyear'] . " - " . $row_dc['docdesp'];
+                        $doc_desrip .= "</td><td></td></tr>";
+                    }
+                }
+
+
+            }
+
+            $is_nmd_case = "";
+            if ($row['is_nmd'] == 'Y') {
+                $is_nmd_case = "<BR><span style='color:RED;'><U>LIST ON NMD</U></span>";
+            }
+
 
             $output .= "<tr><td>$print_brdslno</td><td rowspan=2>" . $is_connected . "$comlete_fil_no_prt" . "<br/>Dno. " . $row['diary_no'] . "<br/>" . $row['name'] . " (" . $row['section_name'] . ")<br/>" . $cate_old_id1 . $sensitive_case . $is_nmd_case . "<br/>" . $last_order . "</td><td>" . $pet_name . "</td><td>" . $padvname;
                     $party_petioner_contact = "";
@@ -234,6 +287,7 @@
                     $output .= "<tr><td></td><td></td><td";
 
                     $output .= ">" . $res_name . "</td><td>" . $radvname;
+                    
                     if ($impldname) {
                         $output .= "<br/>" . $impldname;
                     }
@@ -246,18 +300,108 @@
                         $output .= $party_respondent_contact;
                     }
                     $output .= "</td></tr>";  
+                    
+                    
                     if($mainhead == "M" OR $mainhead == "F"){
                         $output .= "<tr><td colspan='2'></td><td colspan='2' style='font-weight:bold; color:blue;'>";
-                        //$output .= $row['section_name'];
-                        //if($jcd_rp != "117,210" AND $jcd_rp != "117,198"){
-                            $output .= "{".$row['purpose']."} <br>";
+                        
+                        $output .= "{".$row['purpose']."} <br>";
                         if($row['c_status'] == 'D'){
                             $output .= "<font color=red>ALERT : DISPOSED CASE LISTED</font><br>";
                         }
+        
+                      
+                        $checked_notbefore_verify = check_list_before($diary_no, 'N');
+                        $sql_sensitive = "SELECT diary_no, reason FROM sensitive_cases WHERE diary_no = '" . $row["diary_no"] . "' and display = 'Y' ";
+                        $rs_sensitive = is_data_from_table('sensitive_cases', ['diary_no' => $row["diary_no"], 'display' => 'Y'], 'diary_no', 'R');
+                       
+                        $sensitive_case = "";
+                        if (!empty($rs_sensitive)) {
+                            $sensitive_row=$rs_sensitive;
+                            $output .= "<BR><span style='color:red;'>SENSITIVE : </span>".$sensitive_row['reason'];
+                        }
+                        if($coram != 0 and $coram != ''){
+                        
+                            $output .= "<br/> CORAM : ".f_get_judge_names($coram);
+                            $sql_not_before_reason = "SELECT res_add FROM not_before_reason WHERE res_id = '" . $row["list_before_remark"] . "' ";
+                            $rs_not_before_reason = $printModel->get_not_before_reason($row["list_before_remark"]);
+                            $not_before_reason = "";
+                            if (count($rs_not_before_reason) > 0) {
+                                $not_before_reason_row=$rs_not_before_reason;
+                                $output .= " SOURCE : ".$not_before_reason_row['res_add']." ";
+                            }
+        
+                            $output .= "</font>";
+                        }
+                     
+                        if($checked_notbefore_verify){
+                            if(f_get_judge_names($checked_notbefore_verify))
+                                $output .= "<br/> <font color=red>Not To List Before ".f_get_judge_names($checked_notbefore_verify)."</font>";
+                        }
+                      
+                        $rs_lct = $printModel->get_lowerct_casetype($row["diary_no"]);
+                        if(count($rs_lct)>0){
+                            $output .= "<br/>";
+                            foreach($rs_lct as $ro_lct){
+                                $output .= "<br> IN ".$ro_lct['type_sname']." - ".$ro_lct['lct_caseno']."/".$ro_lct['lct_caseyear'].", ";
+                            }                    
+                       }
+                        
+                        $output .= "</td></tr>";
+                      
+                        if($part_no == "50" OR $part_no == "51"){
+                            
+                        }
+                        else{
+                            $output .= $doc_desrip;
+                            $str_brdrem = get_cl_brd_remark($diary_no);
+                            $x60 = 150;
+                            $lines = explode("\n", wordwrap($str_brdrem, $x60));
+                            for ($k = 0; $k < count($lines); $k++) {
+                                $output .= "<tr><td></td><td></td><td style='vertical_align:top; text-align: left; padding-left:1px; padding-right:15px; font-weight:bold; color:blue;' valign='top'>";
+                                $output .= $lines[$k];
+                                $output .= "</td><td></td></tr>";
+                            }
+                            if($relief){
+                                $output .= "<tr><td></td><td></td><td style='vertical_align:top; text-align: left; padding-left:1px; padding-right:15px; font-weight:bold; color:blue;' valign='top'>";
+                                $output .= "Relief : ".$relief;
+                                $output .= "</td><td></td></tr>";
+                            }
+                        }
+        
+                               
+                                $str_gateinfo = get_gateinfo($diary_no);
+        
+                                $x60 = 150; 
+                                $linesgateinfo = explode("\n", wordwrap($str_gateinfo, $x60));
+                                for ($k = 0; $k < count($linesgateinfo); $k++) {
+                                    $output .= "<tr><td></td><td></td><td style='vertical_align:top; text-align: left; padding-left:1px; padding-right:15px; font-weight:bold; color:blue;' valign='top'>";
+                                    $output .= $linesgateinfo[$k];
+                                    $output .= "</td><td></td></tr>";
+                                }
+                             
+        
+                        $get_last_listed_before_judge_code = "";
+                        $get_last_listed_before_judge_code = get_last_hearing_judge_before_court_code($row["diary_no"], $list_dt);
+        
+                        if(!empty($get_last_listed_before_judge_code)){
+                            $output .= "<tr><td></td><td></td><td style='vertical_align:top; text-align: left; padding-left:1px; padding-right:15px; font-weight:bold; color:blue;' valign='top'>";
+                            $output .= "<br/>Last Listed Before Hon'ble Judge : ".f_get_all_judges_names_by_code($get_last_listed_before_judge_code)." ";
+                            $output .= "</td><td></td></tr>";
+                        }
+                        
+                     
+        
+                        if($row['lastorder'] != ''){
+                        $output .= "<tr><td></td><td></td><td style='vertical_align:top; text-align: left; padding-left:1px; padding-right:15px; font-weight:bold; color:blue;' valign='top'>";
+                        $output .= "<br/>Last Order :".$row['lastorder'];    
+                        $output .= "</td><td></td></tr>";
+        
+                        }
+        
+                    }
 
-                         $output .= "</td></tr>";
-                    }    
-                        $output .= "<tr><td style='border-bottom:2px dotted #999999; padding-bottom:1px; size : 1px; height:1px;' colspan=4></td></tr>";            
+                    $output .= "<tr><td style='border-bottom:2px dotted #999999; padding-bottom:1px; size : 1px; height:1px;' colspan=4></td></tr>";            
                     echo $output;
                     $output = "";
             

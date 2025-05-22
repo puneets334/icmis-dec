@@ -80,12 +80,14 @@
 				type: 'POST',
 				url: base_url+"/Reports/Filing/Report/get_defective_matters_not_listed",
 				beforeSend: function (xhr) {
+					$("#view").prop('disabled', true);
 					$("#result1").html('<div style="margin:0 auto;margin-top:20px;width:15%"><img src="' + base_url + '/images/load.gif"/></div>');
 				},
 				data:{days:$('#days').val(),section:$('#section').val(),CSRF_TOKEN: CSRF_TOKEN_VALUE}
 			})
 			.done(function(msg){
 				updateCSRFToken();
+				$("#view").prop('disabled', false);
 				$("#result1").html(msg);
 				$("#result2").html("");
 				if(val=='D')
@@ -96,6 +98,7 @@
 			})
 			.fail(function(){
 				updateCSRFToken();
+				$("#view").prop('disabled', false);
 				alert("ERROR, Please Contact Server Room"); 
 			});
 	}

@@ -167,9 +167,7 @@ class Report extends BaseController
 
     public function diary_search()
     {
-
         extract($_POST);
-        
         $ReportModel = new ReportModel();
         $data['from_date'] = (!empty($this->request->getPost('from_date'))) ? date('Y-m-d',strtotime($this->request->getPost('from_date'))) : '';
         $data['to_date'] = (!empty($this->request->getPost('to_date'))) ?   date('Y-m-d',strtotime($this->request->getPost('to_date'))) : '';
@@ -182,6 +180,8 @@ class Report extends BaseController
         $data['diary_year'] = $this->request->getPost('diary_year');
         $data['status'] = $this->request->getPost('ddl_status');
         $data['ddl_party_type'] = $this->request->getPost('ddl_party_type');
+        $data['is_category'] = $is_category= $this->request->getPost('is_category')??0;
+        
         $ddl_party_type = $this->request->getPost('ddl_party_type');
         $csps = $this->request->getPost('csps');
         $data['cause_title'] = $cause_title = !empty($this->request->getPost('cause_title')) ? strtoupper($this->request->getPost('cause_title')) : '';
@@ -215,10 +215,17 @@ class Report extends BaseController
             echo "3@@@" . $response_validation;
             exit();
         }
-        if (!empty($data)) {
-            if ($csps == 'CS') {
+        if(!empty($data) && $is_category == 1){
 
-                if ($ddl_party_type == 'All') {
+            $data['category_result'] = $ReportModel->getCategoryWiseStats($data);            
+            $result_view = view("Reports/filing/category_wise_stats", $data);
+            echo '1@@@' . $result_view;
+                exit();
+        }
+
+        else if (!empty($data)) {
+
+            if ($ddl_party_type == 'All') {
                     $data['parties'] = ['pet_name' => $cause_title, 'res_name' => $cause_title];
                 } else if ($ddl_party_type == 'P') {
                     $data['parties'] = ['pet_name' => $cause_title];
@@ -249,9 +256,18 @@ class Report extends BaseController
                 echo '1@@@' . $result_view;
                 exit();
             }
-        }
     }
 
+    public function getcategory_wisedetails()
+    {
+        $data['submaster_id'] = $this->request->getVar('submaster_id');
+        $data['from'] = $this->request->getVar('from');
+        $data['to'] = $this->request->getVar('to');
+        $ReportModel = new ReportModel();
+        $data['category_wise_data'] = $ReportModel->getCategoryWiseDetails($data);    
+        return view('Reports/filing/category_wise_details', $data);
+    }
+    
     public function caveat_search()
     {
         $ReportModel = new ReportModel();

@@ -555,7 +555,7 @@ class DefectModel extends Model
     {
         // Build the query
         $builder = $this->db->table('obj_save a');
-        $builder->select('a.org_id, b.objdesc AS obj_name, a.rm_dt, a.remark, STRING_AGG(b.mul_ent, \',\') AS mul_ent');
+        $builder->select('a.org_id, b.objdesc AS obj_name, a.rm_dt, a.remark, STRING_AGG(a.mul_ent, \',\') AS mul_ent');
         $builder->join('master.objection b', 'a.org_id = b.objcode', 'inner');
         $builder->where('a.diary_no', $diary_no);
         $builder->where('a.display', 'Y');
@@ -589,6 +589,17 @@ class DefectModel extends Model
         return $query->getNumRows();
         // Fetch the result
 
+    }
+
+    public function getUserSection($ucode)
+    {
+        $builder = $db->table('master.users u');
+        $builder->select('*');
+        $builder->join('master.usersection us', 'u.section=us.id');
+        $builder->where('u.usercode', $ucode);
+        $builder->where('u.display', 'Y');
+        $check_section_rs = $builder->get();
+        return $check_section_rs->getRowArray();
     }
 
 

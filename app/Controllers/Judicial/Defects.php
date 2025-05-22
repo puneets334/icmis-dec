@@ -20,8 +20,7 @@ class Defects extends BaseController
     }
 
     public function index() {
-        $data =[];
-        
+        $data =[];        
         return view('Judicial/defects/da_defect', $data);
     }
 
@@ -660,6 +659,200 @@ class Defects extends BaseController
     }
     
 
+    public function remove_defects()
+    {           
+        $data =[];        
+        return view('Judicial/defects/obj_cl', $data);
+    }
+
+    public function get_obj_cl_dup()
+    {
+        $request = \Config\Services::request();        
+        $ucode = session()->get('login')['usercode'];
+        $dairy_no = $request->getGet('d_no').$request->getGet('d_yr');
+        $result_casetype = $this->DefectsModel->get_result_casetype($dairy_no);              
+        if(!empty($result_casetype) && count($result_casetype)>0)
+        {
+            $result_casetype = $result_casetype['casetype_id'];
+            $check_section_rs = $this->DefectsModel->get_check_section_rs($ucode);
+            if(!empty($check_section_rs) && count($check_section_rs)>0) 
+            {
+                $casetype = array('9', '10', '19', '20', '25', '26', '39');
+                if (!in_array($result_casetype, $casetype)) {
+                    echo '<div style="text-align: center"><h3>Defects can be updated in RP/CUR.P/CONT.P./MA</h3></div>';
+                    exit();
+                }
+                $da=get_da($dairy_no);
+                if($da!=$ucode){
+                    echo '<div style="text-align: center"><h3>Defects can be updated by concerned Dealing Assistant</h3></div>';
+                    exit();
+                }
+            }        
+        }
+        else {
+                 echo '<div style="text-align: center"><b>Diary No. Not Found</b></div>';
+                 exit();                        
+        }
+
+        echo $this->get_refiling_report($request);
+        
+        echo $this->get_objection($request);
+
+    }
+
+    private function get_objection($request){
+        $ucode = session()->get('login')['usercode'];
+        $data =[];
+        $diary_no = $request->getGet('d_no').$_REQUEST['d_yr'];
+        $data['w_wo_dn']='';
+        
+        $data['diary_no'] = $diary_no;
+        $data['diary_no_display'] = $request->getGet('d_no').'/'.$_REQUEST['d_yr'];
+        $data['res'] = $this->DefectsModel->get_causetitle_qr($diary_no);
+        $data['w_wo_dn'] = " and a.diary_no='$diary_no'";
+        $data['def_notify'] = "SELECT MIN(save_dt::date) AS save_dt,
+                                MIN(save_dt::date) AS df,MIN(rm_dt::date) AS rm_dt
+                                FROM obj_save
+                                WHERE diary_no = '$diary_no' AND display = 'Y'";
+        $data['softcopy_user_qr']= "select distinct master.usercode from specific_role where display='Y' and flag='S' and usercode='$ucode'";                         
+        $data['check_fil_trap'] = "select remarks, d_to_empid, usercode,name from fil_trap f join master.users u on f.d_to_empid=u.empid where diary_no='$diary_no' and remarks='FDR -> SCR'";
+        $data['softcopy_def'] = "SELECT *  FROM obj_save WHERE diary_no = '$diary_no' 
+                                    AND org_id = '10193' AND display = 'Y' AND rm_dt IS NULL";
+        
+        $c_date=date('Y-m-d');
+        $refil_date =date('Y-m-d');
+        $data['get_no_of_days_qry'] = "SELECT no_of_days  FROM defect_policy 
+                                    WHERE master_module = '1' 
+                                    AND (
+                                            ('$c_date' BETWEEN from_date AND to_date)
+                                            OR (from_date <= '$c_date' AND to_date IS NULL)
+                                        )";
+        $data['find_doc_qry'] = "select * from docdetails where diary_no='$diary_no' and doccode=8 and doccode1='226' and display='Y'";                                
+        $data['res_wdn'] = $this->DefectsModel->get_res_wdn($data['w_wo_dn']);  
+        
+        
+        return view('Judicial/defects/get_objection', $data);    
+
+    }
     
+    private function get_refiling_report($request)
+    {        
+        $data =[];
+        $diary_no = $request->getGet('d_no').$_REQUEST['d_yr'];
+        $data['diary_no'] = $diary_no;
+        $data['diary_no_display'] = $request->getGet('d_no').'/'.$_REQUEST['d_yr'];
+
+        $data['rs'] = $this->DefectsModel->get_rs_res($diary_no);  
+        $data['get_no_of_days'] = 0;$data['nextdate']='';
+        if(!empty($data['rs']) && count($data['rs'])>0){
+            foreach($data['rs'] as $result)
+            {
+                $cause_title=$result['cause_title'];
+                $diary_date=$result['diary_date'];
+                $def_notify_date=$result['defect_date'];
+                $df=$result['df'];
+            }
+            if($def_notify_date!=null) 
+            {
+                $c_date = date('Y-m-d');
+                $data['res_no_of_days'] = $this->DefectsModel->get_no_of_days_qr($c_date);  
+                $days_to_add = isset($data['res_no_of_days']) ? (int)$data['res_no_of_days'] : 0;
+              
+                $i=0;                
+                //$def_rem_max_date=date(date("Y-m-d", strtotime($def_notify_date)) . " +".$i."days");
+                //$def_rem_max_date = date('Y-m-d', strtotime($def_notify_date . ' + ' . @$data['res_no_of_days'] . ' days'));
+                $date = new \DateTime($def_notify_date);
+                $date->modify("+{$days_to_add} days");
+
+                // Format final date (choose Y-m-d or Y-m-d H:i:s)
+                $def_rem_max_date = $date->format('Y-m-d');
+                $data['nextdate'] = $this->next_date($def_rem_max_date, 1);                
+            }
+        }
+
+        $data['ia'] = $this->DefectsModel->get_ia($diary_no);
+        $refiling=0;
+        if(!empty($ia) && count($ia)>0){
+            foreach($ia as $row){
+                if($row['doccode1'] == 226){
+                    $refiling = 1;                        
+                }
+            }
+        }
+        
+        $data['causetitle'] = $this->get_causetitle($diary_no); 
+
+        
+        return view('Judicial/defects/get_refiling_report', $data);
+
+    }
+
+    function get_causetitle($diary_no){
+        $cause_title='';
+        $cause_title_arr = $this->DefectsModel->get_causetitle_qr($diary_no);                
+        if(!empty($cause_title_arr)){
+            $cause_title=$cause_title.$cause_title_arr['pet_name'];
+            if($cause_title_arr['pno']==2){
+                $cause_title=$cause_title."<font color='blue'> AND ANR </font>";
+            }
+            else if($cause_title_arr['pno']>2){
+                $cause_title=$cause_title."<font color='blue'> AND ORS </font>";
+            }
+            $cause_title=$cause_title."<font color=blue> VS </font>".$cause_title_arr['res_name'];
+            if($cause_title_arr['rno']==2){
+                $cause_title=$cause_title."<font color='blue'> AND ANR </font>";
+            }
+            else if($cause_title_arr['rno']>2){
+                $cause_title=$cause_title."<font color='blue'> AND ORS </font>";
+            }
+        }
+        return $cause_title;
+    }
+
+    function is_holiday($date)
+    {
+        $holiday = $this->DefectsModel->get_holiday($date);
+        if(!empty($holiday) && count($holiday)>0)        
+            return 1;
+        else
+            return 0;        
+    }
+    function next_date($date,$day)
+    {
+        $nxt_dt = $date;
+        $count=1;
+        while($count<=$day)
+        {
+            $ch = $this->is_holiday($nxt_dt);
+            
+            
+            if($ch==1)
+            {
+            $nxt_dt = date('Y-m-d',strtotime($nxt_dt.'+1day'));
+                continue;
+            }
+            else
+            {
+                if($count==$day){
+                    return $nxt_dt;
+                }
+                $count++;
+            
+                $nxt_dt = date('Y-m-d',strtotime($nxt_dt.'+1day'));
+                echo "next date is ".$nxt_dt;
+            }
+        }
+    }    
+
+    public function incomplete_filtrap() 
+    {   
+        $data =[];             
+        $data['ucode'] = session()->get('login')['usercode'];
+        $data['empid'] = session()->get('login')['empid'];
+        $data['emp_name_login'] =  session()->get('login')['name'];
+        //echo "<pre>"; print_r(session()->get());die;       
+        $data['select_rs'] = $this->DefectsModel->get_efiling_rs($data['empid']);         
+        return view('Judicial/defects/incomplete_filtrap', $data);
+    }
     
 }

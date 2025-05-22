@@ -238,7 +238,7 @@ class Similarity extends BaseController
                         if (!empty($chk_advocate)){
                             foreach ($chk_advocate as $row1){
                                 $advocate_data_update = [
-                                    'adv'=>"[caveat]",
+                                    'adv'=>"trim(concat(adv,' [caveat]'))",
                                     'updated_on' => date("Y-m-d H:i:s"),
                                     'updated_by' => session()->get('login')['usercode'],
                                     'updated_by_ip' => getClientIP(),

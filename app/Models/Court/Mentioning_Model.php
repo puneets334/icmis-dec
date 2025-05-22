@@ -1209,74 +1209,101 @@ class Mentioning_Model extends Model
     }
 
     function get_mmData($date, $year, $d_no, $flistype){
+            
+			$builder = $this->db->table('mention_memo mm');
 
-		$this->db->distinct();
-		$this->db->select('r.id roster_id, session, r.courtno, mm.diary_no, mm.date_on_decided, rj.judge_id, j.jname, j.jcode, mm.date_of_received,
-                             mm.m_brd_slno, mm.spl_remark, `hd`.`mainhead`,`hd`.`board_type`,mm.diary_no, mm.id, mm.date_for_decided, mm.pdfname,
-                             mm.upload_date');
-		$this->db->from('mention_memo mm');
-		$this->db->join('roster r', 'mm.m_roster_id = r.id', 'inner');
-		$this->db->join('roster_judge rj', 'r.id = rj.roster_id', 'inner');
-		//$this->db->join('cl_printed cp', 'r.id=cp.roster_id');
-		$this->db->join('roster_bench rb', 'r.bench_id=rb.id', 'inner');
-		$this->db->join('master_bench mb', 'rb.bench_id=mb.id', 'inner');
-		$this->db->join('judge j', 'rj.judge_id = j.jcode', 'inner');
-		$this->db->join('heardt hd', 'hd.diary_no  = mm.diary_no', 'left');
-		$this->db->WHERE('mm.diary_no', $d_no.$year);
-		$this->db->WHERE('mm.date_of_received', $date);
+			$builder->distinct();
+			$builder->select('
+				r.id AS roster_id,
+				session,
+				r.courtno,
+				mm.diary_no,
+				mm.date_on_decided,
+				rj.judge_id,
+				j.jname,
+				j.jcode,
+				mm.date_of_received,
+				mm.m_brd_slno,
+				mm.spl_remark,
+				hd.mainhead,
+				hd.board_type,
+				mm.id,
+				mm.date_for_decided,
+				mm.pdfname,
+				mm.upload_date
+			');
 
-		if($flistype == 1){
-			$where = "mm.m_roster_id is not NULL";
-			$this->db->WHERE($where);
-		}
-		//->WHERE('rj.judge_id', 254)
-		return $this->db->get()->row();
-		//echo $this->db->last_query();
+			$builder->join('master.roster r', 'mm.m_roster_id = r.id', 'inner');
+			$builder->join('master.roster_judge rj', 'r.id = rj.roster_id', 'inner');
+			// $builder->join('cl_printed cp', 'r.id=cp.roster_id', 'inner'); // Commented out as in original
+			$builder->join('master.roster_bench rb', 'r.bench_id = rb.id', 'inner');
+			$builder->join('master.master_bench mb', 'rb.bench_id = mb.id', 'inner');
+			$builder->join('master.judge j', 'rj.judge_id = j.jcode', 'inner');
+			$builder->join('heardt hd', 'hd.diary_no = CAST(mm.diary_no AS INTEGER)', 'left', false);
+
+			$builder->where('mm.diary_no', $d_no);
+			$builder->where("EXTRACT(YEAR FROM mm.date_of_received) =", $date);
+
+			if ($flistype == 1) {
+				$builder->where('mm.m_roster_id IS NOT NULL', null, false);
+			}
+
+           //echo  $builder->getCompiledSelect();die;
+
+			return $builder->get()->getRowArray();
+		
 	}
+	
+	
 	function UpdateMmData($data){
-		$this->db->trans_start(); //trans start
+		
+		  $this->db->transStart(); 
 
-		$mmCurrentRecord = $this->db->select('*')->from('mention_memo')->where('id',$data['id'])->get()->row_array();
+		  $mmCurrentRecord = $this->db->table('mention_memo')
+								  ->where('id', $data['id'])
+								  ->get()
+								  ->getRowArray();
 
-		$array = array(
-			'event_type' => 'U',
-			'ipaddress' => $_SERVER['REMOTE_ADDR'],
-			'update_user' => $data['session_id_url'],
-			'action_perform_on' => date("Y-m-d H:i:s"),
-		);
+			if (!$mmCurrentRecord) {
+				return false; 
+			}
 
-		$oldmmdata = array_merge($mmCurrentRecord,$array);
+		   $historyData = array_merge($mmCurrentRecord, [
+				'event_type'        => 'U',
+				'ipaddress'         => $_SERVER['REMOTE_ADDR'],
+				'update_user'       => $data['session_id_url'],
+				'action_perform_on' => date("Y-m-d H:i:s")
+			]);
 
+		$inserted = $this->db->table('mention_memo_history')->insert($historyData);
 
-		if($this->db->insert('mention_memo_history', $oldmmdata)){
-			//echo $this->db->last_query(); exit;
-			$array = array(
+		if ($inserted) {
+			$updateData = [
 				'date_of_received' => $data['mmReceivedDate'],
-				'date_on_decided' => $data['mmPresentedDate'],
-				'date_for_decided' =>$data['mmDecidedDate'],
-				'spl_remark' => $data['remarks'],
-				'm_brd_slno' => $data['itemNo'],
-				'm_roster_id' => $data['bench'],
-				'update_time' => date("Y-m-d H:i:s")
-			);
+				'date_on_decided'  => $data['mmPresentedDate'],
+				'date_for_decided' => $data['mmDecidedDate'],
+				'spl_remark'       => $data['remarks'],
+				'm_brd_slno'       => $data['itemNo'],
+				'm_roster_id'      => $data['bench'],
+				'update_time'      => date("Y-m-d H:i:s")
+			];
 
-			//print_r($oldmmdata); exit;
-			$this->db->set($array)->where('id', $data['id'])->update('mention_memo');
-			//echo $this->db->last_query(); exit;
-
-			if ($this->db->trans_status() === FALSE)
-			{
-				$this->db->trans_rollback();
-			}
-			else
-			{
-				$this->db->trans_commit();
-				return true;
-			}
-
+			$this->db->table('mention_memo')
+			   ->where('id', $data['id'])
+			   ->update($updateData);
 		}
 
-	}
+      $this->db->transComplete(); 
+
+		if ($this->db->transStatus() === false) {
+			return false;
+		}
+
+		return true; 
+   }
+   
+   
+   
 	function DeleteMmData($data){
 		$mmCurrentRecord = $this->db->select('*')->from('mention_memo')->where('id',$data['id'])->get()->row_array();
 
@@ -1306,9 +1333,17 @@ class Mentioning_Model extends Model
 	}
 
 	function getAccessDetails($id){
-		$array = array('usertype'=>4,'section'=>11, 'display'=>'Y', 'usercode'=>$id);
-		return $this->db->get_where('users',$array)->result();
-		//$this->db->get('users');
+		$conditions = [
+			//'usertype' => 4,
+			//'section'  => 11,
+			//'display'  => 'Y',
+			'usercode' => $id
+		];
+
+		return $this->db->table('master.users')
+				  ->where($conditions)
+				  ->get()
+				  ->getResult();
 	}
 	
     public function advocate_by_diary_number($dno) 
@@ -1601,6 +1636,87 @@ class Mentioning_Model extends Model
         }
         return $results[0]?? '';
     }
+	
+	
+	function get_diary_details($caseTypeId=null,$caseNo=null,$caseYear=null,$diaryNo=null,$diaryYear=null) {
+			$request = \Config\Services::request();
+			$optradio = $request->getPost('search_type');
+			$sql = "";
+			$params = [];
+
+			if ($optradio == 'C') {
+					$caseTypeId = $request->getPost('case_type');
+					$caseNo = $request->getPost('case_number');
+					$caseYear = $request->getPost('case_year');
+
+					// Using Active Record
+					$query = $this->db->table('main_casetype_history h')
+							->select("h.diary_no, 
+									  SUBSTRING(h.diary_no::text, 1, LENGTH(h.diary_no::text) - 4) AS dn, 
+									  SUBSTRING(h.diary_no::text, LENGTH(h.diary_no::text) - 3) AS dy")
+							->where("split_part(h.new_registration_number, '-', 1)", $caseTypeId)
+							->where("{$caseNo} BETWEEN CAST(split_part(h.new_registration_number, '-', 2) AS INTEGER) 
+												   AND CAST(split_part(h.new_registration_number, '-', 3) AS INTEGER)")
+							->where('h.new_registration_year', $caseYear)
+							->where('h.is_deleted', 'f')
+							->get();
+				}
+
+				if ($optradio == 'D') {
+					$diaryNo = $request->getPost('diary_number');
+					$diaryYear = $request->getPost('diary_year');
+					
+					
+					$builder = $this->db->table('main');
+
+						$builder->select("
+							diary_no,
+							LEFT(diary_no::text, LENGTH(diary_no::text) - 4) AS dn,
+							RIGHT(diary_no::text, 4) AS dy
+						");
+
+						$builder->where("LEFT(diary_no::text, LENGTH(diary_no::text) - 4)", $diaryNo);
+						$builder->where("RIGHT(diary_no::text, 4)", $diaryYear);
+
+						$query = $builder->get();
+				
+				}
+
+				if ($query->getNumRows() >= 1) {
+					return $query->getResultArray();
+				} else {
+					return [];
+				} 
+	}
+	
+	
+	function get_mmData_code($date, $year, $d_no, $flistype){
+       
+		$builder = $this->db->table('mention_memo mm');
+		$builder->select('*');
+		$builder->where('mm.diary_no', $d_no);
+		$builder->where("EXTRACT(YEAR FROM mm.date_of_received) =", $date);
+		//$builder->where('mm.date_of_received', $date);
+		$builder->orderBy('mm.update_time', 'DESC');
+        return $builder->get()->getResult();
+    }
+	
+	function getmain_data($date, $year, $d_no, $flistype){
+		
+		$builder = $this->db->table('mention_memo mm');
+		$builder->select('*');
+		$builder->where('mm.diary_no', $d_no.$year);
+		return $builder->get()->getRow();
+		
+      }
+	  
+	  function getuser_details($dacode){
+		  $builder = $this->db->table('master.users u');
+		  $builder->select('*');
+		  $builder->where('u.usercode', $dacode);
+		  return $builder->get()->getRow();
+	  }
+
 
 
 

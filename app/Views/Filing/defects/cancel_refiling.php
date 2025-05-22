@@ -320,7 +320,7 @@
 														
 														$check_if_bo = $dModel->checkIfBO($ucode);
 
-														if ($check_if_bo > 0 || $ucode == 1 || $ucode == 1504 || $ucode == 94) {
+														if ($check_if_bo > 0 || $ucode == 1 || $ucode == 1504 || $ucode == 1302) {
 
 														?>
 															<input type="button" name="btn_backdate" id="btn_backdate" value="Cancel Refiling" />

@@ -1595,6 +1595,7 @@ function getUserNameAndDesignation($usercode)
 function getCaseDetails($diarySearchDetails)
 {
     $db = \Config\Database::connect();
+    $ucode = session()->get('login')['usercode'];
     $model = new \App\Models\Common\Component\Model_case_status();
     $dropdownlist_model = new \App\Models\Common\Dropdown_list_model();
 
@@ -1618,13 +1619,15 @@ function getCaseDetails($diarySearchDetails)
     $data['diary_details'] = $diary_details;
     $data['party_details'] = json_decode($model->get_party_details($main_diary_number, $flag), true);
     $data['pet_res_advocate_details'] = json_decode($model->get_pet_res_advocate($main_diary_number, $flag), true);
-    $data['old_category'] = json_decode($model->get_old_category($main_diary_number, $flag), true);
-    $data['new_category'] = json_decode($model->get_new_category($main_diary_number, $flag), true);
+    //$data['old_category'] = json_decode($model->get_old_category($main_diary_number, $flag), true);
+    //$data['new_category'] = json_decode($model->get_new_category($main_diary_number, $flag), true);
+    //$data['new_category'] = get_new_mul_category($main_diary_number,$flag);
     $category_nm = '';
     $mul_category = '';
     $data['main_case'] = '';
     $data['new_category_name'] = '';
-    if (!empty($data['old_category'])) {
+
+   /* if (!empty($data['old_category'])) {
         foreach ($data['old_category'] as $old_category) {
             if ($old_category['subcode1'] > 0 and $old_category['subcode2'] == 0 and $old_category['subcode3'] == 0 and $old_category['subcode4'] == 0)
                 $category_nm =  $old_category['sub_name1'];
@@ -1642,11 +1645,32 @@ function getCaseDetails($diarySearchDetails)
             }
         }
         $data['old_category_name'] = $mul_category;
-    }
+    } */
 
-    if (!empty($data['new_category'])) {
-        $data['new_category_name'] = $data['new_category'][0]['category_sc_old'] . '-' . $data['new_category'][0]['sub_name1'] . ' : ' . $data['new_category'][0]['sub_name4'];
-    }
+   // $verify_qr="select diary_no from defects_verification where diary_no='$main_diary_number' and verification_status=0 and date(verification_date) < '2025-04-21'";
+    //$vrify_rs= $db->query($verify_qr);
+    $vrify_rs = $db->table('defects_verification')
+        ->select('diary_no')
+        ->where('diary_no', $main_diary_number)
+        ->where('CAST(verification_status AS INTEGER) =', 0, false)
+        ->where("CAST(verification_date AS DATE) < '2025-04-21'", null, false)
+        ->get();
+        
+        if($vrify_rs->getNumRows() > 0){
+            $data['old_category_name'] = get_mul_category($main_diary_number,$flag);
+        }
+        else{
+            $data['old_category_name'] = '';
+        }
+
+    $category_new= get_new_mul_category($main_diary_number,$flag);
+    //pr($category_new);
+    $data['new_category_name'] = !empty($category_new)?$category_new:'';
+
+    //if (!empty($data['new_category'])) {
+        //$data['new_category_name'] = 'dddd';
+        //$data['new_category_name'] = $data['new_category'][0]['category_sc_old'] . '-' . $data['new_category'][0]['sub_name1'] . ' : ' . $data['new_category'][0]['sub_name4'];
+   // }
     $data['no_of_defect_days'] = json_decode($model->get_defect_days($main_diary_number, $flag), true);
 
     $data['recalled_matters'] = json_encode($model->get_recalled_matters($main_diary_number), true, JSON_UNESCAPED_SLASHES);
@@ -1654,6 +1678,8 @@ function getCaseDetails($diarySearchDetails)
     $data['sensitive_case'] = json_decode($model->get_sensitive_cases($main_diary_number), true);
     $data['efiled_cases'] = json_decode($model->get_efiled_cases($main_diary_number), true);
     $data['heardt_case'] = json_decode($model->get_heardt_case($main_diary_number, $flag), true);
+    $data['hearesult_sensitive_caserdt_case'] = $model->isSensitiveCase($main_diary_number, $ucode);
+    $data['rs_autodiary'] = $model->checkAutoDiary($main_diary_number);
     // pr($data['heardt_case']);
     $last_listed_on = "";
     $last_listed_on_jud = "";
@@ -1710,6 +1736,7 @@ function getCaseDetails($diarySearchDetails)
     $data['diary_number'] = $main_diary_number;
     $data['IB_DA_Details'] = json_decode($model->get_IB_DA_Details($main_diary_number, $flag), true);
     $data['file_movement_data'] = json_decode($model->get_file_movement_data($main_diary_number, $flag), true);
+    $data['row_urg_cat'] = $model->getUrgentCategories($main_diary_number);
 
     if (!empty($data['IB_DA_Details'])) {
         $IbDaName = "<font color='blue' style='font-size:12px;font-weight:bold;'>" . $data['IB_DA_Details']['name'] . " [" . $data['IB_DA_Details']["section_name"] . "]" . "</font>";;
@@ -2083,6 +2110,16 @@ function component_html($component_type = '')
     return $html;
 }
 
+function component_html_mention_meno($component_type = '')
+{
+    $html = "";
+    $data['component'] = 'component_diary_with_case';
+    $data['component_type'] = $component_type;
+    $html = view('Common/Component/updatementionmeno', $data);
+    return $html;
+}
+
+
 function tentative_da($diary_no, $row = 'R')
 {
     $db = \Config\Database::connect();
@@ -2238,19 +2275,40 @@ function getBeforeNotBeforeData($diary_no)
     return $bf . "^|^" . $nbf;
 }
 
+
+/* 
+*
+* Using in CAse Status
+*
+*/
+
 function get_mul_category($diary_no, $flag = null)
 {
     $db = \Config\Database::connect();
-    $builder1 = $db->table("mul_category" . $flag . " mc");
+    $mul_category = "";
+   
+    /* $builder1 = $db->table("mul_category" . $flag . " mc");
     $builder1->select("s.*");
     $builder1->join('master.submaster s', "mc.submaster_id=s.id");
     $builder1->where('diary_no', $diary_no);
     $builder1->where('mc.display', 'Y');
-    $query = $builder1->get();
+    $query = $builder1->get(); */
+
+    $query = $db->table('mul_category' . $flag . ' a')
+        ->select('*')
+        ->join('master.submaster b', 'a.old_submaster_id = b.id')
+        ->where('a.diary_no', $diary_no)
+        ->where('a.display', 'Y')
+        ->groupStart()
+            ->where('b.is_old', 'Y')
+            ->orWhere('b.is_old IS NULL', null, false)
+        ->groupEnd()
+        ->where('b.display', 'Y')
+        ->get();
 
     if ($query->getNumRows() >= 1) {
         $result = $query->getResultArray();
-        $mul_category = "";
+        
         foreach ($result as $row2) {
             if ($row2['subcode1'] > 0 and $row2['subcode2'] == 0 and $row2['subcode3'] == 0 and $row2['subcode4'] == 0)
                 $category_nm =  $row2['sub_name1'];
@@ -2269,8 +2327,52 @@ function get_mul_category($diary_no, $flag = null)
         }
         return $mul_category;
     } else {
-        return false;
+        return $mul_category;
     }
+}
+
+/* 
+*
+* Using in CAse Status
+*
+*/
+function get_new_mul_category($dn, $flag = null)
+{
+    $db = \Config\Database::connect();
+    $mul_category="";
+    if($dn!=""){
+
+        $query =  $db->table('mul_category' . $flag . ' a')
+        ->select('b.*')
+        ->join('master.submaster b', 'a.submaster_id = b.id')
+        ->where('a.diary_no', $dn)
+        ->where('a.display', 'Y')
+        ->get();     
+      
+       if ($query->getNumRows() >= 1) {
+        $result = $query->getResultArray();        
+       
+            $category_nm = '';
+            $mul_category = '';
+            foreach ($result as $row2) {
+ 
+                if($row2['subcode1']>0 and $row2['subcode2']==0 and $row2['subcode3']==0 and $row2['subcode4']==0)
+                    $category_nm=  $row2['sub_name1'];
+                elseif($row2['subcode1']>0 and $row2['subcode2']>0 and $row2['subcode3']==0 and $row2['subcode4']==0)
+                    $category_nm=  $row2['sub_name1']." : ".$row2['sub_name4'];
+                elseif($row2['subcode1']>0 and $row2['subcode2']>0 and $row2['subcode3']>0 and $row2['subcode4']==0)
+                    $category_nm=  $row2['sub_name1']." : ".$row2['sub_name2']." : ".$row2['sub_name4'];
+                elseif($row2['subcode1']>0 and $row2['subcode2']>0 and $row2['subcode3']>0 and $row2['subcode4']>0)
+                    $category_nm=  $row2['sub_name1']." : ".$row2['sub_name2']." : ".$row2['sub_name3']." : ".$row2['sub_name4'];
+                if ($mul_category == '') {
+                    $mul_category = $row2['category_sc_old'].'-'.$category_nm;
+                } else {
+                    $mul_category = $row2['category_sc_old'].'-'.$mul_category . ',<br> ' . $category_nm;
+                }
+            }
+        }
+    }
+    return $mul_category;
 }
 
 function validate_verification($diary_no, $flag = null)
@@ -6571,22 +6673,42 @@ function get_allocation_judge_m_alc_b($p1, $cldt, $board_type)
     {
         $db = \Config\Database::connect();
         $ex_explode = explode('-', $c_no);
-        $lct_caseno = [];
+        //$lct_caseno = [];
 
-        for ($index = 0; $index < count($ex_explode); $index++) {
-            $lct_caseno[] = $ex_explode[$index];
+        $lct_caseno1='';
+        $lct_caseno2='';
+
+        if(count($ex_explode)==1) {
+            $lct_caseno1 = $ex_explode[0];
+            $lct_caseno2 = $ex_explode[0];
         }
+
+        else if(count($ex_explode)>1){
+            $lct_caseno1 = $ex_explode[0];
+            $lct_caseno2 = $ex_explode[1];       
+        }
+
+
+
+      /*  for ($index = 0; $index < count($ex_explode); $index++) {
+            $lct_caseno[] = $ex_explode[$index];
+        } */
 
         $builder = $db->table('lowerct');
         $builder->distinct()
             ->select('diary_no')
             ->where('lct_casetype', $c_type)
-            ->whereIn('lct_caseno', $lct_caseno)
+            ->where('ct_code', 4)
+            ->where('lct_caseno >=', $lct_caseno1)
+            ->where('lct_caseno <=', $lct_caseno2)
+            //->whereIn('lct_caseno', $lct_caseno)
             ->where('lct_caseyear', $c_yr)
             ->where('lw_display', 'Y');
-        $query = $builder->get();
+        $query = $builder->get(); 
 
-        $results = $query->getResultArray();
+        $results = $query->getResultArray();  
+
+
         $outer_array = array();
         foreach ($results as $row) {
             $inner_array = array();
@@ -6654,3 +6776,107 @@ function get_allocation_judge_m_alc_b($p1, $cldt, $board_type)
         }
         return $parts[2] . '-' . $parts[1] . '-' . $parts[0];
     }
+    if (!function_exists('get_gateinfo')) {
+    function get_gateinfo($diaryno)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('case_info');
+        $builder->select([
+            '*',
+            'case_info.usercode AS u',
+            "insert_time AS entrydate",
+            "concat(users.name, '[', users.empid, ']') AS userinfo",
+            'main.reg_no_display AS caseno'
+        ]);
+        $builder->join('master.users', 'case_info.usercode = users.usercode');
+        $builder->join('main', 'case_info.diary_no = main.diary_no');
+        $builder->where([
+            'case_info.diary_no' => $diaryno,
+            'case_info.display' => 'Y'
+        ]);
+    
+        $query = $builder->get();
+        $rs_get_case_info=$query->getResultArray();
+    if(count($rs_get_case_info)==0)
+    {
+        //$output='<p align=center><font color=red><b> CASE INFORMATION NOT FOUND</b></font></p>';
+    }
+    if(count($rs_get_case_info) > 0) {
+
+        $output = "Case Info : ";
+        $sno = 1;
+        foreach ($rs_get_case_info as $row_caseinfo)
+        {
+            $id=$row_caseinfo['id'];
+            $diary_no=$row_caseinfo['diary_no'];
+            $message=$row_caseinfo['message'];
+            $entry_time=$row_caseinfo['insert_time'];
+            $entered_by=$row_caseinfo['u'];
+            $entered_ip=$row_caseinfo['userip'];
+            $caseno=$row_caseinfo['caseno'];
+            $uninfo=$row_caseinfo['userinfo'];
+            $entrydate=$row_caseinfo['entrydate'];
+            //  echo $message;
+
+            $output.= "\n".$sno++.'. '.$message;
+
+        }
+        return $output;
+    }
+
+
+
+    }
+}
+if (!function_exists('get_last_hearing_judge_before_court_code')) {
+    function get_last_hearing_judge_before_court_code($diary_no,$list_date)
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('last_heardt h')
+                    ->select('h.judges')
+                    ->join('cl_printed cp', "cp.next_dt = h.next_dt AND cp.roster_id = h.roster_id AND cp.display = 'Y' AND cp.part = h.clno", 'inner')
+                    ->where('h.next_dt !=', $list_date)
+                    ->where('h.diary_no', $diary_no)
+                    ->where('h.bench_flag IS NULL')
+                    ->orWhere('h.bench_flag', '')
+                    ->where('h.board_type !=', 'R')
+                    ->orderBy('h.next_dt', 'DESC')
+                    ->limit(1);
+
+        $query = $builder->get();
+        $result = $query->getResultArray();
+        
+        if(count($result) > 0) {
+            return $jcodes = $result[0]['judges'];
+        }
+    }
+   
+}
+
+
+if (! function_exists('f_get_all_judges_names_by_code')) {
+    function f_get_all_judges_names_by_code(string $chk_jud_id): string
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('judge');
+
+        $judgeCodes = explode(',', rtrim($chk_jud_id, ','));
+        $judgeCodes = array_map('trim', $judgeCodes);
+            $builder->select('first_name, sur_name')
+                    ->whereIn('jcode', $judgeCodes);
+
+            $query = $builder->get();
+            $results = $query->getResultArray();
+            $jname = "";
+
+            if (count($results) > 0) {
+                foreach ($results as $row) {
+                    $jname .= $row['first_name'] . " " . $row['sur_name'] . ", ";
+                }
+                return rtrim($jname, ", ");
+            }
+
+            return "";
+
+    }
+}

@@ -11,6 +11,7 @@ if (!empty($result))
             $result_pet = $result["pet_name"] ?? '';
             $result_res = $result["res_name"] ?? '';
             $result_dt = $result["dt"] ?? '';
+            $casetype_id = $result["casetype_id"] ?? '';
             $result_pending = $result["c_status"] ?? '';
             $cicri = $result["case_grp"] ?? '';
           ?>
@@ -154,13 +155,40 @@ if (!empty($result))
                 }
               }
               if ($def_rm_date == '') {
-                if ($ucode == 1  || $ucode == 1504 || $ucode == 94) {
+
+                // NEW CHANGE 
+                $check_section_user = $dModel->getUserSection($ucode);
+                if (count($check_section_user) > 0 && $ucode != 1) {
+
+                  if ($check_section_user['section'] != 19 && $check_section_user['usertype'] != 4) {
+                    if (($check_section_user['usertype'] == 4 || $check_section_user['usertype'] == 6)) {
+                      $casetype = array('9', '10', '19', '20', '25', '26', '39');
+                      if (!in_array($casetype_id, $casetype)) {
+                        echo '<div style="text-align: center"><font color="red">Defects can be removed only in RP/CUR.P/CONT.P./MA</font></div>';
+                        exit();
+                      } else if (in_array($casetype_id, $casetype)) {
+                        echo "<input type='hidden' name='hd_flag' id='hd_flag' value='1'/>";
+                      }
+                    } else {
+                      echo '<div style="text-align: center"><h3><font color="red">Only DR/Addl. Reg is authorized for removal of defects on back date</font></h3></div>';
+                      exit();
+                    }
+                  } elseif ($check_section_user['section'] == 19 && $check_section_user['usertype'] != 4) {
+                    echo '<div style="text-align: center"><h3><font color="red">Only Addl. Reg is authorized for removal of defects on back date!!</font></h3></div>';
+                    exit();
+                  }
+                }
+
+                // END NEW CHANGE
+
+
+                // if ($ucode == 1  || $ucode == 1504 || $ucode == 94) {
               ?>
 
                   <span style="color: red">Back Date</span><input type="date" name="back_dt" id="back_dt" />
                   <input type="button" name="btn_backdate" id="btn_backdate" value="Save" />
 
-              <?php }
+              <?php // }
               } ?>
               <div id="sp_sms_status" style="text-align: center"></div>
             </div>

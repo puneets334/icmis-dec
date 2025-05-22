@@ -711,7 +711,7 @@ if (!empty($state_list)) {
                                             <div class="col-md-12">
                                                 <div style="text-align: center;font-weight: bold;cursor: pointer;float: right;" id="ad_address" class="cl_center cl_add_address btn_addmore btn-outline-success"><i class='fas fa-plus-circle'></i> Additional Address</div>
                                                 <br/><input type="hidden" name="hd_add_address" id="hd_add_address" value="0"/>
-                                                <div id="dv_add_parties"></div>
+                                                <div id="dv_add_parties" style="width:100%;overflow-x:scroll"></div>
                                             </div>
 
                                         <!-- /.petitioner_tab_panel -->
