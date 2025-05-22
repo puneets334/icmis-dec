@@ -210,7 +210,9 @@ class DA extends BaseController
         if ($section_name != "ALL") {
             $condition = " and b.section_name='" . $section_name . "'";
         }
-        $data['data'] = $this->CaseRemarksVerification->get_da_wise_rgo_data($condition,$section_name);
+        $data['allowed_users'] =  $this->CaseRemarksVerification->get_allowed_users();
+        
+        $data['data'] = $this->CaseRemarksVerification->get_da_wise_rgo_data($condition,$section_name,$data['allowed_users']);
         return view('ManagementReport/DA/get_da_wise_rgo_view', $data);
     }
 }

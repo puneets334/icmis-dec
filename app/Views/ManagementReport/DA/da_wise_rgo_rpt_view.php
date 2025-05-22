@@ -89,7 +89,8 @@
         "buttons": ["excel", "pdf"]
     });
 
-    $(document).on("click", "#get_report", function() {
+    $(document).on("click", "#get_report",async function() {
+        await updateCSRFTokenSync();
         var CSRF_TOKEN = 'CSRF_TOKEN';
         var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
         var section_name = $("#section_name").val();
@@ -106,11 +107,11 @@
             },
             cache: false,
             success: function(msg_new) {
-                updateCSRFToken();
+                //updateCSRFToken();
                 $('#dv_res').html(msg_new);
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                updateCSRFToken();
+                //updateCSRFToken();
                 alert("Error: " + jqXHR.status + " " + errorThrown);
             }
         });
