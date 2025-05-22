@@ -163,7 +163,7 @@
                                                     if($isInVacationList){ ?>
                                                         <div class="row mb-3 mt-5">
                                                             <div class="col-12 text-center">
-                                                                <span style="color:red;font-weight: bold;">This case is already added to the vacation list</span>
+                                                                <span style="color:red;font-weight: bold;">This case is already added to the partial court working days list</span>
                                                             </div>
                                                         </div>
                                                     <?php } else { ?>

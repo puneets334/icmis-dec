@@ -65,7 +65,13 @@ class VacationAdvanceList extends BaseController
 
     public function regular_advance_weekly()
     {   
-        return view('Listing/VacationAdvanceList/regular_advance_weekly');
+        if (isset($_POST['mainhead'])) {
+            $mainhead = $_POST['mainhead'];
+        } else {
+            $mainhead = 'M'; 
+        }
+        $data['mainhead'] = $mainhead;
+        return view('Listing/VacationAdvanceList/regular_advance_weekly', $data);
     }
     public function get_regular_advance_weekly()
     {   
@@ -79,7 +85,9 @@ class VacationAdvanceList extends BaseController
         $request = service('request');
         $diary_numbers_string_post = $request->getPost('diaryNos');
         $diary_numbers_string1 = implode(',', $diary_numbers_string_post);
-        $data['list_weekly'] = $this->CaseAdd->list_regular_advance_weekly($diary_numbers_string1);
+        $data['mainhead'] = $request->getPost('mainhead');
+        $mainhead= $request->getPost('mainhead');
+        $data['list_weekly'] = $this->CaseAdd->list_regular_advance_weekly($diary_numbers_string1,$mainhead);
         return view('Listing/VacationAdvanceList/list_regular_advance_weekly', $data);
        // return $result;
     }
