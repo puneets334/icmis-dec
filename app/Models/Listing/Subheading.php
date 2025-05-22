@@ -35,51 +35,43 @@ class Subheading extends Model
 
         return $this->orderBy('stagecode', 'ASC')->findAll();
     }
-    // public function getMulCategorySubheadings($diaryNo)
-    // {
-    //     $builder = $this->db->table('mul_category a');
-    //     $builder->select(['submaster_id AS stagecode', "CONCAT(sub_name1, '-', sub_name2, '-', sub_name3, '-', sub_name4) AS stagename"]);
-    //     $builder->join('master.submaster b', 'submaster_id = b.id', 'left');
-    //     $builder->where('a.display', 'Y');
-    //     $builder->where('diary_no', $diaryNo);
-    //     return $builder->get()->getResultArray();
-    // }
-
-    public function getMulCategorySubheadings($diaryNo, $side)
-    {
-        $db = \Config\Database::connect();
-        $stage_based_on_side = "";
-        if ($side == 'C') {
-            $stage_based_on_side = " AND stagecode NOT IN (811, 814, 815)";
-        } else if ($side == 'R') {
-            $stage_based_on_side = " AND stagecode NOT IN (812, 813, 816)";
+     public function getMulCategorySubheadings($diaryNo, $side)
+     {
+        $stage_exclude_codes = [];
+        if ($side === 'C') {
+            $stage_exclude_codes = [811, 814, 815];
+        } elseif ($side === 'R') {
+            $stage_exclude_codes = [812, 813, 816];
         }
 
-        // Final SQL query
-        $sql = "
-        SELECT * FROM (
-            SELECT stagecode, stagename, '1' AS mf 
-            FROM subheading 
-            WHERE listtype = 'M' $stage_based_on_side AND display = 'Y'
-            
-            UNION
-            
-            SELECT 
-                submaster_id AS stagecode, 
-                CONCAT(COALESCE(sub_name1, ''), '-', COALESCE(sub_name2, ''), '-', COALESCE(sub_name3, ''), '-', COALESCE(sub_name4, '')) AS stagename, 
-                '2' AS mf 
-            FROM mul_category a 
-            LEFT JOIN submaster b ON submaster_id = b.id 
-            WHERE a.display = 'Y' AND diary_no = ?
-        ) a
-        ORDER BY mf
-    ";
+        $builder1 = $this->db->table('master.subheading');
+        $builder1->select("stagecode, stagename, '1' as mf");
+        $builder1->where('listtype', 'M');
+        $builder1->where('display', 'Y');
+        if (!empty($stage_exclude_codes)) {
+            $builder1->whereNotIn('stagecode', $stage_exclude_codes);
+        }
+        $result1 = $builder1->get()->getResultArray();
+        
+        $builder2 = $this->db->table('mul_category a');
+        $builder2->select("submaster_id as stagecode, CONCAT_WS('-', sub_name1, sub_name2, sub_name3, sub_name4) as stagename, '2' as mf");
+        $builder2->join('master.submaster b', 'submaster_id = b.id', 'left');
+        $builder2->where('a.display', 'Y');
+        $builder2->where('diary_no', $diaryNo);
 
-        // Execute with binding
-        $query = $db->query($sql, [$diaryNo]);
-        return $query->getResultArray();
+        $result2 = $builder2->get()->getResultArray();
+        $combined = array_merge($result1, $result2);
+        foreach ($combined as $key => $value) {
+            if (empty($value['stagename'])) {
+                unset($combined[$key]);
+            }
+        }
+        
+        usort($combined, function ($a, $b) {
+            return $a['mf'] <=> $b['mf'];
+        });
+        return $combined;
     }
-
 
     public function getSubheading()
     {

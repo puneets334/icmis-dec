@@ -1085,8 +1085,11 @@ class CaseRemarksVerification extends Model
         return $result;
     }
 
-    public function get_da_wise_rgo_data($condition, $section_name)
+    public function get_da_wise_rgo_data($condition, $section_name,$allowed_users='')
     {
+        if(empty($allowed_users)){
+            $allowed_users = '559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762';
+        }
          $sql = "SELECT 
                     m.dacode, 
                     b.section_name, 
@@ -1150,7 +1153,7 @@ class CaseRemarksVerification extends Model
                                     public.heardt 
                                 where 
                                     main_supp_flag = 3 
-                                    and usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                    and usercode in (".$allowed_users.")
                                 union 
                                 select 
                                     fil_no as diary_no 
@@ -1215,7 +1218,7 @@ class CaseRemarksVerification extends Model
                                     public.heardt 
                                 where 
                                     main_supp_flag = 3 
-                                    and usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                    and usercode in (".$allowed_users.")
                                 union 
                                 select 
                                     fil_no as diary_no 
@@ -1283,7 +1286,7 @@ class CaseRemarksVerification extends Model
                                     public.heardt 
                                 where 
                                     main_supp_flag = 3 
-                                    and usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                    and usercode in (".$allowed_users.")
                                 union 
                                 select 
                                     fil_no as diary_no 
@@ -1343,7 +1346,7 @@ class CaseRemarksVerification extends Model
                                     public.heardt 
                                 where 
                                     main_supp_flag = 3 
-                                    and usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                    and usercode in (".$allowed_users.")
                                 union 
                                 select 
                                     fil_no as diary_no 
@@ -1373,7 +1376,7 @@ class CaseRemarksVerification extends Model
                                 )
                                 and (head_code != '5' or head_code IS NULL)
                                 and m.diary_no not in (
-                                    select diary_no from public.heardt where main_supp_flag = 3 and usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                    select diary_no from public.heardt where main_supp_flag = 3 and usercode in (".$allowed_users.")
                                     union
                                     select fil_no as diary_no from rgo_default where remove_def != 'Y'
                                 )
@@ -1399,7 +1402,7 @@ class CaseRemarksVerification extends Model
                                 )
                                 and (head_code != '5' or head_code IS NULL)
                                 and m.diary_no not in (
-                                    select diary_no from public.heardt where main_supp_flag = 3 and usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                    select diary_no from public.heardt where main_supp_flag = 3 and usercode in (".$allowed_users.")
                                     union
                                     select fil_no as diary_no from rgo_default where remove_def != 'Y'
                                 )
@@ -1420,7 +1423,7 @@ class CaseRemarksVerification extends Model
                                     or head_code = '5'
                                 )
                                 and m.diary_no not in (
-                                    select diary_no from public.heardt where main_supp_flag = 3 and usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                    select diary_no from public.heardt where main_supp_flag = 3 and usercode in (".$allowed_users.")
                                     union
                                     select fil_no as diary_no from rgo_default where remove_def != 'Y'
                                 )
@@ -1442,7 +1445,7 @@ class CaseRemarksVerification extends Model
                                     or head_code = '5'
                                 )
                                 and m.diary_no not in (
-                                    select diary_no from public.heardt where main_supp_flag = 3 and usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                    select diary_no from public.heardt where main_supp_flag = 3 and usercode in (".$allowed_users.")
                                     union
                                     select fil_no as diary_no from rgo_default where remove_def != 'Y'
                                 )
@@ -1464,7 +1467,7 @@ class CaseRemarksVerification extends Model
                                     or head_code = '5'
                                 )
                                 and m.diary_no not in (
-                                    select diary_no from public.heardt where main_supp_flag = 3 and usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49)
+                                    select diary_no from public.heardt where main_supp_flag = 3 and usercode in (".$allowed_users.")
                                     union
                                     select fil_no as diary_no from rgo_default where remove_def != 'Y'
                                 )
@@ -1476,7 +1479,7 @@ class CaseRemarksVerification extends Model
                         distinct case 
                             when (
                                 h.main_supp_flag = 3 
-                                and h.usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762)
+                                and h.usercode in (".$allowed_users.")
                             ) 
                             or rd.remove_def != 'Y' 
                             then m.diary_no 
@@ -1488,7 +1491,7 @@ class CaseRemarksVerification extends Model
                             when h.mainhead = 'M' 
                                 and (
                                     (h.main_supp_flag = 3 
-                                    and h.usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762))
+                                    and h.usercode in (".$allowed_users."))
                                     or rd.remove_def != 'Y'
                                 ) 
                             then m.diary_no 
@@ -1500,7 +1503,7 @@ class CaseRemarksVerification extends Model
                             when h.mainhead = 'F' 
                                 and (
                                     (h.main_supp_flag = 3 
-                                    and h.usercode in (559, 146, 744, 747, 469, 1485, 742, 1486, 935, 757, 49, 762))
+                                    and h.usercode in (".$allowed_users."))
                                     or rd.remove_def != 'Y'
                                 ) 
                             then m.diary_no 
@@ -2230,4 +2233,21 @@ FROM (
             return $result;
         }
     }
+
+    function get_allowed_users()
+    {
+        $output = '';
+        $db = \Config\Database::connect();
+        $builder = $db->table('master.case_status_flag');
+        $builder->where('flag_name', 'rgo_report');
+        $query = $builder->get();
+        $result = $query->getRowArray();
+        if(!empty($result) && count($result) > 0){
+            return $output = $result['always_allowed_users'];
+        }
+        else{
+            return $output ;
+        }
+    }
+
 }
