@@ -133,6 +133,7 @@ class Efiling extends BaseController
             die;
         } 
     }
+
     public function docs_from_sc_diary_no()
     {
         if ($this->request->getMethod() === 'post') {
@@ -182,11 +183,11 @@ class Efiling extends BaseController
             }
             echo '1@@@' . $resul_view;
             exit();
-            exit();
         } else {
             return view('Filing/Efiling/docs_from_sc_diaryNo');
         }
     }
+
     public function pipreport()
     {
         if ($this->request->getMethod() === 'post') {

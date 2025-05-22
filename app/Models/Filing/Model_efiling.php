@@ -34,7 +34,7 @@ class Model_efiling extends Model
             (select docdesc from master.docmaster where docmaster.doccode=indexing.doccode and doccode1=0 and (display='Y' or display='E')) as docdesc,
             LEFT(CAST(diary_no AS CHAR), LENGTH(CAST(diary_no AS CHAR)) - 4) as dn,
             RIGHT(CAST(diary_no AS CHAR), 4) as dy,
-            CONCAT('https://main.sci.gov.in/e_filing/index_pdf/', RIGHT(CAST(diary_no AS CHAR), 4), '/', LEFT(CAST(diary_no AS CHAR), LENGTH(CAST(diary_no AS CHAR)) - 4), '/', pdf_name) as pdf_file"
+            CONCAT('https://api.sci.gov.in/e_filing/indexing/scan_file/', RIGHT(CAST(diary_no AS CHAR), 4), '/', LEFT(CAST(diary_no AS CHAR), LENGTH(CAST(diary_no AS CHAR)) - 4), '/', pdf_name) as pdf_file"
         );
         $builder->join('master.users', 'users.usercode = indexing.ucode', 'left');
         $builder->where("diary_no = ($subQuery)", null, false);
@@ -174,20 +174,20 @@ class Model_efiling extends Model
         }
         $diary = $diary_number . $diary_year;
 
-        $sql = "select a.*, b.pet_name, b.res_name, b.reg_no_display,users.name, users.email_id, users.mobile_no 
-   from( select i.ind_id as id, $diary as diary_no,np, null as source_flag, d.docdesc as sub_doc, 
-    (select docdesc from master.docmaster where doccode=i.doccode limit 1) as main_doc,
-    CONCAT('https://main.sci.gov.in/e_filing/index_pdf/', RIGHT(CAST(diary_no AS text), 4), '/', LEFT(CAST(diary_no AS text), -4), '/', pdf_name) as pdf_file,
-    entdt,null as transaction_id, ucode, 0 as org_doccode, 0 as org_doccode1, 0 as org_docnum, 0 as org_docyear 
-   from indexing i left join master.docmaster d on d.doccode=i.doccode and d.doccode1=i.doccode1 
-   where diary_no = (select diary_no from main where diary_no=$diary) and i.display='Y' and $condition 
-    union
-   select id, diary_no, CAST(pages as int), 'Additional_docs', d.docdesc as sub_doc, 
-    (select docdesc from master.docmaster where doccode=a.doccode limit 1) as main_doc, 
-    CONCAT('https://main.sci.gov.in/e_filing/add_pdf/', RIGHT(CAST(diary_no AS text), 4), '/', LEFT(CAST(diary_no AS text), -4), '/', pdf_name) as pdf_file,
-    entdt,transaction_id, ucode, org_doccode, org_doccode1, org_docnum, org_docyear from e_filing.additional_docs a 
-    left join master.docmaster d on d.doccode=a.doccode and d.doccode1=a.doccode1 where diary_no = $diary and a.display='Y' and $condition
-    )a left join main$is_archival_table b on b.diary_no=$diary left join master.users on users.usercode=a.ucode order by entdt";
+        $sql = "SELECT a.*, b.pet_name, b.res_name, b.reg_no_display, users.name, users.email_id, users.mobile_no 
+                FROM ( select i.ind_id as id, $diary as diary_no, np, null as source_flag, d.docdesc as sub_doc, 
+                (select docdesc from master.docmaster where doccode=i.doccode limit 1) as main_doc,
+                CONCAT('https://api.sci.gov.in/e_filing/indexing/scan_file/', RIGHT(CAST(diary_no AS text), 4), '/', LEFT(CAST(diary_no AS text), -4), '/', pdf_name) as pdf_file,
+                entdt,null as transaction_id, ucode, 0 as org_doccode, 0 as org_doccode1, 0 as org_docnum, 0 as org_docyear 
+                from indexing i left join master.docmaster d on d.doccode=i.doccode and d.doccode1=i.doccode1 
+                where diary_no = (select diary_no from main where diary_no=$diary) and i.display='Y' and $condition 
+                union
+                select id, diary_no, CAST(pages as int), 'Additional_docs', d.docdesc as sub_doc, 
+                (select docdesc from master.docmaster where doccode=a.doccode limit 1) as main_doc, 
+                CONCAT('https://api.sci.gov.in/e_filing/additional_docs/', RIGHT(CAST(diary_no AS text), 4), '/', LEFT(CAST(diary_no AS text), -4), '/', pdf_name) as pdf_file,
+                entdt,transaction_id, ucode, org_doccode, org_doccode1, org_docnum, org_docyear from e_filing.additional_docs a 
+                left join master.docmaster d on d.doccode=a.doccode and d.doccode1=a.doccode1 where diary_no = $diary and a.display='Y' and $condition
+                )a left join main$is_archival_table b on b.diary_no=$diary left join master.users on users.usercode=a.ucode order by entdt";
         $query = $this->db->query($sql);
         if ($query->getNumRows() >= 1) {
             $result = $query->getResultArray();
