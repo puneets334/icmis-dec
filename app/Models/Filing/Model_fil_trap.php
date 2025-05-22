@@ -212,7 +212,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
     }
     public function get_fil_trap_efiled_type_details($uid = null, $row = 'A')
     {
-        $sql_nature = "select count(*) from fil_trap  join main on fil_trap.diary_no=main.diary_no  join efiled_cases e on main.diary_no=e.diary_no   where  uid =$_REQUEST[id] and (ack_id <> 0 or (display='Y' and efiled_type='new_case'))";
+        $sql_nature = "select count(*) from fil_trap  join main on fil_trap.diary_no=main.diary_no join efiled_cases e on main.diary_no=e.diary_no   where  uid =$_REQUEST[id] and (ack_id <> 0 or (display='Y' and efiled_type='new_case'))";
 
         $builder = $this->db->table('fil_trap f');
         $builder->select('f.*,e.*,m.ack_id');
@@ -240,6 +240,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
             return false;
         }
     }
+
 
     public function update_fil_trap_by_case($uid, $ck_adv_rec, $ext_rec)
     {
@@ -652,7 +653,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
                     $update_fil_trap = [
                         'r_by_empid' => 9798,
                         'rece_dt' =>  date("Y-m-d H:i:s"),
-                        'comp_dt' =>  date("Y-m-d H:i:s"),
+                        // 'comp_dt' =>  date("Y-m-d H:i:s"),
 
                         'updated_on' => date("Y-m-d H:i:s"),
                         'updated_by' => $_SESSION['login']['usercode'],
@@ -901,21 +902,28 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
 
             //check if inperson matter (Petitioner in person and Appelant in person) added on 26-08-2023
             $mark_to_inperson_scr = 0;
-
+            $inperson_matter=0;
+            $inperson_condition='';
 
             $rs_inperson = $this->check_if_inperson_matter($uid);
             if (!empty($rs_inperson)) {
-
-                $rs_inperson_scr = $this->is_specific_role();
-                if (!empty($rs_inperson_scr)) {
-                    $mark_to_inperson_scr = 1;
-                    //$inperson = mysql_fetch_row($rs_inperson_scr);
-                    $inperson_scr = $rs_inperson_scr['usercode'];
-                    $r_get_scr_usr = $to_userno = $rs_inperson_scr['empid'];
-                    $r_user_name = $rs_inperson_scr['name'];
-                }
-            }
-            if ($mark_to_inperson_scr == 0) {
+                $inperson_matter = 1;
+            $inperson_condition = " in_person='Y'";
+        } else {
+            $inperson_matter = 0;
+            $inperson_condition = " (in_person is null or in_person='' )";
+        }
+        
+            //     $rs_inperson_scr = $this->is_specific_role();
+            //     if (!empty($rs_inperson_scr)) {
+            //         $mark_to_inperson_scr = 1;
+            //         //$inperson = mysql_fetch_row($rs_inperson_scr);
+            //         $inperson_scr = $rs_inperson_scr['usercode'];
+            //         $r_get_scr_usr = $to_userno = $rs_inperson_scr['empid'];
+            //         $r_user_name = $rs_inperson_scr['name'];
+            //     }
+            // }
+            // if ($mark_to_inperson_scr == 0) {
                 $get_diary = is_data_from_table('fil_trap', ['uid' => $uid], 'diary_no', 'R');
                 $r_get_diary = $get_diary['diary_no'];
 
@@ -971,7 +979,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
                         }
 
 
-                        $check_if_SCR_ava = $this->check_user_fresh_or_first_scrutiny_not_available_then_sequential_refiling_user_allotment($fil_type, 103);
+                        $check_if_SCR_ava = $this->check_user_fresh_or_first_scrutiny_not_available_then_sequential_refiling_user_allotment($fil_type, 103,$inperson_condition);
                     }
 
 
@@ -981,7 +989,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
 
                         $next_user = '';
 
-                        $check_ava_row = $this->check_if_SCR_available($fil_type, 103, $utype);
+                        $check_ava_row = $this->check_if_SCR_available($fil_type, 103, $utype,$inperson_condition);
                         if (!empty($check_ava_row)) {
                             $next_user = $check_ava_row['to_userno'];
                             $to_userno = $check_ava_row['to_userno'];
@@ -1026,7 +1034,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
                 }
 
                 //ends here
-            }
+            // }
         } else  if ($ucode == '9796') {
 
 
@@ -1090,26 +1098,39 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
 
             //check if inperson matter (Petitioner in person and Appelant in person) added on 26-08-2023
             $mark_to_inperson_scr = 0;
+            $inperson_matter=0;
+            $inperson_condition='';
+
             $rs_inperson = $this->check_if_inperson_matter($uid);
-
             if (!empty($rs_inperson)) {
-
-                $rs_inperson_scr = $this->is_specific_role();
-                if (!empty($rs_inperson_scr)) {
-                    $mark_to_inperson_scr = 1;
-                    $inperson_scr = $rs_inperson_scr['usercode'];
-                    $r_get_scr_usr = $to_userno = $rs_inperson_scr['empid'];
-                    $to_name = $rs_inperson_scr['name'];
-                }
+            $inperson_matter=1;
+            $inperson_condition=" and in_person='Y'";
             }
+            else{
+                $inperson_matter=0;
+                $inperson_condition=" and (in_person is null or in_person='' )";
 
-            if ($mark_to_inperson_scr == 0) {
+            }
+            // if (!empty($rs_inperson)) {
+            //     $inperson_matter=1;
+            //     $inperson_condition=" and in_person='Y'";
+            //     $rs_inperson_scr = $this->is_specific_role();
+            //     if (!empty($rs_inperson_scr)) {
+            //         $mark_to_inperson_scr = 1;
+            //         $inperson_scr = $rs_inperson_scr['usercode'];
+            //         $r_get_scr_usr = $to_userno = $rs_inperson_scr['empid'];
+            //         $to_name = $rs_inperson_scr['name'];
+            //     }
+            // }
+
+            // if ($mark_to_inperson_scr == 0) {
                 $chk_lc_usr = 0;
                 $today = date('Y-m-d');
                 $check_marking_rs = is_data_from_table('mark_all_for_scrutiny', ['display' => 'Y']);
                 if (!empty($check_marking_rs)) {
                     $assign_to = '';
-                    $check_random_user = is_data_from_table('master.random_user', ['ent_date' => $today], 'empid', 'R');
+                    $check_random_user = $this->check_random_user($inperson_condition);
+
                     if (!empty($check_random_user)) {
                         $row = $check_random_user;
                         $assign_to = explode('~', $row['empid']);
@@ -1120,7 +1141,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
                         }
                     } else {
 
-                        $check_if_SCR_ava = $this->get_concat_empid_name_from_fil_trap_users(103);
+                        $check_if_SCR_ava = $this->get_concat_empid_name_from_fil_trap_users(103,$inperson_condition);
 
                         if (!empty($check_if_SCR_ava) > 0) {
                             $empid = array();
@@ -1133,12 +1154,17 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
                                 $to_userno = $assign_to[0];
                                 $to_name = $assign_to[1];
                                 if ($i > 0) {
+                                    $inperson='';
+                                    if( $inperson_matter==1)
+                                        $inperson='Y';
+
                                     $insert_random_user = [
                                         'empid' => (!empty($empid[$i])) ? $empid[$i] : 0,
                                         'ent_date' => $today,
                                         'create_modify' => date("Y-m-d H:i:s"),
                                         'updated_by' => $_SESSION['login']['usercode'],
                                         'updated_by_ip' => getClientIP(),
+                                        'in_person' => $inperson,
                                     ];
 
                                     $is_insert_random_user = insert('master.random_user', $insert_random_user);
@@ -1168,7 +1194,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
                         $next_user = '';
                         $utype = 'SCR';
 
-                        $check_ava_row = $this->check_if_SCR_available_with_fil_trap_seq($fil_type, 103, $utype);
+                        $check_ava_row = $this->check_if_SCR_available_with_fil_trap_seq($fil_type, 103, $utype,$inperson_condition);
 
                         if (!empty($check_ava_row)) {
                             $next_user = $check_ava_row['to_userno'];
@@ -1217,7 +1243,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
                         }
                     }
                 }
-            }
+            // }
         }
         $this->insert_into_history($uid);
         $remarks = '';
@@ -1231,7 +1257,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
                 $remarks = "SCN -> DA";
         } else
             $remarks = "DE -> SCR";
-        //received automatically for scrutiny users;
+        //received automatically for scrutiny_old users;
 
         $update_then_fil_trap = [
             'd_by_empid' => $_SESSION['login']['empid'],
@@ -1273,7 +1299,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
             echo " SMS could not be sent to " . $to_userno . "-" . $to_name  . " as no mobile number is updated in ICMIS";
         } else {
             /* $_REQUEST[mob]=$mobile_no;
-             $_REQUEST[sms_status]='scrutiny';
+             $_REQUEST[sms_status]='scrutiny_old';
              $_REQUEST[msg]=$message;
              include('../sms/send_sms.php');*/
             /* $sql_sms="insert into sms_pool(mobile,msg,c_status,table_name,ent_time) values ('$mobile_no','$message','N','scr_user',now())";
@@ -1302,7 +1328,27 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
     }
 
     //end code Common function for fil trap
+    public function check_random_user($inperson_condition = NULL)
+    {
+        $today = date('Y-m-d');
+        $builder = $this->db->table('random_user');
+        $builder->select('empid');
+        $builder->where('ent_date', $today);
+        if (!empty($inperson_condition)) {
+            $builder->where($inperson_condition);
+        }
+        $builder->limit(1);
+        $query = $builder->get();
+        if ($query->getNumRows() >= 1) {
+            return $query->getRowArray();
+        } else {
+            return false;
+        }
+    }
 
+    {
+        $check_qr = "select empid from random_user where ent_date='$today' $inperson_condition limit 1";
+    }
     public function check_duplicate_token($t)
     {
         $duplicate = 0;
@@ -1385,7 +1431,7 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
         }
     }
 
-    public function check_user_fresh_or_first_scrutiny_not_available_then_sequential_refiling_user_allotment($fil_type, $usertype)
+    public function check_user_fresh_or_first_scrutiny_not_available_then_sequential_refiling_user_allotment($fil_type, $usertype,$inperson_condition=NULL)
     {
         //fresh scrutiny user or first refiling user not available then sequential refiling user allotment
         $query = $this->db->table('fil_trap_users a')
@@ -1395,9 +1441,13 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
             ->where('a.display', 'Y')
             ->where('b.display', 'Y')
             ->where('b.attend', 'P')
-            ->where('a.user_type', $fil_type)
-            ->orderBy('a.usercode', 'RANDOM')
-            ->get();
+            ->where('a.user_type', $fil_type);
+
+        if (!empty($inperson_condition)) {
+            $query->where($inperson_condition);
+        }
+
+        $query = $query->orderBy('empid', 'ASC')->get();
         if ($query->getNumRows() >= 1) {
             $result = $query->getRowArray();
             return $result;
@@ -1406,10 +1456,10 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
         }
     }
 
-    public function check_if_SCR_available($fil_type, $usertype, $utype)
+    public function check_if_SCR_available($fil_type, $usertype, $utype,$inperson_condition=NULL)
     {
 
-        $query = $this->db->table('fil_trap_users a')
+        $builder = $this->db->table('fil_trap_users a')
             ->select('a.usercode as to_usercode, b.name as to_name, b.empid as to_userno, c.ddate, c.no as curno')
             ->join('master.users b', 'a.usercode = b.usercode')
             ->join('fil_trap_refil_users c', 'c.no < b.empid', 'left')
@@ -1421,9 +1471,11 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
             ->where('c.ddate', "(SELECT c.ddate FROM fil_trap_seq WHERE c.utype='SCR' AND a.user_type='$fil_type' ORDER BY c.ddate DESC LIMIT 1)", false)
             //->orderBy('to_userno')
             ->orderBy('to_userno ASC,c.ddate DESC')
-            ->orderBy('a.usercode', 'RANDOM')
-            ->get(1);
-
+            ->orderBy('a.usercode', 'RANDOM');
+        if (!empty($inperson_condition)) {
+            $builder->where($inperson_condition);
+        }
+        $query = $builder->get(1);
         if ($query->getNumRows() >= 1) {
             $result = $query->getRowArray();
             return $result;
@@ -1459,32 +1511,51 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
         }
     }
 
-    public function check_if_SCR_available_with_fil_trap_seq($fil_type, $usertype, $utype)
+    public function check_if_SCR_available_with_fil_trap_seq($fil_type, $usertype, $utype, $inperson_condition)
     {
 
-        $query = $this->db->table('fil_trap_users a')
-            ->select('a.usercode as to_usercode, b.name as to_name, b.empid as to_userno, c.ddate, c.no as curno')
-            ->join('master.users b', 'a.usercode = b.usercode')
-            ->join('master.specific_role s', "a.usercode=s.usercode AND s.display = 'Y' AND s.flag = 'P'", 'left')
-            ->join('fil_trap_seq c', 'c.no < b.empid', 'left')
-            ->where('s.id', null)
-            ->where('a.usertype', $usertype)
-            ->where('a.display', 'Y')
-            ->where('b.display', 'Y')
-            ->where('b.attend', 'P')
-            ->where('a.user_type', $fil_type)
-            ->where('c.user_type', $fil_type)
-            ->where('c.utype', $utype)
-            ->where('a.user_type', $fil_type)
-            ->where('ddate', "(SELECT ddate FROM fil_trap_seq WHERE utype='SCR' AND user_type='$fil_type' ORDER BY ddate DESC LIMIT 1)", false)
-            ->orderBy('c.ddate', 'DESC')
-            ->get();
+        $sql = "SELECT a.usercode as to_usercode, b.name as to_name, b.empid as to_userno, c.ddate, c.no as curno
+            FROM fil_trap_users a
+            JOIN users b ON a.usercode = b.usercode
+            LEFT JOIN fil_trap_seq c ON c.no < b.empid
+            WHERE a.usertype = $usertype
+            AND a.display = 'Y'
+            AND b.display = 'Y'
+            AND b.attend = 'P'
+            AND a.user_type = $fil_type
+            AND c.user_type = $fil_type
+            AND c.utype = $utype $inperson_condition
+            AND c.ddate = ( SELECT ddate FROM fil_trap_seq WHERE utype = $utype AND user_type =  $usertype ORDER BY ddate DESC LIMIT 1 )
+            ORDER BY to_userno";
+        $query = $this->db->query($sql, false);
         if ($query->getNumRows() >= 1) {
-            $result = $query->getRowArray();
-            return $result;
+            return $query->getRowArray();
         } else {
             return false;
         }
+        // $query = $this->db->table('fil_trap_users a')
+        //     ->select('a.usercode as to_usercode, b.name as to_name, b.empid as to_userno, c.ddate, c.no as curno')
+        //     ->join('master.users b', 'a.usercode = b.usercode')
+        //     ->join('master.specific_role s', "a.usercode=s.usercode AND s.display = 'Y' AND s.flag = 'P'", 'left')
+        //     ->join('fil_trap_seq c', 'c.no < b.empid', 'left')
+        //     ->where('s.id', null)
+        //     ->where('a.usertype', $usertype)
+        //     ->where('a.display', 'Y')
+        //     ->where('b.display', 'Y')
+        //     ->where('b.attend', 'P')
+        //     ->where('a.user_type', $fil_type)
+        //     ->where('c.user_type', $fil_type)
+        //     ->where('c.utype', $utype)
+        //     ->where('a.user_type', $fil_type)
+        //     ->where('ddate', "(SELECT ddate FROM fil_trap_seq WHERE utype='SCR' AND user_type='$fil_type' ORDER BY ddate DESC LIMIT 1)", false)
+        //     ->orderBy('c.ddate', 'DESC')
+        //     ->get();
+        // if ($query->getNumRows() >= 1) {
+        //     $result = $query->getRowArray();
+        //     return $result;
+        // } else {
+        //     return false;
+        // }
     }
 
     public function check_if_TAG_available_with_fil_trap_seq($usertype)
@@ -1539,26 +1610,45 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
         }
     }
 
-    public function get_concat_empid_name_from_fil_trap_users($usertype)
+    public function get_concat_empid_name_from_fil_trap_users($usertype,$inperson_condition=NULL)
     {
-
-        $query = $this->db->table('fil_trap_users a')
+        $builder = $this->db->table('fil_trap_users a')
             ->select("CONCAT(b.empid, '~', b.name) as empid")
             ->join('master.users b', 'a.usercode = b.usercode')
-            ->Join('master.specific_role s', "a.usercode = s.usercode AND s.display = 'Y' AND s.flag = 'P'", 'left')
-            ->where('s.id', null)
             ->where('a.usertype', $usertype)
             ->where('a.display', 'Y')
             ->where('b.display', 'Y')
-            ->where('b.attend', 'P')
-            ->orderBy('a.usercode', 'RANDOM')
-            ->get();
+            ->where('b.attend', 'P');
+
+        if (!empty($inperson_condition)) {
+            $builder->where($inperson_condition);
+        }
+
+        $builder->orderBy('b.empid');
+        $query = $builder->get();
+
         if ($query->getNumRows() >= 1) {
-            $result = $query->getResultArray();
-            return $result;
+            return $query->getResultArray();
         } else {
             return false;
         }
+        // $query = $this->db->table('fil_trap_users a')
+        //     ->select("CONCAT(b.empid, '~', b.name) as empid")
+        //     ->join('master.users b', 'a.usercode = b.usercode')
+        //     ->Join('master.specific_role s', "a.usercode = s.usercode AND s.display = 'Y' AND s.flag = 'P'", 'left')
+        //     ->where('s.id', null)
+        //     ->where('a.usertype', $usertype)
+        //     ->where('a.display', 'Y')
+        //     ->where('b.display', 'Y')
+        //     ->where('b.attend', 'P')
+        //     ->orderBy('a.usercode', 'RANDOM')
+        //     ->get();
+        // if ($query->getNumRows() >= 1) {
+        //     $result = $query->getResultArray();
+        //     return $result;
+        // } else {
+        //     return false;
+        // }
     }
 
     public function get_concat_empid_name_from_fil_trap_users_allot_to_TAG($usertype)
@@ -1582,24 +1672,43 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
 
     public function get_usercode_name_empid_from_fil_trap_users($fil_type, $usertype)
     {
-        //fresh scrutiny user or first refiling user not available then sequential refiling user allotment
-        $query = $this->db->table('fil_trap_users a')
-            ->select('a.usercode, b.name, b.empid')
-            ->join('master.users b', 'a.usercode = b.usercode')
-            ->Join('master.specific_role s', "a.usercode = s.usercode AND s.display = 'Y' AND s.flag = 'P'", 'left')
-            ->where('s.id', null)
-            ->where('a.usertype', $usertype)
-            ->where('a.display', 'Y')
-            ->where('b.display', 'Y')
-            ->where('b.attend', 'P')
-            ->where('a.user_type', $fil_type)
-            ->get();
+        $builder = $this->db->table('fil_trap_users a');
+        $builder->select('a.usercode, b.name, b.empid');
+        $builder->join('master.users b', 'a.usercode = b.usercode');
+        $builder->where('a.usertype', 103);
+        $builder->where('a.display', 'Y');
+        $builder->where('b.display', 'Y');
+        $builder->where('b.attend', 'P');
+        $builder->where('a.user_type', $fil_type);
+        if (!empty($inperson_condition)) {
+            $builder->where($inperson_condition);
+        }
+        $builder->orderBy('b.empid', 'ASC');
+        $query = $builder->get();
         if ($query->getNumRows() >= 1) {
-            $result = $query->getRowArray();
-            return $result;
+            return $query->getRowArray();
         } else {
             return false;
         }
+
+        //fresh scrutiny user or first refiling user not available then sequential refiling user allotment
+        // $query = $this->db->table('fil_trap_users a')
+        //     ->select('a.usercode, b.name, b.empid')
+        //     ->join('master.users b', 'a.usercode = b.usercode')
+        //     ->Join('master.specific_role s', "a.usercode = s.usercode AND s.display = 'Y' AND s.flag = 'P'", 'left')
+        //     ->where('s.id', null)
+        //     ->where('a.usertype', $usertype)
+        //     ->where('a.display', 'Y')
+        //     ->where('b.display', 'Y')
+        //     ->where('b.attend', 'P')
+        //     ->where('a.user_type', $fil_type)
+        //     ->get();
+        // if ($query->getNumRows() >= 1) {
+        //     $result = $query->getRowArray();
+        //     return $result;
+        // } else {
+        //     return false;
+        // }
     }
 
     public function check_main_with_docdetails_docmaster($diary_no)

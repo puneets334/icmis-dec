@@ -91,6 +91,7 @@ class FileTrap extends BaseController
         $scr = 0;
         $tag = 0;
         $fdr = 0;
+        $usertype = '';
 
         $uid = $_REQUEST['id'];
         if (empty($uid)) {
@@ -295,8 +296,7 @@ class FileTrap extends BaseController
                 }
             }
             if ($r_remarks == 'FDR -> AOR') {
-
-
+                
                 $update_main_refiling_attempt = [
                     'refiling_attempt' => date("Y-m-d H:i:s"),
                     'updated_on' => date("Y-m-d H:i:s"),
