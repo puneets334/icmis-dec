@@ -6,6 +6,13 @@
                     SUPREME COURT OF INDIA
                     <br />
         </div>
+        <div align=center style="font-size:12px;"><SPAN style="font-size:12px;" align="center"><b>
+            <?php if($mainhead == 'M'){
+            echo "ADVANCED LIST OF MISCELLANEOUS HEARING MATTERS TO BE LISTED DURING PARTIAL COURT WORKING DAYS - 2025";}
+            else{
+                echo "ADVANCED LIST OF REGULAR HEARING MATTERS TO BE LISTED DURING PARTIAL COURT WORKING DAYS - 2025";} ?>
+        </div>
+
         <table border="0" width="100%" style="font-size:12px; text-align: left; background: #ffffff;" cellspacing=0>
             <tr>
                 <th colspan="4" style="text-align: center;">
