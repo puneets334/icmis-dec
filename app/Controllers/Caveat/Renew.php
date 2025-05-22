@@ -225,22 +225,22 @@ CONCAT(left((cast(new_caveat_no as text)),-4),'/', right((cast(new_caveat_no as 
                                         'updated_by' => session()->get('login')['usercode'],
                                         'updated_by_ip' => getClientIP(),
                                     ];
-                                    $is_update_caveat_lowerct = update('caveat_lowerct', $data_update_caveat_lowerct, ['caveat_no' => $caveat_no]);
+                                    $is_update_caveat_lowerct = update('caveat_lowerct', $data_update_caveat_lowerct, ['caveat_no' => $caveatno]);
                                     $data_update_caveat_advocate = [
                                         'display' => 'N',
                                         'updated_on' => date("Y-m-d H:i:s"),
                                         'updated_by' => session()->get('login')['usercode'],
                                         'updated_by_ip' => getClientIP(),
                                     ];
-                                    $is_update_caveat_advocate = update('caveat_advocate', $data_update_caveat_advocate, ['caveat_no' => $caveat_no]);
+                                    $is_update_caveat_advocate = update('caveat_advocate', $data_update_caveat_advocate, ['caveat_no' => $caveatno]);
                                     $data_update_caveat_party = [
                                         'pflag' => 'T',
                                         'updated_on' => date("Y-m-d H:i:s"),
                                         'updated_by' => session()->get('login')['usercode'],
                                         'updated_by_ip' => getClientIP(),
                                     ];
-                                    $is_update_caveat_party = update('caveat_party', $data_update_caveat_party, ['caveat_no' => $caveat_no]);
-                                    $is_deleted_caveat = delete('caveat', ['caveat_no' => $caveat_no]);
+                                    $is_update_caveat_party = update('caveat_party', $data_update_caveat_party, ['caveat_no' => $caveatno]);
+                                    $is_deleted_caveat = delete('caveat', ['caveat_no' => $caveatno]);
                                 }
                             } else {
 
@@ -251,15 +251,15 @@ CONCAT(left((cast(new_caveat_no as text)),-4),'/', right((cast(new_caveat_no as 
                                     'updated_by' => session()->get('login')['usercode'],
                                     'updated_by_ip' => getClientIP(),
                                 ];
-                                $is_update_caveat_advocate = update('caveat_advocate', $data_update_caveat_advocate, ['caveat_no'=>$caveat_no]);
+                                $is_update_caveat_advocate = update('caveat_advocate', $data_update_caveat_advocate, ['caveat_no'=>$caveatno]);
                                 $data_update_caveat_party = [
                                     'pflag' =>'T',
                                     'updated_on' => date("Y-m-d H:i:s"),
                                     'updated_by' => session()->get('login')['usercode'],
                                     'updated_by_ip' => getClientIP(),
                                 ];
-                                $is_update_caveat_party=update('caveat_party',$data_update_caveat_party,['caveat_no'=>$caveat_no]);
-                                $is_deleted_caveat=delete('caveat',['caveat_no'=>$caveat_no]);
+                                $is_update_caveat_party=update('caveat_party',$data_update_caveat_party,['caveat_no'=>$caveatno]);
+                                $is_deleted_caveat=delete('caveat',['caveat_no'=>$caveatno]);
 
                             }
                         } else {
@@ -271,8 +271,8 @@ CONCAT(left((cast(new_caveat_no as text)),-4),'/', right((cast(new_caveat_no as 
                                 'updated_by' => session()->get('login')['usercode'],
                                 'updated_by_ip' => getClientIP(),
                             ];
-                            $is_update_caveat_party=update('caveat_party',$data_update_caveat_party,['caveat_no'=>$caveat_no]);
-                            $is_deleted_caveat=delete('caveat',['caveat_no'=>$caveat_no]);
+                            $is_update_caveat_party=update('caveat_party',$data_update_caveat_party,['caveat_no'=>$caveatno]);
+                            $is_deleted_caveat=delete('caveat',['caveat_no'=>$caveatno]);
 
                         }
 
@@ -285,22 +285,22 @@ CONCAT(left((cast(new_caveat_no as text)),-4),'/', right((cast(new_caveat_no as 
                         'updated_by' => session()->get('login')['usercode'],
                         'updated_by_ip' => getClientIP(),
                     ];
-                    $is_update_caveat_lowerct=update('caveat_lowerct',$data_update_caveat_lowerct,['caveat_no'=>$caveat_no]);
+                    $is_update_caveat_lowerct=update('caveat_lowerct',$data_update_caveat_lowerct,['caveat_no'=>$caveatno]);
                     $data_update_caveat_advocate = [
                         'display' => 'N',
                         'updated_on' => date("Y-m-d H:i:s"),
                         'updated_by' => session()->get('login')['usercode'],
                         'updated_by_ip' => getClientIP(),
                     ];
-                    $is_update_caveat_advocate=update('caveat_advocate',$data_update_caveat_advocate,['caveat_no'=>$caveat_no]);
+                    $is_update_caveat_advocate=update('caveat_advocate',$data_update_caveat_advocate,['caveat_no'=>$caveatno]);
                     $data_update_caveat_party = [
                         'pflag' =>'T',
                         'updated_on' => date("Y-m-d H:i:s"),
                         'updated_by' => session()->get('login')['usercode'],
                         'updated_by_ip' => getClientIP(),
                     ];
-                    $is_update_caveat_party=update('caveat_party',$data_update_caveat_party,['caveat_no'=>$caveat_no]);
-                    $is_deleted_caveat=delete('caveat',['caveat_no'=>$caveat_no]);
+                    $is_update_caveat_party=update('caveat_party',$data_update_caveat_party,['caveat_no'=>$caveatno]);
+                    $is_deleted_caveat=delete('caveat',['caveat_no'=>$caveatno]);
                 }
 
             $this->db->transComplete();
