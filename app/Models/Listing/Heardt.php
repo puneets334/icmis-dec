@@ -1521,7 +1521,8 @@ ORDER BY sub_name1";
         $builder = $this->db->table('heardt h');
         $builder->join('main m', 'm.diary_no = h.diary_no');
         $builder->where('m.diary_no', $diary_no);
-        $builder->select('h.*, m.conn_key, m.lastorder');
+        //$builder->select('h.*, m.conn_key, m.lastorder');
+        $builder->select('h.diary_no, h.conn_key, h.next_dt, h.mainhead, h.subhead, h.clno, h.brd_slno, h.roster_id, h.judges, h.coram as coram, h.board_type, h.usercode, h.ent_dt, h.module_id, h.mainhead_n, h.subhead_n, h.main_supp_flag, h.listorder, h.tentative_cl_dt, h.listed_ia, h.sitting_judges, h.list_before_remark, h.coram_prev, h.is_nmd, h.no_of_time_deleted, m.conn_key, m.lastorder');
         $sel_from_heardt = $builder->get()->getRowArray();
         return $sel_from_heardt ?: [];
     }

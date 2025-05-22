@@ -1926,24 +1926,19 @@ class CaseAdd extends Model
 
     public function getNextDt($dno)
     {
-        $db = \Config\Database::connect();
-    
-        $sql = "SELECT h.diary_no, cp.next_dt 
-            FROM heardt h
-            LEFT JOIN cl_printed cp 
-                ON cp.next_dt = h.next_dt 
-                AND cp.part = h.clno 
-                AND cp.roster_id = h.roster_id 
-                AND cp.display = 'Y'
-            WHERE h.diary_no = ?
-                AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
-                AND h.next_dt >= CURRENT_DATE
-            LIMIT 1";
-            //  $finalSql = str_replace('?', "'" . addslashes($dno) . "'", $sql);
-            //  pr($finalSql);
-    
-        $query = $db->query($sql, [$dno]);
-        return $query->getRowArray(); 
+        $builder = $this->db->table('heardt h');
+        $builder->select('h.diary_no, cp.next_dt');
+        //$builder->join('cl_printed cp', 'cp.next_dt = h.next_dt AND cp.part = h.clno AND cp.roster_id = h.roster_id AND cp.display = "Y"', 'left');
+        $builder->join('cl_printed cp', "cp.next_dt = h.next_dt AND cp.part = h.clno AND cp.roster_id = h.roster_id AND cp.display = 'Y'", 'left');
+        $builder->where('h.diary_no', $dno);
+        $builder->groupStart()
+                ->where('main_supp_flag', 1)
+                ->orWhere('main_supp_flag', 2)
+                ->groupEnd();
+        $builder->where('h.next_dt >=', date('Y-m-d'));
+        $query = $builder->get();
+        $return = $query->getRowArray();
+        return $return;
     }
     
 
@@ -2180,7 +2175,7 @@ class CaseAdd extends Model
     }
     public function getInterlocutoryApplications($diaryNo)
     {
-        return $this->db->table('docdetails a')
+        $return = $this->db->table('docdetails a')
             ->select('a.doccode, a.doccode1, docnum, docyear, filedby, other1, iastat, b.docdesc')
             ->join('master.docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1', 'left')
             ->where([
@@ -2192,6 +2187,7 @@ class CaseAdd extends Model
             ])
             ->orderBy('ent_dt, docyear, docnum')
             ->get()->getResultArray();
+        return $return;
     }
     // public function checkIfListIsPrinted($date, $heading, $coram, $session, $mainSuppFlag)
     // {
@@ -3426,6 +3422,44 @@ ORDER BY
         }
         return $return;
     }
+
+
+    public function isUserAuthorised($empid)
+    {
+        $return = false;
+        $builder = $this->db->table('master.case_status_flag');
+        $csf_res = $builder->select('always_allowed_users')->where('flag_name', 'update_heardt_empid')->get()->getRowArray();
+        $allowed_users = [];
+        if (!empty($csf_res) && isset($csf_res['always_allowed_users'])) {
+            $allowed_users = explode(',', $csf_res['always_allowed_users']);
+        }
+
+        if(in_array($empid, $allowed_users)) {
+            $return = true;
+        }
+        return $return;
+    }
+
+    public function isCasePublished($diaryNo, $nextDate)
+    {
+        $return = false;
+        $nextDate = isset($nextDate) ? date("Y-m-d", strtotime($nextDate)) : '';
+        // Build the query
+        $builder = $this->db->table('heardt h');
+        $builder->select('h.diary_no, h.next_dt, h.roster_id, h.board_type, h.judges, h.clno, h.brd_slno');
+        $builder->join('cl_printed cp', 'cp.next_dt = h.next_dt AND cp.part = h.clno AND cp.roster_id = h.roster_id');
+        $builder->where('h.diary_no', $diaryNo);
+        $builder->where('cp.display', 'Y');
+        $builder->whereIn('main_supp_flag', [1, 2]);
+        $builder->where('h.next_dt', $nextDate);
+        $query = $builder->get();
+        
+        if ($query->getNumRows() > 0) {
+            $return = true;
+        }
+        return $return;
+    }    
+    
 
 
 }

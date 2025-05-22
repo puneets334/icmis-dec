@@ -1,20 +1,16 @@
 <?= view('header') ?>
+<?php
+if(!$isAuthorised){
+    echo "<div style='text-align: center;color: red;'><h3>YOU ARE NOT AUTHORISED</h3></div>";
+    exit();  
+}
+?>
 <?= view('partial/diary_search') ?>
+
 <div id="dv_res1"></div>
 <?php echo csrf_field(); ?>
 <script type="text/javascript">
-
-// $csf_sql="SELECT * FROM case_status_flag where flag_name = 'update_heardt_empid'";
-//         $csf_qur=mysql_query($csf_sql);
-//         $csf_res=mysql_fetch_assoc($csf_qur);
-//         $allowed_users = explode(',', $csf_res['always_allowed_users']);
-//       if(!in_array($usertype[6], $allowed_users))
-//        {
-//             echo "YOU ARE NOT AUTHORISED";
-//             exit();
-//         }
-    function getDetails() 
-    {
+    function getDetails()  {
         $('.alert').hide();
 
         document.getElementById("dv_res1").innerHTML = '';

@@ -34,6 +34,19 @@
     label {
         padding-bottom: 0px;
     }
+
+    .blink_me {
+        color:red;
+        font-weight: 600;
+        /* margin-left: 90%; */
+        font-size: 1.2rem;
+        animation: blinker 1s linear infinite;
+    }
+    @keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+    }
 </style>
 
 <section class="content">
@@ -67,6 +80,28 @@
                                         <br />
                                     <?php } ?>
 
+
+
+                                     <!-- Start New code implement -->
+                                     <?php
+                                        $cp_nxtDt = "";
+                                        $ch_det = $getNextDt;
+                                        if (!empty($ch_det)) {
+                                            if ($ch_det['next_dt'] != '') {
+                                                $cp_nxtDt = $ch_det['next_dt'];
+                                            }
+                                        }
+                                        $curdate = date('Y-m-d');
+                                        
+                                        if (isset($caseDetails['next_dt']) && (date("Y-m-d", strtotime($caseDetails['next_dt'])) >= date("Y-m-d", strtotime($curdate)))  && ($caseDetails['main_supp_flag'] == '1' ||     $caseDetails['main_supp_flag'] == '2')) {
+                                            if ($cp_nxtDt != '') {
+                                                echo "<div class='row'><span class='blink_me'>Case Already Listed (Published)</span></div>";
+                                            } else {
+                                                echo "<div class='row'><span class='blink_me'>Case Already Listed</span></div>";
+                                            }
+                                        }
+                                        ?>       
+
                                     <form>
                                         <?= csrf_field() ?>
                                         <table align="center" width="100%">
@@ -90,30 +125,7 @@
                                         </table>
 
 
-                                        <!-- Start New code implement -->
-                                        <?php
-
-                                        $cp_nxtDt = "";
-
-                                        $check12 = $getNextDt;
-                                        if (!empty($check12)) {
-                                            $ch_det = $check12;
-                                            if ($ch_det['next_dt'] != '') {
-                                                $cp_nxtDt = $ch_det['next_dt'];
-                                            }
-                                        }
-
-
-                                        $curdate = date('Y-m-d');
-
-                                        if ((date("Y-m-d", strtotime($caseDetails['next_dt'])) >= date("Y-m-d", strtotime($curdate)))  && ($caseDetails['main_supp_flag'] == '1' || $caseDetails['main_supp_flag'] == '2')) {
-                                            if ($cp_nxtDt != '') {
-                                                echo "<span class='blink_me'>Case Already Listed (Published)</span>";
-                                            } else {
-                                                echo "<span class='blink_me'>Case Already Listed</span>";
-                                            }
-                                        }
-                                        ?>
+                                        
 
                                         <!-- End New code implement -->
                                         <input type="hidden" id="fil_hd" value="<?php echo $diary_no; ?>" />
@@ -367,12 +379,9 @@
                                                     </div>
                                                 </div>
                                                 <br>
-
-                                                <tr>
-                                                    <td colspan="3">
-                                                        <span style="color:red;font-weight: 700;">*Note: Please ensure proper format while entering Statutory Remarks. It is advised to give space between words and after comma for separating words/ IA numbers etc.</span>
-                                                    </td>
-                                                </tr>
+                                                <div class="row">
+                                                    <span style="color:red;font-weight: 700;">*Note: Please ensure proper format while entering Statutory Remarks. It is advised to give space between words and after comma for separating words/ IA numbers etc.</span>
+                                                </div>                        
                                                 <br>
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -392,14 +401,15 @@
                                                     </div>
                                                 </div>
                                         </table>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h3 class="mt-4" style="text-align: center">INTERLOCUTARY APPLICATIONS OF CASE</h3>
-                                            </div>
-                                        </div>
+                                        
 
 
                                         <?php if (!empty($applications)) : ?>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h3 class="mt-4" style="text-align: center">INTERLOCUTARY APPLICATIONS OF CASE</h3>
+                                                </div>
+                                            </div>
                                             <table id="tb_clr_n">
                                                 <tr>
                                                     <th>IA No.</th>
@@ -422,7 +432,7 @@
                                                 <?php endforeach; ?>
                                                 <tr>
                                                     <th colspan="5">
-                                                        <input type="button" value="Submit" name="savebutton" />
+                                                        <input type="button" value="Submit" name="savebutton" class="btn btn-primary"/>
                                                     </th>
                                                 </tr>
                                             <?php else : ?>
@@ -435,7 +445,7 @@
                                             </table>
                                             <div class="row">
                                                 <div class="col-md-12 text-center">
-                                                    <input type="button" value="Submit" name="savebutton" />
+                                                    <input type="button" value="Submit" name="savebutton" class="btn btn-primary"/>
                                                 </div>
                                             </div>
                                     </form>
@@ -563,6 +573,7 @@
                 }
             })
             .fail(function() {
+                updateCSRFToken()
                 alert("Error occurred while checking if the list is printed.");
             });
     });
@@ -578,11 +589,15 @@
                 data: objData,
             })
             .done(function(msg2) {
-                if (msg2.message) {
+                if(msg2.message == 'Case Already Listed'){
+                    alert(msg2)
+                    return false    
+                } else {
                     alert(msg2.message);
                     window.location.reload(true);
                     //$("input[name=btnGetR]").click(); 
                 }
+                updateCSRFToken()
             })
         // .fail(function () {
         //     alert("Error saving proposal. Please try again.");

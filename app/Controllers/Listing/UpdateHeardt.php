@@ -70,9 +70,12 @@ class UpdateHeardt extends BaseController
 
     public function update_heardt()
     {
-        $request = \Config\Services::request();
         $data = [];
-        
+        //$usercode = session()->get('login')['usercode'];
+        $empid = session()->get('login')['empid'];
+        $data['isAuthorised'] = $this->CaseAdd->isUserAuthorised($empid);
+
+        $request = \Config\Services::request();      
         if ($request->getMethod() === 'post' && $this->validate([
             'search_type' => ['label' => 'search Type', 'rules' => 'required|min_length[1]|max_length[1]']
         ])) {
@@ -146,7 +149,7 @@ class UpdateHeardt extends BaseController
         $mainSuppOptions  = $this->CaseAdd->getAllMainSupp($dno);
         $getNextDt  = $this->CaseAdd->getNextDt($dno);
         $listingPurpose = $this->ListingPurpose->getPurposeList();
-        //$applications = $this->CaseAdd->getInterlocutoryApplications($dno);
+        $applications = $this->CaseAdd->getInterlocutoryApplications($dno);
         $if_list_is_printed = false;
         $if_list_is_printed = $this->CaseAdd->isListPrinted($caseDetails['next_dt'],$caseDetails['mainhead'], $caseDetails['roster_id'], $caseDetails['clno'], $caseDetails['main_supp_flag']);
         
@@ -215,7 +218,8 @@ class UpdateHeardt extends BaseController
             'casetype'=> $casetype,
             'r_case'=> $r_case,
             'main_case'=> $main_case,
-            'getNextDt'=> $getNextDt
+            'getNextDt'=> $getNextDt,
+            'applications'=> $applications
         ]);
     }
 
@@ -273,11 +277,20 @@ class UpdateHeardt extends BaseController
         if (strlen(trim($data['reason_md'])) < 20) {
             return $this->response->setJSON(['status' => 'error', 'message' => 'Please Entre Reason with minimum 20 characters...']);
         } else {
-            $ucode = session()->get('login')['usercode'];
+
+            $data['isPublished'] = $this->CaseAdd->isCasePublished($data['dno'], $data['ndt']);     
+            if ($data['isPublished'] > 0) {
+                return $this->response->setJSON(['status' => 'error', 'message' => 'Case Already Listed & Published.']);
+            }
+
+            
             $data['sinfo'] = !empty($data['sinfo']) ? htmlspecialchars(trim(preg_replace('/\s\s+/', ' ', str_replace("\n", " ", $data['sinfo'])))) :'';
             
-            if (!$this->isUserAuthorized($ucode)) {
-                return $this->response->setJSON(['status' => 'error', 'message' => 'You are not authorized.']);
+            $ucode = session()->get('login')['usercode'];
+            $empid = session()->get('login')['empid'];
+            $isUserAuthorized = $this->CaseAdd->isUserAuthorised($empid);
+            if (!$isUserAuthorized) {
+                return $this->response->setJSON(['status' => 'error', 'message' => 'YOU ARE NOT AUTHORISED']);
             }
             $tempfield = explode('~', $data['coram']);
             $data['coram'] = isset($tempfield[0]) ? $tempfield[0] : 0;
@@ -289,7 +302,6 @@ class UpdateHeardt extends BaseController
             }
 
             $sel_from_heardt = $this->Heardt->getHeardtDetails($data['dno']);
-
             if($sel_from_heardt){
                 $chk_in_l_h = $this->Heardt->checkLastHeardtDetails($data['dno'], $sel_from_heardt);
                 if($chk_in_l_h == 0) {
@@ -322,7 +334,8 @@ class UpdateHeardt extends BaseController
                         $this->Heardt->addLastHeardt($lastHeardt);
                     } else {
                         if($if_list_is_printed == true){
-                            $this->Heardt->addLastHeardt($lastHeardt);
+                            return $this->response->setJSON(['status' => 'error', 'message' => 'Case Already Listed & Published.']);
+                            //$this->Heardt->addLastHeardt($lastHeardt);
                         }else if($if_list_is_printed == false){
                             $this->Heardt->addLastHeardt($lastHeardt);
                         }
