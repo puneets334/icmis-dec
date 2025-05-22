@@ -28,6 +28,7 @@ class MonitoringTeam extends BaseController
 
     public function bulk_dispose()
     {
+        
         $diary_no = $this->request->getVar('diaryno');
         // $bar_id = $this->request->getVar('d2');
         $ucode = session()->get('login')['usercode'];
@@ -40,7 +41,7 @@ class MonitoringTeam extends BaseController
         $rs_check_already_disposed = $this->MonitoringTeam_Model->checkAlreadyDisposed($diary_no);
         
         $existing_disposed_diary_nos = '';
-        if(is_array($rs_check_already_disposed) && count($rs_check_already_disposed) > 0)
+        if(!empty($rs_check_already_disposed) && is_array($rs_check_already_disposed) && count($rs_check_already_disposed) > 0 && $rs_check_already_disposed[0]['ttl'] != '0' )
         {
             $diary_nos = [];
             foreach ($rs_check_already_disposed as $rw_already_disposed) {  
@@ -50,15 +51,16 @@ class MonitoringTeam extends BaseController
             $existing_disposed_diary_nos = implode(',', $diary_nos);
             echo "<div class='col-md-12'> Diary Numbers - " . $existing_disposed_diary_nos . " are already disposed off. Please remove the numbers from list and retry.</div>";
             exit();
-        }
-
+        }        
         $rs_next_dt = $this->MonitoringTeam_Model->checkFutureDates($diary_no);
+        
         foreach ($rs_next_dt as $rw_next_dt) {
             if ($rw_next_dt['future_date_count'] > 0) {
                 echo "Diary Numbers - " . $rw_next_dt['future_date'] . " are listed in future dates. Please remove the numbers from list and retry.  ";
                 exit();
             }
         }
+        
         $diary_no_list = explode(',', $diary_no);
         $peremptory_diary = '';
         foreach ($diary_no_list as $dno) {
@@ -67,10 +69,13 @@ class MonitoringTeam extends BaseController
             if ($result_remarks) {
                 $cl_date = new \DateTime($result_remarks['cl_date']);
                 $current_date = new \DateTime();
-
                 $date_diff = $cl_date->diff($current_date)->days;
 
-                if ($result_remarks['r_head'] == 133 && $date_diff <= $result_remarks['head_content']) {
+                $dateNow = new \DateTime();
+                $datediff = $cl_date->diff($dateNow);
+                $no_of_days = $datediff->format("%a");
+                
+                if ($result_remarks['r_head'] == 133 && $no_of_days <= $result_remarks['head_content']) {
                     $peremptory_diary .= $dno . ",";
                 }
             }
@@ -78,8 +83,7 @@ class MonitoringTeam extends BaseController
         if(empty($result_remarks) && ! is_array($result_remarks) )
         {
             echo "<center>Please Check Record it`s not Found it !!</center>";die;
-        }
-        
+        }        
 
         if (!empty($peremptory_diary)) {
             echo "Peremptory order was ordered in Diary Numbers - " . rtrim($peremptory_diary, ',') . ". Please remove the numbers from list and retry.  ";
