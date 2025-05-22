@@ -344,13 +344,15 @@ class MiscAllocationModel extends Model
                     COUNT(*) AS total
                 FROM (
                     SELECT h.next_dt, h.mainhead, h.board_type, jcd, h.subhead, d.doccode1, mc.submaster_id, h.listorder, h.diary_no,
-                        CASE WHEN (h.subhead = 804 OR mc.submaster_id = 173 OR doccode1 IN (40,41,48,49,71,72,118,131,211,309)) THEN 1 ELSE 0 END AS bail,
+                        --CASE WHEN (h.subhead = 804 OR mc.submaster_id = 173 OR doccode1 IN (40,41,48,49,71,72,118,131,211,309)) THEN 1 ELSE 0 END AS bail,
+                        CASE WHEN (h.subhead = 804 OR sm.is_bail = 1 OR doccode1 IN (40,41,48,49,71,72,118,131,211,309)) THEN 1 ELSE 0 END AS bail,
                         CASE WHEN a.advocate_id IN (584,585,610,616,666,940) THEN 1 ELSE 0 END AS inperson       
                     FROM heardt h       
                     INNER JOIN main m ON m.diary_no = h.diary_no 
                     LEFT JOIN docdetails d ON d.diary_no = m.diary_no AND d.display = 'Y' AND d.iastat = 'P' AND d.doccode = 8 
                         AND d.doccode1 IN (7,66,29,56,57,28,103,133,226,3,309,73,99,40,48,72,71,27,124,2,16,41,49,71,72,102,118,131,211,309) 
                     LEFT JOIN mul_category mc ON mc.diary_no = h.diary_no AND mc.display = 'Y'  
+                    LEFT JOIN master.submaster sm ON sm.id = mc.submaster_id 
                     LEFT JOIN advocate a ON a.diary_no = m.diary_no AND a.advocate_id IN (584,585,610,616,666,940) AND a.display = 'Y'          
                     LEFT JOIN (
                         SELECT r.id, 
@@ -607,7 +609,7 @@ class MiscAllocationModel extends Model
                         }
                         $sell_roster_id = rtrim($sell_roster_id, ",");
 
-                        $short_categoary_array = array(173,176,222);
+                        //$short_categoary_array = array(173,176,222);
 
                         $short_cat = "1=1";
                         $is_nmd_column_flag = "";
@@ -618,8 +620,8 @@ class MiscAllocationModel extends Model
                                 //echo "<br>Inside of misc_nmd_flag one : <br>";
                                 $is_nmd_column_flag = " ";
                                 //$short_cat = " OR if(a.advocate_id is not null,1=1,  (mc.submaster_id IN (173,176,222) or h.subhead in (804,831) )   )  ) ";
-                                $short_cat = " (mc.submaster_id IN (173,176,222) or h.subhead in (804,831) ) ";
-                                $short_cat_sq = " or mc.submaster_id = 173 ";
+                                $short_cat = " (sm.is_bail = 1 or mc.submaster_id IN (1343,1344) or h.subhead in (804,831) ) ";
+                                $short_cat_sq = " or sm.is_bail = 1 ";
                             } else {
                                 $is_nmd_column_flag = " ";                        
                                 $short_cat = " 1=1 ";                       
@@ -641,7 +643,7 @@ class MiscAllocationModel extends Model
                             THEN   
                             (a.advocate_id is not null OR 
                             (
-                            (mc.submaster_id IN (173,176,222) or h.subhead in (804,831))
+                            (sm.is_bail = 1 or mc.submaster_id IN (1343,1344) or h.subhead in (804,831))
                             AND h.listorder = '" . $ro_pr['code'] . "')
                             )
                             WHEN
@@ -654,7 +656,7 @@ class MiscAllocationModel extends Model
                         }
 
                         $short_non_short_sel = $postData['short_non_short_sel'];
-                        $cars = array();
+                        
                         $arr_dumpp = "";
                         if ($ro_pr['code'] == '32') {
                             $orderby = "date(fresh_case_order_by) asc";
@@ -672,7 +674,7 @@ class MiscAllocationModel extends Model
                     
                         //END
                         //#AND coram :: integer != 0 
-                        $sql = "SELECT COALESCE(verification_date,CASE WHEN active_fil_dt IS NOT NULL THEN active_fil_dt ELSE diary_no_rec_date END) AS fresh_case_order_by,
+                        $sql = "SELECT sm.is_bail, COALESCE(verification_date,CASE WHEN active_fil_dt IS NOT NULL THEN active_fil_dt ELSE diary_no_rec_date END) AS fresh_case_order_by,
                                     t.rid, judge_id_on_rid,STRING_AGG(mc.submaster_id::TEXT, ',') AS cat1,t.cat,submaster_id,m.conn_key AS main_key,dd.doccode1,a.advocate_id,ad_al.j1 AS allocated_j1,l.priority,h.*,'coram' AS listed_by,
                                     CASE WHEN ad_al.diary_no IS NOT NULL THEN 1 ELSE 0 END AS in_advance_list,
                                     CASE WHEN c.diary_no IS NULL AND (m.fil_no_fh = '' OR m.fil_no_fh IS NULL) AND h.subhead NOT IN (813, 814) THEN 1 ELSE 2 END AS pre_notice
@@ -688,6 +690,7 @@ class MiscAllocationModel extends Model
                                 AND a.advocate_id IN (584, 585, 610, 616, 666, 940) 
                                 AND a.display = 'Y'
                                 LEFT JOIN mul_category mc ON mc.diary_no = m.diary_no
+                                LEFT JOIN master.submaster sm ON sm.id = mc.submaster_id 
                                 LEFT JOIN (
                                     SELECT 
                                         j.submaster_id AS cat, 
@@ -725,8 +728,11 @@ class MiscAllocationModel extends Model
                                 rd.fil_no IS NULL
                                 AND m.diary_no IS NOT NULL
                                 AND (h.listorder IN (4, 5) OR ad_d.diary_no IS NULL)
+                                AND sm.is_old = 'N' 
+                                AND sm.display = 'Y' 
                                 AND mc.display = 'Y' 
-                                AND mc.submaster_id NOT IN (911, 912, 914, 0, 239, 240, 241, 242, 243)
+                                --AND mc.submaster_id NOT IN (911, 912, 914, 0, 239, 240, 241, 242, 243)
+                                AND sm.is_3j != 1 AND sm.is_5j != 1 AND sm.is_7j != 1 AND sm.is_9j != 1 AND sm.is_11j != 1 
                                 AND mc.submaster_id IS NOT NULL
                                 AND m.active_casetype_id NOT IN (25, 26)
                                 AND m.c_status = 'P'
@@ -740,7 +746,7 @@ class MiscAllocationModel extends Model
                                                     END)
                                 AND h.subhead NOT IN (801, 817, 818, 819, 820, 848, 849, 850, 854, 0)
                                 AND (CASE WHEN h.listorder = '32' THEN h.next_dt <= '$q_next_dt' 
-                                        ELSE (CASE WHEN h.listorder IN (4, 5) AND $main_supp = 1 THEN h.next_dt = '$q_next_dt' OR h.next_dt < CURRENT_DATE ELSE h.next_dt = '$q_next_dt' END)END)
+                                        ELSE (CASE WHEN h.listorder != 32 AND $main_supp = 1 THEN h.next_dt = '$q_next_dt' OR h.next_dt < CURRENT_DATE ELSE h.next_dt = '$q_next_dt' END)END)
                                 $mandatory_selection
                                 AND h.next_dt IS NOT NULL
                                 AND h.roster_id = 0
@@ -757,7 +763,7 @@ class MiscAllocationModel extends Model
 
                                 UNION
                                 
-                                SELECT CASE WHEN verification_date IS NOT NULL THEN verification_date 
+                                SELECT  sm.is_bail, CASE WHEN verification_date IS NOT NULL THEN verification_date 
                                 WHEN verification_date IS NULL AND active_fil_dt IS NOT NULL THEN active_fil_dt ELSE diary_no_rec_date END AS fresh_case_order_by, t.rid, judge_id_on_rid, NULL AS cat1, t.cat, submaster_id, m.conn_key AS main_key, doccode1, a.advocate_id, ad_al.j1 AS allocated_j1, l.priority, h.*, 'category' AS listed_by,
                                 CASE WHEN ad_al.diary_no IS NOT NULL THEN 1 ELSE 0 END AS in_advance_list,
                                 CASE WHEN c.diary_no IS NULL AND (m.fil_no_fh = '' OR m.fil_no_fh IS NULL) AND h.subhead NOT IN (813,814) THEN 1 ELSE 2 END AS pre_notice      
@@ -766,6 +772,7 @@ class MiscAllocationModel extends Model
                                 LEFT JOIN master.listing_purpose l ON l.code = h.listorder
                                 LEFT JOIN rgo_default rd ON rd.fil_no = h.diary_no AND rd.remove_def = 'N'
                                 LEFT JOIN mul_category mc ON mc.diary_no = m.diary_no
+                                LEFT JOIN master.submaster sm ON sm.id = mc.submaster_id 
                                 LEFT JOIN docdetails dd ON dd.diary_no = h.diary_no AND dd.iastat = 'P' AND dd.doccode = 8 AND dd.doccode1 IN (7, 66, 29, 56, 57, 28, 103, 133, 3, 309, 73, 99, 40, 48, 72, 71, 27, 124, 2, 16, 41, 49, 102, 118, 131, 211, 309)
                                 LEFT JOIN advocate a ON a.diary_no = m.diary_no AND a.advocate_id IN (584, 585, 610, 616, 666, 940) AND a.display = 'Y'
                                 LEFT JOIN (
@@ -802,8 +809,11 @@ class MiscAllocationModel extends Model
                                     $pre_after_notice_where_condition
                                     AND ((h.listorder IN (4, 5)) OR ad_d.diary_no IS NULL)
                                     AND m.active_casetype_id NOT IN (9, 10, 25, 26)
+                                    AND sm.is_old = 'N' 
+                                    AND sm.display = 'Y' 
                                     AND mc.display = 'Y' 
-                                    AND mc.submaster_id NOT IN (0, 911, 912, 914, 239, 240, 241, 242, 243) 
+                                    AND mc.submaster_id NOT IN (0, 911, 912, 914) 
+                                    AND sm.is_3j != 1 AND sm.is_5j != 1 AND sm.is_7j != 1 AND sm.is_9j != 1 AND sm.is_11j != 1 
                                     AND m.c_status = 'P' 
                                     AND (m.diary_no = CAST(NULLIF(m.conn_key, '') AS BIGINT) OR m.conn_key = '0' OR m.conn_key = '' OR m.conn_key IS NULL) 
                                     AND h.main_supp_flag = 0 
@@ -822,12 +832,29 @@ class MiscAllocationModel extends Model
                                     AND CASE 
                                         WHEN h.listorder = 32 THEN h.next_dt <= '$q_next_dt'
                                         ELSE CASE 
-                                            WHEN h.listorder IN (4, 5) AND $main_supp = 1 THEN h.next_dt = '$q_next_dt' OR h.next_dt < CURRENT_DATE
+                                            WHEN h.listorder != 32 AND $main_supp = 1 THEN h.next_dt = '$q_next_dt' OR h.next_dt < CURRENT_DATE
                                             ELSE h.next_dt = '$q_next_dt'
                                         END 
                                     END
                                     $ignore_dropped_cases
-                                GROUP BY m.diary_no, dv.verification_date, t.rid, t.judge_id_on_rid, t.cat, mc.submaster_id, dd.doccode1, a.advocate_id, ad_al.j1, l.priority, h.diary_no, ad_al.diary_no, c.diary_no ";
+                                GROUP BY m.diary_no, dv.verification_date, t.rid, t.judge_id_on_rid, t.cat, mc.submaster_id, dd.doccode1, a.advocate_id, ad_al.j1, l.priority, h.diary_no, ad_al.diary_no, c.diary_no
+                                ORDER BY 
+                                    CASE WHEN subhead = '831' THEN 0 ELSE 999 END ASC,
+                                    CASE WHEN subhead = '824' THEN 1 ELSE 999 END ASC,
+                                    CASE WHEN listorder IN (4, 5) THEN 2 ELSE 999 END ASC,
+                                    CASE WHEN advocate_id IS NOT NULL THEN 3 ELSE 999 END ASC,
+                                    CASE WHEN (subhead = '804' OR doccode1 IN (40, 41, 48, 49, 71, 72, 118, 131, 211, 309) 
+                                        OR is_bail = 1) AND listorder != 32 THEN 4 ELSE 999 END ASC,
+                                    CASE WHEN listorder IN (7,8) THEN 5 ELSE 999 END ASC,
+                                    CASE WHEN listorder IN (25) THEN 6 ELSE 999 END ASC,
+                                    CASE WHEN (subhead IN ('810', '802', '803', '807')) AND listorder != 32 THEN 7 ELSE 999 END ASC,
+                                    CASE WHEN pre_notice IS NOT NULL AND listorder != 32 THEN pre_notice ELSE 999 END ASC,
+                                    CASE WHEN doccode1 IN (56, 57, 102, 73, 99, 27, 124, 2, 16) AND listorder != 32  THEN 8 ELSE 999 END ASC,
+                                    CASE WHEN in_advance_list = 1 THEN 9 ELSE 999 END ASC,
+                                    priority ASC,
+                                    no_of_time_deleted DESC,
+                                    CASE WHEN (coram IS NOT NULL AND coram != '0' AND trim(coram) != '') THEN 1 ELSE 999 END ASC,
+                                    $orderby";
                                 
                                 // ORDER BY 
                                 //     CASE WHEN subhead = '831' THEN 0 ELSE 999 END ASC,
