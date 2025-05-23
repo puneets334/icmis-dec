@@ -60,7 +60,6 @@ class AddCaseAdvance extends BaseController
         $cy = $request->getPost('case_year');
         $dyr = $request->getPost('diary_year');
         $dn = $request->getPost('diary_number');
-
         $dno = '';
 
         if (!empty($ct) && !empty($cn) && !empty($cy)) {
@@ -97,7 +96,6 @@ class AddCaseAdvance extends BaseController
 
     public function add_case_info()
     {
-       
         $request = service('request');
         $ct = $request->getPost('case_type');
         $cn = $request->getPost('case_number');

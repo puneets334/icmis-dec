@@ -217,22 +217,59 @@ class CaseAdd extends Model
    
     public function getCaseDetails($dno)
     {
+        
+       
 
         if (empty($dno)) {
             return null;
         }
-        $builder = $this->db->table('main a');
-        $builder->select("aa.next_dt as advance_list_date,a.diary_no_rec_date,a.fil_dt,a.lastorder, a.pet_name, 
-            a.res_name,a.c_status,b.listorder,b.next_dt,b.mainhead,b.subhead,b.clno,b.brd_slno,b.roster_id, 
-            b.judges,b.board_type,b.main_supp_flag,b.tentative_cl_dt,b.sitting_judges,c.remark,b.is_nmd ,case_grp side");
+        // $builder = $this->db->table('main a');
+        // $builder->select("aa.next_dt as advance_list_date,a.diary_no_rec_date,a.fil_dt,a.lastorder, a.pet_name, 
+        //     a.res_name,a.c_status,b.listorder,b.next_dt,b.mainhead,b.subhead,b.clno,b.brd_slno,b.roster_id, 
+        //     b.judges,b.board_type,b.main_supp_flag,b.tentative_cl_dt,b.sitting_judges,c.remark,b.is_nmd ,case_grp side");
 
-        $builder->join('heardt b', 'a.diary_no  = b.diary_no ', 'left');
-        $builder->join('brdrem c', 'CAST(a.diary_no AS BIGINT) = CAST(c.diary_no AS BIGINT)', 'left');
-        $builder->join('advance_allocated aa', 'CAST(b.diary_no AS BIGINT) = CAST(aa.diary_no AS BIGINT) AND b.next_dt = aa.next_dt', 'left');
-        $builder->where('b.diary_no ', $dno);
-        $query = $builder->get();
+        // $builder->join('heardt b', 'a.diary_no  = b.diary_no ', 'left');
+        // $builder->join('brdrem c', 'CAST(a.diary_no AS BIGINT) = CAST(c.diary_no AS BIGINT)', 'left');
+        // $builder->join('advance_allocated aa', 'CAST(b.diary_no AS BIGINT) = CAST(aa.diary_no AS BIGINT) AND b.next_dt = aa.next_dt', 'left');
+        // $builder->where('b.diary_no ', $dno);
+        // $query = $builder->get();
         
-        return $query->getRowArray();
+        // return $query->getRowArray();
+
+        
+        $sql="SELECT 
+                aa.next_dt AS advance_list_date,
+                a.diary_no_rec_date,
+                a.fil_dt,
+                a.lastorder,
+                a.pet_name,
+                a.res_name,
+                a.c_status,
+                b.listorder,
+                b.next_dt,
+                b.mainhead,
+                b.subhead,
+                b.clno,
+                b.brd_slno,
+                b.roster_id,
+                b.judges,
+                b.board_type,
+                b.main_supp_flag,
+                b.listorder,
+                b.tentative_cl_dt,
+                b.sitting_judges,
+                c.remark,
+                case_grp side,
+                b.is_nmd
+            FROM main a
+            LEFT JOIN heardt b ON a.diary_no = b.diary_no
+            LEFT JOIN brdrem c ON a.diary_no = c.diary_no
+            LEFT JOIN advance_allocated aa 
+                ON b.diary_no = aa.diary_no::INTEGER AND b.next_dt = aa.next_dt
+            WHERE a.diary_no = '$dno'";
+          
+             $query = $this->db->query($sql);
+             return $query->getRowArray();
     }
 
     public function getSubName($dno)
@@ -256,6 +293,7 @@ class CaseAdd extends Model
 
     public function getShortDesc($fil_no_fh)
     {
+        
         if (empty($fil_no_fh)) {
             $fil_no_fh = 0;
         }
@@ -269,6 +307,8 @@ class CaseAdd extends Model
     }
     public function getConnKey($dno)
     {
+      
+       
         $builder = $this->db->table('conct');
         $builder->select('conn_key, diary_no')
             ->where('conn_key', $dno)
@@ -278,7 +318,6 @@ class CaseAdd extends Model
     }
     public function getJname($dno)
     {
-       
         $sql = "SELECT jcode,
                 STRING_AGG(jname, ' ') AS jname,
                 h.diary_no,
@@ -332,8 +371,9 @@ class CaseAdd extends Model
     }
     public function getAdvanceDate($next_dt)
     {
+        
         // Remove vkg
-        //$next_dt = '2025-01-29';
+       // $next_dt = '2018-11-02';
 
 
         $builder = $this->db->table('advance_allocated aa');
@@ -505,31 +545,43 @@ class CaseAdd extends Model
 
     public function isNumCheckZero($q_next_dt)
     {
-        $sql = "SELECT jg.p1,jg.p2,jg.p3,j.abbreviation,jg.fresh_limit,jg.old_limit,COALESCE(listed, 0) AS listed
-                                        FROM
-                                        judge_group jg
-                                        LEFT JOIN master.judge j ON j.jcode = jg.p1
-                                            LEFT JOIN (SELECT h.j1,
-                                            COUNT(h.diary_no) AS listed
-                                        FROM
-                                        advance_allocated h
-                                        LEFT JOIN main m ON h.diary_no::bigint = m.diary_no::bigint 
-                                        LEFT JOIN advanced_drop_note d ON d.diary_no::bigint = h.diary_no::bigint AND d.cl_date = h.next_dt
-                                        WHERE
-                                            d.diary_no IS NULL
-                                           AND h.next_dt = '$q_next_dt'
-                                            AND h.board_type = 'J'
-                                            AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
-                                            AND (m.diary_no::bigint = m.conn_key::bigint OR m.conn_key = '' OR m.conn_key IS NULL OR m.conn_key = '0')
-                                        GROUP BY
-                                            h.j1) b ON b.j1 = jg.p1
-                                        WHERE
-                                        j.is_retired != 'Y'
-                                        AND jg.to_dt IS NULL
-                                        AND jg.display = 'Y'
-                                         GROUP BY jg.p1,jg.p2,jg.p3,j.abbreviation,jg.fresh_limit,jg.old_limit,b.listed,j.judge_seniority
-                                        ORDER BY
-                                        j.judge_seniority";
+        $sql = "SELECT 
+                    jg.p1,
+                    jg.p2,
+                    jg.p3,
+                    j.abbreviation,
+                    jg.fresh_limit,
+                    jg.old_limit,
+                    COALESCE(listed, 0) AS listed
+                FROM judge_group jg
+                LEFT JOIN master.judge j ON j.jcode = jg.p1
+                LEFT JOIN (
+                    SELECT 
+                        h.j1,
+                        COUNT(h.diary_no) AS listed
+                    FROM advance_allocated h
+                    LEFT JOIN main m ON h.diary_no::BIGINT = m.diary_no::BIGINT
+                    LEFT JOIN advanced_drop_note d ON d.diary_no::BIGINT = h.diary_no::BIGINT AND d.cl_date = h.next_dt
+                    WHERE 
+                        d.diary_no IS NULL
+                        AND h.next_dt = DATE '$q_next_dt'
+                        AND h.board_type = 'J'
+                        AND (h.main_supp_flag = 1 OR h.main_supp_flag = 2)
+                        AND (
+                            m.conn_key IS NULL 
+                            OR m.conn_key = '0'
+                            OR m.conn_key ~ '^\d+$' AND m.diary_no::BIGINT = m.conn_key::BIGINT
+                        )
+                    GROUP BY h.j1
+                ) b ON b.j1 = jg.p1
+                WHERE 
+                    j.is_retired != 'Y'
+                    AND jg.to_dt IS NULL
+                    AND jg.display = 'Y'
+                GROUP BY 
+                    jg.p1, jg.p2, jg.p3, j.abbreviation, jg.fresh_limit, jg.old_limit, b.listed, j.judge_seniority
+                ORDER BY j.judge_seniority";
+                                      
 
         $query = $this->db->query($sql);
         $result = $query->getResultArray();
@@ -539,8 +591,6 @@ class CaseAdd extends Model
     public function getIsPerson($q_next_dt, $presiing_judge_str, $diary_number)
     {
        
-       
-        //remove vkg
         $sql = "SELECT 
                     'NO' AS is_prepon, 
                     CASE 
@@ -596,17 +646,17 @@ class CaseAdd extends Model
                     AND h.main_supp_flag = 0
                     AND h.subhead NOT IN (801, 817, 818, 819, 820, 848, 849, 850, 854, 0)
                     AND h.mainhead = 'M' 
-                    AND h.next_dt IS NOT NULL  -- Instead of checking '0000-00-00'
+                    AND h.next_dt IS NOT NULL 
                     AND h.roster_id = 0 
                     AND h.brd_slno = 0 
                     AND h.board_type = 'J'
-                    AND h.next_dt = '$q_next_dt'  -- remove
+                   AND h.next_dt = '$q_next_dt'  -- remove
                     AND h.listorder > 0 
                     AND h.listorder <> 32 
                 AND m.diary_no = $diary_number -- remove
                 GROUP BY m.diary_no, t.rid, t.cat, dd.doccode1, a.advocate_id, submaster_id, 
-                        m.conn_key, l.priority, h.*, aa2.diary_no,c.diary_no,h.subhead,h.diary_no
-                        "; // Remove limit
+                        m.conn_key, l.priority, h.*, aa2.diary_no,c.diary_no,h.subhead,h.diary_no"; 
+                        //pr($sql);// Remove limit
                         
                         
         $query = $this->db->query($sql);
@@ -665,6 +715,7 @@ class CaseAdd extends Model
 
     public function getCaseDetailsSingleJudge($dno)
     {
+        
         $sql = "SELECT aa.next_dt as advance_list_date, aa.from_dt, aa.to_dt, a.diary_no_rec_date,a.fil_dt,a.lastorder,
                         a.pet_name, a.res_name,a.c_status,b.listorder,b.next_dt,b.mainhead,b.subhead,b.clno,b.brd_slno,b.roster_id,b.judges,
                         b.board_type,b.main_supp_flag,b.listorder,b.tentative_cl_dt,sitting_judges,c.remark,case_grp side, b.is_nmd
@@ -674,6 +725,7 @@ class CaseAdd extends Model
                         left join advance_single_judge_allocated aa on b.diary_no=aa.diary_no and b.next_dt = aa.next_dt 
                         and aa.to_dt < CURRENT_DATE
                         WHERE a.diary_no='$dno'";
+                       
         $query = $this->db->query($sql);
         $result = $query->getRowArray();
         return $result;
@@ -950,21 +1002,46 @@ class CaseAdd extends Model
 
     public function getCaseType($dno)
     {
+       
 
         if (empty($dno)) {
             return null;
         }
 
-        $builder = $this->db->table('main a');
-        $builder->select('fil_no, fil_dt, fil_no_fh, fil_dt_fh, short_description');
-        $builder->select("COALESCE(NULLIF(reg_year_mh, 0), EXTRACT(YEAR FROM a.fil_dt)) AS m_year");
-        $builder->select("COALESCE(NULLIF(reg_year_fh, 0), EXTRACT(YEAR FROM a.fil_dt_fh)) AS f_year");
-        $builder->join('master.casetype b', 'SUBSTR(fil_no, 1, 2) = CAST(b.casecode AS text)', 'left');
-        $builder->where('CAST(a.diary_no AS BIGINT)', $dno);
+        // $builder = $this->db->table('main a');
+        // $builder->select('fil_no, fil_dt, fil_no_fh, fil_dt_fh, short_description');
+        // $builder->select("COALESCE(NULLIF(reg_year_mh, 0), EXTRACT(YEAR FROM a.fil_dt)) AS m_year");
+        // $builder->select("COALESCE(NULLIF(reg_year_fh, 0), EXTRACT(YEAR FROM a.fil_dt_fh)) AS f_year");
+        // $builder->join('master.casetype b', 'SUBSTR(fil_no, 1, 2) = CAST(b.casecode AS text)', 'left');
+        // $builder->where('CAST(a.diary_no AS BIGINT)', $dno);
 
-        $query = $builder->get();
-        //echo $this->db->getLastQuery();die;
-        return $query->getRowArray();
+        // $query = $builder->get();
+        // //echo $this->db->getLastQuery();die;
+        // return $query->getRowArray();
+
+        $sql="SELECT 
+                fil_no,
+                fil_dt,
+                fil_no_fh,
+                fil_dt_fh,
+                short_description,
+                CASE 
+                    WHEN reg_year_mh = 0 THEN EXTRACT(YEAR FROM a.fil_dt)::INT 
+                    ELSE reg_year_mh 
+                END AS m_year,
+                CASE 
+                    WHEN reg_year_fh = 0 THEN EXTRACT(YEAR FROM a.fil_dt_fh)::INT 
+                    ELSE reg_year_fh 
+                END AS f_year
+            FROM main a
+            LEFT JOIN master.casetype b 
+                ON SUBSTRING(fil_no FROM 1 FOR 2)::INT = casecode
+            WHERE diary_no = '$dno'";
+            
+            $query = $this->db->query($sql);
+            $result = $query->getRowArray();
+            return $result;
+
     }
 
 

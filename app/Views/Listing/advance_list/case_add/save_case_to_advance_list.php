@@ -104,6 +104,7 @@ if (!empty($ro_isnmd))
 
 
             $rsQuery = $model->getIsPerson($q_next_dt, $presiing_judge_str, $diary_number); // MAin query 
+             
 
             
           
