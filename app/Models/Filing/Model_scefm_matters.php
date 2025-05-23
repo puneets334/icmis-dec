@@ -512,6 +512,25 @@ class Model_scefm_matters extends Model
 	}
 
 
+    public function update_ect_table_status($diary_no,$logged_in_usercode)
+	{
+		$dno = explode("/",$diary_no); 
+		$diary_no = $dno[0]."".$dno[1];
+
+		$sql = "update efiled_cases_transfer_status set processed_by= ".$logged_in_usercode." , processed_on = CURRENT_TIMESTAMP where diary_no= ".$diary_no;
+		$query = $this->db->query($sql);
+		$numrows=$this->db->affectedRows();
+		if($this->db->affectedRows()>=1)
+		{
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+    
+
+
 
 
 

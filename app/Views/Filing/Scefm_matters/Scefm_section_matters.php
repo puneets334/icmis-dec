@@ -59,12 +59,12 @@
 						if ($pending_matters != 'section is IB') {
 						?>
 						<li class="nav-item active">
-							<a class="nav-link active" id="pending_matters-tab" data-toggle="pill" href="#pending_matters" role="tab"
+							<a class="nav-link active " id="pending_matters-tab" data-toggle="pill" href="#pending_matters" role="tab"
 							   aria-controls="pending_matters" aria-selected="true">List Of Pending Matters</a>
 						</li>
 						<?php }?>
 						<li class="nav-item">
-							<a class="<?php if($pending_matters != 'section is IB') echo 'nav-link'; else echo 'nav-link active';?>"
+							<a class="<?php if($pending_matters != 'section is IB') echo 'nav-link'; else echo 'nav-link active ';?>"
 	                        id="datewise_matters-tab" data-toggle="pill" href="#datewise_matters" role="tab" aria-controls="datewise_matters"
 						    aria-selected="false">Datewise Report</a>
 						</li>
@@ -133,7 +133,7 @@
 																		$dno = explode("/", $result['diary_number']);
 																		$id_dno = implode("_", $dno);
 																		?>
-																		<td><span id="span_tag"><button type="button" name="action_p"
+																		<td><span id="span_tag"><button class="btn btn-primary" type="button" name="action_p"
 																										id="<?= $id_dno ?>"
 																										style="display:block;"
 																										onClick="complete_process(this.id)">Done</button></span>
