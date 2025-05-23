@@ -2116,7 +2116,9 @@ function category()
     $rs->execute(); */
     //echo $sql="SELECT * FROM submaster WHERE display='Y' and flag = 's' and old_sc_c_kk != 0 and subcode2 = 0 and subcode3 = 0 and subcode4 = 0 ORDER BY subcode1";
     //die;
-    $rs = is_data_from_table('master.submaster',  " display='Y' and flag = 'S' and old_sc_c_kk != 0 and (subcode2 IS NULL OR subcode2 = '0') and subcode3 = 0 and subcode4 = 0 ORDER BY subcode1 ", '*', 'A');
+    //$sql="SELECT * FROM submaster WHERE display='Y' and is_old='N' and subcode2 = '0' and subcode3 = 0 and subcode4 = 0 ORDER BY subcode1;";
+    //$rs = is_data_from_table('master.submaster',  " display='Y' and flag = 'S' and old_sc_c_kk != 0 and (subcode2 IS NULL OR subcode2 = '0') and subcode3 = 0 and subcode4 = 0 ORDER BY subcode1 ", '*', 'A');
+    $rs = is_data_from_table('master.submaster',  " display='Y' and is_old = 'N' and (subcode2 IS NULL OR subcode2 = '0') and (subcode3 IS NULL OR subcode3 = '0') and (subcode4 IS NULL OR subcode4 = '0') ORDER BY subcode1 ", '*', 'A');
     $option = '';
 
     if (!empty($rs)) {
@@ -2126,17 +2128,19 @@ function category()
             $rs2->execute(); */
 
             $subcode1 = $row["subcode1"];
-            $rs2 = is_data_from_table('master.submaster',  " subcode1 = $subcode1 AND display='Y' and flag = 'S' and old_sc_c_kk != 0 and (subcode2 IS NULL OR subcode2 = '0' ) ORDER BY subcode2 ", '*', 'A');
+            //$sql2="SELECT * FROM submaster WHERE subcode1 = ".$row["subcode1"]." and display='Y' and is_old='N' and subcode2 != '0' ORDER BY subcode2, is_11j, is_9j, is_7j, is_5j, is_3j ";
+           // $rs2 = is_data_from_table('master.submaster',  " subcode1 = $subcode1 AND display='Y' and flag = 'S' and old_sc_c_kk != 0 and (subcode2 IS NULL OR subcode2 = '0' ) ORDER BY subcode2 ", '*', 'A');
+            $rs2 = is_data_from_table('master.submaster',  " subcode1 = $subcode1 AND display='Y' and is_old = 'N' and (subcode2 IS NULL OR subcode2 = '0' ) ORDER BY subcode2, is_11j, is_9j, is_7j, is_5j, is_3j ", '*', 'A');
 
             if (!empty($rs2)) {
-                $option .= "<optgroup label='" . $row["old_sc_c_kk"] . " - " . $row["sub_name4"] . "' >";
+                $option .= "<optgroup label='" . $row["category_sc_old"] . " - " . $row["sub_name4"] . "' >";
                 foreach ($rs2 as $row2) {
                     $value =   (strlen($row2["sub_name4"]) > 40) ? substr($row2["sub_name4"], 0, 40) . "..." : $row2["sub_name4"];
-                    $option .= '<option value="' . $row2["id"] . '">' . $row2["old_sc_c_kk"] . " - " . $value . '</option>';
+                    $option .= '<option value="' . $row2["id"] . '">' . $row2["category_sc_old"] . " - " . $value . '</option>';
                 }
                 $option .= "</optgroup>";
             } else {
-                $option .= "<option value='" . $row["id"] . "'  >" . $row["old_sc_c_kk"] . " - " . $row["sub_name4"] . "</option>";
+                $option .= "<option value='" . $row["id"] . "'  >" . $row["category_sc_old"] . " - " . $row["sub_name4"] . "</option>";
             }
         }
     }

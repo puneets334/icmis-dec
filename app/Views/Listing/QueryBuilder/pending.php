@@ -1,4 +1,38 @@
 <?= view('header') ?>
+<style>
+    .btn-add-outline-secondary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(108, 117, 125);
+    border-color: rgb(108, 117, 125);
+}
+
+.btn-add {
+    display: inline-block;
+    transition: all 0.5s ease-in-out 0s;
+    -webkit-transition: all 0.5s ease-in-out 0s;
+    background-color: transparent;
+    position: relative;
+    overflow: hidden;
+    color: #1f2d3d;
+    padding: 3px 15px !important;
+    line-height: 15px !important;
+    font-size: 14px !important;    border: #706d6d 1px solid;
+    font-family: 'noto_sansmedium' !important;    border-radius: 0px!important;
+}
+button.btn.btn-outline-secondary.remove-row {
+    border: #706d6d 1px solid;
+    border-radius: 0px!important;
+    color: #000;
+    padding: 0px 15px!important;
+}  
+button.btn.btn-outline-secondary.remove-row:hover {
+    color: #fff;
+}   
+button.btn-add.btn-add-outline-secondary.add-more:hover {
+    background: #022651;
+    color: #fff;
+} 
+</style>
 <link href="<?php echo base_url('assets/css/QueryBuilder.css'); ?>" rel="stylesheet">
 <div class="wrapper">
     <nav id="sidebar">
@@ -318,6 +352,58 @@
                     </div>
                 </div>
             </fieldset>
+            <div class="form-group row p-1">
+                <label for="list_date_range" class="col-sm-2">Number of Times Deleted</label>
+                <div class="col-sm-10 input-group input-daterange" id="list_date_range">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                        <select class="form-control" id="belowfive" name="belowfive" style="width:170px !important;">
+                                <?php for ($i = 0; $i <= 500; $i++) { ?>
+                                    <option value="<?= $i; ?>">
+                                        <?= $i; ?>
+                                    </option>
+                                <?php } ?>
+                        </select>
+                        </div>
+                        <div class="col-auto">
+                            <span class="px-2">to</span>
+                        </div>
+                        <div class="col-auto">
+                        <select class="form-control" id="abovefive" name="abovefive">
+                        <option value="">None selected</option>                     
+                        </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <fieldset class="form-group mt-2">
+                            <div class="row" id="textbox-container">
+                                <legend class="col-form-label col-sm-2 pt-0">Parties</legend>
+                                <div class="col-sm-3 input-group">
+                                    <select class="form-control" id="party_drop" name="party_drop[]">
+                                        <option value="">Select</option>
+                                        <option value="Petitioner">Petitioner</option>
+                                        <option value="Respondent">Respondent</option>
+                                        <option value="cause_title">Cause Title</option>
+                                        <option value="all_party">All Party</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <select class="form-control" style="margin-left: -3%;" name="new_drop[]" id="new_drop">
+                                            <option value="">Select</option>
+                                            <option value="exa_sim">Exactly</option>
+                                            <option value="like">Similar</option>
+                                        </select> &nbsp;&nbsp;
+                                        <input type="text" class="form-control small-input" name="parties[]" placeholder="Enter value here">
+                                        <div class="input-group-append">&nbsp;&nbsp;
+                                            <button class="btn-add btn-add-outline-secondary add-more" type="button">+</button>
+                                            <button class="btn btn-outline-secondary remove-row ml-1" type="button" style="display: none;">-</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
             <div class="row py-1">
                 <div class="col-sm-2 pl-4">Auxiliary</div>
                 <div class=" col-sm-10 input-group">
@@ -435,6 +521,24 @@
                     </div>
                 </div>
             </div>
+            <div class="row py-1">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10 input-group">
+                    <div class="form-check pr-2">
+                        <input class="form-check-input" type="radio" name="bail" id="bail_exclude" value="n">
+                        <label class="form-check-label" for="bail_exclude">
+                            Exclude
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="bail" id="bail_include" value="y">
+                        <label class="form-check-label" for="bail_include">
+                        Bail
+                        </label>
+                    </div>
+                </div>
+            </div>
             <div class="form-group row p-1">
                 <div class="col-sm-10">
                     <button type="button" id="dismiss2" class="quick-btn get_pendency">Click to Get Pendency</button>
@@ -544,14 +648,25 @@
             var from_list_date = $("#from_list_date").val();
             var to_list_date = $("#to_list_date").val();
             var categories = $("#category").val();
+            var belowfive = $("#belowfive").val();
+            var abovefive = $("#abovefive").val();
             var category_exclude = $("#category_exclude").is(":checked") ? 'y' : 'n';
             var case_types = $("#case_type").val();
             var case_type_exclude = $("#case_type_exclude").is(":checked") ? 'y' : 'n';
             var sections = $("#section").val();
             var section_exclude = $("#section_exclude").is(":checked") ? 'y' : 'n';
             var das = $("#da").val();
+            var party_drop = $("#party_drop").val();
+            var new_drop = $("#new_drop").val();
+            var parties = $("#parties").val();
             var da_exclude = $("#da_exclude").is(":checked") ? 'y' : 'n';
             var coram_by_cji = $("input[name='coram_by_cji']:checked").val();
+            var conditional_matter = $("input[name='conditional_matter']:checked").val();
+            var cav_matter = $("input[name='cav_matter']:checked").val();
+            var part_heard = $("input[name='part_heard']:checked").val();
+            var list_after_vacation = $("input[name='list_after_vacation']:checked").val();
+            var sensitive = $("input[name='sensitive']:checked").val();
+            var bail = $("input[name='bail']:checked").val();
             var CSRF_TOKEN = 'CSRF_TOKEN';
             var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
 
@@ -572,6 +687,8 @@
                 from_list_date,
                 to_list_date,
                 categories,
+                belowfive,
+                abovefive,
                 category_exclude,
                 case_types,
                 case_type_exclude,
@@ -580,6 +697,12 @@
                 das,
                 da_exclude,
                 coram_by_cji,
+                conditional_matter,
+                cav_matter,
+                part_heard,
+                list_after_vacation,
+                sensitive,
+                bail,
                 CSRF_TOKEN: CSRF_TOKEN_VALUE,
                 flag: 'report'
             };
@@ -655,5 +778,65 @@
             }
         });
     });
+
+    $(document).ready(function() {
+                $('#textbox-container').on('click', '.add-more', function() {
+                    var newFields = `
+                                <div class="input-group mt-2 party-row">
+
+                     <div class="col-sm-3 input-group" style= "margin-left:17%">
+                                    <select class="form-control" id="party_drop" name="party_drop[]">
+                                        <option value="">Select</option>
+                                        <option value="Petitioner">Petitioner</option>
+                                        <option value="Respondent">Respondent</option>
+                                        <option value="cause_title">Cause Title</option>
+                                        <option value="all_party">All Party</option>
+                                    </select>
+                                    
+                                </div>
+                                <div class="col-sm-6 ">
+                                   <div class="input-group ">
+                <select class="form-control " name="new_drop[]" id="new_drop">
+                    <option value="">Select</option>
+                    <option value="exa_sim">Exactly</option>
+                    <option value="like">Similar</option>
+                </select>&nbsp;&nbsp;
+                <input type="text" class="form-control small-input" name="parties[]" placeholder="Enter value here"> &nbsp;&nbsp;
+                <div class="input-group-append">
+                    <button class="btn btn-add btn-outline-secondary add-more" type="button">+</button>
+                    <button class="btn btn-outline-secondary remove-row ml-1" type="button">-</button>
+                </div>
+                </div>
+                </div>
+            </div>`;
+                    $('#textbox-container').append(newFields);
+                });
+
+                $('#textbox-container').on('click', '.remove-row', function() {
+                    $(this).closest('.party-row').remove();
+                });
+
+                $('#textbox-container').on('click', '.add-more', function() {
+                    $(this).closest('.input-group').find('.remove-row').show();
+                });
+
+                $('#textbox-container').on('click', '.add-more', function() {
+                    $('#party_drop').closest('.input-group').show();
+                });
+            });
+
+    document.getElementById('belowfive').addEventListener('change', function() {
+                var belowfiveValue = parseInt(this.value);
+                var abovefiveSelect = document.getElementById('abovefive');
+                abovefiveSelect.innerHTML = '<option value="">Select</option>';
+                if (!isNaN(belowfiveValue)) {
+                    for (var i = belowfiveValue + 0; i <= 500; i++) {
+                        var option = document.createElement('option');
+                        option.value = i;
+                        option.textContent = i;
+                        abovefiveSelect.appendChild(option);
+                    }
+                }
+            });
 
 </script>
