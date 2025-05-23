@@ -27,6 +27,10 @@ else
 
 $details = $model->getCaseDetails($dno);
 
+
+
+
+
 ?>
 <input type="hidden" id="fil_hd" value="<?= $dno ?>" />
 <input type="hidden" id="side_hd" value="<?= isset($details['side']) ? $details['side'] : '' ?>" />
@@ -37,7 +41,12 @@ $details = $model->getCaseDetails($dno);
             echo "Case No.-";
 
             $casetype = $model->getCaseType($dno);
-            if (is_array($casetype) && isset($casetype['fil_no']) && $casetype['fil_no'] != '') {
+            
+           
+            
+            //if (is_array($casetype) && isset($casetype['fil_no']) && $casetype['fil_no'] != '') {
+                if (isset($casetype['fil_no']) && trim($casetype['fil_no']) !== '') {
+
                 echo '[M]' . $casetype['short_description'] . substr($casetype['fil_no'], 3) . '/' . $casetype['m_year'];
             } else {
 
@@ -45,7 +54,8 @@ $details = $model->getCaseDetails($dno);
             }
 
 
-            if (isset($casetype['fil_no_fh']) != '' && $casetype['fil_no_fh'] != NULL) {
+            
+                if (isset($casetype['fil_no_fh']) && $casetype['fil_no_fh'] !== '') {
                 $r_case = $model->getShortDesc($casetype['fil_no_fh']);
                 if (is_array($r_case) && isset($r_case['short_description'])) {
                     echo ',[R]' . $r_case['short_description'] . SUBSTR($casetype['fil_no_fh'], 3) . '/' . $casetype['f_year'];
@@ -63,7 +73,6 @@ $details = $model->getCaseDetails($dno);
 
 <table align="center" id="tb_clr" cellspacing="3" cellpadding="2">
     <?php
-
     if (isset($details['c_status']) && $details['c_status'] == 'D')
     {
         $ifPending = 0;
@@ -78,6 +87,7 @@ $details = $model->getCaseDetails($dno);
     <tr>
         <th colspan="4" style="color:blue; text-align:center;">
             <?php
+           
             if (isset($details['pet_name']) && isset($details['res_name']))
             {
 
@@ -94,6 +104,7 @@ $details = $model->getCaseDetails($dno);
     <?php
 
     $query_cate = $model->getSubName($dno);
+   
     $category = '';
 
     foreach ($query_cate as $row_cate) {
@@ -108,8 +119,7 @@ $details = $model->getCaseDetails($dno);
             <?php
 
             $main_case = $model->getConnKey($dno);
-
-
+           
             if (!empty($main_case)) {
                 $main_case = $main_case;
                 if ($main_case['conn_key'] == $dno)
@@ -122,7 +132,7 @@ $details = $model->getCaseDetails($dno);
             }
 
             $rs_n = $model->getJname($dno);
-            //pr($rs_n);
+          
             if (!empty($rs_n)) {
                 echo "<div align=center style='border: 1px solid black ;'>";
                 echo "<table class='table_tr_th_w_clr c_vertical_align'>";
@@ -191,12 +201,15 @@ $details = $model->getCaseDetails($dno);
         <td>
             <?php
             $ifAdvanceAllocated = 0;
+           
             if (isset($details['next_dt'])) {
                 $advance_dates = $model->getAdvanceDate($details['next_dt']);
+               
             }
 
 
             if (!empty($advance_dates)) {
+
                 $ifAdvanceAllocated = 1;
                 echo "<select id='advance_list_date' name='advance_list_date'>";
                 foreach ($advance_dates as $row) {
@@ -250,8 +263,9 @@ $details = $model->getCaseDetails($dno);
 </div> -->
 <?php
 if (!isset($details['advance_list_date']) || is_null($details['advance_list_date'])) {
+    
     // Debugging line (Remove if not needed)
-    //pr('vinit garg'); 
+
 
     if ($ifAdvanceAllocated == 1 && $ifPending == 1 && $ifReady == 1 && $ifMain == 1) {
 ?>
