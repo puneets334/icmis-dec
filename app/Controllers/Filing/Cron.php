@@ -47,7 +47,7 @@ class Cron extends BaseController
            // echo $message;
            // $data['message'] = $message;
 
-            $to=array('ppavan.sc@nic.in','reg.computercell@sci.nic.in','office.regj1@sci.nic.in','reg.pavaneshd@sci.nic.in','reg.puneetsehgal@sci.nic.in');
+            $to=array('ppavan.sc@nic.in','reg.computercell@sci.nic.in','office.regj1@sci.nic.in','reg.pavaneshd@sci.nic.in');
            // $subject="test email final";
             $subject="Filing Section Statistical Information as on ".date('d-m-Y',strtotime($row['filing_date']))." at ".$row['updation_time'];
             $files = array();
