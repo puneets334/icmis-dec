@@ -340,34 +340,43 @@ class CourtMentionMemoController extends BaseController
      }
 	 
 	 
-	 public function updateMm($id){
-        print_r($this->request->getPost()); die;
-		
-		
-		/* if ($this->request->getPost()) {
-            $access =  $this->model->getAccessDetails(($session->get('dcmis_user_idd')) ? $session->get->userdata('dcmis_user_idd') : $this->request->getPost('session_id_url'));
+	 public function updateMm(){
+		 $session = \Config\Services::session();
+		if ($this->request->getPost()) {
+            $access =  $this->model->getAccessDetails($session->get('dcmis_user_idd')? $session->get('dcmis_user_idd') : $this->request->getPost('session_id_url'));
             $data['access'] = $access;
-
-            if ($updated = $this->model->UpdateMmData($this->request->getPost(), $id)) {
-
-
-                $data['update'] = 'updateMentionMemo';
-                $data['caseInfo'] = '';
-                $data['listingInfo'] = '';
-                $data['session_id_url'] = $this->request->getPost('session_id_url');
-                $data['msg'] = '<div class="alert alert-success text-center">Updated Successfully !!</div>';
-                return view('Court/CourtMentionMemo/MentioningUpdate', $data);
-            } 
-        }*/
+           if ($updated = $this->model->UpdateMmData($this->request->getPost())) {
+			    session()->setFlashdata("msg", 'Updated Successfully !!');
+                return redirect()->to('Court/CourtMentionMemoController/updateMentionMemo');
+           } else {
+                session()->setFlashdata("message_error", 'Try Again Something wrong..!!');
+                return redirect()->to('Court/CourtMentionMemoController/updateMentionMemo');
+		  } 
+        }
+    }
+	
+	
+	 function deleteMm() {
+        $session = \Config\Services::session();
+		if ($this->request->getPost()) {
+            $access =  $this->model->getAccessDetails($session->get('dcmis_user_idd')? $session->get('dcmis_user_idd') : $this->request->getPost('session_id_url'));
+            $data['access'] = $access;
+            if ($this->Mentioning_Model->DeleteMmData($this->request->getPost())) {
+                session()->setFlashdata("msg", 'Deleted Successfully !!');
+                return redirect()->to('Court/CourtMentionMemoController/updateMentionMemo');
+            }else {
+                session()->setFlashdata("message_error", 'Try Again Something wrong..!!');
+                return redirect()->to('Court/CourtMentionMemoController/updateMentionMemo');
+		   } 
+        }
     }
 	 
 	public function updateMentionMemo(){
-		  $session = '1';
 		$data['session_id_url'] = session()->get('login')['usercode'];
         if (!empty($this->request->getPost('session_id_url'))) {
            $this->session->set('dcmis_user_idd', $this->request->getPost('session_id_url'));
         } else {
-            $this->session->set('dcmis_user_idd', $session);
+            $this->session->set('dcmis_user_idd', session()->get('login')['usercode']);
         }
 		
 
@@ -407,12 +416,11 @@ class CourtMentionMemoController extends BaseController
                 $diaryYear = $this->request->getPost('diary_year');
 				$data['diaryDetails'] = $this->model->get_diary_details($diaryNo, $diaryYear);
 			}
-
-            if (($data['diaryDetails'])) {
+			
+            if ((!empty($data['diaryDetails']))) {
                 foreach ($data['diaryDetails'] as $row) {
                     $diaryNumber = $row['diary_no'];
-
-                    $this->session->set('diaryNo', $row['dn']);
+					$this->session->set('diaryNo', $row['dn']);
                     $this->session->set('diaryYear', $row['dy']);
                     $this->session->set('diaryNumber', $row['diary_no']);
                   //$this->session->set('roaster_id', $row['m_roaster_id']);
@@ -423,11 +431,7 @@ class CourtMentionMemoController extends BaseController
 			    $data['judge'] = $this->cmodel->getJudge();
                 
            } else {
-                $data['update'] = 'updateMentionMemo';
-                $data['caseInfo'] = '';
-                $data['listingInfo'] = '';
-                $data['session_id_url'] = $this->request->getPost('session_id_url');
-                return view('Court/CourtMentionMemo/MentioningUpdate', $data);
+                return view('Court/CourtMentionMemo/mention_update_meno_view', $data);
             }
 
             if (!empty($data['caseInfo'])) {
@@ -493,7 +497,7 @@ class CourtMentionMemoController extends BaseController
             $data['session_id_url'] = $this->request->getPost('session_id_url');
             $data['caseInfo'] = $this->model->getCaseDetails($diaryNumber);
            //$user = $data ['mm_data'] = $this->model->get_mmData_code($receivedDate, $dy, $dn, $forListType);
-           $user = $data ['mm_data'] = $this->model->get_mmData($receivedDate, $dy, $dn, $forListType);
+			$user = $data ['mm_data'] = $this->model->get_mmData($receivedDate, $dy, $dn, $forListType);
            //$user_code = $data ['user_code'] = $this->model->getmain_data($receivedDate, $dy, $dn, $forListType);
            //$dacode = $user_code->user_id;
 		   $dacode = session()->get('login')['usercode'];

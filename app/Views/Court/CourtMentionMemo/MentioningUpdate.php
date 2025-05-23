@@ -27,12 +27,17 @@
                               <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                               <?=session()->getFlashdata("message_error")?>
                            </div>
+						   <?php } else if(session("msg")){ ?>
+                           <div class="alert alert-success">
+                              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                              <?=session()->getFlashdata("msg")?>
+                           </div>
                            <?php }else{?>
                            <br/>
                            <?php }?>
                            <?php
                               $attribute = array('class' => 'form-horizontal','name' => 'component_search', 'id' => 'component_search', 'autocomplete' => 'off');
-                              echo form_open(base_url("court/CourtMentionMemoController/updateMentionMemo_view"), $attribute);
+                              echo form_open(base_url("court/CourtMentionMemoController/updateMentionMemo"), $attribute);
                               ?>
                            <?php echo component_html_mention_meno();?>
                            <center> 
@@ -122,7 +127,7 @@
                             },
                             success: function (data) {
 								updateCSRFToken();
-                                $("#dv_res1").html(data);
+								$("#dv_res1").html(data);
                             },
                             complete: function() {
                                 updateCSRFToken();

@@ -33,39 +33,38 @@
                             <form method="post" name="frm" id="frm" action="<?= site_url(uri_string()) ?>">
                             <?= csrf_field() ?>
                                 <div class="row"> 
-                            		<div class="form-group col-md-3">
-                            			<span class="mr-3">
+                            		<div class="form-group col-md-12">
+                            			<span class="col-md-4">
                             				Order Date
                                             <input type="radio" name="ddl_oud" id="ddl_od" value="O"/>
                             			</span>
-                            			<span class="mr-3">
+                            			<span class="col-md-4">
 			                                Uploaded Date
                                             <input type="radio" name="ddl_oud" id="ddl_ud" value="U"/>
 			                            </span>
                             		</div>
-                                    <div class="form-group col-md-3">
-                                        <div class="form-group row">
-                                            <label for="inputField" class="col-sm-3 col-form-label">From Date:</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" name="txt_o_frmdt" id="txt_o_frmdt" value="<?php echo date('d-m-Y'); ?>" size="6" maxlength="10" class="dtp form-control"/>
-                                            </div>
-                                        </div>
-
-                                        
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                         
-
-                                        <div class="form-group row">
-                                            <label for="inputField" class="col-sm-3 col-form-label">To Date:</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" name="txt_o_todt" id="txt_o_todt" value="<?php echo date('d-m-Y'); ?>" size="6" maxlength="10" class="dtp form-control"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                            		<div class="col-md-2 mt-0">
-                                        <input type="button" name="btn_submit" id="btn_submit" value="Submit" onclick="get_records()"/>
-                            		</div>
+									<div class="col-md-12" style="display: inline-flex">
+										<div class="form-group col-md-4">
+											<div class="form-group">
+												<label for="inputField" class="col-sm-6 col-form-label">From Date:</label>
+												<div class="col-sm-9">
+													<input type="text" name="txt_o_frmdt" id="txt_o_frmdt" value="<?php echo date('d-m-Y'); ?>" size="6" maxlength="10" class="dtp form-control"/>
+												</div>
+											</div>
+										</div>
+										<div class="form-group col-md-4">
+											<div class="form-group">
+												<label for="inputField" class="col-sm-6 col-form-label">To Date:</label>
+												<div class="col-sm-9">
+													<input type="text" name="txt_o_todt" id="txt_o_todt" value="<?php echo date('d-m-Y'); ?>" size="6" maxlength="10" class="dtp form-control"/>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-2 mt-4">
+										   <label for="inputField" class="col-sm-6 col-form-label"></label>
+										   <input type="button" name="btn_submit" id="btn_submit" value="Submit" onclick="get_records()"/>
+										</div>
+									</div>	
                                 </div>
 
                                 <div id="dv_get_res"></div>

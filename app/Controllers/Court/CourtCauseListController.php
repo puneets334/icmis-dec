@@ -922,10 +922,8 @@ class CourtCauseListController extends BaseController
     }
 
 
-    public function daily_court()
-    {
-
-        $data['CourtCausesListModel'] = $this->CourtCausesListModel;
+    public function daily_court(){
+       $data['CourtCausesListModel'] = $this->CourtCausesListModel;
         return view('Court/CourtCauseList/daily_court', $data);
     }
 
