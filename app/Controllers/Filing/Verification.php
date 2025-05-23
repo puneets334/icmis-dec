@@ -406,9 +406,15 @@ class Verification extends BaseController
                 $model->updateDefectsVerification($data, $hd_diary_nos);
             }
             if ($this->request->getVar('id_val') == 0) {
-                $this->call_listing();
+                //if the matter is contempt then listing will be updated through proposal module
+                 $iscontempt_rs = is_data_from_table("main", "diary_no='$hd_diary_nos' and casetype_id in(19,20)", "casetype_id",'');
+                 pr($iscontempt_rs);
+                // $iscontempt_query = "SELECT casetype_id FROM main WHERE diary_no='$_REQUEST[hd_diary_nos]' and casetype_id in(19,20)";
+                // $iscontempt_rs = mysql_query($iscontempt_query) or die(__LINE__ . '->' . mysql_error());
+                if (empty($iscontempt_rs)) {
+                     $this->call_listing();
+                }
                 echo "\nRecord Verified Successfully";
-               
             } else if ($this->request->getVar('id_val') == 1)
                 $this->move_case_in_filing_trap($hd_diary_nos, $id_val, $sendto);
                 echo "\nRecord Updated for Tagging Successfully";
