@@ -74,5 +74,21 @@ class Scefm_matters extends BaseController
 	}
 
 
+    public function update_efiled_cases_transfer_status()
+	{
+		$diary_no = $_POST['dno'];
+		$user=$_POST['user'];
+		$update = $this->Model_scefm_matters->update_ect_table_status($diary_no,$user);
+		if($update)
+		{
+			// $this->session->set_flashdata('msg', '<div class="alert alert-danger text-center">Updated Successfully !!!</div>');
+			echo "<center><span style='color:green;font-size:2em'>Updated Successfully !!!</span></center>";
+		}else{
+			// $this->session->set_flashdata('msg', '<div class="alert alert-danger text-center">Not Updated Successfully !!!</div>');
+			echo  "<center><span style='color:red;font-size:2em'>Not Updated Successfully !!!</span></center>";
+		}
+	}
+
+
 
 }
