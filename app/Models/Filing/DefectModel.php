@@ -706,4 +706,51 @@ class DefectModel extends Model
             return false; // Handle the case where no records are found
         }
     }
+
+
+    public function getCasedetails($diary_no)
+    {
+        $builder = $this->db->table('main');
+        $builder->select("CONCAT(pet_name, ' vs ', res_name) AS cause_title, TO_CHAR(diary_no_rec_date, 'DD-MM-YYYY') AS dt, 
+        case_grp, fil_no,CASE WHEN c_status = 'P' THEN 'Pending' ELSE 'Disposed' END AS c_status, casetype_id, dacode, casetype_id");
+        $builder->where('diary_no', $diary_no);
+        $query = $builder->get();
+        if ($query->getNumRows() > 0) {
+            return $query->getRowArray();
+        } else {
+            // log_message('error', 'No records found for diary number: ' . $diary_no);
+            return false;
+        }
+
+    }
+
+    public function getListingdiarydetails($diary_no)
+    {
+        $builder = $this->db->table('heardt');
+        $builder->select('diary_no');
+        $builder->where('next_dt >=', 'CURRENT_DATE', false);
+        $builder->where('brd_slno >', 0);
+        $builder->where('roster_id >', 0);
+        $builder->where('diary_no', $diary_no);
+        $query = $builder->get();
+        return $query->getNumRows();
+    }
+
+    public function getUserDetails($ucode)
+    {
+        $builder = $this->db->table('master.users u');
+        $builder->select('*');
+        $builder->join('master.usersection us', 'u.section=us.id');
+        $builder->where('u.usercode', $ucode);
+        $builder->where('u.display', 'Y');
+        $query = $builder->get(); 
+        if ($query->getNumRows() > 0) {
+            return $query->getRowArray();
+        } else {
+            // log_message('error', 'No records found for diary number: ' . $diary_no);
+            return false;
+        }
+
+    }
+   
 }
