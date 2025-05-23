@@ -112,27 +112,43 @@ $ucode=$_SESSION['dcmis_user_idd'];
          
     </p>
      <p align="justify" style='margin: 5px;padding: 2px 0px 0px 0px;font-size: 13pt' face= "Times New Roman">
-       <?php
+      <?php
         $lower_court= lower_court_conct($dairy_no);
    
- $get_last_listed_date=  get_notice_dt($dairy_no);
-   $get_misc_re= get_misc_re($dairy_no);
-     $listed_dt=date('dS F, Y', strtotime($get_last_listed_date));
- for ($index1 = 0; $index1 < count($lower_court); $index1++) {
- $judgement_dt=$new_date = date('dS F, Y', strtotime($lower_court[$index1][0]));
- $agency_name=$lower_court[$index1][2];
- $skey=$lower_court[$index1][3];
- $lct_caseno=$lower_court[$index1][4];
-  $lct_caseyear=$lower_court[$index1][5];
+        $get_last_listed_date=  get_notice_dt($dairy_no);
+        $get_misc_re= get_misc_re($dairy_no);
+        $listed_dt=date('dS F, Y', strtotime($get_last_listed_date));
+        for ($index1 = 0; $index1 < count($lower_court); $index1++) {
+          $judgement_dt=$new_date = date('dS F, Y', strtotime($lower_court[$index1][0]));
+          $agency_name=$lower_court[$index1][2];
+          $skey=$lower_court[$index1][3];
+          $lct_caseno=$lower_court[$index1][4];
+          $lct_caseyear=$lower_court[$index1][5];
 
-$sql_d="select Post_name from Post_t where Post_code in (select lct_judge_desg from lowerct where diary_no=$dairy_no)";
- 
-  $rs_d=mysql_query($sql_d);
-  while($rs_d=mysql_fetch_array($rs_d))
-  {
-      $desgname=$rs_d[0];
-  }
-           ?>
+          // $sql_d="select Post_name from Post_t where Post_code in (select lct_judge_desg from lowerct where diary_no=$dairy_no)";
+          
+          // $rs_d=mysql_query($sql_d);
+          // while($rs_d=mysql_fetch_array($rs_d))
+          // {
+          //   $desgname=$rs_d[0];
+          // }
+
+          $subQuery = $this->db->table('lowerct')
+              ->select('lct_judge_desg')
+              ->where('diary_no', $diary_no);
+
+          $builder = $this->db->table('Post_t');
+          $builder->select('Post_name');
+          $builder->whereIn('Post_code', $subQuery);
+
+          $query = $builder->get();
+          $result = $query->getResult();
+
+          $desgname = null;
+          foreach ($result as $row) {
+              $desgname = $row->Post_name;
+          }
+      ?>
          <div style="font-size: 13pt;margin-bottom: 10px" face= "Times New Roman">(Petition under Article 136 of the Constitution of India from the judgement and Order dated  <b style="font-size: 13pt" face= "Times New Roman"><?php echo $judgement_dt; ?></b> 
        of the <b style="font-size: 13pt" face= "Times New Roman" ><?php echo $desgname ;?>,<?php echo $agency_name;  ?></b>,  <?php echo $lower_court[$index1][1] ?> in
        <?php
@@ -145,7 +161,7 @@ $sql_d="select Post_name from Post_t where Post_code in (select lct_judge_desg f
        <b style="font-size: 13pt" face= "Times New Roman"> <?php echo $ex_skey[$index2] ?> </b> No. <b style="font-size: 13pt"><?php echo $ex_lct_caseno[$index2]; ?></b> of <b style="font-size: 13pt" face= "Times New Roman"><?php echo $ex_lct_caseyear[$index2]; ?> </b> <?php  }?>)</div>
        <?php
          
-       }
+      }
        ?>
    </p>
    
@@ -159,7 +175,7 @@ $sql_d="select Post_name from Post_t where Post_code in (select lct_judge_desg f
                    Versus
                 </td>
                 <td style="font-size: 13pt;text-align: right;width: 45%" face= "Times New Roman">
-                   ... Petitioner<?php if($pno!=''){?>(s)<?php;} ?>
+                   ... Petitioner<?php if($pno!=''){?>(s)<?php } ?>
                 </td>
             </tr>
              <tr>
@@ -168,7 +184,7 @@ $sql_d="select Post_name from Post_t where Post_code in (select lct_judge_desg f
                 </td>
                 
                 <td style="font-size: 13pt;text-align: right" face= "Times New Roman">
-                   ... Respondent<?php if($rno!=''){?>(s)<?php;} ?>
+                   ... Respondent<?php if($rno!=''){?>(s)<?php } ?>
                 </td>
             </tr>
         </table>
@@ -180,8 +196,8 @@ $sql_d="select Post_name from Post_t where Post_code in (select lct_judge_desg f
       $diary_no_rec_date=get_dismissal_type($dairy_no);
       
          
-          $dispose_detail=dispose_detail($dairy_no);
-     $disposal_dt= date('dS F, Y', strtotime($dispose_detail));
+      $dispose_detail=dispose_detail($dairy_no);
+      $disposal_dt= date('dS F, Y', strtotime($dispose_detail));
         //  echo $disposal_dt; 
       
       if($diary_no_rec_date[0]==9)
@@ -192,27 +208,26 @@ $sql_d="select Post_name from Post_t where Post_code in (select lct_judge_desg f
       {
           $ans=" <b>Dismissed </b>by the Court on <b>". $disposal_dt. " </b>".".";
       }
-     $dispose_detail=dispose_detail($dairy_no);
-     $disposal_dt= date('dS F, Y', strtotime($dispose_detail));
+
+      $dispose_detail=dispose_detail($dairy_no);
+      $disposal_dt= date('dS F, Y', strtotime($dispose_detail));
         //  echo $disposal_dt; 
      
-   $chk_case_range= $case_range;
-   $ex_chk_case_range=  explode('-', $chk_case_range);
-   $chk_sno=0;
-   for ($index3 = 0; $index3 < count($ex_chk_case_range); $index3++) {
-    $chk_sno++;
-}
+      $chk_case_range= $case_range;
+      $ex_chk_case_range=  explode('-', $chk_case_range);
+      $chk_sno=0;
+      for ($index3 = 0; $index3 < count($ex_chk_case_range); $index3++) {
+        $chk_sno++;
+      }
 
 ?>
       <p style="color: #000000;text-indent: 40px;padding: 0px 2px 0px 2px;margin: 10px 0px 0px 0px;clear: both" align="justify">
         <font  style="font-size: 13pt" face= "Times New Roman">
-      I am directed to inform you that the Petition<?php if($pno!=''){?>(s)<?php;} ?> above mentioned filed in Supreme Court  <?php if($chk_sno=='1'){?> was <?php;} else  if($chk_sno>'1') { ?> were <?php ;} ?>   
+      I am directed to inform you that the Petition<?php if($pno!=''){?>(s)<?php } ?> above mentioned filed in Supreme Court  <?php if($chk_sno=='1'){?> was <?php } else  if($chk_sno>'1') { ?> were <?php ;} ?>   
+
       <b style="font-size: 13pt" face= "Times New Roman"></b><?php echo $ans; ?>
-    
-</font>
+    </font>
      </p>
-     
-     
     
    <p align="right" style="padding: 16px 2px 0px 0px;margin: 0px" face= "Times New Roman"><b><font style="font-size: 13pt" face= "Times New Roman" >Yours faithfully,</font></b></p>
     <p align="right" style="padding: 50px 2px 0px 0px;margin: 0px"><b><font style="font-size: 13pt" face= "Times New Roman" >ASSISTANT REGISTRAR</font></b></p>

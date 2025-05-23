@@ -5,7 +5,7 @@ $ucode=$_SESSION['dcmis_user_idd'];
     <div style="width: 40%;float: right;font-size: 13pt;"  face= "Times New Roman"  >
         <b><i><u>Delivery Mode:
                     <?php
-                    $mod= get_delivery_mod($row[process_id],$row[rec_dt1]);
+                    $mod= get_delivery_mod($row['process_id'],$row['rec_dt1']);
                     echo $mod;
                     ?></u></i></b>
     </div></br></br>
@@ -32,7 +32,7 @@ $ucode=$_SESSION['dcmis_user_idd'];
     
     
     <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>
 
@@ -58,7 +58,7 @@ $ucode=$_SESSION['dcmis_user_idd'];
          THE REGISTRAR,</b>
     </p>
  <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>  
       <p style="color: #000000;margin: 0px;padding: 0px 2px 0px 42px;width: 50%;text-transform: uppercase;">
@@ -95,7 +95,7 @@ $ucode=$_SESSION['dcmis_user_idd'];
                <b>(
                    <?php if($case_range!=''){?>
 
-                   <?php  if($res_fil_det[short_description]!=''){echo $res_fil_det[short_description]; }
+                   <?php  if($res_fil_det['short_description']!=''){echo $res_fil_det['short_description']; }
                    else echo "Diary No. ";
                    echo $case_range; ?> / <?php echo $reg_year;?>
                </b>
@@ -103,7 +103,7 @@ $ucode=$_SESSION['dcmis_user_idd'];
            </font>
        </p>
     <?php }
-   else if($row[individual_multiple]==2)
+   else if($row['individual_multiple']==2)
    {
        echo $tot_records;
    }
@@ -186,7 +186,7 @@ $ucode=$_SESSION['dcmis_user_idd'];
        for ($index2 = 0; $index2 < count($ex_lct_caseno); $index2++) {
            if($index2>0){ echo ',';}
        ?>
-       <b style="font-size: 13pt" face= "Times New Roman"> <?php // echo $ex_skey[$index2] ?> </b> No. <b style="font-size: 13pt"><?php// echo $ex_lct_caseno[$index2]; ?></b> of <b style="font-size: 13pt" face= "Times New Roman"><?php// echo $ex_lct_caseyear[$index2]; ?> </b> <?php  }?>)</div>
+       <b style="font-size: 13pt" face= "Times New Roman"> <?php // echo $ex_skey[$index2] ?> </b> No. <b style="font-size: 13pt"><?php// echo $ex_lct_caseno[$index2]; ?></b> of <b style="font-size: 13pt" face= "Times New Roman"><?php// echo $ex_lct_caseyear[$index2]; ?> </b> <?php  // }?>)</div>
        <?php
          
        }
@@ -250,7 +250,7 @@ $ucode=$_SESSION['dcmis_user_idd'];
     Copy to :-
    </font></p>
  <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>
 <p style="text-indent: 40px;padding: 4px 0px 0px 2px;margin: 0px;" align="justify"><font style="font-size: 13pt" face= "Times New Roman" >
@@ -286,7 +286,7 @@ $ucode=$_SESSION['dcmis_user_idd'];
              }
     ?>  </table></div>
    <?php } }
-   else  if($row[individual_multiple]==2)
+   else  if($row['individual_multiple']==2)
    {
        echo $tot_copy;
    }

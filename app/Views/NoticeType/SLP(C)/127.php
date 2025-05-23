@@ -37,11 +37,16 @@ else
 }
 ?>
     
- <?php $sql_ct="select casecode from casetype where casename ='$res_fil_det[casename]'";
-      $rs=mysql_query($sql_ct);
+ <?php 
+    $db = \Config\Database::connect();
+    $builder = $db->table('casetype');
+    $row = $builder
+        ->select('casecode')
+        ->where('casename', $res_fil_det['casename'])
+        ->get()
+        ->getRow();
 
-      $rw=mysql_fetch_array($rs);
-      $c_type=$rw[0];
+    $c_type = $row ? $row->casecode : null;
      // echo "case type is ".$c_type;
 
      $rs_ma=get_ma_info1($c_type, $case_range,$reg_year);
@@ -211,7 +216,7 @@ else
         
         In continuation of this Registry's letter of even number dated the
         <?php
-        $get_notice_dt= get_date_by_remark($dairy_no,'157');
+        $get_notice_dt= get_date_by_remark($dairy_no, ['157']);
         if($get_notice_dt!='')
        $vac_date= date('dS F, Y', strtotime($get_notice_dt));
         else 

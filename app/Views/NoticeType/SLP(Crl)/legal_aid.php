@@ -1,5 +1,5 @@
  <?php
- if($row[individual_multiple]==1 && $fn_del_type=='H')
+ if($row['individual_multiple']==1 && $fn_del_type=='H')
  {
 ?>
 <p style="font-size: 13pt"  face= "Times New Roman">

@@ -196,7 +196,7 @@ else
         
         In continuation of this Registry's letter of even number dated the
         <?php
-        $get_notice_dt= get_date_by_remark($dairy_no,'157');
+        $get_notice_dt= get_date_by_remark($dairy_no,['157']);
         if($get_notice_dt!='')
        $vac_date= date('dS F, Y', strtotime($get_notice_dt));
         else 

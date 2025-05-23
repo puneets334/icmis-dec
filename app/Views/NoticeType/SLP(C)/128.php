@@ -200,14 +200,6 @@
   ?>"
          </font></b>
     </p>
-    
-     
-    
-
-   
-
-    
-
 
      <p style="text-indent: 40px;padding: 0px 2px 0px 2px;margin: 10px 0px 0px 0px" align="justify">
          <font  style="font-size: 13pt"  face= "Times New Roman">

@@ -129,13 +129,21 @@
     if($row['individual_multiple']==1)
     {
 
-        $check_party="Select ind_dep from party where diary_no='$dairy_no'
-                    and pet_res='$row['pet_res']' and pflag='P' and sr_no='$row['sr_no']'";
-        $check_party=  mysql_query($check_party) or die("Error: ".__LINE__.mysql_error());
-        $res_check_party=  mysql_result($check_party, 0);
-        if($res_check_party!='I')
-        {
-            $ind_org=1;
+        $db = \Config\Database::connect();
+        $builder = $db->table('party');
+
+        $row_check = $builder->select('ind_dep')
+            ->where([
+                'diary_no' => $dairy_no,
+                'pet_res'  => $row['pet_res'],
+                'pflag'    => 'P',
+                'sr_no'    => $row['sr_no'],
+            ])
+            ->get()
+            ->getRow();
+
+        if ($row_check && $row_check->ind_dep != 'I') {
+            $ind_org = 1;
         }
 
         ?>

@@ -3,7 +3,7 @@
     <div style="width: 40%;float: right;font-size: 13pt;"  face= "Times New Roman"  >
         <b><i><u>Delivery Mode:
                     <?php
-                    $mod= get_delivery_mod($row[process_id],$row[rec_dt1]);
+                    $mod= get_delivery_mod($row['process_id'],$row['rec_dt1']);
                     echo $mod;
                     ?></u></i></b>
     </div></br></br>
@@ -55,7 +55,7 @@
        ?>
 <!--   </p>-->
     <?php
-    if($row[individual_multiple]==1)
+    if($row['individual_multiple']==1)
     {
     ?>
 
@@ -90,7 +90,7 @@
  
       <p style="margin: 0px;padding: 0px 0px 0px 2px;"><b><font style="font-size: 13pt"  face= "Times New Roman" >To,</font></b></p>
      <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
     
             
@@ -104,7 +104,7 @@
     </p>
    <p style="color: #000000;margin: 0px;padding: 0px 2px 0px 42px;width: 40%;float: right;text-transform: uppercase;">
         <b> <font  style="font-size: 13pt"  face= "Times New Roman">
-  <b style="font-size: 13pt"  face= "Times New Roman"><?php echo $row[p_sno]; ?></b></font></b>
+  <b style="font-size: 13pt"  face= "Times New Roman"><?php echo $row['p_sno']; ?></b></font></b>
     </p>
     <?php if($address_m!='') { ?>
      <p style="color: #000000;margin: 0px;padding: 0px 2px 0px 42px;width: 50%;text-transform: uppercase;" >
@@ -134,7 +134,7 @@
                <b>(
                    <?php if($case_range!=''){?>
 
-                   <?php  if($res_fil_det[short_description]!=''){echo $res_fil_det[short_description]; }
+                   <?php  if($res_fil_det['short_description']!=''){echo $res_fil_det['short_description']; }
                    else echo "Diary No. ";
                    echo $case_range; ?> / <?php echo $reg_year;?>
                </b>
@@ -143,7 +143,7 @@
        </p>
   
    <?php }
-   else if($row[individual_multiple]==2)
+   else if($row['individual_multiple']==2)
    {
        echo $tot_records;
    }
@@ -153,9 +153,9 @@
      <p style="color: #000000;text-indent: 40px;padding: 0px 2px 0px 2px;margin: 40px 0px 20px 0px;clear: both" align="justify">
         <font  style="font-size: 13pt"  face= "Times New Roman">
           <?php
-            if($row[individual_multiple]==1)
+            if($row['individual_multiple']==1)
             {
-     $get_petitioner_advocate=get_petitioner_advocate_party($dairy_no,$row[pet_res],$row[sr_no]);
+     $get_petitioner_advocate=get_petitioner_advocate_party($dairy_no,$row['pet_res'],$row['sr_no']);
             }
    ?>
         TAKE NOTICE that <b style="font-size: 13pt"  face= "Times New Roman"><?php echo $get_petitioner_advocate; ?></b>, your advocate on record in the matter above-mentioned 
@@ -181,7 +181,7 @@
     Copy to :-
    </font></p>
  <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>
 <p style="text-indent: 40px;padding: 4px 0px 0px 2px;margin: 0px;" align="justify"><font style="font-size: 13pt"  face= "Times New Roman" >
@@ -217,7 +217,7 @@
              }
     ?>  </table></div>
    <?php } }
-   else  if($row[individual_multiple]==2)
+   else  if($row['individual_multiple']==2)
    {
        echo $tot_copy;
    }

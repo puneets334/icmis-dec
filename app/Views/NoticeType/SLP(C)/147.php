@@ -171,7 +171,7 @@ if($s_sno==1)
     </p>
     </p>
 
-    <div align="center" style="width: 100%;clear: both">
+    <div align="center" style="width: 100%; clear:both;">
         <table cellpadding="10" cellspacing="10" style="width: 100%" >
             <tr>
                 <td style="font-size: 13pt;width: 45%" face= "Times New Roman">
