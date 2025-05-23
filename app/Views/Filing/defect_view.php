@@ -1,4 +1,17 @@
-<?=view('header'); ?>
+<?=view('header'); 
+
+$filing_details = session()->get('filing_details');
+$user_details = session()->get('login');
+$dairy_no = $filing_details['diary_no'];
+?>
+
+<style>
+#itest {
+            display: none;
+            height: 825px;
+            width: 100%;
+        }
+</style>
  
 <!-- Main content -->
 <section class="content">
@@ -20,7 +33,66 @@
 
                     <br> <h4 class="basic_heading"> Defect Details </h4>
                     <br><br>
+                    <div class="row">
+                        <div class="col-md-12">
+                    <fieldset id="fd_md">
+											<legend style="margin-left: 10px;margin-top:10px;"><h3>Main Party Details</h3></legend>
+											<?php
+                                            $sql_q = $dModel->getMainTableData($filing_details['diary_no']);
+											$result_pet = $sql_q["pet_name"];
+											$result_res = $sql_q["res_name"];
+											$result_dt = $sql_q["dt"];
 
+											$result_pending = $sql_q["c_status"];
+
+											 
+											$cicri = $sql_q["case_grp"];
+
+											?>
+											<input type="hidden" name="hd_ci_cri" id="hd_ci_cri" value="<?php echo $cicri; ?>" />
+											<table width="100%" class="table_tr_th_w_clr c_vertical_align" id="t1">
+												<tr>
+													<td style="width: 10%">
+														<b> Petitioner Name </b>
+													</td>
+													<td style="width: 15%">
+														<?php echo $result_pet; ?>
+													</td>
+													<td style="width: 10%">
+														<b> Respondent Name </b>
+													</td>
+													<td style="width: 15%">
+														<?php echo $result_res; ?>
+													</td>
+													<td style="width: 8%">
+														<b> Receiving date </b>
+													</td>
+													<td style="width: 10%">
+														<?php echo $result_dt; ?>
+													</td>
+                                                    <td style="width: 10%">
+
+                                                    <?php if (isset($result_check)) { // Check if efiled case is set
+                                                        if ($result_check != "") {  // if case is efiled 
+                                                            ?>
+                                                            <b style="color: blue;"> E-filed Matter </b>
+                                                        <?php } else { // if case is physically filed 
+                                                        ?>
+                                                            <b> Physically filed Matter </b>
+                                                    <?php }
+                                                    } ?>
+                                                    </td>
+												</tr>
+												<tr>
+													 
+												</tr>
+												<tr>
+													 
+												</tr>
+											</table>
+										</fieldset>
+                                    </div>
+                                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
@@ -55,8 +127,7 @@
 
                                         <?php
 
-                                        $filing_details = session()->get('filing_details');
-                                        $user_details = session()->get('login');
+                                        
                                         //                print_r( $filing_details); exit;
 
                                         ?>
@@ -116,11 +187,33 @@
 
                                         </table>
                                         <br><br>
-
+                                        <?php 
+                                        
+                                        if (isset($result_check)) { // Check if efiled case is set
+                                            if ($result_check != "") { ?>      
+                                        <div class="row">
+                                            <div class="col-md-12 right_">
+                                                <fieldset id="ftAOD"> <!-- for doc view start -->
+                                                     
+                                                    <div class="card-header">
+                                                        <h3 class="card-title" style="color:red">Uploaded E-Filed Documents</h3>
+                                                    </div>
+                                                    <div>
+                                                        <?php //include('Filing/defects/get_doc.php') ?>
+                                                        <?= view('Filing/defects/get_doc'); ?>
+                                                        <!-- for doc view end -->
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <?php }}?>
+                                        <br><br>
+                                        <div class="row">
                                         <div class="card-header">
                                             <h3 class="card-title" style="color:red">To Add More Objections</h3>
                                         </div>
-                                        <br><br>
+                                            </div>
+                                        <br>
 
                                         <!--extra address respondend-->
                                         <div id="add_adres" style=" width:100%; display:block;" class="multi-field-wrapper mb-4">
@@ -167,6 +260,7 @@
                                 </div>
                             </div>
                             </br>
+                            
 
                             <div class="row">
                                 <div class="col-md-12 text-center">
@@ -184,6 +278,7 @@
                         </div>
                         <!-- /.tab-content -->
                     </div>
+                    
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
