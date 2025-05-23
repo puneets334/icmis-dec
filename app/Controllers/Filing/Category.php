@@ -109,7 +109,7 @@ class Category extends BaseController
             $insert_nul_categoryarray = [
                 'od_cat' => 1,
                 'diary_no' => $diary_number,
-                'submaster_id' => $sub_category,
+                'old_submaster_id' => $sub_category,
                 'mul_cat_user_code' => $userid,
                 'updated_by_ip' => $_SERVER['REMOTE_ADDR'],
                 'e_date' =>  date('Y-m-d H:i:s'),

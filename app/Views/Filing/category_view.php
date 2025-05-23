@@ -28,9 +28,9 @@
                         $case_status = session()->get('filing_details')['c_status'];
                         $submaster_id = "";
                         //echo"jkjkkj";print_r($_SESSION);
-
+                           
                         if (!empty($mul_category)) {
-                            $submaster_id = $mul_category[0]['submaster_id'];
+                            $submaster_id = $mul_category[0]['old_submaster_id'];
                         }
 
                         ?>
@@ -93,7 +93,7 @@
 
                                                                     ?>
 
-                                                                    <select name="main_category" id="main_category" class="form-control select2" required>
+                                                                    <select name="main_category" id="main_category" class="form-control select2 rrrrr" required>
                                                                         <option value="" title="Select">Select Main Category</option>
                                                                         <?php
                                                                         $selectedmain_for = "";

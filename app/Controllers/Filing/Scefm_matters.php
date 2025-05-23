@@ -50,4 +50,29 @@ class Scefm_matters extends BaseController
 
         }
     }
+
+
+    public function efiled_pending_matters()
+	{
+        $usercode = session()->get('login')['usercode'];
+        $data['user']=$usercode;
+		if(!empty($_POST['from']) && !empty($_POST['to']))
+		{
+
+			$from = date('Y-m-d',strtotime($_POST['from']));
+			$to = date('Y-m-d',strtotime($_POST['to']));
+			$user=$_POST['user'];
+            $record['datewise_matters']=$this->Model_scefm_matters->show_datewise_matters($user,$from,$to); 
+			return view('Filing/Scefm_matters/Scefm_datewise_matters',$record);
+
+		}else{
+ 
+			  $data['pending_matters'] =$this->Model_scefm_matters->show_sectionmatters($usercode); 
+			  return view('Filing/Scefm_matters/Scefm_section_matters',$data);
+		}
+
+	}
+
+
+
 }
