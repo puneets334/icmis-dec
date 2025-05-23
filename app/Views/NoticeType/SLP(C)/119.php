@@ -123,14 +123,21 @@ $transfer_to=$lower_court[$index1][8];
    if($row['individual_multiple']==1)
    {
 
-             $check_party="Select ind_dep from party where diary_no='$dairy_no'
-                    and pet_res='$row['pet_res']' and pflag='P' and sr_no='$row['sr_no']'";
-             $check_party=  mysql_query($check_party) or die("Error: ".__LINE__.mysql_error());
-             $res_check_party=  mysql_result($check_party, 0);
-             if($res_check_party!='I')
-             {
-                 $ind_org=1;
-             }
+        $db = \Config\Database::connect();
+        $builder = $db->table('party');
+        $query = $builder
+            ->select('ind_dep')
+            ->where('diary_no', $dairy_no)
+            ->where('pet_res', $row['pet_res'])
+            ->where('pflag', 'P')
+            ->where('sr_no', $row['sr_no'])
+            ->get();
+
+        $result = $query->getRow();
+
+        if ($result && $result->ind_dep !== 'I') {
+            $ind_org = 1;
+        }
 
        ?>
       <p style="color: #000000;margin: 0px;padding: 0px 2px 0px 42px;width: 50%;float: left;text-transform: uppercase;" >

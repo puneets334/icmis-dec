@@ -31,6 +31,7 @@
          
     </p>
     <?php
+    $db = \Config\Database::connect();
     $get_application_registration= get_application_registration($dairy_no);
     $s_sno=0;
          for ($index22 = 0; $index22 < count($get_application_registration); $index22++) {
@@ -111,29 +112,26 @@
      <!--<p align="justify" style='margin: 10px;padding: 2px 0px 0px 0px;font-size: 13pt'>-->
        <?php
     
-     $lower_court= lower_court($dairy_no);
+        $lower_court= lower_court($dairy_no);
      
 //    $get_last_listed_date= get_last_listed_date($dairy_no);
-  $get_last_listed_date=  get_notice_dt($dairy_no);
+        $get_last_listed_date=  get_notice_dt($dairy_no);
 //       $get_last_listed_date= '2015-07-03';
-   $get_misc_re= get_misc_re($dairy_no);
-     $listed_dt=date('dS F, Y', strtotime($get_last_listed_date));
-       for ($index1 = 0; $index1 < count($lower_court); $index1++) {
- $judgement_dt=$new_date = date('dS F, Y', strtotime($lower_court[$index1][0]));
- $agency_name=$lower_court[$index1][2];
- $skey=$lower_court[$index1][3];
- $lct_caseno=$lower_court[$index1][4];
-  $lct_caseyear=$lower_court[$index1][5];
-   
- $get_tentative_date= get_tentative_date($dairy_no);
-  $tentative_dt=date('dS F, Y', strtotime($get_tentative_date));
-  
-  $get_first_listed_date= get_first_listed_date($dairy_no);
-  $first_listed_date=date('dS F, Y', strtotime($get_first_listed_date));
-           ?>
-       
-    <?php
-         }
+        $get_misc_re= get_misc_re($dairy_no);
+        $listed_dt=date('dS F, Y', strtotime($get_last_listed_date));
+        for ($index1 = 0; $index1 < count($lower_court); $index1++) {
+            $judgement_dt=$new_date = date('dS F, Y', strtotime($lower_court[$index1][0]));
+            $agency_name=$lower_court[$index1][2];
+            $skey=$lower_court[$index1][3];
+            $lct_caseno=$lower_court[$index1][4];
+            $lct_caseyear=$lower_court[$index1][5];
+
+            $get_tentative_date= get_tentative_date($dairy_no);
+            $tentative_dt=date('dS F, Y', strtotime($get_tentative_date));
+
+            $get_first_listed_date= get_first_listed_date($dairy_no);
+            $first_listed_date=date('dS F, Y', strtotime($get_first_listed_date));
+        }
        ?>
 <!--   </p>-->
     <?php
@@ -175,14 +173,21 @@
    if($row['individual_multiple']==1)
    {
     
-             $check_party="Select ind_dep from party where diary_no='$dairy_no' 
-                    and pet_res='$row['pet_res']' and pflag='P' and sr_no='$row['sr_no']'";
-             $check_party=  mysql_query($check_party) or die("Error: ".__LINE__.mysql_error());
-             $res_check_party=  mysql_result($check_party, 0);
-             if($res_check_party!='I')
-             {
-                 $ind_org=1;
-             }
+            $builder = $db->table('party');
+            $res_check_party = $builder
+                ->select('ind_dep')
+                ->where([
+                    'diary_no' => $dairy_no,
+                    'pet_res'  => $pet_res,
+                    'pflag'    => 'P',
+                    'sr_no'    => $sr_no,
+                ])
+                ->get()
+                ->getRow();
+
+            if ($res_check_party && $res_check_party->ind_dep !== 'I') {
+                $ind_org = 1;
+            }
          
        ?>
       <p style="color: #000000;margin: 0px;padding: 0px 2px 0px 42px;width: 50%;float: left;text-transform: uppercase;" >

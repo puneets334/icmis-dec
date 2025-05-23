@@ -5260,11 +5260,11 @@ function last_listed_date($dairyNo, $asc = false)
     $query = $db->query($sql);
     $row = $query->getRowArray();
 
-    if (!$row) {
-        return null;
-    }
-
     $result = [];
+
+    if (!$row) {
+        return $result;
+    }
 
     // 0: Formatted listing date
     $result[0] = date('F d, Y', strtotime($row['next_dt']));
@@ -6122,3 +6122,705 @@ function get_petitioner_advocate_party($diary_no, $party_type, $sno)
 
     return null;
 }
+
+function get_date_by_remark($diary_no, array $remarks)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('case_remarks_multiple');
+    $builder->select('cl_date');
+    $builder->where('diary_no', $diary_no);
+    $builder->whereIn('r_head', $remarks);
+    $builder->orderBy('cl_date', 'DESC');
+    $builder->limit(1);
+
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    return $row ? $row->cl_date : null;
+}
+
+function not_represented_adv($diary_no, $order_dt)
+{
+    $db = \Config\Database::connect();
+    $sql = "SELECT DISTINCT STRING_AGG(pet_res || '-' || sr_no, ',') AS pet_res_sr_no
+        FROM tw_tal_del a
+        JOIN tw_o_r b ON a.id = b.tw_org_id
+        LEFT JOIN tw_comp_not c ON c.tw_o_r_id = b.id AND c.display = 'Y'
+        WHERE a.display = 'Y'
+            AND b.display = 'Y'
+            AND a.diary_no = ?
+            AND order_dt = ?
+            AND tw_sn_to = 0
+        GROUP BY tw_sn_to";
+
+    $query = $db->query($sql, [$diary_no, $order_dt]);
+    $result = $query->getResult();
+
+    $outer_array = [];
+
+    foreach ($result as $row) {
+        $outer_array[] = [$row->pet_res_sr_no];
+    }
+
+    return $outer_array;
+}
+
+function get_mfactive($diary_no)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('main');
+    $builder->select('mf_active, casetype_id, active_casetype_id');
+    $builder->where('diary_no', $diary_no);
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    $c_array = [];
+
+    if ($row) {
+        $c_array[0] = $row->mf_active;
+        $c_array[1] = $row->casetype_id;
+        $c_array[2] = $row->active_casetype_id;
+    }
+
+    return $c_array;
+}
+
+function get_last_listed_date1($diary_no)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('ordernet');
+    $builder->select('orderdate');
+    $builder->where('diary_no', $diary_no);
+    $builder->orderBy('orderdate', 'DESC');
+    $builder->limit(1);
+
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    if ($row && $row->orderdate !== null) {
+        return $row->orderdate;
+    }
+
+    return null;
+}
+
+
+function get_application_registration_all_decree($diary_no, $last_dt)
+{
+    // Step 1: Fetch `listed_ia` from `heardt`
+    $db = \Config\Database::connect();
+    $builder = $db->table('heardt');
+    $builder->select('listed_ia');
+    $builder->where('diary_no', $diary_no);
+    $builder->where('next_dt', $last_dt);
+    $builder->where('listed_ia IS NOT NULL', null, false);
+    $query = $builder->get();
+
+    $ia_string = '';
+    foreach ($query->getResult() as $row) {
+        $ia_string = $row->listed_ia;
+    }
+
+    // If empty, return null
+    if (empty($ia_string)) {
+        return null;
+    }
+
+    // Step 2: Prepare IN values
+    $ia_string = rtrim($ia_string, ','); // Remove trailing comma
+    $ia_values = explode(',', $ia_string);
+    $ia_values = array_map('trim', $ia_values);
+
+    if (empty($ia_values)) {
+        return null;
+    }
+
+    // PostgreSQL IN requires array to be passed in query safely
+    $escaped_ia = implode("','", array_map(fn($v) => pg_escape_string($v), $ia_values));
+
+    // Step 3: Raw SQL for complex CONCAT logic
+    $sql_ia = "SELECT STRING_AGG(
+            CASE 
+                WHEN docdetails.doccode1 <> 19 THEN 
+                    LOWER(CONCAT(docnum, '/', docyear, ' - ', docdesc))
+                ELSE 
+                    LOWER(CONCAT(docnum, '/', docyear, ' - ', other1))
+            END,
+            ', '
+        ) AS ia
+        FROM docdetails
+        JOIN docmaster 
+            ON docdetails.doccode1 = docmaster.doccode1 
+            AND docdetails.doccode = docmaster.doccode
+        WHERE diary_no = ?
+        AND CONCAT(docnum, '/', docyear) IN ('$escaped_ia')
+        AND docdetails.display = 'Y'";
+
+    $query_ia = $db->query($sql_ia, [$diary_no]);
+    $row_ia = $query_ia->getRow();
+
+    return $row_ia ? $row_ia->ia : null;
+}
+
+function get_coram_decree(string $jcode)
+{
+    // Convert comma-separated jcode string to an array
+    $jcodeArray = array_map('trim', explode(',', $jcode));
+
+    if (empty($jcodeArray)) {
+        return null;
+    }
+
+    // Use Query Builder for PostgreSQL with STRING_AGG
+    $builder = \Config\Database::connect()->table('judge');
+    $builder->select("STRING_AGG(jname, ', ' ORDER BY judge_seniority) AS coram");
+    $builder->whereIn('jcode', $jcodeArray);
+    $builder->where('display', 'Y');
+
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    return $row ? $row->coram : null;
+}
+
+function tot_petitioner_adv($diary_no)
+{
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('advocate a');
+    $builder->select('a.title, b.name');
+    $builder->join('bar b', 'a.advocate_id = b.bar_id');
+    $builder->where('a.diary_no', $diary_no);
+    $builder->where('a.display', 'Y');
+    $builder->where('a.pet_res', 'P');
+
+    $query = $builder->get();
+
+    $outer_array = [];
+    foreach ($query->getResult() as $row) {
+        $outer_array[] = [$row->title . ' ' . $row->name];
+    }
+
+    return $outer_array;
+}
+
+
+function get_res_adv_all($diary_no)
+{
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('advocate a');
+    $builder->distinct();
+    $builder->select('a.title, b.name, b.caddress, b.ccity');
+    $builder->join('bar b', 'a.advocate_id = b.bar_id');
+    $builder->where('a.diary_no', $diary_no);
+    $builder->where('a.display', 'Y');
+    $builder->where('a.pet_res', 'R');
+
+    $query = $builder->get();
+
+    $c_array = [];
+    foreach ($query->getResult() as $res_send_to) {
+        $c_array[] = $res_send_to->title . ' ' . $res_send_to->name;
+    }
+
+    return $c_array;
+}
+
+
+function read_txt_file_judgement($fil_nm) 
+{
+    $ds = fopen($fil_nm, 'r');
+    $b_z = '';
+    // while(!feof($ds))
+    // {
+    //     $b_z=$b_z. fgets($ds).'\t';
+    // }
+    $b_z = fread($ds, filesize($fil_nm));
+    fclose($ds);
+
+    // if (!unlink($fil_nm)) {
+
+    // }
+    // echo utf8_encode($b_z);
+    // $ex_explode = explode('O R D E R', utf8_encode($b_z));
+    $ex_explode = explode('ORDER', $b_z);
+    // $ex_explode1= explode('Signature Not Verified', $ex_explode[1]);
+    echo $ex_explode[1];
+    if ($ex_explode[1] == '') {
+        echo $b_z;
+    }
+}
+
+
+function get_prev_case_type($diary_no)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('main');
+
+    $result = $builder->select('casetype_id, active_casetype_id')
+                      ->where('diary_no', $diary_no)
+                      ->get()
+                      ->getRowArray();
+
+    if ($result) {
+        return [
+            0 => $result['casetype_id'],
+            1 => $result['active_casetype_id'],
+        ];
+    }
+
+    return [null, null]; // or empty array depending on your use case
+}
+
+function chief_name_order_dt($date)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('master.judge');
+
+    $builder->select('first_name, sur_name')
+            ->where('display', 'Y')
+            ->where("$date BETWEEN cji_date AND to_dt", null, false);
+
+    $result = $builder->get()->getRowArray();
+
+    if ($result) {
+        return $result['first_name'] . ' ' . $result['sur_name'];
+    }
+
+    return ''; // or return null if preferred
+}
+
+
+function get_pet_adv_all($diary_no)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('advocate a');
+    
+    $builder->select('DISTINCT title, name, caddress, ccity')
+            ->join('bar b', 'a.advocate_id = b.bar_id')
+            ->where('diary_no', $diary_no)
+            ->where('display', 'Y')
+            ->where('pet_res', 'P');
+
+    $query = $builder->get();
+    $results = $query->getResultArray();
+
+    $c_array = [];
+
+    foreach ($results as $row) {
+        $c_array[] = $row['title'] . ' ' . $row['name'];
+    }
+
+    return $c_array;
+}
+
+
+function get_total_pet_parties($diary_no, $pet_res)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('party');
+
+    $builder->select('partyname, addr1, addr2, state, city, pet_res, sr_no, sr_no_show, remark_lrs, remark_del')
+            ->where('pet_res', $pet_res)
+            ->where('diary_no', $diary_no)
+            ->orderBy('pet_res')
+            ->orderBy('sr_no')
+            ->orderBy('sr_no_show');
+
+    $query = $builder->get();
+    $results = $query->getResultArray();
+
+    $outer_array = [];
+
+    foreach ($results as $row) {
+        $inner_array = [];
+        $inner_array[0] = $row['partyname'];
+        $inner_array[1] = trim($row['addr1'] . ' ' . $row['addr2']);
+        $inner_array[3] = $row['state'];
+        $inner_array[4] = $row['city'];
+        $inner_array[5] = $row['sr_no'];
+        $inner_array[6] = $row['sr_no_show'];
+        $inner_array[7] = $row['pet_res'];
+        $inner_array[8] = trim($row['remark_lrs'] . ' ' . $row['remark_del']);
+        
+        $outer_array[] = $inner_array;
+    }
+
+    return $outer_array;
+}
+
+
+function get_coram($jcode)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('master.judge');
+
+    // Convert comma-separated string into an array if needed
+    if (!is_array($jcode)) {
+        $jcode = explode(',', $jcode);
+    }
+
+    $builder->select('jname')
+            ->whereIn('jcode', $jcode)
+            ->where('display', 'Y');
+
+    $query = $builder->get();
+    $results = $query->getResultArray();
+
+    $outer_array = [];
+
+    foreach ($results as $row) {
+        $outer_array[] = $row['jname'];
+    }
+
+    return $outer_array;
+}
+
+
+function tot_respondent_adv($diary_no)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('advocate a');
+    $builder->select('b.title, b.name')
+            ->join('bar b', 'a.advocate_id = b.bar_id')
+            ->where([
+                'a.diary_no' => $diary_no,
+                'a.display' => 'Y',
+                'a.pet_res' => 'R'
+            ]);
+
+    $query = $builder->get();
+    $results = $query->getResultArray();
+
+    $outer_array = [];
+
+    foreach ($results as $row) {
+        $inner_array = [];
+        $inner_array[0] = $row['title'] . ' ' . $row['name'];
+        $outer_array[] = $inner_array;
+    }
+
+    return $outer_array;
+}
+
+
+function chief_name()
+{
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('master.judge');
+    $builder->select('first_name, sur_name')
+            ->where([
+                'jcourt'     => 2,
+                'display'    => 'Y',
+                'is_retired' => 'N'
+            ]);
+
+    $query = $builder->get();
+    $row = $query->getRowArray();
+
+    if ($row) {
+        return $row['first_name'] . ' ' . $row['sur_name'];
+    }
+
+    return null;
+}
+
+
+function get_additional_reg($section)
+{
+    $db = \Config\Database::connect();
+
+    // Step 1: Get the additional_registrar usercode from notice_mapping
+    $builder = $db->table('notice_mapping');
+    $builder->select('additional_registrar');
+    $builder->where('section_id', $section);
+    $query = $builder->get();
+    $row = $query->getRowArray();
+
+    if (!$row || !isset($row['additional_registrar'])) {
+        return null;
+    }
+
+    $usercode = $row['additional_registrar'];
+
+    // Step 2: Get the name from users based on usercode
+    $builder2 = $db->table('users');
+    $builder2->select('name');
+    $builder2->where('usercode', $usercode);
+    $query2 = $builder2->get();
+    $row2 = $query2->getRowArray();
+
+    return $row2['name'] ?? null;
+}
+
+
+function get_respondents($dairy_no)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('party');
+
+    $builder->select(['sr_no', 'pet_res', 'partyname'])
+            ->where('diary_no', $dairy_no)
+            ->where('pflag', 'P')
+            ->where('pet_res', 'R');
+
+    $query = $builder->get();
+
+    $result = [];
+    foreach ($query->getResultArray() as $row) {
+        $result[] = [
+            $row['sr_no'],
+            $row['pet_res'],
+            $row['partyname'],
+        ];
+    }
+    return $result;
+}
+
+function transfer_to_court($lowerct)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('transfer_to_details');
+
+    $builder->select(['transfer_state', 'transfer_district'])
+            ->where('lowerct_id', $lowerct)
+            ->where('display', 'Y');
+
+    $query = $builder->get();
+
+    $row = $query->getRowArray();
+    $result = [];
+
+    if ($row) {
+        $result[0] = $row['transfer_state'];
+        $result[1] = $row['transfer_district'];
+    }
+
+    return $result;
+}
+
+
+function get_application_registration_d($dairy_no) {
+    $db = \Config\Database::connect();
+    $builder = $db->table('docdetails a');
+    
+    $builder->select('a.docdesc, a.other1, a.docnum, a.docyear')
+        ->join('docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1')
+        ->where('a.display', 'Y')
+        ->where('b.display', 'Y')
+        ->where('a.diary_no', $dairy_no)
+        ->where('a.iastat', 'D')
+        ->where('a.doccode', '8');
+    
+    $query = $builder->get();
+    
+    $outer_array = [];
+    foreach ($query->getResultArray() as $row) {
+        $docname = ($row['docdesc'] != 'XTRA') ? $row['docdesc'] : $row['other1'];
+        $inner_array = [];
+        $inner_array[0] = $docname;
+        $inner_array[1] = $row['docnum'] . '/' . $row['docyear'];
+        $outer_array[] = $inner_array;
+    }
+    return $outer_array;
+}
+
+
+function get_cause_list_details($diary_no)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('heardt');
+    $builder->select('brd_slno, roster_id')
+            ->where('diary_no', $diary_no);
+    $query = $builder->get();
+
+    $outer_array = [];
+    $res_sql = $query->getRowArray();
+    if ($res_sql) {
+        $outer_array[0] = $res_sql['brd_slno'];
+        $outer_array[1] = $res_sql['roster_id'];
+    } else {
+        // If no result found, can return null or empty array
+        $outer_array[0] = null;
+        $outer_array[1] = null;
+    }
+
+    return $outer_array;
+}
+
+
+function get_court_no($roster_id)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('roster');
+    $builder->select('courtno')
+            ->where('id', $roster_id)
+            ->where('display', 'Y');
+    $query = $builder->get();
+    $result = $query->getRow();
+
+    return $result ? $result->courtno : null;
+}
+
+
+function get_ma_info1($c_type, $c_no, $c_yr)
+{
+    $db = \Config\Database::connect();
+
+    // Explode the case numbers and clean them up
+    $ex_explode = explode('-', $c_no);
+    $ex_explode = array_map('trim', $ex_explode);
+
+    // Prepare list of case numbers for query (parameterized)
+    // Use Query Builder with whereIn
+    $builder = $db->table('lowerct');
+    $builder->select('distinct main.diary_no, 
+        concat(trim(leading \'0\' from substr(active_fil_no, 4)), \' OF \', active_reg_year) as reg_no_display')
+        ->join('main', 'lowerct.diary_no = main.diary_no')
+        ->where('lct_casetype', $c_type)
+        ->where('lct_caseyear', $c_yr)
+        ->where('lw_display', 'Y')
+        ->where('main.active_casetype_id', 39)
+        ->whereIn('lct_caseno', $ex_explode);
+
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    if ($row) {
+        return $row->diary_no . '-' . $row->reg_no_display;
+    } else {
+        return '';  // or null, based on your needs
+    }
+}
+
+function get_last_listed_ia($dairy_no)
+{
+    $db = \Config\Database::connect();
+
+    // Subquery 1: From heardt
+    $builder1 = $db->table('heardt')
+        ->select('next_dt, listed_ia')
+        ->where('diary_no', $dairy_no)
+        ->groupStart()
+            ->where('main_supp_flag', 1)
+            ->orWhere('main_supp_flag', 2)
+        ->groupEnd()
+        ->where('next_dt <=', date('Y-m-d'));
+
+    // Subquery 2: From last_heardt
+    $builder2 = $db->table('last_heardt')
+        ->select('next_dt, listed_ia')
+        ->where('diary_no', $dairy_no)
+        ->groupStart()
+            ->where('main_supp_flag', 1)
+            ->orWhere('main_supp_flag', 2)
+        ->groupEnd()
+        ->where('next_dt <=', date('Y-m-d'))
+        ->groupStart()
+            ->where('bench_flag', null)
+            ->orWhere('bench_flag', '')
+        ->groupEnd();
+
+    // Combine the queries with UNION
+    $sql1 = $builder1->getCompiledSelect();
+    $sql2 = $builder2->getCompiledSelect();
+
+    $unionSql = "({$sql1}) UNION ({$sql2}) ORDER BY next_dt DESC LIMIT 1";
+    $query = $db->query($unionSql);
+
+    $row = $query->getRow();
+
+    return $row ? $row->listed_ia : '';
+}
+
+
+function get_last_listed_ia_info($doc_num, $doc_year)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('docdetails a');
+    $builder->select('b.docdesc, b.other1, a.docnum, a.docyear, a.ent_dt');
+    $builder->join('docmaster b', 'a.doccode = b.doccode AND a.doccode1 = b.doccode1');
+    $builder->where('a.display', 'Y');
+    $builder->where('b.display', 'Y');
+    $builder->where('a.docnum', $doc_num);
+    $builder->where('a.docyear', $doc_year);
+
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    if ($row) {
+        $docname = ($row->docdesc !== 'XTRA') ? $row->docdesc : $row->other1;
+        $result = [];
+        $result[0] = $docname;
+        $result[1] = $row->docnum . '/' . $row->docyear;
+        $result[2] = date('dS F, Y', strtotime($row->ent_dt));
+        return $result;
+    }
+
+    return [];
+}
+
+
+function ia_rec_dt($str, $dairy_no, $get_last_listed_dates)
+{
+    $db = \Config\Database::connect();
+
+    if ($str == '39') {
+        $builder = $db->table('main');
+        $builder->select('DATE(fil_dt) AS fil_dt');
+        $builder->where('diary_no', $dairy_no);
+    } else {
+        $builder = $db->table('docdetails');
+        $builder->select('DATE(ent_dt) AS ent_dt');
+        $builder->where('diary_no', $dairy_no);
+        $builder->where('iastat', 'D');
+        $builder->where('display', 'Y');
+        $builder->where('DATE(lst_mdf)', $get_last_listed_dates);
+    }
+
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    if ($row) {
+        return ($str == '39') ? $row->fil_dt : $row->ent_dt;
+    }
+
+    return null;
+}
+
+
+function get_main_case_n($diary_no)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('conct');
+    $builder->select('conn_key');
+    $builder->where('diary_no', $diary_no);
+    
+    $query = $builder->get();
+    $row = $query->getRow();
+
+    return $row ? $row->conn_key : null;
+}
+
+function unserved_parties($diary_no, $t)
+{
+    $db = \Config\Database::connect();
+    $builder = $db->table('tw_tal_del');
+    $builder->select('tw_tal_del.diary_no, name, address, ser_date, barcode, dispatch_dt, del_type');
+    $builder->join('tw_o_r', 'tw_tal_del.id = tw_o_r.tw_org_id');
+    $builder->join('tw_comp_not', 'tw_o_r.id = tw_comp_not.tw_o_r_id');
+    $builder->where([
+        'tw_tal_del.display' => 'Y',
+        'tw_o_r.display' => 'Y',
+        'tw_comp_not.display' => 'Y',
+        'tw_tal_del.diary_no' => $diary_no,
+        'del_type' => $t
+    ]);
+    $builder->where('dispatch_dt !=', '0000-00-00 00:00:00');
+
+    $query = $builder->get();
+    return $query->getResultArray();
+}
+

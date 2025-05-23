@@ -204,7 +204,7 @@
                 for your information, necessary action and compliance.
                 <?php
             }
-            else   if($res_fil_det[nature]=='C')
+            else   if($res_fil_det['nature']=='C')
             {
                 ?>
                 I am directed to inform you that the Petition above mentioned for Special Leave to Appeal
@@ -214,7 +214,7 @@
                                                                                                             vide order of this Court on the <u><b style="font-size: 13pt" face= "Times New Roman"><?php $disposal_dt= date('dS F, Y', strtotime($dispose_detail));
                     echo $disposal_dt; ?></b></u>.
             <?php }
-            else if($res_fil_det[nature]=='R')
+            else if($res_fil_det['nature']=='R')
             {
                 ?>
                 I am directed to forward herewith for your information and necessary action,
@@ -227,7 +227,7 @@
         </font>
     </p>
     <?php
-    if($res_fil_det[nature]=='C'  && $short_description_s!='WRIT PETITION(CRIMINAL)' && $short_description_s!='WRIT PETITION (CIVIL)' &&
+    if($res_fil_det['nature']=='C'  && $short_description_s!='WRIT PETITION(CRIMINAL)' && $short_description_s!='WRIT PETITION (CIVIL)' &&
         $short_description_s!='SUO MOTO WRIT PETITION(CIVIL)' && $short_description_s!='SUO MOTO WRIT PETITION(CRIMINAL)')
     {
         ?>

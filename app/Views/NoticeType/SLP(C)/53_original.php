@@ -163,7 +163,7 @@
      <?php
       if($short_description_s=='CIVIL APPEAL')
       {
-     $get_main_case=get_main_case($dairy_no);
+     $get_main_case=get_main_case_n($dairy_no);
      if($get_main_case!='')
      {
        $get_registration_diary=get_registration_diary($get_main_case);

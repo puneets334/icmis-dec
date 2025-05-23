@@ -5,7 +5,7 @@
     <div style="width: 40%;float: right;font-size: 13pt;text-align: center">
         <b><i><u>Delivery Mode:
                     <?php
-                    $mod= get_delivery_mod($row[process_id],$row[rec_dt1]);
+                    $mod= get_delivery_mod($row['process_id'],$row['rec_dt1']);
                     echo $mod;
                     ?></u></i></b></br></br>
         D. No. <b style="font-size: 13pt"  face= "Times New Roman"><?php echo substr($dairy_no,0,-4).'/'.  substr($dairy_no,-4); ?></b>
@@ -37,7 +37,7 @@
 
 
     <?php
-    if($row[individual_multiple]==1)
+    if($row['individual_multiple']==1)
     {
         ?>
         <p style="color: #000000;margin: 0px;padding: 0px 2px 0px 42px;width: 50%;text-transform: uppercase;" >
@@ -53,7 +53,7 @@
                 <b>(
                     <?php if($case_range!=''){?>
 
-                    <?php  if($res_fil_det[short_description]!=''){echo $res_fil_det[short_description]; }
+                    <?php  if($res_fil_det['short_description']!=''){echo $res_fil_det['short_description']; }
                     else echo "Diary No. ";
                     echo $case_range; ?> / <?php echo $reg_year;?>
                 </b>
@@ -63,7 +63,7 @@
 
 
     <?php }
-    else if($row[individual_multiple]==2)
+    else if($row['individual_multiple']==2)
     {
 
         //echo $tot_records; ?>
@@ -80,7 +80,7 @@
                 <b>(
                     <?php if($case_range!=''){?>
 
-                    <?php  if($res_fil_det[short_description]!=''){echo $res_fil_det[short_description]; }
+                    <?php  if($res_fil_det['short_description']!=''){echo $res_fil_det['short_description']; }
                     else echo "Diary No. ";
                     echo $case_range; ?> / <?php echo $reg_year;?>
                 </b>
@@ -103,7 +103,8 @@
         $castype=$a[3];
         //$casno=trim($a[1],'0');
         $casno=$a[1];
-        $splitno=split('-',$casno);
+        // $splitno=split('-',$casno);
+        $splitno = explode('-',$casno);
 
         if($splitno[0]==$splitno[1])
             $casno=ltrim($splitno[0],'0');
@@ -174,7 +175,7 @@
             Copy to :-
         </font></p>
     <?php
-    if($row[individual_multiple]==1)
+    if($row['individual_multiple']==1)
     {
     ?>
     <p style="text-indent: 40px;padding: 4px 0px 0px 2px;margin: 0px;" align="justify"><font style="font-size: 13pt"  face= "Times New Roman" >
@@ -210,7 +211,7 @@
                         }
                         ?>  </table></div>
             <?php } }
-            else  if($row[individual_multiple]==2)
+            else  if($row['individual_multiple']==2)
             {
                 echo $tot_copy;
             }
