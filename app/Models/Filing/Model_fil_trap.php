@@ -1513,16 +1513,16 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
 
         $sql = "SELECT a.usercode as to_usercode, b.name as to_name, b.empid as to_userno, c.ddate, c.no as curno
             FROM fil_trap_users a
-            JOIN users b ON a.usercode = b.usercode
+            JOIN master.users b ON a.usercode = b.usercode
             LEFT JOIN fil_trap_seq c ON c.no < b.empid
             WHERE a.usertype = $usertype
             AND a.display = 'Y'
             AND b.display = 'Y'
             AND b.attend = 'P'
-            AND a.user_type = $fil_type
-            AND c.user_type = $fil_type
-            AND c.utype = $utype $inperson_condition
-            AND c.ddate = ( SELECT ddate FROM fil_trap_seq WHERE utype = $utype AND user_type =  $usertype ORDER BY ddate DESC LIMIT 1 )
+            AND a.user_type = '$fil_type'
+            AND c.user_type = '$fil_type'
+            AND c.utype = '$utype' $inperson_condition
+            AND c.ddate = ( SELECT ddate FROM fil_trap_seq WHERE utype = '$utype' AND user_type =  '$usertype' ORDER BY ddate DESC LIMIT 1 )
             ORDER BY to_userno";
         $query = $this->db->query($sql, false);
         if ($query->getNumRows() >= 1) {

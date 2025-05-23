@@ -22,7 +22,7 @@
                             </div>-->
                         </div>
                     </div>
-                    <?//= view('Filing/filing_breadcrumb'); 
+                    <? //= view('Filing/filing_breadcrumb'); 
                     ?>
                     <!-- /.card-header -->
 
@@ -33,12 +33,12 @@
                                     <h4 class="basic_heading"> File Trap Details </h4>
                                 </div><!-- /.card-header -->
                                 <div class="card-body">
-                                    <div class="tab-content">                                         
+                                    <div class="tab-content">
                                         <div id="dv_content1">
-                                              <h5 class="text-center">SORRY!!!, NO RECORD FOUND</h5>                                             
+                                            <h5 class="text-center">SORRY!!!, NO RECORD FOUND</h5>
                                         </div>
                                     </div>
-                                    
+
                                     <!-- /.tab-content -->
                                 </div>
                                 <!-- /.card-body -->
@@ -62,7 +62,7 @@
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            "buttons": ["copy", "csv", "excel", "pdf", "print"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         $('#example2').DataTable({
             "paging": true,
