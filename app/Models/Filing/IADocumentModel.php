@@ -1172,7 +1172,7 @@ class IADocumentModel extends Model
                 }
             }
 
-            // echo json_encode(["message"=>"Unique Document No: ".$m_docno."/".$curyr]);
+             echo json_encode(["message"=>"Unique Document No: ".$m_docno."/".$curyr]);
 
 
         }
@@ -1204,11 +1204,159 @@ class IADocumentModel extends Model
         ];
         $insert_indexing = $this->db->table('indexing')->insert($data);
 
+        $send_sms = 0;
 
-        if ($insert_indexing) {
-            // $docdesc_qr="select docdesc from master.docmaster where doccode='$doccode' and display='Y'  limit 1";
-            // $docdesc_rs = $this->db->query($docdesc_qr);
-            // $docdetail = $docdesc_rs->getResultArray();
+
+        /*$next_day_listed = "SELECT m.reg_no_display,h.diary_no, h.next_dt listed_on, brd_slno,r.courtno,main_supp_flag,h.judges FROM main m inner join heardt h on m.diary_no=h.diary_no INNER JOIN roster r on h.roster_id=r.id and r.display='Y' INNER JOIN cl_printed p ON p.next_dt = h.next_dt AND p.part = h.clno
+ AND p.roster_id = h.roster_id AND p.display = 'Y' WHERE h.main_supp_flag IN (1 , 2) and h.brd_slno >0 and h.roster_id>0 AND h.board_type IN ('J' , 'C') AND h.mainhead IN ('M' , 'F')
+ AND h.next_dt>curdate() and h.diary_no='$_REQUEST[hdfno]'";
+
+    $next_day_listed_rs = mysql_query($next_day_listed) or die(__LINE__ . '->' . mysql_error()); */
+    
+    $next_day_listed_rs = $this->getNextDayListed($_REQUEST['hdfno']);
+
+    if (!empty($next_day_listed_rs)) 
+        {
+            $data = $next_day_listed_rs;
+
+            $listingdate = date('Y-m-d', strtotime($data['listed_on']));
+            $next_day_date = date('Y-m-d', strtotime(date('Y-m-d') . ' + 1 days'));
+            if ($listingdate == $next_day_date) {
+                $send_sms = 1;
+            }
+            if ($send_sms != 1) {
+                //working day for staff
+                /*$working_for_jud = "select working_date from sc_working_days where working_date >curdate() and holiday_for_registry = 0 and display = 'Y' limit 1";
+                $working_for_jud = mysql_query($working_for_jud) or die(__LINE__ . '->' . mysql_error());
+                $working_date = mysql_fetch_array($working_for_jud); */
+                $working_date = $this->getNextWorkingDates('jud');
+                $staff_working_date = date('Y-m-d', strtotime($working_date['working_date']));
+
+                //working day fo court
+                /*$working_for_court = "select working_date from sc_working_days where working_date >curdate() and is_holiday = 0 and display = 'Y' limit 1";
+                $working_for_court = mysql_query($working_for_court) or die(__LINE__ . '->' . mysql_error());
+                $working_date1 = mysql_fetch_array($working_for_court); */
+                $working_date1 = $this->getNextWorkingDates('court');
+                $court_working_date = date('Y-m-d', strtotime($working_date1['working_date']));
+
+                if ($next_day_date == $staff_working_date) {
+                    $send_sms = 0;
+                } else if ($listingdate == $staff_working_date) {
+                    $send_sms = 1;
+                } else if ($staff_working_date < $court_working_date) {
+                    $send_sms = 0;
+                }
+            }
+        }
+        if ($send_sms == 1) 
+        {
+            $last_listed_on_jud = '';
+
+          /*  $docdesc_qr = "select docdesc from docmaster where doccode='$doccode' and doccode1='$doccode1' and display='Y'";
+            $docdesc_rs = mysql_query($docdesc_qr) or die(__LINE__ . '->' . mysql_error());
+            $docdetail = mysql_result($docdesc_rs, 0); */
+
+            $builder6 = $this->db->table("master.docmaster");
+            $builder6->select("docdesc");
+            $builder6->where('doccode', $doccode);
+            $builder6->where('display', 'Y');
+            $builder6->limit('1');
+            $query6 = $builder6->get()->getRowArray();
+            $docdetail = $query6['docdesc'];
+
+            $court_no = $data['courtno'];
+
+            if (($court_no == 21) || ($court_no == 22)) {
+
+                $judgesnames = get_judges($data['judges']);
+                $last_listed_on_jud .= " [ " . stripslashes($judgesnames) . " ]";
+                $last_listed_on_jud .= " [ITEM.NO. :" .  stripslashes($data['brd_slno']) . "] ";
+            } else {
+
+                $last_listed_on_jud .= " [COURT.NO : " . stripslashes($court_no) . "]";
+                $last_listed_on_jud .= " [ITEM.NO. : " . stripslashes($data['brd_slno']) . "]";
+            }
+            if ($data['reg_no_display'] != '' && $data['reg_no_display'] != null) {
+                //$_REQUEST[dno] = substr($_REQUEST['hdfno'], 0, -4) . '/' . substr($_REQUEST['hdfno'], -4).' @'.$data[reg_no_display].' ';
+                $dno = substr($_REQUEST['hdfno'], 0, -4) . '/' . substr($_REQUEST['hdfno'], -4) . ' @' . $data['reg_no_display'] . ' ';
+            } else {
+                //$_REQUEST[dno] = substr($_REQUEST['hdfno'], 0, -4) . '/' . substr($_REQUEST['hdfno'], -4);
+                $dno = substr($_REQUEST['hdfno'], 0, -4) . '/' . substr($_REQUEST['hdfno'], -4);
+            }
+            //$_REQUEST[docnum]=$m_docno.'/'.$curyr;
+            // $_REQUEST[mob]='9871922703,9540028941,9891122213,9312570277,9899710438';
+            //  $_REQUEST[mob]='9312570277,9899710438';
+            //modified on 03-dec-2024
+            $_REQUEST['mob'] = '9312570277,9810884595,9891975202,9650916302,9810071901';
+            $_REQUEST['sms_status'] = 'NEXTDAYLISTED';
+            // $_REQUEST[msg]=$data[listed_on].$last_listed_on_jud;
+
+            if (strlen($docdetail) > 60) {
+                $docdetail = str_replace(substr($docdetail, 55, strlen($docdetail)), '...', $docdetail);
+            }
+            if (strlen($dno) > 60) {
+                $dno = str_replace(substr($dno, 55, strlen($dno)), '...', $dno);
+            }
+
+            $_REQUEST['msg'] = "Document no. " . $m_docno . '/' . $curyr . " - [" . $docdetail . "]  has been filed in Diary no.  " . $dno . " which is listed on " . $data['listed_on'] . $last_listed_on_jud . '. - Supreme Court of India';
+
+            //$_REQUEST[msg]="Document no. ".$m_docno.'/'.$curyr." has been filed in Diary no.  ".substr($_REQUEST['hdfno'],0,-4).'/'.substr($_REQUEST['hdfno'],-4)." which is listed on ". $data[listed_on].$last_listed_on_jud;
+
+            //echo "in reset page ".getcwd();
+            //include('../sms/send_sms.php');
+            $frm='';
+            $template_id='';
+            $wh_mobileno='';
+            $templateCode='';
+            $listing_date='';
+            $module='Filing';
+            $purpose='Insert/Modification of Docs';
+            $sms_params=array($m_docno. '-' .$curyr."(Diary No.-".$dno.")"); 
+
+            if($_REQUEST['sms_status']=='NEXTDAYLISTED'){
+                $mobileno=$_REQUEST['mob'];
+                $testmsg=$_REQUEST['msg'];
+                //$template_id='1107165873011597277';
+                $template_id='1107165950597744475';
+                //$res_sql_obj=  -1;
+                $res_sql_obj=  3;
+                $frm = "LOOSEDOC";
+            }
+
+            $mo = $mobileno;
+            $ms = $testmsg;
+            $frm = $frm;
+            if($res_sql_obj==3)
+            {
+                //echo $k=SMS_And_Email($mo,$ms,$frm,$template_id);
+                echo json_encode(["message" => "Document no. " . $m_docno . '/' . $curyr . " - [" . $docdesc . "]  has been filed in Diary no.  " . $dataset['hdfno'] . ' - Supreme Court of India']);
+            }else{
+                echo $k = mphc_sms($mo,$ms,$frm,$template_id);
+            }
+
+            $created_by_user= array("name"=>$_SESSION['emp_name_login'],"id"=>$_SESSION['dcmis_user_idd'],"employeeCode"=>$_SESSION['icmic_empid'],"organizationName"=>'SCI');
+            $response= send_sms_whatsapp_through_uni_notify(1,$wh_mobileno,$templateCode, $sms_params,null, $purpose,$created_by_user,$module,'ICMIS',null,null, null);
+
+
+        }
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+        /*if ($insert_indexing) {
+            
             $builder6 = $this->db->table("master.docmaster");
             $builder6->select("docdesc");
             $builder6->where('doccode', $doccode);
@@ -1221,101 +1369,65 @@ class IADocumentModel extends Model
             } else {
                 $docdesc = null; 
             }
-            // $docdetail = $docdetail[0]['docdesc'];
-            // print_r($doccode);die;
+            
 
             echo json_encode(["message" => "Document no. " . $m_docno . '/' . $curyr . " - [" . $docdesc . "]  has been filed in Diary no.  " . $dataset['hdfno'] . ' - Supreme Court of India']);
         } else {
             echo json_encode(["message" =>  "Error while inserting."]);
-        }
+        } */
 
 
 
         //check if listed -  SMS Code need to include & test over LIVE
-        // $send_sms=0;
-        // $next_day_listed="SELECT m.reg_no_display,h.diary_no, h.next_dt listed_on, brd_slno,r.courtno,main_supp_flag,h.judges FROM main m inner join heardt h on m.diary_no=h.diary_no INNER JOIN master.roster r on h.roster_id=r.id and r.display='Y' INNER JOIN cl_printed p ON p.next_dt = h.next_dt AND p.part = h.clno AND p.roster_id = h.roster_id AND p.display = 'Y' WHERE h.main_supp_flag IN (1 , 2) and h.brd_slno >0 and h.roster_id>0 AND h.board_type IN ('J' , 'C') AND h.mainhead IN ('M' , 'F') AND h.next_dt>NOW() and h.diary_no='$dataset[hdfno]'";
-        // // $next_day_listed_rs=mysql_query($next_day_listed) or die(__LINE__.'->'.mysql_error());
-        // $next_day_listed_rs = $this->db->query($next_day_listed);
-        // $next_day_listed_rs = $next_day_listed_rs->getResultArray();        
-
-        // if(count($next_day_listed_rs)>0) {
-        //     $data = $next_day_listed_rs;
-
-        //     $listingdate = date('Y-m-d', strtotime($data['listed_on']));
-        //     $next_day_date = date('Y-m-d', strtotime(date('Y-m-d') . ' + 1 days'));
-        //     if ($listingdate == $next_day_date) {
-        //         $send_sms = 1;
-        //     }
-        //     if ($send_sms != 1) {
-        //         //working day for staff
-        //         $working_for_jud = "select working_date from master.sc_working_days where working_date >NOW() and holiday_for_registry = 0 and display = 'Y' limit 1";
-        //         $working_for_jud = $this->db->query($working_for_jud);
-        //         $working_date = $working_for_jud->getResultArray();
-        //         $working_date = $working_date[0];
-        //         $staff_working_date = date('Y-m-d', strtotime($working_date['working_date']));
-
-        //         //working day fo court
-        //         $working_for_court = "select working_date from master.sc_working_days where working_date >NOW() and is_holiday = 0 and display = 'Y' limit 1";
-        //         $working_for_court = $this->db->query($working_for_court);
-        //         $working_date1 = $working_for_court->getResultArray();
-        //         $working_date1 = $working_date1[0];
-        //         $court_working_date = date('Y-m-d', strtotime($working_date1['working_date']));
-
-        //         if ($next_day_date == $staff_working_date) {
-        //             $send_sms = 0;
-        //         } else if ($listingdate == $staff_working_date) {
-        //             $send_sms = 1;
-        //         } else if ($staff_working_date < $court_working_date) {
-        //             $send_sms = 0;
-        //         }
-        //     }
-        // }
-        // if($send_sms==1){
-
-        //     $docdesc_qr="select docdesc from master.docmaster where doccode='$doccode' and doccode1='$doccode1' and display='Y'";
-        //     // $docdesc_rs=mysql_query($docdesc_qr)or die(__LINE__.'->'.mysql_error());
-        //     // $docdetail=mysql_result($docdesc_rs,0);
-        //     $docdesc_rs = $this->db->query($docdesc_qr);
-        //     $docdetail = $docdesc_rs->getResultArray();
-        //     $docdetail = $docdetail[0];
-
-        //     $court_no= $data['courtno'];
-
-        //     if(($court_no==21) ||($court_no==22) ){
-        //         $judgesnames=get_judges($data['judges']);
-        //         $last_listed_on_jud .= " [ ". stripslashes($judgesnames)." ]" ;
-        //         $last_listed_on_jud .= " [ITEM.NO. :".  stripslashes($data['brd_slno'])."] ";
-        //     }
-        //     else {
-
-        //         $last_listed_on_jud.=" [COURT.NO : " . stripslashes($court_no) . "]";
-        //         $last_listed_on_jud .= " [ITEM.NO. : " . stripslashes($data[brd_slno]) . "]";
-
-        //     }
-        //     if($data['reg_no_display']!='' && $data['reg_no_display']!=null){
-        //         $dno = substr($dataset['hdfno'], 0, -4) . '/' . substr($dataset['hdfno'], -4).' @'.$data['reg_no_display'].' ';
-        //     }
-        //     else {
-        //         $dno=substr($dataset['hdfno'], 0, -4) . '/' . substr($dataset['hdfno'], -4);
-        //     }
-        //     $dataset['mob']='9312570277,9810884595';
-        //     $dataset['sms_status']='NEXTDAYLISTED';
-
-        //     if(strlen($docdetail)>60){
-        //         $docdetail=str_replace(substr($docdetail, 55, strlen($docdetail)),'...',$docdetail) ;
-        //     }
-        //     if(strlen($dno)>60){
-        //         $dno=str_replace(substr($dno, 55, strlen($dno)),'...',$dno) ;
-        //     }
-
-        //     // $dataset['msg']="Document no. ".$m_docno.'/'.$curyr. " - [".$docdetail."]  has been filed in Diary no.  ".$dno." which is listed on ".$data['listed_on'].$last_listed_on_jud.'. - Supreme Court of India';
-
-
-        //     ////// SMS Code need to include & test over LIVE //////
-        //     // include('../sms/send_sms.php');
-        // }
+         
 
     }
+
+
+    public function getNextWorkingDates($type)
+    {
+        $db = \Config\Database::connect();
+
+        $builder = $db->table('sc_working_days');
+        $builder->select('working_date');
+
+        if ($type === 'jud') {
+            $builder->where('holiday_for_registry', 0);
+        } else {
+            $builder->where('is_holiday', 0);
+        }
+
+        $builder->where('display', 'Y');
+        $builder->where('working_date >', date('Y-m-d'));
+        $builder->limit(1);
+
+        return $builder->get()->getRowArray();  // Chain get() to fetch results
+    }
+
+    
+
+
+
+    public function getNextDayListed($diaryNo)
+    {
+        $db = \Config\Database::connect();
+
+        return $db->table('main m')
+                ->select('m.reg_no_display, h.diary_no, h.next_dt AS listed_on, h.brd_slno, r.courtno, h.main_supp_flag, h.judges')
+                ->join('heardt h', 'm.diary_no = h.diary_no')
+                ->join('master.roster r', 'h.roster_id = r.id AND r.display = \'Y\'')
+                ->join('cl_printed p', 'p.next_dt = h.next_dt AND p.part = h.clno AND p.roster_id = h.roster_id AND p.display = \'Y\'')
+                ->whereIn('h.main_supp_flag', [1, 2])
+                ->where('h.brd_slno >', 0)
+                ->where('h.roster_id >', 0)
+                ->whereIn('h.board_type', ['J', 'C'])
+                ->whereIn('h.mainhead', ['M', 'F'])
+                ->where('h.next_dt >', date('Y-m-d'))  // PostgreSQL handles this fine
+                ->where('h.diary_no', $diaryNo)
+                ->get()
+                ->getRowArray();
+    }
+
 
     public function get_case_back($fil_no, $docnum, $docyear)
     {

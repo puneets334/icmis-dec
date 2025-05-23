@@ -706,4 +706,21 @@ class DefectModel extends Model
             return false; // Handle the case where no records are found
         }
     }
+
+    public function checkEfiledCase($dairy_no)
+    {
+        $db = \Config\Database::connect();
+
+        $result_check = $db->table('efiled_cases')
+            ->select('diary_no')
+            ->where('diary_no', $dairy_no)
+            ->where('display', 'Y')
+            ->where('efiled_type', 'new_case')
+            ->get()
+            ->getRowArray(); // Returns NULL if no match
+
+        return $result_check;
+    }
+
+
 }
