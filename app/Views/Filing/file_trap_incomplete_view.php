@@ -184,7 +184,7 @@
                                                                                                         if ($row['rece_dt'] == '') {
                                                                                                             if (($ref == 0 && $cat == 0) || $ref == 2 || $ref == 3 || $cat == 1) {
                                                                                                         ?>
-                                                                                                        <input type="button" id="rece<?php echo $row['uid']; ?>" value="Receive" class="btn btn-primary quick-btn" />
+                                                                                                        <input type="button" id="rece<?php echo $row['uid']; ?>" value="Receive" class="btn btn-primary quick-btn btn-sm" />
                                                                                                 <?php
                                                                                                             }
                                                                                                         } else {
