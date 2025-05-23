@@ -25,7 +25,7 @@
 
                         <div class="row">
                             <div class="col-sm-10">
-                                <h3 class="card-title">Filing >> Diary Search</h3>
+                                <h3 class="card-title">Filing >> SC-eFM >> Dispatch Fresh Filed Matters</h3>
                             </div>
                            <?=view('Filing/filing_filter_buttons'); ?>
                         </div>
@@ -78,7 +78,7 @@
 
 
     <script>
-        function updateCSRFTokenNF() {  $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) { $('#csrf_field').val(result.CSRF_TOKEN_VALUE); }); }
+        //function updateCSRFTokenNF() {  $.getJSON("<?php echo base_url('Csrftoken'); ?>", function(result) { $('#csrf_field').val(result.CSRF_TOKEN_VALUE); }); }
         get_transfer_case();
         function get_transfer_case() {
             var CSRF_TOKEN = 'CSRF_TOKEN';
@@ -91,12 +91,13 @@
                     $("#loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
                 },
                 success: function (data) {
+                    updateCSRFToken();
                     $("#loader").html('');
-                    updateCSRFTokenNF();
+                     
                     $("#loader").html(data);
                 },
                 error: function() {
-                    updateCSRFTokenNF();
+                    updateCSRFToken();
                     alert('Something went wrong! please contact computer cell');
                 }
             });
@@ -131,7 +132,7 @@
                     url: "<?=base_url('Filing/Scefm_matters/transfer_case')?>",
                     data: {case_type:casetype, diary_no:diary_no,CSRF_TOKEN:CSRF_TOKEN_VALUE},
                     success:function(result){
-                        updateCSRFTokenNF();
+                        updateCSRFToken();
                         var index = result.indexOf("#");  // Gets the first index where a space occours
                         var id = result.slice(0, index); // Gets the first part
                         var text = result.slice(index + 1);
@@ -150,7 +151,7 @@
                         }
                     },
                     error: function() {
-                        updateCSRFTokenNF();
+                        updateCSRFToken();
                         alert('Something went wrong! please contact computer cell');
                     }
                 }
@@ -175,4 +176,4 @@
             }
         }
     </script>
- <?=view('sci_main_footer');?>
+ <?//=view('sci_main_footer');?>

@@ -30,8 +30,8 @@ class Model_category extends Model
     public function get_mul_category($diary_number)
     {
         $builder = $this->db->table("mul_category as a");
-        $builder->select('submaster_id ,category_sc_old,sub_name1, sub_name4 , subcode1');
-        $builder->join('master.submaster b', 'a.submaster_id=b.id', 'left');
+        $builder->select('old_submaster_id ,category_sc_old,sub_name1, sub_name4 , subcode1');
+        $builder->join('master.submaster b', 'a.old_submaster_id=b.id', 'left');
         $builder->where('diary_no', $diary_number);
         $builder->where('a.display', 'Y');
         $builder->where('b.display', 'Y');

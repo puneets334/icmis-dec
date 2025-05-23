@@ -325,6 +325,193 @@ class Model_scefm_matters extends Model
     }
 
 
+    public function show_datewise_matters($usercode,$from, $to)
+	{
+        $db = \Config\Database::connect();
+
+		$sql= "select * from master.users where usercode=$usercode and display='Y'";
+		$query = $this->db->query($sql);
+
+		$logged_in_details=$query->getRowArray();
+ 
+		$section = $logged_in_details['section'];
+ 
+		$officials=array(17,50,51);
+		$officers=array(14);
+		$condition='';
+		if(in_array($logged_in_details['usertype'],$officials))
+		{
+ 
+
+			$condition=" and m.dacode=".$usercode;
+		}
+		else if(in_array($logged_in_details['usertype'],$officers))
+		{
+ 
+			$users_da='';
+			$mcode="select group_concat(usercode)  as x from master.users where section =".$logged_in_details['section']." and display='Y' ";
+			$query2 = $this->db->query($mcode);
+			$mcd=$query2->getResultArray();
+			foreach($mcd as $result) {
+				$users_da = $users_da.",".trim($result['x']);
+			}
+			$condition=' and m.dacode in('.ltrim($users_da,',').')';
+		}
+
+		if($section == '19')
+		{
+ 
+			$condition='';
+
+		}
+ 
+
+		
+            $builder = $db->table('main m');
+
+            $builder->select("
+                ec.id,
+                m.casetype_id,
+                c.short_description,
+                m.diary_no,
+                ects.updated_on,
+                ects.processed_by,
+                ec.efiling_no,
+               CONCAT(
+                    SUBSTRING(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4),
+                    '/',
+                    SUBSTRING(CAST(m.diary_no AS TEXT), LENGTH(CAST(m.diary_no AS TEXT)) - 3, 4)
+                ) AS diary_number,
+                TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,
+                m.pet_name || ' Vs ' || m.res_name AS cause_title,
+                CASE WHEN ects.updated_by IS NOT NULL THEN 'Yes' ELSE 'No' END AS diary_modified,
+                s.ref_special_category_filing_id,
+                r.category_name,
+                us.name || '[' || us.empid || ']' AS diary_user,
+                da.name || '[' || da.empid || ']' AS da,
+                uss.section_name
+            ");
+
+            $builder->join('efiled_cases ec', "m.diary_no = ec.diary_no AND ec.efiled_type = 'new_case' AND ec.display = 'Y'");
+            $builder->join('master.casetype c', 'm.casetype_id = c.casecode');
+            $builder->join('efiled_cases_transfer_status ects', 'ects.diary_no = m.diary_no', 'left');
+            $builder->join('fil_trap ft', 'ft.diary_no = m.diary_no', 'left');
+            $builder->join('heardt h', 'm.diary_no = h.diary_no', 'left');
+            $builder->join('special_category_filing s', "ec.diary_no = s.diary_no AND s.display = 'Y'", 'left');
+            $builder->join('master.ref_special_category_filing r', "s.ref_special_category_filing_id = r.id AND r.display = 'Y'", 'left');
+            $builder->join('master.users us', 'ec.created_by = us.usercode');
+            $builder->join('master.users da', 'm.dacode = da.usercode', 'left');
+            $builder->join('master.usersection uss', 'm.section_id = uss.id', 'left');
+
+            // WHERE conditions
+            $builder->where("ects.updated_by IS NOT NULL");
+            $builder->where("ects.updated_by !=", '');
+            $builder->where("DATE(ects.updated_on) >=", '2024-07-15');
+            $builder->where("DATE(ects.updated_on) >=", $from);
+            $builder->where("DATE(ects.updated_on) <=", $to);
+            $builder->where("m.c_status", 'P');
+            $builder->where("DATE(ec.created_at) >", '2023-07-29');
+            $builder->where("ft.diary_no IS NULL");
+            $builder->whereIn("m.casetype_id", [9, 10, 19, 20, 25, 26, 39]);
+
+            // Extra condition passed as raw string (use cautiously)
+            if (!empty($condition)) {
+                $builder->where($condition);
+            }
+
+            return $builder->get()->getResultArray();
+
+
+	}
+
+
+    function show_sectionmatters($usercode)
+	{
+        $db = \Config\Database::connect();
+        $condition='';
+		$sql= "select * from master.users where usercode=$usercode and display='Y'";
+		$query = $this->db->query($sql);
+		$logged_in_details=$query->getRowArray();
+        
+		if($logged_in_details['section']!=19) {
+			$officials = array(17, 50, 51);
+			$officers = array(14);
+			if (in_array($logged_in_details['usertype'], $officials)) {
+
+				$condition = " and m.dacode=" . $usercode;
+			} else if (in_array($logged_in_details['usertype'], $officers)) {
+				$users_da = '';
+				$mcode = "select group_concat(usercode)  as x from master.users where section =" . $logged_in_details['section'] . " and display='Y' ";
+				$query2 = $this->db->query($mcode);
+				$mcd = $query2->getResultArray();
+				foreach ($mcd as $result) {
+					$users_da = $users_da . "," . trim($result['x']);
+				}
+				$condition = ' and m.dacode in(' . ltrim($users_da, ',') . ')';
+			}
+
+
+ 
+    
+        $builder = $db->table('main m');
+
+            $builder->select("
+                ec.id,
+                m.casetype_id,
+                c.short_description,
+                m.diary_no,
+                ects.updated_on,
+                efiling_no,
+                CONCAT(
+                    SUBSTRING(CAST(m.diary_no AS TEXT), 1, LENGTH(CAST(m.diary_no AS TEXT)) - 4),
+                    '/',
+                    SUBSTRING(CAST(m.diary_no AS TEXT), LENGTH(CAST(m.diary_no AS TEXT)) - 3, 4)
+                ) AS diary_number,
+                TO_CHAR(m.diary_no_rec_date, 'DD-MM-YYYY') AS diary_date,
+                CONCAT(m.pet_name, ' Vs ', m.res_name) AS cause_title,
+                CASE WHEN ects.updated_by IS NOT NULL THEN 'Yes' ELSE 'No' END AS diary_modified,
+                s.ref_special_category_filing_id,
+                r.category_name,
+                CONCAT(us.name, '[', us.empid, ']') AS diary_user,
+                CONCAT(da.name, '[', da.empid, ']') AS da,
+                uss.section_name
+            ");
+
+            $builder->join('efiled_cases ec', 'm.diary_no = ec.diary_no AND ec.efiled_type = \'new_case\' AND ec.display = \'Y\'');
+            $builder->join('master.casetype c', 'm.casetype_id = c.casecode');
+            $builder->join('efiled_cases_transfer_status ects', 'ects.diary_no = m.diary_no', 'left');
+            $builder->join('fil_trap ft', 'ft.diary_no = m.diary_no', 'left');
+            $builder->join('heardt h', 'm.diary_no = h.diary_no', 'left');
+            $builder->join('special_category_filing s', 'ec.diary_no = s.diary_no AND s.display = \'Y\'', 'left');
+            $builder->join('master.ref_special_category_filing r', 's.ref_special_category_filing_id = r.id AND r.display = \'Y\'', 'left');
+            $builder->join('master.users us', 'ec.created_by = us.usercode');
+            $builder->join('master.users da', 'm.dacode = da.usercode', 'left');
+            $builder->join('master.usersection uss', 'm.section_id = uss.id', 'left');
+
+            $builder->where("(ects.updated_by IS NOT NULL OR ects.updated_by != '')", null, false);
+            $builder->where('ects.processed_by IS NULL');
+            $builder->where('m.c_status', 'P');
+            $builder->where("DATE(ects.updated_on) >= '2024-07-15'", null, false);
+            $builder->where("DATE(ec.created_at) > '2023-07-29'", null, false);
+            $builder->where('ft.diary_no IS NULL', null, false);
+
+            $builder->whereIn('m.casetype_id', [9, 10, 19, 20, 25, 26, 39]);
+
+            // Custom condition if needed
+            if ($condition) {
+                $builder->where($condition, null, false);
+            }
+
+  
+			 
+
+			return $builder->get()->getResultArray();
+		}else{
+			return "section is IB";
+		}
+	}
+
+
 
 
 
