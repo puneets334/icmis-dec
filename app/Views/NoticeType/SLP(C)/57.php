@@ -233,7 +233,7 @@ else
         
         In continuation of this Registry's letter of even number dated the
         <?php
-        $get_notice_dt= get_date_by_remark($dairy_no,'157');
+        $get_notice_dt= get_date_by_remark($dairy_no,['157']);
         if($get_notice_dt!='')
        $vac_date= date('dS F, Y', strtotime($get_notice_dt));
         else 
@@ -325,11 +325,11 @@ The Original record, if any, will follow.
                     </br></br>
 <!--    <p align="center" style='margin: 0px;padding: 2px 0px 0px 0px;'>
         <b> <font style="font-size: 16px">SECTION <?php echo get_section($dairy_no);
-$section=$_SESSION['dcmis_section'];
-$get_mfactive=get_mfactive($dairy_no);
- $_mfactive=$get_mfactive[0];
- $_casetype=$get_mfactive[1];
- $_activecasetype=$get_mfactive[2];
+            $section        = $_SESSION['dcmis_section'];
+            $get_mfactive   = get_mfactive($dairy_no);
+            $_mfactive      = $get_mfactive[0];
+            $_casetype      = $get_mfactive[1];
+            $_activecasetype= $get_mfactive[2];
         ?></font> </b>
    </p>-->
     <?php if( $res_fil_det['casename']=='CIVIL APPEAL' || $res_fil_det['casename']=='CRIMINAL APPEAL')
@@ -660,7 +660,7 @@ DOTH <u>inter-alia</u>  PASS the following ORDER :
          <p style="text-indent: 40px;padding: 0px 2px 0px 2px;margin: 20px 0px 0px 0px" align="justify">
          <font  style="font-size: 13pt"  face= "Times New Roman" >
          <?php
-        $get_notice_dt= get_date_by_remark($dairy_no,'157');
+        $get_notice_dt= get_date_by_remark($dairy_no, ['157']);
         if($get_notice_dt!='')
        $vac_date= date('dS F, Y', strtotime($get_notice_dt));
         else 

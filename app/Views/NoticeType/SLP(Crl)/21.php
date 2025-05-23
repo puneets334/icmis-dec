@@ -2,7 +2,7 @@
     <div style="width: 40%;float: right;font-size: 13pt;"  face= "Times New Roman"  >
         <b><i><u>Delivery Mode:
                     <?php
-                    $mod= get_delivery_mod($row[process_id],$row[rec_dt1]);
+                    $mod= get_delivery_mod($row['process_id'],$row['rec_dt1']);
                     echo $mod;
                     ?></u></i></b>
     </div></br></br>
@@ -48,7 +48,7 @@
    </p>
   
     <?php
-    if($row[individual_multiple]==1)
+    if($row['individual_multiple']==1)
     {
     ?>
 
@@ -65,7 +65,7 @@
                 <b>(
                     <?php if($case_range!=''){?>
 
-                    <?php  if($res_fil_det[short_description]!=''){echo $res_fil_det[short_description]; }
+                    <?php  if($res_fil_det['short_description']!=''){echo $res_fil_det['short_description']; }
                     else echo "Diary No. ";
                     echo $case_range; ?> / <?php echo $reg_year;?>
                 </b>
@@ -237,7 +237,7 @@ Court dated _________ granting bail/stay in the matter be and is hereby vacated.
     Copy to :-
    </font></p>
  <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>
 <p style="text-indent: 40px;padding: 4px 0px 0px 2px;margin: 0px;" align="justify"><font style="font-size: 13pt"  face= "Times New Roman"  >
@@ -273,7 +273,7 @@ Court dated _________ granting bail/stay in the matter be and is hereby vacated.
              }
     ?>  </table></div>
    <?php } }
-   else  if($row[individual_multiple]==2)
+   else  if($row['individual_multiple']==2)
    {
        echo $tot_copy;
    }
@@ -373,7 +373,7 @@ Court dated _________ granting bail/stay in the matter be and is hereby vacated.
     </div>
     <div style="margin-top: 190px;margin-left: 390px">
       <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>
     
@@ -400,7 +400,7 @@ Court dated _________ granting bail/stay in the matter be and is hereby vacated.
          District- <b style="font-size: 13pt"  face= "Times New Roman" ><?php echo $district_nm; ?>, <?php echo $state_nm;?></b></font></b>
     </p>
    <?php }
-   else if($row[individual_multiple]==2)
+   else if($row['individual_multiple']==2)
    {
        echo $tot_records;
    }

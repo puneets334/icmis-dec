@@ -211,7 +211,7 @@ $get_total_pet_parties= get_total_pet_parties($dairy_no,'P');
             </tr>
              <tr>
                 <td style="font-size: 13pt;text-align: left" face= "Times New Roman">
-                    <?php// echo $res_fil_det['res_name'] ?>
+                    <?php // echo $res_fil_det['res_name'] ?>
                 </td>
 
                 <td style="font-size: 13pt;text-align: right" face= "Times New Roman" >
@@ -268,7 +268,7 @@ $get_total_pet_parties= get_total_pet_parties($dairy_no,'P');
  </b></div>
 <?php
 
-        $get_notice_dt= get_date_by_remark($dairy_no,'7');
+        $get_notice_dt= get_date_by_remark($dairy_no, ['7']);
         if($get_notice_dt!='')
        $vac_date= date('dS F, Y', strtotime($get_notice_dt));
         else
@@ -353,7 +353,7 @@ echo $jname;
      <p style="color: #000000;text-indent: 40px;padding: 40px 2px 0px 2px;margin: 40px 0px 0px 0px;clear: both" align="justify">
         <font  style="font-size: 13pt"  face= "Times New Roman" >
         <?php
-        $get_notice_dt= get_date_by_remark($dairy_no,'7');
+        $get_notice_dt= get_date_by_remark($dairy_no, ['7']);
         if($get_notice_dt!='')
        $vac_date= date('dS F, Y', strtotime($get_notice_dt));
         else 
@@ -405,7 +405,7 @@ inter-alia PASS the following ORDER :
       <p style="text-indent: 40px;padding: 0px 2px 0px 2px;margin: 10px 0px 0px 0px" align="justify">
          <font  style="font-size: 13pt"  face= "Times New Roman" >
          <?php
-        $get_notice_dt= get_date_by_remark($dairy_no,'157');
+        $get_notice_dt= get_date_by_remark($dairy_no, ['157']);
         if($get_notice_dt!='')
        $vac_date= date('dS F, Y', strtotime($get_notice_dt));
         else 
@@ -433,12 +433,19 @@ be punctually observed and carried into execution by all concerned;-->
              </font>
     </p>-->
 
-<?php $sql_ct="select casecode from casetype where casename ='$res_fil_det[casename]'";
-      $rs=mysql_query($sql_ct);
+<?php 
+$db = \Config\Database::connect();
 
-      $rw=mysql_fetch_array($rs);
-      $c_type=$rw[0];
-     // echo "case type is ".$c_type;
+// Assuming $res_fil_det['casename'] is already defined and safe
+$builder = $db->table('casetype');
+
+$row = $builder
+    ->select('casecode')
+    ->where('casename', $res_fil_det['casename'])
+    ->get()
+    ->getRow();
+
+$c_type = $row ? $row->casecode : null;
 
 $rs_ma=get_ma_info1($c_type, $case_range,$reg_year);
 //echo " the ma no is ".$rs_ma;
@@ -619,7 +626,7 @@ $listed_dt2=date('dS F, Y', strtotime($get_last_listed_date2));
 <p style="color: #000000;text-indent: 40px;padding: 40px 2px 0px 2px;margin: 40px 0px 0px 0px;clear: both" align="justify">
     <font  style="font-size: 13pt"  face= "Times New Roman" >
         <?php
-        $get_notice_dt= get_date_by_remark($dno_ma,'7');
+        $get_notice_dt= get_date_by_remark($dno_ma, ['7']);
         if($get_notice_dt!='')
             $vac_date= date('dS F, Y', strtotime($get_notice_dt));
         else
@@ -666,7 +673,7 @@ if($get_last_listed_date2!='')
 <p style="text-indent: 40px;padding: 0px 2px 0px 2px;margin: 10px 0px 0px 0px" align="justify">
     <font  style="font-size: 13pt"  face= "Times New Roman" >
         <?php
-        $get_notice_dt= get_date_by_remark($dno_ma,'157');
+        $get_notice_dt= get_date_by_remark($dno_ma, ['157']);
         if($get_notice_dt!='')
             $vac_date= date('dS F, Y', strtotime($get_notice_dt));
         else

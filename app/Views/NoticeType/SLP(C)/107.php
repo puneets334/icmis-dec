@@ -178,7 +178,8 @@
       $diary_no_rec_date=get_dismissal_type($dairy_no);
      $dispose_detail=dispose_detail($dairy_no);
         ?>
-      <p style="color: #000000;text-indent: 40px;padding: 0px 2px 0px 2px;margin: 10px 0px 0px 0gn="justify">
+      <!-- <p style="color: #000000;text-indent: 40px;padding: 0px 2px 0px 2px;margin: 10px 0px 0px 0gn="justify"> -->
+      <p style="color: #000000; text-indent: 40px; padding: 0px 2px; margin: 10px 0 0 0; text-align: justify;">
         <font  style="font-size: 13pt" face= "Times New Roman">
         <?php
         if($short_description_s='WRIT PETITION(CRIMINAL)' || $short_description_s='WRIT PETITION (CIVIL)' ||
@@ -193,7 +194,7 @@
        
         <?php
         }
-   else   if($res_fil_det[nature]=='C')
+   else   if($res_fil_det['nature']=='C')
      {
         ?>
         I am directed to inform you that the Petition above mentioned for Special Leave to Appeal
@@ -203,7 +204,7 @@
         vide order of this Court on the <u><b style="font-size: 13pt" face= "Times New Roman"><?php $disposal_dt= date('dS F, Y', strtotime($dispose_detail));
           echo $disposal_dt; ?></b></u>. 
      <?php }
-     else if($res_fil_det[nature]=='R')
+     else if($res_fil_det['nature']=='R')
      {
          ?>
           I am directed to forward herewith for your information and necessary action, 
@@ -216,7 +217,7 @@
 </font>
      </p>
        <?php
-     if($res_fil_det[nature]=='C'  && $short_description_s!='WRIT PETITION(CRIMINAL)' && $short_description_s!='WRIT PETITION (CIVIL)' &&
+     if($res_fil_det['nature']=='C'  && $short_description_s!='WRIT PETITION(CRIMINAL)' && $short_description_s!='WRIT PETITION (CIVIL)' &&
               $short_description_s!='SUO MOTO WRIT PETITION(CIVIL)' && $short_description_s!='SUO MOTO WRIT PETITION(CRIMINAL)')
      {
         ?>

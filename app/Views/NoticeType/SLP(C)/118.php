@@ -145,12 +145,16 @@ include("../extra/casetype_diary_no.php");
     }
 
     //echo "<center>IN</center>";
-    $casetype_id="select casecode from casetype where short_description='$skey'";
-    //echo $casetype_id;
-    $rs_casetype_id=mysql_query($casetype_id);
-    $rw_code=mysql_fetch_array($rs_casetype_id);
+    $db = \Config\Database::connect();
 
-  $casecode=$rw_code[0];
+    $builder = $db->table('casetype');
+    $row = $builder->select('casecode')
+                ->where('short_description', $skey)
+                ->get()
+                ->getRow();
+
+    $casecode = $row ? $row->casecode : null;
+
     //echo "casecode is ".$casecode;
 
    // exit();

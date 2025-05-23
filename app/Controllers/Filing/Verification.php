@@ -268,6 +268,17 @@ class Verification extends BaseController
                         WHERE diary_no = '$diary_no'");
 
         if ($sql_q->getNumRows() > 0) {
+
+            $sql_defect = "SELECT o.diary_no from obj_save o  where diary_no='$diary_no' and display='Y' and rm_dt IS NULL 
+            and diary_no not in(select diary_no from docdetails where display='Y' and doccode=8 and doccode1=16 )";
+            $sql_defect_result = $db->query($sql_defect);
+
+            $defect_count = $sql_defect_result->getNumRows();
+            if ($defect_count > 0) {
+                $diary_message = 'Matter is Defective. Please remove defects first!!!';
+                exit();
+            }
+
             $row = $sql_q->getRow();
             $result_casetype = $row->casetype_id;
             $check_section = $db->query("SELECT * FROM master.users u 

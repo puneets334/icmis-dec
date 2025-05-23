@@ -22,7 +22,7 @@ else if( $res_fil_det['casename']=='TRANSFER PETITION (CIVIL)' || $res_fil_det['
     <div style="width: 40%;float: right;font-size: 13pt;"  face= "Times New Roman"  >
     <b><i><u>Delivery Mode:
                 <?php
-                $mod= get_delivery_mod($row[process_id],$row[rec_dt1]);
+                $mod= get_delivery_mod($row['process_id'],$row['rec_dt1']);
                 echo $mod;
                 ?></u></i></b>
     </div></br></br>
@@ -55,7 +55,8 @@ else if( $res_fil_det['casename']=='TRANSFER PETITION (CIVIL)' || $res_fil_det['
     <u><b><font style="font-size: 13pt"  face= "Times New Roman"  id="append_data"><?php echo $res_fil_det['casename'] ?> <?php if(strpos($case_range, '-')==true) echo 'No(s)'; else echo 'No.';?> <?php echo $case_range; ?> OF <?php echo $reg_year; ?></font></b></u>
          
     </p>
-     <p align="justify" style='margin: 10px;padding: 2px 0px 0px 0px;font-size: 13pt;face= "Times New Roman'>
+     <!-- <p align="justify" style='margin: 10px;padding: 2px 0px 0px 0px;font-size: 13pt;face= "Times New Roman'> -->
+    <p style="margin: 10px; padding: 2px 0 0 0; font-size: 13pt; font-family: 'Times New Roman'; text-align: justify;">
        <?php
      $lower_court= lower_court_conct($dairy_no);
     $get_last_listed_date= get_last_listed_date($dairy_no);
@@ -89,7 +90,7 @@ else if( $res_fil_det['casename']=='TRANSFER PETITION (CIVIL)' || $res_fil_det['
        ?>
    </p>
     <?php
-    if($row[individual_multiple]==1)
+    if($row['individual_multiple']==1)
     {
     ?>
 
@@ -124,7 +125,7 @@ else if( $res_fil_det['casename']=='TRANSFER PETITION (CIVIL)' || $res_fil_det['
  
       <p style="margin: 0px;padding: 0px 0px 0px 2px;"><b><font style="font-size: 13pt"  face= "Times New Roman"  >To,</font></b></p>
      <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>
       <p style="color: #000000;margin: 0px;padding: 0px 2px 0px 42px;width: 50%;text-transform: uppercase;" >
@@ -161,7 +162,7 @@ else if( $res_fil_det['casename']=='TRANSFER PETITION (CIVIL)' || $res_fil_det['
                <b>(
                    <?php if($case_range!=''){?>
 
-                   <?php  if($res_fil_det[short_description]!=''){echo $res_fil_det[short_description]; }
+                   <?php  if($res_fil_det['short_description']!=''){echo $res_fil_det['short_description']; }
                    else echo "Diary No. ";
                    echo $case_range; ?> / <?php echo $reg_year;?>
                </b>
@@ -169,7 +170,7 @@ else if( $res_fil_det['casename']=='TRANSFER PETITION (CIVIL)' || $res_fil_det['
            </font>
        </p>
    <?php }
-   else if($row[individual_multiple]==2)
+   else if($row['individual_multiple']==2)
    {
        echo $tot_records;
    }
@@ -216,7 +217,7 @@ else if( $res_fil_det['casename']=='TRANSFER PETITION (CIVIL)' || $res_fil_det['
     Copy to :-
    </font></p>
  <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>
 <p style="text-indent: 40px;padding: 4px 0px 0px 2px;margin: 0px;" align="justify"><font style="font-size: 13pt;text-transform: uppercase;"  face= "Times New Roman"  >
@@ -252,7 +253,7 @@ else if( $res_fil_det['casename']=='TRANSFER PETITION (CIVIL)' || $res_fil_det['
              }
     ?>  </table></div>
    <?php } }
-   else  if($row[individual_multiple]==2)
+   else  if($row['individual_multiple']==2)
    {
        echo $tot_copy;
    }

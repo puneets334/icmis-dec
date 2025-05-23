@@ -1114,6 +1114,7 @@ c.name as last_u");
                         CASE
                             WHEN o.type = 'O' THEN 'ROP'
                             WHEN o.type = 'J' THEN 'Judgement'
+                            WHEN o.type = 'FO' THEN 'Final Order'
                         END AS jo,
                         CASE
                             WHEN (m.diary_no = m.conn_key::int OR m.conn_key = '0' OR m.conn_key IS NULL) THEN 'M'

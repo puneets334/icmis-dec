@@ -352,8 +352,8 @@ class Defect extends BaseController
 
             //   $data['other_defect'] = $this->dModel->get_existing_otherdefect($diaryNumber);
             //   $other_defect = $this->dModel->get_existing_otherdefect($filing_details['diary_no']);
-
-
+            $data['result_check'] = $this->dModel->checkEfiledCase($diaryNumber);
+            $data['dModel'] = $this->dModel;
             return view('Filing/defect_view', $data);
         }
     }
@@ -414,7 +414,7 @@ class Defect extends BaseController
         if (!empty($filing_details['diary_no'])) {
 
             $data['dModel'] = $this->dModel;
-
+            $data['ucode'] = $_SESSION['login']['usercode'];
             $data['diary_no'] = $filing_details['diary_no'];
             $data['flag'] = "A";
 

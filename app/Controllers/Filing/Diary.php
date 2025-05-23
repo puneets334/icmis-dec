@@ -555,6 +555,9 @@ class Diary extends BaseController
             $fil = isset($fil_q['max_diary_no']) ? $fil_q['max_diary_no'] : null;
             $fil++;
             $diary_no = $fil . $year;
+
+
+            $cnr = 'SCIN01' . str_pad($diary_no, 10, '0', STR_PAD_LEFT);
             
             $sclsc = 0;
             if ($_REQUEST['if_sclsc'] == 0 || $_REQUEST['if_sclsc'] == '') {
@@ -620,7 +623,7 @@ class Diary extends BaseController
                         'case_pages' => $_REQUEST['case_doc'],
                         'ack_id' => $efil_no,
                         'ack_rec_dt' => $efil_yr,
-
+                        'cnr' =>  $cnr,
 
 
                         'active_fil_no' => '',
@@ -644,6 +647,7 @@ class Diary extends BaseController
                         'reg_year_mh' => 0,
                         'reg_year_fh' => 0,
                         'reg_no_display' => '',
+                        
 
 
                         'create_modify' => date("Y-m-d H:i:s"),
@@ -686,7 +690,7 @@ class Diary extends BaseController
                         'case_pages' => $_REQUEST['case_doc'],
                         'ack_id' => $efil_no,
                         'ack_rec_dt' => $efil_yr,
-
+                        'cnr' =>  $cnr,
 
 
                         'active_fil_no' => '',
@@ -752,7 +756,7 @@ class Diary extends BaseController
                         'case_pages' => $_REQUEST['case_doc'],
                         'ack_id' => $efil_no,
                         'ack_rec_dt' => $efil_yr,
-
+                        'cnr' =>  $cnr,
 
 
                         'active_fil_no' => '',
@@ -823,7 +827,8 @@ class Diary extends BaseController
                         'case_pages' => $_REQUEST['case_doc'],
                         'ack_id' => $efil_no,
                         'ack_rec_dt' => $efil_yr,
-
+                        'cnr' =>  $cnr,
+                        
                         'active_fil_no' => '',
                         'fil_no_old' => '',
                         'res_name_old' => '',
@@ -1082,7 +1087,8 @@ class Diary extends BaseController
                                         $is_sql_insert_mul_category = insert('mul_category', $sql_insert_mul_category);
                                     } else {
                                         if ($_REQUEST['ddl_nature'] == 19) {
-                                            $submaster_id = 218;
+                                            //$submaster_id = 218;
+                                            $submaster_id = 1059;
                                             $sql_insert_mul_category = [
                                                 'diary_no' => $diary_no,
                                                 'submaster_id' => $submaster_id,
@@ -1099,7 +1105,8 @@ class Diary extends BaseController
                                             $is_sql_insert_mul_category = insert('mul_category', $sql_insert_mul_category);
                                         }
                                         if ($_REQUEST['ddl_nature'] == 20) {
-                                            $submaster_id = 219;
+                                            //$submaster_id = 219;
+                                            $submaster_id = 1060;
                                             $sql_insert_mul_category = [
                                                 'diary_no' => $diary_no,
                                                 'submaster_id' => $submaster_id,

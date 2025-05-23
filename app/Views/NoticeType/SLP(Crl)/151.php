@@ -3,7 +3,7 @@
     <div style="width: 40%;float: right;font-size: 13pt;"  face= "Times New Roman"  >
         <b><i><u>Delivery Mode:
                     <?php
-                    $mod= get_delivery_mod($row[process_id],$row[rec_dt1]);
+                    $mod= get_delivery_mod($row['process_id'],$row['rec_dt1']);
                     echo $mod;
                     ?></u></i></b>
     </div></br></br>
@@ -55,7 +55,7 @@
        ?>
 <!--   </p>-->
     <?php
-    if($row[individual_multiple]==1)
+    if($row['individual_multiple']==1)
     {
     ?>
 
@@ -90,7 +90,7 @@
  
       <p style="margin: 0px;padding: 0px 0px 0px 2px;"><b><font style="font-size: 13pt"  face= "Times New Roman"  >To,</font></b></p>
      <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>
       <p style="color: #000000;margin: 0px;padding: 0px 2px 0px 42px;width: 50%;text-transform: uppercase;" >
@@ -127,7 +127,7 @@
                <b>(
                    <?php if($case_range!=''){?>
 
-                   <?php  if($res_fil_det[short_description]!=''){echo $res_fil_det[short_description]; }
+                   <?php  if($res_fil_det['short_description']!=''){echo $res_fil_det['short_description']; }
                    else echo "Diary No. ";
                    echo $case_range; ?> / <?php echo $reg_year;?>
                </b>
@@ -135,7 +135,7 @@
            </font>
        </p>
    <?php }
-   else if($row[individual_multiple]==2)
+   else if($row['individual_multiple']==2)
    {
        echo $tot_records;
    }
@@ -146,8 +146,7 @@
              </font>
     </p>
        <p style="text-indent: 40px;padding: 0px 2px 0px 2px;margin: 10px 0px 0px 0px" align="justify">
-         <font  style="font-size: 13pt"  face= "Times New Roman" >
-   &nbsp;&nbsp;&nbsp;&nbsp<b>TAKE FURTHER NOTICE</b> that having regard to the nature of issue involved in the matter above mentioned, in terms of order dated <style="font-size: 13pt"  face= "Times New Roman" ><?php echo $listed_dt1;?> you are requested to depute an Additional Solicitor General to asist the court.
+         <font  style="font-size: 13pt"  face= "Times New Roman" > &nbsp;&nbsp;&nbsp;&nbsp; <b>TAKE FURTHER NOTICE</b> that having regard to the nature of issue involved in the matter above mentioned, in terms of order dated <style="font-size: 13pt"  face= "Times New Roman" ><?php echo $listed_dt1; ?> you are requested to depute an Additional Solicitor General to asist the court.
              </font>
     </p>
     
@@ -168,7 +167,7 @@
             Copy to :-
         </font></p>
     <?php
-    if($row[individual_multiple]==1)
+    if($row['individual_multiple']==1)
     {
     ?>
     <p style="text-indent: 40px;padding: 4px 0px 0px 2px;margin: 0px;" align="justify"><font style="font-size: 13pt"  face= "Times New Roman"  >
@@ -204,7 +203,7 @@
                         }
                         ?>  </table></div>
             <?php } }
-            else  if($row[individual_multiple]==2)
+            else  if($row['individual_multiple']==2)
             {
                 echo $tot_copy;
             }

@@ -12,8 +12,6 @@
                                 <div class="col-sm-10">
                                     <h3 class="card-title"> Add Roster</h3>
                                 </div>
-
-                                 <?=view('Filing/filing_filter_buttons'); ?>
                             </div>
                         </div>
 <style type="text/css">

@@ -351,6 +351,8 @@ class Ia_documents extends BaseController
     public function save_loose(){
         $dataset = $_POST;
         $getList = $this->IADocumentModel->save_loose($dataset);
+
+        
         echo $getList;
     }
 

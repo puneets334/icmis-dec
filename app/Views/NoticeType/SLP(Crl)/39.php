@@ -7,7 +7,7 @@ ss<div  style="padding-left: 2px;padding-right: 2px;margin-left: 48px" width="10
     <div style="width: 40%;float: right;font-size: 13pt;"  face= "Times New Roman"  "text-align: center">
 <b><i><u>Delivery Mode:
             <?php
-            $mod= get_delivery_mod($row[process_id],$row[rec_dt1]);
+            $mod= get_delivery_mod($row['process_id'],$row['rec_dt1']);
             echo $mod;
             ?></u></i></b></br></br>
         D. No. <b style="font-size: 13pt"  face= "Times New Roman" ><?php echo substr($dairy_no,0,-4).'/'.  substr($dairy_no,-4); ?></b>
@@ -31,7 +31,7 @@ ss<div  style="padding-left: 2px;padding-right: 2px;margin-left: 48px" width="10
     
     
     <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>
 
@@ -51,7 +51,7 @@ ss<div  style="padding-left: 2px;padding-right: 2px;margin-left: 48px" width="10
    
    <p style="margin: 0px;padding: 0px 0px 0px 2px;clear: both"><b><font style="font-size: 13pt"  face= "Times New Roman"  >To,</font></b></p>
     <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>  
       <p style="color: #000000;margin: 0px;padding: 0px 2px 0px 42px;width: 50%;text-transform: uppercase;" >
@@ -88,7 +88,7 @@ ss<div  style="padding-left: 2px;padding-right: 2px;margin-left: 48px" width="10
                <b>(
                    <?php if($case_range!=''){?>
 
-                   <?php  if($res_fil_det[short_description]!=''){echo $res_fil_det[short_description]; }
+                   <?php  if($res_fil_det['short_description']!=''){echo $res_fil_det['short_description']; }
                    else echo "Diary No. ";
                    echo $case_range; ?> / <?php echo $reg_year;?>
                </b>
@@ -96,7 +96,7 @@ ss<div  style="padding-left: 2px;padding-right: 2px;margin-left: 48px" width="10
            </font>
        </p>
     <?php }
-   else if($row[individual_multiple]==2)
+   else if($row['individual_multiple']==2)
    {
        echo $tot_records;
    }
@@ -186,7 +186,7 @@ ss<div  style="padding-left: 2px;padding-right: 2px;margin-left: 48px" width="10
    </font></p>
    
  <?php
-   if($row[individual_multiple]==1)
+   if($row['individual_multiple']==1)
    {
    ?>
 <p style="text-indent: 40px;padding: 4px 0px 0px 2px;margin: 0px;" align="justify"><font style="font-size: 13pt"  face= "Times New Roman"  >
@@ -222,7 +222,7 @@ ss<div  style="padding-left: 2px;padding-right: 2px;margin-left: 48px" width="10
              }
     ?>  </table></div>
    <?php } }
-   else  if($row[individual_multiple]==2)
+   else  if($row['individual_multiple']==2)
    {
        echo $tot_copy;
    }

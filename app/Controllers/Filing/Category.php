@@ -139,7 +139,6 @@ class Category extends BaseController
         $diary_number = session()->get('filing_details')['diary_no'];
         $data['mul_category'] = $this->Model_category->get_mul_category($diary_number);
         $data['diary_details'] = session()->get('filing_details');
-
         $data['acts_section'] = $this->Model_category->getActsSections($diary_number);
 
         /* Added Keywords */

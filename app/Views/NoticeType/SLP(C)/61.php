@@ -21,10 +21,12 @@ p.big {
                     echo $mod;
                     ?></u></i></b>
     </div></br></br>
-    <div style="width: 40%;border-collapse: collapse;border: 1px solid black;float: left;font-size: 13pt;"  face= "Times New Roman" padding: 5px" border="1" >
+    <!-- <div style="width: 40%;border-collapse: collapse;border: 1px solid black;float: left;font-size: 13pt;"  face= "Times New Roman" padding: 5px" border="1" > -->
+    <div style="width: 40%; border-collapse: collapse; border: 1px solid black; float: left; font-size: 13pt; font-family: 'Times New Roman'; padding: 5px;">
        <?php echo get_text_msg();?>
      </div>
-    <div style="width: 40%;float: right;font-size: 13pt;"  face= "Times New Roman"  "text-align: center">
+    <!-- <div style="width: 40%;float: right;font-size: 13pt;"  face= "Times New Roman"  "text-align: center"> -->
+    <div style="width: 40%; float: right; font-size: 13pt; font-family: 'Times New Roman'; text-align: center;">
         D. No. <b style="font-size: 13pt"  face= "Times New Roman" ><?php echo substr($dairy_no,0,-4).'/'.  substr($dairy_no,-4); ?></b>
         /SEC-<b style="font-size: 13pt"  face= "Times New Roman" ><?php echo get_section($dairy_no); ?></b>
         <div style="font-size: 13pt;"  face= "Times New Roman" >
@@ -235,7 +237,7 @@ else
         
         In continuation of this Registry's letter of even number dated the
         <?php
-        $get_notice_dt= get_date_by_remark($dairy_no,'157');
+        $get_notice_dt= get_date_by_remark($dairy_no, ['157']);
         if($get_notice_dt!='')
        $vac_date= date('dS \of F Y', strtotime($get_notice_dt));
         else 
@@ -461,7 +463,7 @@ $get_total_pet_parties= get_total_pet_parties($dairy_no,'P');
  </b></div>
 <?php
 
-        $get_notice_dt= get_date_by_remark($dairy_no,'7');
+        $get_notice_dt= get_date_by_remark($dairy_no, ['7']);
         if($get_notice_dt!='')
        $vac_date= date('d-m-Y', strtotime($get_notice_dt));
         else
@@ -545,7 +547,7 @@ echo $jname;
      <p   class="big" style="color: #000000;text-indent: 40px;padding: 40px 2px 0px 2px;margin: 40px 0px 0px 0px;clear: both" align="justify">
         <font  style="font-size: 13pt"  face= "Times New Roman" >
         <?php
-        $get_notice_dt= get_date_by_remark($dairy_no,'7');
+        $get_notice_dt= get_date_by_remark($dairy_no, ['7']);
         if($get_notice_dt!='')
        $vac_date= date('dS \of F, Y', strtotime($get_notice_dt));
         else 
@@ -596,7 +598,7 @@ inter-alia PASS the following ORDER :
       <p class="big" style="text-indent: 40px;padding: 0px 2px 0px 2px;margin: 10px 0px 0px 0px" align="justify">
          <font  style="font-size: 13pt"  face= "Times New Roman" >
          <?php
-        $get_notice_dt= get_date_by_remark($dairy_no,'157');
+        $get_notice_dt= get_date_by_remark($dairy_no, ['157']);
         if($get_notice_dt!='')
        $vac_date= date('dS F, Y', strtotime($get_notice_dt));
         else 

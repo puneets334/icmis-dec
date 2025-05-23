@@ -157,7 +157,7 @@
         <font  style="font-size: 13pt"  face= "Times New Roman">
         <?php
       $diary_no_rec_date=date('dS F, Y', strtotime($res_fil_det['diary_no_rec_date']));
-     $get_date_by_remark= get_date_by_remark($dairy_no,'1,41,176,177,178');
+     $get_date_by_remark= get_date_by_remark($dairy_no, ['1,41,176,177,178']);
      if($get_date_by_remark!='')
      $remark_dt=date('dS F, Y', strtotime($get_date_by_remark));
         ?>
@@ -190,7 +190,7 @@
      <?php
       if($short_description_s=='CIVIL APPEAL')
       {
-     $get_main_case=get_main_case($dairy_no);
+     $get_main_case=get_main_case_n($dairy_no);
      if($get_main_case!='')
      {
        $get_registration_diary=get_registration_diary($get_main_case);
