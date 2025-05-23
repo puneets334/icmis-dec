@@ -474,7 +474,8 @@ class Case_status extends BaseController
                     }
 
                     $list_printed = check_list_printed($row_listing['roster_id'], $row_listing['mainhead'], $row_listing['clno'], $row_listing['main_supp_flag'], $row_listing['next_dt']);
-                    if ((($list_printed == 'YES') && ($ucode == '1' || $ucode = 49 || $ucode == 47 || $ucode == 723 || $ucode == 757 || $ucode == 742 || $ucode == 747 ||  $ucode = 935 || $ucode = 1486 | $ucode == 469 or $ucode == 744 or $ucode == 747 or $ucode == 633 or $ucode == 762 or $ucode == 10606 or $ucode == 10605 or $ucode == 10674 or $ucode == 10675 or $ucode == 10705 or $ucode == 10656 or $ucode == 10670 or $ucode == 10730 or $ucode == 10749 or $ucode == 3113)) and $row_listing['clno'] != 0 and $row_listing['brd_slno'] != 0 and ($row_listing['main_supp_flag'] == "1" or $row_listing['main_supp_flag'] == "2") && $row_listing['judges'] != '' && $row_listing['judges'] != '0') {
+                    //if ((($list_printed == 'YES') && ($ucode == '1' || $ucode = 49 || $ucode == 47 || $ucode == 723 || $ucode == 757 || $ucode == 742 || $ucode == 747 ||  $ucode = 935 || $ucode = 1486 | $ucode == 469 or $ucode == 744 or $ucode == 747 or $ucode == 633 or $ucode == 762 or $ucode == 10606 or $ucode == 10605 or $ucode == 10674 or $ucode == 10675 or $ucode == 10705 or $ucode == 10656 or $ucode == 10670 or $ucode == 10730 or $ucode == 10749 or $ucode == 3113)) and $row_listing['clno'] != 0 and $row_listing['brd_slno'] != 0 and ($row_listing['main_supp_flag'] == "1" or $row_listing['main_supp_flag'] == "2") && $row_listing['judges'] != '' && $row_listing['judges'] != '0') {
+                    if (($list_printed == 'YES') && $row_listing['clno'] != 0 and $row_listing['brd_slno'] != 0 and ($row_listing['main_supp_flag'] == "1" or $row_listing['main_supp_flag'] == "2") && $row_listing['judges'] != '' && $row_listing['judges'] != '0') {    
                         $listed = "<font color=red>LISTED</font>";
                     } else {
                         $listed = "";
@@ -504,7 +505,8 @@ class Case_status extends BaseController
                         $check_drop = check_drop($row_listing['diary_no'], $row_listing['next_dt'], $row_listing['roster_id'], $row_listing['brd_slno']);
                     }
 
-                    if (($row_listing['main_supp_flag'] == "1" or $row_listing['main_supp_flag'] == "2") and (($list_printed == 'YES') and ($ucode == 1 or $ucode == 47 or $ucode == 723 or $ucode == 757 or $ucode = 49 or $ucode == 742 or $ucode == 747  or $ucode == 744  or  $ucode == 146 or  $ucode = 935 or $ucode = 1486 or $ucode == 469 or $ucode == 633 or $ucode == 742 or $ucode == 762 or $ucode == 10606 or $ucode == 10605 or $ucode == 10674 or $ucode == 10675 or $ucode == 10705 or $ucode == 10656 or $ucode == 10670 or $ucode == 10730 or $ucode == 10749 or $ucode == 3113))) {
+                    //if (($row_listing['main_supp_flag'] == "1" or $row_listing['main_supp_flag'] == "2") and (($list_printed == 'YES') and ($ucode == 1 or $ucode == 47 or $ucode == 723 or $ucode == 757 or $ucode = 49 or $ucode == 742 or $ucode == 747  or $ucode == 744  or  $ucode == 146 or  $ucode = 935 or $ucode = 1486 or $ucode == 469 or $ucode == 633 or $ucode == 742 or $ucode == 762 or $ucode == 10606 or $ucode == 10605 or $ucode == 10674 or $ucode == 10675 or $ucode == 10705 or $ucode == 10656 or $ucode == 10670 or $ucode == 10730 or $ucode == 10749 or $ucode == 3113))) {
+                    if (($row_listing['main_supp_flag'] == "1" or $row_listing['main_supp_flag'] == "2") && ($list_printed == 'YES') ) {
                         $judgesnames = get_judges($row_listing['judges']);
                     } else {
                         $judgesnames = "";
@@ -639,7 +641,7 @@ class Case_status extends BaseController
 
 
                     $list_printed = check_list_printed($row_listing1['roster_id'], $row_listing1['mainhead'], $row_listing1['clno'], $row_listing1['main_supp_flag'], $row_listing1['next_dt']);
-                    if ((($list_printed == 'YES') and ($ucode == 1 or $ucode == 723 or $ucode == 757 or $ucode == 744 or $ucode == 747 or  $ucode = 935 or $ucode = 1486 or $ucode == 469 or $ucode == 633 or $ucode == 742 or $ucode = 49 or $ucode == 762 or $ucode == 10606 or $ucode == 10605 or $ucode == 10674 or $ucode == 10675 or $ucode == 10705 or $ucode == 10656 or $ucode == 10670 or $ucode == 10730 or $ucode == 10749 or $ucode == 3113)) and $row_listing1['clno'] != 0 and $row_listing1['brd_slno'] != 0 and ($row_listing1['main_supp_flag'] == "1" or $row_listing1['main_supp_flag'] == "2") and $row_listing1['judges'] != '' and $row_listing1['judges'] != '0') {
+                    if ((($list_printed == 'YES')) and  $row_listing1['clno'] != 0 and $row_listing1['brd_slno'] != 0 and ($row_listing1['main_supp_flag'] == "1" or $row_listing1['main_supp_flag'] == "2") and $row_listing1['judges'] != '' and $row_listing1['judges'] != '0') {
                         $listed1 = "<font color=red>LISTED</font>";
                     } else {
                         $listed1 = "";
@@ -647,7 +649,7 @@ class Case_status extends BaseController
                     if ($row_listing1['clno'] != 0 and $row_listing1['roster_id'] != 0 and ($row_listing1['judges'] != '' and $row_listing1['judges'] != 0) and ($row_listing1['main_supp_flag'] == 1 or $row_listing1['main_supp_flag'] == 2)) {
                         $check_drop1 = check_drop($row_listing1['diary_no'], $row_listing1['next_dt'], $row_listing1['roster_id'], $row_listing1['brd_slno']);
                     }
-                    if (($row_listing1['main_supp_flag'] == "1" or $row_listing1['main_supp_flag'] == "2") and (($list_printed == 'YES') and ($ucode == 1 or $ucode == 723 or $ucode == 757 or $ucode == 744 or   $ucode == 747 or  $ucode = 935 or  $ucode = 1486 or $ucode == 469 or $ucode == 633 or $ucode == 742 or $ucode == 49 or $ucode == 762 or $ucode == 10606 or $ucode == 10605 or $ucode == 10674 or $ucode == 10675 or $ucode == 10705 or $ucode == 10656 or $ucode == 10670 or $ucode == 10730 or $ucode == 10749 or $ucode == 3113))) {
+                    if (($row_listing1['main_supp_flag'] == "1" or $row_listing1['main_supp_flag'] == "2") and (($list_printed == 'YES') )) {
                         $judgesnames1 = get_judges($row_listing1['judges']);
                     } else {
                         $judgesnames1 = "";

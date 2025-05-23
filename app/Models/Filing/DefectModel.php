@@ -752,5 +752,4 @@ class DefectModel extends Model
         }
 
     }
-   
 }
