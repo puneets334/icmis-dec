@@ -1455,7 +1455,7 @@ class Case_status extends BaseController
                             $output.= "-";
                         else
                         $output.= $case_no;
-            $output.='</td><td>'.$row['court_name'].'</td><td>'.$row['Name'].'</td><td>';
+            $output.='</td><td>'.$row['court_name'].'</td><td>'.$row['name'].'</td><td>';
             $output.=$row['agency_name'];
             $output.='</td><td>'.$row['type_sname'].'-'.$row['lct_caseno'].'-'.$row['lct_caseyear'];
             $output.='</td><td>';
@@ -1563,7 +1563,7 @@ class Case_status extends BaseController
                             $output.= "-";
                         else
                         $output.= $case_no;
-            $output.='</td><td>'.$row['court_name'].'</td><td>'.$row['Name'];
+            $output.='</td><td>'.$row['court_name'].'</td><td>'.$row['name'];
             $output.='</td><td>'.$row['agency_name'].'</td><td>';
             $output.=$row['type_sname'].'-'.$row['lct_caseno'].'-'.$row['lct_caseyear'];
             $output.='</td><td>'.date('d-m-Y',strtotime($row['lct_dec_dt'])); 
@@ -1673,7 +1673,7 @@ class Case_status extends BaseController
                             $output.= "-";
                         else
                         $output.= $case_no;
-            $output.='</td><td>'.$row['court_name'].'</td><td>'.$row['Name'].'</td>
+            $output.='</td><td>'.$row['court_name'].'</td><td>'.$row['name'].'</td>
                     <td>'.$row['agency_name'].'</td><td>'.$row['type_sname'].'-'.$row['lct_caseno'].'-'.$row['lct_caseyear'];
             $output.='</td><td>'.date('d-m-Y',strtotime($row['lct_dec_dt']));
             $output.='</td><td>'.$row['is_order_challenged'];
@@ -1858,7 +1858,7 @@ class Case_status extends BaseController
                             $output.= "-";
                         else
                         $output.= $case_no;
-            $output.='</td><td>'.$row['court_name'].'</td><td>'.$row['Name'];
+            $output.='</td><td>'.$row['court_name'].'</td><td>'.$row['name'];
             $output.='</td><td>'.$row['agency_name'].'</td><td>';
             $output.=$row['type_sname'].'-'.$row['lct_caseno'].'-'.$row['lct_caseyear'];
             $output.='</td><td>';

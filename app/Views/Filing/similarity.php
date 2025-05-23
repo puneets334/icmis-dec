@@ -20,6 +20,9 @@
     .table th {
         width: 50%;
     }
+	h4 {
+    text-align: center;
+}
 </style>
 <!-- Main content -->
 <section class="content">
@@ -1769,7 +1772,7 @@
         document.getElementById('ggg').style.marginLeft = '18px';
         document.getElementById('ggg').style.marginRight = '18px';
         document.getElementById('ggg').style.marginBottom = '25px';
-        document.getElementById('ggg').style.marginTop = '30px';
+        document.getElementById('ggg').style.marginTop = '-20px';
         document.getElementById('dv_sh_hd').style.display = 'block';
         document.getElementById('dv_fixedFor_P').style.display = 'block';
         document.getElementById('dv_fixedFor_P').style.marginTop = '3px';

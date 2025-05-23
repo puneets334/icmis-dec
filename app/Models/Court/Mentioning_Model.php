@@ -1305,31 +1305,37 @@ class Mentioning_Model extends Model
    
    
 	function DeleteMmData($data){
-		$mmCurrentRecord = $this->db->select('*')->from('mention_memo')->where('id',$data['id'])->get()->row_array();
+		
+		$builder = $this->db->table('mention_memo');
+		$mmCurrentRecord = $builder->where('id', $data['id'])->get()->getRowArray();
 
-		$array = array(
-			'event_type' => 'D',
-			'ipaddress' => $_SERVER['REMOTE_ADDR'],
-			'update_user' => $data['session_id_url'],
-			'action_perform_on' => date("Y-m-d H:i:s"),
-		);
-
-		$oldmmdata = array_merge($mmCurrentRecord,$array);
-		$this->db->trans_start(); //trans start
-		if($this->db->insert('mention_memo_history', $oldmmdata)){
-			$this->db->where('id', $data['id'])->delete('mention_memo');
-
-			if ($this->db->trans_status() === FALSE)
-			{
-				$this->db->trans_rollback();
-			}
-			else
-			{
-				$this->db->trans_commit();
-				return true;
-			}
-
+		if (!$mmCurrentRecord) {
+			return false; 
 		}
+
+       $auditData = [
+			'event_type'        => 'D',
+			'ipaddress'         => $_SERVER['REMOTE_ADDR'],
+			'update_user'       => $data['session_id_url'],
+			'action_perform_on' => date("Y-m-d H:i:s"),
+		];
+
+		$oldmmdata = array_merge($mmCurrentRecord, $auditData);
+
+		$this->db->transStart();
+
+		$this->db->table('mention_memo_history')->insert($oldmmdata);
+
+		$this->db->table('mention_memo')->where('id', $data['id'])->delete();
+
+		$this->db->transComplete();
+
+		if ($this->db->transStatus() === false) {
+			return false;
+		} else {
+			return true; 
+		}
+		
 	}
 
 	function getAccessDetails($id){
@@ -1432,7 +1438,7 @@ class Mentioning_Model extends Model
     {
         $builder = $this->db->table('mul_category a');
         $builder->select('b.id, category_sc_old, submaster_id, subcode1, subcode2, sub_name1, sub_name2, sub_name3, sub_name4');
-        $builder->join('master.submaster b', 'new_submaster_id = b.id', 'left');
+        $builder->join('master.submaster b', 'submaster_id = b.id', 'left');
         $builder->where('a.diary_no', $diaryNo);
         $builder->where('a.display', 'Y');
         $query = $builder->get();
@@ -1675,8 +1681,8 @@ class Mentioning_Model extends Model
 							RIGHT(diary_no::text, 4) AS dy
 						");
 
-						$builder->where("LEFT(diary_no::text, LENGTH(diary_no::text) - 4)", $diaryNo);
-						$builder->where("RIGHT(diary_no::text, 4)", $diaryYear);
+						$builder->where("LEFT(diary_no::text, LENGTH(diary_no::text) - 4) = ", $diaryNo);
+					    $builder->where("RIGHT(diary_no::text, 4) = ", $diaryYear);
 
 						$query = $builder->get();
 				

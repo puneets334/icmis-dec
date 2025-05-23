@@ -1688,29 +1688,27 @@ class CourtMasterController extends BaseController
         return view('Court/CourtMaster/UploadProceedings/uploadProceedingsStatus', $data);
     }
 
-    //.......New added 30-08-2023.......//
-    function vernacularJudgmentReport()
-    {
-        $this->data['app_name'] = 'vernacularJudgmentReport';
-        $this->data['uploadedVernacularJudgmentsReport'] = '';
+   
+    function vernacularJudgmentReport(){
+        $data['app_name'] = 'vernacularJudgmentReport';
+        $data['uploadedVernacularJudgmentsReport'] = '';
         $data['param'] = '';
-        $this->data['msg'] = '';
+        $data['msg'] = '';
 
         if ($_POST) {
             $fromDate = date('Y-m-d', strtotime($_POST['fromDate']));
             $toDate = date('Y-m-d', strtotime($_POST['toDate']));
-            $this->data['uploadedVernacularJudgmentsReport'] = $this->model->getUploadedVernacularJudgmentsList($fromDate, $toDate);
-            $this->data['param'] = array($fromDate, $toDate);
-            // pr($this->data['uploadedVernacularJudgmentsReport']);
-            // die;
+            $data['uploadedVernacularJudgmentsReport'] = $this->model->getUploadedVernacularJudgmentsList($fromDate, $toDate);
+            $data['param'] = array($fromDate, $toDate);
         }
-        if (is_array($this->data['uploadedVernacularJudgmentsReport'])) {
-            $this->data['msg'] = '';
+		
+        if (is_array($data['uploadedVernacularJudgmentsReport'])) {
+            $data['msg'] = '';
         } else {
-            $this->data['msg'] = 'Record Not Found';
+            $data['msg'] = 'Record Not Found';
         }
         // $this->load->view('Court/VernacularJudgments/uploadedVernacularJudgmentReport',$this->data);
-        return view('Court/CourtMaster/VernacularJudgments/uploadedVernacularJudgmentReport', $this->data);
+        return view('Court/CourtMaster/VernacularJudgments/uploadedVernacularJudgmentReport', $data);
     }
 
     public function getCaseListingDetails()

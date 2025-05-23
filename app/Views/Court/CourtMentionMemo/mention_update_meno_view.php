@@ -99,12 +99,13 @@
                             </div>
                         </div>
                     </div>
+					<form class="form-horizontal" method="POST" name="headerForm" action="" id="Uform">
+										<input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
                     <?php if (!empty($caseInfo)){ ?>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card-body">
-                               <form class="form-horizontal" method="POST" name="headerForm" action="" id="Uform">
-							   <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+                               
                                 <h3> <i class="fa fa-list-alt" aria-hidden="true"></i> &nbsp; Case Details</h3>
                                 <div class="row">
                                     <div class="col-md-6 mt-2">
@@ -132,9 +133,11 @@
                                                    <dd class="my_B"><?= $row['pet_adv_name'] ?>-<?= $row['pet_aor_code'] ?></dd>
                                                    <dt>Respondant Advocate</dt>
                                                    <dd class="my_B"><?= $row['res_adv_name'] ?>-<?= $row['res_aor_code'] ?></dd>
-                                               <?php } ?>                                            
+                                                                                         
 										</dl>
+										<?php } ?> 
                                     </div>
+									
                                     <div class="col-md-6 mt-2">
                                         <dl class="dl-horizontal">
                                             <dt class="my_B"> Dealing Assistant</dt>
@@ -153,6 +156,7 @@
 
                                         </dl>
                                     </div>
+									 
                                 </div>                                
                             </div>
                         </div>
@@ -166,7 +170,7 @@
                                             <div class="form-group row">
                                                 <label for="from_date" class="col-sm-4 col-form-label">Date of Mention Memo Received <span class="text-red">*</span> : </label>
                                                 <div class="col-sm-7">
-                                                    <input type="text" class="form-control" name="mmReceivedDate" value="<?php echo $mmData['date_of_received'] ?>" id="mmReceivedDate" placeholder="Date of Mention Memo Received">
+                                                    <input type="text" class="form-control" name="mmReceivedDate" id="mmReceivedDate" placeholder="Date of Mention Memo Received" value="<?php echo $mmData['date_of_received'] ?>" >
                                                 </div>
                                             </div>
                                         </div>
@@ -207,7 +211,7 @@
                             </div>
                         </div>
                     </div>
-					<?php if ($formData['forListType'] == 1) { ?>
+					<?php if ($formData['forListType'] == 1 || $formData['diary_forListType'] == 1) { ?>
 					   <div id="forOralMentioning">
                         <div class="row">
                             <div class="col-md-12">
@@ -225,7 +229,14 @@
                                                                 echo '<option selected value="' . $mmData['jcode'] . '" >' . $mmData['jcode'] . ' - ' . $mmData['jname'] . '</option>';
                                                           }
                                                         foreach ($judge as $j1) {
-                                                            echo '<option value="' . $j1['jcode'] . '" >' . $j1['jcode'] . ' - ' . $j1['jname'] . '</option>';
+															  if (!empty($mmData['jname'])) {
+															       if($mmData['jcode'] == $j1['jcode']){
+																	    $ccs =  'selected';
+																   }else{
+																	    $ccs =  'selected';
+																   }
+																}else{$ccs =  'selected';}
+                                                            echo '<option value="' . $j1['jcode'] . '" '.$ccs.'>' . $j1['jcode'] . ' - ' . $j1['jname'] . '</option>';
                                                         }
                                                         ?>
                                                     </select>
@@ -289,9 +300,9 @@
 					             <input type="hidden" name="id" value="<?= $mmData['id'] ?>">
 								 <input type="hidden" name="sessionurl" value="<?= $session_id_url ?>">
 								 <input type="hidden" name="diary_no" value="<?= $mmData['diary_no'] ?>">
-								 
-								  <input type='hidden' class="" name="session_id_url" value="<?= $formData['session_id_url']; ?>">
-					                 <div class="row">
+								 <input type='hidden' class="" name="session_id_url" value="<?= $formData['session_id_url']; ?>">
+					                 <div class="row" id="dv_res1_loader"></div>
+									 <div class="row">
 										<div class="col-md-12">
 											<div class="card-body">
 												<button id="updateButton" onclick="return confirm('Do you really want to Update The Matter.....?');" type="submit" value="submit" value="Save" style="width:15%;float:right" class="btn btn-block btn-primary">Update</button>
@@ -301,7 +312,8 @@
 									</div>
 					     </form>
 					<?php } else {?>
-							<div style="text-align:center; "><b>No case information available.</b></div> 
+							<div style="text-align:center;"><h3 style="color: #ff0000a1;margin-bottom: 160px;">No case information available.</h3></div> 
+					         </br></br>
 					<?php }?>		
 				</div>
             </div>
@@ -317,20 +329,6 @@
              return false;
          }
          
-         function myfunc() {
-             // var start= $("#mmPresentedDate").datepicker("getDate");
-             // var end= $("#mmDecidedDate").datepicker("getDate");
-             // days = (end- start) / (1000 * 60 * 60 * 24);
-             // alert(Math.round(days));
-         }
-		 
-       
-         function make_party_div_popup() {
-         document.getElementById("newparty1").style.display = 'block';
-         
-         }
-         
-       
          
 	function getBenches() {
         var CSRF_TOKEN = 'CSRF_TOKEN';
@@ -365,21 +363,66 @@
         }
     }
 		 
-	
-         $('#updateButton').click(function() {
-			
-         //var userId = $("#user_id").val();
-         $("#Uform").attr("action", "<?php echo base_url('Court/CourtMentionMemoController/updateMm'); ?>");
-		
-         });
 		 
-         $('#deleteButton').click(function() {
-            $("#Uform").attr("action", "<?php echo base_url('Court/CourtMentionMemoController/deleteMm'); ?>");
-         });
-		 
-		 $('#Uform').submit(function(e) {
-				console.log("Form action:", $(this).attr("action")); // Debug line
+	$('#updateButton').click(function() {
+			var form_data = $('#Uform').serializeArray();
+			var CSRF_TOKEN = 'CSRF_TOKEN';
+			var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+			$.ajax({
+				type: "POST",
+				url: "<?php echo base_url('Court/CourtMentionMemoController/updateMm'); ?>",
+				data: form_data,
+				beforeSend: function () {
+					$("#dv_res1_loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+				    $("#updateButton").prop('disabled', true);
+				},
+				success: function (data) {
+					$("#dv_res1_loader").html('');
+					alert('Updated Successfully !!');
+					window.location.href = '<?= base_url('Court/CourtMentionMemoController/updateMentionMemo') ?>';
+                },
+				complete: function() {
+					updateCSRFToken();
+					$("#updateButton").prop('disabled',false);
+				},
+				error: function() {
+					updateCSRFToken();
+					alert('Something went wrong! please contact computer cell');
+					$("#updateButton").prop('disabled',false);
+				}
 			});
+       });	 
+	
+         $('#deleteButton').click(function() {
+			 var form_data = $('#Uform').serializeArray();
+			var CSRF_TOKEN = 'CSRF_TOKEN';
+			var CSRF_TOKEN_VALUE = $('[name="CSRF_TOKEN"]').val();
+			$.ajax({
+				type: "POST",
+				url: "<?php echo base_url('Court/CourtMentionMemoController/updateMm'); ?>",
+				data: form_data,
+				beforeSend: function () {
+					$("#dv_res1_loader").html("<div style='margin:0 auto;margin-top:20px;width:15%'><img src='<?php echo base_url('images/load.gif'); ?>'></div>");
+				    $("#updateButton").prop('disabled', true);
+				},
+				success: function (data) {
+					$("#dv_res1_loader").html('');
+					alert('Deleted Successfully !!');
+					window.location.href = '<?= base_url('Court/CourtMentionMemoController/updateMentionMemo') ?>';
+                },
+				complete: function() {
+					updateCSRFToken();
+					$("#updateButton").prop('disabled',false);
+				},
+				error: function() {
+					updateCSRFToken();
+					alert('Something went wrong! please contact computer cell');
+					$("#updateButton").prop('disabled',false);
+				}
+			});
+		});
+		 
+		 
       </script>
 					
 					

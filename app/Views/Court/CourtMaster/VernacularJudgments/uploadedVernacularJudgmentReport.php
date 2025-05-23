@@ -32,8 +32,8 @@
                                             <label for="to_date" >To Date:</label>
                                             <input type="date" class="form-control datepick" id="toDate"  name="toDate" placeholder="To Date" >
                                         </div>
-                                        <div  class="col-sm-3">
-                                            <button type="submit" style="width:25%;float:left" id="view" name="view" onclick="check(); " class="form-control btn btn-block btn-primary">View</button>
+                                        <div  class="col-sm-3 mt-2">
+                                            <button type="submit" style="float:left" id="view" name="view" onclick="check(); " class="form-control btn btn-block btn-primary">View</button>
                                         </div>
                                     </div>
                                     <?= form_close()?>

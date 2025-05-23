@@ -82,6 +82,7 @@ $results10 = $sql_t;
 $jc = "";
 $chk_var = 0;
 $not_avail = "";
+$t_cntr = 0;
 if (!empty($results10)) {
     $chk_var = 1;
     $pjcourt = 0;
