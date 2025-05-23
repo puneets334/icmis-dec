@@ -902,8 +902,8 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
 
             //check if inperson matter (Petitioner in person and Appelant in person) added on 26-08-2023
             $mark_to_inperson_scr = 0;
-            $inperson_matter=0;
-            $inperson_condition='';
+            $inperson_matter = 0;
+            $inperson_condition = '';
 
             $rs_inperson = $this->check_if_inperson_matter($uid);
             if (!empty($rs_inperson)) {
@@ -1346,9 +1346,6 @@ AND b.display = 'Y' WHERE a.diary_no = $diary_no";
         }
     }
 
-    {
-        $check_qr = "select empid from random_user where ent_date='$today' $inperson_condition limit 1";
-    }
     public function check_duplicate_token($t)
     {
         $duplicate = 0;
