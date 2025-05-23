@@ -2484,11 +2484,11 @@ class CaseAdd extends Model
     {
 
     
-        $to_list_date = date('d-m-Y', strtotime($filters['to_list_date']));
-        $from_list_date = date('d-m-Y', strtotime($filters['from_list_date']));
+        $to_list_date = date('Y-m-d', strtotime($filters['to_list_date']));
+        $from_list_date = date('Y-m-d', strtotime($filters['from_list_date']));
         //For Diary Date Shorting
-        $to_diary_date = date('d-m-Y', strtotime($filters['to_diary_date']));
-        $from_diary_date = date('d-m-Y', strtotime($filters['from_diary_date']));
+        $to_diary_date = date('Y-m-d', strtotime($filters['to_diary_date']));
+        $from_diary_date = date('Y-m-d', strtotime($filters['from_diary_date']));
 
         $builder = $this->db->table($this->table . ' m')
             //->select('count(DISTINCT m.diary_no) as total_cases, GROUP_CONCAT(DISTINCT m.diary_no, \', \') as dnos')
@@ -2514,6 +2514,109 @@ class CaseAdd extends Model
         if (!empty($filters['board_type'])) {
             $builder->where('h.board_type', $filters['board_type']);
         }
+
+        if (!empty($filters['belowfive']) && !empty($filters['abovefive'])) {
+            $belowfive = $filters['belowfive'];
+            $abovefive = $filters['abovefive'];
+            $builder->where("h.no_of_time_deleted BETWEEN $belowfive AND $abovefive");
+        }
+
+            if (!empty($filters['party_drop']) && !empty($filters['parties'])) {
+                $party_drop = is_array($filters['party_drop']) ? $filters['party_drop'] : [$filters['party_drop']];
+                $party_values = array_filter($filters['parties']); 
+
+                
+                if (!empty($party_values)) {
+
+                    
+                    $builder->groupStart();
+
+                    foreach ($party_drop as $drop) {
+                    
+                        $builder->orGroupStart(); 
+
+                        switch ($drop) {
+                            case 'Petitioner':
+                                if ($filters['new_drop'] == 'exa_sim') {
+                                    
+                                    $builder->whereIn('m.pet_name', $party_values);
+                                } else {
+                                    
+                                    $builder->groupStart();
+                                    foreach ($party_values as $value) {
+                                        $builder->orLike('m.pet_name', $value);
+                                    }
+                                    $builder->groupEnd();
+                                }
+                                break;
+
+                            case 'Respondent':
+                                if ($filters['new_drop'] == 'exa_sim') {
+                                    
+                                    $builder->whereIn('m.res_name', $party_values);
+                                } else {
+                                    
+                                    $builder->groupStart();
+                                    foreach ($party_values as $value) {
+                                        $builder->orLike('m.res_name', $value);
+                                    }
+                                    $builder->groupEnd();
+                                }
+                                break;
+
+                            case 'cause_title':
+                                if ($filters['new_drop'] == 'exa_sim') {
+                                    
+                                    $builder->groupStart()
+                                            ->whereIn('m.pet_name', $party_values)
+                                            ->orWhereIn('m.res_name', $party_values)
+                                            ->groupEnd();
+                                } else {
+                                    
+                                    $builder->groupStart(); 
+                                    foreach ($party_values as $value) {
+                                        $builder->orGroupStart() 
+                                                ->like('m.pet_name', $value)
+                                                ->orLike('m.res_name', $value)
+                                                ->groupEnd();
+                                    }
+                                    $builder->groupEnd();
+                                }
+                                break;
+
+                            case 'all_party':
+                            
+                                static $allPartyJoined = false;
+
+                                if (!$allPartyJoined) {
+                                    $builder->join('party p', 'p.diary_no = m.diary_no'); 
+                                    $allPartyJoined = true;
+                                }
+
+                                if ($filters['new_drop'] == 'exa_sim') {
+                                    $builder->whereIn('p.partyname', $party_values)
+                                            ->where('p.pflag', 'P');
+                                } else {
+                                    $builder->groupStart(); 
+                                    foreach ($party_values as $value) {
+                                        $builder->orLike('p.partyname', $value);
+                                    }
+                                    $builder->groupEnd();
+                                    $builder->where('p.pflag', 'P'); 
+                                }
+
+                                break;
+
+                            default:
+                                break;
+                        }
+                        $builder->groupEnd(); 
+                    }
+                    $builder->groupEnd();
+            }
+        
+        }
+    
 
         // Connected Cases
         if (!empty($filters['connected']) && is_array($filters['connected']) && in_array(1, $filters['connected'])) {
@@ -2628,7 +2731,7 @@ class CaseAdd extends Model
 
         // Conditional Matter Filters
         if (!empty($filters['conditional_matter'])) {
-            $builder->join('rgo_default rd', 'rd.fil_no = h.diary_no AND rd.remove_def = "N"', 'left');
+            $builder->join('rgo_default rd', "rd.fil_no = h.diary_no AND rd.remove_def = 'N'", 'left');
             if ($filters['conditional_matter'] == 'n') {
                 $builder->where('rd.fil_no IS NULL');
             } else {
@@ -2638,39 +2741,90 @@ class CaseAdd extends Model
 
         // Sensitive Cases Filters
         if (!empty($filters['sensitive'])) {
-            $builder->join('sensitive_cases sc', 'sc.diary_no = m.diary_no AND sc.display = "Y"', 'left');
+            $builder->join('sensitive_cases sc', "sc.diary_no = m.diary_no AND sc.display = 'Y'", 'left');
             if ($filters['sensitive'] == 'n') {
                 $builder->where('sc.diary_no IS NULL');
             } else {
                 $builder->where('sc.diary_no IS NOT NULL');
             }
         }
+        //Bail Filters
+        if (!empty($filters['bail'])) {
+            $builder->join(
+                'master.submaster sm_bail',
+                "sm_bail.id = mc.submaster_id AND sm_bail.display = 'Y' AND sm_bail.is_old = 'N' AND sm_bail.is_bail = 1",
+                'left' 
+            );
+            if ($filters['bail'] == 'n') {
+                $builder->where('sm_bail.id IS NULL');
+            } elseif ($filters['bail'] == 'y') { 
+                $builder->where('sm_bail.id IS NOT NULL');
+            }
+        }
 
         // CAV Matter and List After Vacation Filters
-        if (!empty($filters['cav_matter']) || !empty($filters['list_after_vacation'])) {
-            $cavOrListAfterVacation = [];
-            if ($filters['list_after_vacation'] == 'n' || $filters['cav_matter'] == 'n') {
-                $cavOrListAfterVacation[] = "(m.lastorder = '' OR m.lastorder IS NULL OR m.lastorder != '' OR m.lastorder IS NOT NULL)";
-                if ($filters['list_after_vacation'] == 'n') {
-                    $cavOrListAfterVacation[] = "m.lastorder NOT LIKE '%after vacation%'";
+        // if (!empty($filters['cav_matter']) && isset($filters['cav_matter']) || !empty($filters['list_after_vacation']) && isset($filters['list_after_vacation'])) {
+        //     $cavOrListAfterVacation = [];
+        //     if ($filters['list_after_vacation'] == 'n' || $filters['cav_matter'] == 'n') {
+        //         $cavOrListAfterVacation[] = "(m.lastorder = '' OR m.lastorder IS NULL OR m.lastorder != '' OR m.lastorder IS NOT NULL)";
+        //         if ($filters['list_after_vacation'] == 'n') {
+        //             $cavOrListAfterVacation[] = "m.lastorder NOT LIKE '%after vacation%'";
+        //         }
+        //         if ($filters['cav_matter'] == 'n') {
+        //             $cavOrListAfterVacation[] = "m.lastorder NOT LIKE '%Heard & Reserved%'";
+        //         }
+        //     }
+        //     if ($filters['list_after_vacation'] == 'y' || $filters['cav_matter'] == 'y') {
+        //         if ($filters['list_after_vacation'] == 'y') {
+        //             $cavOrListAfterVacation[] = "m.lastorder LIKE '%after vacation%'";
+        //         }
+        //         if ($filters['cav_matter'] == 'y') {
+        //             $cavOrListAfterVacation[] = "m.lastorder LIKE '%Heard & Reserved%'";
+        //         }
+        //     }
+        //     if (!empty($cavOrListAfterVacation)) {
+        //         $builder->groupStart()
+        //             ->where(implode(' OR ', $cavOrListAfterVacation))
+        //             ->groupEnd();
+        //     }
+        // }
+
+        if (
+            (!empty($filters['cav_matter']) || array_key_exists('cav_matter', $filters)) ||
+            (!empty($filters['list_after_vacation']) || array_key_exists('list_after_vacation', $filters))
+        ) {
+            $builder->groupStart();
+            if (
+                (isset($filters['list_after_vacation']) && $filters['list_after_vacation'] == 'n') ||
+                (isset($filters['cav_matter']) && $filters['cav_matter'] == 'n')
+            ) {
+                $builder->orGroupStart(); 
+        
+                if (isset($filters['list_after_vacation']) && $filters['list_after_vacation'] == 'n') {
+                    $builder->where('m.lastorder NOT LIKE', '%after vacation%');
                 }
-                if ($filters['cav_matter'] == 'n') {
-                    $cavOrListAfterVacation[] = "m.lastorder NOT LIKE '%Heard & Reserved%'";
+                if (isset($filters['cav_matter']) && $filters['cav_matter'] == 'n') {
+                    $builder->orWhere('m.lastorder NOT LIKE', '%Heard & Reserved%');
                 }
+                $builder->groupEnd();
             }
-            if ($filters['list_after_vacation'] == 'y' || $filters['cav_matter'] == 'y') {
-                if ($filters['list_after_vacation'] == 'y') {
-                    $cavOrListAfterVacation[] = "m.lastorder LIKE '%after vacation%'";
+        
+            if (
+                (isset($filters['list_after_vacation']) && $filters['list_after_vacation'] == 'y') ||
+                (isset($filters['cav_matter']) && $filters['cav_matter'] == 'y')
+            ) {
+                $builder->orGroupStart(); 
+        
+                if (isset($filters['list_after_vacation']) && $filters['list_after_vacation'] == 'y') {
+                    $builder->like('m.lastorder', 'after vacation'); 
                 }
-                if ($filters['cav_matter'] == 'y') {
-                    $cavOrListAfterVacation[] = "m.lastorder LIKE '%Heard & Reserved%'";
+                if (isset($filters['cav_matter']) && $filters['cav_matter'] == 'y') {
+                    $builder->orLike('m.lastorder', 'Heard & Reserved'); 
                 }
+                $builder->groupEnd();
             }
-            if (!empty($cavOrListAfterVacation)) {
-                $builder->groupStart()
-                    ->where(implode(' OR ', $cavOrListAfterVacation))
-                    ->groupEnd();
-            }
+        
+            $builder->groupEnd(); 
         }
 
         // Part Heard Filters
@@ -2681,7 +2835,7 @@ class CaseAdd extends Model
                 $builder->where('m.part_heard', 'Y');
             }
         }
-        $builder->limit(1);
+      //  $builder->limit(1);
         $subQuery = $this->db->table('main ms')
             ->select('ms.diary_no')
             ->distinct()

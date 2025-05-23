@@ -59,7 +59,7 @@
                 </div>
                 <div class="col-4">
                     <select class="form-control" multiple="multiple" id="sort_by2" name="sort_by2[]">
-                        <option value="diary_no" selected="selected">Diary No.</option>
+                        <option value="diary_no" >Diary No.</option>
                     </select>
                 </div>
             </div>
