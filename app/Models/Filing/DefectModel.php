@@ -646,7 +646,7 @@ class DefectModel extends Model
             return $query->getResultArray();
         } else {
             log_message('error', 'No records found for diary number: ' . $diary_no);
-            return false; 
+            return false;
         }
     }
 
@@ -707,6 +707,21 @@ class DefectModel extends Model
         }
     }
 
+    public function checkEfiledCase($dairy_no)
+    {
+        $db = \Config\Database::connect();
+
+        $result_check = $db->table('efiled_cases')
+            ->select('diary_no')
+            ->where('diary_no', $dairy_no)
+            ->where('display', 'Y')
+            ->where('efiled_type', 'new_case')
+            ->get()
+            ->getRowArray(); // Returns NULL if no match
+
+        return $result_check;
+    }
+
 
     public function getCasedetails($diary_no)
     {
@@ -721,7 +736,6 @@ class DefectModel extends Model
             // log_message('error', 'No records found for diary number: ' . $diary_no);
             return false;
         }
-
     }
 
     public function getListingdiarydetails($diary_no)
@@ -743,13 +757,12 @@ class DefectModel extends Model
         $builder->join('master.usersection us', 'u.section=us.id');
         $builder->where('u.usercode', $ucode);
         $builder->where('u.display', 'Y');
-        $query = $builder->get(); 
+        $query = $builder->get();
         if ($query->getNumRows() > 0) {
             return $query->getRowArray();
         } else {
             // log_message('error', 'No records found for diary number: ' . $diary_no);
             return false;
         }
-
     }
 }
